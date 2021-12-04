@@ -1,2 +1,3 @@
-# godot-manager
-A Project, Version and Addons/Plugins manager for Godot Game Engine.
+# Godot Manager
+
+A Manager program for Godot, to help manage versions of Godot, Projects, and Addons / Plugins for new projects.  More details to come...

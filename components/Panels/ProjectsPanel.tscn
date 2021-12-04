@@ -1,0 +1,140 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/components/Panel/ProjectsPanel.cs" type="Script" id=2]
+[ext_resource path="res://Assets/Icons/Omega.png" type="Texture" id=3]
+[ext_resource path="res://components/ViewToggleButtons.tscn" type="PackedScene" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="ProjectsPanel" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VC" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MC" type="MarginContainer" parent="VC"]
+margin_right = 1024.0
+margin_bottom = 40.0
+custom_constants/margin_right = 5
+custom_constants/margin_left = 5
+
+[node name="HC" type="HBoxContainer" parent="VC/MC"]
+margin_left = 5.0
+margin_right = 1019.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 16 )
+custom_constants/separation = 8
+
+[node name="Label" type="Label" parent="VC/MC/HC"]
+margin_top = 5.0
+margin_right = 210.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 210, 30 )
+custom_fonts/font = ExtResource( 1 )
+custom_styles/normal = SubResource( 1 )
+text = "Projects"
+align = 1
+valign = 1
+
+[node name="Spacer" type="Control" parent="VC/MC/HC"]
+margin_left = 218.0
+margin_right = 542.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="TextureButton" parent="VC/MC/HC"]
+margin_left = 550.0
+margin_right = 570.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 20, 20 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="Spacer2" type="Control" parent="VC/MC/HC"]
+margin_left = 578.0
+margin_right = 902.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ViewToggleButtons" parent="VC/MC/HC" instance=ExtResource( 5 )]
+margin_left = 910.0
+margin_right = 1014.0
+margin_bottom = 40.0
+
+[node name="SC" type="ScrollContainer" parent="VC"]
+margin_top = 44.0
+margin_right = 1024.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VC/SC"]
+margin_right = 1024.0
+margin_bottom = 656.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="ProjectList" type="VBoxContainer" parent="VC/SC/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 646.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ListView" type="VBoxContainer" parent="VC/SC/MarginContainer/ProjectList"]
+margin_right = 1004.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 15
+
+[node name="GridView" type="GridContainer" parent="VC/SC/MarginContainer/ProjectList"]
+visible = false
+margin_right = 1004.0
+margin_bottom = 536.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="CategoryView" type="VBoxContainer" parent="VC/SC/MarginContainer/ProjectList"]
+visible = false
+margin_right = 1004.0
+margin_bottom = 536.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="VC/MC/HC/Button" to="." method="OnButton_Pressed"]

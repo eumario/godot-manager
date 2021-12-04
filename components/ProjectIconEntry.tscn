@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Assets/Icons/missing_icon.svg" type="Texture" id=2]
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Scripts/components/ProjectIconEntry.cs" type="Script" id=4]
+
+[node name="ProjectIconEntry" type="CenterContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="vc" type="VBoxContainer" parent="."]
+margin_left = 367.0
+margin_top = 234.0
+margin_right = 656.0
+margin_bottom = 365.0
+
+[node name="ProjectIcon" type="TextureRect" parent="vc"]
+margin_left = 112.0
+margin_right = 176.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="ProjectName" type="Label" parent="vc"]
+margin_left = 91.0
+margin_top = 68.0
+margin_right = 197.0
+margin_bottom = 87.0
+size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 3 )
+text = "Project Name"
+
+[node name="ProjectLocation" type="Label" parent="vc"]
+margin_top = 91.0
+margin_right = 289.0
+margin_bottom = 109.0
+size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 1 )
+text = "/home/eumario/Projects/Godot/ProjectName"
+
+[node name="GodotVersion" type="Label" parent="vc"]
+margin_left = 103.0
+margin_top = 113.0
+margin_right = 185.0
+margin_bottom = 131.0
+size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 1 )
+text = "Godot vX.X.X"

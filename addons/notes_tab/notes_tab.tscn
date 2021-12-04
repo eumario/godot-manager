@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="NotesTab" type="TextEdit"]
+margin_right = 40.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 200 )
+size_flags_vertical = 3

@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Assets/Icons/default_project_icon.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Icons/download.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Icons/default.svg" type="Texture" id=3]
+[ext_resource path="res://Scripts/components/GodotLineEntry.cs" type="Script" id=4]
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://Assets/Fonts/droid-sans.bold.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+use_filter = true
+font_data = SubResource( 10 )
+
+[sub_resource type="DynamicFontData" id=12]
+font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+
+[sub_resource type="DynamicFont" id=13]
+size = 14
+use_filter = true
+font_data = SubResource( 12 )
+
+[sub_resource type="DynamicFontData" id=14]
+font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+
+[sub_resource type="DynamicFont" id=15]
+size = 14
+use_filter = true
+font_data = SubResource( 14 )
+
+[node name="GodotLineEntry" type="HBoxContainer"]
+anchor_right = 1.0
+margin_bottom = 64.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="."]
+margin_right = 64.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="vc" type="VBoxContainer" parent="."]
+margin_left = 68.0
+margin_right = 526.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VersionTag" type="Label" parent="vc"]
+margin_right = 458.0
+margin_bottom = 19.0
+custom_fonts/font = SubResource( 11 )
+text = "Godot Version x.x.x (Stable)"
+
+[node name="hc" type="HBoxContainer" parent="vc"]
+margin_top = 23.0
+margin_right = 458.0
+margin_bottom = 41.0
+
+[node name="Source" type="Label" parent="vc/hc"]
+margin_right = 140.0
+margin_bottom = 18.0
+size_flags_horizontal = 5
+custom_fonts/font = SubResource( 13 )
+text = "Source: TuxFamily.org"
+
+[node name="Filesize" type="Label" parent="vc/hc"]
+margin_left = 144.0
+margin_right = 214.0
+margin_bottom = 18.0
+custom_fonts/font = SubResource( 15 )
+text = "Size: 32MB"
+
+[node name="Download" type="TextureRect" parent="."]
+margin_left = 956.0
+margin_right = 988.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_horizontal = 10
+size_flags_vertical = 3
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Default" type="TextureRect" parent="."]
+margin_left = 992.0
+margin_right = 1024.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 32, 32 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6

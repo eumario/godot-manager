@@ -1,0 +1,95 @@
+using Godot;
+using Godot.Collections;
+
+public class CentralStore {
+	SQLiteDatabase database;
+
+	static CentralStore _instance;
+
+	const string projects_sql = @"CREATE TABLE Projects (
+			Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+			Name TEXT NOT NULL,
+			Location TEXT NOT NULL,
+			GodotVersionId INTEGER NOT NULL DEFAULT '0' REFERENCES GodotVersions (Id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+			CategoryId INTEGER NOT NULL DEFAULT '0' REFERENCES Categories (Id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+			Favorite INTEGER NOT NULL DEFAULT '0');";
+	const string godot_sql = @"CREATE TABLE GodotVersions (
+			Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+			Tag TEXT NOT NULL,
+			Location TEXT NOT NULL,
+			DownloadedFrom TEXT NOT NULL,
+			DownloadedDate TEXT NOT NULL,
+			HideConsole INTEGER NOT NULL DEFAULT '1');";
+	const string categories_sql = @"CREATE TABLE Categories (
+			Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+			Name TEXT NOT NULL UNIQUE);";
+	
+	public static CentralStore Instance() {
+		if (_instance == null)
+			_instance = new CentralStore();
+		return _instance;
+	}
+
+	protected CentralStore() {
+		string path = System.IO.Path.GetFullPath(System.IO.Path.Combine(OS.GetUserDataDir(),"projects.db"));
+		database = new SQLiteDatabase(path);
+		database.OnCreateDatabase += CreateTables;
+		database.Open();
+	}
+
+	~CentralStore() {
+
+	}
+
+	public void CreateTables() {
+		database.Execute(godot_sql);
+		database.Execute(categories_sql);
+		database.Execute(projects_sql);
+	}
+
+	public void StoreProjectFile(ProjectFile projectFile) {
+		Dictionary<string,object> values = new Dictionary<string, object>();
+		if (projectFile.Id != -1) {
+			values.Add("@Id", projectFile.Id);
+		}
+		values.Add("@Name",projectFile.Name);
+		values.Add("@Location",projectFile.Location);
+		values.Add("@GodotVersionId",projectFile.GodotVersion);
+		values.Add("@CategoryId",projectFile.CategoryId);
+		values.Add("@Favorite",projectFile.Favorite ? 1 : 0);
+		database.Execute(@"INSERT INTO `Projects` VALUES(@Name, @Location, @GodotVersionId,
+					@CategoryId, @Favorite);", values);
+	}
+
+	public ProjectFile LoadProjectFile(string name) {
+		ProjectFile rpf = new ProjectFile();
+		Dictionary<string, object> ret = database.QueryOne("SELECT * FROM `Projects` WHERE Name=@Name LIMIT 1;",
+			new Dictionary<string, object>() {
+				["@Name"] = name
+			}
+		);
+		rpf.Name = (string)ret["Name"];
+		rpf.Location = (string)ret["Location"];
+		rpf.GodotVersion = (int)ret["GodotVersion"];
+		rpf.CategoryId = (int)ret["CategoryId"];
+		rpf.Favorite = ((int)ret["Favorite"]) == 1 ? true : false;
+		rpf.UpdateData();
+		if (rpf.Name != (string)ret["Name"]) {
+			database.Execute("UPDATE `Projects` SET Name=@Name WHERE Id=@Id",
+				new Dictionary<string, object>() {
+					["Name"] = rpf.Name,
+					["Id"] = rpf.Id
+				}
+			);
+		}
+		return rpf;
+	}
+
+	public Array<ProjectFile> ListProjects() {
+		Array<ProjectFile> projects = new Array<ProjectFile>();
+		foreach (Dictionary<string, object> row in database.Query("SELECT Name FROM `Projects`;")) {
+			projects.Add(LoadProjectFile((string)row["Name"]));
+		}
+		return projects;
+	}
+}

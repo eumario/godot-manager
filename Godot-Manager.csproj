@@ -1,0 +1,11 @@
+<Project Sdk="Godot.NET.Sdk/3.3.0">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>GodotManager</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Godot.NET.Sdk" Version="3.3.0" />
+    <PackageReference Include="GodotSharpExtras" Version="0.1.0" />
+    <PackageReference Include="Newtonsoft.JSON" Version="13.0.1" />
+  </ItemGroup>
+</Project>

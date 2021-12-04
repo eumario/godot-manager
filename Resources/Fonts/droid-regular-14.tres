@@ -1,0 +1,9 @@
+[gd_resource type="DynamicFont" load_steps=2 format=2]
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+
+[resource]
+size = 14
+use_filter = true
+font_data = SubResource( 10 )
