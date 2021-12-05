@@ -31,6 +31,15 @@ public class Platform : Node
 		}
     }
 
+	public static string Bits {
+		get {
+			if (System.Environment.Is64BitProcess)
+				return "64";
+			else
+				return "32";
+		}
+	}
+
     public static string PlatformType
     {
 		get {

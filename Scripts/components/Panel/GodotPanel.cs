@@ -22,28 +22,66 @@ public class GodotPanel : Panel
 
     [NodePath("/root/MainWindow/BusyDialog")]
     BusyDialog BusyDialog = null;
+    
+    [NodePath("/root/MainWindow/NewVersion")]
+    NewVersion NewVersion = null;
 #endregion
 
 #region Templates
     PackedScene GodotLE = GD.Load<PackedScene>("res://components/GodotLineEntry.tscn");
 #endregion
 
-    // Array<GithubRelease> Releases;
+    Array<Github.Release> Releases = new Array<Github.Release>();
     // RateLimit ApiCalls;
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    public override async void _Ready()
     {
         this.OnReady();
-        
-        // Releases = Github.Instance.GetReleaseInfo();
-        // ApiCalls = Github.Instance.GetLastApiInfo();
-
-        // GD.Print($"Latest: {Releases[0].Name}  ({Releases[0].TagName})");
-        // GD.Print($"API Rate Limit Information:\n Usage: {ApiCalls.Remaining} / {ApiCalls.Limit}\nResets in: {ApiCalls.Reset.ToString()}");
+        GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
     }
 
-    Array<Github.Release> Releases = new Array<Github.Release>();
+    async void OnPageChanged(int page) {
+        if (GetParent<TabContainer>().GetCurrentTabControl() == this) {
+            if (CentralStore.Instance.GHVersions.Count == 0) {
+                var t = GatherReleases();
+                while(!t.IsCompleted) {
+                    await this.IdleFrame();
+                }
+            } else {
+                var tres = Github.Github.Instance.GetLatestRelease();
+                while (!tres.IsCompleted) {
+                    await this.IdleFrame();
+                }
+                var gv = GithubVersion.FromAPI(tres.Result);                
+                var l = from version in CentralStore.Instance.GHVersions
+                        where version.Name == gv.Name
+                        select gv;
+                var c = l.FirstOrDefault<GithubVersion>();
+                if (c == null) {
+                    CentralStore.Instance.GHVersions.Clear();
+                    var t = GatherReleases();
+                    while (!t.IsCompleted) {
+                        await this.IdleFrame();
+                    }
+                    NewVersion.UpdateReleaseInfo(tres.Result);
+                    NewVersion.Visible = true;
+                }
+            }
+            PopulateList();
+        }
+    }
+
+    public void PopulateList() {
+        foreach (Node child in Available.List.GetChildren())
+            child.QueueFree();
+        
+        foreach(GithubVersion gv in CentralStore.Instance.GHVersions) {
+            GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
+            gle.GithubVersion = gv;
+            Available.AddChild(gle);
+        }
+    }
 
     public async Task GetReleases() {
         Mutex mutex = new Mutex();
@@ -52,7 +90,7 @@ public class GodotPanel : Panel
         while (stop == false) {
             var tres = Github.Github.Instance.GetReleases(30,page);
             while (!tres.IsCompleted) {
-                await ToSignal(Engine.GetMainLoop(), "idle_frame");
+                await this.IdleFrame();
             }
 
             mutex.Lock();
@@ -81,65 +119,31 @@ public class GodotPanel : Panel
         BusyDialog.UpdateByline($"Downloaded {Util.FormatSize(downloadedBytes)}...");
     }
 
-    public async void OnButton_Pressed() {
-        if (Github.Github.Instance.GetParent() == null)
-            GetTree().Root.AddChild(Github.Github.Instance);
+    public async Task GatherReleases() {
         BusyDialog.UpdateHeader("Fetching Releases from Github...");
         BusyDialog.UpdateByline("Connecting...");
         BusyDialog.ShowDialog();
+        downloadedBytes = 0;
         Github.Github.Instance.Connect("chunk_received", this, "OnChunkReceived");
         var task = GetReleases();
         while(!task.IsCompleted) {
-            await ToSignal(Engine.GetMainLoop(), "idle_frame");
+            await this.IdleFrame();
         }
+
         Github.Github.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
+        
+        BusyDialog.UpdateHeader("Processing Release Information from Github...");
+        BusyDialog.UpdateByline($"Processing 0/{Releases.Count}");
+        int i = 0;
+        foreach(Github.Release release in Releases) {
+            i++;
+            BusyDialog.UpdateByline($"Processing {i}/{Releases.Count}");
+            GithubVersion gv = GithubVersion.FromAPI(release);
+            CentralStore.Instance.GHVersions.Add(gv);
+            await this.IdleFrame();
+        }
+        CentralStore.Instance.SaveDatabase();
+
         BusyDialog.HideDialog();
-
-        foreach (Node child in Available.List.GetChildren())
-            child.QueueFree();
-
-        foreach(Github.Release release in Releases.OrderByDescending(rf => rf.PublishedAt)) {
-            GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
-            gle.Label = release.Name;
-            gle.Source = release.HtmlUrl;
-            gle.Filesize = "Unknown";
-            Available.AddChild(gle);
-            // GD.Print($"Url: {release.Url}");
-            // GD.Print($"HtmlUrl: {release.HtmlUrl}");
-            // GD.Print($"AssetsUrl: {release.AssetsUrl}");
-            // GD.Print($"UploadUrl: {release.UploadUrl}");
-            // GD.Print($"TarballUrl: {release.TarballUrl}");
-            // GD.Print($"ZipballUrl: {release.ZipballUrl}");
-            // GD.Print($"Id: {release.Id}");
-            // GD.Print($"NodeId: {release.NodeId}");
-            // GD.Print($"TagName: {release.TagName}");
-            // GD.Print($"TargetCommitish: {release.TargetCommitish}");
-            // GD.Print($"Name: {release.Name}");
-            // GD.Print($"Body: {release.Body}");
-            // GD.Print($"Draft: {release.Draft}");
-            // GD.Print($"PreRelease: {release.PreRelease}");
-            // GD.Print($"CreatedAt: {release.CreatedAt}");
-            // GD.Print($"PublishedAt: {release.PublishedAt}");
-            // GD.Print($"Author: {release.Author}");
-            // GD.Print($"Assets[]: {release.Assets.Count}");
-            // GD.Print("-------------------------------------------------------------------------");
-            // GD.Print("");
-        }
-        foreach(Github.Asset asset in Releases[0].Assets) {
-            GD.Print($"Url: {asset.Url}");
-            GD.Print($"BrowserDownloadUrl: {asset.BrowserDownloadUrl}");
-            GD.Print($"Id: {asset.Id}");
-            GD.Print($"NodeId: {asset.NodeId}");
-            GD.Print($"Name: {asset.Name}");
-            GD.Print($"Label: {asset.Label}");
-            GD.Print($"State: {asset.State}");
-            GD.Print($"ContentType: {asset.ContentType}");
-            GD.Print($"Size: {asset.Size}");
-            GD.Print($"DownloadCount: {asset.DownloadCount}");
-            GD.Print($"CreatedAt: {asset.CreatedAt}");
-            GD.Print($"Uploader: {asset.Uploader.Login}");
-            GD.Print("-------------------------------------------------------------------------");
-            GD.Print("");
-        }
     }
 }

@@ -16,6 +16,11 @@ public class GodotLineEntry : HBoxContainer
     [NodePath("Default")]
     private TextureRect _default = null;
 
+    [NodePath("vc/DownloadProgress/ProgressBar")]
+    private ProgressBar _progressBar = null;
+    [NodePath("vc/DownloadProgress/Filesize")]
+    private Label _fileSize = null;
+
     private StreamTexture downloadIcon;
     private StreamTexture uninstallIcon;
 #endregion
@@ -27,6 +32,7 @@ public class GodotLineEntry : HBoxContainer
     private bool bDownloaded = false;
     private bool bDefault = false;
     private GodotVersion gvGodotVersion = null;
+    private GithubVersion gvGithubVersion = null;
 #endregion
 
 #region Public Accessors
@@ -42,7 +48,50 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
-    public string Label {
+    public GithubVersion GithubVersion {
+        get {
+            return gvGithubVersion;
+        }
+
+        set {
+            GD.Print("Setting GithubVersion...");
+            gvGithubVersion = value;
+            Label = value.Name;
+            GD.Print("Attempting to set other fields...");
+            switch(Platform.OperatingSystem) {
+                case "Windows":
+                case "UWP (Windows 10)":
+                    if (Platform.Bits == "32") {
+                        Source = value.Standard.Win32;
+                        Filesize = Util.FormatSize(value.Standard.Win32_Size);
+                    } else if (Platform.Bits == "64") {
+                        Source = value.Standard.Win64;
+                        Filesize = Util.FormatSize(value.Standard.Win64_Size);                    
+                    }
+                    break;
+
+                case "Linux (or BSD)":
+                    if (Platform.Bits == "32") {
+                        Source = value.Standard.Linux32;
+                        Filesize = Util.FormatSize(value.Standard.Linux32_Size);
+                    } else if (Platform.Bits == "64") {
+                        Source = value.Standard.Linux32;
+                        Filesize = Util.FormatSize(value.Standard.Linux64_Size);
+                    }
+                    break;
+
+                case "macOS":
+                    Source = value.Standard.OSX;
+                    Filesize = Util.FormatSize(value.Standard.OSX_Size);
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+    }
+
+	public string Label {
         get {
             return sLabel;
         }
@@ -139,22 +188,12 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public void OnDownload_GuiInput(InputEvent inputEvent) {
-        if (!(inputEvent is InputEventMouseButton))
-            return;
-        var iemb = inputEvent as InputEventMouseButton;
-        if (!iemb.Pressed && (ButtonList)iemb.ButtonIndex != ButtonList.Left)
-            return;
-        
-        ToggleDownloadUninstall((_download.Texture == downloadIcon));
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
+            ToggleDownloadUninstall((_download.Texture == downloadIcon));
     }
 
     public void OnDefault_GuiInput(InputEvent inputEvent) {
-        if (!(inputEvent is InputEventMouseButton))
-            return;
-        var iemb = inputEvent as InputEventMouseButton;
-        if (!iemb.Pressed && (ButtonList)iemb.ButtonIndex != ButtonList.Left)
-            return;
-        
-        ToggleDefault((_default.SelfModulate == new Color("ffff00")));
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
+            ToggleDefault((_default.SelfModulate == new Color("ffff00")));
     }
 }

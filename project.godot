@@ -18,7 +18,7 @@ config/name="Godot-Manager"
 config/description="This is just a test description."
 run/main_scene="res://Scenes/MainWindow.tscn"
 run/low_processor_mode=true
-config/icon="res://Assets/Icons/godot.svg"
+config/icon="res://godot.png"
 config/windows_native_icon="res://godot.ico"
 
 [display]

@@ -18,7 +18,7 @@ public class HTTPResponse : Object {
 		Headers = client.GetResponseHeadersAsDictionary();
 		Task res = GetBody();
 		while (!res.IsCompleted) {
-			await ToSignal(Engine.GetMainLoop(), "idle_frame");
+			await this.IdleFrame();
 		}
 	}
 
@@ -29,7 +29,7 @@ public class HTTPResponse : Object {
 			client.Poll();
 			byte[] chunk = client.ReadResponseBodyChunk();
 			if (chunk.Length == 0)
-				await ToSignal(Engine.GetMainLoop(), "idle_frame");
+				await this.IdleFrame();
 			else {
 				rb.AddRange(chunk);
 				call_from.EmitSignal("chunk_received", chunk.Length);

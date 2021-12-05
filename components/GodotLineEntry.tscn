@@ -46,39 +46,61 @@ stretch_mode = 6
 
 [node name="vc" type="VBoxContainer" parent="."]
 margin_left = 68.0
-margin_right = 526.0
+margin_right = 544.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VersionTag" type="Label" parent="vc"]
-margin_right = 458.0
+margin_right = 476.0
 margin_bottom = 19.0
 custom_fonts/font = SubResource( 11 )
 text = "Godot Version x.x.x (Stable)"
+clip_text = true
 
 [node name="hc" type="HBoxContainer" parent="vc"]
 margin_top = 23.0
-margin_right = 458.0
+margin_right = 476.0
 margin_bottom = 41.0
 
 [node name="Source" type="Label" parent="vc/hc"]
-margin_right = 140.0
+margin_right = 320.0
 margin_bottom = 18.0
-size_flags_horizontal = 5
+rect_min_size = Vector2( 320, 0 )
+size_flags_horizontal = 0
 custom_fonts/font = SubResource( 13 )
 text = "Source: TuxFamily.org"
+clip_text = true
+percent_visible = -0.05
 
 [node name="Filesize" type="Label" parent="vc/hc"]
-margin_left = 144.0
-margin_right = 214.0
+margin_left = 324.0
+margin_right = 394.0
 margin_bottom = 18.0
 custom_fonts/font = SubResource( 15 )
 text = "Size: 32MB"
 
+[node name="DownloadProgress" type="HBoxContainer" parent="vc"]
+visible = false
+margin_top = 45.0
+margin_right = 458.0
+margin_bottom = 59.0
+custom_constants/separation = 10
+
+[node name="ProgressBar" type="ProgressBar" parent="vc/DownloadProgress"]
+margin_right = 354.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Filesize" type="Label" parent="vc/DownloadProgress"]
+margin_left = 364.0
+margin_right = 458.0
+margin_bottom = 14.0
+text = "32MB of 32MB"
+
 [node name="Download" type="TextureRect" parent="."]
-margin_left = 956.0
-margin_right = 988.0
+margin_left = 992.0
+margin_right = 1024.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 10
@@ -88,6 +110,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Default" type="TextureRect" parent="."]
+visible = false
 margin_left = 992.0
 margin_right = 1024.0
 margin_bottom = 64.0

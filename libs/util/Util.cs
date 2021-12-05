@@ -26,4 +26,16 @@ public static class Util {
 		}
 		return string.Format("{0:0.##} {1}", len, ByteSizes[order]);
 	}
+
+	public static string NormalizePath(this string path) {
+#if GODOT_WINDOWS
+		return path.Replace("/",@"\");
+#else
+		return path.Replace(@"\","/");
+#endif
+	}
+
+	public static SignalAwaiter IdleFrame(this Godot.Object obj) {
+		return obj.ToSignal(Engine.GetMainLoop(), "idle_frame");
+	}
 }

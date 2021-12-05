@@ -64,7 +64,7 @@ namespace Github {
 					client.GetStatus() == HTTPClient.Status.Resolving)
 			{
 				client.Poll();
-				await ToSignal(Engine.GetMainLoop(),"idle_frame");
+				await this.IdleFrame();
 			}
 
 			return client.GetStatus();
@@ -78,14 +78,14 @@ namespace Github {
 			
 			while (client.GetStatus() == HTTPClient.Status.Requesting) {
 				client.Poll();
-				await ToSignal(Engine.GetMainLoop(), "idle_frame");
+				await this.IdleFrame();
 			}
 
 			if (client.HasResponse()) {
 				resp = new HTTPResponse();
 				var task = resp.FromClient(this, client);
 				while (!task.IsCompleted) {
-					await ToSignal(Engine.GetMainLoop(), "idle_frame");
+					await this.IdleFrame();
 				}
 				lastResponse = resp;
 			}
@@ -93,34 +93,81 @@ namespace Github {
 			return resp;
 		}
 
+		private void UpdateLimit(HTTPResponse response) {
+			Limit.Limit = (response.Headers["X-RateLimit-Limit"] as string).ToInt();
+			Limit.Remaining = (response.Headers["X-RateLimit-Remaining"] as string).ToInt();
+			Limit.Reset = System.DateTimeOffset.FromUnixTimeSeconds((response.Headers["X-RateLimit-Reset"] as string).ToInt()).DateTime;
+			Limit.Used = (response.Headers["X-RateLimit-Used"] as string).ToInt();
+		}
+
+		private bool SuccessConnect(HTTPClient.Status result) {
+			switch(result) {
+				case HTTPClient.Status.CantResolve:
+					GD.PrintErr("Unable to resolve api.github.com");
+					OS.Alert("Unable to resolve api.github.com", "Github Failure");
+					return false;
+				case HTTPClient.Status.CantConnect:
+					GD.PrintErr("Failed to connect to api.github.com");
+					OS.Alert("Failed to connect to api.github.com", "Github Failure");
+					return false;
+				case HTTPClient.Status.ConnectionError:
+					GD.PrintErr("Connection error with api.github.com");
+					OS.Alert("Connection error with api.github.com", "Github Failure");
+					return false;
+				case HTTPClient.Status.SslHandshakeError:
+					GD.PrintErr("Failed to negotiate SSL Connection with api.github.com");
+					OS.Alert("Failed to negotiate SSL Connection with api.github.com", "Github Failure");
+					return false;
+				case HTTPClient.Status.Connected:
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		public async Task<Release> GetLatestRelease() {
+			Release ret = null;
+			Task<HTTPClient.Status> cres = StartClient();
+
+			while (!cres.IsCompleted) {
+				await this.IdleFrame();
+			}
+
+			if (!SuccessConnect(cres.Result))
+				return ret;
+			
+			string path = "/repos/godotengine/godot/releases/latest";
+			var tresult = MakeRequest(path, GetRequestHeaders());
+			while (!tresult.IsCompleted) {
+				await this.IdleFrame();
+			}
+
+			Mutex mutex = new Mutex();
+			mutex.Lock();
+			HTTPResponse result = tresult.Result;
+
+			UpdateLimit(result);
+
+			if (result.ResponseCode != 200)
+				return null;
+			else
+				ret = JsonConvert.DeserializeObject<Release>(result.Body, DefaultSettings.defaultJsonSettings);
+
+			mutex.Unlock();
+
+			return ret;			
+		}
+
 		public async Task<Array<Release>> GetReleases(int per_page=0, int page=1) {
 			Array<Release> ret = new Array<Release>();
 			Task<HTTPClient.Status> cres = StartClient();
 			
 			while (!cres.IsCompleted) {
-				await ToSignal(Engine.GetMainLoop(), "idle_frame");
+				await this.IdleFrame();
 			}
 
-			if (cres.Result != HTTPClient.Status.Connected) {
-				switch(cres.Result) {
-					case HTTPClient.Status.CantResolve:
-						GD.PrintErr("Unable to resolve api.github.com");
-						OS.Alert("Unable to resolve api.github.com", "Github Failure");
-						return null;
-					case HTTPClient.Status.CantConnect:
-						GD.PrintErr("Failed to connect to api.github.com");
-						OS.Alert("Failed to connect to api.github.com", "Github Failure");
-						return null;
-					case HTTPClient.Status.ConnectionError:
-						GD.PrintErr("Connection error with api.github.com");
-						OS.Alert("Connection error with api.github.com", "Github Failure");
-						return null;
-					case HTTPClient.Status.SslHandshakeError:
-						GD.PrintErr("Failed to negotiate SSL Connection with api.github.com");
-						OS.Alert("Failed to negotiate SSL Connection with api.github.com", "Github Failure");
-						return null;
-				}
-			}
+			if (!SuccessConnect(cres.Result))
+				return ret;
 
 			string path = "/repos/godotengine/godot/releases";
 			if (per_page > 0)
@@ -132,7 +179,7 @@ namespace Github {
 			
 			var tresult = MakeRequest(path, GetRequestHeaders());
 			while (!tresult.IsCompleted) {
-				await ToSignal(Engine.GetMainLoop(), "idle_frame");
+				await this.IdleFrame();
 			}
 
 			Mutex mutex = new Mutex();
@@ -140,10 +187,7 @@ namespace Github {
 			HTTPResponse result = tresult.Result;
 			client.Close();
 
-			Limit.Limit = (result.Headers["X-RateLimit-Limit"] as string).ToInt();
-			Limit.Remaining = (result.Headers["X-RateLimit-Remaining"] as string).ToInt();
-			Limit.Reset = System.DateTimeOffset.FromUnixTimeSeconds((result.Headers["X-RateLimit-Reset"] as string).ToInt()).DateTime;
-			Limit.Used = (result.Headers["X-RateLimit-Used"] as string).ToInt();
+			UpdateLimit(result);
 
 			// Check for Errors:
 			if (result.ResponseCode != 200)

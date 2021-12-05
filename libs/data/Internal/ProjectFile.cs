@@ -28,11 +28,7 @@ public class ProjectFile : Godot.Object {
 			projectFile = new ProjectFile();
 			projectFile.Name = (string)project.GetValue("application", "config/name");
 			projectFile.Description = (string)project.GetValue("application", "config/description");
-#if GODOT_WINDOWS
-			projectFile.Location = filePath.Replace("/",@"\");
-#else
-			projectFile.Location = filePath.Replace(@"\","/");
-#endif
+			projectFile.Location = filePath.NormalizePath();
 			projectFile.Icon = (string)project.GetValue("application", "config/icon");
 		}
 
