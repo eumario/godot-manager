@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 public class HTTPResponse : Object {
 	public int ResponseCode;
 	public Dictionary Headers;
+	public byte[] BodyRaw;
 	public string Body;
 
 	private HTTPClient client;
-	private Node call_from;
+	private Object call_from;
 
-	public async Task FromClient(Node call_from, HTTPClient client) {
+	public async Task FromClient(Object call_from, HTTPClient client) {
 		this.client = client;
 		this.call_from = call_from;
 		ResponseCode = client.GetResponseCode();
@@ -35,6 +36,14 @@ public class HTTPResponse : Object {
 				call_from.EmitSignal("chunk_received", chunk.Length);
 			}
 		}
-		Body = rb.ToArray().GetStringFromUTF8();
+		BodyRaw = rb.ToArray();
+#pragma warning disable CS0168
+		try {
+			Body = BodyRaw.GetStringFromUTF8();
+		} catch (System.Exception ex) {
+			// We don't care about exceptions from this, as we may not be getting strings
+			// but raw bytes, such as zip files, executables, etc, etc.
+		}
+#pragma warning restore CS0168
 	}
 }

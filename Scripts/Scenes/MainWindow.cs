@@ -1,7 +1,7 @@
 using Godot;
 using GodotSharpExtras;
 using Godot.Collections;
-using System;
+using System.IO;
 
 public class MainWindow : Control
 {
@@ -15,6 +15,8 @@ public class MainWindow : Control
 	public override void _Ready()
 	{
 		this.OnReady();
+
+		EnsureDirStructure();
 
 		_buttons = new Array<PageButton>();
 		foreach(var pb in GetTree().GetNodesInGroup("page_buttons")) {
@@ -33,6 +35,15 @@ public class MainWindow : Control
 		Image appIcon = new Image();
 		appIcon.Load("res://icon.png");
 		OS.SetIcon(appIcon);
+	}
+
+	void EnsureDirStructure() {
+		if (System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache")))
+			return;
+		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache"));
+		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/Godot"));
+		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
+		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
 	}
 	
 	public void OnPageButton_Clicked(PageButton pb) {

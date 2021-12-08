@@ -71,7 +71,6 @@ size_flags_horizontal = 0
 custom_fonts/font = SubResource( 13 )
 text = "Source: TuxFamily.org"
 clip_text = true
-percent_visible = -0.05
 
 [node name="Filesize" type="Label" parent="vc/hc"]
 margin_left = 324.0
@@ -83,18 +82,18 @@ text = "Size: 32MB"
 [node name="DownloadProgress" type="HBoxContainer" parent="vc"]
 visible = false
 margin_top = 45.0
-margin_right = 458.0
+margin_right = 476.0
 margin_bottom = 59.0
 custom_constants/separation = 10
 
 [node name="ProgressBar" type="ProgressBar" parent="vc/DownloadProgress"]
-margin_right = 354.0
+margin_right = 372.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Filesize" type="Label" parent="vc/DownloadProgress"]
-margin_left = 364.0
-margin_right = 458.0
+margin_left = 382.0
+margin_right = 476.0
 margin_bottom = 14.0
 text = "32MB of 32MB"
 

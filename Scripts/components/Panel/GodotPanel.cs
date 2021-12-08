@@ -1,9 +1,9 @@
 using Godot;
 using Godot.Collections;
 using GodotSharpExtras;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO.Compression;
 
 public class GodotPanel : Panel
 {
@@ -35,7 +35,7 @@ public class GodotPanel : Panel
     // RateLimit ApiCalls;
 
     // Called when the node enters the scene tree for the first time.
-    public override async void _Ready()
+    public override void _Ready()
     {
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
@@ -72,6 +72,26 @@ public class GodotPanel : Panel
         }
     }
 
+    public async void OnInstallClicked(GodotLineEntry gle) {
+        Available.List.RemoveChild(gle);
+        Downloading.List.AddChild(gle);
+        Downloading.Visible = true;
+        gle.ToggleDownloadProgress(true);
+        Task blah = gle.StartDownload();
+        while (!blah.IsCompleted)
+            await this.IdleFrame();
+        Downloading.List.RemoveChild(gle);
+        Downloading.Visible = false;
+        Installed.List.AddChild(gle);
+        gle.ToggleDownloadProgress(false);
+        CentralStore.Instance.Versions.Add(gle.CreateGodotVersion());
+        CentralStore.Instance.SaveDatabase();
+    }
+
+    public void OnUninstallClicked(GodotLineEntry gle) {
+
+    }
+
     public void PopulateList() {
         foreach (Node child in Available.List.GetChildren())
             child.QueueFree();
@@ -79,7 +99,18 @@ public class GodotPanel : Panel
         foreach(GithubVersion gv in CentralStore.Instance.GHVersions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
             gle.GithubVersion = gv;
-            Available.AddChild(gle);
+            var query = from version in CentralStore.Instance.Versions
+                        where version.GithubVersion.Name == gv.Name
+                        select version;
+            if (query.FirstOrDefault() == null) {
+                gle.Connect("install_clicked", this, "OnInstallClicked");
+                Available.List.AddChild(gle);
+            } else {
+                gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
+                gle.Downloaded = true;
+                gle.GodotVersion = query.First<GodotVersion>();
+                Installed.List.AddChild(gle);
+            }
         }
     }
 

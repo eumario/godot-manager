@@ -23,6 +23,70 @@ public class GithubVersion : Object
 	[JsonProperty]
 	public VersionUrls Mono; // See VersionUrls
 
+	public string PlatformDownloadURL {
+		get {
+			switch(Platform.OperatingSystem) {
+				case "Windows":
+				case "UWP (Windows 10)":
+					return (Platform.Bits == "32") ? Standard.Win32 : Standard.Win64;
+				case "Linux (or BSD)":
+					return (Platform.Bits == "32") ? Standard.Linux32 : Standard.Linux64;
+				case "macOS":
+					return Standard.OSX;
+				default:
+					return "";
+			}
+		}
+	}
+
+	public string PlatformMonoDownloadURL {
+		get {
+			switch(Platform.OperatingSystem) {
+				case "Windows":
+				case "UWP (Windows 10)":
+					return (Platform.Bits == "32") ? Mono.Win32 : Mono.Win64;
+				case "Linux (or BSD)":
+					return (Platform.Bits == "32") ? Mono.Linux32 : Mono.Linux64;
+				case "macOS":
+					return Mono.OSX;
+				default:
+					return "";
+			}
+		}
+	}
+
+	public int PlatformDownloadSize {
+		get {
+			switch(Platform.OperatingSystem) {
+				case "Windows":
+				case "UWP (Windows 10)":
+					return (Platform.Bits == "32") ? Standard.Win32_Size : Standard.Win64_Size;
+				case "Linux (or BSD)":
+					return (Platform.Bits == "32") ? Standard.Linux32_Size : Standard.Linux64_Size;
+				case "macOS":
+					return Standard.OSX_Size;
+				default:
+					return -1;
+			}
+		}
+	}
+
+	public int PlatformMonoDownloadSize {
+		get {
+			switch(Platform.OperatingSystem) {
+				case "Windows":
+				case "UWP (Windows 10)":
+					return (Platform.Bits == "32") ? Mono.Win32_Size : Mono.Win64_Size;
+				case "Linux (or BSD)":
+					return (Platform.Bits == "32") ? Mono.Linux32_Size : Mono.Linux64_Size;
+				case "macOS":
+					return Mono.OSX_Size;
+				default:
+					return -1;
+			}
+		}
+	}
+
 
 	void GatherUrls(Github.Release release) {
 		string[] fields = new string[] {

@@ -1,9 +1,16 @@
 using Godot;
 using GodotSharpExtras;
-using System;
+using System.Threading.Tasks;
+using System.IO.Compression;
 
 public class GodotLineEntry : HBoxContainer
 {
+    [Signal]
+    public delegate void install_clicked(GodotLineEntry entry);
+
+    [Signal]
+    public delegate void uninstall_clicked(GodotLineEntry entry);
+
 #region Private Node Variables
     [NodePath("vc/VersionTag")]
     private Label _label = null;
@@ -16,6 +23,8 @@ public class GodotLineEntry : HBoxContainer
     [NodePath("Default")]
     private TextureRect _default = null;
 
+    [NodePath("vc/DownloadProgress")]
+    private HBoxContainer _downloadProgress = null;
     [NodePath("vc/DownloadProgress/ProgressBar")]
     private ProgressBar _progressBar = null;
     [NodePath("vc/DownloadProgress/Filesize")]
@@ -33,6 +42,7 @@ public class GodotLineEntry : HBoxContainer
     private bool bDefault = false;
     private GodotVersion gvGodotVersion = null;
     private GithubVersion gvGithubVersion = null;
+    private Downloader Downloader = null;
 #endregion
 
 #region Public Accessors
@@ -54,10 +64,8 @@ public class GodotLineEntry : HBoxContainer
         }
 
         set {
-            GD.Print("Setting GithubVersion...");
             gvGithubVersion = value;
             Label = value.Name;
-            GD.Print("Attempting to set other fields...");
             switch(Platform.OperatingSystem) {
                 case "Windows":
                 case "UWP (Windows 10)":
@@ -179,6 +187,16 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
+    public void ToggleDownloadProgress(bool value) {
+        _downloadProgress.Visible = value;
+    }
+
+    public void UpdateProgress(int bytes, int total_bytes) {
+        float progress = bytes * 100.0f / total_bytes;
+        _progressBar.Value = progress;
+        _fileSize.Text = $"{Util.FormatSize(bytes)}/{Util.FormatSize(total_bytes)}";
+    }
+
     public void ToggleDefault(bool value) {
         if (value) {
             _default.SelfModulate = new Color("ffffff");
@@ -188,12 +206,51 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public void OnDownload_GuiInput(InputEvent inputEvent) {
-        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
+            if (_download.Texture == downloadIcon)
+                EmitSignal("install_clicked", this);
+            else
+                EmitSignal("uninstall_clicked", this);
             ToggleDownloadUninstall((_download.Texture == downloadIcon));
+        }
     }
 
     public void OnDefault_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
             ToggleDefault((_default.SelfModulate == new Color("ffff00")));
+    }
+
+    public void OnChunkReceived(int bytes) {
+        _progressBar.Value += bytes;
+        _fileSize.Text = $"{Util.FormatSize(_progressBar.Value)}/{Util.FormatSize(Downloader.totalSize)}";
+    }
+
+    public GodotVersion CreateGodotVersion() {
+        GodotVersion gv = new GodotVersion();
+        gv.Id = System.Guid.NewGuid().ToString();
+        gv.Tag = GithubVersion.Name;
+        gv.Url = GithubVersion.PlatformDownloadURL;
+        gv.Location = $"user://versions/{GithubVersion.Name}";
+        gv.DownloadedDate = System.DateTime.UtcNow;
+        gv.GithubVersion = GithubVersion;
+        return gv;
+    }
+
+    public async Task StartDownload() {
+        Downloader = Downloader.DownloadGithub(GithubVersion);
+        string outFile = $"user://cache/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
+        string instDir = $"user://versions/{GithubVersion.Name}";
+        Downloader.Connect("chunk_received", this, "OnChunkReceived");
+        _progressBar.MinValue = 0;
+        _progressBar.MaxValue = Downloader.totalSize;
+        _progressBar.Value = 0;
+        _fileSize.Text = $"{Util.FormatSize(0)}/{Util.FormatSize(Downloader.totalSize)}";
+        Task<bool> bres = Downloader.DownloadFile(outFile);
+        while (!bres.IsCompleted)
+            await this.IdleFrame();
+        if (bres.Result) {
+            ZipFile.ExtractToDirectory(ProjectSettings.GlobalizePath(outFile),
+                                        ProjectSettings.GlobalizePath(instDir));
+        }
     }
 }

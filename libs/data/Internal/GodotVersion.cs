@@ -3,7 +3,7 @@ using Godot.Collections;
 using Newtonsoft.Json;
 
 [JsonObject(MemberSerialization.OptIn)]
-public class GodotVersion {
+public class GodotVersion : Object {
 	[JsonProperty]
 	public string Id; // This will be a UUID
 	[JsonProperty]
@@ -16,6 +16,10 @@ public class GodotVersion {
 	public System.DateTime DownloadedDate; // Date Downloaded (Added for Godot)
 	[JsonProperty]
 	public bool HideConsole;	// If we should hide the console for Godot Editor.
+	[JsonProperty]
+	public GithubVersion GithubVersion;
+	[JsonProperty]
+	public TuxfamilyVersion TuxfamilyVersion;
 
 	public GodotVersion() {
 		Id = System.Guid.Empty.ToString();
