@@ -83,7 +83,7 @@ public class GodotLineEntry : HBoxContainer
                         Source = value.Standard.Linux32;
                         Filesize = Util.FormatSize(value.Standard.Linux32_Size);
                     } else if (Platform.Bits == "64") {
-                        Source = value.Standard.Linux32;
+                        Source = value.Standard.Linux64;
                         Filesize = Util.FormatSize(value.Standard.Linux64_Size);
                     }
                     break;

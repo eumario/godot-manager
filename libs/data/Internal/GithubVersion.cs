@@ -93,27 +93,25 @@ public class GithubVersion : Object
 			"Win32", "Win64", "Linux32", "Linux64", "OSX",
 			"Templates", "Headless", "Server"
 		};
+		//Godot_v3.4-stable_x11.32.zip, Godot_v3.4-stable_x11.64.zip
 		string[] standard_match = new string[] {
-			"win32", "win64", "x11.32",
-			"x11.64", "osx", "export_templates.tpz",
-			"linux_headless.64", "linux_server.64"
+			"win32", "win64", "x11.32", "x11.64", "osx", 
+			"export_templates.tpz", "linux_headless.64", "linux_server.64"
 		};
 		string[] standard_not_match = new string[] {
-			"mono_win32", "mono_win64", "",
-			"", "mono_osx", "mono_export_templates.tpz",
-			"", ""
+			"mono_win32", "mono_win64", "JavaDaHutForYou", "JavaDaHutForYou", "mono_osx",
+			"mono_export_templates.tpz", "JavaDaHutForYou", "JavaDaHutForYou"
 		};
 		string[] mono_match = new string[] {
-			"mono_win32", "mono_win64", "mono_x11_32",
-			"mono_x11_64", "mono_osx", "mono_export_templates.tpz",
-			"mono_linux_headless_64", "mono_linux_server_64"
+			"mono_win32", "mono_win64", "mono_x11_32", "mono_x11_64", "mono_osx",
+			"mono_export_templates.tpz", "mono_linux_headless_64", "mono_linux_server_64"
 		};
 
 		VersionUrls standard = new VersionUrls();
 		VersionUrls mono = new VersionUrls();
 		for (int i = 0; i < standard_match.Length; i++) {
 			var t = from asset in release.Assets
-					where asset.Name.FindN(standard_match[i]) != -1 && asset.Name.FindN(standard_not_match[i]) == -1
+					where asset.Name.FindN(standard_match[i]) > -1 && asset.Name.FindN(standard_not_match[i]) == -1
 					select asset;
 			if (t.FirstOrDefault() is Github.Asset ghAsset) {
 				standard[fields[i]] = ghAsset.BrowserDownloadUrl;
