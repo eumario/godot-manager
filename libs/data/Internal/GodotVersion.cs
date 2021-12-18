@@ -9,7 +9,11 @@ public class GodotVersion : Object {
 	[JsonProperty]
 	public string Tag; // This will be used to display to the user
 	[JsonProperty]
+	public bool IsMono; // This is used to determine if the file downloaded is Mono
+	[JsonProperty]
 	public string Location; // Location of where Godot is
+	[JsonProperty]
+	public string CacheLocation; // Location of where the cache file is.
 	[JsonProperty]
 	public string Url;	// URL downloaded from (Will match Location for Custom)
 	[JsonProperty]

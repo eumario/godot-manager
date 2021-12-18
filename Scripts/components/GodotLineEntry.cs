@@ -40,6 +40,7 @@ public class GodotLineEntry : HBoxContainer
     private string sFilesize = "Size: 32MB";
     private bool bDownloaded = false;
     private bool bDefault = false;
+    private bool bMono = false;
     private GodotVersion gvGodotVersion = null;
     private GithubVersion gvGithubVersion = null;
     private Downloader Downloader = null;
@@ -53,8 +54,21 @@ public class GodotLineEntry : HBoxContainer
 
         set {
             gvGodotVersion = value;
-            Label = value.Tag;
-            
+            if (value != null) {
+                Mono = value.IsMono;
+                Label = value.Tag;
+            }
+        }
+    }
+
+    public bool Mono {
+        get {
+            return bMono;
+        }
+
+        set {
+            bMono = value;
+            GithubVersion = gvGithubVersion;
         }
     }
 
@@ -65,32 +79,59 @@ public class GodotLineEntry : HBoxContainer
 
         set {
             gvGithubVersion = value;
+            if (value == null)
+                return;
             Label = value.Name;
             switch(Platform.OperatingSystem) {
                 case "Windows":
                 case "UWP (Windows 10)":
-                    if (Platform.Bits == "32") {
-                        Source = value.Standard.Win32;
-                        Filesize = Util.FormatSize(value.Standard.Win32_Size);
-                    } else if (Platform.Bits == "64") {
-                        Source = value.Standard.Win64;
-                        Filesize = Util.FormatSize(value.Standard.Win64_Size);                    
+                    if (Mono) {
+                        if (Platform.Bits == "32") {
+                            Source = value.Mono.Win32;
+                            Filesize = Util.FormatSize(value.Mono.Win32_Size);
+                        } else if (Platform.Bits == "64") {
+                            Source = value.Mono.Win64;
+                            Filesize = Util.FormatSize(value.Mono.Win64_Size);                    
+                        }
+                    } else {
+                        if (Platform.Bits == "32") {
+                            Source = value.Standard.Win32;
+                            Filesize = Util.FormatSize(value.Standard.Win32_Size);
+                        } else if (Platform.Bits == "64") {
+                            Source = value.Standard.Win64;
+                            Filesize = Util.FormatSize(value.Standard.Win64_Size);                    
+                        }
                     }
                     break;
 
                 case "Linux (or BSD)":
-                    if (Platform.Bits == "32") {
-                        Source = value.Standard.Linux32;
-                        Filesize = Util.FormatSize(value.Standard.Linux32_Size);
-                    } else if (Platform.Bits == "64") {
-                        Source = value.Standard.Linux64;
-                        Filesize = Util.FormatSize(value.Standard.Linux64_Size);
+                    if (Mono) {
+                        if (Platform.Bits == "32") {
+                            Source = value.Mono.Linux32;
+                            Filesize = Util.FormatSize(value.Mono.Linux32_Size);
+                        } else if (Platform.Bits == "64") {
+                            Source = value.Mono.Linux64;
+                            Filesize = Util.FormatSize(value.Mono.Linux64_Size);
+                        }
+                    } else {
+                        if (Platform.Bits == "32") {
+                            Source = value.Standard.Linux32;
+                            Filesize = Util.FormatSize(value.Standard.Linux32_Size);
+                        } else if (Platform.Bits == "64") {
+                            Source = value.Standard.Linux64;
+                            Filesize = Util.FormatSize(value.Standard.Linux64_Size);
+                        }
                     }
                     break;
 
                 case "macOS":
-                    Source = value.Standard.OSX;
-                    Filesize = Util.FormatSize(value.Standard.OSX_Size);
+                    if (Mono) {
+                        Source = value.Mono.OSX;
+                        Filesize = Util.FormatSize(value.Mono.OSX_Size);
+                    } else {
+                        Source = value.Standard.OSX;
+                        Filesize = Util.FormatSize(value.Standard.OSX_Size);
+                    }
                     break;
                 
                 default:
@@ -104,9 +145,9 @@ public class GodotLineEntry : HBoxContainer
             return sLabel;
         }
         set {
-            sLabel = value;
+            sLabel = value + (Mono ? " - Mono" : "");
             if (_label != null)
-                _label.Text = $"Godot {value}";
+                _label.Text = $"Godot {value + (Mono ? " - Mono" : "")}";
         }
     }
 
@@ -165,9 +206,11 @@ public class GodotLineEntry : HBoxContainer
     {
         this.OnReady();
 
-        Label = sLabel;
-        Source = sSource;
-        Filesize = sFilesize;
+        GodotVersion = gvGodotVersion;
+        GithubVersion = gvGithubVersion;
+        // Label = sLabel;
+        // Source = sSource;
+        // Filesize = sFilesize;
 
         _download.Connect("gui_input", this, "OnDownload_GuiInput");
         _default.Connect("gui_input", this, "OnDefault_GuiInput");
@@ -227,19 +270,24 @@ public class GodotLineEntry : HBoxContainer
 
     public GodotVersion CreateGodotVersion() {
         GodotVersion gv = new GodotVersion();
+        string gdFile = Mono ? new System.Uri(GithubVersion.PlatformMonoDownloadURL).AbsolutePath.GetFile() : new System.Uri(GithubVersion.PlatformDownloadURL).AbsolutePath.GetFile();
+        string gdName = Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name;
         gv.Id = System.Guid.NewGuid().ToString();
         gv.Tag = GithubVersion.Name;
-        gv.Url = GithubVersion.PlatformDownloadURL;
-        gv.Location = $"user://versions/{GithubVersion.Name}";
+        gv.Url = Mono ? GithubVersion.PlatformMonoDownloadURL : GithubVersion.PlatformDownloadURL;
+        gv.Location = $"user://versions/{gdName}";
+        gv.CacheLocation = $"user://cache/Godot/{gdFile}";
         gv.DownloadedDate = System.DateTime.UtcNow;
         gv.GithubVersion = GithubVersion;
+        gv.IsMono = Mono;
+        GodotVersion = gv;
         return gv;
     }
 
     public async Task StartDownload() {
-        Downloader = Downloader.DownloadGithub(GithubVersion);
+        Downloader = Downloader.DownloadGithub(GithubVersion,Mono);
         string outFile = $"user://cache/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
-        string instDir = $"user://versions/{GithubVersion.Name}";
+        string instDir = $"user://versions/{(Mono ? "" : GithubVersion.Name)}";
         Downloader.Connect("chunk_received", this, "OnChunkReceived");
         _progressBar.MinValue = 0;
         _progressBar.MaxValue = Downloader.totalSize;

@@ -8,6 +8,12 @@ using System.IO.Compression;
 public class GodotPanel : Panel
 {
 #region Nodes
+    [NodePath("VB/MC/HC/UseMono")]
+    CheckBox UseMono = null;
+
+    [NodePath("VB/MC/HC/DownloadSource")]
+    OptionButton DownloadSource = null;
+
     [NodePath("VB/SC/GodotList")]
     VBoxContainer GodotList = null;
 
@@ -25,6 +31,9 @@ public class GodotPanel : Panel
     
     [NodePath("/root/MainWindow/NewVersion")]
     NewVersion NewVersion = null;
+
+    [NodePath("/root/MainWindow/YesNoDialog")]
+    YesNoDialog YesNoDialog = null;
 #endregion
 
 #region Templates
@@ -32,13 +41,19 @@ public class GodotPanel : Panel
 #endregion
 
     Array<Github.Release> Releases = new Array<Github.Release>();
-    // RateLimit ApiCalls;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
+        UseMono.Connect("toggled", this, "OnToggledUseMono");
+    }
+
+    public void OnToggledUseMono(bool value) {
+        foreach(GodotLineEntry gle in Available.List.GetChildren())
+            gle.Mono = value;
+        UpdateVisibility();
     }
 
     async void OnPageChanged(int page) {
@@ -81,40 +96,113 @@ public class GodotPanel : Panel
         while (!blah.IsCompleted)
             await this.IdleFrame();
         Downloading.List.RemoveChild(gle);
-        Downloading.Visible = false;
-        Installed.List.AddChild(gle);
-        gle.ToggleDownloadProgress(false);
+        
+        if (Downloading.List.GetChildCount() == 0)
+            Downloading.Visible = false;
+        
         CentralStore.Instance.Versions.Add(gle.CreateGodotVersion());
         CentralStore.Instance.SaveDatabase();
+        PopulateList();
     }
 
-    public void OnUninstallClicked(GodotLineEntry gle) {
+    public Array<string> RecursiveListDir(string path) {
+        Array<string> list = new Array<string>();
+        foreach(string dir in System.IO.Directory.EnumerateDirectories(path)) {
+            foreach(string file in RecursiveListDir(System.IO.Path.Combine(path,dir).NormalizePath())) {
+                list.Add(file);
+            }
+            list.Add(System.IO.Path.Combine(path,dir).NormalizePath());
+        }
 
+        foreach(string file in System.IO.Directory.EnumerateFiles(path)) {
+            list.Add(file.NormalizePath());
+        }
+        
+        list.Add(path.NormalizePath());
+        
+        return list;
+    }
+
+
+    public async void OnUninstallClicked(GodotLineEntry gle) {
+        Task<bool> result = YesNoDialog.ShowDialog("Remove Godot Install",$"You are about to uninstall {gle.GodotVersion.Tag}, are you sure you want to continue?");
+        while (!result.IsCompleted)
+            await this.IdleFrame();
+
+        if (result.Result) {
+            Directory dir = new Directory();
+            var install = ProjectSettings.GlobalizePath(gle.GodotVersion.Location);
+            var cache = ProjectSettings.GlobalizePath(gle.GodotVersion.CacheLocation);
+            var files = RecursiveListDir(install);
+
+            foreach (string file in files) {
+                dir.Remove(file);
+            }
+            dir.Remove(cache);
+            CentralStore.Instance.Versions.Remove(gle.GodotVersion);
+            CentralStore.Instance.SaveDatabase();
+            PopulateList();
+        }
     }
 
     public void PopulateList() {
+        foreach (Node child in Installed.List.GetChildren())
+            child.QueueFree();
         foreach (Node child in Available.List.GetChildren())
             child.QueueFree();
         
         foreach(GithubVersion gv in CentralStore.Instance.GHVersions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
             gle.GithubVersion = gv;
-            var query = from version in CentralStore.Instance.Versions
-                        where version.GithubVersion.Name == gv.Name
-                        select version;
-            if (query.FirstOrDefault() == null) {
-                gle.Connect("install_clicked", this, "OnInstallClicked");
-                Available.List.AddChild(gle);
-            } else {
-                gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
-                gle.Downloaded = true;
-                gle.GodotVersion = query.First<GodotVersion>();
-                Installed.List.AddChild(gle);
-            }
+            gle.Mono = UseMono.Pressed;
+            Available.List.AddChild(gle);
+            gle.Connect("install_clicked", this, "OnInstallClicked");
         }
+
+        foreach(GodotVersion gdv in CentralStore.Instance.Versions) {
+            GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
+            gle.GodotVersion = gdv;
+            gle.GithubVersion = gdv.GithubVersion;
+            gle.Mono = gdv.IsMono;
+            gle.Downloaded = true;
+            Installed.List.AddChild(gle);
+            gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
+        }
+
+        UpdateVisibility();
     }
 
-    public async Task GetReleases() {
+	private void UpdateVisibility()
+	{
+        Array<string> gdName = new Array<string>();
+        Array<GodotVersion> gdVersion = new Array<GodotVersion>();
+        Array<GithubVersion> ghVersion = new Array<GithubVersion>();
+		foreach(GodotLineEntry igle in Installed.List.GetChildren()) {
+            gdName.Add(igle.GithubVersion.Name);
+            gdVersion.Add(igle.GodotVersion);
+            ghVersion.Add(igle.GithubVersion);
+        }
+
+        foreach(GodotLineEntry agle in Available.List.GetChildren()) {
+            foreach(GodotVersion version in gdVersion) {
+                if (agle.GithubVersion.Name == version.GithubVersion.Name) {
+                    if (UseMono.Pressed) {
+                        if (version.IsMono)
+                            agle.Visible = false;
+                        else
+                            agle.Visible = true;
+                    } else {
+                        if (version.IsMono)
+                            agle.Visible = true;
+                        else
+                            agle.Visible = false;
+                    }
+                }
+            }
+        }
+	}
+
+	public async Task GetReleases() {
         Mutex mutex = new Mutex();
         bool stop = false;
         int page = 1;
