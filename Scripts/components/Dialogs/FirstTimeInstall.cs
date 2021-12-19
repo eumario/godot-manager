@@ -10,11 +10,8 @@ public class FirstTimeInstall : ReferenceRect
     [NodePath("PC/CC/P/VB/MCButtons/HB/DownloadGodot")]
     Button DownloadGodot = null;
 
-    [NodePath("../bg/Shell/Sidebar/VC/Godot")]
+    [NodePath("/root/MainWindow/bg/Shell/Sidebar/VC/Godot")]
     PageButton GodotButton = null;
-
-    [NodePath("../AddCustomGodot")]
-    AddCustomGodot addCustomGodot = null;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -27,7 +24,7 @@ public class FirstTimeInstall : ReferenceRect
 
     public void OnPressed_AddGodot() {
         Visible = false;
-        addCustomGodot.Visible = true;
+        AppDialogs.Instance.AddCustomGodot.Visible = true;
     }
 
     public void OnPressed_DownloadGodot() {

@@ -85,4 +85,11 @@ public class CentralStore {
 			return res.FirstOrDefault() != null;
 		}
 	}
+
+	public GodotVersion FindVersion(string id) {
+		var query = from gv in Versions
+					where gv.Id == id
+					select gv;
+		return query.FirstOrDefault<GodotVersion>();
+	}
 }

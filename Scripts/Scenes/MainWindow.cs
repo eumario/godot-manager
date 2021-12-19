@@ -35,6 +35,10 @@ public class MainWindow : Control
 		Image appIcon = new Image();
 		appIcon.Load("res://icon.png");
 		OS.SetIcon(appIcon);
+		AppDialogs dlgs = AppDialogs.Instance;
+		dlgs.SetAnchorsAndMarginsPreset(LayoutPreset.Wide);
+		dlgs.Name = "AppDialogs";
+		AddChild(dlgs);
 	}
 
 	void EnsureDirStructure() {

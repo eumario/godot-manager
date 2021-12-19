@@ -5,7 +5,7 @@ using Godot.Collections;
 public class ActionButtons : PanelContainer
 {
     [Signal]
-    delegate void Clicked(int index);
+    delegate void clicked(int index);
 
     [Export(PropertyHint.File)]
     Array<StreamTexture> Icons = null;
@@ -55,7 +55,7 @@ public class ActionButtons : PanelContainer
     public void Icon_GuiInput(InputEvent inputEvent, ColorRect bg, int index) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
         {
-            EmitSignal("Clicked", index);
+            EmitSignal("clicked", index);
         }
     }
 }

@@ -5,6 +5,9 @@ using System.Linq;
 
 public class ProjectsPanel : Panel
 {
+#region Node Accessors
+    [NodePath("VC/MC/HC/ActionButtons")]
+    ActionButtons _actionButtons = null;
     [NodePath("VC/SC/MarginContainer/ProjectList/ListView")]
     VBoxContainer _listView = null;
     [NodePath("VC/SC/MarginContainer/ProjectList/GridView")]
@@ -13,6 +16,7 @@ public class ProjectsPanel : Panel
     VBoxContainer _categoryView = null;
     [NodePath("VC/MC/HC/ViewToggleButtons")]
     ViewToggleButtons _viewSelector = null;
+#endregion
 
 #region Template Scenes
     PackedScene _ProjectLineEntry = GD.Load<PackedScene>("res://components/ProjectLineEntry.tscn");
@@ -32,6 +36,8 @@ public class ProjectsPanel : Panel
         _views.Add(_categoryView);
 
         _viewSelector.Connect("Clicked", this, "OnViewSelector_Clicked");
+        _actionButtons.Connect("clicked", this, "OnActionButtons_Clicked");
+        AppDialogs.Instance.ImportProject.Connect("update_projects", this, "PopulateListing");
 
         CentralStore.Instance.LoadDatabase();
         PopulateListing();
@@ -52,7 +58,7 @@ public class ProjectsPanel : Panel
         pie.ProjectName = pf.Name;
         pie.Icon = pf.Location.GetResourceBase(pf.Icon);
         pie.ProjectLocation = pf.Location;
-        pie.GodotVersion = pf.GodotVersion;
+        //pie.GodotVersion = pf.GodotVersion;
         return pie;
     }
     
@@ -120,6 +126,22 @@ public class ProjectsPanel : Panel
     public void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
         GD.Print(ple.Location);
         // OS.Execute(@"C:\Users\eumar\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd", new string[] { $"{ple.Location}"}, false);
+    }
+
+    public void OnActionButtons_Clicked(int index) {
+        switch (index) {
+            case 0: // New Project File
+                GD.Print("CreateProject button clicked.");
+                AppDialogs.Instance.CreateProject.Visible = true;
+                break;
+            case 1: // Import Project File
+                AppDialogs.Instance.ImportProject.Visible = true;
+                break;
+            case 2: // Scan Project Folder
+                break;
+            case 3: // Remove Project (May be removed completely)
+                break;
+        }
     }
 
     public void OnViewSelector_Clicked(int page) {

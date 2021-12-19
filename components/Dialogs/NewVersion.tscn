@@ -1,0 +1,119 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Scripts/components/Dialogs/NewVersion.cs" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 0.509804 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.137255, 0.14902, 0.180392, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.639216, 0.639216, 0.639216, 1 )
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 20
+
+[node name="NewVersion" type="ReferenceRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PC" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CC" type="CenterContainer" parent="PC"]
+margin_right = 1024.0
+margin_bottom = 700.0
+
+[node name="P" type="Panel" parent="PC/CC"]
+margin_left = 352.0
+margin_top = 275.0
+margin_right = 672.0
+margin_bottom = 425.0
+rect_min_size = Vector2( 320, 150 )
+custom_styles/panel = SubResource( 6 )
+
+[node name="VB" type="VBoxContainer" parent="PC/CC/P"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_right = 320.0
+margin_bottom = 150.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="VC" type="VBoxContainer" parent="PC/CC/P/VB/MCContent"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 312.0
+margin_bottom = 142.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Header" type="Label" parent="PC/CC/P/VB/MCContent/VC"]
+margin_right = 304.0
+margin_bottom = 19.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 2 )
+text = "New Release - Godot"
+align = 1
+autowrap = true
+max_lines_visible = 5
+
+[node name="ReleaseInfo" type="Label" parent="PC/CC/P/VB/MCContent/VC"]
+margin_top = 23.0
+margin_right = 304.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 1 )
+text = "There is a new version of Godot available.
+Version: %s
+Released: %s
+Released by: %s"
+
+[node name="CC" type="CenterContainer" parent="PC/CC/P/VB/MCContent/VC"]
+margin_top = 108.0
+margin_right = 304.0
+margin_bottom = 134.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HC" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/VC/CC"]
+margin_left = 67.0
+margin_top = 3.0
+margin_right = 236.0
+margin_bottom = 23.0
+custom_constants/separation = 40
+
+[node name="Download" type="Button" parent="PC/CC/P/VB/MCContent/VC/CC/HC"]
+margin_right = 75.0
+margin_bottom = 20.0
+text = "Download"
+
+[node name="Cancel" type="Button" parent="PC/CC/P/VB/MCContent/VC/CC/HC"]
+margin_left = 115.0
+margin_right = 169.0
+margin_bottom = 20.0
+text = "Cancel"

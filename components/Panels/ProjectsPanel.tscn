@@ -59,7 +59,7 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="VC/MC/HC"]
 margin_left = 218.0
-margin_right = 508.0
+margin_right = 496.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 __meta__ = {
@@ -67,14 +67,14 @@ __meta__ = {
 }
 
 [node name="ActionButtons" parent="VC/MC/HC" instance=ExtResource( 4 )]
-margin_left = 516.0
-margin_right = 604.0
+margin_left = 504.0
+margin_right = 616.0
 margin_bottom = 40.0
 size_flags_vertical = 4
 Icons = [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 6 ) ]
 
 [node name="Spacer2" type="Control" parent="VC/MC/HC"]
-margin_left = 612.0
+margin_left = 624.0
 margin_right = 902.0
 margin_bottom = 40.0
 size_flags_horizontal = 3

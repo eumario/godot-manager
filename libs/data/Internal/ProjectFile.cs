@@ -12,7 +12,7 @@ public class ProjectFile : Godot.Object {
 	[JsonProperty]
 	public string Location;
 	[JsonProperty]
-	public int GodotVersion;
+	public string GodotVersion;
 	[JsonProperty]
 	public int CategoryId;
 	[JsonProperty]
@@ -40,7 +40,7 @@ public class ProjectFile : Godot.Object {
 		Name = "";
 		Description = "";
 		Location = "";
-		GodotVersion = -1;
+		GodotVersion = "";
 		CategoryId = -1;
 		Favorite = false;
 		LastAccessed = System.DateTime.UtcNow;

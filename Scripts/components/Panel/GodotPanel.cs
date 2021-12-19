@@ -25,15 +25,6 @@ public class GodotPanel : Panel
 
     [NodePath("VB/SC/GodotList/Available")]
     CategoryList Available = null;
-
-    [NodePath("/root/MainWindow/BusyDialog")]
-    BusyDialog BusyDialog = null;
-    
-    [NodePath("/root/MainWindow/NewVersion")]
-    NewVersion NewVersion = null;
-
-    [NodePath("/root/MainWindow/YesNoDialog")]
-    YesNoDialog YesNoDialog = null;
 #endregion
 
 #region Templates
@@ -79,8 +70,8 @@ public class GodotPanel : Panel
                     while (!t.IsCompleted) {
                         await this.IdleFrame();
                     }
-                    NewVersion.UpdateReleaseInfo(tres.Result);
-                    NewVersion.Visible = true;
+                    AppDialogs.Instance.NewVersion.UpdateReleaseInfo(tres.Result);
+                    AppDialogs.Instance.NewVersion.Visible = true;
                 }
             }
             PopulateList();
@@ -125,7 +116,10 @@ public class GodotPanel : Panel
 
 
     public async void OnUninstallClicked(GodotLineEntry gle) {
-        Task<bool> result = YesNoDialog.ShowDialog("Remove Godot Install",$"You are about to uninstall {gle.GodotVersion.Tag}, are you sure you want to continue?");
+        Task<bool> result = AppDialogs.Instance.YesNoDialog.ShowDialog(
+            "Remove Godot Install",
+            $"You are about to uninstall {gle.GodotVersion.Tag}, are you sure you want to continue?"
+        );
         while (!result.IsCompleted)
             await this.IdleFrame();
 
@@ -235,13 +229,13 @@ public class GodotPanel : Panel
     private int downloadedBytes = 0;
     public void OnChunkReceived(int bytes) {
         downloadedBytes += bytes;
-        BusyDialog.UpdateByline($"Downloaded {Util.FormatSize(downloadedBytes)}...");
+        AppDialogs.Instance.BusyDialog.UpdateByline($"Downloaded {Util.FormatSize(downloadedBytes)}...");
     }
 
     public async Task GatherReleases() {
-        BusyDialog.UpdateHeader("Fetching Releases from Github...");
-        BusyDialog.UpdateByline("Connecting...");
-        BusyDialog.ShowDialog();
+        AppDialogs.Instance.BusyDialog.UpdateHeader("Fetching Releases from Github...");
+        AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
+        AppDialogs.Instance.BusyDialog.ShowDialog();
         downloadedBytes = 0;
         Github.Github.Instance.Connect("chunk_received", this, "OnChunkReceived");
         var task = GetReleases();
@@ -251,18 +245,18 @@ public class GodotPanel : Panel
 
         Github.Github.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
         
-        BusyDialog.UpdateHeader("Processing Release Information from Github...");
-        BusyDialog.UpdateByline($"Processing 0/{Releases.Count}");
+        AppDialogs.Instance.BusyDialog.UpdateHeader("Processing Release Information from Github...");
+        AppDialogs.Instance.BusyDialog.UpdateByline($"Processing 0/{Releases.Count}");
         int i = 0;
         foreach(Github.Release release in Releases) {
             i++;
-            BusyDialog.UpdateByline($"Processing {i}/{Releases.Count}");
+            AppDialogs.Instance.BusyDialog.UpdateByline($"Processing {i}/{Releases.Count}");
             GithubVersion gv = GithubVersion.FromAPI(release);
             CentralStore.Instance.GHVersions.Add(gv);
             await this.IdleFrame();
         }
         CentralStore.Instance.SaveDatabase();
 
-        BusyDialog.HideDialog();
+        AppDialogs.Instance.BusyDialog.HideDialog();
     }
 }

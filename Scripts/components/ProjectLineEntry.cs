@@ -47,7 +47,7 @@ public class ProjectLineEntry : ColorRect
             Name = value.Name;
             Description = value.Description;
             Location = value.Location;
-            GodotVersion = value.GodotVersion;
+            //GodotVersion = value.GodotVersion;
         }
     }
 
