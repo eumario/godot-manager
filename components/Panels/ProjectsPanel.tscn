@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/components/Panel/ProjectsPanel.cs" type="Script" id=2]
+[ext_resource path="res://Assets/Icons/import.svg" type="Texture" id=3]
 [ext_resource path="res://components/ActionButtons.tscn" type="PackedScene" id=4]
 [ext_resource path="res://components/ViewToggleButtons.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Icons/icon_remove.svg" type="Texture" id=6]
+[ext_resource path="res://Assets/Icons/scan.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Icons/icon_new.svg" type="Texture" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
@@ -67,6 +71,7 @@ margin_left = 516.0
 margin_right = 604.0
 margin_bottom = 40.0
 size_flags_vertical = 4
+Icons = [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 6 ) ]
 
 [node name="Spacer2" type="Control" parent="VC/MC/HC"]
 margin_left = 612.0
