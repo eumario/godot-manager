@@ -4,7 +4,7 @@ using Godot.Collections;
 using Newtonsoft.Json;
 
 namespace Github {
-	public class Github : Godot.Node {
+	public class Github : Node {
 		[Signal]
 		public delegate void chunk_received(int size);
 
@@ -23,7 +23,7 @@ namespace Github {
 		}
 #endregion
 
-		HTTPClient client = null;
+		GDCSHTTPClient client = null;
 
 		private RateLimit lastLimit;
 
@@ -33,64 +33,9 @@ namespace Github {
 			}
 		}
 
-		private HTTPResponse lastResponse;
-		
-		public HTTPResponse LastResponse {
-			get {
-				return lastResponse;
-			}
-		}
-
 		private Github() {
-			client = new HTTPClient();
+			client = new GDCSHTTPClient();
 			lastLimit = new RateLimit();
-		}
-
-		private string[] GetRequestHeaders() {
-			return new string[] {
-				"Accept: application/vnd.github.v3+json",
-				"User-Agent: Godot-Manager-v0.1"
-			};
-		}
-
-		private async Task<HTTPClient.Status> StartClient() {
-			client.BlockingModeEnabled = false;
-			var res = client.ConnectToHost("api.github.com",-1,true,true);
-
-			if (res != Error.Ok)
-				return HTTPClient.Status.ConnectionError;
-			
-			while (client.GetStatus() == HTTPClient.Status.Connecting ||
-					client.GetStatus() == HTTPClient.Status.Resolving)
-			{
-				client.Poll();
-				await this.IdleFrame();
-			}
-
-			return client.GetStatus();
-		}
-
-		private async Task<HTTPResponse> MakeRequest(string path, string[] headers) {
-			HTTPResponse resp = null;
-			var res = client.Request(HTTPClient.Method.Get, path, GetRequestHeaders());
-			if (res != Error.Ok)
-				return null;
-			
-			while (client.GetStatus() == HTTPClient.Status.Requesting) {
-				client.Poll();
-				await this.IdleFrame();
-			}
-
-			if (client.HasResponse()) {
-				resp = new HTTPResponse();
-				var task = resp.FromClient(this, client);
-				while (!task.IsCompleted) {
-					await this.IdleFrame();
-				}
-				lastResponse = resp;
-			}
-			EmitSignal("request_completed");
-			return resp;
 		}
 
 		private void UpdateLimit(HTTPResponse response) {
@@ -100,44 +45,19 @@ namespace Github {
 			Limit.Used = (response.Headers["X-RateLimit-Used"] as string).ToInt();
 		}
 
-		private bool SuccessConnect(HTTPClient.Status result) {
-			switch(result) {
-				case HTTPClient.Status.CantResolve:
-					GD.PrintErr("Unable to resolve api.github.com");
-					OS.Alert("Unable to resolve api.github.com", "Github Failure");
-					return false;
-				case HTTPClient.Status.CantConnect:
-					GD.PrintErr("Failed to connect to api.github.com");
-					OS.Alert("Failed to connect to api.github.com", "Github Failure");
-					return false;
-				case HTTPClient.Status.ConnectionError:
-					GD.PrintErr("Connection error with api.github.com");
-					OS.Alert("Connection error with api.github.com", "Github Failure");
-					return false;
-				case HTTPClient.Status.SslHandshakeError:
-					GD.PrintErr("Failed to negotiate SSL Connection with api.github.com");
-					OS.Alert("Failed to negotiate SSL Connection with api.github.com", "Github Failure");
-					return false;
-				case HTTPClient.Status.Connected:
-					return true;
-				default:
-					return false;
-			}
-		}
-
 		public async Task<Release> GetLatestRelease() {
 			Release ret = null;
-			Task<HTTPClient.Status> cres = StartClient();
+			Task<HTTPClient.Status> cres = client.StartClient("api.github.com",true);
 
 			while (!cres.IsCompleted) {
 				await this.IdleFrame();
 			}
 
-			if (!SuccessConnect(cres.Result))
+			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
 			string path = "/repos/godotengine/godot/releases/latest";
-			var tresult = MakeRequest(path, GetRequestHeaders());
+			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted) {
 				await this.IdleFrame();
 			}
@@ -145,7 +65,9 @@ namespace Github {
 			Mutex mutex = new Mutex();
 			mutex.Lock();
 			HTTPResponse result = tresult.Result;
-
+			
+			client.Close();
+			
 			UpdateLimit(result);
 
 			if (result.ResponseCode != 200)
@@ -160,13 +82,13 @@ namespace Github {
 
 		public async Task<Array<Release>> GetReleases(int per_page=0, int page=1) {
 			Array<Release> ret = new Array<Release>();
-			Task<HTTPClient.Status> cres = StartClient();
+			Task<HTTPClient.Status> cres = client.StartClient("api.github.com",true);
 			
 			while (!cres.IsCompleted) {
 				await this.IdleFrame();
 			}
 
-			if (!SuccessConnect(cres.Result))
+			if (!client.SuccessConnect(cres.Result))
 				return ret;
 
 			string path = "/repos/godotengine/godot/releases";
@@ -177,7 +99,7 @@ namespace Github {
 			else if (page > 1)
 				path += $"?page={page}";
 			
-			var tresult = MakeRequest(path, GetRequestHeaders());
+			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted) {
 				await this.IdleFrame();
 			}

@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Resources/Fonts/droid-regular-13.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Assets/Icons/search.svg" type="Texture" id=4]
 [ext_resource path="res://Scripts/components/Panel/AssetLibPanel.cs" type="Script" id=5]
+[ext_resource path="res://components/PaginatedListing.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFontData" id=10]
 font_path = "res://Assets/Fonts/droid-sans.bold.ttf"
@@ -101,7 +102,7 @@ right_icon = ExtResource( 4 )
 placeholder_text = "Search asses (excluding templates, projects and demos)"
 caret_blink = true
 
-[node name="Button" type="Button" parent="VC/HC"]
+[node name="Import" type="Button" parent="VC/HC"]
 margin_left = 954.0
 margin_right = 1011.0
 margin_bottom = 27.0
@@ -137,7 +138,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "Sort:"
 valign = 1
 
-[node name="OptionButton" type="OptionButton" parent="VC/HC2"]
+[node name="SortBy" type="OptionButton" parent="VC/HC2"]
 margin_left = 52.0
 margin_right = 295.0
 margin_bottom = 20.0
@@ -160,7 +161,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "Category: "
 valign = 1
 
-[node name="OptionButton2" type="OptionButton" parent="VC/HC2"]
+[node name="Category" type="OptionButton" parent="VC/HC2"]
 margin_left = 392.0
 margin_right = 636.0
 margin_bottom = 20.0
@@ -183,7 +184,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "Site: "
 valign = 1
 
-[node name="OptionButton3" type="OptionButton" parent="VC/HC2"]
+[node name="MirrorSite" type="OptionButton" parent="VC/HC2"]
 margin_left = 697.0
 margin_right = 941.0
 margin_bottom = 20.0
@@ -197,7 +198,7 @@ margin_left = 949.0
 margin_right = 953.0
 margin_bottom = 20.0
 
-[node name="Button" type="Button" parent="VC/HC2"]
+[node name="Support" type="Button" parent="VC/HC2"]
 margin_left = 961.0
 margin_right = 1011.0
 margin_bottom = 20.0
@@ -216,142 +217,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Listing" type="ScrollContainer" parent="VC"]
-margin_top = 107.0
-margin_right = 1024.0
-margin_bottom = 680.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VC/Listing"]
-margin_right = 1024.0
-margin_bottom = 573.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Spacer" type="Control" parent="VC/Listing/VBoxContainer"]
-margin_right = 1024.0
-
-[node name="TopPageCount" type="CenterContainer" parent="VC/Listing/VBoxContainer"]
-margin_top = 4.0
-margin_right = 1024.0
-margin_bottom = 24.0
-
-[node name="Controls" type="HBoxContainer" parent="VC/Listing/VBoxContainer/TopPageCount"]
-margin_left = 384.0
-margin_right = 639.0
-margin_bottom = 20.0
-custom_constants/separation = 10
-
-[node name="Button" type="Button" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_right = 40.0
-margin_bottom = 20.0
-text = "First"
-
-[node name="Button2" type="Button" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_left = 50.0
-margin_right = 117.0
-margin_bottom = 20.0
-text = "Previous"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSeparator" type="VSeparator" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_left = 127.0
-margin_right = 131.0
-margin_bottom = 20.0
-
-[node name="PageCount" type="HBoxContainer" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_left = 141.0
-margin_right = 141.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VSeparator2" type="VSeparator" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_left = 151.0
-margin_right = 155.0
-margin_bottom = 20.0
-
-[node name="Button3" type="Button" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_left = 165.0
-margin_right = 207.0
-margin_bottom = 20.0
-text = "Next"
-
-[node name="Button4" type="Button" parent="VC/Listing/VBoxContainer/TopPageCount/Controls"]
-margin_left = 217.0
-margin_right = 255.0
-margin_bottom = 20.0
-text = "Last"
-
-[node name="Listing" type="GridContainer" parent="VC/Listing/VBoxContainer"]
-margin_top = 28.0
-margin_right = 1024.0
-margin_bottom = 545.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-columns = 3
-
-[node name="BottomPageCount" type="CenterContainer" parent="VC/Listing/VBoxContainer"]
-margin_top = 549.0
-margin_right = 1024.0
-margin_bottom = 569.0
-
-[node name="Controls" type="HBoxContainer" parent="VC/Listing/VBoxContainer/BottomPageCount"]
-margin_left = 384.0
-margin_right = 639.0
-margin_bottom = 20.0
-custom_constants/separation = 10
-
-[node name="Button" type="Button" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_right = 40.0
-margin_bottom = 20.0
-text = "First"
-
-[node name="Button2" type="Button" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_left = 50.0
-margin_right = 117.0
-margin_bottom = 20.0
-text = "Previous"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSeparator" type="VSeparator" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_left = 127.0
-margin_right = 131.0
-margin_bottom = 20.0
-
-[node name="PageCount" type="HBoxContainer" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_left = 141.0
-margin_right = 141.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VSeparator2" type="VSeparator" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_left = 151.0
-margin_right = 155.0
-margin_bottom = 20.0
-
-[node name="Button3" type="Button" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_left = 165.0
-margin_right = 207.0
-margin_bottom = 20.0
-text = "Next"
-
-[node name="Button4" type="Button" parent="VC/Listing/VBoxContainer/BottomPageCount/Controls"]
-margin_left = 217.0
-margin_right = 255.0
-margin_bottom = 20.0
-text = "Last"
-
-[node name="Spacer2" type="Control" parent="VC/Listing/VBoxContainer"]
-margin_top = 573.0
-margin_right = 1024.0
-margin_bottom = 573.0
+[node name="PaginatedListing" parent="VC" instance=ExtResource( 6 )]
 
 [node name="Spacer2" type="Control" parent="VC"]
 margin_top = 700.0
