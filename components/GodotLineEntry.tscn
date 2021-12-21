@@ -36,8 +36,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Spacer" type="Control" parent="."]
+margin_right = 10.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 10, 0 )
+
 [node name="Icon" type="TextureRect" parent="."]
-margin_right = 64.0
+margin_left = 14.0
+margin_right = 78.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 texture = ExtResource( 1 )
@@ -45,14 +51,14 @@ expand = true
 stretch_mode = 6
 
 [node name="vc" type="VBoxContainer" parent="."]
-margin_left = 68.0
+margin_left = 82.0
 margin_right = 544.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VersionTag" type="Label" parent="vc"]
-margin_right = 476.0
+margin_right = 462.0
 margin_bottom = 19.0
 custom_fonts/font = SubResource( 11 )
 text = "Godot Version x.x.x (Stable)"
@@ -60,7 +66,7 @@ clip_text = true
 
 [node name="hc" type="HBoxContainer" parent="vc"]
 margin_top = 23.0
-margin_right = 476.0
+margin_right = 462.0
 margin_bottom = 41.0
 
 [node name="Source" type="Label" parent="vc/hc"]
@@ -98,8 +104,8 @@ margin_bottom = 14.0
 text = "32MB of 32MB"
 
 [node name="Download" type="TextureRect" parent="."]
-margin_left = 992.0
-margin_right = 1024.0
+margin_left = 978.0
+margin_right = 1010.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_horizontal = 10
@@ -117,3 +123,9 @@ rect_min_size = Vector2( 32, 32 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
+
+[node name="Spacer2" type="Control" parent="."]
+margin_left = 1014.0
+margin_right = 1024.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 10, 0 )

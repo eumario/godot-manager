@@ -8,6 +8,12 @@ public class CentralStore {
 
 	private CentralStoreData _data = null;
 
+	public Dictionary<string, object> Settings {
+		get {
+			return _data.Settings;
+		}
+	}
+
 	public static CentralStore Instance {
 		get {
 			if (_instance == null)

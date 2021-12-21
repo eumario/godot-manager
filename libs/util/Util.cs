@@ -35,6 +35,13 @@ public static class Util {
 #endif
 	}
 
+	public static string Join(this string path, params string[] addTo) {
+		foreach(string part in addTo) {
+			path += "/" + part;
+		}
+		return path.NormalizePath();
+	}
+
 	public static SignalAwaiter IdleFrame(this Godot.Object obj) {
 		return obj.ToSignal(Engine.GetMainLoop(), "idle_frame");
 	}

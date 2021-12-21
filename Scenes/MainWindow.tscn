@@ -117,7 +117,13 @@ margin_right = 950.0
 margin_bottom = 50.0
 script = ExtResource( 10 )
 
+[node name="Spacer" type="Control" parent="bg/Shell/VC/TitleBar"]
+margin_right = 3.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 3, 0 )
+
 [node name="Label" type="Label" parent="bg/Shell/VC/TitleBar"]
+margin_left = 7.0
 margin_right = 842.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -151,24 +157,12 @@ tabs_visible = false
 
 [node name="AssetLib" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 12 )]
 visible = false
-margin_left = 2.0
-margin_top = 2.0
-margin_right = -2.0
-margin_bottom = -2.0
 
 [node name="Godot" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 13 )]
 visible = false
-margin_left = 2.0
-margin_top = 2.0
-margin_right = -2.0
-margin_bottom = -2.0
 
 [node name="Settings" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 14 )]
 visible = false
-margin_left = 2.0
-margin_top = 2.0
-margin_right = -2.0
-margin_bottom = -2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/sidebar_anim = SubResource( 3 )

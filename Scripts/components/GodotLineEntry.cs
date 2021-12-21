@@ -11,6 +11,9 @@ public class GodotLineEntry : HBoxContainer
     [Signal]
     public delegate void uninstall_clicked(GodotLineEntry entry);
 
+    [Signal]
+    public delegate void default_selected(GodotLineEntry entry);
+
 #region Private Node Variables
     [NodePath("vc/VersionTag")]
     private Label _label = null;
@@ -184,6 +187,7 @@ public class GodotLineEntry : HBoxContainer
             bDownloaded = value;
             if (_download != null) {
                 ToggleDownloadUninstall(bDownloaded);
+                _default.Visible = value;
             }
         }
     }
@@ -217,16 +221,17 @@ public class GodotLineEntry : HBoxContainer
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
         Downloaded = bDownloaded;
+        ToggleDefault(bDefault);
     }
 
     public void ToggleDownloadUninstall(bool value) {
         if (value) {
             _download.Texture = uninstallIcon;
-            _download.SelfModulate = new Color("ff0000");
+            _download.SelfModulate = new Color("fc9c9c");
         }
         else {
             _download.Texture = downloadIcon;
-            _download.SelfModulate = new Color("00ff00");
+            _download.SelfModulate = new Color("7defa7");
         }
     }
 
@@ -241,10 +246,13 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public void ToggleDefault(bool value) {
-        if (value) {
-            _default.SelfModulate = new Color("ffffff");
-        } else {
-            _default.SelfModulate = new Color("ffff00");
+        bDefault = value;
+        if (_default != null) {
+            if (value) {
+                _default.SelfModulate = new Color("ffd684");
+            } else {
+                _default.SelfModulate = new Color("ffffff");
+            }
         }
     }
 
@@ -259,8 +267,9 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public void OnDefault_GuiInput(InputEvent inputEvent) {
-        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
-            ToggleDefault((_default.SelfModulate == new Color("ffff00")));
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
+            EmitSignal("default_selected", this);
+        }
     }
 
     public void OnChunkReceived(int bytes) {

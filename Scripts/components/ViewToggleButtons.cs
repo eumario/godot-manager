@@ -43,7 +43,7 @@ public class ViewToggleButtons : PanelContainer
             icon_bg.Connect("gui_input", this, "Icon_GuiInput", bg);
             
             if (i == toggleIndx) {
-                icon.SelfModulate = new Color("00FF00");
+                icon.SelfModulate = new Color("7defa7");
             }
             
             if (i+1 < Icons.Count) {
@@ -71,7 +71,7 @@ public class ViewToggleButtons : PanelContainer
         
         _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("FFFFFF");
         toggleIndx = index;
-        bg.GetChild<TextureRect>(0).SelfModulate = new Color("00FF00");
+        bg.GetChild<TextureRect>(0).SelfModulate = new Color("7defa7");
         EmitSignal("Clicked", index);
     }
 }

@@ -131,8 +131,7 @@ public class ProjectsPanel : Panel
     public void OnActionButtons_Clicked(int index) {
         switch (index) {
             case 0: // New Project File
-                GD.Print("CreateProject button clicked.");
-                AppDialogs.Instance.CreateProject.Visible = true;
+                AppDialogs.Instance.CreateProject.ShowDialog();
                 break;
             case 1: // Import Project File
                 AppDialogs.Instance.ImportProject.Visible = true;

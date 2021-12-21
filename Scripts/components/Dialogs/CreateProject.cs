@@ -44,22 +44,18 @@ public class CreateProject : ReferenceRect
     Texture StatusWarning = GD.Load<Texture>("res://Assets/Icons/icon_status_warning.svg");
 #endregion
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        this.OnReady();
-        ShowError();
-        _cancelBtn.Connect("pressed", this, "ShowWarning");
-        _createBtn.Connect("pressed", this, "ShowSuccess");
-    }
+#region Variables
+    public string ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects");
+#endregion
 
+#region Helper Functions
     public void ShowError() {
         _errorText.Text = "Please choose an empty folder.";
         _errorIcon.Texture = StatusError;
     }
 
-    public void ShowWarning() {
-        _errorText.Text = "";
+    public void ShowWarning(string warn_msg) {
+        _errorText.Text = warn_msg;
         _errorIcon.Texture = StatusWarning;
     }
 
@@ -67,10 +63,55 @@ public class CreateProject : ReferenceRect
         _errorText.Text = "";
         _errorIcon.Texture = StatusSuccess;
     }
+#endregion
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        this.OnReady();
+        ShowError();
+        _projectLocation.Connect("text_changed", this, "OnProjectLocation_TextChanged");
+        _cancelBtn.Connect("pressed", this, "OnCancelPressed");
+        _createBtn.Connect("pressed", this, "OnCreatePressed");
+        ProjectPath = (string)CentralStore.Instance.Settings["ProjectPath"];
+    }
+
+    public void ShowDialog() {
+        int defaultGodot = -1;
+        _projectName.Text = "Untitled Project";
+        _projectLocation.Text = ProjectPath;
+
+        _godotVersion.Clear();
+        foreach(GodotVersion version in CentralStore.Instance.Versions) {
+            string gdName = version.IsMono ? version.Tag + " - Mono" : version.Tag;
+            int indx = CentralStore.Instance.Versions.IndexOf(version);
+            if (version.Id == (string)CentralStore.Instance.Settings["DefaultEngine"]) {
+                defaultGodot = indx;
+                gdName += " (Default)";
+            }
+            _godotVersion.AddItem(gdName, indx);
+            _godotVersion.SetItemMetadata(indx, version.Id);
+        }
+
+        if (defaultGodot != -1)
+            _godotVersion.Select(defaultGodot);
+
+        _gles3.Pressed = true;
+        _gles2.Pressed = false;
+
+        Visible = true;
+    }
+
+    public void OnProjectLocation_TextChanged(string new_text) {
+        if (System.IO.Directory.Exists(new_text)) {
+            if (System.IO.Directory.GetDirectories(new_text).Length == 0 &&
+                System.IO.Directory.GetFiles(new_text).Length == 0) {
+                ShowSuccess();
+            } else {
+                ShowError();
+            }
+        } else {
+            ShowWarning("Base Directory does not exist!");
+        }
+    }
 }

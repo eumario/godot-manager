@@ -303,14 +303,47 @@ margin_bottom = 374.0
 custom_fonts/font = ExtResource( 7 )
 text = "Renderer can be changed later, but scenes may need to be adjusted."
 
+[node name="Template Projects" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 26.0
+margin_right = -10.0
+margin_bottom = -4.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Template Projects"]
+margin_right = 494.0
+margin_bottom = 375.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Template Projects/ScrollContainer"]
+margin_right = 494.0
+margin_bottom = 375.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="Project Plugins" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = 26.0
-margin_right = -464.0
-margin_bottom = -339.0
+margin_right = -10.0
+margin_bottom = -4.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins"]
+margin_right = 494.0
+margin_bottom = 375.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer"]
+margin_right = 494.0
+margin_bottom = 375.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 455.0

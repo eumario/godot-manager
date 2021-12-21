@@ -93,6 +93,10 @@ public class GodotPanel : Panel
         
         CentralStore.Instance.Versions.Add(gle.CreateGodotVersion());
         CentralStore.Instance.SaveDatabase();
+        if (CentralStore.Instance.Versions.Count == 1) {
+            CentralStore.Instance.Settings["DefaultEngine"] = CentralStore.Instance.Versions[0].Id;
+            CentralStore.Instance.SaveDatabase();
+        }
         PopulateList();
     }
 
@@ -133,9 +137,25 @@ public class GodotPanel : Panel
                 dir.Remove(file);
             }
             dir.Remove(cache);
+            if ((string)CentralStore.Instance.Settings["DefaultEngine"] == gle.GodotVersion.Id)
+                CentralStore.Instance.Settings["DefaultEngine"] = System.Guid.Empty.ToString();  // Should Prompt to change
             CentralStore.Instance.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();
             PopulateList();
+        }
+    }
+
+    public void OnDefaultSelected(GodotLineEntry gle) {
+        if (gle.GodotVersion.Id == (string)CentralStore.Instance.Settings["DefaultEngine"]) {
+            return; // Don't need to do anything
+        } else {
+            foreach(GodotLineEntry igle in Installed.List.GetChildren()) {
+                if (igle.IsDefault)
+                    igle.ToggleDefault(false);
+            }
+            CentralStore.Instance.Settings["DefaultEngine"] = gle.GodotVersion.Id;
+            CentralStore.Instance.SaveDatabase();
+            gle.ToggleDefault(true);
         }
     }
 
@@ -159,8 +179,10 @@ public class GodotPanel : Panel
             gle.GithubVersion = gdv.GithubVersion;
             gle.Mono = gdv.IsMono;
             gle.Downloaded = true;
+            gle.ToggleDefault((string)CentralStore.Instance.Settings["DefaultEngine"] == gdv.Id);
             Installed.List.AddChild(gle);
             gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
+            gle.Connect("default_selected", this, "OnDefaultSelected");
         }
 
         UpdateVisibility();
