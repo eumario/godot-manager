@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 public static class Util {
 	public static string GetResourceBase(this string path, string file) {
@@ -44,5 +45,12 @@ public static class Util {
 
 	public static SignalAwaiter IdleFrame(this Godot.Object obj) {
 		return obj.ToSignal(Engine.GetMainLoop(), "idle_frame");
+	}
+
+	public static string EngineVersion {
+		get {
+			Dictionary vers = Engine.GetVersionInfo();
+			return $"{vers["major"]}.{vers["minor"]}.{vers["patch"]}";
+		}
 	}
 }

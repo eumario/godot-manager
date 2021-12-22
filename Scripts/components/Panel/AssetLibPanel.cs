@@ -54,11 +54,11 @@ public class AssetLibPanel : Panel
             AppDialogs.Instance.BusyDialog.UpdateByline("Processing...");
 
             _category.Clear();
-            Dictionary<string, Array<Dictionary<string, string>>> categories = task.Result;
-
-            foreach (Dictionary<string, string> category in categories["categories"]) {
-                _category.AddItem(category["name"], category["id"].ToInt());
-                _category.SetItemMetadata(category["id"].ToInt(), category["type"]);
+            AssetLib.ConfigureResult configureResult = task.Result;
+            _category.AddItem("All", 0);
+            foreach (AssetLib.CategoryResult category in configureResult.Categories) {
+                _category.AddItem(category.Name, category.Id.ToInt());
+                _category.SetItemMetadata(category.Id.ToInt(), category.Type);
             }
             
             AppDialogs.Instance.BusyDialog.Visible = false;
