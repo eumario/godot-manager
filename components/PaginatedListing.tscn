@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/components/PaginatedListing.cs" type="Script" id=1]
+[ext_resource path="res://components/PaginationNav.tscn" type="PackedScene" id=2]
 
 [node name="PaginatedListing" type="ScrollContainer"]
 margin_top = 107.0
@@ -22,121 +23,32 @@ size_flags_vertical = 3
 [node name="Spacer" type="Control" parent="VBoxContainer"]
 margin_right = 1024.0
 
-[node name="TopPageCount" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 4.0
-margin_right = 1024.0
-margin_bottom = 24.0
+[node name="TopPageCount" parent="VBoxContainer" instance=ExtResource( 2 )]
 
-[node name="Controls" type="HBoxContainer" parent="VBoxContainer/TopPageCount"]
-margin_left = 384.0
-margin_right = 639.0
-margin_bottom = 20.0
-custom_constants/separation = 10
-
-[node name="FirstPage" type="Button" parent="VBoxContainer/TopPageCount/Controls"]
-margin_right = 40.0
-margin_bottom = 20.0
-text = "First"
-
-[node name="PrevPage" type="Button" parent="VBoxContainer/TopPageCount/Controls"]
-margin_left = 50.0
-margin_right = 117.0
-margin_bottom = 20.0
-text = "Previous"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/TopPageCount/Controls"]
-margin_left = 127.0
-margin_right = 131.0
-margin_bottom = 20.0
-
-[node name="PageCount" type="HBoxContainer" parent="VBoxContainer/TopPageCount/Controls"]
-margin_left = 141.0
-margin_right = 141.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/TopPageCount/Controls"]
-margin_left = 151.0
-margin_right = 155.0
-margin_bottom = 20.0
-
-[node name="NextPage" type="Button" parent="VBoxContainer/TopPageCount/Controls"]
-margin_left = 165.0
-margin_right = 207.0
-margin_bottom = 20.0
-text = "Next"
-
-[node name="LastPage" type="Button" parent="VBoxContainer/TopPageCount/Controls"]
-margin_left = 217.0
-margin_right = 255.0
-margin_bottom = 20.0
-text = "Last"
-
-[node name="Listing" type="GridContainer" parent="VBoxContainer"]
+[node name="Spacer3" type="Control" parent="VBoxContainer"]
 margin_top = 28.0
 margin_right = 1024.0
-margin_bottom = 545.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-columns = 3
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 20 )
 
-[node name="BottomPageCount" type="CenterContainer" parent="VBoxContainer"]
-margin_top = 549.0
+[node name="Listing" type="GridContainer" parent="VBoxContainer"]
+margin_top = 52.0
 margin_right = 1024.0
-margin_bottom = 569.0
-
-[node name="Controls" type="HBoxContainer" parent="VBoxContainer/BottomPageCount"]
-margin_left = 384.0
-margin_right = 639.0
-margin_bottom = 20.0
-custom_constants/separation = 10
-
-[node name="FirstPage" type="Button" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_right = 40.0
-margin_bottom = 20.0
-text = "First"
-
-[node name="PrevPage" type="Button" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_left = 50.0
-margin_right = 117.0
-margin_bottom = 20.0
-text = "Previous"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_left = 127.0
-margin_right = 131.0
-margin_bottom = 20.0
-
-[node name="PageCount" type="HBoxContainer" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_left = 141.0
-margin_right = 141.0
-margin_bottom = 20.0
+margin_bottom = 521.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/vseparation = 30
+columns = 2
 
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_left = 151.0
-margin_right = 155.0
-margin_bottom = 20.0
+[node name="Spacer4" type="Control" parent="VBoxContainer"]
+margin_top = 525.0
+margin_right = 1024.0
+margin_bottom = 545.0
+rect_min_size = Vector2( 0, 20 )
 
-[node name="NextPage" type="Button" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_left = 165.0
-margin_right = 207.0
-margin_bottom = 20.0
-text = "Next"
-
-[node name="LastPage" type="Button" parent="VBoxContainer/BottomPageCount/Controls"]
-margin_left = 217.0
-margin_right = 255.0
-margin_bottom = 20.0
-text = "Last"
+[node name="BottomPageCount" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 549.0
+margin_bottom = 569.0
 
 [node name="Spacer2" type="Control" parent="VBoxContainer"]
 margin_top = 573.0

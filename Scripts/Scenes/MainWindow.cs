@@ -59,12 +59,16 @@ public class MainWindow : Control
 	}
 
 	void EnsureDirStructure() {
-		if (System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache")))
-			return;
-		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache"));
-		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/Godot"));
-		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
-		System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
+		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache")))
+			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache"));
+		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache/Godot")))
+			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/Godot"));
+		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache/AssetLib")))
+			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
+		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images")))
+			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images"));
+		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://versions")))
+			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
 	}
 	
 	public void OnPageButton_Clicked(PageButton pb) {

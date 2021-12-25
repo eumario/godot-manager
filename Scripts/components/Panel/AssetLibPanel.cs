@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using GodotSharpExtras;
@@ -61,6 +62,15 @@ public class AssetLibPanel : Panel
                 _category.SetItemMetadata(category.Id.ToInt(), category.Type);
             }
             
+            AppDialogs.Instance.BusyDialog.UpdateHeader("Getting initial search results...");
+            AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
+
+            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search();
+            while (!stask.IsCompleted)
+                await this.IdleFrame();
+            
+            AppDialogs.Instance.BusyDialog.UpdateByline("Parsing results...");
+            _paginatedListing.UpdateResults(stask.Result);
             AppDialogs.Instance.BusyDialog.Visible = false;
         }
     }

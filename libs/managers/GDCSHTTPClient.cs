@@ -86,23 +86,23 @@ public class GDCSHTTPClient : Node {
 		return resp;
 	}
 
-	public bool SuccessConnect(HTTPClient.Status result) {
+	public bool SuccessConnect(HTTPClient.Status result, bool dialogErrors = true, bool printErrors = true) {
 		switch(result) {
 			case HTTPClient.Status.CantResolve:
-				GD.PrintErr($"Unable to resolve {sHost}");
-				OS.Alert($"Unable to resolve {sHost}", $"{sProperName} Failure");
+				if (printErrors) GD.PrintErr($"Unable to resolve {sHost}");
+				if (dialogErrors) OS.Alert($"Unable to resolve {sHost}", $"{sProperName} Failure");
 				return false;
 			case HTTPClient.Status.CantConnect:
-				GD.PrintErr($"Failed to connect to {sHost}:{(bUseSSL ? 443 : 80)}");
-				OS.Alert($"Failed to connect to {sHost}:{(bUseSSL ? 443 : 80)}", $"{sProperName} Failure");
+				if (printErrors) GD.PrintErr($"Failed to connect to {sHost}:{(bUseSSL ? 443 : 80)}");
+				if (dialogErrors) OS.Alert($"Failed to connect to {sHost}:{(bUseSSL ? 443 : 80)}", $"{sProperName} Failure");
 				return false;
 			case HTTPClient.Status.ConnectionError:
-				GD.PrintErr($"Connection error with {sHost}:{(bUseSSL ? 443 : 80)}");
-				OS.Alert($"Connection error with {sHost}:{(bUseSSL ? 443 : 80)}", $"{sProperName} Failure");
+				if (printErrors) GD.PrintErr($"Connection error with {sHost}:{(bUseSSL ? 443 : 80)}");
+				if (dialogErrors) OS.Alert($"Connection error with {sHost}:{(bUseSSL ? 443 : 80)}", $"{sProperName} Failure");
 				return false;
 			case HTTPClient.Status.SslHandshakeError:
-				GD.PrintErr($"Failed to negotiate SSL Connection with {sHost}:{(bUseSSL ? 443 : 80)}");
-				OS.Alert($"Failed to negotiate SSL Connection with {sHost}:{(bUseSSL ? 443 : 80)}", $"{sProperName} Failure");
+				if (printErrors) GD.PrintErr($"Failed to negotiate SSL Connection with {sHost}:{(bUseSSL ? 443 : 80)}");
+				if (dialogErrors) OS.Alert($"Failed to negotiate SSL Connection with {sHost}:{(bUseSSL ? 443 : 80)}", $"{sProperName} Failure");
 				return false;
 			case HTTPClient.Status.Connected:
 				return true;

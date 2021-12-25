@@ -81,29 +81,65 @@ namespace AssetLib {
 			return ret;
 		}
 
-		public async Task<QueryResult> Search(int page = 0, bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
+		public async Task<QueryResult> Search(string query) {
 			QueryResult ret = null;
-			string args = "?" +
-				$"{(templates_only ? "type=projects&" : "")}" +
-				$"sort={sort_key[sort_by]}&" +
-				$"godot_version={Util.EngineVersion}&";
+			Task<HTTPClient.Status> cres = client.StartClient("godotengine.org");
+
+			while (!cres.IsCompleted)
+				await this.IdleFrame();
 			
+			if (!client.SuccessConnect(cres.Result))
+				return ret;
+			
+			string path = $"/asset-library/api/asset{query}";
+			var tresult = client.MakeRequest(path);
+			while (!tresult.IsCompleted)
+				await this.IdleFrame();
+			
+			Mutex mutex = new Mutex();
+			mutex.Lock();
+			HTTPResponse result = tresult.Result;
+			client.Close();
+
+			if (result.ResponseCode == 200)
+				ret = JsonConvert.DeserializeObject<QueryResult>(result.Body, Github.DefaultSettings.defaultJsonSettings);
+			
+			mutex.Unlock();
+			return ret;
+		}
+
+		public async Task<QueryResult> Search(int page = 0, bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
+			string args = "";
+			if (templates_only)
+				args += "?type=projects&";
+			else
+				args += "?";
+			
+			args += $"sort={sort_key[sort_by]}";
+
+			args += $"&godot_version={Util.EngineVersion}";
+
 			if (support_list != null)
-				args += $"support={string.Join("+",support_list)}&";
+				args += $"&support={string.Join("+",support_list)}";
 			
 			if (category > 0)
-				args += $"category={category}&";
+				args += $"&category={category}";
 			
 			if (sort_by % 2 == 1)
-				args += "reverse=true&";
+				args += $"&reverse=true";
 			
 			if (filter != "")
-				args += $"filter={System.Uri.EscapeDataString(filter)}";
+				args += $"&filter={System.Uri.EscapeDataString(filter)}";
 			
 			if (page > 0)
-				args += $"page={page}&";
+				args += $"&page={page}";
+
+			var result = Search(args);
+
+			while (!result.IsCompleted)
+				await this.IdleFrame();
 			
-			return ret;
+			return result.Result;
 		}
 	}
 }

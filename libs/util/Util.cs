@@ -6,6 +6,14 @@ public static class Util {
 		return System.IO.Path.Combine(path.GetBaseDir(), file.Replace("res://", "")).Replace(@"\","/");
 	}
 
+	public static string GetOSDir(this string path) {
+		return ProjectSettings.GlobalizePath(path);
+	}
+
+	public static string GetExtension(this string path) {
+		return System.IO.Path.GetExtension(path);
+	}
+
 	public static ImageTexture LoadImage(this string path, int width = 64, int height = 64, Image.Interpolation interpolate = Image.Interpolation.Cubic) {
 		Image img = new Image();
 		img.Load(path);
@@ -52,5 +60,15 @@ public static class Util {
 			Dictionary vers = Engine.GetVersionInfo();
 			return $"{vers["major"]}.{vers["minor"]}.{vers["patch"]}";
 		}
+	}
+
+	public static ImageTexture LoadImage(string path) {
+		var image = new Image();
+		Error err = image.Load(path);
+		if (err != Error.Ok)
+			return null;
+		var texture = new ImageTexture();
+		texture.CreateFromImage(image);
+		return texture;
 	}
 }

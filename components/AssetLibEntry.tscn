@@ -1,0 +1,85 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Icons/default_project_icon.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/components/AssetLibEntry.cs" type="Script" id=2]
+[ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Resources/Fonts/droid-regular-13.tres" type="DynamicFont" id=4]
+
+[node name="AssetLibEntry" type="HBoxContainer"]
+anchor_right = 1.0
+margin_bottom = 64.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer" type="Control" parent="."]
+margin_right = 10.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="Icon" type="TextureRect" parent="."]
+margin_left = 14.0
+margin_right = 78.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="vc" type="VBoxContainer" parent="."]
+margin_left = 82.0
+margin_right = 1010.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="vc"]
+margin_right = 928.0
+margin_bottom = 18.0
+rect_clip_content = true
+custom_fonts/font = ExtResource( 3 )
+text = "Godot Super Scaling"
+clip_text = true
+
+[node name="hc" type="HBoxContainer" parent="vc"]
+margin_top = 22.0
+margin_right = 325.0
+margin_bottom = 39.0
+rect_clip_content = true
+size_flags_horizontal = 0
+
+[node name="Category" type="Label" parent="vc/hc"]
+margin_right = 250.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 250, 0 )
+rect_clip_content = true
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "Category: Shaders"
+clip_text = true
+
+[node name="License" type="Label" parent="vc/hc"]
+margin_left = 254.0
+margin_right = 325.0
+margin_bottom = 17.0
+rect_clip_content = true
+custom_fonts/font = ExtResource( 4 )
+text = "License: MIT"
+
+[node name="Author" type="Label" parent="vc"]
+margin_top = 43.0
+margin_right = 320.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 320, 0 )
+rect_clip_content = true
+size_flags_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "Author: cybereality"
+clip_text = true
+
+[node name="Spacer2" type="Control" parent="."]
+margin_left = 1014.0
+margin_right = 1024.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 10, 0 )
