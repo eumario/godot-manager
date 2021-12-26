@@ -13,6 +13,7 @@ public class AppDialogs : Control
     public MessageDialog MessageDialog = null;
     public FileDialog ImportFileDialog = null;
     public CreateProject CreateProject = null;
+    public AssetLibPreview AssetLibPreview = null;
 #endregion
 
     private static AppDialogs _instance = null;
@@ -37,6 +38,7 @@ public class AppDialogs : Control
         ImportProject = GD.Load<PackedScene>("res://components/Dialogs/ImportProject.tscn").Instance<ImportProject>();
         MessageDialog = GD.Load<PackedScene>("res://components/Dialogs/MessageDialog.tscn").Instance<MessageDialog>();
         CreateProject = GD.Load<PackedScene>("res://components/Dialogs/CreateProject.tscn").Instance<CreateProject>();
+        AssetLibPreview = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
         ImportFileDialog = new FileDialog();
         ImportFileDialog.Mode = FileDialog.ModeEnum.OpenFile;
         ImportFileDialog.Access = FileDialog.AccessEnum.Filesystem;
@@ -48,7 +50,7 @@ public class AppDialogs : Control
         foreach(ReferenceRect dlg in new Array<ReferenceRect> {
                 FirstTimeInstall, AddCustomGodot, BusyDialog,
                 NewVersion, YesNoDialog, ImportProject,
-                MessageDialog, CreateProject 
+                MessageDialog, CreateProject, AssetLibPreview 
             }) {
             dlg.SetAnchorsAndMarginsPreset(LayoutPreset.Wide);
             dlg.Visible = false;
@@ -67,5 +69,6 @@ public class AppDialogs : Control
         AddChild(MessageDialog);
         AddChild(ImportFileDialog);
         AddChild(CreateProject);
+        AddChild(AssetLibPreview);
     }
 }

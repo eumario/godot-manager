@@ -1,0 +1,346 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Assets/Icons/default_project_icon.png" type="Texture" id=1]
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Scripts/components/Dialogs/AssetLibPreview.cs" type="Script" id=3]
+[ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=5]
+[ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Assets/Icons/icon_thumbnail_wait.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Icons/icon_play_overlay.svg" type="Texture" id=8]
+[ext_resource path="res://Assets/Icons/missing_icon.svg" type="Texture" id=9]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.180392, 0.192157, 0.231373, 1 )
+
+[sub_resource type="Theme" id=7]
+PanelContainer/styles/panel = SubResource( 6 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 0.509804 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.137255, 0.14902, 0.180392, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.639216, 0.639216, 0.639216, 1 )
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 20
+
+[node name="AssetLibPreview" type="ReferenceRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 7 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PC" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CC" type="CenterContainer" parent="PC"]
+margin_right = 1024.0
+margin_bottom = 700.0
+
+[node name="P" type="Panel" parent="PC/CC"]
+margin_left = 112.0
+margin_top = 105.0
+margin_right = 912.0
+margin_bottom = 595.0
+rect_min_size = Vector2( 800, 490 )
+custom_styles/panel = SubResource( 5 )
+
+[node name="VB" type="VBoxContainer" parent="PC/CC/P"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MC" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_right = 800.0
+margin_bottom = 26.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleBarBG" type="ColorRect" parent="PC/CC/P/VB/MC"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 798.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 316, 24 )
+rect_clip_content = true
+size_flags_vertical = 0
+color = Color( 0.219608, 0.239216, 0.290196, 1 )
+
+[node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MC/TitleBarBG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="PC/CC/P/VB/MC/TitleBarBG/HB"]
+margin_left = 321.0
+margin_top = 2.0
+margin_right = 420.0
+margin_bottom = 21.0
+size_flags_horizontal = 6
+custom_fonts/font = ExtResource( 2 )
+text = "Plugin Name"
+
+[node name="Close" parent="PC/CC/P/VB/MC/TitleBarBG/HB" instance=ExtResource( 4 )]
+margin_left = 746.0
+margin_right = 796.0
+margin_bottom = 24.0
+WindowMain = NodePath("../../../../../../../..")
+
+[node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_top = 30.0
+margin_right = 800.0
+margin_bottom = 451.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="HSC" type="HSplitContainer" parent="PC/CC/P/VB/MCContent"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 792.0
+margin_bottom = 413.0
+
+[node name="InfoPanel" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]
+margin_right = 300.0
+margin_bottom = 405.0
+rect_min_size = Vector2( 300, 0 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
+margin_right = 300.0
+margin_bottom = 107.0
+custom_constants/separation = 20
+
+[node name="Control" type="Control" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
+margin_bottom = 107.0
+
+[node name="Icon" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
+margin_left = 20.0
+margin_top = 21.0
+margin_right = 84.0
+margin_bottom = 85.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="PluginInfo" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
+margin_left = 104.0
+margin_right = 300.0
+margin_bottom = 107.0
+size_flags_horizontal = 3
+
+[node name="PluginName" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo"]
+margin_right = 196.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
+text = "Plugin Name"
+clip_text = true
+
+[node name="GC" type="GridContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo"]
+margin_top = 23.0
+margin_right = 196.0
+margin_bottom = 107.0
+columns = 2
+
+[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_right = 65.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 6 )
+text = "Category:"
+align = 2
+
+[node name="Category" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_left = 69.0
+margin_right = 131.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 5 )
+text = "Materials"
+
+[node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_top = 22.0
+margin_right = 65.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 6 )
+text = "Author:"
+align = 2
+
+[node name="Author" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_left = 69.0
+margin_top = 22.0
+margin_right = 131.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 5 )
+text = "KoBeWi"
+
+[node name="Label5" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_top = 44.0
+margin_right = 65.0
+margin_bottom = 62.0
+custom_fonts/font = ExtResource( 6 )
+text = "License:"
+align = 2
+
+[node name="License" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_left = 69.0
+margin_top = 44.0
+margin_right = 131.0
+margin_bottom = 62.0
+custom_fonts/font = ExtResource( 5 )
+text = "Unlicense"
+
+[node name="Label7" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_top = 66.0
+margin_right = 65.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 6 )
+text = "Version:"
+align = 2
+
+[node name="Version" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_left = 69.0
+margin_top = 66.0
+margin_right = 131.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 5 )
+text = "0.1.0"
+
+[node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
+margin_top = 111.0
+margin_right = 300.0
+margin_bottom = 405.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC"]
+margin_right = 300.0
+margin_bottom = 294.0
+
+[node name="Description" type="RichTextLabel" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC"]
+margin_right = 300.0
+margin_bottom = 294.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="ScreenShots" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]
+margin_left = 312.0
+margin_right = 784.0
+margin_bottom = 405.0
+
+[node name="Preview" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots"]
+margin_right = 472.0
+margin_bottom = 281.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
+[node name="PlayButton" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/Preview"]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MissingThumbnails" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/Preview"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots"]
+margin_top = 285.0
+margin_right = 472.0
+margin_bottom = 405.0
+rect_min_size = Vector2( 0, 120 )
+
+[node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/PC"]
+margin_right = 472.0
+margin_bottom = 120.0
+
+[node name="Thumbnails" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/PC/SC"]
+
+[node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_top = 455.0
+margin_right = 800.0
+margin_bottom = 490.0
+custom_constants/margin_bottom = 15
+
+[node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
+margin_right = 800.0
+margin_bottom = 20.0
+
+[node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_right = 220.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="DownloadBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 224.0
+margin_right = 299.0
+margin_bottom = 20.0
+text = "Download"
+
+[node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 303.0
+margin_right = 524.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="CloseBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 528.0
+margin_right = 575.0
+margin_bottom = 20.0
+text = "Close"
+
+[node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 579.0
+margin_right = 800.0
+margin_bottom = 20.0
+size_flags_horizontal = 3

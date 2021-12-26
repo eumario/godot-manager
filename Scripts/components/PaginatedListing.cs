@@ -58,6 +58,7 @@ public class PaginatedListing : ScrollContainer
             ale.Category = asset.Category;
             ale.Author = asset.Author;
             ale.License = asset.Cost;
+            ale.AssetId = asset.AssetId;
             _listing.AddChild(ale);
             System.Uri uri = new System.Uri(asset.IconUrl);
             string iconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
@@ -68,7 +69,11 @@ public class PaginatedListing : ScrollContainer
                 dlq.Push(dld);
                 ale.SetMeta("dld", dld);
             } else {
-                ale.Icon = Util.LoadImage(iconPath);
+                Texture icon = Util.LoadImage(iconPath);
+                if (icon == null)
+                    ale.Icon = Util.LoadImage("res://Assets/Icons/missing_icon.svg");
+                else
+                    ale.Icon = icon;
             }
         }
         dlq.StartDownload();
@@ -95,7 +100,6 @@ public class PaginatedListing : ScrollContainer
     }
 
     public async void OnPageChanged(int page) {
-        GD.Print(alqrLastResult);
         if (alqrLastResult != null && page != alqrLastResult.Page) {
             AppDialogs.Instance.BusyDialog.UpdateHeader("Getting results...");
             AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");

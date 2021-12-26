@@ -141,5 +141,32 @@ namespace AssetLib {
 			
 			return result.Result;
 		}
+
+		public async Task<Asset> GetAsset(string assetId) {
+			Asset res = null;
+			Task<HTTPClient.Status> cres = client.StartClient("godotengine.org");
+
+			while (!cres.IsCompleted)
+				await this.IdleFrame();
+			
+			if (!client.SuccessConnect(cres.Result))
+				return res;
+			
+			string path = $"/asset-library/api/asset/{assetId}";
+			var tresult = client.MakeRequest(path);
+			while (!tresult.IsCompleted)
+				await this.IdleFrame();
+			
+			Mutex mutex = new Mutex();
+			mutex.Lock();
+			HTTPResponse result = tresult.Result;
+			client.Close();
+
+			if (result.ResponseCode == 200)
+				res = JsonConvert.DeserializeObject<Asset>(result.Body, Github.DefaultSettings.defaultJsonSettings);
+			
+			mutex.Unlock();
+			return res;
+		}
 	}
 }

@@ -1,23 +1,24 @@
 using Godot;
 using GodotSharpExtras;
 using Godot.Collections;
+using System.Threading.Tasks;
 
-public class AssetLibEntry : HBoxContainer
+public class AssetLibEntry : ColorRect
 {
 #region Node Paths
-    [NodePath("Icon")]
+    [NodePath("hc/Icon")]
     TextureRect _icon = null;
 
-    [NodePath("vc/Title")]
+    [NodePath("hc/vc/Title")]
     Label _title = null;
 
-    [NodePath("vc/hc/Category")]
+    [NodePath("hc/vc/hc/Category")]
     Label _category = null;
 
-    [NodePath("vc/hc/License")]
+    [NodePath("hc/vc/hc/License")]
     Label _license = null;
 
-    [NodePath("vc/Author")]
+    [NodePath("hc/vc/Author")]
     Label _author = null;
 #endregion
 
@@ -74,6 +75,8 @@ public class AssetLibEntry : HBoxContainer
                 _author.Text = "Author: " + value;
         }
     }
+
+    public string AssetId { get; set; }
 #endregion
 
     // Called when the node enters the scene tree for the first time.
@@ -85,5 +88,32 @@ public class AssetLibEntry : HBoxContainer
         Category = sCategory;
         License = sLicense;
         Author = sAuthor;
+        Connect("mouse_entered", this, "OnMouseEntered");
+        Connect("mouse_exited", this, "OnMouseExited");
+        Connect("gui_input", this, "OnGuiInput");
+    }
+
+    void OnMouseEntered() {
+        Color = new Color("2a2e37");
+    }
+
+    void OnMouseExited() {
+        Color = new Color("002a2e37");
+    }
+
+    async void OnGuiInput(InputEvent inputEvent) {
+        if (inputEvent is InputEventMouseButton iembEvent) {
+            if (iembEvent.Pressed && (ButtonList)iembEvent.ButtonIndex == ButtonList.Left)
+            {
+                AppDialogs.Instance.BusyDialog.UpdateHeader("Getting asset information...");
+                AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
+                AppDialogs.Instance.BusyDialog.ShowDialog();
+                Task<AssetLib.Asset> asset = AssetLib.AssetLib.Instance.GetAsset(AssetId);
+                while (!asset.IsCompleted)
+                    await this.IdleFrame();
+                AppDialogs.Instance.BusyDialog.Visible = false;
+                AppDialogs.Instance.AssetLibPreview.ShowDialog(asset.Result);
+            }
+        }
     }
 }

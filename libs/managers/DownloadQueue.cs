@@ -6,6 +6,9 @@ public class DownloadQueue : Node {
 	[Signal]
 	public delegate void download_completed(ImageDownloader dld);
 
+	[Signal]
+	public delegate void queue_finished();
+
 	System.Collections.Queue queued;
 	Array<ImageDownloader> active;
 	int iMaxDownloads;
@@ -62,8 +65,10 @@ public class DownloadQueue : Node {
 			ActivateNext();
 		}
 		
-		if (active.Count == 0)
+		if (active.Count == 0) {
+			EmitSignal("queue_finished");
 			checkActive.Stop();
+		}
 	}
 
 	public void PrintQueue() {

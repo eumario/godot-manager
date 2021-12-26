@@ -5,20 +5,33 @@
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Resources/Fonts/droid-regular-13.tres" type="DynamicFont" id=4]
 
-[node name="AssetLibEntry" type="HBoxContainer"]
+[node name="AssetLibEntry" type="ColorRect"]
 anchor_right = 1.0
-margin_bottom = 64.0
+rect_min_size = Vector2( 0, 80 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+color = Color( 0.164706, 0.180392, 0.215686, 0 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Spacer" type="Control" parent="."]
+[node name="hc" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_top = 8.0
+margin_bottom = 72.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer" type="Control" parent="hc"]
 margin_right = 10.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 10, 0 )
+mouse_filter = 1
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="Icon" type="TextureRect" parent="hc"]
 margin_left = 14.0
 margin_right = 78.0
 margin_bottom = 64.0
@@ -27,59 +40,64 @@ texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 
-[node name="vc" type="VBoxContainer" parent="."]
+[node name="vc" type="VBoxContainer" parent="hc"]
 margin_left = 82.0
 margin_right = 1010.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Title" type="Label" parent="vc"]
+[node name="Title" type="Label" parent="hc/vc"]
 margin_right = 928.0
 margin_bottom = 18.0
 rect_clip_content = true
+mouse_filter = 1
 custom_fonts/font = ExtResource( 3 )
 text = "Godot Super Scaling"
 clip_text = true
 
-[node name="hc" type="HBoxContainer" parent="vc"]
+[node name="hc" type="HBoxContainer" parent="hc/vc"]
 margin_top = 22.0
 margin_right = 325.0
 margin_bottom = 39.0
 rect_clip_content = true
 size_flags_horizontal = 0
 
-[node name="Category" type="Label" parent="vc/hc"]
+[node name="Category" type="Label" parent="hc/vc/hc"]
 margin_right = 250.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 250, 0 )
 rect_clip_content = true
+mouse_filter = 1
 size_flags_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
 text = "Category: Shaders"
 clip_text = true
 
-[node name="License" type="Label" parent="vc/hc"]
+[node name="License" type="Label" parent="hc/vc/hc"]
 margin_left = 254.0
 margin_right = 325.0
 margin_bottom = 17.0
 rect_clip_content = true
+mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
 text = "License: MIT"
 
-[node name="Author" type="Label" parent="vc"]
+[node name="Author" type="Label" parent="hc/vc"]
 margin_top = 43.0
 margin_right = 320.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 320, 0 )
 rect_clip_content = true
+mouse_filter = 1
 size_flags_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
 text = "Author: cybereality"
 clip_text = true
 
-[node name="Spacer2" type="Control" parent="."]
+[node name="Spacer2" type="Control" parent="hc"]
 margin_left = 1014.0
 margin_right = 1024.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 10, 0 )
+mouse_filter = 1
