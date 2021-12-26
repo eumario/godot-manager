@@ -413,3 +413,6 @@ FodyWeavers.xsd
 
 # VisualStudio Code
 .vscode/
+
+# Build Directory
+builds/
