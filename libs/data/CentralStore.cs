@@ -35,30 +35,24 @@ public class CentralStore {
 
 #region Instance Methods
 	public bool LoadDatabase() {
-		GD.Print("Attempting to load database...");
 		File db = new File();
 		if (db.Open("user://central_store.json", File.ModeFlags.Read) == Error.Ok) {
 			var data = db.GetAsText();
 			db.Close();
 			_data = JsonConvert.DeserializeObject<CentralStoreData>(data);
-			GD.Print("Load Database successful.");
 			return true;
 		}
-		GD.Print("Load Database failed.");
 		return false;
 	}
 
 	public void SaveDatabase() {
-		GD.Print("Attempting to save database...");
 		File db = new File();
 		if (db.Open("user://central_store.json", File.ModeFlags.Write) == Error.Ok) {
 			var data = JsonConvert.SerializeObject(_data);
 			db.StoreString(data);
 			db.Close();
-			GD.Print("Save Database successful.");
 			return;
 		}
-		GD.Print("Save Database failed.");
 	}
 
 	public bool HasProject(string name) {
