@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 public class PaginatedListing : ScrollContainer
 {
+#region Signals
+    [Signal]
+    public delegate void page_changed(int page);
+#endregion
+
 #region Node Paths
     [NodePath("VBoxContainer/TopPageCount")]
     PaginationNav _topPageCount = null;
@@ -99,22 +104,9 @@ public class PaginatedListing : ScrollContainer
         }
     }
 
-    public async void OnPageChanged(int page) {
+    public void OnPageChanged(int page) {
         if (alqrLastResult != null && page != alqrLastResult.Page) {
-            AppDialogs.Instance.BusyDialog.UpdateHeader("Getting results...");
-            AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
-            AppDialogs.Instance.BusyDialog.ShowDialog();
-
-            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(page);
-            while (!stask.IsCompleted)
-                await this.IdleFrame();
-            
-            AppDialogs.Instance.BusyDialog.UpdateByline("Parsing results...");
-            UpdateResults(stask.Result);
-            AppDialogs.Instance.BusyDialog.Visible = false;
-            _topPageCount.SetPage(page);
-            _bottomPageCount.SetPage(page);
-            ScrollVertical = 0;
+            EmitSignal("page_changed", page);
         }
     }
 }

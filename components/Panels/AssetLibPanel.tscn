@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=2]
@@ -6,14 +6,15 @@
 [ext_resource path="res://Assets/Icons/search.svg" type="Texture" id=4]
 [ext_resource path="res://Scripts/components/Panel/AssetLibPanel.cs" type="Script" id=5]
 [ext_resource path="res://components/PaginatedListing.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Resources/GroupedButtons.tres" type="StyleBox" id=8]
 
-[sub_resource type="DynamicFontData" id=10]
-font_path = "res://Assets/Fonts/droid-sans.bold.ttf"
-
-[sub_resource type="DynamicFont" id=24]
-size = 14
-use_filter = true
-font_data = SubResource( 10 )
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.235294, 0.254902, 0.305882, 1 )
@@ -69,13 +70,89 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Spacer" type="Control" parent="VC"]
+[node name="MC" type="MarginContainer" parent="VC"]
 margin_right = 1024.0
+margin_bottom = 43.0
+custom_constants/margin_right = 5
+custom_constants/margin_left = 5
+
+[node name="HC" type="HBoxContainer" parent="VC/MC"]
+margin_left = 5.0
+margin_right = 1019.0
+margin_bottom = 43.0
+
+[node name="Label" type="Label" parent="VC/MC/HC"]
+margin_top = 6.0
+margin_right = 210.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 210, 30 )
+custom_fonts/font = ExtResource( 7 )
+custom_styles/normal = SubResource( 25 )
+text = "Asset Library"
+align = 1
+valign = 1
+
+[node name="Spacer" type="Control" parent="VC/MC/HC"]
+margin_left = 214.0
+margin_right = 374.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 160, 40 )
+
+[node name="PC" type="PanelContainer" parent="VC/MC/HC"]
+margin_left = 378.0
+margin_right = 541.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 0, 30 )
+size_flags_vertical = 4
+custom_styles/panel = ExtResource( 8 )
+
+[node name="HC" type="HBoxContainer" parent="VC/MC/HC/PC"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 153.0
+margin_bottom = 33.0
+
+[node name="Addons" type="Button" parent="VC/MC/HC/PC/HC"]
+margin_right = 58.0
+margin_bottom = 23.0
+custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+pressed = true
+text = "Addons"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="VC/MC/HC/PC/HC"]
+margin_left = 62.0
+margin_right = 66.0
+margin_bottom = 23.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Templates" type="Button" parent="VC/MC/HC/PC/HC"]
+margin_left = 70.0
+margin_right = 143.0
+margin_bottom = 23.0
+custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "Templates"
+flat = true
+
+[node name="Spacer2" type="Control" parent="VC/MC/HC"]
+margin_left = 545.0
+margin_right = 1014.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 0, 40 )
+size_flags_horizontal = 3
 
 [node name="HC" type="HBoxContainer" parent="VC"]
-margin_top = 20.0
+margin_top = 63.0
 margin_right = 1024.0
-margin_bottom = 47.0
+margin_bottom = 90.0
 custom_constants/separation = 8
 
 [node name="Spacer" type="Control" parent="VC/HC"]
@@ -83,33 +160,16 @@ margin_right = 5.0
 margin_bottom = 27.0
 rect_min_size = Vector2( 5, 0 )
 
-[node name="Label" type="Label" parent="VC/HC"]
-margin_left = 13.0
-margin_right = 148.0
-margin_bottom = 27.0
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 24 )
-text = "Godot Asset Library"
-valign = 1
-
 [node name="SearchField" type="LineEdit" parent="VC/HC"]
-margin_left = 156.0
-margin_right = 797.0
+margin_left = 13.0
+margin_right = 946.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
+clear_button_enabled = true
 right_icon = ExtResource( 4 )
 placeholder_text = "Search assets"
 caret_blink = true
-
-[node name="TemplatesOnly" type="CheckBox" parent="VC/HC"]
-margin_left = 805.0
-margin_right = 946.0
-margin_bottom = 27.0
-text = "Search Templates"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Import" type="Button" parent="VC/HC"]
 margin_left = 954.0
@@ -125,9 +185,9 @@ margin_bottom = 27.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="HC2" type="HBoxContainer" parent="VC"]
-margin_top = 67.0
+margin_top = 110.0
 margin_right = 1024.0
-margin_bottom = 87.0
+margin_bottom = 130.0
 custom_constants/separation = 8
 
 [node name="Spacer" type="Control" parent="VC/HC2"]
@@ -215,7 +275,7 @@ custom_styles/pressed = SubResource( 22 )
 custom_styles/normal = SubResource( 23 )
 text = "Support"
 
-[node name="PopupMenu" type="PopupMenu" parent="VC/HC2/Support"]
+[node name="SupportPopup" type="PopupMenu" parent="VC/HC2/Support"]
 margin_right = 20.0
 margin_bottom = 20.0
 items = [ "Official", null, 1, true, false, 0, 0, null, "", false, "Community", null, 1, true, false, 1, 0, null, "", false, "Testing", null, 1, false, false, 2, 0, null, "", false ]
@@ -229,9 +289,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PaginatedListing" parent="VC" instance=ExtResource( 6 )]
+[node name="VC" type="VBoxContainer" parent="VC"]
+margin_top = 150.0
+margin_right = 1024.0
+margin_bottom = 680.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="plAddons" parent="VC/VC" instance=ExtResource( 6 )]
+margin_top = 0.0
+margin_bottom = 530.0
+
+[node name="plTemplates" parent="VC/VC" instance=ExtResource( 6 )]
+visible = false
+margin_top = 267.0
+margin_bottom = 530.0
 
 [node name="Spacer2" type="Control" parent="VC"]
 margin_top = 700.0
 margin_right = 1024.0
 margin_bottom = 700.0
+
+[node name="ExecuteDelay" type="Timer" parent="."]
+one_shot = true

@@ -51,7 +51,7 @@ namespace AssetLib {
 			client = new GDCSHTTPClient();
 		}
 
-		public async Task<ConfigureResult> Configure() {
+		public async Task<ConfigureResult> Configure(bool templatesOnly) {
 			ConfigureResult ret = null;
 			Task<HTTPClient.Status> cres = client.StartClient("godotengine.org");
 
@@ -62,7 +62,13 @@ namespace AssetLib {
 			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
-			string path = "/asset-library/api/configure?type=any";
+			string path = "/asset-library/api/configure";
+
+			if (templatesOnly)
+				path += "?type=project";
+			else
+				path += "?type=addon";
+
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted) {
 				await this.IdleFrame();
@@ -111,7 +117,7 @@ namespace AssetLib {
 		public async Task<QueryResult> Search(int page = 0, bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
 			string args = "";
 			if (templates_only)
-				args += "?type=projects&";
+				args += "?type=project&";
 			else
 				args += "?";
 			

@@ -130,7 +130,7 @@ size_flags_vertical = 3
 custom_constants/separation = 30
 
 [node name="Install" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
-margin_bottom = 49.0
+margin_bottom = 63.0
 CategoryName = "Installed Versions"
 
 [node name="Download" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
@@ -140,6 +140,6 @@ margin_bottom = 90.0
 CategoryName = "Currently Downloading"
 
 [node name="Available" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
-margin_top = 79.0
-margin_bottom = 128.0
+margin_top = 93.0
+margin_bottom = 156.0
 CategoryName = "Available to Download"

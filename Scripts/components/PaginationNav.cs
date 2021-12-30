@@ -94,18 +94,28 @@ public class PaginationNav : CenterContainer
     public void SetPage(int page) {
         if (page > iTotalPages)
             return;
+        
         if (page < 0)
             return;
+        
         CheckPage();
-        (_pageCount.GetChild(iCurrentPage) as Button).Disabled = false;
+        
+        if (_pageCount.GetChildCount() > 0 && _pageCount.GetChildCount() > iCurrentPage)
+            (_pageCount.GetChild(iCurrentPage) as Button).Disabled = false;
+        
         iCurrentPage = page;
-        (_pageCount.GetChild(iCurrentPage) as Button).Disabled = true;
+        if (_pageCount.GetChildCount() > 0 && _pageCount.GetChildCount() > iCurrentPage)
+            (_pageCount.GetChild(iCurrentPage) as Button).Disabled = true;
     }
 
     public void PageChanged(int page) {
-        (_pageCount.GetChild(iCurrentPage) as Button).Disabled = false;
+        if (_pageCount.GetChildCount() > 0 && _pageCount.GetChildCount() > iCurrentPage)
+            (_pageCount.GetChild(iCurrentPage) as Button).Disabled = false;
+        
         iCurrentPage = page;
-        (_pageCount.GetChild(iCurrentPage) as Button).Disabled = true;
+        if (_pageCount.GetChildCount() > 0 && _pageCount.GetChildCount() > iCurrentPage)
+            (_pageCount.GetChild(iCurrentPage) as Button).Disabled = true;
+        
         CheckPage();
         EmitSignal("page_changed", page);
     }

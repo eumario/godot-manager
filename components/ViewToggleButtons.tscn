@@ -4,22 +4,12 @@
 [ext_resource path="res://Scripts/components/ViewToggleButtons.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Icons/icon_view.svg" type="Texture" id=3]
 [ext_resource path="res://Assets/Icons/category_view.svg" type="Texture" id=4]
-
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 10.0
-content_margin_right = 10.0
-content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color( 0.196078, 0.203922, 0.223529, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+[ext_resource path="res://Resources/GroupedButtons.tres" type="StyleBox" id=5]
 
 [node name="ViewToggleButtons" type="PanelContainer"]
 margin_right = 14.0
 margin_bottom = 14.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = ExtResource( 5 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
