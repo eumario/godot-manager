@@ -15,7 +15,7 @@ public class CentralStoreData : Object {
 	[JsonProperty]
 	public Array<Category> Categories;
 	[JsonProperty]
-	public Dictionary<string, object> Settings;
+	public Settings Settings;
 
 	public CentralStoreData() {
 		Projects = new Array<ProjectFile>();
@@ -23,6 +23,6 @@ public class CentralStoreData : Object {
 		GHVersions = new Array<GithubVersion>();
 		TFVersions = new Array<TuxfamilyVersion>();
 		Categories = new Array<Category>();
-		Settings = new Dictionary<string, object>();
+		Settings = new Settings();
 	}
 }

@@ -8,7 +8,7 @@ public class CentralStore {
 
 	private CentralStoreData _data = null;
 
-	public Dictionary<string, object> Settings {
+	public Settings Settings {
 		get {
 			return _data.Settings;
 		}
