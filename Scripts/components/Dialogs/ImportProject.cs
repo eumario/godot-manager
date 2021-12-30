@@ -31,9 +31,9 @@ public class ImportProject : ReferenceRect
         this.OnReady();
 
         _godotVersions.Items.Clear();
-        foreach (GodotVersion gdVers in CentralStore.Instance.Versions) {
+        foreach (GodotVersion gdVers in CentralStore.Versions) {
             string gdTag = gdVers.IsMono ? gdVers.Tag + " - Mono" : gdVers.Tag;
-            int id = CentralStore.Instance.Versions.IndexOf(gdVers);
+            int id = CentralStore.Versions.IndexOf(gdVers);
             _godotVersions.AddItem(gdTag, id);
             _godotVersions.SetItemMetadata(id, gdVers.Id);
 
@@ -59,7 +59,7 @@ public class ImportProject : ReferenceRect
         ProjectFile pf = ProjectFile.ReadFromFile(_locationValue.Text);
         if (gdVers != null)
             pf.GodotVersion = gdVers.Id;
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         CentralStore.Instance.SaveDatabase();
         EmitSignal("update_projects");
         Visible = false;

@@ -81,7 +81,7 @@ public class ProjectIconEntry : CenterContainer
             if (_godotVersion != null) {
                 _godotVersion.Set("GodotVersion", value);
                 if (iGodotVersion >= 0)
-                    _godotVersion.Text = CentralStore.Instance.Versions[value].Tag;
+                    _godotVersion.Text = CentralStore.Versions[value].Tag;
                 else
                     _godotVersion.Text = "Unknown";
             }

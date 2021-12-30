@@ -39,7 +39,6 @@ public class ProjectsPanel : Panel
         _actionButtons.Connect("clicked", this, "OnActionButtons_Clicked");
         AppDialogs.Instance.ImportProject.Connect("update_projects", this, "PopulateListing");
 
-        CentralStore.Instance.LoadDatabase();
         PopulateListing();
     }
 
@@ -86,7 +85,7 @@ public class ProjectsPanel : Panel
             child.QueueFree();
         }
 
-        foreach(Category cat in CentralStore.Instance.Categories) {
+        foreach(Category cat in CentralStore.Categories) {
             clt = NewCLT(cat.Name);
             clt.Set("ID",cat.Id);
             _categoryView.AddChild(clt);
@@ -96,7 +95,7 @@ public class ProjectsPanel : Panel
         clt.Set("ID",-1);
         _categoryView.AddChild(clt);
 
-        foreach(ProjectFile pf in CentralStore.Instance.Projects) {
+        foreach(ProjectFile pf in CentralStore.Projects) {
             ple = NewPLE(pf);
             pie = NewPIE(pf);
             _listView.AddChild(ple);
@@ -154,24 +153,24 @@ public class ProjectsPanel : Panel
 
     public void AddTestProjects() {
         ProjectFile pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\godot-manager-mono\project.godot");
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\3D Platformer Demo\project.godot");
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\EditorPlugins\project.godot");
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\Godot-3D-Space-Shooter-main\project.godot");
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\Third Person Shooter Demo\project.godot");
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         pf = ProjectFile.ReadFromFile(@"E:\Projects\src\mad-productivity\project.godot");
-        CentralStore.Instance.Projects.Add(pf);
+        CentralStore.Projects.Add(pf);
         CentralStore.Instance.SaveDatabase();
         PopulateListing();
     }
 
     public Array<ProjectFile> TestSortListing() {
         Array<ProjectFile> projectFiles = new Array<ProjectFile>();
-        var pfolder = CentralStore.Instance.Projects.OrderByDescending(pf => pf.LastAccessed);
+        var pfolder = CentralStore.Projects.OrderByDescending(pf => pf.LastAccessed);
         foreach (ProjectFile pf in pfolder)
             projectFiles.Add(pf);
         return projectFiles;
@@ -179,8 +178,8 @@ public class ProjectsPanel : Panel
 
     public Array<ProjectFile> TestFavSortListing() {
         Array<ProjectFile> projectFiles = new Array<ProjectFile>();
-        var fav = CentralStore.Instance.Projects.Where(pf => pf.Favorite == true).OrderByDescending(pf => pf.LastAccessed);
-        var non_fav = CentralStore.Instance.Projects.Where(pf => pf.Favorite != true).OrderByDescending(pf => pf.LastAccessed);
+        var fav = CentralStore.Projects.Where(pf => pf.Favorite == true).OrderByDescending(pf => pf.LastAccessed);
+        var non_fav = CentralStore.Projects.Where(pf => pf.Favorite != true).OrderByDescending(pf => pf.LastAccessed);
 
         foreach(ProjectFile pf in fav)
             projectFiles.Add(pf);

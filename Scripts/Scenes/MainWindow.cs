@@ -11,16 +11,18 @@ public class MainWindow : Control
 	[NodePath("bg/Shell/VC/TabContainer")]
 	TabContainer _notebook = null;
 
+	public MainWindow() {
+		if (!CentralStore.Instance.LoadDatabase()) {
+			CentralStore.Instance.SaveDatabase();
+		}
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		this.OnReady();
 
 		EnsureDirStructure();
-
-		if (!CentralStore.Instance.LoadDatabase()) {
-			CentralStore.Instance.SaveDatabase();
-		}
 
 		_buttons = new Array<PageButton>();
 		foreach(var pb in GetTree().GetNodesInGroup("page_buttons")) {

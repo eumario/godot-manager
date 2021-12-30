@@ -73,7 +73,7 @@ public class CreateProject : ReferenceRect
         _projectLocation.Connect("text_changed", this, "OnProjectLocation_TextChanged");
         _cancelBtn.Connect("pressed", this, "OnCancelPressed");
         _createBtn.Connect("pressed", this, "OnCreatePressed");
-        ProjectPath = (string)CentralStore.Instance.Settings.ProjectPath;
+        ProjectPath = CentralStore.Settings.ProjectPath;
     }
 
     public void ShowDialog() {
@@ -82,10 +82,10 @@ public class CreateProject : ReferenceRect
         _projectLocation.Text = ProjectPath;
 
         _godotVersion.Clear();
-        foreach(GodotVersion version in CentralStore.Instance.Versions) {
+        foreach(GodotVersion version in CentralStore.Versions) {
             string gdName = version.IsMono ? version.Tag + " - Mono" : version.Tag;
-            int indx = CentralStore.Instance.Versions.IndexOf(version);
-            if (version.Id == (string)CentralStore.Instance.Settings.DefaultEngine) {
+            int indx = CentralStore.Versions.IndexOf(version);
+            if (version.Id == (string)CentralStore.Settings.DefaultEngine) {
                 defaultGodot = indx;
                 gdName += " (Default)";
             }

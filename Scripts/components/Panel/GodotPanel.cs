@@ -49,7 +49,7 @@ public class GodotPanel : Panel
 
     async void OnPageChanged(int page) {
         if (GetParent<TabContainer>().GetCurrentTabControl() == this) {
-            if (CentralStore.Instance.GHVersions.Count == 0) {
+            if (CentralStore.GHVersions.Count == 0) {
                 var t = GatherReleases();
                 while(!t.IsCompleted) {
                     await this.IdleFrame();
@@ -60,12 +60,12 @@ public class GodotPanel : Panel
                     await this.IdleFrame();
                 }
                 var gv = GithubVersion.FromAPI(tres.Result);                
-                var l = from version in CentralStore.Instance.GHVersions
+                var l = from version in CentralStore.GHVersions
                         where version.Name == gv.Name
                         select gv;
                 var c = l.FirstOrDefault<GithubVersion>();
                 if (c == null) {
-                    CentralStore.Instance.GHVersions.Clear();
+                    CentralStore.GHVersions.Clear();
                     var t = GatherReleases();
                     while (!t.IsCompleted) {
                         await this.IdleFrame();
@@ -91,12 +91,11 @@ public class GodotPanel : Panel
         if (Downloading.List.GetChildCount() == 0)
             Downloading.Visible = false;
         
-        CentralStore.Instance.Versions.Add(gle.CreateGodotVersion());
-        CentralStore.Instance.SaveDatabase();
-        if (CentralStore.Instance.Versions.Count == 1) {
-            CentralStore.Instance.Settings.DefaultEngine = CentralStore.Instance.Versions[0].Id;
-            CentralStore.Instance.SaveDatabase();
+        CentralStore.Versions.Add(gle.CreateGodotVersion());
+        if (CentralStore.Versions.Count == 1) {
+            CentralStore.Settings.DefaultEngine = CentralStore.Versions[0].Id;
         }
+        CentralStore.Instance.SaveDatabase();
         PopulateList();
     }
 
@@ -137,23 +136,23 @@ public class GodotPanel : Panel
                 dir.Remove(file);
             }
             dir.Remove(cache);
-            if ((string)CentralStore.Instance.Settings.DefaultEngine == gle.GodotVersion.Id)
-                CentralStore.Instance.Settings.DefaultEngine = System.Guid.Empty.ToString();  // Should Prompt to change
-            CentralStore.Instance.Versions.Remove(gle.GodotVersion);
+            if ((string)CentralStore.Settings.DefaultEngine == gle.GodotVersion.Id)
+                CentralStore.Settings.DefaultEngine = System.Guid.Empty.ToString();  // Should Prompt to change
+            CentralStore.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();
             PopulateList();
         }
     }
 
     public void OnDefaultSelected(GodotLineEntry gle) {
-        if (gle.GodotVersion.Id == CentralStore.Instance.Settings.DefaultEngine) {
+        if (gle.GodotVersion.Id == CentralStore.Settings.DefaultEngine) {
             return; // Don't need to do anything
         } else {
             foreach(GodotLineEntry igle in Installed.List.GetChildren()) {
                 if (igle.IsDefault)
                     igle.ToggleDefault(false);
             }
-            CentralStore.Instance.Settings.DefaultEngine = gle.GodotVersion.Id;
+            CentralStore.Settings.DefaultEngine = gle.GodotVersion.Id;
             CentralStore.Instance.SaveDatabase();
             gle.ToggleDefault(true);
         }
@@ -165,7 +164,7 @@ public class GodotPanel : Panel
         foreach (Node child in Available.List.GetChildren())
             child.QueueFree();
         
-        foreach(GithubVersion gv in CentralStore.Instance.GHVersions) {
+        foreach(GithubVersion gv in CentralStore.GHVersions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
             gle.GithubVersion = gv;
             gle.Mono = UseMono.Pressed;
@@ -173,13 +172,13 @@ public class GodotPanel : Panel
             gle.Connect("install_clicked", this, "OnInstallClicked");
         }
 
-        foreach(GodotVersion gdv in CentralStore.Instance.Versions) {
+        foreach(GodotVersion gdv in CentralStore.Versions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
             gle.GodotVersion = gdv;
             gle.GithubVersion = gdv.GithubVersion;
             gle.Mono = gdv.IsMono;
             gle.Downloaded = true;
-            gle.ToggleDefault(CentralStore.Instance.Settings.DefaultEngine == gdv.Id);
+            gle.ToggleDefault(CentralStore.Settings.DefaultEngine == gdv.Id);
             Installed.List.AddChild(gle);
             gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
             gle.Connect("default_selected", this, "OnDefaultSelected");
@@ -274,7 +273,7 @@ public class GodotPanel : Panel
             i++;
             AppDialogs.Instance.BusyDialog.UpdateByline($"Processing {i}/{Releases.Count}");
             GithubVersion gv = GithubVersion.FromAPI(release);
-            CentralStore.Instance.GHVersions.Add(gv);
+            CentralStore.GHVersions.Add(gv);
             await this.IdleFrame();
         }
         CentralStore.Instance.SaveDatabase();

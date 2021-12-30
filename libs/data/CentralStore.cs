@@ -4,16 +4,17 @@ using Newtonsoft.Json;
 using System.Linq;
 
 public class CentralStore {
+#region C# Pattern for Singleton
 	static CentralStore _instance;
 
 	private CentralStoreData _data = null;
 
-	public Settings Settings {
-		get {
-			return _data.Settings;
+	protected CentralStore() {
+		if (!LoadDatabase()) {
+			_data = new CentralStoreData();
 		}
 	}
-
+	//public static CentralStore Instance { get => (_instance == null) ? _instance = new CentralStore() : _instance; }
 	public static CentralStore Instance {
 		get {
 			if (_instance == null)
@@ -21,61 +22,43 @@ public class CentralStore {
 			return _instance;
 		}
 	}
+#endregion
 
-	protected CentralStore() {
-		if (!LoadDatabase()) {
-			_data = new CentralStoreData();
-		}
-	}
+#region Static Members to Instance Members
+	public static Settings Settings { get => Instance._data.Settings; }
+	public static Array<ProjectFile> Projects { get => Instance._data.Projects; }
+	public static Array<GodotVersion> Versions { get => Instance._data.Versions; }
+	public static Array<GithubVersion> GHVersions { get => Instance._data.GHVersions; }
+	public static Array<TuxfamilyVersion> TFVersions { get => Instance._data.TFVersions; }
+	public static Array<Category> Categories { get => Instance._data.Categories; }
+#endregion
 
-	public Array<ProjectFile> Projects {
-		get {
-			return _data.Projects;
-		}
-	}
-
-	public Array<GodotVersion> Versions {
-		get {
-			return _data.Versions;
-		}
-	}
-
-	public Array<GithubVersion> GHVersions {
-		get {
-			return _data.GHVersions;
-		}
-	}
-
-	public Array<TuxfamilyVersion> TFVersions {
-		get {
-			return _data.TFVersions;
-		}
-	}
-
-	public Array<Category> Categories {
-		get {
-			return _data.Categories;
-		}
-	}
-
+#region Instance Methods
 	public bool LoadDatabase() {
+		GD.Print("Attempting to load database...");
 		File db = new File();
 		if (db.Open("user://central_store.json", File.ModeFlags.Read) == Error.Ok) {
 			var data = db.GetAsText();
 			db.Close();
 			_data = JsonConvert.DeserializeObject<CentralStoreData>(data);
+			GD.Print("Load Database successful.");
 			return true;
 		}
+		GD.Print("Load Database failed.");
 		return false;
 	}
 
 	public void SaveDatabase() {
+		GD.Print("Attempting to save database...");
 		File db = new File();
 		if (db.Open("user://central_store.json", File.ModeFlags.Write) == Error.Ok) {
 			var data = JsonConvert.SerializeObject(_data);
 			db.StoreString(data);
 			db.Close();
+			GD.Print("Save Database successful.");
+			return;
 		}
+		GD.Print("Save Database failed.");
 	}
 
 	public bool HasProject(string name) {
@@ -98,4 +81,6 @@ public class CentralStore {
 					select gv;
 		return query.FirstOrDefault<GodotVersion>();
 	}
+#endregion
+
 }

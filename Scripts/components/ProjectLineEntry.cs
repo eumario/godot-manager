@@ -120,7 +120,7 @@ public class ProjectLineEntry : ColorRect
             if (_version != null) {
                 _version.Set("godotVersion", value);
                 if (value >= 0) {
-                    _version.Text = CentralStore.Instance.Versions[value].Tag;
+                    _version.Text = CentralStore.Versions[value].Tag;
                 } else {
                     _version.Text = "Unknown";
                 }
