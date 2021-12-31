@@ -37,7 +37,7 @@ public class ProjectsPanel : Panel
 
         _viewSelector.Connect("Clicked", this, "OnViewSelector_Clicked");
         _actionButtons.Connect("clicked", this, "OnActionButtons_Clicked");
-        AppDialogs.Instance.ImportProject.Connect("update_projects", this, "PopulateListing");
+        AppDialogs.ImportProject.Connect("update_projects", this, "PopulateListing");
 
         PopulateListing();
     }
@@ -130,10 +130,10 @@ public class ProjectsPanel : Panel
     public void OnActionButtons_Clicked(int index) {
         switch (index) {
             case 0: // New Project File
-                AppDialogs.Instance.CreateProject.ShowDialog();
+                AppDialogs.CreateProject.ShowDialog();
                 break;
             case 1: // Import Project File
-                AppDialogs.Instance.ImportProject.Visible = true;
+                AppDialogs.ImportProject.Visible = true;
                 break;
             case 2: // Scan Project Folder
                 break;

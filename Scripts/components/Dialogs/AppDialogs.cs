@@ -4,16 +4,29 @@ using Godot.Collections;
 public class AppDialogs : Control
 {
 #region Node Paths
-    public FirstTimeInstall FirstTimeInstall = null;
-    public AddCustomGodot AddCustomGodot = null;
-    public BusyDialog BusyDialog = null;
-    public NewVersion NewVersion = null;
-    public YesNoDialog YesNoDialog = null;
-    public ImportProject ImportProject = null;
-    public MessageDialog MessageDialog = null;
-    public FileDialog ImportFileDialog = null;
-    public CreateProject CreateProject = null;
-    public AssetLibPreview AssetLibPreview = null;
+    public FirstTimeInstall FirstTimeInstall_ = null;
+    public AddCustomGodot AddCustomGodot_ = null;
+    public BusyDialog BusyDialog_ = null;
+    public NewVersion NewVersion_ = null;
+    public YesNoDialog YesNoDialog_ = null;
+    public ImportProject ImportProject_ = null;
+    public MessageDialog MessageDialog_ = null;
+    public FileDialog ImportFileDialog_ = null;
+    public CreateProject CreateProject_ = null;
+    public AssetLibPreview AssetLibPreview_ = null;
+#endregion
+
+#region Singleton Variables to access in program
+    public static FirstTimeInstall FirstTimeInstall { get => Instance.FirstTimeInstall_; }
+    public static AddCustomGodot AddCustomGodot { get => Instance.AddCustomGodot_; }
+    public static BusyDialog BusyDialog { get => Instance.BusyDialog_; }
+    public static NewVersion NewVersion { get => Instance.NewVersion_; }
+    public static YesNoDialog YesNoDialog { get => Instance.YesNoDialog_; }
+    public static ImportProject ImportProject { get => Instance.ImportProject_; }
+    public static MessageDialog MessageDialog { get => Instance.MessageDialog_; }
+    public static FileDialog ImportFileDialog { get => Instance.ImportFileDialog_; }
+    public static CreateProject CreateProject { get => Instance.CreateProject_; }
+    public static AssetLibPreview AssetLibPreview { get => Instance.AssetLibPreview_; }
 #endregion
 
     private static AppDialogs _instance = null;
@@ -30,27 +43,27 @@ public class AppDialogs : Control
     protected AppDialogs() {
 
         // Initialize Dialogs
-        FirstTimeInstall = GD.Load<PackedScene>("res://components/Dialogs/FirstTimeInstall.tscn").Instance<FirstTimeInstall>();
-        AddCustomGodot = GD.Load<PackedScene>("res://components/Dialogs/AddCustomGodot.tscn").Instance<AddCustomGodot>();
-        BusyDialog = GD.Load<PackedScene>("res://components/Dialogs/BusyDialog.tscn").Instance<BusyDialog>();
-        NewVersion = GD.Load<PackedScene>("res://components/Dialogs/NewVersion.tscn").Instance<NewVersion>();
-        YesNoDialog = GD.Load<PackedScene>("res://components/Dialogs/YesNoDialog.tscn").Instance<YesNoDialog>();
-        ImportProject = GD.Load<PackedScene>("res://components/Dialogs/ImportProject.tscn").Instance<ImportProject>();
-        MessageDialog = GD.Load<PackedScene>("res://components/Dialogs/MessageDialog.tscn").Instance<MessageDialog>();
-        CreateProject = GD.Load<PackedScene>("res://components/Dialogs/CreateProject.tscn").Instance<CreateProject>();
-        AssetLibPreview = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
-        ImportFileDialog = new FileDialog();
-        ImportFileDialog.Mode = FileDialog.ModeEnum.OpenFile;
-        ImportFileDialog.Access = FileDialog.AccessEnum.Filesystem;
-        ImportFileDialog.WindowTitle = "Open Godot Project...";
-        ImportFileDialog.Filters = new string[] {"*.godot"};
-        ImportFileDialog.RectMinSize = new Vector2(510, 390);
+        FirstTimeInstall_ = GD.Load<PackedScene>("res://components/Dialogs/FirstTimeInstall.tscn").Instance<FirstTimeInstall>();
+        AddCustomGodot_ = GD.Load<PackedScene>("res://components/Dialogs/AddCustomGodot.tscn").Instance<AddCustomGodot>();
+        BusyDialog_ = GD.Load<PackedScene>("res://components/Dialogs/BusyDialog.tscn").Instance<BusyDialog>();
+        NewVersion_ = GD.Load<PackedScene>("res://components/Dialogs/NewVersion.tscn").Instance<NewVersion>();
+        YesNoDialog_ = GD.Load<PackedScene>("res://components/Dialogs/YesNoDialog.tscn").Instance<YesNoDialog>();
+        ImportProject_ = GD.Load<PackedScene>("res://components/Dialogs/ImportProject.tscn").Instance<ImportProject>();
+        MessageDialog_ = GD.Load<PackedScene>("res://components/Dialogs/MessageDialog.tscn").Instance<MessageDialog>();
+        CreateProject_ = GD.Load<PackedScene>("res://components/Dialogs/CreateProject.tscn").Instance<CreateProject>();
+        AssetLibPreview_ = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
+        ImportFileDialog_ = new FileDialog();
+        ImportFileDialog_.Mode = FileDialog.ModeEnum.OpenFile;
+        ImportFileDialog_.Access = FileDialog.AccessEnum.Filesystem;
+        ImportFileDialog_.WindowTitle = "Open Godot Project...";
+        ImportFileDialog_.Filters = new string[] {"*.godot"};
+        ImportFileDialog_.RectMinSize = new Vector2(510, 390);
 
         // Setup Full Rect for dialogs:
         foreach(ReferenceRect dlg in new Array<ReferenceRect> {
-                FirstTimeInstall, AddCustomGodot, BusyDialog,
-                NewVersion, YesNoDialog, ImportProject,
-                MessageDialog, CreateProject, AssetLibPreview 
+                FirstTimeInstall_, AddCustomGodot_, BusyDialog_,
+                NewVersion_, YesNoDialog_, ImportProject_,
+                MessageDialog_, CreateProject_, AssetLibPreview_ 
             }) {
             dlg.SetAnchorsAndMarginsPreset(LayoutPreset.Wide);
             dlg.Visible = false;
@@ -60,15 +73,15 @@ public class AppDialogs : Control
     }
 
     public override void _EnterTree() {
-        AddChild(FirstTimeInstall);
-        AddChild(AddCustomGodot);
-        AddChild(BusyDialog);
-        AddChild(NewVersion);
-        AddChild(YesNoDialog);
-        AddChild(ImportProject);
-        AddChild(MessageDialog);
-        AddChild(ImportFileDialog);
-        AddChild(CreateProject);
-        AddChild(AssetLibPreview);
+        AddChild(FirstTimeInstall_);
+        AddChild(AddCustomGodot_);
+        AddChild(BusyDialog_);
+        AddChild(NewVersion_);
+        AddChild(YesNoDialog_);
+        AddChild(ImportProject_);
+        AddChild(MessageDialog_);
+        AddChild(ImportFileDialog_);
+        AddChild(CreateProject_);
+        AddChild(AssetLibPreview_);
     }
 }

@@ -144,9 +144,9 @@ public class AssetLibPanel : Panel
 
 	private async Task Configure(bool projectsOnly)
 	{
-		AppDialogs.Instance.BusyDialog.UpdateHeader("Gathering information from GodotEngine Assetlib...");
-		AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
-		AppDialogs.Instance.BusyDialog.ShowDialog();
+		AppDialogs.BusyDialog.UpdateHeader("Gathering information from GodotEngine Assetlib...");
+		AppDialogs.BusyDialog.UpdateByline("Connecting...");
+		AppDialogs.BusyDialog.ShowDialog();
 
 		AssetLib.AssetLib.Instance.Connect("chunk_received", this, "OnChunkReceived");
 		downloadedBytes = 0;
@@ -158,8 +158,8 @@ public class AssetLibPanel : Panel
 
 		AssetLib.AssetLib.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
 
-		AppDialogs.Instance.BusyDialog.UpdateHeader("Processing Data from GodotEngine Assetlib...");
-		AppDialogs.Instance.BusyDialog.UpdateByline("Processing...");
+		AppDialogs.BusyDialog.UpdateHeader("Processing Data from GodotEngine Assetlib...");
+		AppDialogs.BusyDialog.UpdateByline("Processing...");
 
 		_category.Clear();
 		AssetLib.ConfigureResult configureResult = task.Result;
@@ -186,9 +186,9 @@ public class AssetLibPanel : Panel
 
 	private async Task UpdatePaginatedListing(PaginatedListing pl)
 	{
-		AppDialogs.Instance.BusyDialog.UpdateHeader("Getting search results...");
-		AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
-        AppDialogs.Instance.BusyDialog.ShowDialog();
+		AppDialogs.BusyDialog.UpdateHeader("Getting search results...");
+		AppDialogs.BusyDialog.UpdateByline("Connecting...");
+        AppDialogs.BusyDialog.ShowDialog();
 
         bool projectsOnly = (pl == _plTemplates);
         int sortBy = _sortBy.Selected;
@@ -200,8 +200,8 @@ public class AssetLibPanel : Panel
 		while (!stask.IsCompleted)
 			await this.IdleFrame();
 
-		AppDialogs.Instance.BusyDialog.UpdateByline("Parsing results...");
+		AppDialogs.BusyDialog.UpdateByline("Parsing results...");
 		pl.UpdateResults(stask.Result);
-		AppDialogs.Instance.BusyDialog.Visible = false;
+		AppDialogs.BusyDialog.Visible = false;
 	}
 }

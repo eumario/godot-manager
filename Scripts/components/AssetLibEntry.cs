@@ -105,14 +105,14 @@ public class AssetLibEntry : ColorRect
         if (inputEvent is InputEventMouseButton iembEvent) {
             if (iembEvent.Pressed && (ButtonList)iembEvent.ButtonIndex == ButtonList.Left)
             {
-                AppDialogs.Instance.BusyDialog.UpdateHeader("Getting asset information...");
-                AppDialogs.Instance.BusyDialog.UpdateByline("Connecting...");
-                AppDialogs.Instance.BusyDialog.ShowDialog();
+                AppDialogs.BusyDialog.UpdateHeader("Getting asset information...");
+                AppDialogs.BusyDialog.UpdateByline("Connecting...");
+                AppDialogs.BusyDialog.ShowDialog();
                 Task<AssetLib.Asset> asset = AssetLib.AssetLib.Instance.GetAsset(AssetId);
                 while (!asset.IsCompleted)
                     await this.IdleFrame();
-                AppDialogs.Instance.BusyDialog.Visible = false;
-                AppDialogs.Instance.AssetLibPreview.ShowDialog(asset.Result);
+                AppDialogs.BusyDialog.Visible = false;
+                AppDialogs.AssetLibPreview.ShowDialog(asset.Result);
             }
         }
     }

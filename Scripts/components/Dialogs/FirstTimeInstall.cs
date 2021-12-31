@@ -24,7 +24,7 @@ public class FirstTimeInstall : ReferenceRect
 
     public void OnPressed_AddGodot() {
         Visible = false;
-        AppDialogs.Instance.AddCustomGodot.Visible = true;
+        AppDialogs.AddCustomGodot.Visible = true;
     }
 
     public void OnPressed_DownloadGodot() {

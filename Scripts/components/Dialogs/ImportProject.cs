@@ -47,11 +47,11 @@ public class ImportProject : ReferenceRect
 
     public void OnAddBtnPressed() {
         if (_locationValue.Text == "") {
-            AppDialogs.Instance.MessageDialog.ShowMessage("No Project Selected", "You need to select a project before it can be added.");
+            AppDialogs.MessageDialog.ShowMessage("No Project Selected", "You need to select a project before it can be added.");
             return;
         }
         if (_godotVersions.Selected == -1) {
-            AppDialogs.Instance.MessageDialog.ShowMessage("No Godot Version Selected", "You need to select a Godot Version to use with this Project.");
+            AppDialogs.MessageDialog.ShowMessage("No Godot Version Selected", "You need to select a Godot Version to use with this Project.");
             return;
         }
         int id = _godotVersions.GetItemId(_godotVersions.Selected);
@@ -70,10 +70,10 @@ public class ImportProject : ReferenceRect
     }
 
     public void OnLocationBrowsePressed() {
-        AppDialogs.Instance.ImportFileDialog.CurrentFile = "";
-        AppDialogs.Instance.ImportFileDialog.CurrentPath = "";
-        AppDialogs.Instance.ImportFileDialog.PopupCentered(new Vector2(510, 390));
-        AppDialogs.Instance.ImportFileDialog.Connect("file_selected", this, "OnFileSelected");
+        AppDialogs.ImportFileDialog.CurrentFile = "";
+        AppDialogs.ImportFileDialog.CurrentPath = "";
+        AppDialogs.ImportFileDialog.PopupCentered(new Vector2(510, 390));
+        AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnFileSelected");
     }
 
     public void OnFileSelected(string file_path) {
