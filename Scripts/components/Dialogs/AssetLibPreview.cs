@@ -53,6 +53,7 @@ public class AssetLibPreview : ReferenceRect
     private DownloadQueue dlq = null;
     private ImageDownloader dldIcon = null;
     private Array<ImageDownloader> dldPreviews = null;
+    private AssetLib.Asset _asset;
 #endregion
 
     // Called when the node enters the scene tree for the first time.
@@ -63,8 +64,30 @@ public class AssetLibPreview : ReferenceRect
         dlq.Connect("download_completed", this, "OnImageDownloaded");
         dlq.Connect("queue_finished", this, "OnQueueFinished");
         _PlayButton.Connect("gui_input", this, "OnGuiInput_PlayButton");
+        _Close.Connect("pressed", this, "OnClosePressed");
+        _Download.Connect("pressed", this, "OnDownloadPressed");
+        _Description.Connect("meta_clicked", this, "OnDescription_MetaClicked");
         AddChild(dlq);
         dldPreviews = new Array<ImageDownloader>();
+    }
+
+    void OnDescription_MetaClicked(object meta) {
+        OS.ShellOpen((string)meta);
+    }
+
+    void OnClosePressed() {
+        Visible = false;
+    }
+
+    async void OnDownloadPressed() {
+        // LOGIC: If asset is a Addon, after download is complete, popup Installer Refernece creator
+        // to allow user to select what files to be installed when selecting this addon.
+        // If asset is a Template/Project/Demo, this will be added to templates for creating New Projects from.
+        // Two new central repositories needed for Addons / Projects when saving to the user's computer.
+
+        AppDialogs.DownloadAddon.Asset = _asset;
+        AppDialogs.DownloadAddon.LoadInformation();
+        await AppDialogs.DownloadAddon.StartDownload();
     }
 
     public void ShowDialog(AssetLib.Asset asset) {
@@ -74,7 +97,8 @@ public class AssetLibPreview : ReferenceRect
         _Category.Text = asset.Category;
         _Version.Text = asset.VersionString;
         _License.Text = asset.Cost;
-        _Description.BbcodeText = asset.Description;
+        _Description.BbcodeText = $"[table=1][cell][color=lime]Support[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]Homepage[/url][/color][/cell][cell][color=aqua][url={asset.IssuesUrl}]Issue/Support Page[/url][/color][/cell][/table]\n\n{asset.Description}";
+        _asset = asset;
         
         System.Uri uri = new System.Uri(asset.IconUrl);
         sIconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";

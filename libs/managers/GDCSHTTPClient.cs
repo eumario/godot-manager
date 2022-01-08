@@ -14,6 +14,7 @@ public class GDCSHTTPClient : Node {
 	private string sHost;
 	private string sProperName;
 	private bool bUseSSL;
+	private bool bCancelled;
 
 	public GDCSHTTPClient() {
 		client = new HTTPClient();
@@ -36,6 +37,11 @@ public class GDCSHTTPClient : Node {
 		client.Close();
 	}
 
+	public void Cancel() {
+		bCancelled = true;
+	}
+	public bool IsCancelled() => bCancelled;
+
 	public async Task<HTTPClient.Status> StartClient(string host, bool use_ssl = false) {
 		client.BlockingModeEnabled = false;
 		sHost = host;
@@ -47,6 +53,7 @@ public class GDCSHTTPClient : Node {
 		} else {
 			sProperName = sHost.Capitalize();
 		}
+		bCancelled = false;
 		bUseSSL = use_ssl;
 		var res = client.ConnectToHost(host,-1,use_ssl,use_ssl);
 
@@ -63,6 +70,31 @@ public class GDCSHTTPClient : Node {
 		return client.GetStatus();
 	}
 
+	public async Task<HTTPResponse> HeadRequest(string path) {
+		HTTPResponse resp = null;
+		var res = client.Request(HTTPClient.Method.Head, path, GetRequestHeaders());
+		if (res != Error.Ok)
+			return resp;
+		
+		while (client.GetStatus() == HTTPClient.Status.Requesting) {
+			if (bCancelled) {
+				break;
+			}
+			client.Poll();
+			await this.IdleFrame();
+		}
+
+		if (bCancelled)
+			return resp;
+
+		if (client.HasResponse()) {
+			resp = new HTTPResponse();
+			resp.ResponseCode = client.GetResponseCode();
+			resp.Headers = client.GetResponseHeadersAsDictionary();
+		}
+		return resp;
+	}
+
 	public async Task<HTTPResponse> MakeRequest(string path) {
 		HTTPResponse resp = null;
 		var res = client.Request(HTTPClient.Method.Get, path, GetRequestHeaders());
@@ -70,14 +102,24 @@ public class GDCSHTTPClient : Node {
 			return null;
 		
 		while (client.GetStatus() == HTTPClient.Status.Requesting) {
+			if (bCancelled) {
+				break;
+			}
 			client.Poll();
 			await this.IdleFrame();
 		}
+
+		if (bCancelled)
+			return resp;
 
 		if (client.HasResponse()) {
 			resp = new HTTPResponse();
 			var task = resp.FromClient(this, client);
 			while (!task.IsCompleted) {
+				if (bCancelled) {
+					resp.Cancelled = bCancelled;
+					break;
+				}
 				await this.IdleFrame();
 			}
 			lastResponse = resp;

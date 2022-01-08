@@ -248,6 +248,10 @@ margin_right = 300.0
 margin_bottom = 294.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/table_vseparation = 5
+custom_constants/table_hseparation = 10
+custom_constants/line_separation = 3
+custom_fonts/normal_font = ExtResource( 5 )
 bbcode_enabled = true
 
 [node name="ScreenShots" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]

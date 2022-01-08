@@ -8,6 +8,7 @@ public class HTTPResponse : Object {
 	public Dictionary Headers;
 	public byte[] BodyRaw;
 	public string Body;
+	public bool Cancelled;
 
 	private HTTPClient client;
 	private Object call_from;
@@ -17,6 +18,7 @@ public class HTTPResponse : Object {
 		this.call_from = call_from;
 		ResponseCode = client.GetResponseCode();
 		Headers = client.GetResponseHeadersAsDictionary();
+		Cancelled = false;
 		Task res = GetBody();
 		while (!res.IsCompleted) {
 			await this.IdleFrame();
@@ -27,6 +29,10 @@ public class HTTPResponse : Object {
 		List<byte> rb = new List<byte>();
 		while (client.GetStatus() == HTTPClient.Status.Body)
 		{
+			// if (Cancelled) {
+			// 	GD.Print("Cancelled is true, breaking out!");
+			// 	return;
+			// }
 			client.Poll();
 			byte[] chunk = client.ReadResponseBodyChunk();
 			if (chunk.Length == 0)

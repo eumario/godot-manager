@@ -79,6 +79,11 @@ namespace AssetLib {
 			HTTPResponse result = tresult.Result;
 			client.Close();
 
+			if (result == null) {
+				mutex.Unlock();
+				return ret;
+			}
+
 			if (result.ResponseCode == 200)
 				ret = JsonConvert.DeserializeObject<ConfigureResult>(result.Body, Github.DefaultSettings.defaultJsonSettings);
 			
@@ -107,8 +112,15 @@ namespace AssetLib {
 			HTTPResponse result = tresult.Result;
 			client.Close();
 
-			if (result.ResponseCode == 200)
-				ret = JsonConvert.DeserializeObject<QueryResult>(result.Body, Github.DefaultSettings.defaultJsonSettings);
+			if (result == null) {
+				mutex.Unlock();
+				return ret;
+			}
+
+			if (result.ResponseCode == 200) {
+				if (!result.Cancelled && result.Body != "")
+					ret = JsonConvert.DeserializeObject<QueryResult>(result.Body, Github.DefaultSettings.defaultJsonSettings);
+			}
 			
 			mutex.Unlock();
 			return ret;
@@ -167,6 +179,11 @@ namespace AssetLib {
 			mutex.Lock();
 			HTTPResponse result = tresult.Result;
 			client.Close();
+
+			if (result == null) {
+				mutex.Unlock();
+				return res;
+			}
 
 			if (result.ResponseCode == 200)
 				res = JsonConvert.DeserializeObject<Asset>(result.Body, Github.DefaultSettings.defaultJsonSettings);

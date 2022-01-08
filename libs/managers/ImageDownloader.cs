@@ -29,13 +29,7 @@ public class ImageDownloader : Object {
 		else
 			uri = new System.Uri(sUrl);
 		
-		Task<HTTPClient.Status> cres;
-
-		if (uri.Scheme == "https") {
-			cres = client.StartClient(uri.Host, true);
-		} else {
-			cres = client.StartClient(uri.Host);
-		}
+		Task<HTTPClient.Status> cres = client.StartClient(uri.Host, (uri.Scheme == "https"));
 
 		while (!cres.IsCompleted)
 			await this.IdleFrame();
@@ -49,8 +43,9 @@ public class ImageDownloader : Object {
 		
 		HTTPResponse result = tresult.Result;
 		client.Close();
-
-		if (result.ResponseCode == 302) {
+		Array<int> redirect_codes = new Array<int> { 301, 302, 303, 307, 308 };
+		
+		if (redirect_codes.IndexOf(result.ResponseCode) >= 0) {
 			bIsRedirected = true;
 			sRedirected = result.Headers["Location"] as string;
 			Task<bool> recurse = StartDownload();
@@ -70,6 +65,7 @@ public class ImageDownloader : Object {
 			fh.Close();
 		} else {
 			GD.Print($"Failed to open file {sOutPath}, Error: {err}");
+			return false;
 		}
 
 		return true;
