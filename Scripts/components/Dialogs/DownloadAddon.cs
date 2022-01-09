@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using GodotSharpExtras;
+using System.Linq;
 
 public class DownloadAddon : ReferenceRect
 {
@@ -43,6 +44,9 @@ public class DownloadAddon : ReferenceRect
 
     [NodePath("DownloadSpeedTimer")]
     Timer _DownloadSpeedTimer = null;
+
+    [NodePath("IndeterminateProgress")]
+    Tween _IndeterminateProgress = null;
 #endregion
 
 #region Private Variables
@@ -53,6 +57,8 @@ public class DownloadAddon : ReferenceRect
     double dSpeed;
     GDCSHTTPClient client;
     System.Uri dlUri;
+    bool bDownloading = false;
+    Array<double> adSpeedStack;
 #endregion
 
 #region Public Accessors
@@ -71,8 +77,7 @@ public class DownloadAddon : ReferenceRect
         iLastByteCount = 0;
         iFileSize = 0;
         dSpeed = 0.0f;
-        client = new GDCSHTTPClient();
-        client.Connect("chunk_received", this, "OnChunkReceived");
+        adSpeedStack = new Array<double>();
         _DownloadSpeedTimer.Connect("timeout", this, "OnDownloadSpeedTimer_Timeout");
         _CancelButton.Connect("pressed", this, "OnCancelPressed");
     }
@@ -91,7 +96,9 @@ public class DownloadAddon : ReferenceRect
         var lbc = iLastByteCount;
         var tb = iTotalBytes;
         var speed = tb - lbc;
-        _Speed.Text = Util.FormatSize(speed) + "/s";
+        adSpeedStack.Add(speed);
+        var avgSpeed = adSpeedStack.Sum() / adSpeedStack.Count;
+        _Speed.Text = $"{Util.FormatSize(avgSpeed)}/s";
         if (iFileSize <= 0) {
             _FileSize.Text = Util.FormatSize(tb);
             System.TimeSpan elapsedTime = System.DateTime.Now - dtStartTime;
@@ -108,126 +115,189 @@ public class DownloadAddon : ReferenceRect
         mutex.Unlock();
     }
 
-    public async Task<bool> StartNetwork() {
-        Task<HTTPClient.Status> cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
-
-        while (!cres.IsCompleted)
-            await this.IdleFrame();
-        
-        if (!client.SuccessConnect(cres.Result)) {
-            Visible = false;
-            return false;
+    async Task StartIndeterminateTween() {
+        _ProgressBar.RectRotation = 0;
+        _ProgressBar.Value = 0;
+        _ProgressBar.PercentVisible = false;
+        while (bDownloading) {
+            _IndeterminateProgress.InterpolateProperty(_ProgressBar, "value", 0, 100, 0.5f, Tween.TransitionType.Linear, Tween.EaseType.InOut);
+            _IndeterminateProgress.Start();
+            while (_IndeterminateProgress.IsActive() && bDownloading)
+                await this.IdleFrame();
+            _ProgressBar.RectRotation = 180;
+            _IndeterminateProgress.InterpolateProperty(_ProgressBar, "value", 100, 0, 0.5f, Tween.TransitionType.Linear, Tween.EaseType.InOut);
+            _IndeterminateProgress.Start();
+            while (_IndeterminateProgress.IsActive() && bDownloading)
+                await this.IdleFrame();
+            _ProgressBar.RectRotation = 0;
         }
-        
-        // When using MakeRequest(), it will get the body before we get the headers back from the
-        // function call.  We need to see about using HEAD to get the filesize, before the actual
-        // request, this will also allow us to use HEAD to get redirect, without a body, I believe.
-        var tresult = client.HeadRequest(dlUri.PathAndQuery);
-        while (!tresult.IsCompleted)
-            await this.IdleFrame();
-        client.Close();
-
-        HTTPResponse result = tresult.Result;
-        Array<int> redirect_codes = new Array<int> { 301, 302, 303, 307, 308 };
-        
-        if (redirect_codes.IndexOf(result.ResponseCode) >= 0) {
-            dlUri = new System.Uri(result.Headers["Location"] as string);
-            Task<bool> recurse = StartNetwork();
-            await recurse;
-            return recurse.Result;
-        }
-
-        if (result.ResponseCode != 200) {
-            Visible = false;
-            return false;
-        }
-
-        if (result.Headers.Contains("Content-Length")) {
-            if (int.TryParse(result.Headers["Content-Length"] as string, out iFileSize)) {
-                _FileSize.Text = Util.FormatSize(iFileSize);
-                _ProgressBar.MaxValue = iFileSize;
-                _ProgressBar.Value = 0;
-            } else {
-                iFileSize = -1;
-                _FSLabel.Text = "Downloaded:";
-                _FileSize.Text = "0 bytes";
-                _ETALabel.Text = "Elapsed:";
-                _Eta.Text = "00:00:00";
-                _ProgressBar.Value = 0;
-                _ProgressBar.MaxValue = 100;
-
-            }
-        } else {
-            iFileSize = -1;
-            _ProgressBar.Value = 0;
-            _ProgressBar.MaxValue = 100;
-            _FSLabel.Text = "Downloaded:";
-            _FileSize.Text = "0 bytes";
-            _ETALabel.Text = "Elapsed:";
-            _Eta.Text = "00:00:00";
-        }
-
-        cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
-        while (!cres.IsCompleted)
-            await this.IdleFrame();
-        
-        if (!client.SuccessConnect(cres.Result)) {
-            Visible = false;
-            return false;
-        }
-
-        // Begin Actual Network download of addon/project/demo....
-        dtStartTime = System.DateTime.Now;
-        _DownloadSpeedTimer.Start(1);
-        tresult = client.MakeRequest(dlUri.PathAndQuery);
-
-        while (!tresult.IsCompleted) {
-            await this.IdleFrame();
-            if (tresult.IsCanceled)
-                break;
-        }
-
-        
-        client.Close();
-        _DownloadSpeedTimer.Stop();
-        if (tresult.IsCanceled) {
-            Visible = false;
-            return false;
-        }
-
-        result = tresult.Result;
-
-        if (result.Cancelled) {
-            AppDialogs.MessageDialog.ShowMessage("Download Cancelled",$"Addon download '{Asset.Title}' cancelled.");
-            Visible = false;
-            return false;
-        }
-            
-
-        string sPath = $"user://cache/AssetLib/{Asset.AssetId}-{dlUri.AbsolutePath.GetFile()}";
-        if (!sPath.EndsWith(".zip"))
-            sPath += ".zip";
-        
-        GD.Print($"AbsPath: {dlUri.AbsolutePath}");
-        GD.Print($"FileName: {sPath}");
-        GD.Print($"Buffer Size: {result.BodyRaw.Length}");
-
-        File fh = new File();
-        Error err = fh.Open(sPath, File.ModeFlags.Write);
-        if (err == Error.Ok) {
-            fh.StoreBuffer(result.BodyRaw);
-            fh.Close();
-        } else {
-            GD.Print($"Failed to open file {sPath}, Error: {err}");
-            Visible = false;
-            return false;
-        }
-
-        Visible = false;
-        return true;
+        if (_IndeterminateProgress.IsActive())
+            _IndeterminateProgress.StopAll();
+        _ProgressBar.RectRotation = 0;
+        _ProgressBar.Value = 0;
+        _ProgressBar.PercentVisible = true;
     }
 
-    public void LoadInformation() {
+    public async Task<bool> StartNetwork()
+	{
+		bDownloading = true;
+        adSpeedStack.Clear();
+		InitClient();
+		Task<HTTPClient.Status> cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
+
+		while (!cres.IsCompleted)
+			await this.IdleFrame();
+
+		if (!client.SuccessConnect(cres.Result))
+		{
+			Visible = false;
+			return false;
+		}
+
+		// When using MakeRequest(), it will get the body before we get the headers back from the
+		// function call.  We need to see about using HEAD to get the filesize, before the actual
+		// request, this will also allow us to use HEAD to get redirect, without a body, I believe.
+		var tresult = client.HeadRequest(dlUri.PathAndQuery);
+		while (!tresult.IsCompleted)
+			await this.IdleFrame();
+		client.Close();
+
+		HTTPResponse result = tresult.Result;
+		Array<int> redirect_codes = new Array<int> { 301, 302, 303, 307, 308 };
+
+		if (redirect_codes.IndexOf(result.ResponseCode) >= 0)
+		{
+			dlUri = new System.Uri(result.Headers["Location"] as string);
+            CleanupClient();
+			Task<bool> recurse = StartNetwork();
+			await recurse;
+			return recurse.Result;
+		}
+
+		if (result.ResponseCode != 200)
+		{
+            CleanupClient();
+			Visible = false;
+			return false;
+		}
+
+		UpdateFields(result);
+
+		cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
+		while (!cres.IsCompleted)
+			await this.IdleFrame();
+
+		if (!client.SuccessConnect(cres.Result))
+		{
+			CleanupClient();
+			Visible = false;
+			return false;
+		}
+
+		// Begin Actual Network download of addon/project/demo....
+		dtStartTime = System.DateTime.Now;
+		_DownloadSpeedTimer.Start(1);
+		tresult = client.MakeRequest(dlUri.PathAndQuery, true);
+
+		while (!tresult.IsCompleted)
+		{
+			await this.IdleFrame();
+			if (tresult.IsCanceled)
+				break;
+		}
+
+
+		client.Close();
+		bDownloading = false;
+		if (tresult.IsCanceled)
+		{
+			CleanupClient();
+			Visible = false;
+			return false;
+		}
+
+		result = tresult.Result;
+
+		if (result.Cancelled)
+		{
+			AppDialogs.MessageDialog.ShowMessage("Download Cancelled", $"Addon download '{Asset.Title}' cancelled.");
+			CleanupClient();
+			Visible = false;
+			return false;
+		}
+
+
+		string sPath = $"user://cache/AssetLib/{Asset.AssetId}-{dlUri.AbsolutePath.GetFile()}";
+		if (!sPath.EndsWith(".zip"))
+			sPath += ".zip";
+        
+        File fh = new File();
+        Error err = fh.Open(sPath, File.ModeFlags.Write);
+        if (err != Error.Ok) {
+            GD.Print($"Failed to open file {sPath}, Error: {err}");
+            return false;
+        }
+        
+        fh.StoreBuffer(result.BodyRaw);
+        fh.Close();
+
+		Visible = false;
+		CleanupClient();
+		return true;
+	}
+
+	private void UpdateFields(HTTPResponse result)
+	{
+		if (result.Headers.Contains("Content-Length"))
+		{
+			if (int.TryParse(result.Headers["Content-Length"] as string, out iFileSize))
+			{
+				_FileSize.Text = Util.FormatSize(iFileSize);
+				_ProgressBar.MaxValue = iFileSize;
+				_ProgressBar.Value = 0;
+			}
+			else
+			{
+				iFileSize = -1;
+				_FSLabel.Text = "Downloaded:";
+				_FileSize.Text = "0 bytes";
+				_ETALabel.Text = "Elapsed:";
+				_Eta.Text = "00:00:00";
+				_ProgressBar.Value = 0;
+				_ProgressBar.MaxValue = 100;
+				StartIndeterminateTween();
+
+			}
+		}
+		else
+		{
+			iFileSize = -1;
+			_ProgressBar.Value = 0;
+			_ProgressBar.MaxValue = 100;
+			_FSLabel.Text = "Downloaded:";
+			_FileSize.Text = "0 bytes";
+			_ETALabel.Text = "Elapsed:";
+			_Eta.Text = "00:00:00";
+			StartIndeterminateTween();
+		}
+	}
+
+	private void InitClient()
+	{
+        if (client != null)
+            CleanupClient();
+		client = new GDCSHTTPClient();
+		client.Connect("chunk_received", this, "OnChunkReceived");
+	}
+
+	private void CleanupClient()
+	{
+		client.Disconnect("chunk_received", this, "OnChunkReceived");
+		client.QueueFree();
+		client = null;
+	}
+
+	public void LoadInformation() {
         _Title.Text = $"Downloading {Asset.Type.Capitalize()}";
         _FileName.Text = Asset.Title;
         _Location.Text = Asset.DownloadProvider;

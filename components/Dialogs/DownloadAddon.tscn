@@ -200,6 +200,7 @@ clip_text = true
 margin_top = 117.0
 margin_right = 304.0
 margin_bottom = 131.0
+rect_pivot_offset = Vector2( 152, 7 )
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 215.0
@@ -229,3 +230,5 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="DownloadSpeedTimer" type="Timer" parent="."]
+
+[node name="IndeterminateProgress" type="Tween" parent="."]

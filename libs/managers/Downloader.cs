@@ -90,7 +90,7 @@ public class Downloader : Object {
 
 		if (client.HasResponse()) {
 			resp = new HTTPResponse();
-			var task = resp.FromClient(this, client);
+			var task = resp.FromClient(this, client, true);
 			while (!task.IsCompleted) {
 				await this.IdleFrame();
 			}

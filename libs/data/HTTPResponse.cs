@@ -12,13 +12,15 @@ public class HTTPResponse : Object {
 
 	private HTTPClient client;
 	private Object call_from;
+	private bool bBinary;
 
-	public async Task FromClient(Object call_from, HTTPClient client) {
+	public async Task FromClient(Object call_from, HTTPClient client, bool binary = false) {
 		this.client = client;
 		this.call_from = call_from;
 		ResponseCode = client.GetResponseCode();
 		Headers = client.GetResponseHeadersAsDictionary();
 		Cancelled = false;
+		bBinary = binary;
 		Task res = GetBody();
 		while (!res.IsCompleted) {
 			await this.IdleFrame();
@@ -44,11 +46,13 @@ public class HTTPResponse : Object {
 		}
 		BodyRaw = rb.ToArray();
 #pragma warning disable CS0168
-		try {
-			Body = BodyRaw.GetStringFromUTF8();
-		} catch (System.Exception ex) {
-			// We don't care about exceptions from this, as we may not be getting strings
-			// but raw bytes, such as zip files, executables, etc, etc.
+		if (!bBinary) {
+			try {
+				Body = BodyRaw.GetStringFromUTF8();
+			} catch (System.Exception ex) {
+				// We don't care about exceptions from this, as we may not be getting strings
+				// but raw bytes, such as zip files, executables, etc, etc.
+			}
 		}
 #pragma warning restore CS0168
 	}

@@ -95,7 +95,7 @@ public class GDCSHTTPClient : Node {
 		return resp;
 	}
 
-	public async Task<HTTPResponse> MakeRequest(string path) {
+	public async Task<HTTPResponse> MakeRequest(string path, bool binary = false) {
 		HTTPResponse resp = null;
 		var res = client.Request(HTTPClient.Method.Get, path, GetRequestHeaders());
 		if (res != Error.Ok)
@@ -114,7 +114,7 @@ public class GDCSHTTPClient : Node {
 
 		if (client.HasResponse()) {
 			resp = new HTTPResponse();
-			var task = resp.FromClient(this, client);
+			var task = resp.FromClient(this, client, binary);
 			while (!task.IsCompleted) {
 				if (bCancelled) {
 					resp.Cancelled = bCancelled;
