@@ -265,7 +265,7 @@ public class DownloadAddon : ReferenceRect
 				_Eta.Text = "00:00:00";
 				_ProgressBar.Value = 0;
 				_ProgressBar.MaxValue = 100;
-				StartIndeterminateTween();
+				Task task = StartIndeterminateTween();
 
 			}
 		}
@@ -278,7 +278,7 @@ public class DownloadAddon : ReferenceRect
 			_FileSize.Text = "0 bytes";
 			_ETALabel.Text = "Elapsed:";
 			_Eta.Text = "00:00:00";
-			StartIndeterminateTween();
+			Task task = StartIndeterminateTween();
 		}
 	}
 
