@@ -3,7 +3,7 @@
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
 [ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/components/AddCustomGodot.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/components/Dialogs/AddCustomGodot.cs" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.509804 )

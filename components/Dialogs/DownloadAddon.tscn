@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
-[ext_resource path="res://Scripts/components/DownloadAddon.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/components/Dialogs/DownloadAddon.cs" type="Script" id=3]
 [ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=4]
 
 [sub_resource type="StyleBoxFlat" id=4]
