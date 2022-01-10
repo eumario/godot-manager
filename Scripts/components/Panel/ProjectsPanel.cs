@@ -122,16 +122,16 @@ public class ProjectsPanel : Panel
         }
     }
 
-    public void OnListEntry_Clicked(ProjectLineEntry ple) {
+    void OnListEntry_Clicked(ProjectLineEntry ple) {
         UpdateListExcept(ple);
     }
 
-    public void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
+    void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
         GD.Print(ple.Location);
         // OS.Execute(@"C:\Users\eumar\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd", new string[] { $"{ple.Location}"}, false);
     }
 
-    public void OnActionButtons_Clicked(int index) {
+    void OnActionButtons_Clicked(int index) {
         switch (index) {
             case 0: // New Project File
                 AppDialogs.CreateProject.ShowDialog();
@@ -146,7 +146,7 @@ public class ProjectsPanel : Panel
         }
     }
 
-    public void OnViewSelector_Clicked(int page) {
+    void OnViewSelector_Clicked(int page) {
         for (int i = 0; i < _views.Count; i++) {
             if (i == page)
                 _views[i].Show();
@@ -194,7 +194,7 @@ public class ProjectsPanel : Panel
         return projectFiles;
     }
 
-    public void OnButton_Pressed() {
+    void OnButton_Pressed() {
         //AddTestProjects();
         
         Array<ProjectFile> projectFiles = TestFavSortListing(); //TestSortListing();

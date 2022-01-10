@@ -60,7 +60,7 @@ public class MainWindow : Control
 			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
 	}
 	
-	public void OnPageButton_Clicked(PageButton pb) {
+	void OnPageButton_Clicked(PageButton pb) {
 		_notebook.CurrentTab = _buttons.IndexOf(pb);
 	}
 }

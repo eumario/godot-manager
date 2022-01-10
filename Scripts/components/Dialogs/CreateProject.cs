@@ -76,6 +76,10 @@ public class CreateProject : ReferenceRect
         ProjectPath = CentralStore.Settings.ProjectPath;
     }
 
+    void OnCancelPressed() {
+        Visible = false;
+    }
+
     public void ShowDialog() {
         int defaultGodot = -1;
         _projectName.Text = "Untitled Project";
@@ -102,7 +106,7 @@ public class CreateProject : ReferenceRect
         Visible = true;
     }
 
-    public void OnProjectLocation_TextChanged(string new_text) {
+    void OnProjectLocation_TextChanged(string new_text) {
         if (System.IO.Directory.Exists(new_text)) {
             if (System.IO.Directory.GetDirectories(new_text).Length == 0 &&
                 System.IO.Directory.GetFiles(new_text).Length == 0) {

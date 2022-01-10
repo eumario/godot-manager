@@ -84,7 +84,7 @@ public class PaginatedListing : ScrollContainer
         dlq.StartDownload();
     }
 
-    public void OnImageDownloaded(ImageDownloader dld) {
+    void OnImageDownloaded(ImageDownloader dld) {
         foreach(AssetLibEntry ale in _listing.GetChildren()) {
             if (ale.HasMeta("dld")) {
                 if ((ale.GetMeta("dld") as ImageDownloader) == dld) {
@@ -104,7 +104,7 @@ public class PaginatedListing : ScrollContainer
         }
     }
 
-    public void OnPageChanged(int page) {
+    void OnPageChanged(int page) {
         if (alqrLastResult != null && page != alqrLastResult.Page) {
             EmitSignal("page_changed", page);
         }

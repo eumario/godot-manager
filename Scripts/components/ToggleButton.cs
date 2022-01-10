@@ -15,7 +15,7 @@ public class ToggleButton : ColorRect
 
 	// func _on_ColorRect_gui_input(event:InputEvent) -> void:
 	// 	pass # Replace with function body.
-	public void OnToggleButton_GuiInput(InputEvent inputEvent) {
+	void OnToggleButton_GuiInput(InputEvent inputEvent) {
 		if (!(inputEvent is InputEventMouseButton))
             return;
         

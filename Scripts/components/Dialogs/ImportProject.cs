@@ -67,7 +67,7 @@ public class ImportProject : ReferenceRect
         Visible = true;
     }
 
-    public void OnAddBtnPressed() {
+    void OnAddBtnPressed() {
         if (_locationValue.Text == "") {
             AppDialogs.MessageDialog.ShowMessage("No Project Selected", "You need to select a project before it can be added.");
             return;
@@ -87,18 +87,18 @@ public class ImportProject : ReferenceRect
         Visible = false;
     }
 
-    public void OnCancelBtnPressed() {
+    void OnCancelBtnPressed() {
         Visible = false;
     }
 
-    public void OnLocationBrowsePressed() {
+    void OnLocationBrowsePressed() {
         AppDialogs.ImportFileDialog.CurrentFile = "";
         AppDialogs.ImportFileDialog.CurrentPath = "";
         AppDialogs.ImportFileDialog.PopupCentered(new Vector2(510, 390));
         AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnFileSelected");
     }
 
-    public void OnFileSelected(string file_path) {
+    void OnFileSelected(string file_path) {
         _locationValue.Text = file_path;
     }
 }

@@ -77,7 +77,7 @@ public class PageButton : ColorRect
         UpdateElements();
     }
 
-    public void OnPageButton_GuiInput(InputEvent inputEvent) {
+    void OnPageButton_GuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
         
@@ -89,11 +89,11 @@ public class PageButton : ColorRect
         EmitSignal("Clicked",this);
     }
 
-    public void OnPageButton_MouseEntered() {
+    void OnPageButton_MouseEntered() {
         Color = new Color("4b5163");
     }
 
-    public void OnPageButton_MouseExited() {
+    void OnPageButton_MouseExited() {
         Color = new Color("383d4a");
     }
 

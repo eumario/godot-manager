@@ -61,7 +61,7 @@ public class MessageDialog : ReferenceRect
         Visible = true;
     }
 
-    public void OnConfirmPressed() {
+    void OnConfirmPressed() {
         Visible = false;
     }
 }

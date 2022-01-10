@@ -47,7 +47,7 @@ public class DownloadQueue : Node {
 		dld.ActiveTask = task;
 	}
 
-	public async void OnCheckActive() {
+	async void OnCheckActive() {
 		Array<ImageDownloader> remove = new Array<ImageDownloader>();
 		foreach(ImageDownloader adld in active) {
 			await this.IdleFrame();

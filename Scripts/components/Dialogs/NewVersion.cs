@@ -20,11 +20,11 @@ public class NewVersion : ReferenceRect
         Download.Connect("pressed", this, "OnDownloadClicked");
     }
 
-    public void OnCancelClicked() {
+    void OnCancelClicked() {
         this.Visible = false;
     }
 
-    public void OnDownloadClicked() {
+    void OnDownloadClicked() {
         // Handle Downloading new version of Godot.
     }
 

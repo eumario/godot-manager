@@ -197,7 +197,7 @@ public class AssetLibPreview : ReferenceRect
 		}
 	}
 
-	public void OnImageDownloaded(ImageDownloader dld) {
+	void OnImageDownloaded(ImageDownloader dld) {
         if (dld == dldIcon) {
             Texture icon = Util.LoadImage(sIconPath);
             if (icon == null)
@@ -216,7 +216,7 @@ public class AssetLibPreview : ReferenceRect
 		}
     }
 
-    public void OnQueueFinished() {
+    void OnQueueFinished() {
         dldPreviews.Clear();
     }
 

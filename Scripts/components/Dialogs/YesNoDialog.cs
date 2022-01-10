@@ -42,12 +42,12 @@ public class YesNoDialog : ReferenceRect
         return result;
     }
 
-    public void OnConfirmPressed() {
+    void OnConfirmPressed() {
         result = true;
         Visible = false;
     }
 
-    public void OnCancelPressed() {
+    void OnCancelPressed() {
         result = false;
         Visible = false;
     }

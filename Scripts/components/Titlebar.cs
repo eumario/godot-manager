@@ -10,7 +10,7 @@ public class Titlebar : Control
         Connect("gui_input", this, "OnTitlebar_GuiInput");
     }
 
-    public void OnTitlebar_GuiInput(InputEvent inputEvent) {
+    void OnTitlebar_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton) {
             var iemb = inputEvent as InputEventMouseButton;
             if (iemb.ButtonIndex == 1) {

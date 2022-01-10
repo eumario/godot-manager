@@ -256,7 +256,7 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
-    public void OnDownload_GuiInput(InputEvent inputEvent) {
+     void OnDownload_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
             if (_download.Texture == downloadIcon)
                 EmitSignal("install_clicked", this);
@@ -266,13 +266,13 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
-    public void OnDefault_GuiInput(InputEvent inputEvent) {
+    void OnDefault_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
             EmitSignal("default_selected", this);
         }
     }
 
-    public void OnChunkReceived(int bytes) {
+    void OnChunkReceived(int bytes) {
         _progressBar.Value += bytes;
         _fileSize.Text = $"{Util.FormatSize(_progressBar.Value)}/{Util.FormatSize(Downloader.totalSize)}";
     }

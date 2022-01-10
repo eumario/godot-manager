@@ -41,7 +41,7 @@ public class GodotPanel : Panel
         UseMono.Connect("toggled", this, "OnToggledUseMono");
     }
 
-    public void OnToggledUseMono(bool value) {
+    void OnToggledUseMono(bool value) {
         foreach(GodotLineEntry gle in Available.List.GetChildren())
             gle.Mono = value;
         UpdateVisibility();
@@ -78,7 +78,7 @@ public class GodotPanel : Panel
         }
     }
 
-    public async void OnInstallClicked(GodotLineEntry gle) {
+    async void OnInstallClicked(GodotLineEntry gle) {
         Available.List.RemoveChild(gle);
         Downloading.List.AddChild(gle);
         Downloading.Visible = true;
@@ -118,7 +118,7 @@ public class GodotPanel : Panel
     }
 
 
-    public async void OnUninstallClicked(GodotLineEntry gle) {
+    async void OnUninstallClicked(GodotLineEntry gle) {
         Task<bool> result = AppDialogs.YesNoDialog.ShowDialog(
             "Remove Godot Install",
             $"You are about to uninstall {gle.GodotVersion.Tag}, are you sure you want to continue?"
@@ -144,7 +144,7 @@ public class GodotPanel : Panel
         }
     }
 
-    public void OnDefaultSelected(GodotLineEntry gle) {
+    void OnDefaultSelected(GodotLineEntry gle) {
         if (gle.GodotVersion.Id == CentralStore.Settings.DefaultEngine) {
             return; // Don't need to do anything
         } else {
@@ -248,7 +248,7 @@ public class GodotPanel : Panel
     }
 
     private int downloadedBytes = 0;
-    public void OnChunkReceived(int bytes) {
+    void OnChunkReceived(int bytes) {
         downloadedBytes += bytes;
         AppDialogs.BusyDialog.UpdateByline($"Downloaded {Util.FormatSize(downloadedBytes)}...");
     }

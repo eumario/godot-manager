@@ -45,7 +45,7 @@ public class SysButton : ColorRect
         Connect("mouse_exited", this, "OnSysButton_MouseExited");
     }
 
-    public void OnSysButton_GuiInput(InputEvent inputEvent) {
+    void OnSysButton_GuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
         
@@ -71,7 +71,7 @@ public class SysButton : ColorRect
         }
     }
 
-    public void OnSysButton_MouseEntered() {
+    void OnSysButton_MouseEntered() {
         if (ButtonType == TYPES.close) {
             Color = new Godot.Color("e11f1f");
         } else {
@@ -79,7 +79,7 @@ public class SysButton : ColorRect
         }
     }
 
-    public void OnSysButton_MouseExited() {
+    void OnSysButton_MouseExited() {
         Color = BaseColor;
     }
 }

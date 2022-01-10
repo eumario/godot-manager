@@ -142,7 +142,7 @@ public class ProjectLineEntry : ColorRect
         this.Connect("gui_input", this, "OnGuiInput");
     }
 
-    public void OnGuiInput(InputEvent inputEvent) {
+    void OnGuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
         var iemb = inputEvent as InputEventMouseButton;

@@ -22,12 +22,12 @@ public class FirstTimeInstall : ReferenceRect
         DownloadGodot.Connect("pressed", this, "OnPressed_DownloadGodot");
     }
 
-    public void OnPressed_AddGodot() {
+    void OnPressed_AddGodot() {
         Visible = false;
         AppDialogs.AddCustomGodot.Visible = true;
     }
 
-    public void OnPressed_DownloadGodot() {
+    void OnPressed_DownloadGodot() {
         GodotButton.Activate();
         GodotButton.EmitSignal("Clicked", GodotButton);
         Visible = false;

@@ -93,7 +93,7 @@ public class CategoryList : VBoxContainer
         _toggleIcon.Connect("gui_input", this, "OnToggle_GuiInput");
     }
 
-    public void OnToggle_GuiInput(InputEvent inputEvent) {
+     void OnToggle_GuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
         var iemb = inputEvent as InputEventMouseButton;
