@@ -137,7 +137,6 @@ public class ProjectsPanel : Panel
                 AppDialogs.CreateProject.ShowDialog();
                 break;
             case 1: // Import Project File
-                //AppDialogs.ImportProject.Visible = true;
                 AppDialogs.ImportProject.ShowDialog();
                 break;
             case 2: // Scan Project Folder
