@@ -64,6 +64,7 @@ public class AppDialogs : Control
         ImportFileDialog_.WindowTitle = "Open Godot Project...";
         ImportFileDialog_.Filters = new string[] {"*.godot"};
         ImportFileDialog_.RectMinSize = new Vector2(510, 390);
+        ImportFileDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
 
         dialogs = new Array<ReferenceRect> {    // Hierarchy of Dialogs in window, for proper displaying
             FirstTimeInstall_,                  // First Time Installation Helper
@@ -85,5 +86,6 @@ public class AppDialogs : Control
             dlg.Visible = false;
             AddChild(dlg);
         }
+        AddChild(ImportFileDialog_);
     }
 }

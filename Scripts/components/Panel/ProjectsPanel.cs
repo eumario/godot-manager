@@ -21,7 +21,7 @@ public class ProjectsPanel : Panel
 #region Template Scenes
     PackedScene _ProjectLineEntry = GD.Load<PackedScene>("res://components/ProjectLineEntry.tscn");
     PackedScene _ProjectIconEntry = GD.Load<PackedScene>("res://components/ProjectIconEntry.tscn");
-    PackedScene _CategoryListToggle = GD.Load<PackedScene>("res://components/CategoryListToggle.tscn");
+    PackedScene _CategoryList = GD.Load<PackedScene>("res://components/CategoryList.tscn");
 #endregion
 
     Array<Container> _views;
@@ -61,8 +61,9 @@ public class ProjectsPanel : Panel
         return pie;
     }
     
-    public CategoryListToggle NewCLT(string name) {
-        CategoryListToggle clt = _CategoryListToggle.Instance<CategoryListToggle>();
+    public CategoryList NewCL(string name) {
+        CategoryList clt = _CategoryList.Instance<CategoryList>();
+        clt.Toggable = true;
         clt.CategoryName = name;
         return clt;
     }
@@ -70,7 +71,7 @@ public class ProjectsPanel : Panel
     public void PopulateListing() {
         ProjectLineEntry ple;
         ProjectIconEntry pie;
-        CategoryListToggle clt;
+        CategoryList clt;
 
         foreach(Node child in _listView.GetChildren()) {
             child.QueueFree();
@@ -78,21 +79,25 @@ public class ProjectsPanel : Panel
         foreach(Node child in _gridView.GetChildren()) {
             child.QueueFree();
         }
-        foreach(CategoryListToggle child in _categoryView.GetChildren()) {
-            foreach(Node cchild in child.CategoryList.GetChildren()) {
+        foreach(CategoryList child in _categoryView.GetChildren()) {
+            foreach(Node cchild in child.List.GetChildren()) {
                 cchild.QueueFree();
             }
             child.QueueFree();
         }
 
         foreach(Category cat in CentralStore.Categories) {
-            clt = NewCLT(cat.Name);
+            clt = NewCL(cat.Name);
             clt.Set("ID",cat.Id);
             _categoryView.AddChild(clt);
         }
 
-        clt = NewCLT("Un-Categorized");
-        clt.Set("ID",-1);
+        clt = NewCL("Favorites");
+        clt.Set("ID", -1);
+        _categoryView.AddChild(clt);
+
+        clt = NewCL("Un-Categorized");
+        clt.Set("ID",-2);
         _categoryView.AddChild(clt);
 
         foreach(ProjectFile pf in CentralStore.Projects) {
@@ -102,10 +107,10 @@ public class ProjectsPanel : Panel
             ple.Connect("Clicked", this, "OnListEntry_Clicked");
             ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
             _gridView.AddChild(pie);
-            if (pf.CategoryId == -1) {
-                clt = _categoryView.GetChild<CategoryListToggle>(_categoryView.GetChildCount()-1);
+            if (pf.CategoryId <= -1) {
+                clt = _categoryView.GetChild<CategoryList>(_categoryView.GetChildCount()-1);
             } else {
-                clt = _categoryView.GetChild<CategoryListToggle>(pf.CategoryId);
+                clt = _categoryView.GetChild<CategoryList>(pf.CategoryId);
             }
             clt.AddProject(pf);
         }
