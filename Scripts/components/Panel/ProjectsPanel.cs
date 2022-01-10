@@ -24,6 +24,11 @@ public class ProjectsPanel : Panel
     PackedScene _CategoryList = GD.Load<PackedScene>("res://components/CategoryList.tscn");
 #endregion
 
+#region Private Variables
+    CategoryList clFavorites = null;
+    CategoryList clUncategorized = null;
+#endregion
+
     Array<Container> _views;
 
     public override void _Ready()
@@ -45,19 +50,13 @@ public class ProjectsPanel : Panel
 
     public ProjectLineEntry NewPLE(ProjectFile pf) {
         ProjectLineEntry ple = _ProjectLineEntry.Instance<ProjectLineEntry>();
-        ple.Name = pf.Name;
-        ple.Description = pf.Description;
-        ple.Icon = pf.Location.GetResourceBase(pf.Icon);
-        ple.Location = pf.Location;
+        ple.ProjectFile = pf;
         return ple;
     }
 
     public ProjectIconEntry NewPIE(ProjectFile pf) {
         ProjectIconEntry pie = _ProjectIconEntry.Instance<ProjectIconEntry>();
-        pie.ProjectName = pf.Name;
-        pie.Icon = pf.Location.GetResourceBase(pf.Icon);
-        pie.ProjectLocation = pf.Location;
-        //pie.GodotVersion = pf.GodotVersion;
+        pie.ProjectFile = pf;
         return pie;
     }
     
@@ -92,13 +91,13 @@ public class ProjectsPanel : Panel
             _categoryView.AddChild(clt);
         }
 
-        clt = NewCL("Favorites");
-        clt.Set("ID", -1);
-        _categoryView.AddChild(clt);
+        clFavorites = NewCL("Favorites");
+        clFavorites.Set("ID", -1);
+        _categoryView.AddChild(clFavorites);
 
-        clt = NewCL("Un-Categorized");
-        clt.Set("ID",-2);
-        _categoryView.AddChild(clt);
+        clUncategorized = NewCL("Un-Categorized");
+        clUncategorized.Set("ID",-2);
+        _categoryView.AddChild(clUncategorized);
 
         foreach(ProjectFile pf in CentralStore.Projects) {
             ple = NewPLE(pf);
@@ -107,8 +106,8 @@ public class ProjectsPanel : Panel
             ple.Connect("Clicked", this, "OnListEntry_Clicked");
             ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
             _gridView.AddChild(pie);
-            if (pf.CategoryId <= -1) {
-                clt = _categoryView.GetChild<CategoryList>(_categoryView.GetChildCount()-1);
+            if (pf.CategoryId == -1) {
+                clt = clUncategorized;
             } else {
                 clt = _categoryView.GetChild<CategoryList>(pf.CategoryId);
             }
@@ -138,7 +137,8 @@ public class ProjectsPanel : Panel
                 AppDialogs.CreateProject.ShowDialog();
                 break;
             case 1: // Import Project File
-                AppDialogs.ImportProject.Visible = true;
+                //AppDialogs.ImportProject.Visible = true;
+                AppDialogs.ImportProject.ShowDialog();
                 break;
             case 2: // Scan Project Folder
                 break;

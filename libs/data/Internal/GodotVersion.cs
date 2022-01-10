@@ -33,4 +33,8 @@ public class GodotVersion : Object {
 		DownloadedDate = System.DateTime.MinValue;
 		HideConsole = false;
 	}
+
+	public string GetDisplayName() {
+		return $"Godot {Tag + (IsMono ? " - Mono" : "")}";
+	}
 }

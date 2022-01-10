@@ -20,6 +20,7 @@ public class ProjectIconEntry : CenterContainer
     private string sProjectName;
     private string sProjectLocation;
     private int iGodotVersion;
+    private ProjectFile pfProjectFile;
 #endregion
 
 #region Public Accessors
@@ -68,6 +69,21 @@ public class ProjectIconEntry : CenterContainer
         }
     }
 
+    public ProjectFile ProjectFile {
+        get {
+            return pfProjectFile;
+        }
+
+        set {
+            pfProjectFile = value;
+            ProjectName = value.Name;
+            Icon = value.Location.GetResourceBase(value.Icon);
+            ProjectLocation = value.Location;
+            var gv = CentralStore.Instance.FindVersion(value.GodotVersion);
+            GodotVersion = CentralStore.Versions.IndexOf(gv);
+        }
+    }
+
     public int GodotVersion {
         get {
             if (_godotVersion != null)
@@ -81,7 +97,7 @@ public class ProjectIconEntry : CenterContainer
             if (_godotVersion != null) {
                 _godotVersion.Set("GodotVersion", value);
                 if (iGodotVersion >= 0)
-                    _godotVersion.Text = CentralStore.Versions[value].Tag;
+                    _godotVersion.Text = CentralStore.Versions[value].GetDisplayName();
                 else
                     _godotVersion.Text = "Unknown";
             }

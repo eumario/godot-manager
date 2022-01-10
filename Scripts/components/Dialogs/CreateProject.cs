@@ -83,7 +83,7 @@ public class CreateProject : ReferenceRect
 
         _godotVersion.Clear();
         foreach(GodotVersion version in CentralStore.Versions) {
-            string gdName = version.IsMono ? version.Tag + " - Mono" : version.Tag;
+            string gdName = version.GetDisplayName();
             int indx = CentralStore.Versions.IndexOf(version);
             if (version.Id == (string)CentralStore.Settings.DefaultEngine) {
                 defaultGodot = indx;

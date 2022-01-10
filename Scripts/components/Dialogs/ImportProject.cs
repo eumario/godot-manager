@@ -25,24 +25,46 @@ public class ImportProject : ReferenceRect
     Button _cancelBtn = null;
 #endregion
 
+#region Private Variables
+    GodotVersion gvDefault;
+    int iDefault;
+#endregion
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
-    {
-        this.OnReady();
+	{
+		this.OnReady();
 
-        _godotVersions.Items.Clear();
-        foreach (GodotVersion gdVers in CentralStore.Versions) {
-            string gdTag = gdVers.IsMono ? gdVers.Tag + " - Mono" : gdVers.Tag;
-            int id = CentralStore.Versions.IndexOf(gdVers);
-            _godotVersions.AddItem(gdTag, id);
-            _godotVersions.SetItemMetadata(id, gdVers.Id);
+		UpdateGodotVersions();
+		_locationValue.Text = "";
 
-        }
+		_addBtn.Connect("pressed", this, "OnAddBtnPressed");
+		_cancelBtn.Connect("pressed", this, "OnCancelBtnPressed");
+		_locationBrowse.Connect("pressed", this, "OnLocationBrowsePressed");
+	}
+
+	private void UpdateGodotVersions()
+	{
+        _godotVersions.Clear();
+		foreach (GodotVersion gdVers in CentralStore.Versions)
+		{
+			string gdTag = gdVers.GetDisplayName() + " (Default)";
+			int id = CentralStore.Versions.IndexOf(gdVers);
+			_godotVersions.AddItem(gdTag, id);
+			_godotVersions.SetItemMetadata(id, gdVers.Id);
+			if (CentralStore.Settings.DefaultEngine == gdVers.Id)
+			{
+				gvDefault = gdVers;
+				iDefault = id;
+			}
+		}
+	}
+
+	public void ShowDialog() {
+        UpdateGodotVersions();
         _locationValue.Text = "";
-
-        _addBtn.Connect("pressed", this, "OnAddBtnPressed");
-        _cancelBtn.Connect("pressed", this, "OnCancelBtnPressed");
-        _locationBrowse.Connect("pressed", this, "OnLocationBrowsePressed");
+        _godotVersions.Selected = iDefault;
+        Visible = true;
     }
 
     public void OnAddBtnPressed() {

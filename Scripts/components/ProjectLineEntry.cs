@@ -43,11 +43,12 @@ public class ProjectLineEntry : ColorRect
 
         set {
             pfProjectFile = value;
-            Icon = value.Location.GetResourceBase(value.Icon);
             Name = value.Name;
             Description = value.Description;
+            Icon = value.Location.GetResourceBase(value.Icon);
             Location = value.Location;
-            //GodotVersion = value.GodotVersion;
+            var gv = CentralStore.Instance.FindVersion(value.GodotVersion);
+            GodotVersion = CentralStore.Versions.IndexOf(gv);
         }
     }
 
@@ -120,7 +121,7 @@ public class ProjectLineEntry : ColorRect
             if (_version != null) {
                 _version.Set("godotVersion", value);
                 if (value >= 0) {
-                    _version.Text = CentralStore.Versions[value].Tag;
+                    _version.Text = CentralStore.Versions[value].GetDisplayName();
                 } else {
                     _version.Text = "Unknown";
                 }
