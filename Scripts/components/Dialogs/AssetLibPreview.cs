@@ -107,11 +107,16 @@ public class AssetLibPreview : ReferenceRect
             dldIcon = new ImageDownloader(asset.IconUrl, sIconPath);
             dlq.Push(dldIcon);
         } else {
-            Texture icon = Util.LoadImage(sIconPath);
-            if (icon == null)
-                _Icon.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-            else
-                _Icon.Texture = icon;
+            if (sIconPath.EndsWith(".gif")) {
+                GifTexture gif = new GifTexture(sIconPath);
+                _Icon.Texture = gif.Texture;
+            } else {
+                Texture icon = Util.LoadImage(sIconPath);
+                if (icon == null)
+                    _Icon.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                else
+                    _Icon.Texture = icon;
+            }
         }
         _Preview.Texture = GD.Load<Texture>("res://Assets/Icons/icon_thumbnail_wait.svg");
         _MissingThumbnails.Visible = false;
@@ -138,11 +143,19 @@ public class AssetLibPreview : ReferenceRect
                 preview.SetMeta("iconPath", iconPath);
                 dlq.Push(dld);
             } else {
-                Texture icon = Util.LoadImage(iconPath);
-                if (icon == null)
-                    preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-                else
-                    preview.Texture = icon;
+                if (iconPath.EndsWith(".gif")) {
+                    GifTexture gif = new GifTexture(iconPath);
+                    if (gif.Texture.Frames == 0)
+                        preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                    else
+                        preview.Texture = gif.Texture;
+                } else {
+                    Texture icon = Util.LoadImage(iconPath);
+                    if (icon == null)
+                        preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                    else
+                        preview.Texture = icon;
+                }
             }
 
             preview.SetMeta("url",asset.Previews[i].Link);
@@ -199,11 +212,19 @@ public class AssetLibPreview : ReferenceRect
 
 	void OnImageDownloaded(ImageDownloader dld) {
         if (dld == dldIcon) {
-            Texture icon = Util.LoadImage(sIconPath);
-            if (icon == null)
-                _Icon.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-            else
-                _Icon.Texture = icon;
+            if (sIconPath.EndsWith(".gif")) {
+                GifTexture gif = new GifTexture(sIconPath);
+                if (gif.Texture.Frames == 0)
+                    _Icon.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                else
+                    _Icon.Texture = gif.Texture;
+            } else {
+                Texture icon = Util.LoadImage(sIconPath);
+                if (icon == null)
+                    _Icon.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                else
+                    _Icon.Texture = icon;
+            }
         } else {
             if (dldPreviews.Contains(dld))
 			{
@@ -226,10 +247,18 @@ public class AssetLibPreview : ReferenceRect
 		string iconPath = preview.GetMeta("iconPath") as string;
 		if (System.IO.File.Exists(iconPath.GetOSDir().NormalizePath()))
 		{
-			Texture icon = Util.LoadImage(iconPath);
-			if (icon == null)
-				icon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-			preview.Texture = icon;
+            if (iconPath.EndsWith(".gif")) {
+                GifTexture gif = new GifTexture(iconPath);
+                if (gif.Texture.Frames == 0)
+                    preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                else
+                    preview.Texture = gif.Texture;
+            } else {
+                Texture icon = Util.LoadImage(iconPath);
+                if (icon == null)
+                    icon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                preview.Texture = icon;
+            }
 		}
 		else
 		{
