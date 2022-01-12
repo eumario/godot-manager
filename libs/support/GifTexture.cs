@@ -30,7 +30,7 @@ public class GifTexture {
 		// Linux/Android/iOS/Mac OS Mono runtime returns 4 bytes per selected active frame.
 		for(int i = 0; i < Texture.Frames; i++) {
 			gif.SelectActiveFrame(dim, i);
-			delays.Add(BitConverter.ToIn32(gif.GetPropertyItem(0x5100).Value,0));
+			delays.Add(BitConverter.ToInt32(gif.GetPropertyItem(0x5100).Value,0));
 		}
 #endif
 
