@@ -109,7 +109,7 @@ public class AssetLibPreview : ReferenceRect
         } else {
             if (sIconPath.EndsWith(".gif")) {
                 GifTexture gif = new GifTexture(sIconPath);
-                _Icon.Texture = gif.Texture;
+                _Icon.Texture = gif;
             } else {
                 Texture icon = Util.LoadImage(sIconPath);
                 if (icon == null)
@@ -145,10 +145,7 @@ public class AssetLibPreview : ReferenceRect
             } else {
                 if (iconPath.EndsWith(".gif")) {
                     GifTexture gif = new GifTexture(iconPath);
-                    if (gif.Texture.Frames == 0)
-                        preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-                    else
-                        preview.Texture = gif.Texture;
+                    preview.Texture = gif;
                 } else {
                     Texture icon = Util.LoadImage(iconPath);
                     if (icon == null)
@@ -214,10 +211,7 @@ public class AssetLibPreview : ReferenceRect
         if (dld == dldIcon) {
             if (sIconPath.EndsWith(".gif")) {
                 GifTexture gif = new GifTexture(sIconPath);
-                if (gif.Texture.Frames == 0)
-                    _Icon.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-                else
-                    _Icon.Texture = gif.Texture;
+                _Icon.Texture = gif;
             } else {
                 Texture icon = Util.LoadImage(sIconPath);
                 if (icon == null)
@@ -249,10 +243,7 @@ public class AssetLibPreview : ReferenceRect
 		{
             if (iconPath.EndsWith(".gif")) {
                 GifTexture gif = new GifTexture(iconPath);
-                if (gif.Texture.Frames == 0)
-                    preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-                else
-                    preview.Texture = gif.Texture;
+                preview.Texture = gif;
             } else {
                 Texture icon = Util.LoadImage(iconPath);
                 if (icon == null)
