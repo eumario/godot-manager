@@ -54,6 +54,8 @@ public class AssetLibPreview : ReferenceRect
     private ImageDownloader dldIcon = null;
     private Array<ImageDownloader> dldPreviews = null;
     private AssetLib.Asset _asset;
+
+    private Array<string> Templates = new Array<string> {"Templates", "Projects", "Demos"};
 #endregion
 
     // Called when the node enters the scene tree for the first time.
@@ -167,6 +169,12 @@ public class AssetLibPreview : ReferenceRect
         } else {
             _Preview.Texture = null;
             _MissingThumbnails.Visible = true;
+        }
+
+        if (Templates.IndexOf(asset.Category) != -1) {
+            _Download.Disabled = CentralStore.Instance.HasTemplate(asset.Title);
+        } else {
+            _Download.Disabled = CentralStore.Instance.HasPlugin(asset.Title);
         }
         
         dlq.StartDownload();

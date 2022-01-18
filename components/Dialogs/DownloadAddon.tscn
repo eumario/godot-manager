@@ -128,9 +128,10 @@ text = "Download"
 
 [node name="FileName" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
 margin_left = 82.0
-margin_right = 83.0
+margin_right = 304.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 2 )
+clip_text = true
 
 [node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
 margin_top = 23.0
@@ -143,8 +144,9 @@ align = 2
 [node name="Location" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
 margin_left = 82.0
 margin_top = 23.0
-margin_right = 83.0
+margin_right = 304.0
 margin_bottom = 41.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 clip_text = true
 
@@ -159,7 +161,7 @@ align = 2
 [node name="FileSize" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
 margin_left = 82.0
 margin_top = 45.0
-margin_right = 83.0
+margin_right = 304.0
 margin_bottom = 63.0
 custom_fonts/font = ExtResource( 1 )
 clip_text = true
@@ -175,7 +177,7 @@ align = 2
 [node name="Speed" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
 margin_left = 82.0
 margin_top = 67.0
-margin_right = 83.0
+margin_right = 304.0
 margin_bottom = 85.0
 custom_fonts/font = ExtResource( 1 )
 clip_text = true
@@ -191,7 +193,7 @@ align = 2
 [node name="Eta" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
 margin_left = 82.0
 margin_top = 89.0
-margin_right = 83.0
+margin_right = 304.0
 margin_bottom = 107.0
 custom_fonts/font = ExtResource( 1 )
 clip_text = true

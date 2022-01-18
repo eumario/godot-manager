@@ -31,10 +31,10 @@ public class HTTPResponse : Object {
 		List<byte> rb = new List<byte>();
 		while (client.GetStatus() == HTTPClient.Status.Body)
 		{
-			// if (Cancelled) {
-			// 	GD.Print("Cancelled is true, breaking out!");
-			// 	return;
-			// }
+			if (Cancelled) {
+				GD.Print("Cancelled is true, breaking out!");
+				return;
+			}
 			client.Poll();
 			byte[] chunk = client.ReadResponseBodyChunk();
 			if (chunk.Length == 0)

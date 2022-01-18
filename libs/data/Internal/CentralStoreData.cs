@@ -15,6 +15,10 @@ public class CentralStoreData : Object {
 	[JsonProperty]
 	public Array<Category> Categories;
 	[JsonProperty]
+	public Array<AssetPlugin> Plugins;
+	[JsonProperty]
+	public Array<AssetProject> Templates;
+	[JsonProperty]
 	public Settings Settings;
 
 	public CentralStoreData() {
@@ -23,6 +27,8 @@ public class CentralStoreData : Object {
 		GHVersions = new Array<GithubVersion>();
 		TFVersions = new Array<TuxfamilyVersion>();
 		Categories = new Array<Category>();
+		Plugins = new Array<AssetPlugin>();
+		Templates = new Array<AssetProject>();
 		Settings = new Settings();
 	}
 }

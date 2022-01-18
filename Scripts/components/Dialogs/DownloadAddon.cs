@@ -59,17 +59,14 @@ public class DownloadAddon : ReferenceRect
     System.Uri dlUri;
     bool bDownloading = false;
     Array<double> adSpeedStack;
+
+    private Array<string> Templates = new Array<string> {"Templates", "Projects", "Demos"};
 #endregion
 
 #region Public Accessors
     public AssetLib.Asset Asset;
 #endregion
 
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
@@ -88,6 +85,10 @@ public class DownloadAddon : ReferenceRect
 
     void OnChunkReceived(int bytes) {
         iTotalBytes += bytes;
+        if (iFileSize >= 0) {
+            _ProgressBar.Value = iTotalBytes;
+            _ProgressBar.Update();
+        }
     }
 
     void OnDownloadSpeedTimer_Timeout() {
@@ -117,6 +118,7 @@ public class DownloadAddon : ReferenceRect
 
     async Task StartIndeterminateTween() {
         _ProgressBar.RectRotation = 0;
+        _ProgressBar.RectPivotOffset = new Vector2(_ProgressBar.RectSize.x/2,_ProgressBar.RectSize.y/2);
         _ProgressBar.Value = 0;
         _ProgressBar.PercentVisible = false;
         while (bDownloading) {
@@ -243,6 +245,20 @@ public class DownloadAddon : ReferenceRect
 
 		Visible = false;
 		CleanupClient();
+        
+        if (Templates.IndexOf(Asset.Category) != -1) {
+            AssetProject ap = new AssetProject();
+            ap.Asset = Asset;
+            ap.Location = sPath;
+            CentralStore.Templates.Add(ap);
+        } else {
+            AssetPlugin apl = new AssetPlugin();
+            apl.Asset = Asset;
+            apl.Location = sPath;
+            CentralStore.Plugins.Add(apl);
+        }
+        CentralStore.Instance.SaveDatabase();
+
 		return true;
 	}
 

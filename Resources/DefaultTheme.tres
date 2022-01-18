@@ -1,10 +1,21 @@
-[gd_resource type="Theme" load_steps=27 format=2]
+[gd_resource type="Theme" load_steps=28 format=2]
 
 [ext_resource path="res://Assets/Icons/drop_down1.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Assets/Icons/x.svg" type="Texture" id=4]
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=5]
+
+[sub_resource type="StyleBoxFlat" id=37]
+bg_color = Color( 0.341176, 0.34902, 0.372549, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.235294, 0.254902, 0.305882, 1 )
@@ -233,7 +244,9 @@ corner_radius_bottom_left = 8
 expand_margin_top = 24.0
 
 [resource]
+Button/colors/font_color_disabled = Color( 0.901961, 0.901961, 0.901961, 0.580392 )
 Button/fonts/font = ExtResource( 2 )
+Button/styles/disabled = SubResource( 37 )
 Button/styles/hover = SubResource( 19 )
 Button/styles/normal = SubResource( 17 )
 Button/styles/pressed = SubResource( 20 )

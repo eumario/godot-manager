@@ -31,6 +31,8 @@ public class CentralStore {
 	public static Array<GithubVersion> GHVersions { get => Instance._data.GHVersions; }
 	public static Array<TuxfamilyVersion> TFVersions { get => Instance._data.TFVersions; }
 	public static Array<Category> Categories { get => Instance._data.Categories; }
+	public static Array<AssetPlugin> Plugins { get => Instance._data.Plugins; }
+	public static Array<AssetProject> Templates { get => Instance._data.Templates; }
 #endregion
 
 #region Instance Methods
@@ -40,6 +42,8 @@ public class CentralStore {
 			var data = db.GetAsText();
 			db.Close();
 			_data = JsonConvert.DeserializeObject<CentralStoreData>(data);
+			var unique = _data.Settings.ScanDirs.Distinct<string>();
+			_data.Settings.ScanDirs = new Array<string>(unique.ToArray<string>());
 			return true;
 		}
 		return false;
@@ -67,6 +71,20 @@ public class CentralStore {
 					select pf;
 			return res.FirstOrDefault() != null;
 		}
+	}
+
+	public bool HasTemplate(string name) {
+		var res = from pt in CentralStore.Templates
+					where pt.Asset.Title == name
+					select pt;
+		return res.FirstOrDefault() != null;
+	}
+
+	public bool HasPlugin(string name) {
+		var res = from pt in CentralStore.Plugins
+					where pt.Asset.Title == name
+					select pt;
+		return res.FirstOrDefault() != null;
 	}
 
 	public GodotVersion FindVersion(string id) {
