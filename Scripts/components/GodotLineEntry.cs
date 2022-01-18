@@ -1,7 +1,9 @@
 using Godot;
+using Godot.Collections;
 using GodotSharpExtras;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using System.Linq;
 
 public class GodotLineEntry : HBoxContainer
 {
@@ -33,6 +35,16 @@ public class GodotLineEntry : HBoxContainer
     [NodePath("vc/DownloadProgress/Filesize")]
     private Label _fileSize = null;
 
+    [NodePath("vc/ETA")]
+    private HBoxContainer _eta = null;
+    [NodePath("vc/ETA/EtaRemaining")]
+    private Label _etaRemaining = null;
+    [NodePath("vc/ETA/DownloadSpeed")]
+    private Label _downloadSpeed = null;
+
+    [NodePath("DownloadSpeedTimer")]
+    private Timer _downloadSpeedTimer = null;
+
     private StreamTexture downloadIcon;
     private StreamTexture uninstallIcon;
 #endregion
@@ -41,12 +53,19 @@ public class GodotLineEntry : HBoxContainer
     private string sLabel = "Godot Version x.x.x (Stable)";
     private string sSource = "Source: TuxFamily.org";
     private string sFilesize = "Size: 32MB";
+    private string sEtaRemaining = "ETA: 00:00:00";
+    private string sDownloadSpeed = "Speed: 0.00KB/s";
     private bool bDownloaded = false;
     private bool bDefault = false;
     private bool bMono = false;
     private GodotVersion gvGodotVersion = null;
     private GithubVersion gvGithubVersion = null;
     private Downloader Downloader = null;
+
+    private int iLastByteCount = 0;
+    private double dSpeed = 0;
+    Array<double> adSpeedStack;
+    System.DateTime dtStartTime;
 #endregion
 
 #region Public Accessors
@@ -212,16 +231,16 @@ public class GodotLineEntry : HBoxContainer
 
         GodotVersion = gvGodotVersion;
         GithubVersion = gvGithubVersion;
-        // Label = sLabel;
-        // Source = sSource;
-        // Filesize = sFilesize;
 
         _download.Connect("gui_input", this, "OnDownload_GuiInput");
         _default.Connect("gui_input", this, "OnDefault_GuiInput");
+        _downloadSpeedTimer.Connect("timeout", this, "OnDownloadSpeedTimer_Timeout");
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
         Downloaded = bDownloaded;
         ToggleDefault(bDefault);
+        adSpeedStack = new Array<double>();
+
     }
 
     public void ToggleDownloadUninstall(bool value) {
@@ -237,12 +256,7 @@ public class GodotLineEntry : HBoxContainer
 
     public void ToggleDownloadProgress(bool value) {
         _downloadProgress.Visible = value;
-    }
-
-    public void UpdateProgress(int bytes, int total_bytes) {
-        float progress = bytes * 100.0f / total_bytes;
-        _progressBar.Value = progress;
-        _fileSize.Text = $"{Util.FormatSize(bytes)}/{Util.FormatSize(total_bytes)}";
+        _eta.Visible = value;
     }
 
     public void ToggleDefault(bool value) {
@@ -270,6 +284,24 @@ public class GodotLineEntry : HBoxContainer
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
             EmitSignal("default_selected", this);
         }
+    }
+
+    void OnDownloadSpeedTimer_Timeout() {
+        Mutex mutex = new Mutex();
+        mutex.Lock();
+        var lbc = iLastByteCount;
+        var tb = _progressBar.Value;
+        var speed = tb - lbc;
+        adSpeedStack.Add(speed);
+        var avgSpeed = adSpeedStack.Sum() / adSpeedStack.Count;
+        _downloadSpeed.Text = $"Speed: {Util.FormatSize(avgSpeed)}/s";
+        System.TimeSpan elapsedTime = System.DateTime.Now - dtStartTime;
+        if (tb == 0)
+            return;
+        System.TimeSpan estTime = System.TimeSpan.FromSeconds( (Downloader.totalSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
+        _etaRemaining.Text = "ETA: " + estTime.ToString("hh':'mm':'ss");
+        iLastByteCount = (int)_progressBar.Value;
+        mutex.Unlock();
     }
 
     void OnChunkReceived(int bytes) {
@@ -301,10 +333,15 @@ public class GodotLineEntry : HBoxContainer
         _progressBar.MinValue = 0;
         _progressBar.MaxValue = Downloader.totalSize;
         _progressBar.Value = 0;
+        _downloadSpeedTimer.Start();
         _fileSize.Text = $"{Util.FormatSize(0)}/{Util.FormatSize(Downloader.totalSize)}";
+        dtStartTime = System.DateTime.Now;
+
         Task<bool> bres = Downloader.DownloadFile(outFile);
         while (!bres.IsCompleted)
             await this.IdleFrame();
+
+        _downloadSpeedTimer.Stop();
         if (bres.Result) {
             ZipFile.ExtractToDirectory(ProjectSettings.GlobalizePath(outFile),
                                         ProjectSettings.GlobalizePath(instDir));

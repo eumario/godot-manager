@@ -141,6 +141,8 @@ public class GodotPanel : Panel
             CentralStore.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();
             PopulateList();
+        } else {
+            gle.ToggleDownloadUninstall(true);
         }
     }
 
@@ -158,12 +160,14 @@ public class GodotPanel : Panel
         }
     }
 
-    public void PopulateList() {
+    public async Task PopulateList() {
         foreach (Node child in Installed.List.GetChildren())
             child.QueueFree();
         foreach (Node child in Available.List.GetChildren())
             child.QueueFree();
-        
+
+        await this.IdleFrame();
+
         foreach(GithubVersion gv in CentralStore.GHVersions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
             gle.GithubVersion = gv;
@@ -187,35 +191,19 @@ public class GodotPanel : Panel
         UpdateVisibility();
     }
 
-	private void UpdateVisibility()
-	{
+    private void UpdateVisibility() {
         Array<string> gdName = new Array<string>();
-        Array<GodotVersion> gdVersion = new Array<GodotVersion>();
-        Array<GithubVersion> ghVersion = new Array<GithubVersion>();
-		foreach(GodotLineEntry igle in Installed.List.GetChildren()) {
-            gdName.Add(igle.GithubVersion.Name);
-            gdVersion.Add(igle.GodotVersion);
-            ghVersion.Add(igle.GithubVersion);
+        foreach (GodotLineEntry igle in Installed.List.GetChildren()) {
+            gdName.Add(igle.Label);
         }
 
         foreach(GodotLineEntry agle in Available.List.GetChildren()) {
-            foreach(GodotVersion version in gdVersion) {
-                if (agle.GithubVersion.Name == version.GithubVersion.Name) {
-                    if (UseMono.Pressed) {
-                        if (version.IsMono)
-                            agle.Visible = false;
-                        else
-                            agle.Visible = true;
-                    } else {
-                        if (version.IsMono)
-                            agle.Visible = true;
-                        else
-                            agle.Visible = false;
-                    }
-                }
-            }
+            if (gdName.IndexOf(agle.Label) != -1)
+                agle.Visible = false;
+            else
+                agle.Visible = true;
         }
-	}
+    }
 
 	public async Task GetReleases() {
         Mutex mutex = new Mutex();

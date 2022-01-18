@@ -88,20 +88,44 @@ text = "Size: 32MB"
 [node name="DownloadProgress" type="HBoxContainer" parent="vc"]
 visible = false
 margin_top = 45.0
-margin_right = 476.0
+margin_right = 462.0
 margin_bottom = 59.0
 custom_constants/separation = 10
 
 [node name="ProgressBar" type="ProgressBar" parent="vc/DownloadProgress"]
-margin_right = 372.0
+margin_right = 292.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Filesize" type="Label" parent="vc/DownloadProgress"]
-margin_left = 382.0
-margin_right = 476.0
+margin_left = 302.0
+margin_right = 462.0
 margin_bottom = 14.0
+rect_min_size = Vector2( 160, 0 )
 text = "32MB of 32MB"
+align = 2
+
+[node name="ETA" type="HBoxContainer" parent="vc"]
+visible = false
+margin_top = 45.0
+margin_right = 462.0
+margin_bottom = 59.0
+
+[node name="EtaRemaining" type="Label" parent="vc/ETA"]
+margin_right = 229.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "ETA: 00:00:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DownloadSpeed" type="Label" parent="vc/ETA"]
+margin_left = 233.0
+margin_right = 462.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Speed: 0.00KB/s"
 
 [node name="Download" type="TextureRect" parent="."]
 margin_left = 978.0
@@ -129,3 +153,5 @@ margin_left = 1014.0
 margin_right = 1024.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 10, 0 )
+
+[node name="DownloadSpeedTimer" type="Timer" parent="."]
