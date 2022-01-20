@@ -37,10 +37,13 @@ public static class Util {
 	}
 
 	public static string NormalizePath(this string path) {
-#if GODOT_WINDOWS
-		return path.Replace("/",@"\");
+		if (path.StartsWith("res://") || path.StartsWith("user://"))
+			return path.Replace(@"\", "/");
+		else
+#if GODOT_WINDOWS || GODOT_UWP
+			return path.Replace("/",@"\");
 #else
-		return path.Replace(@"\","/");
+			return path.Replace(@"\","/");
 #endif
 	}
 
@@ -70,5 +73,25 @@ public static class Util {
 		var texture = new ImageTexture();
 		texture.CreateFromImage(image);
 		return texture;
+	}
+	
+	public static string FindChmod() {
+		Array output = new Array();
+		int exit_code = OS.Execute("which", new string[] { "chmod" }, true, output);
+		if (exit_code != 0)
+			return "";
+		return (output[0] as string).StripEdges();
+	}
+
+	public static bool Chmod(string path, int perms) {
+		string chmod_cmd = FindChmod();
+		if (chmod_cmd == "")
+			return false;
+		
+		int exit_code = OS.Execute(chmod_cmd, new string[] { perms.ToString(), path.GetOSDir() }, true);
+		if (exit_code != 0) 
+			return false;
+		
+		return true;
 	}
 }

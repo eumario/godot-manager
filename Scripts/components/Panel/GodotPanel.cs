@@ -74,7 +74,7 @@ public class GodotPanel : Panel
                     AppDialogs.NewVersion.Visible = true;
                 }
             }
-            PopulateList();
+            var task = PopulateList();
         }
     }
 
@@ -96,7 +96,7 @@ public class GodotPanel : Panel
             CentralStore.Settings.DefaultEngine = CentralStore.Versions[0].Id;
         }
         CentralStore.Instance.SaveDatabase();
-        PopulateList();
+        var task = PopulateList();
     }
 
     public Array<string> RecursiveListDir(string path) {
@@ -136,11 +136,19 @@ public class GodotPanel : Panel
                 dir.Remove(file);
             }
             dir.Remove(cache);
+
+            foreach (ProjectFile pf in CentralStore.Projects) {
+                if (pf.GodotVersion == gle.GodotVersion.Id) {
+                    pf.GodotVersion = System.Guid.Empty.ToString();
+                }
+            }
+
             if ((string)CentralStore.Settings.DefaultEngine == gle.GodotVersion.Id)
                 CentralStore.Settings.DefaultEngine = System.Guid.Empty.ToString();  // Should Prompt to change
+            
             CentralStore.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();
-            PopulateList();
+            var task = PopulateList();
         } else {
             gle.ToggleDownloadUninstall(true);
         }

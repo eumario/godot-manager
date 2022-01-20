@@ -105,13 +105,17 @@ public class ProjectsPanel : Panel
             _listView.AddChild(ple);
             ple.Connect("Clicked", this, "OnListEntry_Clicked");
             ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
+            pie.Connect("Clicked", this, "OnIconEntry_Clicked");
+            pie.Connect("DoubleClicked", this, "OnIconEntry_DoubleClicked");
             _gridView.AddChild(pie);
             if (pf.CategoryId == -1) {
                 clt = clUncategorized;
             } else {
                 clt = _categoryView.GetChild<CategoryList>(pf.CategoryId);
             }
-            clt.AddProject(pf);
+            ple = clt.AddProject(pf);
+            ple.Connect("Clicked", this, "OnListEntry_Clicked");
+            ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
         }
     }
 
@@ -127,8 +131,30 @@ public class ProjectsPanel : Panel
     }
 
     void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
-        GD.Print(ple.Location);
-        // OS.Execute(@"C:\Users\eumar\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd", new string[] { $"{ple.Location}"}, false);
+        GodotVersion gv = CentralStore.Instance.FindVersion(ple.GodotVersion);
+        if (gv == null)
+            return;
+        GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{ple.Location.GetBaseDir()}\" -e");
+        OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", ple.Location.GetBaseDir(), "-e" }, false);
+    }
+
+    private void UpdateIconsExcept(ProjectIconEntry pie) {
+        foreach(ProjectIconEntry cpie in _gridView.GetChildren()) {
+            if (cpie != pie)
+                cpie.SelfModulate = new Color("00FFFFFF");
+        }
+    }
+
+    private void OnIconEntry_Clicked(ProjectIconEntry pie) {
+        UpdateIconsExcept(pie);
+    }
+
+    private void OnIconEntry_DoubleClicked(ProjectIconEntry pie) {
+        GodotVersion gv = CentralStore.Instance.FindVersion(pie.GodotVersion);
+        if (gv == null)
+            return;
+        GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{pie.Location.GetBaseDir()}\" -e");
+        OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", pie.Location.GetBaseDir(), "-e" }, false);
     }
 
     void OnActionButtons_Clicked(int index) {

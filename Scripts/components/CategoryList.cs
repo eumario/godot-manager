@@ -109,10 +109,11 @@ public class CategoryList : VBoxContainer
             _categoryList.Show();
     }
 
-    public void AddProject(ProjectFile projectFile) {
+    public ProjectLineEntry AddProject(ProjectFile projectFile) {
         ProjectLineEntry ple = pstProject.Instance<ProjectLineEntry>();
         ple.ProjectFile = projectFile;
         _categoryList.AddChild(ple);
+        return ple;
     }
 
     public void AddGodotVersion(GodotVersion godotVersion) {

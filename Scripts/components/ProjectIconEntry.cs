@@ -4,6 +4,13 @@ using System;
 
 public class ProjectIconEntry : CenterContainer
 {
+#region Signals
+    [Signal]
+    public delegate void Clicked(ProjectLineEntry self);
+    [Signal]
+    public delegate void DoubleClicked(ProjectLineEntry self);
+#endregion
+
 #region Private Node Variables
     [NodePath("vc/ProjectIcon")]
     private TextureRect _icon = null;
@@ -19,7 +26,8 @@ public class ProjectIconEntry : CenterContainer
     private string sIcon;
     private string sProjectName;
     private string sProjectLocation;
-    private int iGodotVersion;
+    private string sGodotVersion;
+    //private int iGodotVersion;
     private ProjectFile pfProjectFile;
 #endregion
 
@@ -54,7 +62,7 @@ public class ProjectIconEntry : CenterContainer
         }
     }
 
-    public string ProjectLocation {
+    public string Location {
         get {
             if (_projectLocation != null)
                 return _projectLocation.Text;
@@ -78,26 +86,22 @@ public class ProjectIconEntry : CenterContainer
             pfProjectFile = value;
             ProjectName = value.Name;
             Icon = value.Location.GetResourceBase(value.Icon);
-            ProjectLocation = value.Location;
-            var gv = CentralStore.Instance.FindVersion(value.GodotVersion);
-            GodotVersion = CentralStore.Versions.IndexOf(gv);
+            Location = value.Location;
+            GodotVersion = value.GodotVersion;
         }
     }
 
-    public int GodotVersion {
+    public string GodotVersion {
         get {
-            if (_godotVersion != null)
-                return (int)_godotVersion.Get("GodotVersion");
-            else
-                return iGodotVersion;
+            return sGodotVersion;
         }
 
         set {
-            iGodotVersion = value;
+            sGodotVersion = value;
+            GodotVersion gv = CentralStore.Instance.FindVersion(value);
             if (_godotVersion != null) {
-                _godotVersion.Set("GodotVersion", value);
-                if (iGodotVersion >= 0)
-                    _godotVersion.Text = CentralStore.Versions[value].GetDisplayName();
+                if (gv != null)
+                    _godotVersion.Text = gv.GetDisplayName();
                 else
                     _godotVersion.Text = "Unknown";
             }
@@ -110,7 +114,28 @@ public class ProjectIconEntry : CenterContainer
 
         Icon = sIcon;
         ProjectName = sProjectName;
-        ProjectLocation = sProjectLocation;
-        GodotVersion = iGodotVersion;
+        Location = sProjectLocation;
+        GodotVersion = sGodotVersion;
+        this.Connect("gui_input", this, "OnGuiInput");
+    }
+
+    void OnGuiInput(InputEvent inputEvent) {
+        if (!(inputEvent is InputEventMouseButton))
+            return;
+        var iemb = inputEvent as InputEventMouseButton;
+        if (!iemb.Pressed)
+            return;
+        
+        if (iemb.ButtonIndex == (int)ButtonList.Left) {
+            if (iemb.Doubleclick)
+                EmitSignal("DoubleClicked", this);
+            else {
+                SelfModulate = new Color("ffffffff");
+                EmitSignal("Clicked", this);
+            }
+        } else if (iemb.ButtonIndex == (int)ButtonList.Right) {
+            // Handle Popup Menu, similar to the 3-Dot Menu Icon in ListView/CategoryView
+        }
+
     }
 }

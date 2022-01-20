@@ -31,7 +31,7 @@ public class ProjectLineEntry : ColorRect
     private string sName = "Project Name";
     private string sDesc = "Project Description";
     private string sLocation = "/home/eumario/Projects/Godot/ProjectName";
-    private int iGodotVersion = -1;
+    private string sGodotVersion = "";
     private ProjectFile pfProjectFile = null;
 #endregion
 
@@ -47,8 +47,7 @@ public class ProjectLineEntry : ColorRect
             Description = value.Description;
             Icon = value.Location.GetResourceBase(value.Icon);
             Location = value.Location;
-            var gv = CentralStore.Instance.FindVersion(value.GodotVersion);
-            GodotVersion = CentralStore.Versions.IndexOf(gv);
+            GodotVersion = value.GodotVersion;
         }
     }
 
@@ -107,21 +106,17 @@ public class ProjectLineEntry : ColorRect
         }
     }
 
-    public int GodotVersion {
+    public string GodotVersion {
         get {
-            if (_version != null) {
-                return (int)_version.Get("godotVersion");
-            } else {
-                return iGodotVersion;
-            }
+            return sGodotVersion;
         }
-
+        
         set {
-            iGodotVersion = value;
+            sGodotVersion = value;
             if (_version != null) {
-                _version.Set("godotVersion", value);
-                if (value >= 0) {
-                    _version.Text = CentralStore.Versions[value].GetDisplayName();
+                GodotVersion gv = CentralStore.Instance.FindVersion(value);
+                if (gv != null) {
+                    _version.Text = gv.GetDisplayName();
                 } else {
                     _version.Text = "Unknown";
                 }
@@ -138,7 +133,7 @@ public class ProjectLineEntry : ColorRect
         Name = sName;
         Description = sDesc;
         Location = sLocation;
-        GodotVersion = iGodotVersion;
+        GodotVersion = sGodotVersion;
         this.Connect("gui_input", this, "OnGuiInput");
     }
 

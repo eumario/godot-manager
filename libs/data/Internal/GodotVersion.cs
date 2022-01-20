@@ -13,6 +13,8 @@ public class GodotVersion : Object {
 	[JsonProperty]
 	public string Location; // Location of where Godot is
 	[JsonProperty]
+	public string ExecutableName; // Name of the Final Executable
+	[JsonProperty]
 	public string CacheLocation; // Location of where the cache file is.
 	[JsonProperty]
 	public string Url;	// URL downloaded from (Will match Location for Custom)
@@ -36,5 +38,15 @@ public class GodotVersion : Object {
 
 	public string GetDisplayName() {
 		return $"Godot {Tag + (IsMono ? " - Mono" : "")}";
+	}
+
+	public string GetExecutablePath() {
+		string exe_path = "";
+#if GODOT_MACOS || GODOT_OSX
+		exe_path = Location.Join((IsMono ? "Godot_mono.app" : "Godot.app"), "Contents", "MacOS", ExecutableName);
+#else
+		exe_path = Location.Join(ExecutableName);
+#endif
+		return exe_path;
 	}
 }

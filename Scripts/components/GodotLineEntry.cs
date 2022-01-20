@@ -312,15 +312,61 @@ public class GodotLineEntry : HBoxContainer
     public GodotVersion CreateGodotVersion() {
         GodotVersion gv = new GodotVersion();
         string gdFile = Mono ? new System.Uri(GithubVersion.PlatformMonoDownloadURL).AbsolutePath.GetFile() : new System.Uri(GithubVersion.PlatformDownloadURL).AbsolutePath.GetFile();
-        string gdName = Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name;
         gv.Id = System.Guid.NewGuid().ToString();
         gv.Tag = GithubVersion.Name;
         gv.Url = Mono ? GithubVersion.PlatformMonoDownloadURL : GithubVersion.PlatformDownloadURL;
-        gv.Location = $"user://versions/{gdName}";
+#if GODOT_MACOS || GODOT_OSX
+        gv.Location = $"user://versions/{GithubVersion.Name + (Mono ? "_mono" : "") }";
+#else
+        gv.Location = $"user://versions/{(Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name)}";
+#endif
         gv.CacheLocation = $"user://cache/Godot/{gdFile}";
         gv.DownloadedDate = System.DateTime.UtcNow;
         gv.GithubVersion = GithubVersion;
         gv.IsMono = Mono;
+
+        Array<string> fileList = new Array<string>();
+        using (ZipArchive za = ZipFile.OpenRead(ProjectSettings.GlobalizePath(gv.CacheLocation))) {
+            foreach (ZipArchiveEntry zae in za.Entries) {
+                fileList.Add(zae.Name);
+            }
+        }
+
+#if GODOT_WINDOWS || GODOT_UWP
+
+        foreach(string fname in fileList) {
+            if (fname.EndsWith(".exe") && fname.StartsWith("Godot")) {
+                gv.ExecutableName = fname;
+                break;
+            }
+        }
+
+#elif GODOT_LINUXBSD || GODOT_X11
+
+        foreach(string fname in fileList) {
+            if (System.Environment.Is64BitProcess) {
+                if (fname.EndsWith(".64") && fname.StartsWith("Godot")) {
+                    gv.ExecutableName = fname;
+                    break;
+                }
+            } else {
+                if (fname.EndsWith(".32") && fname.StartsWith("Godot")) {
+                    gv.ExecutableName = fname;
+                    break;
+                }
+            }
+        }
+
+        Util.Chmod(gv.GetExecutablePath(), 0755);
+
+#elif GODOT_MACOS || GODOT_OSX
+
+        gv.ExecutableName = "Godot";
+        Util.Chmod(gv.GetExecutablePath(), 0755);
+
+#endif
+
+
         GodotVersion = gv;
         return gv;
     }
@@ -328,7 +374,12 @@ public class GodotLineEntry : HBoxContainer
     public async Task StartDownload() {
         Downloader = Downloader.DownloadGithub(GithubVersion,Mono);
         string outFile = $"user://cache/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
+
+#if GODOT_MACOS || GODOT_OSX
+        string instDir = $"user://versions/{GithubVersion.Name + (Mono ? "_mono" : "")}";
+#else
         string instDir = $"user://versions/{(Mono ? "" : GithubVersion.Name)}";
+#endif
         Downloader.Connect("chunk_received", this, "OnChunkReceived");
         _progressBar.MinValue = 0;
         _progressBar.MaxValue = Downloader.totalSize;
