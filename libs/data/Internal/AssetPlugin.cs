@@ -8,4 +8,6 @@ public class AssetPlugin : Object {
 	public AssetLib.Asset Asset;
 	[JsonProperty]
 	public string Location;
+	[JsonProperty]
+	public Array<string> InstallFiles;
 }

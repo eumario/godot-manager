@@ -8,7 +8,7 @@ public class DownloadAddon : ReferenceRect
 {
 #region Signals
     [Signal]
-    public delegate void download_complete(AssetLib.Asset asset);
+    public delegate void download_complete(AssetLib.Asset asset, AssetProject ap, AssetPlugin apl);
 #endregion
 
 #region Node Paths
@@ -245,19 +245,24 @@ public class DownloadAddon : ReferenceRect
 
 		Visible = false;
 		CleanupClient();
+
+        AssetProject ap = null;
+        AssetPlugin apl = null;
         
         if (Templates.IndexOf(Asset.Category) != -1) {
-            AssetProject ap = new AssetProject();
+            ap = new AssetProject();
             ap.Asset = Asset;
             ap.Location = sPath;
             CentralStore.Templates.Add(ap);
         } else {
-            AssetPlugin apl = new AssetPlugin();
+            apl = new AssetPlugin();
             apl.Asset = Asset;
             apl.Location = sPath;
             CentralStore.Plugins.Add(apl);
         }
         CentralStore.Instance.SaveDatabase();
+
+        EmitSignal("download_complete", Asset, ap, apl);
 
 		return true;
 	}

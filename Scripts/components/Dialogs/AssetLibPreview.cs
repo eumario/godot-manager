@@ -89,7 +89,15 @@ public class AssetLibPreview : ReferenceRect
 
         AppDialogs.DownloadAddon.Asset = _asset;
         AppDialogs.DownloadAddon.LoadInformation();
+        AppDialogs.DownloadAddon.Connect("download_complete", this, "OnDownloadAddonCompleted");
         await AppDialogs.DownloadAddon.StartDownload();
+    }
+
+    void OnDownloadAddonCompleted(AssetLib.Asset asset, AssetProject ap, AssetPlugin apl) {
+        AppDialogs.DownloadAddon.Disconnect("download_compelete", this, "OnDownloadAddonCompleted");
+        if (apl != null) {
+            AppDialogs.AddonInstaller.ShowDialog(apl);
+        }
     }
 
     public void ShowDialog(AssetLib.Asset asset) {

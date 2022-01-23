@@ -12,9 +12,11 @@ public class AppDialogs : Control
     public ImportProject ImportProject_ = null;
     public MessageDialog MessageDialog_ = null;
     public FileDialog ImportFileDialog_ = null;
+    public FileDialog BrowseFolderDialog_ = null;
     public CreateProject CreateProject_ = null;
     public AssetLibPreview AssetLibPreview_ = null;
     public DownloadAddon DownloadAddon_ = null;
+    public AddonInstaller AddonInstaller_ = null;
 #endregion
 
 #region Singleton Variables to access in program
@@ -26,9 +28,11 @@ public class AppDialogs : Control
     public static ImportProject ImportProject { get => Instance.ImportProject_; }
     public static MessageDialog MessageDialog { get => Instance.MessageDialog_; }
     public static FileDialog ImportFileDialog { get => Instance.ImportFileDialog_; }
+    public static FileDialog BrowseFolderDialog { get => Instance.BrowseFolderDialog_; }
     public static CreateProject CreateProject { get => Instance.CreateProject_; }
     public static AssetLibPreview AssetLibPreview { get => Instance.AssetLibPreview_; }
     public static DownloadAddon DownloadAddon { get => Instance.DownloadAddon_; }
+    public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
 #endregion
 
     private static AppDialogs _instance = null;
@@ -57,6 +61,9 @@ public class AppDialogs : Control
         CreateProject_ = GD.Load<PackedScene>("res://components/Dialogs/CreateProject.tscn").Instance<CreateProject>();
         AssetLibPreview_ = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
         DownloadAddon_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadAddon.tscn").Instance<DownloadAddon>();
+        AddonInstaller_ = GD.Load<PackedScene>("res://components/Dialogs/AddonInstaller.tscn").Instance<AddonInstaller>();
+
+        // Internal File Dialog
         ImportFileDialog_ = new FileDialog();
         ImportFileDialog_.Name = "ImportFileDialog";
         ImportFileDialog_.Mode = FileDialog.ModeEnum.OpenFile;
@@ -66,11 +73,21 @@ public class AppDialogs : Control
         ImportFileDialog_.RectMinSize = new Vector2(510, 390);
         ImportFileDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
 
+        // Internal Browse Folder Dialog
+        BrowseFolderDialog_ = new FileDialog();
+        BrowseFolderDialog_.Name = "BrowseFileDialog";
+        BrowseFolderDialog_.Mode = FileDialog.ModeEnum.OpenDir;
+        BrowseFolderDialog_.Access = FileDialog.AccessEnum.Filesystem;
+        BrowseFolderDialog_.WindowTitle = "Open Folder";
+        BrowseFolderDialog_.RectMinSize = new Vector2(510, 390);
+        BrowseFolderDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
+
         dialogs = new Array<ReferenceRect> {    // Hierarchy of Dialogs in window, for proper displaying
             FirstTimeInstall_,                  // First Time Installation Helper
             AddCustomGodot_, NewVersion_,       // Add Custom Godot / New Godot Version Prompt
             CreateProject_, ImportProject_,     // Create Project / Import Project
             AssetLibPreview_, DownloadAddon_,   // Asset Library Preview / Download Addon/Project
+            AddonInstaller_,                    // Installer Dialog for Addon/Plugins
             YesNoDialog_,                       // Yes No Prompt
             BusyDialog_,                        // Busy Dialog
             MessageDialog_,                     // Message Dialog
@@ -87,5 +104,6 @@ public class AppDialogs : Control
             AddChild(dlg);
         }
         AddChild(ImportFileDialog_);
+        AddChild(BrowseFolderDialog_);
     }
 }

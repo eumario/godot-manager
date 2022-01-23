@@ -27,9 +27,15 @@ public class ProjectFile : Godot.Object {
 		if ((int)project.GetValue("","config_version") == 4) {
 			projectFile = new ProjectFile();
 			projectFile.Name = (string)project.GetValue("application", "config/name");
-			projectFile.Description = (string)project.GetValue("application", "config/description");
+			if (project.HasSectionKey("application","config/description"))
+				projectFile.Description = (string)project.GetValue("application", "config/description");
+			else
+				projectFile.Description = "No Description";
 			projectFile.Location = filePath.NormalizePath();
-			projectFile.Icon = (string)project.GetValue("application", "config/icon");
+			if (project.HasSectionKey("application","config/icon"))
+				projectFile.Icon = (string)project.GetValue("application", "config/icon");
+			else
+				projectFile.Icon = "res://icon.png";
 		}
 
 		return projectFile;
