@@ -94,7 +94,7 @@ public class AssetLibPreview : ReferenceRect
     }
 
     void OnDownloadAddonCompleted(AssetLib.Asset asset, AssetProject ap, AssetPlugin apl) {
-        AppDialogs.DownloadAddon.Disconnect("download_compelete", this, "OnDownloadAddonCompleted");
+        AppDialogs.DownloadAddon.Disconnect("download_complete", this, "OnDownloadAddonCompleted");
         if (apl != null) {
             AppDialogs.AddonInstaller.ShowDialog(apl);
         }
