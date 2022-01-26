@@ -122,12 +122,12 @@ custom_constants/separation = 15
 [node name="GridView" type="GridContainer" parent="VC/SC/MarginContainer/ProjectList"]
 visible = false
 margin_right = 1004.0
-margin_bottom = 536.0
+margin_bottom = 636.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
-columns = 2
+columns = 3
 
 [node name="CategoryView" type="VBoxContainer" parent="VC/SC/MarginContainer/ProjectList"]
 visible = false

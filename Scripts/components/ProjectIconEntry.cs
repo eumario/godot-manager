@@ -2,7 +2,7 @@ using Godot;
 using GodotSharpExtras;
 using System;
 
-public class ProjectIconEntry : CenterContainer
+public class ProjectIconEntry : ColorRect
 {
 #region Signals
     [Signal]
@@ -12,13 +12,13 @@ public class ProjectIconEntry : CenterContainer
 #endregion
 
 #region Private Node Variables
-    [NodePath("vc/ProjectIcon")]
+    [NodePath("cc/vc/ProjectIcon")]
     private TextureRect _icon = null;
-    [NodePath("vc/ProjectName")]
+    [NodePath("cc/vc/ProjectName")]
     private Label _projectName = null;
-    [NodePath("vc/ProjectLocation")]
+    [NodePath("cc/vc/ProjectLocation")]
     private Label _projectLocation = null;
-    [NodePath("vc/GodotVersion")]
+    [NodePath("cc/vc/GodotVersion")]
     private Label _godotVersion = null;
 #endregion
 

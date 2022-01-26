@@ -9,6 +9,7 @@ public class AppDialogs : Control
     public BusyDialog BusyDialog_ = null;
     public NewVersion NewVersion_ = null;
     public YesNoDialog YesNoDialog_ = null;
+    public YesNoCancelDialog YesNoCancelDialog_ = null;
     public ImportProject ImportProject_ = null;
     public MessageDialog MessageDialog_ = null;
     public FileDialog ImportFileDialog_ = null;
@@ -25,6 +26,7 @@ public class AppDialogs : Control
     public static BusyDialog BusyDialog { get => Instance.BusyDialog_; }
     public static NewVersion NewVersion { get => Instance.NewVersion_; }
     public static YesNoDialog YesNoDialog { get => Instance.YesNoDialog_; }
+    public static YesNoCancelDialog YesNoCancelDialog { get => Instance.YesNoCancelDialog_; }
     public static ImportProject ImportProject { get => Instance.ImportProject_; }
     public static MessageDialog MessageDialog { get => Instance.MessageDialog_; }
     public static FileDialog ImportFileDialog { get => Instance.ImportFileDialog_; }
@@ -56,6 +58,7 @@ public class AppDialogs : Control
         BusyDialog_ = GD.Load<PackedScene>("res://components/Dialogs/BusyDialog.tscn").Instance<BusyDialog>();
         NewVersion_ = GD.Load<PackedScene>("res://components/Dialogs/NewVersion.tscn").Instance<NewVersion>();
         YesNoDialog_ = GD.Load<PackedScene>("res://components/Dialogs/YesNoDialog.tscn").Instance<YesNoDialog>();
+        YesNoCancelDialog_ = GD.Load<PackedScene>("res://components/Dialogs/YesNoCancelDialog.tscn").Instance<YesNoCancelDialog>();
         ImportProject_ = GD.Load<PackedScene>("res://components/Dialogs/ImportProject.tscn").Instance<ImportProject>();
         MessageDialog_ = GD.Load<PackedScene>("res://components/Dialogs/MessageDialog.tscn").Instance<MessageDialog>();
         CreateProject_ = GD.Load<PackedScene>("res://components/Dialogs/CreateProject.tscn").Instance<CreateProject>();
@@ -89,6 +92,7 @@ public class AppDialogs : Control
             AssetLibPreview_, DownloadAddon_,   // Asset Library Preview / Download Addon/Project
             AddonInstaller_,                    // Installer Dialog for Addon/Plugins
             YesNoDialog_,                       // Yes No Prompt
+            YesNoCancelDialog_,                 // Yes, No, Cancel Prompt
             BusyDialog_,                        // Busy Dialog
             MessageDialog_,                     // Message Dialog
         };

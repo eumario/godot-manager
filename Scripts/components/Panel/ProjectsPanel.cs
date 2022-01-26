@@ -24,9 +24,22 @@ public class ProjectsPanel : Panel
     PackedScene _CategoryList = GD.Load<PackedScene>("res://components/CategoryList.tscn");
 #endregion
 
+#region Enumerations
+    enum View {
+        ListView,
+        GridView,
+        CategoryView
+    }
+#endregion
+
 #region Private Variables
     CategoryList clFavorites = null;
     CategoryList clUncategorized = null;
+
+    ProjectLineEntry _currentPLE = null;
+    ProjectIconEntry _currentPIE = null;
+
+    View _currentView = View.ListView;
 #endregion
 
     Array<Container> _views;
@@ -128,14 +141,11 @@ public class ProjectsPanel : Panel
 
     void OnListEntry_Clicked(ProjectLineEntry ple) {
         UpdateListExcept(ple);
+        _currentPLE = ple;
     }
 
     void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
-        GodotVersion gv = CentralStore.Instance.FindVersion(ple.GodotVersion);
-        if (gv == null)
-            return;
-        GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{ple.Location.GetBaseDir()}\" -e");
-        OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", ple.Location.GetBaseDir(), "-e" }, false);
+        ExecuteEditorProject(ple.GodotVersion, ple.Location);
     }
 
     private void UpdateIconsExcept(ProjectIconEntry pie) {
@@ -147,17 +157,24 @@ public class ProjectsPanel : Panel
 
     private void OnIconEntry_Clicked(ProjectIconEntry pie) {
         UpdateIconsExcept(pie);
+        _currentPIE = pie;
     }
 
-    private void OnIconEntry_DoubleClicked(ProjectIconEntry pie) {
-        GodotVersion gv = CentralStore.Instance.FindVersion(pie.GodotVersion);
-        if (gv == null)
-            return;
-        GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{pie.Location.GetBaseDir()}\" -e");
-        OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", pie.Location.GetBaseDir(), "-e" }, false);
-    }
+    private void OnIconEntry_DoubleClicked(ProjectIconEntry pie)
+	{
+		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
+	}
 
-    void OnActionButtons_Clicked(int index) {
+	private static void ExecuteEditorProject(string godotVersion, string location)
+	{
+		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
+		if (gv == null)
+			return;
+		GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location}\" -e");
+		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location, "-e" }, false);
+	}
+
+	async void OnActionButtons_Clicked(int index) {
         switch (index) {
             case 0: // New Project File
                 AppDialogs.CreateProject.ShowDialog();
@@ -168,8 +185,60 @@ public class ProjectsPanel : Panel
             case 2: // Scan Project Folder
                 break;
             case 3: // Remove Project (May be removed completely)
+                ProjectFile pf = null;
+                if (_currentView == View.GridView) {
+                    if (_currentPIE != null)
+                        pf = _currentPIE.ProjectFile;
+                }
+                else {
+                    if (_currentPLE != null)
+                        pf = _currentPLE.ProjectFile;
+                }
+
+                if (pf == null)
+                    return;
+                
+                var task = AppDialogs.YesNoCancelDialog.ShowDialog("Remove Project",$"You are about to remove Project {pf.Name}.\nDo you wish to remove the files as well?",
+                    "Project and Files", "Just Project");
+                while (!task.IsCompleted)
+                    await this.IdleFrame();
+                switch(task.Result) {
+                    case YesNoCancelDialog.ActionResult.FirstAction:
+                        string path = pf.Location.GetBaseDir();
+                        RemoveFolders(path);
+                        CentralStore.Projects.Remove(pf);
+                        CentralStore.Instance.SaveDatabase();
+                        PopulateListing();
+                        break;
+                    case YesNoCancelDialog.ActionResult.SecondAction:
+                        CentralStore.Projects.Remove(pf);
+                        CentralStore.Instance.SaveDatabase();
+                        PopulateListing();
+                        break;
+                    case YesNoCancelDialog.ActionResult.CancelAction:
+                        AppDialogs.MessageDialog.ShowMessage("Remove Project", "Remove Project has been cancelled.");
+                        break;
+                }
                 break;
         }
+    }
+
+    void RemoveFolders(string path) {
+        Directory dir = new Directory();
+        if (dir.Open(path) == Error.Ok) {
+            dir.ListDirBegin(true, false);
+            var filename = dir.GetNext();
+            while (filename != "") {
+                if (dir.CurrentIsDir()) {
+                    RemoveFolders(path.PlusFile(filename).NormalizePath());
+                }
+                dir.Remove(filename);
+                filename = dir.GetNext();
+            }
+            dir.ListDirEnd();
+        }
+        dir.Open(path.GetBaseDir());
+        dir.Remove(path.GetFile());
     }
 
     void OnViewSelector_Clicked(int page) {
@@ -179,6 +248,7 @@ public class ProjectsPanel : Panel
             else
                 _views[i].Hide();
         }
+        _currentView = (View)page;
     }
 
     public void AddTestProjects() {

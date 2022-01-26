@@ -5,23 +5,38 @@
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Scripts/components/ProjectIconEntry.cs" type="Script" id=4]
 
-[node name="ProjectIconEntry" type="CenterContainer"]
+[node name="ProjectIconEntry" type="ColorRect"]
+self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 289, 131 )
+color = Color( 1, 1, 1, 0.192157 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="vc" type="VBoxContainer" parent="."]
-margin_left = 367.0
-margin_top = 234.0
-margin_right = 656.0
-margin_bottom = 365.0
+[node name="cc" type="CenterContainer" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 289, 131 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ProjectIcon" type="TextureRect" parent="vc"]
-margin_left = 112.0
-margin_right = 176.0
+[node name="vc" type="VBoxContainer" parent="cc"]
+margin_left = 459.0
+margin_top = 284.0
+margin_right = 565.0
+margin_bottom = 415.0
+
+[node name="ProjectIcon" type="TextureRect" parent="cc/vc"]
+margin_left = 21.0
+margin_right = 85.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 4
@@ -30,27 +45,28 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
-[node name="ProjectName" type="Label" parent="vc"]
-margin_left = 91.0
+[node name="ProjectName" type="Label" parent="cc/vc"]
 margin_top = 68.0
-margin_right = 197.0
+margin_right = 106.0
 margin_bottom = 87.0
 size_flags_horizontal = 4
 custom_fonts/font = ExtResource( 3 )
 text = "Project Name"
 
-[node name="ProjectLocation" type="Label" parent="vc"]
+[node name="ProjectLocation" type="Label" parent="cc/vc"]
 margin_top = 91.0
-margin_right = 289.0
+margin_right = 106.0
 margin_bottom = 109.0
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "/home/eumario/Projects/Godot/ProjectName"
+clip_text = true
 
-[node name="GodotVersion" type="Label" parent="vc"]
-margin_left = 103.0
+[node name="GodotVersion" type="Label" parent="cc/vc"]
+margin_left = 12.0
 margin_top = 113.0
-margin_right = 185.0
+margin_right = 94.0
 margin_bottom = 131.0
 size_flags_horizontal = 4
 custom_fonts/font = ExtResource( 1 )
