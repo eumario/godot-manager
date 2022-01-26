@@ -38,13 +38,9 @@ public static class Util {
 
 	public static string NormalizePath(this string path) {
 		if (path.StartsWith("res://") || path.StartsWith("user://"))
-			return path.Replace(@"\", "/");
+			return System.IO.Path.GetFullPath(ProjectSettings.GlobalizePath(path)); //path.Replace(@"\", "/");
 		else
-#if GODOT_WINDOWS || GODOT_UWP
-			return path.Replace("/",@"\");
-#else
-			return path.Replace(@"\","/");
-#endif
+			return System.IO.Path.GetFullPath(path); //path.Replace("/",@"\");
 	}
 
 	public static string Join(this string path, params string[] addTo) {

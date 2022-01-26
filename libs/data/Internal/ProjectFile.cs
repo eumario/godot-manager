@@ -23,21 +23,26 @@ public class ProjectFile : Godot.Object {
 	public static ProjectFile ReadFromFile(string filePath) {
 		ProjectFile projectFile = null;
 		ConfigFile project = new ConfigFile();
-		project.Load(filePath);
-		if ((int)project.GetValue("","config_version") == 4) {
-			projectFile = new ProjectFile();
-			projectFile.Name = (string)project.GetValue("application", "config/name");
-			if (project.HasSectionKey("application","config/description"))
-				projectFile.Description = (string)project.GetValue("application", "config/description");
-			else
-				projectFile.Description = "No Description";
-			projectFile.Location = filePath.NormalizePath();
-			if (project.HasSectionKey("application","config/icon"))
-				projectFile.Icon = (string)project.GetValue("application", "config/icon");
-			else
-				projectFile.Icon = "res://icon.png";
+		var ret = project.Load(filePath);
+		if (ret == Error.Ok) {
+			if ((int)project.GetValue("","config_version") == 4) {
+				projectFile = new ProjectFile();
+				projectFile.Name = (string)project.GetValue("application", "config/name");
+				if (project.HasSectionKey("application","config/description"))
+					projectFile.Description = (string)project.GetValue("application", "config/description");
+				else
+					projectFile.Description = "No Description";
+				projectFile.Location = filePath.NormalizePath();
+				if (project.HasSectionKey("application","config/icon"))
+					projectFile.Icon = (string)project.GetValue("application", "config/icon");
+				else
+					projectFile.Icon = "res://icon.png";
+			} else {
+				GD.PrintErr($"Project Version does not match version 4.");
+			}
+		} else {
+			GD.PrintErr($"Failed to load Project file: {filePath}, Error: {ret}");
 		}
-
 		return projectFile;
 	}
 
@@ -58,8 +63,10 @@ public class ProjectFile : Godot.Object {
 		if (ret == Error.Ok) {
 			if ((int)pf.GetValue("","config_version") == 4) {
 				this.Name = (string)pf.GetValue("application", "config/name");
-				this.Description = (string)pf.GetValue("application", "config/description");
-				this.Icon = (string)pf.GetValue("application","config/icon");
+				if (pf.HasSectionKey("application","config/description"))
+					this.Description = (string)pf.GetValue("application", "config/description");
+				if (pf.HasSectionKey("application","config/icon"))
+					this.Icon = (string)pf.GetValue("application","config/icon");
 			}
 		}
 	}

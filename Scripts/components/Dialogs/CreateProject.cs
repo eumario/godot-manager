@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using GodotSharpExtras;
 
 public class CreateProject : ReferenceRect
@@ -87,11 +88,34 @@ public class CreateProject : ReferenceRect
         ProjectPath = CentralStore.Settings.ProjectPath;
     }
 
+    void OnCreatePressed() {
+        NewProject prj = new NewProject {
+            ProjectName = _projectName.Text,
+            ProjectLocation = _projectLocation.Text.PlusFile(_projectName.Text),
+            GodotVersion = _godotVersion.GetSelectedMetadata() as string,
+            Gles3 = _gles3.Pressed,
+            Plugins = new Array<AssetPlugin>()
+        };
+        if (_projectTemplates.Selected > 0)
+            prj.Template = _projectTemplates.GetSelectedMetadata() as AssetProject;
+        
+        foreach(CheckBox cp in _pluginList.GetChildren()) {
+            if (cp.Pressed) {
+                prj.Plugins.Add(cp.GetMeta("asset") as AssetPlugin);
+            }
+        }
+        prj.CreateProject();
+        ProjectFile pf = ProjectFile.ReadFromFile(prj.ProjectLocation.PlusFile("project.godot").NormalizePath());
+        pf.GodotVersion = prj.GodotVersion;
+        CentralStore.Projects.Add(pf);
+        CentralStore.Instance.SaveDatabase();
+        GetNode<ProjectsPanel>("/root/MainWindow/bg/Shell/VC/TabContainer/Projects").PopulateListing();
+        Visible = false;
+    }
+
     void OnCreateFolderPressed() {
-        if (_errorIcon.Texture == StatusWarning)
-            AppDialogs.MessageDialog.ShowMessage("Create Folder", "You need to select a valid base directory to store this project in.");
         string path = _projectLocation.Text;
-        string newDir = path.Join(_projectName.Text);
+        string newDir = path.Join(_projectName.Text).NormalizePath();
         System.IO.Directory.CreateDirectory(newDir);
         OnProjectLocation_TextChanged(_projectLocation.Text);
     }
@@ -107,6 +131,7 @@ public class CreateProject : ReferenceRect
         _projectLocation.Text = bfdir;
         AppDialogs.BrowseFolderDialog.Visible = false;
         AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnDirSelected");
+        OnProjectLocation_TextChanged(_projectLocation.Text);
     }
 
     void OnCancelPressed() {
@@ -141,6 +166,7 @@ public class CreateProject : ReferenceRect
         foreach(AssetProject tmpl in CentralStore.Templates) {
             string gdName = tmpl.Asset.Title;
             _projectTemplates.AddItem(gdName);
+            _projectTemplates.SetItemMetadata(CentralStore.Templates.IndexOf(tmpl)+1, tmpl);
         }
 
         foreach(CheckBox plugin in _pluginList.GetChildren())
@@ -149,6 +175,7 @@ public class CreateProject : ReferenceRect
         foreach(AssetPlugin plgn in CentralStore.Plugins) {
             CheckBox plugin = new CheckBox();
             plugin.Text = plgn.Asset.Title;
+            plugin.SetMeta("asset",plgn);
             _pluginList.AddChild(plugin);
         }
         Visible = true;
