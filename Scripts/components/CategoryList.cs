@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using GodotSharpExtras;
 using System;
 
@@ -72,6 +73,16 @@ public class CategoryList : VBoxContainer
     public VBoxContainer List {
         get {
             return _categoryList;
+        }
+    }
+
+    public ProjectLineEntry ProjectSelected {
+        get {
+            foreach(ProjectLineEntry ple in GetChildren()) {
+                if (ple.SelfModulate == new Color("ffffffff"))
+                    return ple;
+            }
+            return null;
         }
     }
 #endregion

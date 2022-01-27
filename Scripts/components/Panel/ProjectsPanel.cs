@@ -138,9 +138,18 @@ public class ProjectsPanel : Panel
     }
 
     private void UpdateListExcept(ProjectLineEntry ple) {
-        foreach (ProjectLineEntry cple in _listView.GetChildren()) {
-            if (cple != ple)
-                cple.SelfModulate = new Color("00ffffff");
+        if (_listView.GetChildren().Contains(ple)) {
+            foreach (ProjectLineEntry cple in _listView.GetChildren()) {
+                if (cple != ple)
+                    cple.SelfModulate = new Color("00ffffff");
+            }
+        } else {
+            foreach (CategoryList cl in _categoryView.GetChildren()) {
+                foreach(ProjectLineEntry cple in cl.List.GetChildren()) {
+                    if (cple != ple)
+                        cple.SelfModulate = new Color("00ffffff");
+                }
+            }
         }
     }
 

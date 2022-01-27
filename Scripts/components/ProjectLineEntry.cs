@@ -144,6 +144,9 @@ public class ProjectLineEntry : ColorRect
         if (!iemb.Pressed)
             return;
         
+        if (iemb.ButtonIndex != (int)ButtonList.Left)
+            return;
+        
         if (iemb.Doubleclick)
             EmitSignal("DoubleClicked", this);
         else {
