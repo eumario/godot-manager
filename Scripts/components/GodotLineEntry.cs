@@ -53,8 +53,6 @@ public class GodotLineEntry : HBoxContainer
     private string sLabel = "Godot Version x.x.x (Stable)";
     private string sSource = "Source: TuxFamily.org";
     private string sFilesize = "Size: 32MB";
-    private string sEtaRemaining = "ETA: 00:00:00";
-    private string sDownloadSpeed = "Speed: 0.00KB/s";
     private bool bDownloaded = false;
     private bool bDefault = false;
     private bool bMono = false;
@@ -63,7 +61,6 @@ public class GodotLineEntry : HBoxContainer
     private Downloader Downloader = null;
 
     private int iLastByteCount = 0;
-    private double dSpeed = 0;
     Array<double> adSpeedStack;
     System.DateTime dtStartTime;
 #endregion

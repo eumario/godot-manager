@@ -6,10 +6,10 @@ public class CategoryButton : Button
 
 #region Nodes
     [NodePath("HC/Icon")]
-    TextureRect _Icon;
+    TextureRect _Icon = null;
 
     [NodePath("HC/Text")]
-    Label _Text;
+    Label _Text = null;
 #endregion
 
 #region Variables

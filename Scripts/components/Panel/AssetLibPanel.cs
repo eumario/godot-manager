@@ -62,8 +62,16 @@ public class AssetLibPanel : Panel
         _searchField.Connect("text_changed", this, "OnSearchField_TextChanged");
         _searchField.Connect("text_entered", this, "OnSearchField_TextEntered");
         _executeDelay.Connect("timeout", this, "OnExecuteDelay_Timeout");
+        _import.Connect("pressed", this, "OnImportPressed");
         _support.Connect("pressed", this, "OnSupportPressed");
         _supportPopup.Connect("id_pressed", this, "OnSupportPopup_IdPressed");
+        _mirrorSite.Clear();
+        _mirrorSite.AddItem("godotengine.org");
+        _mirrorSite.AddItem("localhost");
+    }
+
+    void OnImportPressed() {
+        // TODO: Implement Importing Addons/Plugins/Projects that are either just folders that need to be zipped up, or a zip file that isn't on a website, but stored locally.
     }
 
     async void OnSupportPopup_IdPressed(int id) {
@@ -131,8 +139,6 @@ public class AssetLibPanel : Panel
         await UpdatePaginatedListing(_plTemplates);
     }
 
-    private int downloadedBytes = 0;
-
     async void OnPageChanged(int page) {
         if (GetParent<TabContainer>().GetCurrentTabControl() == this)
 		{
@@ -149,7 +155,6 @@ public class AssetLibPanel : Panel
 		AppDialogs.BusyDialog.ShowDialog();
 
 		AssetLib.AssetLib.Instance.Connect("chunk_received", this, "OnChunkReceived");
-		downloadedBytes = 0;
 		var task = AssetLib.AssetLib.Instance.Configure(projectsOnly);
 		while (!task.IsCompleted)
 		{

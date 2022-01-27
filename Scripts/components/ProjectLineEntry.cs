@@ -135,6 +135,11 @@ public class ProjectLineEntry : ColorRect
         Location = sLocation;
         GodotVersion = sGodotVersion;
         this.Connect("gui_input", this, "OnGuiInput");
+        _subMenu.Connect("gui_input", this, "OnSubMenu_GuiInput");
+    }
+
+    void OnSubMenu_GuiInput(InputEvent inputEvent) {
+        // TODO: Implement SubMenu soon for ProjectLineEntry.
     }
 
     void OnGuiInput(InputEvent inputEvent) {

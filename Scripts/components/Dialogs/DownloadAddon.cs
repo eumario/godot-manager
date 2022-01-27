@@ -54,7 +54,6 @@ public class DownloadAddon : ReferenceRect
     int iLastByteCount;
     int iFileSize;
     System.DateTime dtStartTime;
-    double dSpeed;
     GDCSHTTPClient client;
     System.Uri dlUri;
     bool bDownloading = false;
@@ -73,7 +72,6 @@ public class DownloadAddon : ReferenceRect
         iTotalBytes = 0;
         iLastByteCount = 0;
         iFileSize = 0;
-        dSpeed = 0.0f;
         adSpeedStack = new Array<double>();
         _DownloadSpeedTimer.Connect("timeout", this, "OnDownloadSpeedTimer_Timeout");
         _CancelButton.Connect("pressed", this, "OnCancelPressed");
@@ -332,7 +330,6 @@ public class DownloadAddon : ReferenceRect
         iTotalBytes = 0;
         iLastByteCount = 0;
         iFileSize = 0;
-        dSpeed = 0.0f;
     }
 
     public async Task StartDownload() {

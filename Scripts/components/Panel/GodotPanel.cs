@@ -14,9 +14,6 @@ public class GodotPanel : Panel
     [NodePath("VB/MC/HC/DownloadSource")]
     OptionButton DownloadSource = null;
 
-    [NodePath("VB/SC/GodotList")]
-    VBoxContainer GodotList = null;
-
     [NodePath("VB/SC/GodotList/Install")]
     CategoryList Installed = null;
 
@@ -39,6 +36,9 @@ public class GodotPanel : Panel
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
         UseMono.Connect("toggled", this, "OnToggledUseMono");
+        DownloadSource.Clear();
+        DownloadSource.AddItem("Github");
+        DownloadSource.AddItem("TuxFamily.org");
     }
 
     void OnToggledUseMono(bool value) {
