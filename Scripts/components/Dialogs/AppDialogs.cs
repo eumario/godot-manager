@@ -15,6 +15,8 @@ public class AppDialogs : Control
     public FileDialog ImportFileDialog_ = null;
     public FileDialog BrowseFolderDialog_ = null;
     public CreateProject CreateProject_ = null;
+    public CreateCategory CreateCategory_ = null;
+    public RemoveCategory RemoveCategory_ = null;
     public AssetLibPreview AssetLibPreview_ = null;
     public DownloadAddon DownloadAddon_ = null;
     public AddonInstaller AddonInstaller_ = null;
@@ -32,6 +34,8 @@ public class AppDialogs : Control
     public static FileDialog ImportFileDialog { get => Instance.ImportFileDialog_; }
     public static FileDialog BrowseFolderDialog { get => Instance.BrowseFolderDialog_; }
     public static CreateProject CreateProject { get => Instance.CreateProject_; }
+    public static CreateCategory CreateCategory { get => Instance.CreateCategory_; }
+    public static RemoveCategory RemoveCategory { get => Instance.RemoveCategory_; }
     public static AssetLibPreview AssetLibPreview { get => Instance.AssetLibPreview_; }
     public static DownloadAddon DownloadAddon { get => Instance.DownloadAddon_; }
     public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
@@ -62,6 +66,8 @@ public class AppDialogs : Control
         ImportProject_ = GD.Load<PackedScene>("res://components/Dialogs/ImportProject.tscn").Instance<ImportProject>();
         MessageDialog_ = GD.Load<PackedScene>("res://components/Dialogs/MessageDialog.tscn").Instance<MessageDialog>();
         CreateProject_ = GD.Load<PackedScene>("res://components/Dialogs/CreateProject.tscn").Instance<CreateProject>();
+        CreateCategory_ = GD.Load<PackedScene>("res://components/Dialogs/CreateCategory.tscn").Instance<CreateCategory>();
+        RemoveCategory_ = GD.Load<PackedScene>("res://components/Dialogs/RemoveCategory.tscn").Instance<RemoveCategory>();
         AssetLibPreview_ = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
         DownloadAddon_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadAddon.tscn").Instance<DownloadAddon>();
         AddonInstaller_ = GD.Load<PackedScene>("res://components/Dialogs/AddonInstaller.tscn").Instance<AddonInstaller>();
@@ -90,6 +96,8 @@ public class AppDialogs : Control
             AddCustomGodot_, NewVersion_,       // Add Custom Godot / New Godot Version Prompt
             CreateProject_, ImportProject_,     // Create Project / Import Project
             AssetLibPreview_, DownloadAddon_,   // Asset Library Preview / Download Addon/Project
+            CreateCategory_,                    // Create a Category
+            RemoveCategory_,                    // Remove a Category
             AddonInstaller_,                    // Installer Dialog for Addon/Plugins
             YesNoDialog_,                       // Yes No Prompt
             YesNoCancelDialog_,                 // Yes, No, Cancel Prompt

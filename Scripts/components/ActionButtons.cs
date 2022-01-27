@@ -44,6 +44,14 @@ public class ActionButtons : PanelContainer
         }
     }
 
+    public void SetHidden(int index) {
+        _icons[index].Visible = false;
+    }
+
+    public void SetVisible(int index) {
+        _icons[index].Visible = true;
+    }
+
     public void Icon_MouseEntered(ColorRect rect) {
         rect.SelfModulate = new Color("B9FFFFFF");
     }

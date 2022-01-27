@@ -56,6 +56,11 @@ public class ProjectsPanel : Panel
         _viewSelector.Connect("Clicked", this, "OnViewSelector_Clicked");
         _actionButtons.Connect("clicked", this, "OnActionButtons_Clicked");
         AppDialogs.ImportProject.Connect("update_projects", this, "PopulateListing");
+        AppDialogs.CreateCategory.Connect("update_categories", this, "PopulateListing");
+        AppDialogs.RemoveCategory.Connect("update_categories", this, "PopulateListing");
+
+        _actionButtons.SetHidden(3);
+        _actionButtons.SetHidden(4);
 
         PopulateListing();
     }
@@ -170,8 +175,8 @@ public class ProjectsPanel : Panel
 		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
 		if (gv == null)
 			return;
-		GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location}\" -e");
-		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location, "-e" }, false);
+		GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location.GetBaseDir()}\" -e");
+		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location.GetBaseDir(), "-e" }, false);
 	}
 
 	async void OnActionButtons_Clicked(int index) {
@@ -184,7 +189,13 @@ public class ProjectsPanel : Panel
                 break;
             case 2: // Scan Project Folder
                 break;
-            case 3: // Remove Project (May be removed completely)
+            case 3: // Add Category
+                AppDialogs.CreateCategory.ShowDialog();
+                break;
+            case 4: // Remove Category
+                AppDialogs.RemoveCategory.ShowDialog();
+                break;
+            case 5: // Remove Project (May be removed completely)
                 ProjectFile pf = null;
                 if (_currentView == View.GridView) {
                     if (_currentPIE != null)
@@ -248,24 +259,14 @@ public class ProjectsPanel : Panel
             else
                 _views[i].Hide();
         }
+        if (page == 2) {
+            _actionButtons.SetVisible(3);
+            _actionButtons.SetVisible(4);
+        } else {
+            _actionButtons.SetHidden(3);
+            _actionButtons.SetHidden(4);
+        }
         _currentView = (View)page;
-    }
-
-    public void AddTestProjects() {
-        ProjectFile pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\godot-manager-mono\project.godot");
-        CentralStore.Projects.Add(pf);
-        pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\3D Platformer Demo\project.godot");
-        CentralStore.Projects.Add(pf);
-        pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\EditorPlugins\project.godot");
-        CentralStore.Projects.Add(pf);
-        pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\Godot-3D-Space-Shooter-main\project.godot");
-        CentralStore.Projects.Add(pf);
-        pf = ProjectFile.ReadFromFile(@"E:\Projects\Godot\Third Person Shooter Demo\project.godot");
-        CentralStore.Projects.Add(pf);
-        pf = ProjectFile.ReadFromFile(@"E:\Projects\src\mad-productivity\project.godot");
-        CentralStore.Projects.Add(pf);
-        CentralStore.Instance.SaveDatabase();
-        PopulateListing();
     }
 
     public Array<ProjectFile> TestSortListing() {

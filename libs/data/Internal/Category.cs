@@ -3,7 +3,7 @@ using Godot.Collections;
 using Newtonsoft.Json;
 
 [JsonObject(MemberSerialization.OptIn)]
-public class Category {
+public class Category : Object {
 	[JsonProperty]
 	public int Id;
 	[JsonProperty]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/components/Panel/ProjectsPanel.cs" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Assets/Icons/icon_remove.svg" type="Texture" id=6]
 [ext_resource path="res://Assets/Icons/scan.svg" type="Texture" id=7]
 [ext_resource path="res://Assets/Icons/icon_new.svg" type="Texture" id=8]
+[ext_resource path="res://Assets/Icons/add_category.svg" type="Texture" id=9]
+[ext_resource path="res://Assets/Icons/rem_category.svg" type="Texture" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
@@ -59,7 +61,7 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="VC/MC/HC"]
 margin_left = 218.0
-margin_right = 496.0
+margin_right = 472.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 __meta__ = {
@@ -67,14 +69,14 @@ __meta__ = {
 }
 
 [node name="ActionButtons" parent="VC/MC/HC" instance=ExtResource( 4 )]
-margin_left = 504.0
-margin_right = 616.0
+margin_left = 480.0
+margin_right = 640.0
 margin_bottom = 40.0
 size_flags_vertical = 4
-Icons = [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 6 ) ]
+Icons = [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 6 ) ]
 
 [node name="Spacer2" type="Control" parent="VC/MC/HC"]
-margin_left = 624.0
+margin_left = 648.0
 margin_right = 902.0
 margin_bottom = 40.0
 size_flags_horizontal = 3

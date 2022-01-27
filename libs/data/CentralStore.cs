@@ -93,6 +93,34 @@ public class CentralStore {
 					select gv;
 		return query.FirstOrDefault<GodotVersion>();
 	}
+
+	public bool HasCategory(string name) {
+		var res = from c in CentralStore.Categories
+					where c.Name.ToLower() == name.ToLower()
+					select c;
+		return res.FirstOrDefault() != null;
+	}
+
+	public bool HasCategoryId(int id) {
+		var res = from c in CentralStore.Categories
+					where c.Id == id
+					select c;
+		return res.FirstOrDefault() != null;
+	}
+
+	public Category GetCategoryById(int id) {
+		var res = from c in CentralStore.Categories
+					where c.Id == id
+					select c;
+		return res.FirstOrDefault();
+	}
+
+	public Category GetCategoryByName(string name) {
+		var res = from c in CentralStore.Categories
+					where c.Name.ToLower() == name.ToLower()
+					select c;
+		return res.FirstOrDefault();
+	}
 #endregion
 
 }
