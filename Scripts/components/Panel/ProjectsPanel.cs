@@ -41,6 +41,7 @@ public class ProjectsPanel : Panel
 
     View _currentView = View.ListView;
     Dictionary<int, CategoryList> _categoryList;
+    ProjectPopup _popupMenu = null;
 #endregion
 
     Array<Container> _views;
@@ -48,6 +49,10 @@ public class ProjectsPanel : Panel
     public override void _Ready()
     {
         this.OnReady();
+
+        _popupMenu = GD.Load<PackedScene>("res://components/ProjectPopup.tscn").Instance<ProjectPopup>();
+        AddChild(_popupMenu);
+        _popupMenu.SetAsToplevel(true);
 
         _views = new Array<Container>();
         _views.Add(_listView);
@@ -85,6 +90,20 @@ public class ProjectsPanel : Panel
         clt.Toggable = true;
         clt.CategoryName = name;
         return clt;
+    }
+
+    void ConnectHandlers(Node inode) {
+        if (inode is ProjectLineEntry ple) {
+            ple.Connect("Clicked", this, "OnListEntry_Clicked");
+            ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
+            ple.Connect("RightClicked", this, "OnListEntry_RightClicked");
+            ple.Connect("RightDoubleClicked", this, "OnListEntry_RightDoubleClicked");
+        } else if (inode is ProjectIconEntry pie) {
+            pie.Connect("Clicked", this, "OnIconEntry_Clicked");
+            pie.Connect("DoubleClicked", this, "OnIconEntry_DoubleClicked");
+            pie.Connect("RightClicked", this, "OnIconEntry_RightClicked");
+            pie.Connect("RightDoubleClicked", this, "OnIconEntry_RightDoubleClicked");
+        }
     }
 
     public void PopulateListing() {
@@ -126,11 +145,10 @@ public class ProjectsPanel : Panel
             ple = NewPLE(pf);
             pie = NewPIE(pf);
             _listView.AddChild(ple);
-            ple.Connect("Clicked", this, "OnListEntry_Clicked");
-            ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
-            pie.Connect("Clicked", this, "OnIconEntry_Clicked");
-            pie.Connect("DoubleClicked", this, "OnIconEntry_DoubleClicked");
             _gridView.AddChild(pie);
+
+            ConnectHandlers(ple);
+            ConnectHandlers(pie);
             if (pf.CategoryId == -1) {
                 clt = clUncategorized;
             } else {
@@ -140,8 +158,7 @@ public class ProjectsPanel : Panel
                     clt = clUncategorized;
             }
             ple = clt.AddProject(pf);
-            ple.Connect("Clicked", this, "OnListEntry_Clicked");
-            ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
+            ConnectHandlers(ple);
         }
     }
 
@@ -170,11 +187,14 @@ public class ProjectsPanel : Panel
         ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
     }
 
-    private void UpdateIconsExcept(ProjectIconEntry pie) {
-        foreach(ProjectIconEntry cpie in _gridView.GetChildren()) {
-            if (cpie != pie)
-                cpie.SelfModulate = new Color("00FFFFFF");
-        }
+    void OnListEntry_RightClicked(ProjectLineEntry ple) {
+        _popupMenu.ProjectLineEntry = ple;
+        _popupMenu.ProjectIconEntry = null;
+        _popupMenu.Popup_(new Rect2(GetGlobalMousePosition(), _popupMenu.RectSize));
+    }
+
+    void OnListEntry_RightDoubleClicked(ProjectLineEntry ple) {
+
     }
 
     private void OnIconEntry_Clicked(ProjectIconEntry pie) {
@@ -186,6 +206,33 @@ public class ProjectsPanel : Panel
 	{
 		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
 	}
+
+    void OnIconEntry_RightClicked(ProjectIconEntry pie) {
+        _popupMenu.ProjectLineEntry = null;
+        _popupMenu.ProjectIconEntry = pie;
+        _popupMenu.Popup_(new Rect2(GetGlobalMousePosition(), _popupMenu.RectSize));
+    }
+
+    void OnIconEntry_RightDoubleClicked(ProjectIconEntry pie) {
+
+    }
+
+    public void _IdPressed(int id) {
+        if (_popupMenu.ProjectLineEntry != null) {
+            ProjectLineEntry ple = _popupMenu.ProjectLineEntry;
+            GD.Print($"Handle Code for ProjectLineEntry, ID: {id}");
+        } else {
+            ProjectIconEntry pie = _popupMenu.ProjectIconEntry;
+            GD.Print($"Handle Code for ProjectIconEntry, ID: {id}");
+        }
+    }
+
+    private void UpdateIconsExcept(ProjectIconEntry pie) {
+        foreach(ProjectIconEntry cpie in _gridView.GetChildren()) {
+            if (cpie != pie)
+                cpie.SelfModulate = new Color("00FFFFFF");
+        }
+    }
 
 	private static void ExecuteEditorProject(string godotVersion, string location)
 	{

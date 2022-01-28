@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Icons/missing_icon.svg" type="Texture" id=1]
-[ext_resource path="res://Assets/Icons/submenu.svg" type="Texture" id=2]
+[ext_resource path="res://components/HeartIcon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/components/ProjectLineEntry.cs" type="Script" id=3]
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=5]
@@ -86,14 +86,10 @@ text = "Godot vX.X.X"
 align = 1
 valign = 1
 
-[node name="SubMenu" type="TextureRect" parent="hc"]
+[node name="HeartIcon" parent="hc" instance=ExtResource( 2 )]
 margin_left = 992.0
 margin_top = 16.0
-margin_right = 1024.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 32, 32 )
-mouse_filter = 0
+size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource( 2 )
-expand = true
-stretch_mode = 6

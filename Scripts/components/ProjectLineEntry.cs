@@ -10,6 +10,10 @@ public class ProjectLineEntry : ColorRect
     public delegate void Clicked(ProjectLineEntry self);
     [Signal]
     public delegate void DoubleClicked(ProjectLineEntry self);
+    [Signal]
+    public delegate void RightClicked(ProjectLineEntry self);
+    [Signal]
+    public delegate void RightDoubleClicked(ProjectLineEntry self);
 #endregion
 
 #region Private Node Variables
@@ -23,8 +27,8 @@ public class ProjectLineEntry : ColorRect
     private Label _location = null;
     [NodePath("hc/GodotVersion")]
     private Label _version = null;
-    [NodePath("hc/SubMenu")]
-    private TextureRect _subMenu = null;
+    [NodePath("hc/HeartIcon")]
+    public HeartIcon HeartIcon = null;
 #endregion
 
 #region Private Variables
@@ -49,6 +53,9 @@ public class ProjectLineEntry : ColorRect
             Icon = value.Location.GetResourceBase(value.Icon);
             Location = value.Location;
             GodotVersion = value.GodotVersion;
+            if (HeartIcon != null) {
+                HeartIcon.SetCheck(value.Favorite);
+            }
         }
     }
 
@@ -135,12 +142,14 @@ public class ProjectLineEntry : ColorRect
         Description = sDesc;
         Location = sLocation;
         GodotVersion = sGodotVersion;
+        HeartIcon.SetCheck(ProjectFile.Favorite);
         this.Connect("gui_input", this, "OnGuiInput");
-        _subMenu.Connect("gui_input", this, "OnSubMenu_GuiInput");
+        HeartIcon.Connect("clicked", this, "OnHeartClicked");
     }
 
-    void OnSubMenu_GuiInput(InputEvent inputEvent) {
-        // TODO: Implement SubMenu soon for ProjectLineEntry.
+    void OnHeartClicked() {
+        ProjectFile.Favorite = HeartIcon.IsChecked();
+        CentralStore.Instance.SaveDatabase();
     }
 
     void OnGuiInput(InputEvent inputEvent) {
@@ -150,15 +159,22 @@ public class ProjectLineEntry : ColorRect
         if (!iemb.Pressed)
             return;
         
-        if (iemb.ButtonIndex != (int)ButtonList.Left)
-            return;
-        
-        if (iemb.Doubleclick)
-            EmitSignal("DoubleClicked", this);
-        else {
-            SelfModulate = new Color("ffffffff");
-            EmitSignal("Clicked", this);
+        if (iemb.ButtonIndex == (int)ButtonList.Left) {
+            if (iemb.Doubleclick)
+                EmitSignal("DoubleClicked", this);
+            else {
+                SelfModulate = new Color("ffffffff");
+                EmitSignal("Clicked", this);
+            }
+        } else if (iemb.ButtonIndex == (int)ButtonList.Right) {
+            if (iemb.Doubleclick)
+                EmitSignal("RightDoubleClicked", this);
+            else {
+                SelfModulate = new Color("ffffffff");
+                EmitSignal("RightClicked", this);
+            }
         }
+        
     }
 
     // Test Drag and Drop

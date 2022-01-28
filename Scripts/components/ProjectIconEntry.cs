@@ -9,6 +9,10 @@ public class ProjectIconEntry : ColorRect
     public delegate void Clicked(ProjectLineEntry self);
     [Signal]
     public delegate void DoubleClicked(ProjectLineEntry self);
+    [Signal]
+    public delegate void RightClicked(ProjectLineEntry self);
+    [Signal]
+    public delegate void RightDoubleClicked(ProjectLineEntry self);
 #endregion
 
 #region Private Node Variables
@@ -134,7 +138,12 @@ public class ProjectIconEntry : ColorRect
                 EmitSignal("Clicked", this);
             }
         } else if (iemb.ButtonIndex == (int)ButtonList.Right) {
-            // Handle Popup Menu, similar to the 3-Dot Menu Icon in ListView/CategoryView
+            if (iemb.Doubleclick)
+                EmitSignal("RightDoubleClicked", this);
+            else {
+                SelfModulate = new Color("ffffffff");
+                EmitSignal("RightClicked", this);
+            }
         }
 
     }
