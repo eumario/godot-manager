@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using GodotSharpExtras;
 using System;
 
@@ -158,5 +159,19 @@ public class ProjectLineEntry : ColorRect
             SelfModulate = new Color("ffffffff");
             EmitSignal("Clicked", this);
         }
+    }
+
+    // Test Drag and Drop
+    public override object GetDragData(Vector2 position) {
+        if (!(GetParent().GetParent() is CategoryList))
+            return null;
+        Dictionary data = new Dictionary();
+        data["source"] = this;
+        data["parent"] = this.GetParent().GetParent();
+        var preview = GD.Load<PackedScene>("res://components/ProjectLineEntry.tscn").Instance<ProjectLineEntry>();
+        preview.ProjectFile = ProjectFile;
+        SetDragPreview(preview);
+        data["preview"] = preview;
+        return data;
     }
 }

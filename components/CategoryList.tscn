@@ -16,7 +16,11 @@ CategoryName = ""
 [node name="CategoryName" type="Label" parent="."]
 margin_right = 1024.0
 margin_bottom = 18.0
+mouse_filter = 1
 custom_fonts/font = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="hc" type="HBoxContainer" parent="."]
 margin_top = 22.0
@@ -26,6 +30,7 @@ margin_bottom = 26.0
 [node name="HSeparator" type="HSeparator" parent="hc"]
 margin_right = 1024.0
 margin_bottom = 4.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -41,6 +46,7 @@ margin_top = 30.0
 margin_right = 1024.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 10 )
+mouse_filter = 1
 
 [node name="CategoryList" type="VBoxContainer" parent="."]
 margin_top = 44.0
@@ -56,3 +62,4 @@ margin_top = 48.0
 margin_right = 1024.0
 margin_bottom = 63.0
 rect_min_size = Vector2( 0, 15 )
+mouse_filter = 1

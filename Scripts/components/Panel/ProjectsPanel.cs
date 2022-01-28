@@ -40,6 +40,7 @@ public class ProjectsPanel : Panel
     ProjectIconEntry _currentPIE = null;
 
     View _currentView = View.ListView;
+    Dictionary<int, CategoryList> _categoryList;
 #endregion
 
     Array<Container> _views;
@@ -61,6 +62,7 @@ public class ProjectsPanel : Panel
 
         _actionButtons.SetHidden(3);
         _actionButtons.SetHidden(4);
+        _categoryList = new Dictionary<int, CategoryList>();
 
         PopulateListing();
     }
@@ -103,18 +105,21 @@ public class ProjectsPanel : Panel
             child.QueueFree();
         }
 
+        _categoryList.Clear();
+
         foreach(Category cat in CentralStore.Categories) {
             clt = NewCL(cat.Name);
-            clt.Set("ID",cat.Id);
+            clt.SetMeta("ID",cat.Id);
+            _categoryList[cat.Id] = clt;
             _categoryView.AddChild(clt);
         }
 
         clFavorites = NewCL("Favorites");
-        clFavorites.Set("ID", -1);
+        clFavorites.SetMeta("ID", -1);
         _categoryView.AddChild(clFavorites);
 
         clUncategorized = NewCL("Un-Categorized");
-        clUncategorized.Set("ID",-2);
+        clUncategorized.SetMeta("ID",-2);
         _categoryView.AddChild(clUncategorized);
 
         foreach(ProjectFile pf in CentralStore.Projects) {
@@ -129,7 +134,10 @@ public class ProjectsPanel : Panel
             if (pf.CategoryId == -1) {
                 clt = clUncategorized;
             } else {
-                clt = _categoryView.GetChild<CategoryList>(pf.CategoryId);
+                if (_categoryList.ContainsKey(pf.CategoryId))
+                    clt = _categoryList[pf.CategoryId];
+                else
+                    clt = clUncategorized;
             }
             ple = clt.AddProject(pf);
             ple.Connect("Clicked", this, "OnListEntry_Clicked");
@@ -159,7 +167,7 @@ public class ProjectsPanel : Panel
     }
 
     void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
-        ExecuteEditorProject(ple.GodotVersion, ple.Location);
+        ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
     }
 
     private void UpdateIconsExcept(ProjectIconEntry pie) {
@@ -184,8 +192,8 @@ public class ProjectsPanel : Panel
 		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
 		if (gv == null)
 			return;
-		GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location.GetBaseDir()}\" -e");
-		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location.GetBaseDir(), "-e" }, false);
+		GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location}\" -e");
+		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location, "-e" }, false);
 	}
 
 	async void OnActionButtons_Clicked(int index) {

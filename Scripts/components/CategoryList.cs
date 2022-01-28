@@ -132,4 +132,28 @@ public class CategoryList : VBoxContainer
         gle.GodotVersion = godotVersion;
         _categoryList.AddChild(gle);
     }
+
+	public override bool CanDropData(Vector2 position, object data)
+	{
+        if ((int)GetMeta("ID") == -1)
+            return false;
+        Dictionary dictData = data as Dictionary;
+		CategoryList parent = dictData["parent"] as CategoryList;
+        if (parent == this)
+            return false;
+        if (dictData["source"] is ProjectLineEntry)
+            return true;
+        return false;      
+	}
+
+	public override void DropData(Vector2 position, object data)
+	{
+		Dictionary dictData = data as Dictionary;
+        CategoryList parent = dictData["parent"] as CategoryList;
+        ProjectLineEntry ple = dictData["source"] as ProjectLineEntry;
+        parent.List.RemoveChild(ple);
+        List.AddChild(ple);
+        ple.ProjectFile.CategoryId = (int)GetMeta("ID");
+        CentralStore.Instance.SaveDatabase();
+	}
 }
