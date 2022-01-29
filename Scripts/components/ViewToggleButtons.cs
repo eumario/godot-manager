@@ -11,6 +11,9 @@ public class ViewToggleButtons : PanelContainer
     [Export(PropertyHint.File)]
     Array<StreamTexture> Icons = null;
 
+    [Export]
+    Array<string> HelpText = null;
+
     Array<ColorRect> _icons;
 
     int toggleIndx = 0;
@@ -18,6 +21,14 @@ public class ViewToggleButtons : PanelContainer
     public override void _Ready()
     {
         _icons = new Array<ColorRect>();
+
+        if (Icons == null) {
+            Icons = new Array<StreamTexture>();
+        }
+
+        if (HelpText == null) {
+            HelpText = new Array<string>();
+        }
 
         for (var i = 0; i < Icons.Count; i++) {
             ColorRect icon_bg = new ColorRect();
@@ -34,6 +45,10 @@ public class ViewToggleButtons : PanelContainer
             
             Godot.Collections.Array bg = new Godot.Collections.Array();
             bg.Add(icon_bg);
+
+            if (HelpText.Count > i) {
+                icon_bg.HintTooltip = HelpText[i];
+            }
 
             GetNode<HBoxContainer>("Buttons").AddChild(icon_bg);
             icon_bg.Connect("mouse_entered", this, "Icon_MouseEntered", bg);

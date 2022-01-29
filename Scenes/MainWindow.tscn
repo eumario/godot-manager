@@ -72,9 +72,11 @@ __meta__ = {
 }
 
 [node name="ToggleButton" parent="bg/Shell/Sidebar/VC" instance=ExtResource( 1 )]
+hint_tooltip = "Show Sidebar"
 
 [node name="Projects" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
 margin_right = 70.0
+hint_tooltip = "Page: Projects"
 Label = "Projects"
 Icon = ExtResource( 3 )
 Active = true
@@ -83,6 +85,7 @@ Active = true
 margin_top = 108.0
 margin_right = 70.0
 margin_bottom = 158.0
+hint_tooltip = "Page: Asset Library"
 Label = "AssetLib"
 Icon = ExtResource( 5 )
 
@@ -90,6 +93,7 @@ Icon = ExtResource( 5 )
 margin_top = 162.0
 margin_right = 70.0
 margin_bottom = 212.0
+hint_tooltip = "Page: Godot Engines"
 Label = "Versions"
 Icon = ExtResource( 8 )
 
@@ -103,6 +107,7 @@ size_flags_vertical = 3
 margin_top = 650.0
 margin_right = 70.0
 margin_bottom = 700.0
+hint_tooltip = "Page: Settings"
 Label = "Settings"
 Icon = ExtResource( 9 )
 

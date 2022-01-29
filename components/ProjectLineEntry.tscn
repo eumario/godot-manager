@@ -78,6 +78,7 @@ margin_left = 588.0
 margin_right = 988.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 400, 0 )
+hint_tooltip = "Godot Engine Version"
 mouse_filter = 1
 mouse_default_cursor_shape = 2
 size_flags_vertical = 3
@@ -89,7 +90,9 @@ valign = 1
 [node name="HeartIcon" parent="hc" instance=ExtResource( 2 )]
 margin_left = 992.0
 margin_top = 16.0
+margin_right = 1024.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 32, 32 )
+hint_tooltip = "Favorite"
 size_flags_horizontal = 4
 size_flags_vertical = 4

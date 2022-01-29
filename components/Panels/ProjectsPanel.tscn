@@ -74,6 +74,7 @@ margin_right = 640.0
 margin_bottom = 40.0
 size_flags_vertical = 4
 Icons = [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 6 ) ]
+HelpText = [ "New Project", "Import Project", "Scan Projects", "Add Category", "Remove Category", "Remove Project" ]
 
 [node name="Spacer2" type="Control" parent="VC/MC/HC"]
 margin_left = 648.0
@@ -88,6 +89,7 @@ __meta__ = {
 margin_left = 910.0
 margin_right = 1014.0
 margin_bottom = 40.0
+HelpText = [ "List View", "Icon View", "Category View" ]
 
 [node name="SC" type="ScrollContainer" parent="VC"]
 margin_top = 44.0

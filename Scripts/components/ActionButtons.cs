@@ -9,6 +9,8 @@ public class ActionButtons : PanelContainer
 
     [Export(PropertyHint.File)]
     Array<StreamTexture> Icons = null;
+    [Export]
+    Array<string> HelpText = null;
 
     Array<ColorRect> _icons = new Array<ColorRect>();
 
@@ -18,6 +20,9 @@ public class ActionButtons : PanelContainer
         if (Icons == null) {
             Icons = new Array<StreamTexture>();
             return;
+        }
+        if (HelpText == null) {
+            HelpText = new Array<string>();
         }
         for (int i = 0; i < Icons.Count; i++) {
             ColorRect icon_bg = new ColorRect();
@@ -34,6 +39,8 @@ public class ActionButtons : PanelContainer
             
             Godot.Collections.Array bg = new Godot.Collections.Array();
             bg.Add(icon_bg);
+            if (HelpText.Count > i)
+                icon_bg.HintTooltip = HelpText[i];
 
             GetNode<HBoxContainer>("Buttons").AddChild(icon_bg);
             icon_bg.Connect("mouse_entered", this, "Icon_MouseEntered", bg);

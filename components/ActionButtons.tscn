@@ -29,8 +29,8 @@ Icons = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ]
 [node name="Buttons" type="HBoxContainer" parent="."]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 10.0
-margin_bottom = 10.0
+margin_right = 78.0
+margin_bottom = 30.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
