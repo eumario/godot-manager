@@ -15,6 +15,7 @@ public class AppDialogs : Control
     public FileDialog ImageFileDialog_ = null;
     public FileDialog ImportFileDialog_ = null;
     public FileDialog BrowseFolderDialog_ = null;
+    public FileDialog BrowseGodotDialog_ = null;
     public CreateProject CreateProject_ = null;
     public EditProject EditProject_ = null;
     public CreateCategory CreateCategory_ = null;
@@ -36,6 +37,7 @@ public class AppDialogs : Control
     public static FileDialog ImageFileDialog { get => Instance.ImageFileDialog_; }
     public static FileDialog ImportFileDialog { get => Instance.ImportFileDialog_; }
     public static FileDialog BrowseFolderDialog { get => Instance.BrowseFolderDialog_; }
+    public static FileDialog BrowseGodotDialog { get => Instance.BrowseGodotDialog_; }
     public static CreateProject CreateProject { get => Instance.CreateProject_; }
     public static EditProject EditProject { get => Instance.EditProject_; }
     public static CreateCategory CreateCategory { get => Instance.CreateCategory_; }
@@ -105,6 +107,16 @@ public class AppDialogs : Control
         BrowseFolderDialog_.RectMinSize = new Vector2(510, 390);
         BrowseFolderDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
 
+        // Internal Browse Godot Dialog
+        BrowseGodotDialog_ = new FileDialog();
+        BrowseGodotDialog_.Name = "BrowseGodotDialog";
+        BrowseGodotDialog_.Mode = FileDialog.ModeEnum.OpenFile;
+        BrowseGodotDialog_.Access = FileDialog.AccessEnum.Filesystem;
+        BrowseGodotDialog_.WindowTitle = "Find Godot...";
+        BrowseGodotDialog_.Filters = new string[] { "*.exe", "*.x86_64", "*.x86", ".app", "godot"};
+        BrowseGodotDialog_.RectMinSize = new Vector2(510, 390);
+        BrowseGodotDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
+
         dialogs = new Array<ReferenceRect> {    // Hierarchy of Dialogs in window, for proper displaying
             FirstTimeInstall_,                  // First Time Installation Helper
             AddCustomGodot_, NewVersion_,       // Add Custom Godot / New Godot Version Prompt
@@ -133,5 +145,6 @@ public class AppDialogs : Control
         AddChild(ImageFileDialog_);
         AddChild(ImportFileDialog_);
         AddChild(BrowseFolderDialog_);
+        AddChild(BrowseGodotDialog_);
     }
 }

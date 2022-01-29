@@ -11,6 +11,9 @@ public class GodotPanel : Panel
     [NodePath("VB/MC/HC/UseMono")]
     CheckBox UseMono = null;
 
+    [NodePath("VB/MC/HC/ActionButtons")]
+    ActionButtons ActionButtons = null;
+
     [NodePath("VB/MC/HC/DownloadSource")]
     OptionButton DownloadSource = null;
 
@@ -39,6 +42,18 @@ public class GodotPanel : Panel
         DownloadSource.Clear();
         DownloadSource.AddItem("Github");
         DownloadSource.AddItem("TuxFamily.org");
+        ActionButtons.Connect("clicked", this, "OnActionClicked");
+        AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
+    }
+
+    void OnActionClicked(int index) {
+        switch(index) {
+            case 0:     // Add Custom Godot
+                AppDialogs.AddCustomGodot.ShowDialog();
+                break;
+            case 1:     // Scan for Godot
+                break;
+        }
     }
 
     void OnToggledUseMono(bool value) {
@@ -97,6 +112,7 @@ public class GodotPanel : Panel
         }
         CentralStore.Instance.SaveDatabase();
         var task = PopulateList();
+        await task;
     }
 
     public Array<string> RecursiveListDir(string path) {
@@ -126,7 +142,26 @@ public class GodotPanel : Panel
         while (!result.IsCompleted)
             await this.IdleFrame();
 
+        Task task = null;
+
         if (result.Result) {
+            if (gle.GodotVersion.GithubVersion == null && gle.GodotVersion.TuxfamilyVersion == null) {
+                // Custom Godot added Locally, do not remove files, only remove entry.
+                foreach (ProjectFile pf in CentralStore.Projects) {
+                    if (pf.GodotVersion == gle.GodotVersion.Id) {
+                        pf.GodotVersion = System.Guid.Empty.ToString();
+                    }
+                }
+
+                if ((string)CentralStore.Settings.DefaultEngine == gle.GodotVersion.Id)
+                    CentralStore.Settings.DefaultEngine = System.Guid.Empty.ToString();
+                
+                CentralStore.Versions.Remove(gle.GodotVersion);
+                CentralStore.Instance.SaveDatabase();
+                task = PopulateList();
+                await task;
+                return;
+            }
             Directory dir = new Directory();
             var install = ProjectSettings.GlobalizePath(gle.GodotVersion.Location);
             var cache = ProjectSettings.GlobalizePath(gle.GodotVersion.CacheLocation);
@@ -148,7 +183,8 @@ public class GodotPanel : Panel
             
             CentralStore.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();
-            var task = PopulateList();
+            task = PopulateList();
+            await task;
         } else {
             gle.ToggleDownloadUninstall(true);
         }

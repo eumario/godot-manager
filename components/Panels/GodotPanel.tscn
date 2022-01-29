@@ -70,6 +70,7 @@ margin_left = 421.0
 margin_right = 485.0
 margin_bottom = 40.0
 Icons = [ ExtResource( 5 ), ExtResource( 6 ) ]
+HelpText = [ "Add Custom Godot", "Scan For Godot (Not Available)" ]
 
 [node name="Spacer2" type="Control" parent="VB/MC/HC"]
 margin_left = 493.0
@@ -111,6 +112,7 @@ margin_left = 874.0
 margin_right = 1014.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 140, 0 )
+hint_tooltip = "Select a Mirror to Download From.  (Tuxfamily not available)"
 text = "Github"
 items = [ "Github", null, false, 0, null, "TuxFamily.org", null, false, 1, null ]
 selected = 0
@@ -131,15 +133,18 @@ custom_constants/separation = 30
 
 [node name="Install" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
 margin_bottom = 63.0
+hint_tooltip = "Installed versions of Godot Engine"
 CategoryName = "Installed Versions"
 
 [node name="Download" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
 visible = false
-margin_top = 60.0
-margin_bottom = 90.0
+margin_top = 93.0
+margin_bottom = 156.0
+hint_tooltip = "Versions of Godot currently downloading"
 CategoryName = "Currently Downloading"
 
 [node name="Available" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
 margin_top = 93.0
 margin_bottom = 156.0
+hint_tooltip = "Available versions to Download"
 CategoryName = "Available to Download"

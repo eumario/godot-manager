@@ -137,6 +137,8 @@ public class AddonInstaller : ReferenceRect
         Array<string> installFiles = new Array<string>();
 
         foreach(string key in _statusMap.Keys) {
+            if (_statusMap[key] == null)
+                continue; // Should not happen, but for some reason does on MacOS in Proxmox environment?
             if (_statusMap[key].IsChecked(0))
                 installFiles.Add(key);
         }
@@ -244,9 +246,5 @@ public class AddonInstaller : ReferenceRect
                 _files.Add(zae.FullName);
             }
         }
-
-        // Debug
-        // foreach(string file in _files)
-        //     GD.Print(file);
     }
 }
