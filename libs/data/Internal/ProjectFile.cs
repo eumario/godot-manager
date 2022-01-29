@@ -28,15 +28,9 @@ public class ProjectFile : Godot.Object {
 			if ((int)project.GetValue("","config_version") == 4) {
 				projectFile = new ProjectFile();
 				projectFile.Name = (string)project.GetValue("application", "config/name");
-				if (project.HasSectionKey("application","config/description"))
-					projectFile.Description = (string)project.GetValue("application", "config/description");
-				else
-					projectFile.Description = "No Description";
+				projectFile.Description = (string)project.GetValue("application", "config/description", "No Description");
 				projectFile.Location = filePath.NormalizePath();
-				if (project.HasSectionKey("application","config/icon"))
-					projectFile.Icon = (string)project.GetValue("application", "config/icon");
-				else
-					projectFile.Icon = "res://icon.png";
+				projectFile.Icon = (string)project.GetValue("application", "config/icon", "res://icon.png");
 			} else {
 				GD.PrintErr($"Project Version does not match version 4.");
 			}
@@ -63,11 +57,20 @@ public class ProjectFile : Godot.Object {
 		if (ret == Error.Ok) {
 			if ((int)pf.GetValue("","config_version") == 4) {
 				this.Name = (string)pf.GetValue("application", "config/name");
-				if (pf.HasSectionKey("application","config/description"))
-					this.Description = (string)pf.GetValue("application", "config/description");
-				if (pf.HasSectionKey("application","config/icon"))
-					this.Icon = (string)pf.GetValue("application","config/icon");
+				this.Description = (string)pf.GetValue("application", "config/description", "No Description");
+				this.Icon = (string)pf.GetValue("application","config/icon", "res://icon.png");
 			}
+		}
+	}
+
+	public void WriteUpdatedData() {
+		ConfigFile pf = new ConfigFile();
+		var ret = pf.Load(Location);
+		if (ret == Error.Ok) {
+			pf.SetValue("application", "config/name", this.Name);
+			pf.SetValue("application", "config/description", this.Description);
+			pf.SetValue("application", "config/icon", this.Icon);
+			pf.Save(Location);
 		}
 	}
 }

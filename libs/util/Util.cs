@@ -6,6 +6,10 @@ public static class Util {
 		return System.IO.Path.Combine(path.GetBaseDir(), file.Replace("res://", "")).Replace(@"\","/");
 	}
 
+	public static string GetProjectRoot(this string path, string target) {
+		return target.Replace(path,"res:/").Replace(@"\", "/");
+	}
+
 	public static string GetOSDir(this string path) {
 		return ProjectSettings.GlobalizePath(path);
 	}

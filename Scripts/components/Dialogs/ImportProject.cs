@@ -48,7 +48,9 @@ public class ImportProject : ReferenceRect
         _godotVersions.Clear();
 		foreach (GodotVersion gdVers in CentralStore.Versions)
 		{
-			string gdTag = gdVers.GetDisplayName() + " (Default)";
+            string gdTag = gdVers.GetDisplayName();
+            if (gdVers.Id == CentralStore.Settings.DefaultEngine)
+                gdTag += " (Default)";
 			int id = CentralStore.Versions.IndexOf(gdVers);
 			_godotVersions.AddItem(gdTag, id);
 			_godotVersions.SetItemMetadata(id, gdVers.Id);

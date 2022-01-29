@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using GodotSharpExtras;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class ProjectsPanel : Panel
 {
@@ -64,6 +65,7 @@ public class ProjectsPanel : Panel
         AppDialogs.ImportProject.Connect("update_projects", this, "PopulateListing");
         AppDialogs.CreateCategory.Connect("update_categories", this, "PopulateListing");
         AppDialogs.RemoveCategory.Connect("update_categories", this, "PopulateListing");
+        AppDialogs.EditProject.Connect("project_updated", this, "PopulateListing");
 
         _actionButtons.SetHidden(3);
         _actionButtons.SetHidden(4);
@@ -217,17 +219,112 @@ public class ProjectsPanel : Panel
 
     }
 
-    public void _IdPressed(int id) {
+    public async void _IdPressed(int id) {
         if (_popupMenu.ProjectLineEntry != null) {
             ProjectLineEntry ple = _popupMenu.ProjectLineEntry;
-            GD.Print($"Handle Code for ProjectLineEntry, ID: {id}");
+            switch(id) {
+                case 0:         // Open Project
+                    ExecuteEditorProject(ple.GodotVersion, ple.ProjectFile.Location.GetBaseDir());
+                    break;
+                case 1:         // Run Project
+                    ExecuteProject(ple.GodotVersion, ple.ProjectFile.Location.GetBaseDir());
+                    break;
+                case 2:         // Show Project Files
+                    OS.ShellOpen(ple.ProjectFile.Location.GetBaseDir());
+                    break;
+				case 3:         // Show Project Data Folder
+					string folder = GetProjectDataFolder(ple.ProjectFile);
+                    OS.ShellOpen(folder);
+                    GD.Print($"folder: {folder}");
+					break;
+				case 4:         // Edit Project file
+                    // Handle Editing Certain Settings for ProjectFile
+                    AppDialogs.EditProject.ShowDialog(ple.ProjectFile);
+                    break;
+                case 5:         // Remove Project
+                    await RemoveProject(ple.ProjectFile);
+                    break;
+            }
         } else {
             ProjectIconEntry pie = _popupMenu.ProjectIconEntry;
-            GD.Print($"Handle Code for ProjectIconEntry, ID: {id}");
+            switch(id) {
+                case 0:         // Open Project
+                    ExecuteEditorProject(pie.GodotVersion, pie.ProjectFile.Location.GetBaseDir());
+                    break;
+                case 1:         // Run Project
+                    ExecuteProject(pie.GodotVersion, pie.ProjectFile.Location.GetBaseDir());
+                    break;
+                case 2:         // Show Project Files
+                    OS.ShellOpen(pie.ProjectFile.Location.GetBaseDir());
+                    break;
+                case 3:         // Show Project Data Folder
+                    string folder = GetProjectDataFolder(pie.ProjectFile);
+                    GD.Print($"folder: {folder}");
+                    OS.ShellOpen(folder);
+                    break;
+                case 4:         // Edit Project file
+                    // Handle Editing Certain Settings for ProjectFile
+                    AppDialogs.EditProject.ShowDialog(pie.ProjectFile);
+                    break;
+                case 5:         // Remove Project
+                    await RemoveProject(pie.ProjectFile);
+                    break;
+            }
         }
     }
 
-    private void UpdateIconsExcept(ProjectIconEntry pie) {
+	private string GetProjectDataFolder(ProjectFile pf)
+	{
+		ConfigFile cf = new ConfigFile();
+		cf.Load(pf.Location);
+		string folder = "";
+		if (cf.HasSectionKey("application", "config/use_custom_user_dir"))
+		{
+			if ((bool)cf.GetValue("application", "config/use_custom_user_dir") == true)
+			{
+#if GODOT_WINDOWS || GODOT_UWP
+				folder = OS.GetEnvironment("APPDATA");
+#elif GODOT_LINUXBSD || GODOT_X11
+                            folder = "~/.local/share";
+#elif GODOT_MACOS || GODOT_OSX
+                            folder = "~/Library/Application Support";
+#endif
+				folder = folder.PlusFile((string)cf.GetValue("application", "config/custom_user_dir_name"));
+			} else {
+#if GODOT_WINDOWS || GODOT_UWP
+                folder = OS.GetEnvironment("APPDATA").PlusFile("Godot").PlusFile("app_userdata");
+#elif GODOT_LINUXBSD || GODOT_X11
+                folder = "~/local/share/godot/app_userdata";
+#elif GODOT_MACOS || GODOT_OSX
+                folder = "~/Library/Application Support/Godot/app_userdata";
+#endif
+			    folder = folder.PlusFile(pf.Name);                
+            }
+		}
+		else
+		{
+#if GODOT_WINDOWS || GODOT_UWP
+			folder = OS.GetEnvironment("APPDATA").PlusFile("Godot").PlusFile("app_userdata");
+#elif GODOT_LINUXBSD || GODOT_X11
+            folder = "~/local/share/godot/app_userdata";
+#elif GODOT_MACOS || GODOT_OSX
+            folder = "~/Library/Application Support/Godot/app_userdata";
+#endif
+			folder = folder.PlusFile(pf.Name);
+		}
+        return folder;
+	}
+
+	private void ExecuteProject(string godotVersion, string location)
+	{
+		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
+        if (gv == null)
+            return;
+        GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location}\"");
+        OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] {"--path", location}, false);
+	}
+
+	private void UpdateIconsExcept(ProjectIconEntry pie) {
         foreach(ProjectIconEntry cpie in _gridView.GetChildren()) {
             if (cpie != pie)
                 cpie.SelfModulate = new Color("00FFFFFF");
@@ -259,46 +356,54 @@ public class ProjectsPanel : Panel
             case 4: // Remove Category
                 AppDialogs.RemoveCategory.ShowDialog();
                 break;
-            case 5: // Remove Project (May be removed completely)
-                ProjectFile pf = null;
-                if (_currentView == View.GridView) {
-                    if (_currentPIE != null)
-                        pf = _currentPIE.ProjectFile;
-                }
-                else {
-                    if (_currentPLE != null)
-                        pf = _currentPLE.ProjectFile;
-                }
+			case 5: // Remove Project (May be removed completely)
+				ProjectFile pf = null;
+				if (_currentView == View.GridView)
+				{
+					if (_currentPIE != null)
+						pf = _currentPIE.ProjectFile;
+				}
+				else
+				{
+					if (_currentPLE != null)
+						pf = _currentPLE.ProjectFile;
+				}
 
-                if (pf == null)
-                    return;
-                
-                var task = AppDialogs.YesNoCancelDialog.ShowDialog("Remove Project",$"You are about to remove Project {pf.Name}.\nDo you wish to remove the files as well?",
-                    "Project and Files", "Just Project");
-                while (!task.IsCompleted)
-                    await this.IdleFrame();
-                switch(task.Result) {
-                    case YesNoCancelDialog.ActionResult.FirstAction:
-                        string path = pf.Location.GetBaseDir();
-                        RemoveFolders(path);
-                        CentralStore.Projects.Remove(pf);
-                        CentralStore.Instance.SaveDatabase();
-                        PopulateListing();
-                        break;
-                    case YesNoCancelDialog.ActionResult.SecondAction:
-                        CentralStore.Projects.Remove(pf);
-                        CentralStore.Instance.SaveDatabase();
-                        PopulateListing();
-                        break;
-                    case YesNoCancelDialog.ActionResult.CancelAction:
-                        AppDialogs.MessageDialog.ShowMessage("Remove Project", "Remove Project has been cancelled.");
-                        break;
-                }
-                break;
-        }
+				if (pf == null)
+					return;
+
+				await RemoveProject(pf);
+				break;
+		}
     }
 
-    void RemoveFolders(string path) {
+	private async Task RemoveProject(ProjectFile pf)
+	{
+		var task = AppDialogs.YesNoCancelDialog.ShowDialog("Remove Project", $"You are about to remove Project {pf.Name}.\nDo you wish to remove the files as well?",
+			"Project and Files", "Just Project");
+		while (!task.IsCompleted)
+			await this.IdleFrame();
+		switch (task.Result)
+		{
+			case YesNoCancelDialog.ActionResult.FirstAction:
+				string path = pf.Location.GetBaseDir();
+				RemoveFolders(path);
+				CentralStore.Projects.Remove(pf);
+				CentralStore.Instance.SaveDatabase();
+				PopulateListing();
+				break;
+			case YesNoCancelDialog.ActionResult.SecondAction:
+				CentralStore.Projects.Remove(pf);
+				CentralStore.Instance.SaveDatabase();
+				PopulateListing();
+				break;
+			case YesNoCancelDialog.ActionResult.CancelAction:
+				AppDialogs.MessageDialog.ShowMessage("Remove Project", "Remove Project has been cancelled.");
+				break;
+		}
+	}
+
+	void RemoveFolders(string path) {
         Directory dir = new Directory();
         if (dir.Open(path) == Error.Ok) {
             dir.ListDirBegin(true, false);
