@@ -26,6 +26,10 @@ public class ProjectIconEntry : ColorRect
     private Label _godotVersion = null;
 #endregion
 
+#region Preload Resources
+    private Texture _missingIcon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+#endregion
+
 #region Private Variables
     private string sIcon;
     private string sProjectName;
@@ -36,6 +40,8 @@ public class ProjectIconEntry : ColorRect
 #endregion
 
 #region Public Accessors
+    public bool MissingProject { get; set; } = false;
+
     public string Icon {
         get {
             if (_icon != null)
@@ -47,7 +53,10 @@ public class ProjectIconEntry : ColorRect
         set {
             sIcon = value;
             if (_icon != null)
-                _icon.Texture = value.LoadImage();
+                if (MissingProject)
+                    _icon.Texture = _missingIcon;
+                else
+                    _icon.Texture = value.LoadImage();
         }
     }
 
@@ -77,7 +86,10 @@ public class ProjectIconEntry : ColorRect
         set {
             sProjectLocation = value;
             if (_projectLocation != null)
-                _projectLocation.Text = value;
+                if (MissingProject)
+                    _projectLocation.Text = value;
+                else
+                    _projectLocation.Text = value.GetBaseDir();
         }
     }
 
@@ -90,7 +102,7 @@ public class ProjectIconEntry : ColorRect
             pfProjectFile = value;
             ProjectName = value.Name;
             Icon = value.Location.GetResourceBase(value.Icon);
-            Location = value.Location;
+            Location = MissingProject ? "Unknown Location" : value.Location;
             GodotVersion = value.GodotVersion;
         }
     }

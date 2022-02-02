@@ -122,6 +122,8 @@ public class CategoryList : VBoxContainer
 
     public ProjectLineEntry AddProject(ProjectFile projectFile) {
         ProjectLineEntry ple = pstProject.Instance<ProjectLineEntry>();
+        if (!ProjectFile.ProjectExists(projectFile.Location))
+            ple.MissingProject = true;
         ple.ProjectFile = projectFile;
         _categoryList.AddChild(ple);
         return ple;

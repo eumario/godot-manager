@@ -40,6 +40,19 @@ public class ProjectFile : Godot.Object {
 		return projectFile;
 	}
 
+	public static bool ProjectExists(string filePath) {
+		bool ret = false;
+
+		var path = filePath.GetBaseDir();
+		var dir = new Directory();
+		ret = dir.DirExists(path);
+		if (ret) {
+			ret = dir.FileExists(filePath);
+		}
+
+		return ret;
+	}
+
 	public ProjectFile() {
 		Icon = "";
 		Name = "";

@@ -43,6 +43,7 @@ public class ProjectsPanel : Panel
     View _currentView = View.ListView;
     Dictionary<int, CategoryList> _categoryList;
     ProjectPopup _popupMenu = null;
+    Array<ProjectFile> _missingProjects = null;
 #endregion
 
     Array<Container> _views;
@@ -70,6 +71,7 @@ public class ProjectsPanel : Panel
         _actionButtons.SetHidden(3);
         _actionButtons.SetHidden(4);
         _categoryList = new Dictionary<int, CategoryList>();
+        _missingProjects = new Array<ProjectFile>();
 
         PopulateListing();
     }
@@ -77,12 +79,24 @@ public class ProjectsPanel : Panel
 
     public ProjectLineEntry NewPLE(ProjectFile pf) {
         ProjectLineEntry ple = _ProjectLineEntry.Instance<ProjectLineEntry>();
+        if (_missingProjects.Contains(pf))
+            ple.MissingProject = true;
+        else if (!ProjectFile.ProjectExists(pf.Location)) {
+            _missingProjects.Add(pf);
+            ple.MissingProject = true;
+        }
         ple.ProjectFile = pf;
         return ple;
     }
 
     public ProjectIconEntry NewPIE(ProjectFile pf) {
         ProjectIconEntry pie = _ProjectIconEntry.Instance<ProjectIconEntry>();
+        if (_missingProjects.Contains(pf))
+            pie.MissingProject = true;
+        else if (!ProjectFile.ProjectExists(pf.Location)) {
+            _missingProjects.Add(pf);
+            pie.MissingProject = true;
+        }
         pie.ProjectFile = pf;
         return pie;
     }
@@ -162,6 +176,10 @@ public class ProjectsPanel : Panel
             ple = clt.AddProject(pf);
             ConnectHandlers(ple);
         }
+        if (_missingProjects.Count == 0)
+            _actionButtons.SetHidden(6);
+        else
+            _actionButtons.SetVisible(6);
     }
 
     private void UpdateListExcept(ProjectLineEntry ple) {
@@ -186,6 +204,8 @@ public class ProjectsPanel : Panel
     }
 
     void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
+        if (ple.MissingProject)
+            return;
         ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
     }
 
@@ -206,6 +226,8 @@ public class ProjectsPanel : Panel
 
     private void OnIconEntry_DoubleClicked(ProjectIconEntry pie)
 	{
+        if (pie.MissingProject)
+            return;
 		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
 	}
 
@@ -271,6 +293,15 @@ public class ProjectsPanel : Panel
                     break;
             }
         }
+    }
+
+    private void RemoveMissingProjects() {
+        foreach (ProjectFile missing in _missingProjects) {
+            CentralStore.Projects.Remove(missing);
+        }
+        CentralStore.Instance.SaveDatabase();
+        _missingProjects.Clear();
+        PopulateListing();
     }
 
 	private string GetProjectDataFolder(ProjectFile pf)
@@ -374,6 +405,13 @@ public class ProjectsPanel : Panel
 
 				await RemoveProject(pf);
 				break;
+            case 6:
+                GD.Print("Got Id 6");
+                var res = AppDialogs.YesNoDialog.ShowDialog("Remove Missing Projects...", "Are you usre you want to remove any missing projects?");
+                await res;
+                if (res.Result)
+                    RemoveMissingProjects();
+                break;
 		}
     }
 
