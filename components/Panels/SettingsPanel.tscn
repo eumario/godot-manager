@@ -198,7 +198,7 @@ columns = 2
 
 [node name="Label" type="Label" parent="VB/MC/TC/General/GC"]
 margin_top = 2.0
-margin_right = 187.0
+margin_right = 180.0
 margin_bottom = 21.0
 hint_tooltip = "The default install location where Godot Engines will be installed to.  By Default, will install to Godot Manager's Data folder."
 mouse_filter = 1
@@ -207,26 +207,26 @@ text = "Install Location:"
 align = 2
 
 [node name="HBIL" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
+margin_left = 190.0
 margin_right = 986.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="GodotInstallLocation" type="LineEdit" parent="VB/MC/TC/General/GC/HBIL"]
-margin_right = 726.0
+margin_right = 733.0
 margin_bottom = 24.0
 hint_tooltip = "The default install location where Godot Engines will be installed to.  By Default, will install to Godot Manager's Data folder."
 size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="VB/MC/TC/General/GC/HBIL"]
-margin_left = 730.0
-margin_right = 789.0
+margin_left = 737.0
+margin_right = 796.0
 margin_bottom = 24.0
 text = "Browse"
 
 [node name="Label2" type="Label" parent="VB/MC/TC/General/GC"]
 margin_top = 36.0
-margin_right = 187.0
+margin_right = 180.0
 margin_bottom = 55.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
@@ -235,27 +235,27 @@ text = "Cache Location:"
 align = 2
 
 [node name="HBCL" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
+margin_left = 190.0
 margin_top = 34.0
 margin_right = 986.0
 margin_bottom = 58.0
 size_flags_horizontal = 3
 
 [node name="GodotInstallLocation" type="LineEdit" parent="VB/MC/TC/General/GC/HBCL"]
-margin_right = 726.0
+margin_right = 733.0
 margin_bottom = 24.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="VB/MC/TC/General/GC/HBCL"]
-margin_left = 730.0
-margin_right = 789.0
+margin_left = 737.0
+margin_right = 796.0
 margin_bottom = 24.0
 text = "Browse"
 
 [node name="Label3" type="Label" parent="VB/MC/TC/General/GC"]
 margin_top = 68.0
-margin_right = 187.0
+margin_right = 180.0
 margin_bottom = 87.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
@@ -264,7 +264,7 @@ text = "Default Project View:"
 align = 2
 
 [node name="ProjectView" type="OptionButton" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
+margin_left = 190.0
 margin_top = 68.0
 margin_right = 986.0
 margin_bottom = 88.0
@@ -274,7 +274,7 @@ selected = 0
 
 [node name="Label4" type="Label" parent="VB/MC/TC/General/GC"]
 margin_top = 98.0
-margin_right = 187.0
+margin_right = 180.0
 margin_bottom = 117.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
@@ -283,7 +283,7 @@ text = "Default Godot Engine:"
 align = 2
 
 [node name="GodotDefault" type="OptionButton" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
+margin_left = 190.0
 margin_top = 98.0
 margin_right = 986.0
 margin_bottom = 118.0
@@ -291,13 +291,13 @@ selected = 0
 
 [node name="CheckForUpdates" type="CheckBox" parent="VB/MC/TC/General/GC"]
 margin_top = 128.0
-margin_right = 187.0
+margin_right = 180.0
 margin_bottom = 155.0
 custom_fonts/font = ExtResource( 4 )
 text = "Check for Updates"
 
 [node name="HBCI" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
+margin_left = 190.0
 margin_top = 128.0
 margin_right = 986.0
 margin_bottom = 155.0
@@ -318,9 +318,9 @@ items = [ "1 hour", null, false, 0, null, "12 Hours", null, false, 1, null, "1 D
 selected = 0
 
 [node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 181.0
-margin_right = 187.0
-margin_bottom = 200.0
+margin_top = 183.0
+margin_right = 180.0
+margin_bottom = 202.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -328,43 +328,28 @@ text = "Godot Launch Options:"
 align = 2
 
 [node name="VBLO" type="VBoxContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
+margin_left = 190.0
 margin_top = 165.0
 margin_right = 986.0
-margin_bottom = 217.0
+margin_bottom = 221.0
 
 [node name="NoConsole" type="CheckBox" parent="VB/MC/TC/General/GC/VBLO"]
-margin_right = 789.0
-margin_bottom = 24.0
+margin_right = 796.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 13 )
 text = "Launch Without Console"
 
 [node name="EditorProfiles" type="CheckBox" parent="VB/MC/TC/General/GC/VBLO"]
-margin_top = 28.0
-margin_right = 789.0
-margin_bottom = 52.0
+margin_top = 30.0
+margin_right = 796.0
+margin_bottom = 56.0
+custom_fonts/font = ExtResource( 13 )
 text = "Separate Editor Profiles"
 
-[node name="Label6" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 229.0
-margin_right = 187.0
-margin_bottom = 248.0
-hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
-mouse_filter = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Project Launch Options:"
-align = 2
-
-[node name="ExitManager" type="CheckBox" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
-margin_top = 227.0
-margin_right = 986.0
-margin_bottom = 251.0
-text = "Exit Godot Manager"
-
 [node name="Label7" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 261.0
-margin_right = 187.0
-margin_bottom = 280.0
+margin_top = 231.0
+margin_right = 180.0
+margin_bottom = 250.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -372,10 +357,10 @@ text = "Backup/Restore:"
 align = 2
 
 [node name="HBBR" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
-margin_top = 261.0
+margin_left = 190.0
+margin_top = 231.0
 margin_right = 986.0
-margin_bottom = 281.0
+margin_bottom = 251.0
 custom_constants/separation = 30
 
 [node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/HBBR"]
@@ -394,8 +379,8 @@ margin_bottom = 20.0
 text = "Restore Settings"
 
 [node name="Label8" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 291.0
-margin_right = 187.0
+margin_top = 261.0
+margin_right = 180.0
 margin_bottom = 611.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
@@ -405,8 +390,8 @@ text = "Mirrors:"
 align = 2
 
 [node name="MirrorTabs" type="TabContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 197.0
-margin_top = 291.0
+margin_left = 190.0
+margin_top = 261.0
 margin_right = 986.0
 margin_bottom = 611.0
 size_flags_horizontal = 3
@@ -420,7 +405,7 @@ margin_top = 24.0
 
 [node name="VBMOD" type="VBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library"]
 margin_right = 20.0
-margin_bottom = 296.0
+margin_bottom = 326.0
 custom_constants/separation = 5
 
 [node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/VBMOD"]
@@ -449,25 +434,25 @@ icon = ExtResource( 8 )
 [node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library"]
 margin_left = 24.0
 margin_right = 24.0
-margin_bottom = 296.0
+margin_bottom = 326.0
 
 [node name="SCML" type="ScrollContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library"]
 margin_left = 28.0
-margin_right = 789.0
-margin_bottom = 296.0
+margin_right = 796.0
+margin_bottom = 326.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/SCML"]
-margin_right = 761.0
-margin_bottom = 296.0
+margin_right = 768.0
+margin_bottom = 326.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 16 )
 
 [node name="MirrorList" type="VBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/SCML/PanelContainer"]
-margin_right = 761.0
-margin_bottom = 296.0
+margin_right = 768.0
+margin_bottom = 326.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -589,8 +574,26 @@ margin_right = 782.0
 margin_bottom = 24.0
 text = "Browse"
 
-[node name="Label1" type="Label" parent="VB/MC/TC/Projects/GC"]
+[node name="Label6" type="Label" parent="VB/MC/TC/Projects/GC"]
+margin_top = 37.0
+margin_right = 194.0
+margin_bottom = 56.0
+hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
+mouse_filter = 1
+custom_fonts/font = ExtResource( 4 )
+text = "Project Launch Options:"
+align = 2
+
+[node name="ExitManager" type="CheckBox" parent="VB/MC/TC/Projects/GC"]
+margin_left = 204.0
 margin_top = 34.0
+margin_right = 986.0
+margin_bottom = 60.0
+custom_fonts/font = ExtResource( 13 )
+text = "Exit Godot Manager"
+
+[node name="Label1" type="Label" parent="VB/MC/TC/Projects/GC"]
+margin_top = 70.0
 margin_right = 194.0
 margin_bottom = 611.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
@@ -602,13 +605,13 @@ align = 2
 
 [node name="HBLE" type="HBoxContainer" parent="VB/MC/TC/Projects/GC"]
 margin_left = 204.0
-margin_top = 34.0
+margin_top = 70.0
 margin_right = 986.0
 margin_bottom = 611.0
 
 [node name="VBMOD" type="VBoxContainer" parent="VB/MC/TC/Projects/GC/HBLE"]
 margin_right = 28.0
-margin_bottom = 577.0
+margin_bottom = 541.0
 
 [node name="Add" type="Button" parent="VB/MC/TC/Projects/GC/HBLE/VBMOD"]
 margin_right = 28.0
@@ -630,25 +633,25 @@ icon = ExtResource( 8 )
 [node name="Spacer" type="Control" parent="VB/MC/TC/Projects/GC/HBLE"]
 margin_left = 32.0
 margin_right = 32.0
-margin_bottom = 577.0
+margin_bottom = 541.0
 
 [node name="SC" type="ScrollContainer" parent="VB/MC/TC/Projects/GC/HBLE"]
 margin_left = 36.0
 margin_right = 782.0
-margin_bottom = 577.0
+margin_bottom = 541.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="VB/MC/TC/Projects/GC/HBLE/SC"]
 margin_right = 746.0
-margin_bottom = 577.0
+margin_bottom = 541.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 16 )
 
 [node name="List" type="VBoxContainer" parent="VB/MC/TC/Projects/GC/HBLE/SC/PanelContainer"]
 margin_right = 746.0
-margin_bottom = 577.0
+margin_bottom = 541.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
