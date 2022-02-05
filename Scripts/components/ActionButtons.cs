@@ -53,10 +53,20 @@ public class ActionButtons : PanelContainer
 
     public void SetHidden(int index) {
         _icons[index].Visible = false;
+        Visible = IsAnyVisible();
     }
 
     public void SetVisible(int index) {
         _icons[index].Visible = true;
+        Visible = IsAnyVisible();
+    }
+
+    public bool IsAnyVisible() {
+        foreach (ColorRect icon in _icons) {
+            if (icon.Visible)
+                return true;
+        }
+        return false;
     }
 
     public void Icon_MouseEntered(ColorRect rect) {
