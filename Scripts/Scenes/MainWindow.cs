@@ -13,6 +13,7 @@ public class MainWindow : Control
 
 	public MainWindow() {
 		if (!CentralStore.Instance.LoadDatabase()) {
+			CentralStore.Settings.SetupDefaultValues();
 			CentralStore.Instance.SaveDatabase();
 		}
 	}
