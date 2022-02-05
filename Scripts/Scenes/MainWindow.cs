@@ -38,8 +38,8 @@ public class MainWindow : Control
 				pb.Deactivate();
 			pb.Connect("Clicked", this, "OnPageButton_Clicked");
 		}
-		Image appIcon = new Image();
-		appIcon.Load("res://icon.png");
+		Texture appTex = GD.Load<Texture>("res://icon.png");
+		Image appIcon = (Image)appTex.GetData();
 		OS.SetIcon(appIcon);
 		AppDialogs dlgs = AppDialogs.Instance;
 		dlgs.SetAnchorsAndMarginsPreset(LayoutPreset.Wide);
