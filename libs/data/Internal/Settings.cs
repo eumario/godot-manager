@@ -29,6 +29,6 @@ public class Settings : Object {
 		LastView = "ListView";
 		LastCheck = System.DateTime.UtcNow.AddDays(-1);
 		CheckInterval = System.TimeSpan.FromDays(1);
-		ScanDirs = new Array<string> { OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects") };
+		ScanDirs = new Array<string>();
 	}
 }
