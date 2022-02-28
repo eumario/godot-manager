@@ -32,6 +32,11 @@ window/size/borderless=true
 
 enabled=PoolStringArray( "res://addons/notes_tab/plugin.cfg" )
 
+[gui]
+
+theme/custom="res://Resources/DefaultTheme.tres"
+theme/custom_font="res://Resources/Fonts/droid-regular-14.tres"
+
 [mono]
 
 debugger_agent/wait_timeout=7000

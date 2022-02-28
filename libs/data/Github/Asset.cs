@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
 
 namespace Github {
 	[JsonObject(MemberSerialization.OptIn)]
@@ -26,9 +27,9 @@ namespace Github {
 		[JsonProperty]
 		public int DownloadCount;
 		[JsonProperty]
-		public System.DateTime CreatedAt;
+		public DateTime CreatedAt;
 		[JsonProperty]
-		public System.DateTime UpdatedAt;
+		public DateTime UpdatedAt;
 		[JsonProperty]
 		public Author Uploader;
 

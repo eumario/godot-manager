@@ -1,7 +1,8 @@
 using Godot;
 using Godot.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using ByteList = System.Collections.Generic.List<byte>;
+using Task = System.Threading.Tasks.Task;
+using Exception = System.Exception;
 
 public class HTTPResponse : Object {
 	public int ResponseCode;
@@ -28,7 +29,7 @@ public class HTTPResponse : Object {
 	}
 
 	private async Task GetBody() {
-		List<byte> rb = new List<byte>();
+		ByteList rb = new ByteList();
 		while (client.GetStatus() == HTTPClient.Status.Body)
 		{
 			if (Cancelled) {
@@ -49,7 +50,7 @@ public class HTTPResponse : Object {
 		if (!bBinary) {
 			try {
 				Body = BodyRaw.GetStringFromUTF8();
-			} catch (System.Exception ex) {
+			} catch (Exception ex) {
 				// We don't care about exceptions from this, as we may not be getting strings
 				// but raw bytes, such as zip files, executables, etc, etc.
 			}

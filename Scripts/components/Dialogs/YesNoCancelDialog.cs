@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Godot;
-using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 
 public class YesNoCancelDialog : ReferenceRect
 {
@@ -33,10 +32,6 @@ public class YesNoCancelDialog : ReferenceRect
     public override void _Ready()
     {
         this.OnReady();
-
-        FirstAction.Connect("pressed", this, "OnFirstActionPressed");
-        SecondAction.Connect("pressed", this, "OnSecondActionPressed");
-        CancelAction.Connect("pressed", this, "OnCancelActionPressed");
     }
 
     public async Task<ActionResult> ShowDialog(string title, string message, string firstActionText = "Yes", string secondActionText = "No", string cancelActionText = "Cancel") {
@@ -53,16 +48,19 @@ public class YesNoCancelDialog : ReferenceRect
         return result;
     }
 
+    [SignalHandler("pressed", nameof(FirstAction))]
     void OnFirstActionPressed() {
         result = ActionResult.FirstAction;
         Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(SecondAction))]
     void OnSecondActionPressed() {
         result = ActionResult.SecondAction;
         Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(CancelAction))]
     void OnCancelActionPressed() {
         result = ActionResult.CancelAction;
         Visible = false;

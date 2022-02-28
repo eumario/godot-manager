@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
 using System.Linq;
+using Path = System.IO.Path;
 
 public class CentralStore {
 #region C# Pattern for Singleton
@@ -60,7 +61,7 @@ public class CentralStore {
 	}
 
 	public bool HasProject(string name) {
-		if (System.IO.Path.GetFullPath(name) == name) {
+		if (Path.GetFullPath(name) == name) {
 			var res = from pf in _data.Projects
 					where pf.Location == name
 					select pf;

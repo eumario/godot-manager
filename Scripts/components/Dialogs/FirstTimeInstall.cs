@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 public class FirstTimeInstall : ReferenceRect
@@ -17,16 +17,16 @@ public class FirstTimeInstall : ReferenceRect
     public override void _Ready()
     {
         this.OnReady();
-
-        AddGodot.Connect("pressed", this, "OnPressed_AddGodot");
-        DownloadGodot.Connect("pressed", this, "OnPressed_DownloadGodot");
+        
     }
 
+    [SignalHandler("pressed", nameof(AddGodot))]
     void OnPressed_AddGodot() {
         Visible = false;
         AppDialogs.AddCustomGodot.Visible = true;
     }
 
+    [SignalHandler("pressed", nameof(DownloadGodot))]
     void OnPressed_DownloadGodot() {
         GodotButton.Activate();
         GodotButton.EmitSignal("Clicked", GodotButton);

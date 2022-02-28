@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
-using Newtonsoft.Json;
+using Uri = System.Uri;
 
 public class ImageDownloader : Object {
 	GDCSHTTPClient client;
@@ -23,11 +23,11 @@ public class ImageDownloader : Object {
 	}
 
 	public async Task<bool> StartDownload() {
-		System.Uri uri;
+		Uri uri;
 		if (bIsRedirected)
-			uri = new System.Uri(sRedirected);
+			uri = new Uri(sRedirected);
 		else
-			uri = new System.Uri(sUrl);
+			uri = new Uri(sUrl);
 		
 		Task<HTTPClient.Status> cres = client.StartClient(uri.Host, (uri.Scheme == "https"));
 

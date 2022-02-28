@@ -1,9 +1,12 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using Directory = System.IO.Directory;
+using Path = System.IO.Path;
+using Guid = System.Guid;
 
 public class GodotPanel : Panel
 {
@@ -38,14 +41,13 @@ public class GodotPanel : Panel
     {
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
-        UseMono.Connect("toggled", this, "OnToggledUseMono");
+        AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
         DownloadSource.Clear();
         DownloadSource.AddItem("Github");
         DownloadSource.AddItem("TuxFamily.org");
-        ActionButtons.Connect("clicked", this, "OnActionClicked");
-        AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
     }
 
+    [SignalHandler("clicked", nameof(ActionButtons))]
     void OnActionClicked(int index) {
         switch(index) {
             case 0:     // Add Custom Godot
@@ -56,6 +58,7 @@ public class GodotPanel : Panel
         }
     }
 
+    [SignalHandler("toggled", nameof(UseMono))]
     void OnToggledUseMono(bool value) {
         foreach(GodotLineEntry gle in Available.List.GetChildren())
             gle.Mono = value;
@@ -117,14 +120,14 @@ public class GodotPanel : Panel
 
     public Array<string> RecursiveListDir(string path) {
         Array<string> list = new Array<string>();
-        foreach(string dir in System.IO.Directory.EnumerateDirectories(path)) {
-            foreach(string file in RecursiveListDir(System.IO.Path.Combine(path,dir).NormalizePath())) {
+        foreach(string dir in Directory.EnumerateDirectories(path)) {
+            foreach(string file in RecursiveListDir(Path.Combine(path,dir).NormalizePath())) {
                 list.Add(file);
             }
-            list.Add(System.IO.Path.Combine(path,dir).NormalizePath());
+            list.Add(Path.Combine(path,dir).NormalizePath());
         }
 
-        foreach(string file in System.IO.Directory.EnumerateFiles(path)) {
+        foreach(string file in Directory.EnumerateFiles(path)) {
             list.Add(file.NormalizePath());
         }
         
@@ -149,12 +152,12 @@ public class GodotPanel : Panel
                 // Custom Godot added Locally, do not remove files, only remove entry.
                 foreach (ProjectFile pf in CentralStore.Projects) {
                     if (pf.GodotVersion == gle.GodotVersion.Id) {
-                        pf.GodotVersion = System.Guid.Empty.ToString();
+                        pf.GodotVersion = Guid.Empty.ToString();
                     }
                 }
 
                 if ((string)CentralStore.Settings.DefaultEngine == gle.GodotVersion.Id)
-                    CentralStore.Settings.DefaultEngine = System.Guid.Empty.ToString();
+                    CentralStore.Settings.DefaultEngine = Guid.Empty.ToString();
                 
                 CentralStore.Versions.Remove(gle.GodotVersion);
                 CentralStore.Instance.SaveDatabase();
@@ -162,7 +165,7 @@ public class GodotPanel : Panel
                 await task;
                 return;
             }
-            Directory dir = new Directory();
+            Godot.Directory dir = new Godot.Directory();
             var install = ProjectSettings.GlobalizePath(gle.GodotVersion.Location);
             var cache = ProjectSettings.GlobalizePath(gle.GodotVersion.CacheLocation);
             var files = RecursiveListDir(install);
@@ -174,12 +177,12 @@ public class GodotPanel : Panel
 
             foreach (ProjectFile pf in CentralStore.Projects) {
                 if (pf.GodotVersion == gle.GodotVersion.Id) {
-                    pf.GodotVersion = System.Guid.Empty.ToString();
+                    pf.GodotVersion = Guid.Empty.ToString();
                 }
             }
 
             if ((string)CentralStore.Settings.DefaultEngine == gle.GodotVersion.Id)
-                CentralStore.Settings.DefaultEngine = System.Guid.Empty.ToString();  // Should Prompt to change
+                CentralStore.Settings.DefaultEngine = Guid.Empty.ToString();  // Should Prompt to change
             
             CentralStore.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();

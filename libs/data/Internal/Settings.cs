@@ -1,6 +1,9 @@
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
+using TimeSpan = System.TimeSpan;
+using Guid = System.Guid;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class Settings : Object {
@@ -17,13 +20,15 @@ public class Settings : Object {
 	[JsonProperty]
 	public string DefaultView;
 	[JsonProperty]
-	public System.DateTime LastCheck;
+	public DateTime LastCheck;
 	[JsonProperty]
 	public bool CheckForUpdates;
 	[JsonProperty]
-	public System.TimeSpan CheckInterval;
+	public TimeSpan CheckInterval;
 	[JsonProperty]
 	public bool CloseManagerOnEdit;
+	[JsonProperty]
+	public bool NoConsole;
 	[JsonProperty]
 	public bool SelfContainedEditors;
 	[JsonProperty]
@@ -39,17 +44,18 @@ public class Settings : Object {
 	public Dictionary<string, string> CurrentEngineMirror;
 
 	public Settings() {
-		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects");
-		DefaultEngine = System.Guid.Empty.ToString();
-		EnginePath = "user://versons";
+		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath();
+		DefaultEngine = Guid.Empty.ToString();
+		EnginePath = "user://versions";
 		CachePath = "user://cache";
-		LastView = "ListView";
-		DefaultView = "ListView";
+		LastView = "List View";
+		DefaultView = "List View";
 		CheckForUpdates = true;
 		CloseManagerOnEdit = true;
 		SelfContainedEditors = true;
-		LastCheck = System.DateTime.UtcNow.AddDays(-1);
-		CheckInterval = System.TimeSpan.FromDays(1);
+		NoConsole = true;
+		LastCheck = DateTime.UtcNow.AddDays(-1);
+		CheckInterval = TimeSpan.FromDays(1);
 		ScanDirs = new Array<string>();
 		AssetMirrors = new Array<Dictionary<string, string>>();
 		EngineMirrors = new Array<Dictionary<string, string>>();
@@ -64,19 +70,24 @@ public class Settings : Object {
 		ScanDirs.Add(ProjectPath);
 
 		// Asset Library Mirrors
-		data["godotengine.org"] = "godotengine.org";
+		data["name"] = "godotengine.org";
+		data["url"] = "https://godotengine.org";
 		AssetMirrors.Add(data.Duplicate());
 		CurrentAssetMirror = data.Duplicate();
 		data.Clear();
-		data["localhost"] = "localhost";
+		data["name"] = "localhost";
+		data["url"] = "http://localhost";
 		AssetMirrors.Add(data.Duplicate());
 		data.Clear();
 
 		// Engine Mirrors
-		data["Github"] = "https://github.com/godotengine/godot";
+		data["name"] = "Github";
+		data["url"] = "https://github.com/godotengine/godot";
 		EngineMirrors.Add(data.Duplicate());
+		CurrentEngineMirror = data.Duplicate();
 		data.Clear();
-		data["Tuxfamily"] = "https://downloads.tuxfamily.org/godotengine/";
+		data["name"] = "Tuxfamily";
+		data["url"] = "https://downloads.tuxfamily.org/godotengine/";
 		EngineMirrors.Add(data.Duplicate());
 		data.Clear();
 	}

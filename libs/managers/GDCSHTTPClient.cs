@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Godot;
-using Godot.Collections;
 
 public class GDCSHTTPClient : Node {
 	[Signal]

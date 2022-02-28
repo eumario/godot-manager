@@ -1,6 +1,6 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 [Tool]
@@ -100,11 +100,10 @@ public class CategoryList : VBoxContainer
         CategoryName = sText;
         Toggable = bToggable;
         Toggled = bToggled;
-
-        _toggleIcon.Connect("gui_input", this, "OnToggle_GuiInput");
     }
 
-     void OnToggle_GuiInput(InputEvent inputEvent) {
+    [SignalHandler("gui_input", nameof(_toggleIcon))]
+    void OnToggle_GuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
         var iemb = inputEvent as InputEventMouseButton;

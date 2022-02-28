@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Godot.Sharp.Extras;
 
 public class Titlebar : Control
 {
@@ -7,9 +7,10 @@ public class Titlebar : Control
     private Vector2 start_pos = Vector2.Zero;
     public override void _Ready()
     {
-        Connect("gui_input", this, "OnTitlebar_GuiInput");
+        this.OnReady();
     }
 
+    [SignalHandler("gui_input")]
     void OnTitlebar_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton) {
             var iemb = inputEvent as InputEventMouseButton;

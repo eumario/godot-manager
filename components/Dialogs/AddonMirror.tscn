@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Scripts/components/Dialogs/RemoveCategory.cs" type="Script" id=2]
-[ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/components/Dialogs/AddonMirror.cs" type="Script" id=1]
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=3]
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -18,10 +18,10 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 corner_detail = 20
 
-[node name="RemoveCategory" type="ReferenceRect"]
+[node name="AddonMirror" type="ReferenceRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -40,10 +40,10 @@ margin_bottom = 700.0
 
 [node name="P" type="Panel" parent="PC/CC"]
 margin_left = 352.0
-margin_top = 190.0
+margin_top = 217.0
 margin_right = 672.0
-margin_bottom = 510.0
-rect_min_size = Vector2( 320, 320 )
+margin_bottom = 482.0
+rect_min_size = Vector2( 320, 265 )
 custom_styles/panel = SubResource( 5 )
 
 [node name="VB" type="VBoxContainer" parent="PC/CC/P"]
@@ -82,15 +82,15 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="PC/CC/P/VB/MC/TitleBarBG/HB"]
-margin_left = 63.0
+margin_left = 61.0
 margin_top = 2.0
-margin_right = 199.0
+margin_right = 200.0
 margin_bottom = 21.0
 size_flags_horizontal = 6
-custom_fonts/font = ExtResource( 1 )
-text = "Remove Category"
+custom_fonts/font = ExtResource( 2 )
+text = "Add Addon Mirror"
 
-[node name="Close" parent="PC/CC/P/VB/MC/TitleBarBG/HB" instance=ExtResource( 4 )]
+[node name="Close" parent="PC/CC/P/VB/MC/TitleBarBG/HB" instance=ExtResource( 3 )]
 margin_left = 266.0
 margin_right = 316.0
 margin_bottom = 24.0
@@ -99,7 +99,7 @@ WindowMain = NodePath("../../../../../../../..")
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 30.0
 margin_right = 320.0
-margin_bottom = 279.0
+margin_bottom = 224.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -111,26 +111,53 @@ custom_constants/margin_bottom = 8
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 312.0
-margin_bottom = 241.0
+margin_bottom = 186.0
 custom_constants/separation = 10
 
-[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
+[node name="Label1" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
 margin_right = 304.0
 margin_bottom = 19.0
-custom_fonts/font = ExtResource( 1 )
-text = "Select Category to Remove:"
+custom_fonts/font = ExtResource( 2 )
+text = "Protocol:"
 
-[node name="Categories" type="ItemList" parent="PC/CC/P/VB/MCContent/VB"]
+[node name="Protocol" type="OptionButton" parent="PC/CC/P/VB/MCContent/VB"]
 margin_top = 29.0
 margin_right = 304.0
-margin_bottom = 233.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_bottom = 51.0
+text = "http"
+items = [ "http", null, false, 0, null, "https", null, false, 1, null ]
+selected = 0
+
+[node name="Label2" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
+margin_top = 61.0
+margin_right = 304.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 2 )
+text = "Domain:"
+
+[node name="DomainName" type="LineEdit" parent="PC/CC/P/VB/MCContent/VB"]
+margin_top = 90.0
+margin_right = 304.0
+margin_bottom = 112.0
+placeholder_text = "gotoengine.org"
+
+[node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
+margin_top = 122.0
+margin_right = 304.0
+margin_bottom = 141.0
+custom_fonts/font = ExtResource( 2 )
+text = "Path:"
+
+[node name="PathTo" type="LineEdit" parent="PC/CC/P/VB/MCContent/VB"]
+margin_top = 151.0
+margin_right = 304.0
+margin_bottom = 173.0
+placeholder_text = "/asset-library/api/"
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_top = 283.0
+margin_top = 228.0
 margin_right = 320.0
-margin_bottom = 320.0
+margin_bottom = 265.0
 custom_constants/margin_bottom = 15
 
 [node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
@@ -138,30 +165,30 @@ margin_right = 320.0
 margin_bottom = 22.0
 
 [node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_right = 67.0
+margin_right = 76.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 
-[node name="RemoveBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 71.0
-margin_right = 127.0
+[node name="AddBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 80.0
+margin_right = 109.0
 margin_bottom = 22.0
-text = "Remove"
+text = "Add"
 
 [node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 131.0
-margin_right = 199.0
+margin_left = 113.0
+margin_right = 190.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 
 [node name="CancelBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 203.0
-margin_right = 248.0
+margin_left = 194.0
+margin_right = 239.0
 margin_bottom = 22.0
 text = "Cancel"
 
 [node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 252.0
+margin_left = 243.0
 margin_right = 320.0
 margin_bottom = 22.0
 size_flags_horizontal = 3

@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 public class BusyDialog : ReferenceRect

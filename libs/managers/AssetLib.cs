@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Godot;
-using Godot.Collections;
 using Newtonsoft.Json;
+using Uri = System.Uri;
 
 namespace AssetLib {
 	public class AssetLib : Node {
@@ -147,7 +147,7 @@ namespace AssetLib {
 				args += $"&reverse=true";
 			
 			if (filter != "")
-				args += $"&filter={System.Uri.EscapeDataString(filter)}";
+				args += $"&filter={Uri.EscapeDataString(filter)}";
 			
 			if (page > 0)
 				args += $"&page={page}";

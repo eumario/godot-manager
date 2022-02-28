@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=31 format=2]
+[gd_resource type="Theme" load_steps=33 format=2]
 
 [ext_resource path="res://Assets/Icons/drop_down1.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=2]
@@ -121,6 +121,16 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id=41]
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.137255, 0.14902, 0.180392, 1 )
+
+[sub_resource type="StyleBoxFlat" id=42]
+bg_color = Color( 0.254902, 0.266667, 0.298039, 1 )
 
 [sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
@@ -298,11 +308,21 @@ CheckBox/styles/normal = SubResource( 27 )
 CheckBox/styles/pressed = SubResource( 28 )
 HScrollBar/styles/grabber = SubResource( 34 )
 HScrollBar/styles/scroll = SubResource( 33 )
+ItemList/colors/guide_color = Color( 1, 1, 1, 0.521569 )
+ItemList/constants/line_separation = 6
+ItemList/constants/vseparation = 6
+ItemList/fonts/font = ExtResource( 2 )
+ItemList/styles/bg = SubResource( 41 )
+ItemList/styles/selected = SubResource( 42 )
 LineEdit/styles/focus = SubResource( 18 )
 LineEdit/styles/normal = SubResource( 14 )
 OptionButton/constants/arrow_margin = 4
 OptionButton/fonts/font = ExtResource( 2 )
 OptionButton/icons/arrow = ExtResource( 1 )
+OptionButton/styles/disabled = SubResource( 37 )
+OptionButton/styles/hover = SubResource( 19 )
+OptionButton/styles/normal = SubResource( 17 )
+OptionButton/styles/pressed = SubResource( 20 )
 Panel/styles/panel = SubResource( 6 )
 PopupMenu/styles/hover = SubResource( 25 )
 PopupMenu/styles/panel = SubResource( 24 )

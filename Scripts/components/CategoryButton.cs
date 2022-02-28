@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 
 public class CategoryButton : Button
 {

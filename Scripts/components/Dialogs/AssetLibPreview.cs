@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
+using Uri = System.Uri;
+using File = System.IO.File;
 
 public class AssetLibPreview : ReferenceRect
 {
@@ -61,26 +63,23 @@ public class AssetLibPreview : ReferenceRect
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        this.OnReady();
         dlq = new DownloadQueue();
-        dlq.Connect("download_completed", this, "OnImageDownloaded");
-        dlq.Connect("queue_finished", this, "OnQueueFinished");
-        _PlayButton.Connect("gui_input", this, "OnGuiInput_PlayButton");
-        _Close.Connect("pressed", this, "OnClosePressed");
-        _Download.Connect("pressed", this, "OnDownloadPressed");
-        _Description.Connect("meta_clicked", this, "OnDescription_MetaClicked");
         AddChild(dlq);
+        this.OnReady();
         dldPreviews = new Array<ImageDownloader>();
     }
 
+    [SignalHandler("meta_clicked", nameof(_Description))]
     void OnDescription_MetaClicked(object meta) {
         OS.ShellOpen((string)meta);
     }
 
+    [SignalHandler("pressed", nameof(_Close))]
     void OnClosePressed() {
         Visible = false;
     }
-
+    
+    [SignalHandler("pressed", nameof(_Download))]
     async void OnDownloadPressed() {
         // LOGIC: If asset is a Addon, after download is complete, popup Installer Refernece creator
         // to allow user to select what files to be installed when selecting this addon.
@@ -110,10 +109,10 @@ public class AssetLibPreview : ReferenceRect
         _Description.BbcodeText = $"[table=1][cell][color=lime]Support[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]Homepage[/url][/color][/cell][cell][color=aqua][url={asset.IssuesUrl}]Issue/Support Page[/url][/color][/cell][/table]\n\n{asset.Description}";
         _asset = asset;
         
-        System.Uri uri = new System.Uri(asset.IconUrl);
+        Uri uri = new Uri(asset.IconUrl);
         sIconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
         
-        if (!System.IO.File.Exists(sIconPath.GetOSDir().NormalizePath())) {
+        if (!File.Exists(sIconPath.GetOSDir().NormalizePath())) {
             dldIcon = new ImageDownloader(asset.IconUrl, sIconPath);
             dlq.Push(dldIcon);
         } else {
@@ -145,9 +144,9 @@ public class AssetLibPreview : ReferenceRect
             preview.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
             preview.Connect("gui_input", this, "OnGuiInput_Preview", new Array { preview });
             _Thumbnails.AddChild(preview);
-            System.Uri tnUri = new System.Uri(asset.Previews[i].Thumbnail);
+            Uri tnUri = new Uri(asset.Previews[i].Thumbnail);
             string iconPath = $"user://cache/images/{asset.AssetId}-{i}-{asset.Previews[i].PreviewId}{tnUri.AbsolutePath.GetExtension()}";
-            if (!System.IO.File.Exists(iconPath.GetOSDir().NormalizePath())) {
+            if (!File.Exists(iconPath.GetOSDir().NormalizePath())) {
                 ImageDownloader dld = new ImageDownloader(asset.Previews[i].Thumbnail, iconPath);
                 dldPreviews.Add(dld);
                 preview.SetMeta("iconPath", iconPath);
@@ -189,6 +188,7 @@ public class AssetLibPreview : ReferenceRect
         Visible = true;
     }
 
+    [SignalHandler("gui_input", nameof(_PlayButton))]
     void OnGuiInput_PlayButton(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iembEvent) {
             if (iembEvent.Pressed && iembEvent.ButtonIndex == (int)ButtonList.Left) {
@@ -211,7 +211,7 @@ public class AssetLibPreview : ReferenceRect
 	{
 		_Preview.Texture = rect.Texture;
 		_Preview.SetMeta("url", rect.GetMeta("url"));
-		System.Uri tnUri = new System.Uri(rect.GetMeta("url") as string);
+		Uri tnUri = new Uri(rect.GetMeta("url") as string);
         _MissingThumbnails.Visible = false;
 		if (tnUri.Host.IndexOf("youtube.com") != -1)
 		{
@@ -223,6 +223,7 @@ public class AssetLibPreview : ReferenceRect
 		}
 	}
 
+    [SignalHandler("download_completed", nameof(dlq))]
 	void OnImageDownloaded(ImageDownloader dld) {
         if (dld == dldIcon) {
             if (sIconPath.EndsWith(".gif")) {
@@ -247,6 +248,7 @@ public class AssetLibPreview : ReferenceRect
 		}
     }
 
+    [SignalHandler("queue_finished", nameof(dlq))]
     void OnQueueFinished() {
         dldPreviews.Clear();
     }
@@ -255,7 +257,7 @@ public class AssetLibPreview : ReferenceRect
 	{
 		TextureRect preview = _Thumbnails.GetChild(indx) as TextureRect;
 		string iconPath = preview.GetMeta("iconPath") as string;
-		if (System.IO.File.Exists(iconPath.GetOSDir().NormalizePath()))
+		if (File.Exists(iconPath.GetOSDir().NormalizePath()))
 		{
             if (iconPath.EndsWith(".gif")) {
                 GifTexture gif = new GifTexture(iconPath);

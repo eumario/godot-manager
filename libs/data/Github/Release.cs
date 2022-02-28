@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
 
 namespace Github {
 
@@ -35,9 +36,9 @@ namespace Github {
 		[JsonProperty]
 		public bool PreRelease;
 		[JsonProperty]
-		public System.DateTime CreatedAt;
+		public DateTime CreatedAt;
 		[JsonProperty]
-		public System.DateTime PublishedAt;
+		public DateTime PublishedAt;
 		[JsonProperty]
 		public Author Author;
 		[JsonProperty]

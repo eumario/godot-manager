@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using Godot.Collections;
 
 public class PaginationNav : CenterContainer

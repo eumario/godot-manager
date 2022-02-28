@@ -1,8 +1,11 @@
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System.Linq;
+using Uri = System.Uri;
+using DateTime = System.DateTime;
+using TimeSpan = System.TimeSpan;
 
 public class DownloadAddon : ReferenceRect
 {
@@ -53,9 +56,9 @@ public class DownloadAddon : ReferenceRect
     int iTotalBytes;
     int iLastByteCount;
     int iFileSize;
-    System.DateTime dtStartTime;
+    DateTime dtStartTime;
     GDCSHTTPClient client;
-    System.Uri dlUri;
+    Uri dlUri;
     bool bDownloading = false;
     Array<double> adSpeedStack;
 
@@ -73,14 +76,14 @@ public class DownloadAddon : ReferenceRect
         iLastByteCount = 0;
         iFileSize = 0;
         adSpeedStack = new Array<double>();
-        _DownloadSpeedTimer.Connect("timeout", this, "OnDownloadSpeedTimer_Timeout");
-        _CancelButton.Connect("pressed", this, "OnCancelPressed");
     }
 
+    [SignalHandler("pressed", nameof(_CancelButton))]
     void OnCancelPressed() {
         client.Cancel();
     }
 
+    
     void OnChunkReceived(int bytes) {
         iTotalBytes += bytes;
         if (iFileSize >= 0) {
@@ -89,6 +92,7 @@ public class DownloadAddon : ReferenceRect
         }
     }
 
+    [SignalHandler("timeout", nameof(_DownloadSpeedTimer))]
     void OnDownloadSpeedTimer_Timeout() {
         Mutex mutex = new Mutex();
         mutex.Lock();
@@ -100,14 +104,14 @@ public class DownloadAddon : ReferenceRect
         _Speed.Text = $"{Util.FormatSize(avgSpeed)}/s";
         if (iFileSize <= 0) {
             _FileSize.Text = Util.FormatSize(tb);
-            System.TimeSpan elapsedTime = System.DateTime.Now - dtStartTime;
+            TimeSpan elapsedTime = DateTime.Now - dtStartTime;
             _Eta.Text = elapsedTime.ToString("hh':'mm':'ss");
         } else {
             _FileSize.Text = Util.FormatSize(tb) + "/" + Util.FormatSize(iFileSize);
-            System.TimeSpan elapsedTime = System.DateTime.Now - dtStartTime;
+            TimeSpan elapsedTime = DateTime.Now - dtStartTime;
             if (tb == 0)
                 return;
-            System.TimeSpan estTime = System.TimeSpan.FromSeconds( (iFileSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
+            TimeSpan estTime = TimeSpan.FromSeconds( (iFileSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
             _Eta.Text = estTime.ToString("hh':'mm':'ss");
         }
         iLastByteCount = iTotalBytes;
@@ -167,7 +171,7 @@ public class DownloadAddon : ReferenceRect
 
 		if (redirect_codes.IndexOf(result.ResponseCode) >= 0)
 		{
-			dlUri = new System.Uri(result.Headers["Location"] as string);
+			dlUri = new Uri(result.Headers["Location"] as string);
             CleanupClient();
 			Task<bool> recurse = StartNetwork();
 			await recurse;
@@ -195,7 +199,7 @@ public class DownloadAddon : ReferenceRect
 		}
 
 		// Begin Actual Network download of addon/project/demo....
-		dtStartTime = System.DateTime.Now;
+		dtStartTime = DateTime.Now;
 		_DownloadSpeedTimer.Start(1);
 		tresult = client.MakeRequest(dlUri.PathAndQuery, true);
 
@@ -337,7 +341,7 @@ public class DownloadAddon : ReferenceRect
             return;
         Visible = true;
         LoadInformation();
-        dlUri = new System.Uri(Asset.DownloadUrl);
+        dlUri = new Uri(Asset.DownloadUrl);
         await StartNetwork();
     }
 }

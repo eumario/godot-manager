@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 
 public class MessageDialog : ReferenceRect
 {
@@ -52,7 +52,6 @@ public class MessageDialog : ReferenceRect
 
         Title = sTitle;
         Message = sMessage;
-        _confirm.Connect("pressed", this, "OnConfirmPressed");
     }
 
     public void ShowMessage(string title, string message) {
@@ -61,6 +60,7 @@ public class MessageDialog : ReferenceRect
         Visible = true;
     }
 
+    [SignalHandler("pressed", nameof(_confirm))]
     void OnConfirmPressed() {
         Visible = false;
     }

@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using Godot.Collections;
 
 public class EditProject : ReferenceRect
@@ -85,13 +85,6 @@ public class EditProject : ReferenceRect
     {
         this.OnReady();
         _data = new EPData();
-
-        _SaveBtn.Connect("pressed", this, "OnSaveBtnPressed");
-        _CancelBtn.Connect("pressed", this, "OnCancelBtnPressed");
-        _Icon.Connect("gui_input", this, "OnIconGuiInput");
-        _ProjectName.Connect("text_changed", this, "OnProjectNameTextChanged");
-        _GodotVersion.Connect("item_selected", this, "OnGodotVersionItemSelected");
-        _ProjectDescription.Connect("text_changed", this, "OnProjectDescriptionTextChanged");
     }
 
 #region Public Functions
@@ -123,6 +116,7 @@ public class EditProject : ReferenceRect
 #endregion
 
 #region Event Handlers
+    [SignalHandler("pressed", nameof(_SaveBtn))]
     void OnSaveBtnPressed() {
         ProjectFile.Name = ProjectName;
         ProjectFile.Description = Description;
@@ -134,6 +128,7 @@ public class EditProject : ReferenceRect
         EmitSignal("project_updated");
     }
 
+    [SignalHandler("pressed", nameof(_CancelBtn))]
     async void OnCancelBtnPressed() {
         if (_isDirty) {
             var res = AppDialogs.YesNoDialog.ShowDialog("Edit Project", "There is unsaved changes, do you wish to continue?");
@@ -146,6 +141,7 @@ public class EditProject : ReferenceRect
         }
     }
 
+    [SignalHandler("gui_input", nameof(_Icon))]
     void OnIconGuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb) {
             if (iemb.Pressed && iemb.ButtonIndex == (int)ButtonList.Left)
@@ -189,18 +185,21 @@ public class EditProject : ReferenceRect
         AppDialogs.ImageFileDialog.Disconnect("popup_hide", this, "OnFilePopupHide");
     }
 
+    [SignalHandler("text_changed", nameof(_ProjectName))]
     void OnProjectNameTextChanged(string text) {
         ProjectName = text;
         _isDirty = true;
         _SaveBtn.Disabled = false;
     }
 
+    [SignalHandler("item_selected", nameof(_GodotVersion))]
     void OnGodotVersionItemSelected(int index) {
         GodotVersion = _GodotVersion.GetItemMetadata(index) as string;
         _isDirty = true;
         _SaveBtn.Disabled = false;
     }
 
+    [SignalHandler("text_changed", nameof(_ProjectDescription))]
     void OnProjectDescriptionTextChanged() {
         Description = _ProjectDescription.Text;
         _isDirty = true;

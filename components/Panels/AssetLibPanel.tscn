@@ -72,19 +72,19 @@ __meta__ = {
 
 [node name="MC" type="MarginContainer" parent="VC"]
 margin_right = 1024.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 custom_constants/margin_right = 5
 custom_constants/margin_left = 5
 
 [node name="HC" type="HBoxContainer" parent="VC/MC"]
 margin_left = 5.0
 margin_right = 1019.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 
 [node name="Label" type="Label" parent="VC/MC/HC"]
-margin_top = 6.0
+margin_top = 5.0
 margin_right = 210.0
-margin_bottom = 36.0
+margin_bottom = 35.0
 rect_min_size = Vector2( 210, 30 )
 custom_fonts/font = ExtResource( 7 )
 custom_styles/normal = SubResource( 25 )
@@ -95,13 +95,13 @@ valign = 1
 [node name="Spacer" type="Control" parent="VC/MC/HC"]
 margin_left = 214.0
 margin_right = 374.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 160, 40 )
 
 [node name="PC" type="PanelContainer" parent="VC/MC/HC"]
 margin_left = 378.0
-margin_right = 541.0
-margin_bottom = 43.0
+margin_right = 525.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_vertical = 4
 custom_styles/panel = ExtResource( 8 )
@@ -109,12 +109,12 @@ custom_styles/panel = ExtResource( 8 )
 [node name="HC" type="HBoxContainer" parent="VC/MC/HC/PC"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 153.0
-margin_bottom = 33.0
+margin_right = 137.0
+margin_bottom = 31.0
 
 [node name="Addons" type="Button" parent="VC/MC/HC/PC/HC"]
-margin_right = 58.0
-margin_bottom = 23.0
+margin_right = 50.0
+margin_bottom = 21.0
 custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -124,17 +124,17 @@ text = "Addons"
 flat = true
 
 [node name="VSeparator" type="VSeparator" parent="VC/MC/HC/PC/HC"]
-margin_left = 62.0
-margin_right = 66.0
-margin_bottom = 23.0
+margin_left = 54.0
+margin_right = 58.0
+margin_bottom = 21.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Templates" type="Button" parent="VC/MC/HC/PC/HC"]
-margin_left = 70.0
-margin_right = 143.0
-margin_bottom = 23.0
+margin_left = 62.0
+margin_right = 127.0
+margin_bottom = 21.0
 custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -143,27 +143,27 @@ text = "Templates"
 flat = true
 
 [node name="Spacer2" type="Control" parent="VC/MC/HC"]
-margin_left = 545.0
+margin_left = 529.0
 margin_right = 1014.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 
 [node name="HC" type="HBoxContainer" parent="VC"]
-margin_top = 63.0
+margin_top = 61.0
 margin_right = 1024.0
-margin_bottom = 90.0
+margin_bottom = 83.0
 custom_constants/separation = 8
 
 [node name="Spacer" type="Control" parent="VC/HC"]
 margin_right = 5.0
-margin_bottom = 27.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="SearchField" type="LineEdit" parent="VC/HC"]
 margin_left = 13.0
-margin_right = 946.0
-margin_bottom = 27.0
+margin_right = 954.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 clear_button_enabled = true
@@ -172,27 +172,27 @@ placeholder_text = "Search assets"
 caret_blink = true
 
 [node name="Import" type="Button" parent="VC/HC"]
-margin_left = 954.0
+margin_left = 962.0
 margin_right = 1011.0
-margin_bottom = 27.0
+margin_bottom = 22.0
 custom_fonts/font = ExtResource( 1 )
 text = "Import"
 
 [node name="Spacer2" type="Control" parent="VC/HC"]
 margin_left = 1019.0
 margin_right = 1024.0
-margin_bottom = 27.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="HC2" type="HBoxContainer" parent="VC"]
-margin_top = 110.0
+margin_top = 103.0
 margin_right = 1024.0
-margin_bottom = 130.0
+margin_bottom = 125.0
 custom_constants/separation = 8
 
 [node name="Spacer" type="Control" parent="VC/HC2"]
 margin_right = 5.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 5, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -201,7 +201,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="VC/HC2"]
 margin_left = 13.0
 margin_right = 44.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Sort:"
@@ -210,7 +210,7 @@ valign = 1
 [node name="SortBy" type="OptionButton" parent="VC/HC2"]
 margin_left = 52.0
 margin_right = 295.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 text = "Recently Updated"
 items = [ "Recently Updated", null, false, 0, null, "Least Recently Updated", null, false, 1, null, "Name (A-Z)", null, false, 2, null, "Name (Z-A)", null, false, 3, null, "License (A-Z)", null, false, 4, null, "License (Z-A)", null, false, 5, null ]
@@ -219,12 +219,12 @@ selected = 0
 [node name="VSeparator" type="VSeparator" parent="VC/HC2"]
 margin_left = 303.0
 margin_right = 307.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 
 [node name="Label2" type="Label" parent="VC/HC2"]
 margin_left = 315.0
 margin_right = 384.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Category: "
@@ -233,19 +233,19 @@ valign = 1
 [node name="Category" type="OptionButton" parent="VC/HC2"]
 margin_left = 392.0
 margin_right = 636.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 text = "All"
 
 [node name="VSeparator2" type="VSeparator" parent="VC/HC2"]
 margin_left = 644.0
 margin_right = 648.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 
 [node name="Label3" type="Label" parent="VC/HC2"]
 margin_left = 656.0
 margin_right = 689.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Site: "
@@ -254,7 +254,7 @@ valign = 1
 [node name="MirrorSite" type="OptionButton" parent="VC/HC2"]
 margin_left = 697.0
 margin_right = 941.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 text = "godotengine.org"
 items = [ "godotengine.org", null, false, 0, null, "localhost", null, false, 1, null ]
@@ -263,12 +263,12 @@ selected = 0
 [node name="VSeparator3" type="VSeparator" parent="VC/HC2"]
 margin_left = 949.0
 margin_right = 953.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 
 [node name="Support" type="Button" parent="VC/HC2"]
 margin_left = 961.0
 margin_right = 1011.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 custom_fonts/font = ExtResource( 1 )
 custom_styles/hover = SubResource( 21 )
 custom_styles/pressed = SubResource( 22 )
@@ -283,14 +283,14 @@ items = [ "Official", null, 1, true, false, 0, 0, null, "", false, "Community", 
 [node name="Spacer2" type="Control" parent="VC/HC2"]
 margin_left = 1019.0
 margin_right = 1024.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 5, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VC" type="VBoxContainer" parent="VC"]
-margin_top = 150.0
+margin_top = 145.0
 margin_right = 1024.0
 margin_bottom = 680.0
 size_flags_horizontal = 3
@@ -298,7 +298,7 @@ size_flags_vertical = 3
 
 [node name="plAddons" parent="VC/VC" instance=ExtResource( 6 )]
 margin_top = 0.0
-margin_bottom = 530.0
+margin_bottom = 535.0
 
 [node name="plTemplates" parent="VC/VC" instance=ExtResource( 6 )]
 visible = false

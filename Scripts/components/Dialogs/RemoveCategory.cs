@@ -1,6 +1,6 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 
 
 public class RemoveCategory : ReferenceRect
@@ -29,15 +29,14 @@ public class RemoveCategory : ReferenceRect
     {
         this.OnReady();
         selectedItem = "";
-        _removeBtn.Connect("pressed", this, "OnPressedRemoveBtn");
-        _cancelBtn.Connect("pressed", this, "OnPressedCancelBtn");
-        _categoryList.Connect("item_selected", this, "OnItemSelected");
     }
 
+    [SignalHandler("item_selected", nameof(_categoryList))]
     void OnItemSelected(int index) {
         selectedItem = _categoryList.GetItemText(index);
     }
 
+    [SignalHandler("pressed", nameof(_removeBtn))]
     async void OnPressedRemoveBtn() {
         if (selectedItem == "") {
             AppDialogs.MessageDialog.ShowMessage("Remove Category", "You must select a category before it can be removed.");
@@ -65,6 +64,7 @@ public class RemoveCategory : ReferenceRect
         }
     }
 
+    [SignalHandler("pressed", nameof(_cancelBtn))]
     void OnPressedCancelBtn() {
         Visible = false;
     }

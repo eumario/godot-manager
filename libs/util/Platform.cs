@@ -1,4 +1,5 @@
 using Godot;
+using Environment = System.Environment;
 
 public class Platform : Node
 {
@@ -33,7 +34,7 @@ public class Platform : Node
 
 	public static string Bits {
 		get {
-			if (System.Environment.Is64BitProcess)
+			if (Environment.Is64BitProcess)
 				return "64";
 			else
 				return "32";

@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Godot.Sharp.Extras;
 
 public class HeartIcon : TextureRect
 {
@@ -13,7 +13,7 @@ public class HeartIcon : TextureRect
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Connect("gui_input", this, "OnGuiInput");
+        this.OnReady();
     }
 
     public bool IsChecked() {
@@ -27,6 +27,7 @@ public class HeartIcon : TextureRect
             Modulate = new Color("d16de3db");
     }
 
+    [SignalHandler("gui_input")]
     void OnGuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb) {
             if (iemb.Pressed) {

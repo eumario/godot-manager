@@ -1,6 +1,6 @@
 using Godot;
-using GodotSharpExtras;
-using Godot.Collections;
+using Godot.Sharp.Extras;
+using Guid = System.Guid;
 
 public class AddCustomGodot : ReferenceRect
 {
@@ -33,9 +33,6 @@ public class AddCustomGodot : ReferenceRect
     public override void _Ready()
     {
         this.OnReady();
-        _Browse.Connect("pressed", this, "OnBrowsePressed");
-        _AddBtn.Connect("pressed", this, "OnAddPressed");
-        _CancelBtn.Connect("pressed", this, "OnCancelPressed");
     }
 
 #region Public Functions
@@ -48,6 +45,7 @@ public class AddCustomGodot : ReferenceRect
 #endregion
 
 #region Events
+    [SignalHandler("pressed", nameof(_Browse))]
     void OnBrowsePressed() {
         AppDialogs.BrowseGodotDialog.Connect("file_selected", this, "OnFileSelected");
         AppDialogs.BrowseGodotDialog.Connect("popup_hide", this, "OnBrowseDialogHidden");
@@ -63,6 +61,7 @@ public class AddCustomGodot : ReferenceRect
         AppDialogs.BrowseGodotDialog.Disconnect("popup_hide", this, "OnBrowseDialogHidden");
     }
 
+    [SignalHandler("pressed", nameof(_AddBtn))]
     void OnAddPressed() {
         if (_Name.Text == "" || _Location.Text == "") {
             AppDialogs.MessageDialog.ShowMessage("Add Custom Godot", "Need to provide a Name and a location for the custom version of the Godot engine.");
@@ -70,7 +69,7 @@ public class AddCustomGodot : ReferenceRect
         }
 
         GodotVersion gv = new GodotVersion();
-        gv.Id = System.Guid.NewGuid().ToString();
+        gv.Id = Guid.NewGuid().ToString();
         gv.Tag = _Name.Text;
         gv.Url = "Local";
 #if GODOT_MACOS || GDOOT_OSX
@@ -86,6 +85,7 @@ public class AddCustomGodot : ReferenceRect
         EmitSignal("added_custom_godot");
     }
 
+    [SignalHandler("pressed", nameof(_CancelBtn))]
     void OnCancelPressed() {
         Visible = false;
     }

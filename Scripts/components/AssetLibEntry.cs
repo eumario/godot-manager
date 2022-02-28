@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using Godot.Collections;
 using System.Threading.Tasks;
 
@@ -88,19 +88,19 @@ public class AssetLibEntry : ColorRect
         Category = sCategory;
         License = sLicense;
         Author = sAuthor;
-        Connect("mouse_entered", this, "OnMouseEntered");
-        Connect("mouse_exited", this, "OnMouseExited");
-        Connect("gui_input", this, "OnGuiInput");
     }
 
+    [SignalHandler("mouse_entered")]
     void OnMouseEntered() {
         Color = new Color("2a2e37");
     }
 
+    [SignalHandler("mouse_exited")]
     void OnMouseExited() {
         Color = new Color("002a2e37");
     }
 
+    [SignalHandler("gui_input")]
     async void OnGuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iembEvent) {
             if (iembEvent.Pressed && (ButtonList)iembEvent.ButtonIndex == ButtonList.Left)

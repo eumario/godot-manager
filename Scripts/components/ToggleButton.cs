@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 public class ToggleButton : ColorRect
@@ -9,12 +9,9 @@ public class ToggleButton : ColorRect
 	public override void _Ready()
 	{
 		this.OnReady();
-
-		Connect("gui_input", this, "OnToggleButton_GuiInput");
 	}
 
-	// func _on_ColorRect_gui_input(event:InputEvent) -> void:
-	// 	pass # Replace with function body.
+	[SignalHandler("gui_input")]
 	void OnToggleButton_GuiInput(InputEvent inputEvent) {
 		if (!(inputEvent is InputEventMouseButton))
             return;

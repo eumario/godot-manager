@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class Category : Object {
@@ -11,12 +12,12 @@ public class Category : Object {
 	[JsonProperty]
 	public bool IsExpanded;
 	[JsonProperty]
-	public System.DateTime LastAccessed;
+	public DateTime LastAccessed;
 
 	public Category() {
 		Id = -1;
 		Name = "";
 		IsExpanded = true;
-		LastAccessed = System.DateTime.UtcNow;
+		LastAccessed = DateTime.UtcNow;
 	}
 }

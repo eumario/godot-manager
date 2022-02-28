@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Godot.Sharp.Extras;
 
 public class ProjectPopup : PopupMenu
 {
@@ -8,9 +8,10 @@ public class ProjectPopup : PopupMenu
 
     public override void _Ready()
     {
-        Connect("id_pressed", this, "OnIdPressed");
+        this.OnReady();
     }
 
+    [SignalHandler("id_pressed")]
     void OnIdPressed(int id) {
         ((ProjectsPanel)GetParent())._IdPressed(id);
     }

@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using Godot.Collections;
 
 
@@ -37,10 +37,6 @@ public class ImportProject : ReferenceRect
 
 		UpdateGodotVersions();
 		_locationValue.Text = "";
-
-		_addBtn.Connect("pressed", this, "OnAddBtnPressed");
-		_cancelBtn.Connect("pressed", this, "OnCancelBtnPressed");
-		_locationBrowse.Connect("pressed", this, "OnLocationBrowsePressed");
 	}
 
 	private void UpdateGodotVersions()
@@ -69,6 +65,7 @@ public class ImportProject : ReferenceRect
         Visible = true;
     }
 
+    [SignalHandler("pressed", nameof(_addBtn))]
     void OnAddBtnPressed() {
         if (_locationValue.Text == "") {
             AppDialogs.MessageDialog.ShowMessage("No Project Selected", "You need to select a project before it can be added.");
@@ -89,10 +86,12 @@ public class ImportProject : ReferenceRect
         Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(_cancelBtn))]
     void OnCancelBtnPressed() {
         Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(_locationBrowse))]
     void OnLocationBrowsePressed() {
         AppDialogs.ImportFileDialog.CurrentFile = "";
         AppDialogs.ImportFileDialog.CurrentPath = "";

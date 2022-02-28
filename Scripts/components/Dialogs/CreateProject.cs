@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
+using Directory = System.IO.Directory;
 
 public class CreateProject : ReferenceRect
 {
@@ -80,14 +81,10 @@ public class CreateProject : ReferenceRect
     {
         this.OnReady();
         ShowError();
-        _projectLocation.Connect("text_changed", this, "OnProjectLocation_TextChanged");
-        _createFolder.Connect("pressed", this, "OnCreateFolderPressed");
-        _browseLocation.Connect("pressed", this, "OnBrowseLocationPressed");
-        _cancelBtn.Connect("pressed", this, "OnCancelPressed");
-        _createBtn.Connect("pressed", this, "OnCreatePressed");
         ProjectPath = CentralStore.Settings.ProjectPath;
     }
 
+    [SignalHandler("pressed", nameof(_createBtn))]
     void OnCreatePressed() {
         NewProject prj = new NewProject {
             ProjectName = _projectName.Text,
@@ -113,13 +110,15 @@ public class CreateProject : ReferenceRect
         Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(_createFolder))]
     void OnCreateFolderPressed() {
         string path = _projectLocation.Text;
         string newDir = path.Join(_projectName.Text).NormalizePath();
-        System.IO.Directory.CreateDirectory(newDir);
+        Directory.CreateDirectory(newDir);
         OnProjectLocation_TextChanged(_projectLocation.Text);
     }
 
+    [SignalHandler("pressed", nameof(_browseLocation))]
     void OnBrowseLocationPressed() {
         AppDialogs.BrowseFolderDialog.CurrentFile = "";
         AppDialogs.BrowseFolderDialog.CurrentPath = "";
@@ -134,6 +133,7 @@ public class CreateProject : ReferenceRect
         OnProjectLocation_TextChanged(_projectLocation.Text);
     }
 
+    [SignalHandler("pressed", nameof(_cancelBtn))]
     void OnCancelPressed() {
         Visible = false;
     }
@@ -181,12 +181,13 @@ public class CreateProject : ReferenceRect
         Visible = true;
     }
 
+    [SignalHandler("text_changed", nameof(_projectLocation))]
     void OnProjectLocation_TextChanged(string new_text) {
-        if (System.IO.Directory.Exists(new_text)) {
-            if (System.IO.Directory.Exists(new_text.Join(_projectName.Text)))
+        if (Directory.Exists(new_text)) {
+            if (Directory.Exists(new_text.Join(_projectName.Text)))
                 ShowSuccess();
-            else if (System.IO.Directory.GetDirectories(new_text).Length == 0 &&
-                System.IO.Directory.GetFiles(new_text).Length == 0) {
+            else if (Directory.GetDirectories(new_text).Length == 0 &&
+                Directory.GetFiles(new_text).Length == 0) {
                 ShowWarning("Project Directory does not exist!");
             } else {
                 ShowError();

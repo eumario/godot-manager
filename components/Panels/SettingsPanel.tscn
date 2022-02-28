@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/components/Panel/SettingsPanel.cs" type="Script" id=1]
 [ext_resource path="res://Resources/GroupedButtons.tres" type="StyleBox" id=2]
@@ -7,15 +7,12 @@
 [ext_resource path="res://Assets/Icons/icon_save.svg" type="Texture" id=5]
 [ext_resource path="res://components/ActionButtons.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Icons/icon_undo.svg" type="Texture" id=7]
-[ext_resource path="res://Assets/Icons/icon_remove.svg" type="Texture" id=8]
-[ext_resource path="res://Assets/Icons/icon_edit.svg" type="Texture" id=9]
-[ext_resource path="res://Assets/Icons/icon_add.svg" type="Texture" id=10]
+[ext_resource path="res://Resources/TabContainer_Boxed.tres" type="StyleBox" id=8]
 [ext_resource path="res://Assets/Icons/godot.svg" type="Texture" id=11]
 [ext_resource path="res://Resources/Fonts/droid-bold-22.tres" type="DynamicFont" id=12]
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=13]
-[ext_resource path="res://Resources/DefaultTheme.tres" type="Theme" id=14]
 [ext_resource path="res://Assets/Icons/buy-me.png" type="Texture" id=15]
-[ext_resource path="res://Resources/ListPanel.tres" type="StyleBox" id=16]
+[ext_resource path="res://components/ItemListWithButtons.tscn" type="PackedScene" id=17]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
@@ -43,19 +40,19 @@ __meta__ = {
 
 [node name="Header" type="MarginContainer" parent="VB"]
 margin_right = 1024.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 custom_constants/margin_right = 5
 custom_constants/margin_left = 5
 
 [node name="HC" type="HBoxContainer" parent="VB/Header"]
 margin_left = 5.0
 margin_right = 1019.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 
 [node name="Label" type="Label" parent="VB/Header/HC"]
-margin_top = 6.0
+margin_top = 5.0
 margin_right = 210.0
-margin_bottom = 36.0
+margin_bottom = 35.0
 rect_min_size = Vector2( 210, 30 )
 custom_fonts/font = ExtResource( 4 )
 custom_styles/normal = SubResource( 1 )
@@ -66,13 +63,13 @@ valign = 1
 [node name="Spacer" type="Control" parent="VB/Header/HC"]
 margin_left = 214.0
 margin_right = 374.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 160, 40 )
 
 [node name="PC" type="PanelContainer" parent="VB/Header/HC"]
 margin_left = 378.0
-margin_right = 586.0
-margin_bottom = 43.0
+margin_right = 627.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_vertical = 4
 custom_styles/panel = ExtResource( 2 )
@@ -80,12 +77,12 @@ custom_styles/panel = ExtResource( 2 )
 [node name="HC" type="HBoxContainer" parent="VB/Header/HC/PC"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 198.0
-margin_bottom = 33.0
+margin_right = 239.0
+margin_bottom = 31.0
 
 [node name="General" type="Button" parent="VB/Header/HC/PC/HC"]
-margin_right = 58.0
-margin_bottom = 23.0
+margin_right = 50.0
+margin_bottom = 21.0
 custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -95,17 +92,17 @@ text = "General"
 flat = true
 
 [node name="VSeparator" type="VSeparator" parent="VB/Header/HC/PC/HC"]
-margin_left = 62.0
-margin_right = 66.0
-margin_bottom = 23.0
+margin_left = 54.0
+margin_right = 58.0
+margin_bottom = 21.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Projects" type="Button" parent="VB/Header/HC/PC/HC"]
-margin_left = 70.0
-margin_right = 128.0
-margin_bottom = 23.0
+margin_left = 62.0
+margin_right = 112.0
+margin_bottom = 21.0
 custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -114,17 +111,17 @@ text = "Projects"
 flat = true
 
 [node name="VSeparator2" type="VSeparator" parent="VB/Header/HC/PC/HC"]
-margin_left = 132.0
-margin_right = 136.0
-margin_bottom = 23.0
+margin_left = 116.0
+margin_right = 120.0
+margin_bottom = 21.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="About" type="Button" parent="VB/Header/HC/PC/HC"]
-margin_left = 140.0
-margin_right = 188.0
-margin_bottom = 23.0
+margin_left = 124.0
+margin_right = 164.0
+margin_bottom = 21.0
 custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -132,28 +129,47 @@ toggle_mode = true
 text = "About"
 flat = true
 
+[node name="VSeparator3" type="VSeparator" parent="VB/Header/HC/PC/HC"]
+margin_left = 168.0
+margin_right = 172.0
+margin_bottom = 21.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Licenses" type="Button" parent="VB/Header/HC/PC/HC"]
+margin_left = 176.0
+margin_right = 229.0
+margin_bottom = 21.0
+custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "Licenses"
+flat = true
+
 [node name="Spacer2" type="Control" parent="VB/Header/HC"]
-margin_left = 590.0
+margin_left = 631.0
 margin_right = 842.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 
 [node name="ActionButtons" parent="VB/Header/HC" instance=ExtResource( 6 )]
 margin_left = 846.0
 margin_right = 910.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 Icons = [ ExtResource( 5 ), ExtResource( 7 ) ]
 HelpText = [ "Save Settings", "Undo Changes" ]
 
 [node name="Spacer3" type="Control" parent="VB/Header/HC"]
 margin_left = 914.0
 margin_right = 1014.0
-margin_bottom = 43.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 100, 40 )
 
 [node name="MC" type="MarginContainer" parent="VB"]
-margin_top = 47.0
+margin_top = 45.0
 margin_right = 1024.0
 margin_bottom = 700.0
 size_flags_horizontal = 3
@@ -170,7 +186,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1014.0
-margin_bottom = 643.0
+margin_bottom = 645.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tabs_visible = false
@@ -178,10 +194,6 @@ tabs_visible = false
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 8.0
-margin_right = -4.0
-margin_bottom = -4.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -190,16 +202,16 @@ custom_constants/margin_bottom = 5
 [node name="GC" type="GridContainer" parent="VB/MC/TC/General"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 991.0
-margin_bottom = 616.0
+margin_right = 999.0
+margin_bottom = 630.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
 
 [node name="Label" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 2.0
+margin_top = 1.0
 margin_right = 180.0
-margin_bottom = 21.0
+margin_bottom = 20.0
 hint_tooltip = "The default install location where Godot Engines will be installed to.  By Default, will install to Godot Manager's Data folder."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -208,26 +220,27 @@ align = 2
 
 [node name="HBIL" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_right = 986.0
-margin_bottom = 24.0
+margin_right = 994.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
+custom_constants/separation = 20
 
 [node name="GodotInstallLocation" type="LineEdit" parent="VB/MC/TC/General/GC/HBIL"]
 margin_right = 733.0
-margin_bottom = 24.0
+margin_bottom = 22.0
 hint_tooltip = "The default install location where Godot Engines will be installed to.  By Default, will install to Godot Manager's Data folder."
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="VB/MC/TC/General/GC/HBIL"]
-margin_left = 737.0
-margin_right = 796.0
-margin_bottom = 24.0
+[node name="Browse" type="Button" parent="VB/MC/TC/General/GC/HBIL"]
+margin_left = 753.0
+margin_right = 804.0
+margin_bottom = 22.0
 text = "Browse"
 
 [node name="Label2" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 36.0
+margin_top = 33.0
 margin_right = 180.0
-margin_bottom = 55.0
+margin_bottom = 52.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -236,46 +249,47 @@ align = 2
 
 [node name="HBCL" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 34.0
-margin_right = 986.0
-margin_bottom = 58.0
+margin_top = 32.0
+margin_right = 994.0
+margin_bottom = 54.0
 size_flags_horizontal = 3
+custom_constants/separation = 20
 
-[node name="GodotInstallLocation" type="LineEdit" parent="VB/MC/TC/General/GC/HBCL"]
+[node name="CacheInstallLocation" type="LineEdit" parent="VB/MC/TC/General/GC/HBCL"]
 margin_right = 733.0
-margin_bottom = 24.0
+margin_bottom = 22.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="VB/MC/TC/General/GC/HBCL"]
-margin_left = 737.0
-margin_right = 796.0
-margin_bottom = 24.0
+[node name="Browse" type="Button" parent="VB/MC/TC/General/GC/HBCL"]
+margin_left = 753.0
+margin_right = 804.0
+margin_bottom = 22.0
 text = "Browse"
 
 [node name="Label3" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 68.0
+margin_top = 65.0
 margin_right = 180.0
-margin_bottom = 87.0
+margin_bottom = 84.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
-text = "Default Project View:"
+text = "Startup Project View:"
 align = 2
 
 [node name="ProjectView" type="OptionButton" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 68.0
-margin_right = 986.0
-margin_bottom = 88.0
+margin_top = 64.0
+margin_right = 994.0
+margin_bottom = 86.0
 text = "List View"
-items = [ "List View", null, false, 0, null, "Icon View", null, false, 1, null, "Category View", null, false, 2, null ]
+items = [ "List View", null, false, 0, null, "Icon View", null, false, 1, null, "Category View", null, false, 2, null, "Last View Used", null, false, 3, null ]
 selected = 0
 
 [node name="Label4" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 98.0
+margin_top = 97.0
 margin_right = 180.0
-margin_bottom = 117.0
+margin_bottom = 116.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -284,43 +298,42 @@ align = 2
 
 [node name="GodotDefault" type="OptionButton" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 98.0
-margin_right = 986.0
+margin_top = 96.0
+margin_right = 994.0
 margin_bottom = 118.0
-selected = 0
 
 [node name="CheckForUpdates" type="CheckBox" parent="VB/MC/TC/General/GC"]
 margin_top = 128.0
 margin_right = 180.0
-margin_bottom = 155.0
+margin_bottom = 150.0
 custom_fonts/font = ExtResource( 4 )
 text = "Check for Updates"
 
 [node name="HBCI" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
 margin_top = 128.0
-margin_right = 986.0
-margin_bottom = 155.0
+margin_right = 994.0
+margin_bottom = 150.0
 
 [node name="CheckIntervalLabel" type="Label" parent="VB/MC/TC/General/GC/HBCI"]
-margin_top = 4.0
+margin_top = 1.0
 margin_right = 169.0
-margin_bottom = 23.0
+margin_bottom = 20.0
 custom_fonts/font = ExtResource( 4 )
 text = "             Check Interval:"
 
 [node name="UpdateCheckInterval" type="OptionButton" parent="VB/MC/TC/General/GC/HBCI"]
 margin_left = 173.0
-margin_right = 243.0
-margin_bottom = 27.0
+margin_right = 237.0
+margin_bottom = 22.0
 text = "1 hour"
-items = [ "1 hour", null, false, 0, null, "12 Hours", null, false, 1, null, "1 Day", null, false, 2, null, "1 Week", null, false, 3, null, "Bi-Weekly", null, false, 4, null, "Monthly", null, false, 5, null ]
+items = [ "1 hour", null, false, 0, null, "12 Hours", null, false, 1, null, "1 Day", null, false, 2, null, "1 Week", null, false, 3, null, "Bi-Weekly", null, false, 4, null, "Monthly (Every 30 days)", null, false, 5, null ]
 selected = 0
 
 [node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 183.0
+margin_top = 170.0
 margin_right = 180.0
-margin_bottom = 202.0
+margin_bottom = 189.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -329,59 +342,27 @@ align = 2
 
 [node name="VBLO" type="VBoxContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 165.0
-margin_right = 986.0
-margin_bottom = 221.0
+margin_top = 160.0
+margin_right = 994.0
+margin_bottom = 200.0
 
 [node name="NoConsole" type="CheckBox" parent="VB/MC/TC/General/GC/VBLO"]
-margin_right = 796.0
-margin_bottom = 26.0
+margin_right = 804.0
+margin_bottom = 18.0
 custom_fonts/font = ExtResource( 13 )
 text = "Launch Without Console"
 
 [node name="EditorProfiles" type="CheckBox" parent="VB/MC/TC/General/GC/VBLO"]
-margin_top = 30.0
-margin_right = 796.0
-margin_bottom = 56.0
+margin_top = 22.0
+margin_right = 804.0
+margin_bottom = 40.0
 custom_fonts/font = ExtResource( 13 )
 text = "Separate Editor Profiles"
 
-[node name="Label7" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 231.0
-margin_right = 180.0
-margin_bottom = 250.0
-hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
-mouse_filter = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Backup/Restore:"
-align = 2
-
-[node name="HBBR" type="HBoxContainer" parent="VB/MC/TC/General/GC"]
-margin_left = 190.0
-margin_top = 231.0
-margin_right = 986.0
-margin_bottom = 251.0
-custom_constants/separation = 30
-
-[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/HBBR"]
-margin_bottom = 20.0
-
-[node name="Button" type="Button" parent="VB/MC/TC/General/GC/HBBR"]
-margin_left = 30.0
-margin_right = 143.0
-margin_bottom = 20.0
-text = "Backup Settings"
-
-[node name="Button2" type="Button" parent="VB/MC/TC/General/GC/HBBR"]
-margin_left = 173.0
-margin_right = 289.0
-margin_bottom = 20.0
-text = "Restore Settings"
-
 [node name="Label8" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 261.0
+margin_top = 210.0
 margin_right = 180.0
-margin_bottom = 611.0
+margin_bottom = 625.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 size_flags_vertical = 5
@@ -391,147 +372,53 @@ align = 2
 
 [node name="MirrorTabs" type="TabContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 261.0
-margin_right = 986.0
-margin_bottom = 611.0
+margin_top = 210.0
+margin_right = 994.0
+margin_bottom = 625.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 14 )
+custom_styles/panel = ExtResource( 8 )
 
-[node name="Asset Library" type="HBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 24.0
+[node name="Asset Library" parent="VB/MC/TC/General/GC/MirrorTabs" instance=ExtResource( 17 )]
+margin_left = 8.0
+margin_top = 29.0
+margin_right = -1.0
+margin_bottom = -1.0
 
-[node name="VBMOD" type="VBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library"]
-margin_right = 20.0
-margin_bottom = 326.0
-custom_constants/separation = 5
-
-[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/VBMOD"]
-margin_right = 20.0
-margin_bottom = 10.0
-rect_min_size = Vector2( 0, 10 )
-
-[node name="AddMirror" type="Button" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/VBMOD"]
-margin_top = 15.0
-margin_right = 20.0
-margin_bottom = 37.0
-icon = ExtResource( 10 )
-
-[node name="EditMirror" type="Button" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/VBMOD"]
-margin_top = 42.0
-margin_right = 20.0
-margin_bottom = 64.0
-icon = ExtResource( 9 )
-
-[node name="RemoveMirror" type="Button" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/VBMOD"]
-margin_top = 69.0
-margin_right = 20.0
-margin_bottom = 91.0
-icon = ExtResource( 8 )
-
-[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library"]
-margin_left = 24.0
-margin_right = 24.0
-margin_bottom = 326.0
-
-[node name="SCML" type="ScrollContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library"]
-margin_left = 28.0
-margin_right = 796.0
-margin_bottom = 326.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/SCML"]
-margin_right = 768.0
-margin_bottom = 326.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = ExtResource( 16 )
-
-[node name="MirrorList" type="VBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Asset Library/SCML/PanelContainer"]
-margin_right = 768.0
-margin_bottom = 326.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Godot Engine" type="HBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs"]
+[node name="Godot Engine" parent="VB/MC/TC/General/GC/MirrorTabs" instance=ExtResource( 17 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 8.0
+margin_top = 29.0
+margin_right = -1.0
+margin_bottom = -1.0
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
+Disabled = true
 
-[node name="VBMOD" type="VBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine"]
-margin_right = 28.0
-margin_bottom = 294.0
-custom_constants/separation = 5
+[node name="AddItem" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD" index="1"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
-[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 0, 10 )
+[node name="EditItem" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD" index="2"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
-[node name="AddMirror" type="Button" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD"]
-margin_right = 28.0
-margin_bottom = 22.0
-icon = ExtResource( 10 )
+[node name="RemoveItem" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD" index="3"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
-[node name="EditMirror" type="Button" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD"]
-margin_top = 26.0
-margin_right = 28.0
-margin_bottom = 48.0
-icon = ExtResource( 9 )
+[node name="Spacer" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine" index="1"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
-[node name="RemoveMirror" type="Button" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD"]
-margin_top = 52.0
-margin_right = 28.0
-margin_bottom = 74.0
-icon = ExtResource( 8 )
+[node name="SCML" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine" index="2"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
-[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="PC" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/SCML" index="0"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
-[node name="SCML" type="ScrollContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine"]
-margin_left = 32.0
-margin_right = 797.0
-margin_bottom = 294.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/SCML"]
-margin_right = 765.0
-margin_bottom = 294.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = ExtResource( 16 )
-
-[node name="MirrorList" type="VBoxContainer" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/SCML/PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 758.0
-margin_bottom = 287.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ItemList" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/SCML/PC" index="0"]
+hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
 [node name="Projects" type="MarginContainer" parent="VB/MC/TC"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 8.0
-margin_right = -4.0
-margin_bottom = -4.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -540,15 +427,15 @@ custom_constants/margin_bottom = 5
 [node name="GC" type="GridContainer" parent="VB/MC/TC/Projects"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 991.0
-margin_bottom = 616.0
+margin_right = 999.0
+margin_bottom = 630.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
 
 [node name="Label" type="Label" parent="VB/MC/TC/Projects/GC"]
 margin_right = 194.0
-margin_bottom = 24.0
+margin_bottom = 22.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 size_flags_vertical = 5
@@ -558,26 +445,27 @@ align = 2
 
 [node name="HBPL" type="HBoxContainer" parent="VB/MC/TC/Projects/GC"]
 margin_left = 204.0
-margin_right = 986.0
-margin_bottom = 24.0
+margin_right = 994.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
+custom_constants/separation = 20
 
 [node name="DefaultProjectLocation" type="LineEdit" parent="VB/MC/TC/Projects/GC/HBPL"]
 margin_right = 719.0
-margin_bottom = 24.0
+margin_bottom = 22.0
 hint_tooltip = "The default install location where Godot Engines will be installed to.  By Default, will install to Godot Manager's Data folder."
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="VB/MC/TC/Projects/GC/HBPL"]
-margin_left = 723.0
-margin_right = 782.0
-margin_bottom = 24.0
+[node name="BrowseProjectLocation" type="Button" parent="VB/MC/TC/Projects/GC/HBPL"]
+margin_left = 739.0
+margin_right = 790.0
+margin_bottom = 22.0
 text = "Browse"
 
 [node name="Label6" type="Label" parent="VB/MC/TC/Projects/GC"]
-margin_top = 37.0
+margin_top = 32.0
 margin_right = 194.0
-margin_bottom = 56.0
+margin_bottom = 51.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -586,16 +474,16 @@ align = 2
 
 [node name="ExitManager" type="CheckBox" parent="VB/MC/TC/Projects/GC"]
 margin_left = 204.0
-margin_top = 34.0
-margin_right = 986.0
-margin_bottom = 60.0
+margin_top = 32.0
+margin_right = 994.0
+margin_bottom = 51.0
 custom_fonts/font = ExtResource( 13 )
 text = "Exit Godot Manager"
 
 [node name="Label1" type="Label" parent="VB/MC/TC/Projects/GC"]
-margin_top = 70.0
+margin_top = 61.0
 margin_right = 194.0
-margin_bottom = 611.0
+margin_bottom = 625.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 size_flags_vertical = 7
@@ -603,73 +491,22 @@ custom_fonts/font = ExtResource( 4 )
 text = "Directories to Scan:"
 align = 2
 
-[node name="HBLE" type="HBoxContainer" parent="VB/MC/TC/Projects/GC"]
+[node name="DirectoryScan" parent="VB/MC/TC/Projects/GC" instance=ExtResource( 17 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 204.0
-margin_top = 70.0
-margin_right = 986.0
-margin_bottom = 611.0
-
-[node name="VBMOD" type="VBoxContainer" parent="VB/MC/TC/Projects/GC/HBLE"]
-margin_right = 28.0
-margin_bottom = 541.0
-
-[node name="Add" type="Button" parent="VB/MC/TC/Projects/GC/HBLE/VBMOD"]
-margin_right = 28.0
-margin_bottom = 22.0
-icon = ExtResource( 10 )
-
-[node name="Edit" type="Button" parent="VB/MC/TC/Projects/GC/HBLE/VBMOD"]
-margin_top = 26.0
-margin_right = 28.0
-margin_bottom = 48.0
-icon = ExtResource( 9 )
-
-[node name="Remove" type="Button" parent="VB/MC/TC/Projects/GC/HBLE/VBMOD"]
-margin_top = 52.0
-margin_right = 28.0
-margin_bottom = 74.0
-icon = ExtResource( 8 )
-
-[node name="Spacer" type="Control" parent="VB/MC/TC/Projects/GC/HBLE"]
-margin_left = 32.0
-margin_right = 32.0
-margin_bottom = 541.0
-
-[node name="SC" type="ScrollContainer" parent="VB/MC/TC/Projects/GC/HBLE"]
-margin_left = 36.0
-margin_right = 782.0
-margin_bottom = 541.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="VB/MC/TC/Projects/GC/HBLE/SC"]
-margin_right = 746.0
-margin_bottom = 541.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = ExtResource( 16 )
-
-[node name="List" type="VBoxContainer" parent="VB/MC/TC/Projects/GC/HBLE/SC/PanelContainer"]
-margin_right = 746.0
-margin_bottom = 541.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_top = 61.0
+margin_right = 994.0
+margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 8.0
-margin_right = -4.0
-margin_bottom = -4.0
 
 [node name="MC" type="MarginContainer" parent="VB/MC/TC/About"]
-margin_right = 996.0
-margin_bottom = 621.0
+margin_right = 1004.0
+margin_bottom = 635.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 10
@@ -680,13 +517,13 @@ custom_constants/margin_bottom = 10
 [node name="VB" type="VBoxContainer" parent="VB/MC/TC/About/MC"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 986.0
-margin_bottom = 611.0
+margin_right = 994.0
+margin_bottom = 625.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBHeader" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 
@@ -700,27 +537,27 @@ stretch_mode = 6
 
 [node name="VB" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/HBHeader"]
 margin_left = 68.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
-margin_right = 908.0
+margin_right = 916.0
 margin_bottom = 27.0
 custom_fonts/font = ExtResource( 12 )
 text = "Godot Manager"
 
 [node name="VersionInfo" type="Label" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
 margin_top = 31.0
-margin_right = 908.0
+margin_right = 916.0
 margin_bottom = 50.0
 custom_fonts/font = ExtResource( 4 )
 text = "Version 0.1 Alpha"
 
 [node name="EmailWebsite" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
 margin_top = 54.0
-margin_right = 908.0
+margin_right = 916.0
 margin_bottom = 94.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
@@ -734,12 +571,12 @@ Website: http://github.com/eumario/godot-manager"
 
 [node name="HSeparator" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 98.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 102.0
 
 [node name="Label" type="Label" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 106.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 133.0
 custom_fonts/font = ExtResource( 12 )
 text = "Built With"
@@ -750,7 +587,7 @@ __meta__ = {
 
 [node name="MC" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 137.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 257.0
 rect_min_size = Vector2( 0, 120 )
 size_flags_horizontal = 3
@@ -759,10 +596,10 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 180
 custom_constants/margin_bottom = 10
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC"]
+[node name="BuiltWith" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC"]
 margin_left = 180.0
 margin_top = 10.0
-margin_right = 796.0
+margin_right = 804.0
 margin_bottom = 110.0
 custom_fonts/normal_font = ExtResource( 13 )
 bbcode_enabled = true
@@ -777,12 +614,12 @@ scroll_active = false
 
 [node name="HSeparator2" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 261.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 265.0
 
 [node name="Label2" type="Label" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 269.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 296.0
 custom_fonts/font = ExtResource( 12 )
 text = "Special Thanks To"
@@ -793,7 +630,7 @@ __meta__ = {
 
 [node name="MC2" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 300.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 400.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 80
@@ -804,10 +641,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC2"]
+[node name="SpecialThanks" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC2"]
 margin_left = 80.0
 margin_top = 10.0
-margin_right = 896.0
+margin_right = 904.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 0, 80 )
 size_flags_vertical = 0
@@ -818,28 +655,27 @@ bbcode_text = "[table=8]
 [cell][color=aqua]MartyPher[/color][/cell][cell]    [color=yellow][url=https://www.twitch.tv/martyrpher]Twitch[/url][/color]    [/cell]
 [cell][color=aqua]EroAxee[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/eroaxee]Twitch[/url][/color]    [/cell]
 [cell][color=aqua]MaritalStrafe[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/maritalstrafe]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]MightyMoochiGames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/mightymoochigames]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]MightyMochiGames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/mightymochigames]Twitch[/url]    [/color][/cell]
 [cell][color=aqua]velopman[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/velopman]Twitch[/url]    [/color][/cell]
 [cell][color=aqua]Falinere[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/falinere]Twitch[/url]    [/color][/cell]
 [cell][color=aqua]snopekgames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/snopekgames]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]velopman[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/velopman]Twitch[/url]    [/color][/cell]
 [cell][color=aqua]Stefan (GDC)[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/GameDevelopmentCenter]YouTube[/url]    [/color][/cell]
 [cell][color=aqua]GDQuest[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/Gdquest]YouTube[/url]    [/color][/cell]
-[cell][color=aqua]HeartBeast[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/uheartbeastt]YouTube[/url]    [/color][/cell]
+[cell][color=aqua]HeartBeast[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/uheartbeast]YouTube[/url]    [/color][/cell]
 [/table]
 "
-text = "Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    MaritalStrafe    Twitch    MightyMoochiGames    Twitch    velopman    Twitch    Falinere    Twitch    snopekgames    Twitch    velopman    Twitch    Stefan (GDC)    YouTube    GDQuest    YouTube    HeartBeast    YouTube    
+text = "Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    MaritalStrafe    Twitch    MightyMochiGames    Twitch    velopman    Twitch    Falinere    Twitch    snopekgames    Twitch    Stefan (GDC)    YouTube    GDQuest    YouTube    HeartBeast    YouTube    
 "
 scroll_active = false
 
 [node name="HSeparator3" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 404.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 408.0
 
 [node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 412.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 439.0
 custom_fonts/font = ExtResource( 12 )
 text = "Donations"
@@ -850,13 +686,13 @@ __meta__ = {
 
 [node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 443.0
-margin_right = 976.0
+margin_right = 984.0
 margin_bottom = 503.0
 size_flags_horizontal = 3
 
 [node name="HB" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer"]
-margin_left = 372.0
-margin_right = 603.0
+margin_left = 376.0
+margin_right = 607.0
 margin_bottom = 60.0
 custom_constants/separation = 25
 __meta__ = {
@@ -867,3 +703,601 @@ __meta__ = {
 margin_right = 231.0
 margin_bottom = 60.0
 texture = ExtResource( 15 )
+
+[node name="Licenses" type="TabContainer" parent="VB/MC/TC"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 8 )
+
+[node name="MIT License" type="RichTextLabel" parent="VB/MC/TC/Licenses"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 29.0
+margin_right = -1.0
+margin_bottom = -1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "[center][color=aqua]License Godot Manager:[/color]
+Copyright (c) 2021 Mario Steele
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+[color=yellow]-----------------------------------------------------------------------------------------------------------------------------------------------[/color]
+
+[color=aqua]License GodotSharpExtras:[/color]
+Copyright (c) 2021 Mario Steele
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+[color=yellow]-----------------------------------------------------------------------------------------------------------------------------------------------[/color]
+
+[color=aqua]License Godot Engine[/color]
+Copyright (c) 2007-2022 Juan Linietsky, Ariel Manzur.
+Copyright (c) 2014-2022 Godot Engine contributors (cf. AUTHORS.md).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+[color=yellow]-----------------------------------------------------------------------------------------------------------------------------------------------[/color]
+
+[color=aqua]License Newtonsoft.JSON[/color]
+Copyright (c) 2007 James Newton-King
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+text = "License Godot Manager:
+Copyright (c) 2021 Mario Steele
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+License GodotSharpExtras:
+Copyright (c) 2021 Mario Steele
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+License Godot Engine
+Copyright (c) 2007-2022 Juan Linietsky, Ariel Manzur.
+Copyright (c) 2014-2022 Godot Engine contributors (cf. AUTHORS.md).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+License Newtonsoft.JSON
+Copyright (c) 2007 James Newton-King
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+
+[node name="Apache License" type="RichTextLabel" parent="VB/MC/TC/Licenses"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 29.0
+margin_right = -1.0
+margin_bottom = -1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/normal_font = ExtResource( 13 )
+bbcode_enabled = true
+bbcode_text = "[center][color=aqua]License for SixLabor's ImageSharp[/color]
+
+Apache License
+Version 2.0, January 2004
+[url]http://www.apache.org/licenses/[/url]
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      \"License\" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      \"Licensor\" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      \"Legal Entity\" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      \"control\" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      \"You\" (or \"Your\") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      \"Source\" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      \"Object\" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      \"Work\" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      \"Derivative Works\" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      \"Contribution\" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, \"submitted\"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as \"Not a Contribution.\"
+
+      \"Contributor\" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a \"NOTICE\" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an \"AS IS\" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets \"[]\"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same \"printed page\" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright (c) Six Labors
+
+   Licensed under the Apache License, Version 2.0 (the \"License\");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       [url]http://www.apache.org/licenses/LICENSE-2.0[/url]
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an \"AS IS\" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+[/center]"
+text = "License for SixLabor's ImageSharp
+
+Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      \"License\" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      \"Licensor\" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      \"Legal Entity\" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      \"control\" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      \"You\" (or \"Your\") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      \"Source\" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      \"Object\" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      \"Work\" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      \"Derivative Works\" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      \"Contribution\" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, \"submitted\"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as \"Not a Contribution.\"
+
+      \"Contributor\" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a \"NOTICE\" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an \"AS IS\" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets \"[]\"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same \"printed page\" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright (c) Six Labors
+
+   Licensed under the Apache License, Version 2.0 (the \"License\");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an \"AS IS\" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+"
+
+[editable path="VB/MC/TC/General/GC/MirrorTabs/Godot Engine"]

@@ -1,13 +1,13 @@
 using Godot;
-using Godot.Collections;
 using System.Threading.Tasks;
+using Uri = System.Uri;
 
 public class Downloader : Object {
 	internal int bytesReceived = 0;
 	internal int totalSize = 0;
 	internal string downloadUrl = "";
 	internal HTTPClient client;
-	internal System.Uri downloadUri;
+	internal Uri downloadUri;
 
 	[Signal]
 	public delegate void chunk_received(int bytes);
@@ -20,7 +20,7 @@ public class Downloader : Object {
 		Downloader dl = new Downloader();
 		dl.downloadUrl = downloadMono ? gh.PlatformMonoDownloadURL : gh.PlatformDownloadURL;
 		dl.totalSize = downloadMono ? gh.PlatformMonoDownloadSize : gh.PlatformDownloadSize;
-		dl.downloadUri = new System.Uri(dl.downloadUrl);
+		dl.downloadUri = new Uri(dl.downloadUrl);
 		return dl;
 	}
 
@@ -119,7 +119,7 @@ public class Downloader : Object {
 
 		if (resp.ResponseCode == 302) {
 			downloadUrl = resp.Headers["Location"] as string;
-			downloadUri = new System.Uri(downloadUrl);
+			downloadUri = new Uri(downloadUrl);
 			Task<bool> recurse = DownloadFile(pathTo);
 			while (!recurse.IsCompleted)
 				await this.IdleFrame();

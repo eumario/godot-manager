@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 public class ProjectIconEntry : ColorRect
@@ -132,9 +132,9 @@ public class ProjectIconEntry : ColorRect
         ProjectName = sProjectName;
         Location = sProjectLocation;
         GodotVersion = sGodotVersion;
-        this.Connect("gui_input", this, "OnGuiInput");
     }
 
+    [SignalHandler("gui_input")]
     void OnGuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;

@@ -1,6 +1,7 @@
-using System.Threading.Tasks;
 using Godot;
+using Godot.Sharp.Extras;
 using Godot.Collections;
+using Queue = System.Collections.Queue;
 
 public class DownloadQueue : Node {
 	[Signal]
@@ -9,21 +10,25 @@ public class DownloadQueue : Node {
 	[Signal]
 	public delegate void queue_finished();
 
-	System.Collections.Queue queued;
+	Queue queued;
 	Array<ImageDownloader> active;
 	int iMaxDownloads;
 	Timer checkActive;
 
 	public DownloadQueue(int maxDownloads = 5) {
-		queued = new System.Collections.Queue();
+		queued = new Queue();
 		active = new Array<ImageDownloader>();
 		iMaxDownloads = maxDownloads;
 		checkActive = new Timer();
 		checkActive.Autostart = false;
 		checkActive.WaitTime = 0.5f;
 		checkActive.OneShot = false;
-		checkActive.Connect("timeout", this, "OnCheckActive");
 		AddChild(checkActive);
+	}
+
+	public override void _Ready()
+	{
+		this.OnReady();
 	}
 
 	public void Push(ImageDownloader dld) {
@@ -47,6 +52,7 @@ public class DownloadQueue : Node {
 		dld.ActiveTask = task;
 	}
 
+	[SignalHandler("timeout", nameof(checkActive))]
 	async void OnCheckActive() {
 		Array<ImageDownloader> remove = new Array<ImageDownloader>();
 		foreach(ImageDownloader adld in active) {

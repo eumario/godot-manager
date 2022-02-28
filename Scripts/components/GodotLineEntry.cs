@@ -1,9 +1,14 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Linq;
+using DateTime = System.DateTime;
+using TimeSpan = System.TimeSpan;
+using Uri = System.Uri;
+using Guid = System.Guid;
+using Environment = System.Environment;
 
 public class GodotLineEntry : HBoxContainer
 {
@@ -62,7 +67,7 @@ public class GodotLineEntry : HBoxContainer
 
     private int iLastByteCount = 0;
     Array<double> adSpeedStack;
-    System.DateTime dtStartTime;
+    DateTime dtStartTime;
 #endregion
 
 #region Public Accessors
@@ -229,9 +234,6 @@ public class GodotLineEntry : HBoxContainer
         GodotVersion = gvGodotVersion;
         GithubVersion = gvGithubVersion;
 
-        _download.Connect("gui_input", this, "OnDownload_GuiInput");
-        _default.Connect("gui_input", this, "OnDefault_GuiInput");
-        _downloadSpeedTimer.Connect("timeout", this, "OnDownloadSpeedTimer_Timeout");
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
         Downloaded = bDownloaded;
@@ -267,7 +269,8 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
-     void OnDownload_GuiInput(InputEvent inputEvent) {
+    [SignalHandler("gui_input", nameof(_download))]
+    void OnDownload_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
             if (_download.Texture == downloadIcon)
                 EmitSignal("install_clicked", this);
@@ -277,12 +280,14 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
+    [SignalHandler("gui_input", nameof(_default))]
     void OnDefault_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
             EmitSignal("default_selected", this);
         }
     }
 
+    [SignalHandler("timeout", nameof(_downloadSpeedTimer))]
     void OnDownloadSpeedTimer_Timeout() {
         Mutex mutex = new Mutex();
         mutex.Lock();
@@ -292,10 +297,10 @@ public class GodotLineEntry : HBoxContainer
         adSpeedStack.Add(speed);
         var avgSpeed = adSpeedStack.Sum() / adSpeedStack.Count;
         _downloadSpeed.Text = $"Speed: {Util.FormatSize(avgSpeed)}/s";
-        System.TimeSpan elapsedTime = System.DateTime.Now - dtStartTime;
+        TimeSpan elapsedTime = DateTime.Now - dtStartTime;
         if (tb == 0)
             return;
-        System.TimeSpan estTime = System.TimeSpan.FromSeconds( (Downloader.totalSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
+        TimeSpan estTime = TimeSpan.FromSeconds( (Downloader.totalSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
         _etaRemaining.Text = "ETA: " + estTime.ToString("hh':'mm':'ss");
         iLastByteCount = (int)_progressBar.Value;
         mutex.Unlock();
@@ -308,8 +313,8 @@ public class GodotLineEntry : HBoxContainer
 
     public GodotVersion CreateGodotVersion() {
         GodotVersion gv = new GodotVersion();
-        string gdFile = Mono ? new System.Uri(GithubVersion.PlatformMonoDownloadURL).AbsolutePath.GetFile() : new System.Uri(GithubVersion.PlatformDownloadURL).AbsolutePath.GetFile();
-        gv.Id = System.Guid.NewGuid().ToString();
+        string gdFile = Mono ? new Uri(GithubVersion.PlatformMonoDownloadURL).AbsolutePath.GetFile() : new Uri(GithubVersion.PlatformDownloadURL).AbsolutePath.GetFile();
+        gv.Id = Guid.NewGuid().ToString();
         gv.Tag = GithubVersion.Name;
         gv.Url = Mono ? GithubVersion.PlatformMonoDownloadURL : GithubVersion.PlatformDownloadURL;
 #if GODOT_MACOS || GODOT_OSX
@@ -318,7 +323,7 @@ public class GodotLineEntry : HBoxContainer
         gv.Location = $"user://versions/{(Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name)}";
 #endif
         gv.CacheLocation = $"user://cache/Godot/{gdFile}";
-        gv.DownloadedDate = System.DateTime.UtcNow;
+        gv.DownloadedDate = DateTime.UtcNow;
         gv.GithubVersion = GithubVersion;
         gv.IsMono = Mono;
 
@@ -341,7 +346,7 @@ public class GodotLineEntry : HBoxContainer
 #elif GODOT_LINUXBSD || GODOT_X11
 
         foreach(string fname in fileList) {
-            if (System.Environment.Is64BitProcess) {
+            if (Environment.Is64BitProcess) {
                 if (fname.EndsWith(".64") && fname.StartsWith("Godot")) {
                     gv.ExecutableName = fname;
                     break;
@@ -383,7 +388,7 @@ public class GodotLineEntry : HBoxContainer
         _progressBar.Value = 0;
         _downloadSpeedTimer.Start();
         _fileSize.Text = $"{Util.FormatSize(0)}/{Util.FormatSize(Downloader.totalSize)}";
-        dtStartTime = System.DateTime.Now;
+        dtStartTime = DateTime.Now;
 
         Task<bool> bres = Downloader.DownloadFile(outFile);
         while (!bres.IsCompleted)

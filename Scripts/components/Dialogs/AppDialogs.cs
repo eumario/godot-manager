@@ -23,6 +23,7 @@ public class AppDialogs : Control
     public AssetLibPreview AssetLibPreview_ = null;
     public DownloadAddon DownloadAddon_ = null;
     public AddonInstaller AddonInstaller_ = null;
+    public AddonMirror AddonMirror_ = null;
 #endregion
 
 #region Singleton Variables to access in program
@@ -45,6 +46,7 @@ public class AppDialogs : Control
     public static AssetLibPreview AssetLibPreview { get => Instance.AssetLibPreview_; }
     public static DownloadAddon DownloadAddon { get => Instance.DownloadAddon_; }
     public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
+    public static AddonMirror AddonMirror { get => Instance.AddonMirror_; }
 #endregion
 
     private static AppDialogs _instance = null;
@@ -78,6 +80,7 @@ public class AppDialogs : Control
         AssetLibPreview_ = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
         DownloadAddon_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadAddon.tscn").Instance<DownloadAddon>();
         AddonInstaller_ = GD.Load<PackedScene>("res://components/Dialogs/AddonInstaller.tscn").Instance<AddonInstaller>();
+        AddonMirror_ = GD.Load<PackedScene>("res://components/Dialogs/AddonMirror.tscn").Instance<AddonMirror>();
 
         ImageFileDialog_ = new FileDialog();
         ImageFileDialog_.Name = "ImageFileDialog";
@@ -123,6 +126,7 @@ public class AppDialogs : Control
             CreateProject_, ImportProject_,     // Create Project / Import Project
             EditProject_,                       // Edit Project
             AssetLibPreview_, DownloadAddon_,   // Asset Library Preview / Download Addon/Project
+            AddonMirror_,                       // Adding Addon Mirror to list
             CreateCategory_,                    // Create a Category
             RemoveCategory_,                    // Remove a Category
             AddonInstaller_,                    // Installer Dialog for Addon/Plugins

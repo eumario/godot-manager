@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://components/ToggleButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://components/PageButton.tscn" type="PackedScene" id=2]
@@ -15,7 +15,6 @@
 [ext_resource path="res://components/Panels/SettingsPanel.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Scenes/MainWindow.cs" type="Script" id=16]
 [ext_resource path="res://Resources/Fonts/droid-bold-22.tres" type="DynamicFont" id=18]
-[ext_resource path="res://Resources/DefaultTheme.tres" type="Theme" id=23]
 
 [sub_resource type="Animation" id=3]
 resource_name = "sidebar_anim"
@@ -36,7 +35,6 @@ tracks/0/keys = {
 [node name="MainWindow" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 23 )
 script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -143,12 +141,12 @@ margin_left = 846.0
 margin_right = 896.0
 Icon = ExtResource( 7 )
 ButtonType = 2
-WindowMain = NodePath("")
+WindowMain = NodePath("../../../../..")
 
 [node name="close" parent="bg/Shell/VC/TitleBar" instance=ExtResource( 4 )]
 margin_left = 900.0
 margin_right = 950.0
-WindowMain = NodePath("")
+WindowMain = NodePath("../../../../..")
 
 [node name="TabContainer" type="TabContainer" parent="bg/Shell/VC"]
 margin_top = 54.0

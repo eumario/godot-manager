@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
+using Guid = System.Guid;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class GodotVersion : Object {
@@ -19,7 +21,7 @@ public class GodotVersion : Object {
 	[JsonProperty]
 	public string Url;	// URL downloaded from (Will match Location for Custom)
 	[JsonProperty]
-	public System.DateTime DownloadedDate; // Date Downloaded (Added for Godot)
+	public DateTime DownloadedDate; // Date Downloaded (Added for Godot)
 	[JsonProperty]
 	public bool HideConsole;	// If we should hide the console for Godot Editor.
 	[JsonProperty]
@@ -28,11 +30,11 @@ public class GodotVersion : Object {
 	public TuxfamilyVersion TuxfamilyVersion;
 
 	public GodotVersion() {
-		Id = System.Guid.Empty.ToString();
+		Id = Guid.Empty.ToString();
 		Tag = "";
 		Location = "";
 		Url = "";
-		DownloadedDate = System.DateTime.MinValue;
+		DownloadedDate = DateTime.MinValue;
 		HideConsole = false;
 	}
 

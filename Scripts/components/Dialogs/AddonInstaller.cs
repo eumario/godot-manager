@@ -1,6 +1,6 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using Newtonsoft.Json;
 using System.IO.Compression;
 
@@ -87,8 +87,6 @@ public class AddonInstaller : ReferenceRect
         this.OnReady();
         InitRegistry();
         _statusMap = new Dictionary<string, TreeItem>();
-        _addonTree.Connect("item_edited", this, "OnItemEdited");
-        _okButton.Connect("pressed", this, "OnPressed_OkButton");
     }
 
     public void ShowDialog(AssetPlugin asset) {
@@ -133,6 +131,7 @@ public class AddonInstaller : ReferenceRect
         }
     }
 
+    [SignalHandler("pressed", nameof(_okButton))]
     void OnPressed_OkButton() {
         Array<string> installFiles = new Array<string>();
 
@@ -147,6 +146,7 @@ public class AddonInstaller : ReferenceRect
         Visible = false;
     }
 
+    [SignalHandler("item_edited", nameof(_addonTree))]
     void OnItemEdited() {
         // Code "Copied" from Godot editor_asset_installer.cpp
         if (_updating)

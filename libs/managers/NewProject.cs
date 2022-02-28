@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System.IO.Compression;
+using Directory = System.IO.Directory;
 
 public class NewProject : Object {
 	public string ProjectName;
@@ -44,7 +45,7 @@ public class NewProject : Object {
 				string path = zae.FullName.Substr(pp, zae.FullName.Length);
 				if (zae.FullName.EndsWith("/")) {
 					// Is folder, we need to ensure to make the folder in the Project Location.
-					System.IO.Directory.CreateDirectory(ProjectLocation.PlusFile(path));
+					Directory.CreateDirectory(ProjectLocation.PlusFile(path));
 				} else {
 					zae.ExtractToFile(ProjectLocation.PlusFile(path));
 				}
@@ -64,7 +65,7 @@ public class NewProject : Object {
 						// File we need to install
 						if (zae.FullName.EndsWith("/")) {
 							// Is folder, we need to ensure to make the folder in the Project Location.
-							System.IO.Directory.CreateDirectory(ProjectLocation.PlusFile(path));
+							Directory.CreateDirectory(ProjectLocation.PlusFile(path));
 						} else {
 							zae.ExtractToFile(ProjectLocation.PlusFile(path));
 						}

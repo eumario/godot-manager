@@ -1,9 +1,10 @@
 using Godot;
 using Godot.Collections;
+using Path = System.IO.Path;
 
 public static class Util {
 	public static string GetResourceBase(this string path, string file) {
-		return System.IO.Path.Combine(path.GetBaseDir(), file.Replace("res://", "")).Replace(@"\","/");
+		return Path.Combine(path.GetBaseDir(), file.Replace("res://", "")).Replace(@"\","/");
 	}
 
 	public static string GetProjectRoot(this string path, string target) {
@@ -15,7 +16,7 @@ public static class Util {
 	}
 
 	public static string GetExtension(this string path) {
-		return System.IO.Path.GetExtension(path);
+		return Path.GetExtension(path);
 	}
 
 	public static ImageTexture LoadImage(this string path, int width = 64, int height = 64, Image.Interpolation interpolate = Image.Interpolation.Cubic) {
@@ -42,9 +43,9 @@ public static class Util {
 
 	public static string NormalizePath(this string path) {
 		if (path.StartsWith("res://") || path.StartsWith("user://"))
-			return System.IO.Path.GetFullPath(ProjectSettings.GlobalizePath(path)); //path.Replace(@"\", "/");
+			return Path.GetFullPath(ProjectSettings.GlobalizePath(path)); //path.Replace(@"\", "/");
 		else
-			return System.IO.Path.GetFullPath(path); //path.Replace("/",@"\");
+			return Path.GetFullPath(path); //path.Replace("/",@"\");
 	}
 
 	public static string Join(this string path, params string[] addTo) {

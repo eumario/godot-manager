@@ -1,6 +1,6 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 public class ProjectLineEntry : ColorRect
@@ -156,15 +156,15 @@ public class ProjectLineEntry : ColorRect
         Location = sLocation;
         GodotVersion = sGodotVersion;
         HeartIcon.SetCheck(ProjectFile.Favorite);
-        this.Connect("gui_input", this, "OnGuiInput");
-        HeartIcon.Connect("clicked", this, "OnHeartClicked");
     }
 
+    [SignalHandler("clicked", nameof(HeartIcon))]
     void OnHeartClicked() {
         ProjectFile.Favorite = HeartIcon.IsChecked();
         CentralStore.Instance.SaveDatabase();
     }
 
+    [SignalHandler("gui_input")]
     void OnGuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;

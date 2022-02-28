@@ -1,7 +1,7 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using Godot.Collections;
-using System.IO;
+using Directory = System.IO.Directory;
 
 public class MainWindow : Control
 {
@@ -49,16 +49,16 @@ public class MainWindow : Control
 	}
 
 	void EnsureDirStructure() {
-		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache")))
-			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache"));
-		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache/Godot")))
-			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/Godot"));
-		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache/AssetLib")))
-			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
-		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images")))
-			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images"));
-		if (!System.IO.Directory.Exists(ProjectSettings.GlobalizePath("user://versions")))
-			System.IO.Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
+		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache")))
+			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache"));
+		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/Godot")))
+			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/Godot"));
+		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/AssetLib")))
+			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
+		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images")))
+			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images"));
+		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://versions")))
+			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
 	}
 	
 	void OnPageButton_Clicked(PageButton pb) {

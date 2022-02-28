@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 
 public class AssetLibPanel : Panel
 {
@@ -53,36 +53,28 @@ public class AssetLibPanel : Panel
     {
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
-        _addonsBtn.Connect("pressed", this, "OnAddonsPressed");
-        _templatesBtn.Connect("pressed", this, "OnTemplatesPressed");
-        _plAddons.Connect("page_changed", this, "OnPLAPageChanged");
-        _plTemplates.Connect("page_changed", this, "OnPLTPageChanged");
-        _category.Connect("item_selected", this, "OnCategorySelected");
-        _sortBy.Connect("item_selected", this, "OnSortBySelected");
-        _searchField.Connect("text_changed", this, "OnSearchField_TextChanged");
-        _searchField.Connect("text_entered", this, "OnSearchField_TextEntered");
-        _executeDelay.Connect("timeout", this, "OnExecuteDelay_Timeout");
-        _import.Connect("pressed", this, "OnImportPressed");
-        _support.Connect("pressed", this, "OnSupportPressed");
-        _supportPopup.Connect("id_pressed", this, "OnSupportPopup_IdPressed");
         _mirrorSite.Clear();
         _mirrorSite.AddItem("godotengine.org");
         _mirrorSite.AddItem("localhost");
     }
 
+    [SignalHandler("pressed", nameof(_import))]
     void OnImportPressed() {
         // TODO: Implement Importing Addons/Plugins/Projects that are either just folders that need to be zipped up, or a zip file that isn't on a website, but stored locally.
     }
 
+    [SignalHandler("id_pressed", nameof(_supportPopup))]
     async void OnSupportPopup_IdPressed(int id) {
         _supportPopup.SetItemChecked(id, !_supportPopup.IsItemChecked(id));
         await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons: _plTemplates);
     }
 
+    [SignalHandler("pressed", nameof(_support))]
     void OnSupportPressed() {
         _supportPopup.Popup_(new Rect2(_support.RectGlobalPosition + new Vector2(0,_support.RectSize.y), _supportPopup.RectSize));
     }
 
+    [SignalHandler("timeout", nameof(_executeDelay))]
     async void OnExecuteDelay_Timeout() {
         if (lastSearch == _searchField.Text)
             return;
@@ -90,39 +82,46 @@ public class AssetLibPanel : Panel
         lastSearch = _searchField.Text;
     }
 
+    [SignalHandler("text_changed", nameof(_searchField))]
     void OnSearchField_TextChanged(string text) {
         _executeDelay.Start();
         //GD.Print($"New Text: {text}");
     }
 
+    [SignalHandler("text_entered", nameof(_searchField))]
     async void OnSearchField_TextEntered(string text) {
         if (!_executeDelay.IsStopped())
             _executeDelay.Stop();
         await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
     }
 
+    [SignalHandler("item_selected", nameof(_category))]
     async void OnCategorySelected(int index) {
         _plaCurrentPage = 0;
         _pltCurrentPage = 0;
         await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
     }
 
+    [SignalHandler("item_selected", nameof(_sortBy))]
     async void OnSortBySelected(int index) {
         _plaCurrentPage = 0;
         _pltCurrentPage = 0;
         await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
     }
 
+    [SignalHandler("page_changed", nameof(_plAddons))]
     async void OnPLAPageChanged(int page) {
         _plaCurrentPage = page;
         await UpdatePaginatedListing(_plAddons);
     }
 
+    [SignalHandler("page_changed", nameof(_plTemplates))]
     async void OnPLTPageChanged(int page) {
         _pltCurrentPage = page;
         await UpdatePaginatedListing(_plTemplates);
     }
 
+    [SignalHandler("pressed", nameof(_addonsBtn))]
     async void OnAddonsPressed() {
         _templatesBtn.Pressed = false;
         _plTemplates.Visible = false;
@@ -131,6 +130,7 @@ public class AssetLibPanel : Panel
         await UpdatePaginatedListing(_plAddons);
     }
 
+    [SignalHandler("pressed", nameof(_templatesBtn))]
     async void OnTemplatesPressed() {
         _addonsBtn.Pressed = false;
         _plTemplates.Visible = true;

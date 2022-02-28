@@ -58,7 +58,7 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="VB/MC/HC"]
 margin_left = 218.0
-margin_right = 413.0
+margin_right = 417.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 __meta__ = {
@@ -66,15 +66,15 @@ __meta__ = {
 }
 
 [node name="ActionButtons" parent="VB/MC/HC" instance=ExtResource( 8 )]
-margin_left = 421.0
-margin_right = 485.0
+margin_left = 425.0
+margin_right = 489.0
 margin_bottom = 40.0
 Icons = [ ExtResource( 5 ), ExtResource( 6 ) ]
 HelpText = [ "Add Custom Godot", "Scan For Godot (Not Available)" ]
 
 [node name="Spacer2" type="Control" parent="VB/MC/HC"]
-margin_left = 493.0
-margin_right = 689.0
+margin_left = 497.0
+margin_right = 697.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 __meta__ = {
@@ -82,7 +82,7 @@ __meta__ = {
 }
 
 [node name="UseMono" type="CheckBox" parent="VB/MC/HC"]
-margin_left = 697.0
+margin_left = 705.0
 margin_right = 776.0
 margin_bottom = 40.0
 text = "View C#"

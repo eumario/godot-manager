@@ -1,6 +1,6 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,17 +52,15 @@ public class ProjectsPanel : Panel
     {
         this.OnReady();
 
-        _popupMenu = GD.Load<PackedScene>("res://components/ProjectPopup.tscn").Instance<ProjectPopup>();
-        AddChild(_popupMenu);
-        _popupMenu.SetAsToplevel(true);
-
         _views = new Array<Container>();
         _views.Add(_listView);
         _views.Add(_gridView);
         _views.Add(_categoryView);
 
-        _viewSelector.Connect("Clicked", this, "OnViewSelector_Clicked");
-        _actionButtons.Connect("clicked", this, "OnActionButtons_Clicked");
+        _popupMenu = GD.Load<PackedScene>("res://components/ProjectPopup.tscn").Instance<ProjectPopup>();
+        AddChild(_popupMenu);
+        _popupMenu.SetAsToplevel(true);
+
         AppDialogs.ImportProject.Connect("update_projects", this, "PopulateListing");
         AppDialogs.CreateCategory.Connect("update_categories", this, "PopulateListing");
         AppDialogs.RemoveCategory.Connect("update_categories", this, "PopulateListing");
@@ -241,6 +239,7 @@ public class ProjectsPanel : Panel
 
     }
 
+
     public async void _IdPressed(int id) {
         if (_popupMenu.ProjectLineEntry != null) {
             ProjectLineEntry ple = _popupMenu.ProjectLineEntry;
@@ -371,6 +370,7 @@ public class ProjectsPanel : Panel
 		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location, "-e" }, false);
 	}
 
+    [SignalHandler("clicked", nameof(_actionButtons))]
 	async void OnActionButtons_Clicked(int index) {
         switch (index) {
             case 0: // New Project File
@@ -459,6 +459,7 @@ public class ProjectsPanel : Panel
         dir.Remove(path.GetFile());
     }
 
+    [SignalHandler("Clicked", nameof(_viewSelector))]
     void OnViewSelector_Clicked(int page) {
         for (int i = 0; i < _views.Count; i++) {
             if (i == page)

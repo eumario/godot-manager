@@ -1,6 +1,6 @@
 using Godot;
 using Godot.Collections;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 
 
 public class CreateCategory : ReferenceRect
@@ -26,10 +26,9 @@ public class CreateCategory : ReferenceRect
     public override void _Ready()
     {
         this.OnReady();
-        _createBtn.Connect("pressed", this, "OnPressedCreateBtn");
-        _cancelBtn.Connect("pressed", this, "OnPressedCancelBtn");
     }
 
+    [SignalHandler("pressed", nameof(_createBtn))]
     void OnPressedCreateBtn() {
         if (_categoryName.Text == "") {
             AppDialogs.MessageDialog.ShowMessage("Create Category Error", "Category name cannot be blank.");
@@ -52,6 +51,7 @@ public class CreateCategory : ReferenceRect
         Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(_cancelBtn))]
     void OnPressedCancelBtn() {
         Visible = false;
     }

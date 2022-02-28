@@ -1,5 +1,5 @@
 using Godot;
-using GodotSharpExtras;
+using Godot.Sharp.Extras;
 using System;
 
 [Tool]
@@ -69,14 +69,12 @@ public class PageButton : ColorRect
     {
         this.OnReady();
 
-        Connect("gui_input", this, "OnPageButton_GuiInput");
-		Connect("mouse_entered", this, "OnPageButton_MouseEntered");
-		Connect("mouse_exited", this, "OnPageButton_MouseExited");
         Label = sLabel;
         Icon = sIcon;
         UpdateElements();
     }
 
+    [SignalHandler("gui_input")]
     void OnPageButton_GuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
@@ -89,10 +87,12 @@ public class PageButton : ColorRect
         EmitSignal("Clicked",this);
     }
 
+    [SignalHandler("mouse_entered")]
     void OnPageButton_MouseEntered() {
         Color = new Color("4b5163");
     }
 
+    [SignalHandler("mouse_exited")]
     void OnPageButton_MouseExited() {
         Color = new Color("383d4a");
     }

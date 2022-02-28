@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
+using DateTimeOffset = System.DateTimeOffset;
 
 namespace Github {
 	public class Github : Node {
@@ -41,7 +42,7 @@ namespace Github {
 		private void UpdateLimit(HTTPResponse response) {
 			Limit.Limit = (response.Headers["X-RateLimit-Limit"] as string).ToInt();
 			Limit.Remaining = (response.Headers["X-RateLimit-Remaining"] as string).ToInt();
-			Limit.Reset = System.DateTimeOffset.FromUnixTimeSeconds((response.Headers["X-RateLimit-Reset"] as string).ToInt()).DateTime;
+			Limit.Reset = DateTimeOffset.FromUnixTimeSeconds((response.Headers["X-RateLimit-Reset"] as string).ToInt()).DateTime;
 			Limit.Used = (response.Headers["X-RateLimit-Used"] as string).ToInt();
 		}
 

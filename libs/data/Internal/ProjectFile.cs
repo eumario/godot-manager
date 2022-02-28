@@ -1,5 +1,6 @@
 using Godot;
 using Newtonsoft.Json;
+using DateTime = System.DateTime;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ProjectFile : Godot.Object {
@@ -18,7 +19,7 @@ public class ProjectFile : Godot.Object {
 	[JsonProperty]
 	public bool Favorite;
 	[JsonProperty]
-	public System.DateTime LastAccessed;
+	public DateTime LastAccessed;
 
 	public static ProjectFile ReadFromFile(string filePath) {
 		ProjectFile projectFile = null;
@@ -61,7 +62,7 @@ public class ProjectFile : Godot.Object {
 		GodotVersion = "";
 		CategoryId = -1;
 		Favorite = false;
-		LastAccessed = System.DateTime.UtcNow;
+		LastAccessed = DateTime.UtcNow;
 	}
 
 	public void UpdateData() {

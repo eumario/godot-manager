@@ -1,6 +1,5 @@
 using Godot;
-using GodotSharpExtras;
-using System;
+using Godot.Sharp.Extras;
 
 [Tool]
 public class SysButton : ColorRect
@@ -35,16 +34,14 @@ public class SysButton : ColorRect
 
     public override void _Ready()
     {
-        if (!WindowMain.IsEmpty())
-            this.OnReady();
+        this.OnReady();
 
         BaseColor = Color;
         GetNode<TextureRect>("cc/icon").Texture = Icon;
-        Connect("gui_input", this, "OnSysButton_GuiInput");
-        Connect("mouse_entered", this, "OnSysButton_MouseEntered");
-        Connect("mouse_exited", this, "OnSysButton_MouseExited");
+        this.OnReady();
     }
 
+    [SignalHandler("gui_input")]
     void OnSysButton_GuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
@@ -53,10 +50,9 @@ public class SysButton : ColorRect
         if (!iemb.Pressed && (ButtonList)iemb.ButtonIndex != ButtonList.Left)
             return;
         
-
         switch(ButtonType) {
             case TYPES.close:
-                if (WindowMain.IsEmpty()) {
+                if (WindowHandle is MainWindow) {
                     GetTree().Quit();
                 } else {
                     WindowHandle.Visible = false;
@@ -71,6 +67,7 @@ public class SysButton : ColorRect
         }
     }
 
+    [SignalHandler("mouse_entered")]
     void OnSysButton_MouseEntered() {
         if (ButtonType == TYPES.close) {
             Color = new Godot.Color("e11f1f");
@@ -79,6 +76,7 @@ public class SysButton : ColorRect
         }
     }
 
+    [SignalHandler("mouse_exited")]
     void OnSysButton_MouseExited() {
         Color = BaseColor;
     }

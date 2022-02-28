@@ -1,7 +1,7 @@
 using Godot;
-using GodotSharpExtras;
-using Godot.Collections;
-using System.Threading.Tasks;
+using Godot.Sharp.Extras;
+using Uri = System.Uri;
+using File = System.IO.File;
 
 public class PaginatedListing : ScrollContainer
 {
@@ -32,13 +32,10 @@ public class PaginatedListing : ScrollContainer
 
     public override void _Ready()
     {
-        this.OnReady();
-        _topPageCount.Connect("page_changed", this, "OnPageChanged");
-        _bottomPageCount.Connect("page_changed", this, "OnPageChanged");
         dlq = new DownloadQueue();
         dlq.Name = "DownloadQueue";
-        dlq.Connect("download_completed", this, "OnImageDownloaded");
         AddChild(dlq);
+        this.OnReady();
     }
 
     public void UpdateResults(AssetLib.QueryResult result) {
@@ -65,10 +62,10 @@ public class PaginatedListing : ScrollContainer
             ale.License = asset.Cost;
             ale.AssetId = asset.AssetId;
             _listing.AddChild(ale);
-            System.Uri uri = new System.Uri(asset.IconUrl);
+            Uri uri = new Uri(asset.IconUrl);
             string iconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
             ale.SetMeta("iconPath", iconPath);
-            if (!System.IO.File.Exists(iconPath.GetOSDir().NormalizePath())) {
+            if (!File.Exists(iconPath.GetOSDir().NormalizePath())) {
                 // Implement Image Downloader through Download Queue
                 ImageDownloader dld = new ImageDownloader(asset.IconUrl, iconPath);
                 dlq.Push(dld);
@@ -84,13 +81,14 @@ public class PaginatedListing : ScrollContainer
         dlq.StartDownload();
     }
 
+    [SignalHandler("download_completed", nameof(dlq))]
     void OnImageDownloaded(ImageDownloader dld) {
         foreach(AssetLibEntry ale in _listing.GetChildren()) {
             if (ale.HasMeta("dld")) {
                 if ((ale.GetMeta("dld") as ImageDownloader) == dld) {
                     ale.RemoveMeta("dld");
                     string iconPath = ale.GetMeta("iconPath") as string;
-                    if (System.IO.File.Exists(iconPath.GetOSDir().NormalizePath())) {
+                    if (File.Exists(iconPath.GetOSDir().NormalizePath())) {
                         Texture icon = Util.LoadImage(iconPath);
                         if (icon == null)
                             icon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
@@ -104,6 +102,8 @@ public class PaginatedListing : ScrollContainer
         }
     }
 
+    [SignalHandler("page_changed", nameof(_topPageCount))]
+    [SignalHandler("page_changed", nameof(_bottomPageCount))]
     void OnPageChanged(int page) {
         if (alqrLastResult != null && page != alqrLastResult.Page) {
             EmitSignal("page_changed", page);
