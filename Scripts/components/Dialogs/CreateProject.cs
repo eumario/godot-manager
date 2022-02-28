@@ -53,7 +53,6 @@ public class CreateProject : ReferenceRect
 #endregion
 
 #region Variables
-    public string ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects");
 #endregion
 
 #region Helper Functions
@@ -81,7 +80,6 @@ public class CreateProject : ReferenceRect
     {
         this.OnReady();
         ShowError();
-        ProjectPath = CentralStore.Settings.ProjectPath;
     }
 
     [SignalHandler("pressed", nameof(_createBtn))]
@@ -141,7 +139,7 @@ public class CreateProject : ReferenceRect
     public void ShowDialog() {
         int defaultGodot = -1;
         _projectName.Text = "Untitled Project";
-        _projectLocation.Text = ProjectPath;
+        _projectLocation.Text = CentralStore.Settings.ProjectPath;
 
         _godotVersion.Clear();
         foreach(GodotVersion version in CentralStore.Versions) {
