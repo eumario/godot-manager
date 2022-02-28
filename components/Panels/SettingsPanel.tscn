@@ -192,7 +192,6 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -417,6 +416,7 @@ hint_tooltip = "This is currently unavailable, feature will be implemented in ve
 hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
 [node name="Projects" type="MarginContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5

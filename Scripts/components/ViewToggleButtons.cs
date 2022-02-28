@@ -17,6 +17,8 @@ public class ViewToggleButtons : PanelContainer
 
     int toggleIndx = 0;
 
+    public int SelectedView { get => toggleIndx; }
+
     public override void _Ready()
     {
         _icons = new Array<ColorRect>();
@@ -67,6 +69,19 @@ public class ViewToggleButtons : PanelContainer
         }
     }
 
+    public void SetView(int index) {
+        if (_icons.Count == 0) {
+            CallDeferred("SetView", index);
+            return;
+        }
+        
+        if (index > 0 && index <= _icons.Count) {
+            _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("FFFFFF");
+            toggleIndx = index;
+            _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("7defa7");
+        }
+    }
+
     public void Icon_MouseEntered(ColorRect rect) {
         rect.SelfModulate = new Color("B9FFFFFF");
     }
@@ -83,9 +98,10 @@ public class ViewToggleButtons : PanelContainer
         if (!iemb.Pressed && (ButtonList)iemb.ButtonIndex != ButtonList.Left)
             return;
         
-        _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("FFFFFF");
-        toggleIndx = index;
-        bg.GetChild<TextureRect>(0).SelfModulate = new Color("7defa7");
+        // _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("FFFFFF");
+        // toggleIndx = index;
+        // bg.GetChild<TextureRect>(0).SelfModulate = new Color("7defa7");
+        SetView(index);
         EmitSignal("Clicked", index);
     }
 }

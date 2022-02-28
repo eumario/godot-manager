@@ -44,6 +44,12 @@ public class ProjectsPanel : Panel
     Dictionary<int, CategoryList> _categoryList;
     ProjectPopup _popupMenu = null;
     Array<ProjectFile> _missingProjects = null;
+
+    Array<string> Views = new Array<string> {
+        "List View",
+        "Icon View",
+        "Category View"
+    };
 #endregion
 
     Array<Container> _views;
@@ -70,6 +76,18 @@ public class ProjectsPanel : Panel
         _actionButtons.SetHidden(4);
         _categoryList = new Dictionary<int, CategoryList>();
         _missingProjects = new Array<ProjectFile>();
+
+        if (_viewSelector.SelectedView != -1) {
+            if (CentralStore.Settings.DefaultView == "Last View Used") {
+                int indx = Views.IndexOf(CentralStore.Settings.LastView);
+                _viewSelector.SetView(indx);
+                OnViewSelector_Clicked(indx);
+            } else {
+                int indx = Views.IndexOf(CentralStore.Settings.DefaultView);
+                _viewSelector.SetView(indx);
+                OnViewSelector_Clicked(indx);
+            }
+        }
 
         PopulateListing();
     }
@@ -475,6 +493,7 @@ public class ProjectsPanel : Panel
             _actionButtons.SetHidden(4);
         }
         _currentView = (View)page;
+        CentralStore.Settings.LastView = Views[page];
     }
 
     public Array<ProjectFile> TestSortListing() {

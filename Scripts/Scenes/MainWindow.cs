@@ -64,4 +64,9 @@ public class MainWindow : Control
 	void OnPageButton_Clicked(PageButton pb) {
 		_notebook.CurrentTab = _buttons.IndexOf(pb);
 	}
+
+	[SignalHandler("tree_exiting")]
+	void OnExitingTree() {
+		CentralStore.Instance.SaveDatabase();
+	}
 }
