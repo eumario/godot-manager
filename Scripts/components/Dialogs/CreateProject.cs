@@ -5,6 +5,11 @@ using Directory = System.IO.Directory;
 
 public class CreateProject : ReferenceRect
 {
+
+#region Signals
+    [Signal]
+    public delegate void project_created(ProjectFile projFile);
+#endregion
 #region Node Paths
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/ProjectName")]
     LineEdit _projectName = null;
@@ -104,7 +109,7 @@ public class CreateProject : ReferenceRect
         pf.GodotVersion = prj.GodotVersion;
         CentralStore.Projects.Add(pf);
         CentralStore.Instance.SaveDatabase();
-        GetNode<ProjectsPanel>("/root/MainWindow/bg/Shell/VC/TabContainer/Projects").PopulateListing();
+        EmitSignal("project_created", pf);
         Visible = false;
     }
 

@@ -85,7 +85,6 @@ public class PaginationNav : CenterContainer
             iCurrentPage = iTotalPages - 1;
         else
             iCurrentPage += page;
-        GD.Print(iCurrentPage);
         (_pageCount.GetChild(iCurrentPage) as Button).Disabled = true;
         CheckPage();
         EmitSignal("page_changed", iCurrentPage);

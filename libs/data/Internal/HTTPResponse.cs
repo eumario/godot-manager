@@ -33,7 +33,6 @@ public class HTTPResponse : Object {
 		while (client.GetStatus() == HTTPClient.Status.Body)
 		{
 			if (Cancelled) {
-				GD.Print("Cancelled is true, breaking out!");
 				return;
 			}
 			client.Poll();

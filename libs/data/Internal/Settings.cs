@@ -50,13 +50,13 @@ public class Settings : Object {
 		DefaultEngine = Guid.Empty.ToString();															// Done
 		EnginePath = "user://versions";																	// Done
 		CachePath = "user://cache";																		// Done
-		LastView = "List View";																			// Not Implemented
-		DefaultView = "List View";																		// Not Implemented
+		LastView = "List View";																			// Done
+		DefaultView = "List View";																		// Done
 		CheckForUpdates = true;																			// Semi-Implemented
-		CloseManagerOnEdit = true;																		// Not Implemented
+		CloseManagerOnEdit = true;																		// Done
 		SelfContainedEditors = true;																	// Not Implemented
 		EnableAutoScan = false;																			// Not Implemented
-		NoConsole = true;																				// Not Implemented
+		NoConsole = true;																				// Done
 		LastCheck = DateTime.UtcNow.AddDays(-1);														// Not Implemented
 		CheckInterval = TimeSpan.FromDays(1);															// Not Implemented
 		ScanDirs = new Array<string>();																	// Not Implemented

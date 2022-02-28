@@ -85,7 +85,6 @@ public class AssetLibPanel : Panel
     [SignalHandler("text_changed", nameof(_searchField))]
     void OnSearchField_TextChanged(string text) {
         _executeDelay.Start();
-        //GD.Print($"New Text: {text}");
     }
 
     [SignalHandler("text_entered", nameof(_searchField))]

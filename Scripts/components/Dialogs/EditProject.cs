@@ -163,7 +163,6 @@ public class EditProject : ReferenceRect
             await ret;
             if (ret.Result) {
                 var dir = new Directory();
-                GD.Print($"src: {path}\ndest: {pfpath.PlusFile(path.GetFile())}");
                 dir.Copy(path, pfpath.PlusFile(path.GetFile()));
                 path = pfpath.PlusFile(path.GetFile());
                 IconPath = pfpath.GetProjectRoot(path);
@@ -174,7 +173,6 @@ public class EditProject : ReferenceRect
             }
         }
         _Icon.Texture = path.LoadImage();
-        GD.Print($"pfpath: {pfpath}\nIconPath: {IconPath}\npath: {path}");
         AppDialogs.ImageFileDialog.Visible = false;
         _isDirty = true;
         _SaveBtn.Disabled = false;

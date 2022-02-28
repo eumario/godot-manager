@@ -3,6 +3,7 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 public class ProjectsPanel : Panel
 {
@@ -71,6 +72,7 @@ public class ProjectsPanel : Panel
         AppDialogs.CreateCategory.Connect("update_categories", this, "PopulateListing");
         AppDialogs.RemoveCategory.Connect("update_categories", this, "PopulateListing");
         AppDialogs.EditProject.Connect("project_updated", this, "PopulateListing");
+        AppDialogs.CreateProject.Connect("project_created", this, "OnProjectCreated");
 
         _actionButtons.SetHidden(3);
         _actionButtons.SetHidden(4);
@@ -198,6 +200,11 @@ public class ProjectsPanel : Panel
             _actionButtons.SetVisible(6);
     }
 
+    public void OnProjectCreated(ProjectFile pf) {
+        PopulateListing();
+        ExecuteEditorProject(pf.GodotVersion, pf.Location);
+    }
+
     private void UpdateListExcept(ProjectLineEntry ple) {
         if (_listView.GetChildren().Contains(ple)) {
             foreach (ProjectLineEntry cple in _listView.GetChildren()) {
@@ -274,7 +281,6 @@ public class ProjectsPanel : Panel
 				case 3:         // Show Project Data Folder
 					string folder = GetProjectDataFolder(ple.ProjectFile);
                     OS.ShellOpen(folder);
-                    GD.Print($"folder: {folder}");
 					break;
 				case 4:         // Edit Project file
                     // Handle Editing Certain Settings for ProjectFile
@@ -298,7 +304,6 @@ public class ProjectsPanel : Panel
                     break;
                 case 3:         // Show Project Data Folder
                     string folder = GetProjectDataFolder(pie.ProjectFile);
-                    GD.Print($"folder: {folder}");
                     OS.ShellOpen(folder);
                     break;
                 case 4:         // Edit Project file
@@ -368,8 +373,15 @@ public class ProjectsPanel : Panel
 		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
         if (gv == null)
             return;
-        GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location}\"");
-        OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] {"--path", location}, false);
+        
+        ProcessStartInfo psi = new ProcessStartInfo();
+        psi.FileName = gv.GetExecutablePath().GetOSDir();
+        psi.Arguments = $"--path {location}";
+        psi.WorkingDirectory = location;
+        psi.UseShellExecute = !CentralStore.Settings.NoConsole;
+        psi.CreateNoWindow = CentralStore.Settings.NoConsole;
+
+        Process proc = Process.Start(psi);
 	}
 
 	private void UpdateIconsExcept(ProjectIconEntry pie) {
@@ -379,13 +391,23 @@ public class ProjectsPanel : Panel
         }
     }
 
-	private static void ExecuteEditorProject(string godotVersion, string location)
+	private void ExecuteEditorProject(string godotVersion, string location)
 	{
 		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
 		if (gv == null)
 			return;
-		GD.Print($"OS.Execute: {gv.GetExecutablePath()} --path \"{location}\" -e");
-		OS.Execute(gv.GetExecutablePath().GetOSDir(), new string[] { "--path", location, "-e" }, false);
+        
+        ProcessStartInfo psi = new ProcessStartInfo();
+        psi.FileName = gv.GetExecutablePath().GetOSDir();
+        psi.Arguments = $"--path {location} -e";
+        psi.WorkingDirectory = location;
+        psi.UseShellExecute = !CentralStore.Settings.NoConsole;
+        psi.CreateNoWindow = CentralStore.Settings.NoConsole;
+        
+        Process proc = Process.Start(psi);
+        if (CentralStore.Settings.CloseManagerOnEdit) {
+            GetTree().Quit(0);
+        }
 	}
 
     [SignalHandler("clicked", nameof(_actionButtons))]
@@ -424,7 +446,6 @@ public class ProjectsPanel : Panel
 				await RemoveProject(pf);
 				break;
             case 6:
-                GD.Print("Got Id 6");
                 var res = AppDialogs.YesNoDialog.ShowDialog("Remove Missing Projects...", "Are you usre you want to remove any missing projects?");
                 await res;
                 if (res.Result)
