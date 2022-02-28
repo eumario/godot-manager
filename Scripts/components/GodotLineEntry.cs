@@ -318,17 +318,17 @@ public class GodotLineEntry : HBoxContainer
         gv.Tag = GithubVersion.Name;
         gv.Url = Mono ? GithubVersion.PlatformMonoDownloadURL : GithubVersion.PlatformDownloadURL;
 #if GODOT_MACOS || GODOT_OSX
-        gv.Location = $"user://versions/{GithubVersion.Name + (Mono ? "_mono" : "") }";
+        gv.Location = $"{CentralStore.Settings.EnginePath}/{GithubVersion.Name + (Mono ? "_mono" : "") }";
 #else
-        gv.Location = $"user://versions/{(Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name)}";
+        gv.Location = $"{CentralStore.Settings.EnginePath}/{(Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name)}";
 #endif
-        gv.CacheLocation = $"user://cache/Godot/{gdFile}";
+        gv.CacheLocation = $"{CentralStore.Settings.CachePath}/Godot/{gdFile}".GetOSDir().NormalizePath();
         gv.DownloadedDate = DateTime.UtcNow;
         gv.GithubVersion = GithubVersion;
         gv.IsMono = Mono;
 
         Array<string> fileList = new Array<string>();
-        using (ZipArchive za = ZipFile.OpenRead(ProjectSettings.GlobalizePath(gv.CacheLocation))) {
+        using (ZipArchive za = ZipFile.OpenRead(gv.CacheLocation.GetOSDir().NormalizePath())) {
             foreach (ZipArchiveEntry zae in za.Entries) {
                 fileList.Add(zae.Name);
             }
@@ -375,12 +375,12 @@ public class GodotLineEntry : HBoxContainer
 
     public async Task StartDownload() {
         Downloader = Downloader.DownloadGithub(GithubVersion,Mono);
-        string outFile = $"user://cache/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
+        string outFile = $"{CentralStore.Settings.CachePath}/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
 
 #if GODOT_MACOS || GODOT_OSX
-        string instDir = $"user://versions/{GithubVersion.Name + (Mono ? "_mono" : "")}";
+        string instDir = $"{CentralStore.Settings.EnginePath}/{GithubVersion.Name + (Mono ? "_mono" : "")}";
 #else
-        string instDir = $"user://versions/{(Mono ? "" : GithubVersion.Name)}";
+        string instDir = $"{CentralStore.Settings.EnginePath}/{(Mono ? "" : GithubVersion.Name)}";
 #endif
         Downloader.Connect("chunk_received", this, "OnChunkReceived");
         _progressBar.MinValue = 0;

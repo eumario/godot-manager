@@ -231,7 +231,7 @@ public class DownloadAddon : ReferenceRect
 		}
 
 
-		string sPath = $"user://cache/AssetLib/{Asset.AssetId}-{dlUri.AbsolutePath.GetFile()}";
+		string sPath = $"{CentralStore.Settings.CachePath}/AssetLib/{Asset.AssetId}-{dlUri.AbsolutePath.GetFile()}";
 		if (!sPath.EndsWith(".zip"))
 			sPath += ".zip";
         

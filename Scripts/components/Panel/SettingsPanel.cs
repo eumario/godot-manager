@@ -201,6 +201,17 @@ public class SettingsPanel : Panel
 
     void UpdateSettings() {
         CentralStore.Settings.EnginePath = _godotInstallLocation.Text.GetOSDir().NormalizePath();
+        Error result;
+        if (CentralStore.Settings.CachePath != _cacheInstallLocation.Text.GetOSDir().NormalizePath()) {
+            Directory dir = new Directory();
+            dir.Open(_cacheInstallLocation.Text.GetOSDir().NormalizePath());
+            if (!dir.DirExists("AssetLib"))
+                result = dir.MakeDir("AssetLib");
+            if (!dir.DirExists("Godot"))
+                result = dir.MakeDir("Godot");
+            if (!dir.DirExists("images"))
+                result = dir.MakeDir("images");
+        }
         CentralStore.Settings.CachePath = _cacheInstallLocation.Text.GetOSDir().NormalizePath();
         CentralStore.Settings.DefaultView = _defaultProjectView.GetItemText(_defaultProjectView.Selected);
         CentralStore.Settings.DefaultEngine = (string)_defaultEngine.GetItemMetadata(_defaultEngine.Selected);
@@ -363,12 +374,11 @@ public class SettingsPanel : Panel
         string oldVal = CentralStore.Settings.CachePath;
         if (!bPInternal) {
             _undoActions.Push(() => {
-                CentralStore.Settings.CachePath = oldVal;
                 _cacheInstallLocation.Text = oldVal.GetOSDir().NormalizePath();
             });
             updateActionButtons();
         }
-        CentralStore.Settings.CachePath = _cacheInstallLocation.Text;
+        _cacheInstallLocation.Text = _cacheInstallLocation.Text.GetOSDir().NormalizePath();
     }
 
     [SignalHandler("pressed", nameof(_cacheBrowseButton))]

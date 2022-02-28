@@ -63,7 +63,7 @@ public class PaginatedListing : ScrollContainer
             ale.AssetId = asset.AssetId;
             _listing.AddChild(ale);
             Uri uri = new Uri(asset.IconUrl);
-            string iconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
+            string iconPath = $"{CentralStore.Settings.CachePath}/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
             ale.SetMeta("iconPath", iconPath);
             if (!File.Exists(iconPath.GetOSDir().NormalizePath())) {
                 // Implement Image Downloader through Download Queue
