@@ -32,6 +32,8 @@ public class Settings : Object {
 	[JsonProperty]
 	public bool SelfContainedEditors;
 	[JsonProperty]
+	public bool EnableAutoScan;
+	[JsonProperty]
 	public Array<string> ScanDirs;
 	[JsonProperty]
 	public Array<Dictionary<string, string>> AssetMirrors;
@@ -44,23 +46,24 @@ public class Settings : Object {
 	public Dictionary<string, string> CurrentEngineMirror;
 
 	public Settings() {
-		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath();
-		DefaultEngine = Guid.Empty.ToString();
-		EnginePath = "user://versions";
-		CachePath = "user://cache";
-		LastView = "List View";
-		DefaultView = "List View";
-		CheckForUpdates = true;
-		CloseManagerOnEdit = true;
-		SelfContainedEditors = true;
-		NoConsole = true;
-		LastCheck = DateTime.UtcNow.AddDays(-1);
-		CheckInterval = TimeSpan.FromDays(1);
-		ScanDirs = new Array<string>();
-		AssetMirrors = new Array<Dictionary<string, string>>();
-		EngineMirrors = new Array<Dictionary<string, string>>();
-		CurrentAssetMirror = new Dictionary<string, string>();
-		CurrentEngineMirror = new Dictionary<string, string>();
+		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath();			// Done
+		DefaultEngine = Guid.Empty.ToString();															// Done
+		EnginePath = "user://versions";																	// Done
+		CachePath = "user://cache";																		// Done
+		LastView = "List View";																			// Not Implemented
+		DefaultView = "List View";																		// Not Implemented
+		CheckForUpdates = true;																			// Semi-Implemented
+		CloseManagerOnEdit = true;																		// Not Implemented
+		SelfContainedEditors = true;																	// Not Implemented
+		EnableAutoScan = false;																			// Not Implemented
+		NoConsole = true;																				// Not Implemented
+		LastCheck = DateTime.UtcNow.AddDays(-1);														// Not Implemented
+		CheckInterval = TimeSpan.FromDays(1);															// Not Implemented
+		ScanDirs = new Array<string>();																	// Not Implemented
+		AssetMirrors = new Array<Dictionary<string, string>>();											// Semi-Implemented
+		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)
+		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented
+		CurrentEngineMirror = new Dictionary<string, string>();											// Not Implemented (Version 0.2 Target)
 	}
 
 	public void SetupDefaultValues() {

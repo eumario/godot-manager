@@ -79,6 +79,9 @@ public class SettingsPanel : Panel
     [NodePath("VB/MC/TC/Projects/GC/ExitManager")]
     CheckBox _exitGodotManager = null;
 
+    [NodePath("VB/MC/TC/Projects/GC/AutoScanProjects")]
+    CheckBox _autoScanProjects = null;
+
     [NodePath("VB/MC/TC/Projects/GC/DirectoryScan")]
     ItemListWithButtons _directoryScan = null;
     #endregion
@@ -625,6 +628,20 @@ public class SettingsPanel : Panel
             updateActionButtons();
         }
         CentralStore.Settings.CloseManagerOnEdit = toggle;
+    }
+
+    [SignalHandler("toggled", nameof(_autoScanProjects))]
+    void OnAutoScanProjects(bool toggle)
+    {
+        bool oldVal = CentralStore.Settings.EnableAutoScan;
+        if (!bPInternal) {
+            _undoActions.Push(() => {
+                CentralStore.Settings.EnableAutoScan = oldVal;
+                _autoScanProjects.Pressed = oldVal;
+            });
+            updateActionButtons();
+        }
+        CentralStore.Settings.EnableAutoScan = toggle;
     }
 
     #region Directory Scan List Actions

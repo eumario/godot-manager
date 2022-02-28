@@ -192,6 +192,7 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -416,7 +417,6 @@ hint_tooltip = "This is currently unavailable, feature will be implemented in ve
 hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
 [node name="Projects" type="MarginContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -480,8 +480,26 @@ margin_bottom = 51.0
 custom_fonts/font = ExtResource( 13 )
 text = "Exit Godot Manager"
 
-[node name="Label1" type="Label" parent="VB/MC/TC/Projects/GC"]
+[node name="Label7" type="Label" parent="VB/MC/TC/Projects/GC"]
 margin_top = 61.0
+margin_right = 194.0
+margin_bottom = 80.0
+hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
+mouse_filter = 1
+custom_fonts/font = ExtResource( 4 )
+text = "Enable Auto Scan:"
+align = 2
+
+[node name="AutoScanProjects" type="CheckBox" parent="VB/MC/TC/Projects/GC"]
+margin_left = 204.0
+margin_top = 61.0
+margin_right = 994.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 13 )
+text = "Scan each time Godot Manager is Launched"
+
+[node name="Label1" type="Label" parent="VB/MC/TC/Projects/GC"]
+margin_top = 90.0
 margin_right = 194.0
 margin_bottom = 625.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
@@ -495,7 +513,7 @@ align = 2
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 204.0
-margin_top = 61.0
+margin_top = 90.0
 margin_right = 994.0
 margin_bottom = 625.0
 
