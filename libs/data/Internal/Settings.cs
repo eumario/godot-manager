@@ -52,13 +52,13 @@ public class Settings : Object {
 		CachePath = "user://cache";																		// Done
 		LastView = "List View";																			// Done
 		DefaultView = "List View";																		// Done
-		CheckForUpdates = true;																			// Semi-Implemented
+		CheckForUpdates = true;																			// Done
 		CloseManagerOnEdit = true;																		// Done
-		SelfContainedEditors = true;																	// Not Implemented
+		SelfContainedEditors = true;																	// Done
 		EnableAutoScan = false;																			// Not Implemented
 		NoConsole = true;																				// Done
-		LastCheck = DateTime.UtcNow.AddDays(-1);														// Not Implemented
-		CheckInterval = TimeSpan.FromDays(1);															// Not Implemented
+		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
+		CheckInterval = TimeSpan.FromDays(1);															// Done
 		ScanDirs = new Array<string>();																	// Not Implemented
 		AssetMirrors = new Array<Dictionary<string, string>>();											// Semi-Implemented
 		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)

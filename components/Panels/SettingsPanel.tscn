@@ -192,6 +192,7 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -518,7 +519,6 @@ margin_right = 994.0
 margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -555,27 +555,27 @@ stretch_mode = 6
 
 [node name="VB" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/HBHeader"]
 margin_left = 68.0
-margin_right = 984.0
+margin_right = 860.0
 margin_bottom = 94.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
-margin_right = 916.0
+margin_right = 792.0
 margin_bottom = 27.0
 custom_fonts/font = ExtResource( 12 )
 text = "Godot Manager"
 
 [node name="VersionInfo" type="Label" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
 margin_top = 31.0
-margin_right = 916.0
+margin_right = 792.0
 margin_bottom = 50.0
 custom_fonts/font = ExtResource( 4 )
 text = "Version 0.1 Alpha"
 
 [node name="EmailWebsite" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
 margin_top = 54.0
-margin_right = 916.0
+margin_right = 792.0
 margin_bottom = 94.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
@@ -586,6 +586,19 @@ bbcode_text = "Created By: Mario Steele <[url=mailto:mario@ruby-im.net]mario@rub
 Website: [url=http://github.com/eumario/godot-manager]http://github.com/eumario/godot-manager[/url]"
 text = "Created By: Mario Steele <mario@ruby-im.net> 
 Website: http://github.com/eumario/godot-manager"
+
+[node name="VB2" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/HBHeader"]
+margin_left = 864.0
+margin_right = 984.0
+margin_bottom = 94.0
+size_flags_vertical = 3
+
+[node name="CheckUpdatesGM" type="Button" parent="VB/MC/TC/About/MC/VB/HBHeader/VB2"]
+margin_top = 72.0
+margin_right = 120.0
+margin_bottom = 94.0
+size_flags_vertical = 10
+text = "Check for Updates"
 
 [node name="HSeparator" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 98.0
@@ -606,39 +619,40 @@ __meta__ = {
 [node name="MC" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 137.0
 margin_right = 984.0
-margin_bottom = 257.0
-rect_min_size = Vector2( 0, 120 )
+margin_bottom = 277.0
+rect_min_size = Vector2( 0, 140 )
 size_flags_horizontal = 3
-custom_constants/margin_right = 180
+custom_constants/margin_right = 100
 custom_constants/margin_top = 10
-custom_constants/margin_left = 180
+custom_constants/margin_left = 100
 custom_constants/margin_bottom = 10
 
 [node name="BuiltWith" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC"]
-margin_left = 180.0
+margin_left = 100.0
 margin_top = 10.0
-margin_right = 804.0
-margin_bottom = 110.0
+margin_right = 884.0
+margin_bottom = 130.0
 custom_fonts/normal_font = ExtResource( 13 )
 bbcode_enabled = true
-bbcode_text = "[table=2][cell][color=aqua]Godot Engine (Mono Edition)[/color][/cell][cell][color=yellow]    [url=https://godotengine.org/]https://godotengine.org[/url][/color][/cell]
-[cell][color=aqua]GodotSharpExtras[/color][/cell][cell]    [color=yellow][url=https://github.com/eumario/GodotSharpExtras]https://github.com/eumario/GodotSharpExtras[/url][/color][/cell]
-[cell][color=aqua]NewtonSoft JSON[/color][/cell][cell][color=yellow]    [url=https://www.newtonsoft.com/json]https://www.newtonsoft.com/json[/url][/color][/cell]
-[cell][color=aqua]SixLabors ImageSharp[/color][/cell][cell][color=yellow]    [url=https://sixlabors.com/products/imagesharp/]https://sixlabors.com/products/imagesharp/[/url][/color][/cell][/table]
+bbcode_text = "[table=3][cell][color=green]Project Name[/color][/cell][cell][color=green]Version[/color]     [/cell][cell][color=green]Website[/color][/cell]
+[cell][color=aqua]Godot Engine (Mono Edition)      [/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://godotengine.org[/url][/color][/cell]
+[cell][color=aqua]GodotSharpExtras[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://github.com/eumario/GodotSharpExtras[/url][/color][/cell]
+[cell][color=aqua]NewtonSoft JSON[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://www.newtonsoft.com/json[/url][/color][/cell]
+[cell][color=aqua]SixLabors ImageSharp[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://sixlabors.com/products/imagesharp/[/url][/color][/cell][/table]
 "
-text = "Godot Engine (Mono Edition)    https://godotengine.orgGodotSharpExtras    https://github.com/eumario/GodotSharpExtrasNewtonSoft JSON    https://www.newtonsoft.com/jsonSixLabors ImageSharp    https://sixlabors.com/products/imagesharp/
+text = "Project NameVersion     WebsiteGodot Engine (Mono Edition)      v0.0.0https://godotengine.orgGodotSharpExtrasv0.0.0https://github.com/eumario/GodotSharpExtrasNewtonSoft JSONv0.0.0https://www.newtonsoft.com/jsonSixLabors ImageSharpv0.0.0https://sixlabors.com/products/imagesharp/
 "
 scroll_active = false
 
 [node name="HSeparator2" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 261.0
+margin_top = 281.0
 margin_right = 984.0
-margin_bottom = 265.0
+margin_bottom = 285.0
 
 [node name="Label2" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 269.0
+margin_top = 289.0
 margin_right = 984.0
-margin_bottom = 296.0
+margin_bottom = 316.0
 custom_fonts/font = ExtResource( 12 )
 text = "Special Thanks To"
 align = 1
@@ -647,9 +661,9 @@ __meta__ = {
 }
 
 [node name="MC2" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 300.0
+margin_top = 320.0
 margin_right = 984.0
-margin_bottom = 400.0
+margin_bottom = 420.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 80
 custom_constants/margin_top = 10
@@ -687,14 +701,14 @@ text = "Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    Marita
 scroll_active = false
 
 [node name="HSeparator3" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 404.0
+margin_top = 424.0
 margin_right = 984.0
-margin_bottom = 408.0
+margin_bottom = 428.0
 
 [node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 412.0
+margin_top = 432.0
 margin_right = 984.0
-margin_bottom = 439.0
+margin_bottom = 459.0
 custom_fonts/font = ExtResource( 12 )
 text = "Donations"
 align = 1
@@ -703,9 +717,9 @@ __meta__ = {
 }
 
 [node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 443.0
+margin_top = 463.0
 margin_right = 984.0
-margin_bottom = 503.0
+margin_bottom = 523.0
 size_flags_horizontal = 3
 
 [node name="HB" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer"]

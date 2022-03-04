@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/components/Panel/GodotPanel.cs" type="Script" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Assets/Icons/import.svg" type="Texture" id=5]
 [ext_resource path="res://Assets/Icons/scan.svg" type="Texture" id=6]
+[ext_resource path="res://Assets/Icons/check_for_updates.png" type="Texture" id=7]
 [ext_resource path="res://components/ActionButtons.tscn" type="PackedScene" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -58,7 +59,7 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="VB/MC/HC"]
 margin_left = 218.0
-margin_right = 417.0
+margin_right = 405.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 __meta__ = {
@@ -66,14 +67,14 @@ __meta__ = {
 }
 
 [node name="ActionButtons" parent="VB/MC/HC" instance=ExtResource( 8 )]
-margin_left = 425.0
-margin_right = 489.0
+margin_left = 413.0
+margin_right = 501.0
 margin_bottom = 40.0
-Icons = [ ExtResource( 5 ), ExtResource( 6 ) ]
-HelpText = [ "Add Custom Godot", "Scan For Godot (Not Available)" ]
+Icons = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
+HelpText = [ "Add Custom Godot", "Scan For Godot (Not Available)", "Check for Updates to Godot Engine" ]
 
 [node name="Spacer2" type="Control" parent="VB/MC/HC"]
-margin_left = 497.0
+margin_left = 509.0
 margin_right = 697.0
 margin_bottom = 40.0
 size_flags_horizontal = 3

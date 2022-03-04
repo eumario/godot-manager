@@ -7,6 +7,7 @@ using System.IO.Compression;
 using Directory = System.IO.Directory;
 using Path = System.IO.Path;
 using Guid = System.Guid;
+using DateTime = System.DateTime;
 
 public class GodotPanel : Panel
 {
@@ -48,12 +49,15 @@ public class GodotPanel : Panel
     }
 
     [SignalHandler("clicked", nameof(ActionButtons))]
-    void OnActionClicked(int index) {
+    async void OnActionClicked(int index) {
         switch(index) {
             case 0:     // Add Custom Godot
                 AppDialogs.AddCustomGodot.ShowDialog();
                 break;
             case 1:     // Scan for Godot
+                break;
+            case 2:     // Manually Check for Updates for Godot
+                await CheckForUpdates();
                 break;
         }
     }
@@ -73,30 +77,50 @@ public class GodotPanel : Panel
                     await this.IdleFrame();
                 }
             } else {
-                var tres = Github.Github.Instance.GetLatestRelease();
-                while (!tres.IsCompleted) {
-                    await this.IdleFrame();
-                }
-                var gv = GithubVersion.FromAPI(tres.Result);                
-                var l = from version in CentralStore.GHVersions
-                        where version.Name == gv.Name
-                        select gv;
-                var c = l.FirstOrDefault<GithubVersion>();
-                if (c == null) {
-                    CentralStore.GHVersions.Clear();
-                    var t = GatherReleases();
-                    while (!t.IsCompleted) {
-                        await this.IdleFrame();
-                    }
-                    AppDialogs.NewVersion.UpdateReleaseInfo(tres.Result);
-                    AppDialogs.NewVersion.Visible = true;
-                }
-            }
+                if (CentralStore.Settings.CheckForUpdates &&
+                    (DateTime.UtcNow - CentralStore.Settings.LastCheck) >= CentralStore.Settings.CheckInterval)
+				{
+					await CheckForUpdates();
+				}
+			}
             var task = PopulateList();
         }
     }
 
-    async void OnInstallClicked(GodotLineEntry gle) {
+	public async Task CheckForUpdates()
+	{
+        AppDialogs.BusyDialog.UpdateHeader("Grabbing information from Github");
+        AppDialogs.BusyDialog.UpdateByline("Getting the latest version information from Github for Godot Engine...");
+        AppDialogs.BusyDialog.ShowDialog();
+
+		var tres = Github.Github.Instance.GetLatestRelease();
+		while (!tres.IsCompleted)
+		{
+			await this.IdleFrame();
+		}
+		var gv = GithubVersion.FromAPI(tres.Result);
+		var l = from version in CentralStore.GHVersions
+				where version.Name == gv.Name
+				select gv;
+		var c = l.FirstOrDefault<GithubVersion>();
+		if (c == null)
+		{
+			CentralStore.GHVersions.Clear();
+			var t = GatherReleases();
+			while (!t.IsCompleted)
+			{
+				await this.IdleFrame();
+			}
+			AppDialogs.NewVersion.UpdateReleaseInfo(tres.Result);
+			AppDialogs.NewVersion.Visible = true;
+		}
+
+        AppDialogs.BusyDialog.HideDialog();
+        CentralStore.Settings.LastCheck = DateTime.UtcNow;
+        CentralStore.Instance.SaveDatabase();
+	}
+
+	async void OnInstallClicked(GodotLineEntry gle) {
         Available.List.RemoveChild(gle);
         Downloading.List.AddChild(gle);
         Downloading.Visible = true;

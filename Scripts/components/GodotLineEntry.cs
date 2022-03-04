@@ -368,6 +368,12 @@ public class GodotLineEntry : HBoxContainer
 
 #endif
 
+        if (CentralStore.Settings.SelfContainedEditors) {
+            File fh = new File();
+            fh.Open($"{gv.Location}/._sc_".GetOSDir().NormalizePath(), File.ModeFlags.Write);
+            fh.StoreString(" ");
+            fh.Close();
+        }
 
         GodotVersion = gv;
         return gv;

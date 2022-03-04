@@ -4,6 +4,7 @@ using Godot.Collections;
 using ActionStack = System.Collections.Generic.Stack<System.Action>;
 using Uri = System.Uri;
 using TimeSpan = System.TimeSpan;
+using System.Reflection;
 
 public class SettingsPanel : Panel
 {
@@ -113,6 +114,15 @@ public class SettingsPanel : Panel
 
     #endregion
 
+    #region Version String for About
+    string VERSION_INFORMATION = $@"[table=3][cell][color=green]Project Name[/color][/cell][cell][color=green]Version[/color]     [/cell][cell][color=green]Website[/color][/cell]
+[cell][color=aqua]Godot Engine (Mono Edition)      [/color][/cell][cell][color=white]v{Engine.GetVersionInfo()["string"]}     [/color][/cell][cell][color=yellow][url]https://godotengine.org[/url][/color][/cell]
+[cell][color=aqua]GodotSharpExtras[/color][/cell][cell][color=white]v{typeof(Godot.Sharp.Extras.Tools).Assembly.GetName().Version}[/color][/cell][cell][color=yellow][url]https://github.com/eumario/GodotSharpExtras[/url][/color][/cell]
+[cell][color=aqua]NewtonSoft JSON[/color][/cell][cell][color=white]v{typeof(Newtonsoft.Json.JsonReader).Assembly.GetName().Version}[/color][/cell][cell][color=yellow][url]https://www.newtonsoft.com/json[/url][/color][/cell]
+[cell][color=aqua]SixLabors ImageSharp[/color][/cell][cell][color=white]v{typeof(SixLabors.ImageSharp.Image).Assembly.GetName().Version}[/color][/cell][cell][color=yellow][url]https://sixlabors.com/products/imagesharp/[/url][/color][/cell][/table]
+";
+    #endregion
+
     #region Private Variables
     Array<string> _views;
     // In Hours
@@ -132,6 +142,7 @@ public class SettingsPanel : Panel
     public override void _Ready()
     {
         this.OnReady();
+        _builtWith.BbcodeText = VERSION_INFORMATION;
         _undoActions = new ActionStack();
         _views = new Array<string>();
 
@@ -221,6 +232,20 @@ public class SettingsPanel : Panel
         CentralStore.Settings.CheckForUpdates = _checkForUpdates.Pressed;
         CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[_updateCheckInterval.Selected]);
         CentralStore.Settings.SelfContainedEditors = _editorProfiles.Pressed;
+
+        foreach(GodotVersion version in CentralStore.Versions) {
+            if (_editorProfiles.Pressed) {
+                File fh = new File();
+                fh.Open($"{version.Location}/._sc_".GetOSDir().NormalizePath(), File.ModeFlags.Write);
+                fh.StoreString(" ");
+                fh.Close();
+            } else {
+                Directory dh = new Directory();
+                dh.Open($"{version.Location}".GetOSDir().NormalizePath());
+                dh.Remove($"{version.Location}/._sc_".GetOSDir().NormalizePath());
+            }
+        }
+
         CentralStore.Settings.NoConsole = _noConsole.Pressed;
         CentralStore.Settings.AssetMirrors.Clear();
         for (int i = 0; i < _assetMirror.GetItemCount(); i++) {
