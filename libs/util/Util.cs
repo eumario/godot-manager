@@ -21,10 +21,12 @@ public static class Util {
 
 	public static ImageTexture LoadImage(this string path, int width = 64, int height = 64, Image.Interpolation interpolate = Image.Interpolation.Cubic) {
 		Image img = new Image();
-		img.Load(path);
-		img.Resize(width,height,interpolate);
-		ImageTexture texture = new ImageTexture();
-		texture.CreateFromImage(img);
+		ImageTexture texture = null;
+		if (img.Load(path) == Error.Ok) {
+			img.Resize(width,height,interpolate);
+			texture = new ImageTexture();
+			texture.CreateFromImage(img);
+		}
 		return texture;
 	}
 

@@ -28,6 +28,7 @@ public class ProjectIconEntry : ColorRect
 
 #region Preload Resources
     private Texture _missingIcon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+    private Texture _defaultIcon = GD.Load<Texture>("res://Assets/Icons/default_project_icon.png");
 #endregion
 
 #region Private Variables
@@ -55,8 +56,17 @@ public class ProjectIconEntry : ColorRect
             if (_icon != null)
                 if (MissingProject)
                     _icon.Texture = _missingIcon;
-                else
-                    _icon.Texture = value.LoadImage();
+                else {
+                    if (System.IO.File.Exists(value)) {
+                        var texture = value.LoadImage();
+                        if (texture == null)
+                            _icon.Texture = _defaultIcon;
+                        else
+                            _icon.Texture = texture;
+                    } else {
+                        _icon.Texture = _defaultIcon;
+                    }
+                }
         }
     }
 

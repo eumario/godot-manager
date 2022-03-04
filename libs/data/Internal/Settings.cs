@@ -55,11 +55,11 @@ public class Settings : Object {
 		CheckForUpdates = true;																			// Done
 		CloseManagerOnEdit = true;																		// Done
 		SelfContainedEditors = true;																	// Done
-		EnableAutoScan = false;																			// Not Implemented
+		EnableAutoScan = false;																			// Done
 		NoConsole = true;																				// Done
 		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
 		CheckInterval = TimeSpan.FromDays(1);															// Done
-		ScanDirs = new Array<string>();																	// Not Implemented
+		ScanDirs = new Array<string>();																	// Done
 		AssetMirrors = new Array<Dictionary<string, string>>();											// Semi-Implemented
 		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)
 		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented

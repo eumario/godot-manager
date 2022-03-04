@@ -26,6 +26,12 @@ public class ProjectFile : Godot.Object {
 		ConfigFile project = new ConfigFile();
 		var ret = project.Load(filePath);
 		if (ret == Error.Ok) {
+			if (!project.HasSectionKey("","config_version"))
+				return projectFile;
+			if (!project.HasSection("application"))
+				return projectFile;
+			if (!project.HasSectionKey("application","config/name"))
+				return projectFile;
 			if ((int)project.GetValue("","config_version") == 4) {
 				projectFile = new ProjectFile();
 				projectFile.Name = (string)project.GetValue("application", "config/name");
@@ -33,7 +39,7 @@ public class ProjectFile : Godot.Object {
 				projectFile.Location = filePath.NormalizePath();
 				projectFile.Icon = (string)project.GetValue("application", "config/icon", "res://icon.png");
 			} else {
-				GD.PrintErr($"Project Version does not match version 4.");
+				GD.PrintErr($"{filePath}: Project Version does not match version 4.");
 			}
 		} else {
 			GD.PrintErr($"Failed to load Project file: {filePath}, Error: {ret}");

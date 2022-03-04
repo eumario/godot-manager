@@ -4,6 +4,9 @@ using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Dir = System.IO.Directory;
+using SearchOption = System.IO.SearchOption;
+using DateTime = System.DateTime;
 
 public class ProjectsPanel : Panel
 {
@@ -91,6 +94,9 @@ public class ProjectsPanel : Panel
             }
         }
 
+        if (CentralStore.Settings.EnableAutoScan)
+            ScanForProjects();
+
         PopulateListing();
     }
 
@@ -138,6 +144,26 @@ public class ProjectsPanel : Panel
             pie.Connect("RightClicked", this, "OnIconEntry_RightClicked");
             pie.Connect("RightDoubleClicked", this, "OnIconEntry_RightDoubleClicked");
         }
+    }
+
+    void ScanForProjects() {
+        Array<string> projects = new Array<string>();
+        foreach(string dir in CentralStore.Settings.ScanDirs) {
+            var projs = Dir.EnumerateFiles(dir,"project.godot",SearchOption.AllDirectories);
+            foreach(string proj in projs) {
+                projects.Add(proj);
+            }
+        }
+        foreach(string projdir in projects) {
+            if (!CentralStore.Instance.HasProject(projdir)) {
+                ProjectFile pf = ProjectFile.ReadFromFile(projdir);
+                if (pf != null) {
+                    pf.GodotVersion = CentralStore.Settings.DefaultEngine;
+                    CentralStore.Projects.Add(pf);
+                }
+            }
+        }
+        PopulateListing();
     }
 
     public void PopulateListing() {
@@ -230,6 +256,7 @@ public class ProjectsPanel : Panel
         if (ple.MissingProject)
             return;
         ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
+        ple.ProjectFile.LastAccessed = DateTime.UtcNow;
     }
 
     void OnListEntry_RightClicked(ProjectLineEntry ple) {
@@ -252,6 +279,7 @@ public class ProjectsPanel : Panel
         if (pie.MissingProject)
             return;
 		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
+        pie.ProjectFile.LastAccessed = DateTime.UtcNow;
 	}
 
     void OnIconEntry_RightClicked(ProjectIconEntry pie) {
@@ -420,6 +448,7 @@ public class ProjectsPanel : Panel
                 AppDialogs.ImportProject.ShowDialog();
                 break;
             case 2: // Scan Project Folder
+                ScanForProjects();
                 break;
             case 3: // Add Category
                 AppDialogs.CreateCategory.ShowDialog();
