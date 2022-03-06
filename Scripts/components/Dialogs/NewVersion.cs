@@ -5,36 +5,44 @@ using System;
 
 public class NewVersion : ReferenceRect
 {
+    [Signal]
+    public delegate void download_update(Github.Release release, bool use_mono);
+
     [NodePath("PC/CC/P/VB/MCContent/VC/ReleaseInfo")]
     Label ReleaseInfo = null;
+    [NodePath("PC/CC/P/VB/MCContent/VC/UseMono")]
+    CheckBox UseMono = null;
     [NodePath("PC/CC/P/VB/MCContent/VC/CC/HC/Download")]
     Button Download = null;
     [NodePath("PC/CC/P/VB/MCContent/VC/CC/HC/Cancel")]
     Button Cancel = null;
 
+    private Github.Release _release;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
-        Cancel.Connect("pressed", this, "OnCancelClicked");
-        Download.Connect("pressed", this, "OnDownloadClicked");
     }
 
+    [SignalHandler("pressed", nameof(Cancel))]
     void OnCancelClicked() {
         this.Visible = false;
     }
 
+    [SignalHandler("pressed", nameof(Download))]
     void OnDownloadClicked() {
-        // Handle Downloading new version of Godot.
+        Visible = false;
+        EmitSignal("download_update", _release, UseMono.Pressed);
     }
 
-    public void UpdateReleaseInfo(Github.Release release) {
+    public void ShowDialog(Github.Release release) {
+        _release = release;
         ReleaseInfo.Text = $"There is a new version of Godot available.\nVersion: {release.Name}\nReleased: {release.PublishedAt}\nReleased by: {release.Author.Login}";
+        Visible = true;
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public void HideDialog() {
+        Visible = false;
+    }
 }

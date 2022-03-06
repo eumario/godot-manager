@@ -60,9 +60,9 @@ public class Settings : Object {
 		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
 		CheckInterval = TimeSpan.FromDays(1);															// Done
 		ScanDirs = new Array<string>();																	// Done
-		AssetMirrors = new Array<Dictionary<string, string>>();											// Semi-Implemented
+		AssetMirrors = new Array<Dictionary<string, string>>();											// Done
 		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)
-		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented
+		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented (Version 0.2 Target)
 		CurrentEngineMirror = new Dictionary<string, string>();											// Not Implemented (Version 0.2 Target)
 	}
 

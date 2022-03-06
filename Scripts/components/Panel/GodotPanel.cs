@@ -111,8 +111,11 @@ public class GodotPanel : Panel
 			{
 				await this.IdleFrame();
 			}
-			AppDialogs.NewVersion.UpdateReleaseInfo(tres.Result);
-			AppDialogs.NewVersion.Visible = true;
+			//AppDialogs.NewVersion.UpdateReleaseInfo(tres.Result);
+			//AppDialogs.NewVersion.Visible = true;
+            await PopulateList();
+            AppDialogs.NewVersion.Connect("download_update", this, "OnDownloadUpdate");
+            AppDialogs.NewVersion.ShowDialog(tres.Result);
 		}
 
         AppDialogs.BusyDialog.HideDialog();
@@ -120,7 +123,18 @@ public class GodotPanel : Panel
         CentralStore.Instance.SaveDatabase();
 	}
 
-	async void OnInstallClicked(GodotLineEntry gle) {
+    async void OnDownloadUpdate(Github.Release release, bool useMono) {
+        AppDialogs.NewVersion.Disconnect("download_update", this, "OnDownloadUpdate");
+        foreach (GodotLineEntry gle in Available.List.GetChildren()) {
+            if (gle.GithubVersion.Name == release.Name) {
+                gle.Mono = useMono;
+                await OnInstallClicked(gle);
+                break;
+            }
+        }
+    }
+
+	async Task OnInstallClicked(GodotLineEntry gle) {
         Available.List.RemoveChild(gle);
         Downloading.List.AddChild(gle);
         Downloading.Visible = true;
