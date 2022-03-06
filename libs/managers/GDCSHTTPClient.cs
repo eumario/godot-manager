@@ -69,6 +69,34 @@ public class GDCSHTTPClient : Node {
 		return client.GetStatus();
 	}
 
+	public async Task<HTTPClient.Status> StartClient(string host, int port, bool use_ssl = false) {
+		client.BlockingModeEnabled = false;
+		sHost = host;
+		var split = sHost.Split('.');
+		if (split.Length == 2) {
+			sProperName = split[0].Capitalize();
+		} else if (split.Length == 3) {
+			sProperName = split[1].Capitalize();
+		} else {
+			sProperName = sHost.Capitalize();
+		}
+		bCancelled = false;
+		bUseSSL = use_ssl;
+		var res = client.ConnectToHost(host,port,use_ssl, use_ssl);
+
+		if (res != Error.Ok)
+			return HTTPClient.Status.ConnectionError;
+		
+		while (client.GetStatus() == HTTPClient.Status.Connecting ||
+				client.GetStatus() == HTTPClient.Status.Resolving)
+		{
+			client.Poll();
+			await this.IdleFrame();
+		}
+
+		return client.GetStatus();
+	}
+
 	public async Task<HTTPResponse> HeadRequest(string path) {
 		HTTPResponse resp = null;
 		var res = client.Request(HTTPClient.Method.Head, path, GetRequestHeaders());
@@ -127,7 +155,7 @@ public class GDCSHTTPClient : Node {
 		return resp;
 	}
 
-	public bool SuccessConnect(HTTPClient.Status result, bool dialogErrors = true, bool printErrors = true) {
+	public bool SuccessConnect(HTTPClient.Status result, bool dialogErrors = false, bool printErrors = true) {
 		switch(result) {
 			case HTTPClient.Status.CantResolve:
 				if (printErrors) GD.PrintErr($"Unable to resolve {sHost}");

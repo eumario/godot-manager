@@ -51,9 +51,10 @@ namespace AssetLib {
 			client = new GDCSHTTPClient();
 		}
 
-		public async Task<ConfigureResult> Configure(bool templatesOnly) {
+		public async Task<ConfigureResult> Configure(string url, bool templatesOnly) {
 			ConfigureResult ret = null;
-			Task<HTTPClient.Status> cres = client.StartClient("godotengine.org");
+			Uri uri = new Uri(url);
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, uri.Scheme == "https");
 
 			while (!cres.IsCompleted) {
 				await this.IdleFrame();
@@ -62,7 +63,8 @@ namespace AssetLib {
 			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
-			string path = "/asset-library/api/configure";
+			//string path = "/asset-library/api/configure";
+			string path = $"{uri.AbsolutePath}configure";
 
 			if (templatesOnly)
 				path += "?type=project";
@@ -94,7 +96,8 @@ namespace AssetLib {
 
 		public async Task<QueryResult> Search(string query) {
 			QueryResult ret = null;
-			Task<HTTPClient.Status> cres = client.StartClient("godotengine.org");
+			Uri uri = new Uri(query);
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, uri.Scheme == "https");
 
 			while (!cres.IsCompleted)
 				await this.IdleFrame();
@@ -102,7 +105,8 @@ namespace AssetLib {
 			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
-			string path = $"/asset-library/api/asset{query}";
+			//string path = $"/asset-library/api/asset{query}";
+			string path = $"{uri.AbsolutePath}asset{uri.Query}";
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted)
 				await this.IdleFrame();
@@ -126,7 +130,7 @@ namespace AssetLib {
 			return ret;
 		}
 
-		public async Task<QueryResult> Search(int page = 0, bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
+		public async Task<QueryResult> Search(string url, int page = 0, bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
 			string args = "";
 			if (templates_only)
 				args += "?type=project&";
@@ -152,7 +156,7 @@ namespace AssetLib {
 			if (page > 0)
 				args += $"&page={page}";
 
-			var result = Search(args);
+			var result = Search(url + args);
 
 			while (!result.IsCompleted)
 				await this.IdleFrame();

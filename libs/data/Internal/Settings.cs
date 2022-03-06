@@ -74,12 +74,12 @@ public class Settings : Object {
 
 		// Asset Library Mirrors
 		data["name"] = "godotengine.org";
-		data["url"] = "https://godotengine.org";
+		data["url"] = "https://godotengine.org/asset-libary/api/";
 		AssetMirrors.Add(data.Duplicate());
 		CurrentAssetMirror = data.Duplicate();
 		data.Clear();
 		data["name"] = "localhost";
-		data["url"] = "http://localhost";
+		data["url"] = "http://localhost/asset-library/api/";
 		AssetMirrors.Add(data.Duplicate());
 		data.Clear();
 

@@ -571,7 +571,7 @@ margin_top = 31.0
 margin_right = 792.0
 margin_bottom = 50.0
 custom_fonts/font = ExtResource( 4 )
-text = "Version 0.1 Alpha"
+text = "Version 0.1.0"
 
 [node name="EmailWebsite" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/HBHeader/VB"]
 margin_top = 54.0

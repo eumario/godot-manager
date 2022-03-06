@@ -54,8 +54,11 @@ public class AssetLibPanel : Panel
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
         _mirrorSite.Clear();
-        _mirrorSite.AddItem("godotengine.org");
-        _mirrorSite.AddItem("localhost");
+        foreach (Dictionary<string, string> mirror in CentralStore.Settings.AssetMirrors) {
+            var indx = _mirrorSite.GetItemCount();
+            _mirrorSite.AddItem(mirror["name"]);
+            _mirrorSite.SetItemMetadata(indx,mirror["url"]);
+        }
     }
 
     [SignalHandler("pressed", nameof(_import))]
@@ -142,10 +145,21 @@ public class AssetLibPanel : Panel
         if (GetParent<TabContainer>().GetCurrentTabControl() == this)
 		{
 			await Configure(_templatesBtn.Pressed);
+            if (_category.GetItemCount() == 1)
+                return;
 
 			await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
 		}
 	}
+
+    [SignalHandler("item_selected", nameof(_mirrorSite))]
+    async void OnMirrorSiteSelected(int indx) {
+        await Configure(_templatesBtn.Pressed);
+        if (_category.GetItemCount() == 1)
+            return;
+        
+        await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
+    }
 
 	private async Task Configure(bool projectsOnly)
 	{
@@ -153,8 +167,10 @@ public class AssetLibPanel : Panel
 		AppDialogs.BusyDialog.UpdateByline("Connecting...");
 		AppDialogs.BusyDialog.ShowDialog();
 
+        string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
+
 		AssetLib.AssetLib.Instance.Connect("chunk_received", this, "OnChunkReceived");
-		var task = AssetLib.AssetLib.Instance.Configure(projectsOnly);
+		var task = AssetLib.AssetLib.Instance.Configure(url,projectsOnly);
 		while (!task.IsCompleted)
 		{
 			await this.IdleFrame();
@@ -166,8 +182,17 @@ public class AssetLibPanel : Panel
 		AppDialogs.BusyDialog.UpdateByline("Processing...");
 
 		_category.Clear();
+        _category.AddItem("All", 0);
 		AssetLib.ConfigureResult configureResult = task.Result;
-		_category.AddItem("All", 0);
+
+        if (configureResult == null) {
+            PaginatedListing pl = _addonsBtn.Pressed ? _plAddons : _plTemplates;
+            pl.ClearResults();
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Asset Library",$"Unable to connect to {url}.");
+            return;
+        }
+
 		foreach (AssetLib.CategoryResult category in configureResult.Categories)
 		{
 			_category.AddItem(category.Name, category.Id.ToInt());
@@ -198,14 +223,22 @@ public class AssetLibPanel : Panel
         int sortBy = _sortBy.Selected;
         int categoryId = _category.GetSelectedId();
         string filter = _searchField.Text;
+        string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
 
-		Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(projectsOnly ? _pltCurrentPage : _plaCurrentPage, projectsOnly, sortBy,
+		Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, projectsOnly ? _pltCurrentPage : _plaCurrentPage, projectsOnly, sortBy,
                 GetSupport(), categoryId, filter);
 		while (!stask.IsCompleted)
 			await this.IdleFrame();
 
+        if (stask.Result == null) {
+            pl.ClearResults();
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Asset Library",$"Unable to connect to {url}.");
+            return;
+        }
+
 		AppDialogs.BusyDialog.UpdateByline("Parsing results...");
 		pl.UpdateResults(stask.Result);
-		AppDialogs.BusyDialog.Visible = false;
+		AppDialogs.BusyDialog.HideDialog();
 	}
 }

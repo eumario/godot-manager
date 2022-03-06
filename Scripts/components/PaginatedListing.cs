@@ -38,6 +38,16 @@ public class PaginatedListing : ScrollContainer
         this.OnReady();
     }
 
+    public void ClearResults() {
+        foreach(AssetLibEntry ale in _listing.GetChildren()) {
+            ale.QueueFree();
+        }
+        alqrLastResult = null;
+        _topPageCount.UpdateConfig(0);
+        _bottomPageCount.UpdateConfig(0);
+        return;
+    }
+
     public void UpdateResults(AssetLib.QueryResult result) {
         foreach(AssetLibEntry ale in _listing.GetChildren()) {
             ale.QueueFree();
