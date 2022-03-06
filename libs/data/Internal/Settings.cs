@@ -45,6 +45,8 @@ public class Settings : Object {
 	[JsonProperty]
 	public Dictionary<string, string> CurrentEngineMirror;
 
+	public bool FirstTimeRun = false;
+
 	public Settings() {
 		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath();			// Done
 		DefaultEngine = Guid.Empty.ToString();															// Done
@@ -67,6 +69,7 @@ public class Settings : Object {
 	}
 
 	public void SetupDefaultValues() {
+		FirstTimeRun = true;
 		Dictionary<string, string> data = new Dictionary<string, string>();
 
 		// Scan Directories (Default Project path added)
@@ -74,7 +77,7 @@ public class Settings : Object {
 
 		// Asset Library Mirrors
 		data["name"] = "godotengine.org";
-		data["url"] = "https://godotengine.org/asset-libary/api/";
+		data["url"] = "https://godotengine.org/asset-library/api/";
 		AssetMirrors.Add(data.Duplicate());
 		CurrentAssetMirror = data.Duplicate();
 		data.Clear();

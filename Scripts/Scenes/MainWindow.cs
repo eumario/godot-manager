@@ -46,6 +46,10 @@ public class MainWindow : Control
 		dlgs.SetAnchorsAndMarginsPreset(LayoutPreset.Wide);
 		dlgs.Name = "AppDialogs";
 		AddChild(dlgs);
+
+		if (CentralStore.Settings.FirstTimeRun) {
+			AppDialogs.FirstTimeInstall.Visible = true;
+		}
 	}
 
 	void EnsureDirStructure() {

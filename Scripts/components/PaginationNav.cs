@@ -55,9 +55,11 @@ public class PaginationNav : CenterContainer
             _pageCount.AddChild(btn);
             abPages.Add(btn);
         }
-        iCurrentPage = 1;
-        (_pageCount.GetChild(0) as Button).Disabled = true;
-        CheckPage();
+        if (totalPages > 0) {
+            iCurrentPage = 1;
+            (_pageCount.GetChild(0) as Button).Disabled = true;
+            CheckPage();
+        }
     }
 
     public void CheckPage() {
