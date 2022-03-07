@@ -67,13 +67,13 @@ jobs:
         with:
           lfs: true
       - name: Setup WINE and rcedit for windows build
-      if: ${{ matrix.platform == 'windows' && env.CUSTOM_ICON == 'true' }}
-      run: |
-        dpkg --add-architecture i386 && apt-get update && apt-get install -y wine
-        chown root:root -R ~
-        wget https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe && mkdir -v -p ~/.local/share/rcedit && mv rcedit-x64.exe ~/.local/share/rcedit/ && chmod +x ~/.local/share/rcedit/rcedit-x64.exe
-        mkdir dummy && godot -v --path dummy -q
-        echo 'export/windows/wine = "/usr/bin/wine64"' >> ~/.config/godot/editor_settings-3.tres && echo "export/windows/rcedit = \"$(realpath ~/.local/share/rcedit/rcedit-x64.exe)\"" >> ~/.config/godot/editor_settings-3.tres
+        if: ${{ matrix.platform == 'windows' && env.CUSTOM_ICON == 'true' }}
+        run: |
+          dpkg --add-architecture i386 && apt-get update && apt-get install -y wine
+          chown root:root -R ~
+          wget https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe && mkdir -v -p ~/.local/share/rcedit && mv rcedit-x64.exe ~/.local/share/rcedit/ && chmod +x ~/.local/share/rcedit/rcedit-x64.exe
+          mkdir dummy && godot -v --path dummy -q
+          echo 'export/windows/wine = "/usr/bin/wine64"' >> ~/.config/godot/editor_settings-3.tres && echo "export/windows/rcedit = \"$(realpath ~/.local/share/rcedit/rcedit-x64.exe)\"" >> ~/.config/godot/editor_settings-3.tres
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
