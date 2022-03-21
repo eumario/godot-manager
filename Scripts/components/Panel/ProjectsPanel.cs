@@ -138,6 +138,7 @@ public class ProjectsPanel : Panel
             ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
             ple.Connect("RightClicked", this, "OnListEntry_RightClicked");
             ple.Connect("RightDoubleClicked", this, "OnListEntry_RightDoubleClicked");
+            ple.Connect("FavoriteUpdated", this, "OnListEntry_FavoriteUpdated");
         } else if (inode is ProjectIconEntry pie) {
             pie.Connect("Clicked", this, "OnIconEntry_Clicked");
             pie.Connect("DoubleClicked", this, "OnIconEntry_DoubleClicked");
@@ -189,6 +190,7 @@ public class ProjectsPanel : Panel
         foreach(Category cat in CentralStore.Categories) {
             clt = NewCL(cat.Name);
             clt.SetMeta("ID",cat.Id);
+            clt.Toggled = cat.IsExpanded;
             _categoryList[cat.Id] = clt;
             _categoryView.AddChild(clt);
         }
@@ -201,7 +203,7 @@ public class ProjectsPanel : Panel
         clUncategorized.SetMeta("ID",-2);
         _categoryView.AddChild(clUncategorized);
 
-        foreach(ProjectFile pf in CentralStore.Projects) {
+        foreach(ProjectFile pf in SortListing()) {
             ple = NewPLE(pf);
             pie = NewPIE(pf);
             _listView.AddChild(ple);
@@ -210,7 +212,11 @@ public class ProjectsPanel : Panel
             ConnectHandlers(ple);
             ConnectHandlers(pie);
             if (pf.CategoryId == -1) {
-                clt = clUncategorized;
+                if (pf.Favorite) {
+                    clt = clFavorites;
+                } else {
+                    clt = clUncategorized;
+                }
             } else {
                 if (_categoryList.ContainsKey(pf.CategoryId))
                     clt = _categoryList[pf.CategoryId];
@@ -219,6 +225,11 @@ public class ProjectsPanel : Panel
             }
             ple = clt.AddProject(pf);
             ConnectHandlers(ple);
+
+            if (pf.CategoryId != -1 && pf.Favorite) {
+                ple = clFavorites.AddProject(pf);
+                ConnectHandlers(ple);
+            }
         }
         if (_missingProjects.Count == 0)
             _actionButtons.SetHidden(6);
@@ -255,8 +266,8 @@ public class ProjectsPanel : Panel
     void OnListEntry_DoubleClicked(ProjectLineEntry ple) {
         if (ple.MissingProject)
             return;
-        ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
         ple.ProjectFile.LastAccessed = DateTime.UtcNow;
+        ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
     }
 
     void OnListEntry_RightClicked(ProjectLineEntry ple) {
@@ -269,6 +280,10 @@ public class ProjectsPanel : Panel
 
     }
 
+    void OnListEntry_FavoriteUpdated(ProjectLineEntry ple) { 
+        PopulateListing();
+    }
+
     private void OnIconEntry_Clicked(ProjectIconEntry pie) {
         UpdateIconsExcept(pie);
         _currentPIE = pie;
@@ -278,8 +293,8 @@ public class ProjectsPanel : Panel
 	{
         if (pie.MissingProject)
             return;
-		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
         pie.ProjectFile.LastAccessed = DateTime.UtcNow;
+		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
 	}
 
     void OnIconEntry_RightClicked(ProjectIconEntry pie) {
@@ -546,15 +561,7 @@ public class ProjectsPanel : Panel
         CentralStore.Settings.LastView = Views[page];
     }
 
-    public Array<ProjectFile> TestSortListing() {
-        Array<ProjectFile> projectFiles = new Array<ProjectFile>();
-        var pfolder = CentralStore.Projects.OrderByDescending(pf => pf.LastAccessed);
-        foreach (ProjectFile pf in pfolder)
-            projectFiles.Add(pf);
-        return projectFiles;
-    }
-
-    public Array<ProjectFile> TestFavSortListing() {
+    public Array<ProjectFile> SortListing() {
         Array<ProjectFile> projectFiles = new Array<ProjectFile>();
         var fav = CentralStore.Projects.Where(pf => pf.Favorite == true).OrderByDescending(pf => pf.LastAccessed);
         var non_fav = CentralStore.Projects.Where(pf => pf.Favorite != true).OrderByDescending(pf => pf.LastAccessed);
@@ -565,17 +572,6 @@ public class ProjectsPanel : Panel
         foreach(ProjectFile pf in non_fav)
             projectFiles.Add(pf);
         
-        return projectFiles;
-    }
-
-    void OnButton_Pressed() {
-        //AddTestProjects();
-        
-        Array<ProjectFile> projectFiles = TestFavSortListing(); //TestSortListing();
-
-        foreach(ProjectFile pf in projectFiles) {
-            GD.Print($"Project: {pf.Name}, Last Accessed: {pf.LastAccessed}");
-        }
-        
+        return projectFiles;        
     }
 }   

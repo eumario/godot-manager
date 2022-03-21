@@ -14,6 +14,8 @@ public class ProjectLineEntry : ColorRect
     public delegate void RightClicked(ProjectLineEntry self);
     [Signal]
     public delegate void RightDoubleClicked(ProjectLineEntry self);
+    [Signal]
+    public delegate void FavoriteUpdated(ProjectLineEntry self);
 #endregion
 
 #region Private Node Variables
@@ -172,6 +174,7 @@ public class ProjectLineEntry : ColorRect
     void OnHeartClicked() {
         ProjectFile.Favorite = HeartIcon.IsChecked();
         CentralStore.Instance.SaveDatabase();
+        EmitSignal("FavoriteUpdated", this);
     }
 
     [SignalHandler("gui_input")]
