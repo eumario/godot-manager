@@ -119,7 +119,7 @@ public class AppDialogs : Control
         BrowseGodotDialog_.Mode = FileDialog.ModeEnum.OpenFile;
         BrowseGodotDialog_.Access = FileDialog.AccessEnum.Filesystem;
         BrowseGodotDialog_.WindowTitle = "Find Godot...";
-        BrowseGodotDialog_.Filters = new string[] { "*.exe", "*.x86_64", "*.x86", ".app", "godot"};
+        BrowseGodotDialog_.Filters = new string[] { "*.exe", "*.x86_64", "*.x86", "*.64", "*.32", ".app", "godot"};
         BrowseGodotDialog_.RectMinSize = new Vector2(510, 390);
         BrowseGodotDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
 

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Version 0.1.2
+- Fixed extension search for Godot executable name in import godot engine dialog, now properly recognizes .64 and .32 on Linux based systems.
+- Fixed Add Custom Godot Engine dialog, not closing when adding the engine to the list of available engines.
+
+
 ## Version 0.1.1
 
 - Removed GDScript Addon for Notes as is not needed in the Release of Godot Manager.

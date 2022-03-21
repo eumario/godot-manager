@@ -82,6 +82,7 @@ public class AddCustomGodot : ReferenceRect
         gv.IsMono = _MonoEnabled.Pressed;
         CentralStore.Versions.Add(gv);
         CentralStore.Instance.SaveDatabase();
+        Visible = false;
         EmitSignal("added_custom_godot");
     }
 
