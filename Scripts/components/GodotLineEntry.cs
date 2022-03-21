@@ -81,6 +81,7 @@ public class GodotLineEntry : HBoxContainer
             if (value != null) {
                 Mono = value.IsMono;
                 Label = value.Tag;
+                Source = value.Location;
             }
         }
     }

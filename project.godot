@@ -15,8 +15,9 @@ _global_script_class_icons={
 [application]
 
 config/name="Godot-Manager"
-config/description="This is just a test description."
+config/description="A Complete solution for Godot, allowing you to manage Projects and versions of the Godot Engine on the fly."
 run/main_scene="res://Scenes/SceneManager.tscn"
+config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot-Manager"
 run/low_processor_mode=true
 config/icon="res://godot.png"

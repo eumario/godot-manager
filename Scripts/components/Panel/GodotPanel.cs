@@ -176,10 +176,18 @@ public class GodotPanel : Panel
 
 
     async void OnUninstallClicked(GodotLineEntry gle) {
-        Task<bool> result = AppDialogs.YesNoDialog.ShowDialog(
-            "Remove Godot Install",
-            $"You are about to uninstall {gle.GodotVersion.Tag}, are you sure you want to continue?"
-        );
+        Task<bool> result;
+        if (gle.Source == gle.GodotVersion.Location) {
+            result = AppDialogs.YesNoDialog.ShowDialog(
+                "Remove Godot Install",
+                $"You are about to remove the reference to {gle.GodotVersion.Tag}, are you sure you want to continue?"
+            );
+        } else {
+            result = AppDialogs.YesNoDialog.ShowDialog(
+                "Remove Godot Install",
+                $"You are about to uninstall {gle.GodotVersion.Tag}, are you sure you want to continue?"
+            );
+        }
         while (!result.IsCompleted)
             await this.IdleFrame();
 
