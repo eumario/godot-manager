@@ -75,7 +75,7 @@ public class ViewToggleButtons : PanelContainer
             return;
         }
         
-        if (index > 0 && index <= _icons.Count) {
+        if (index >= 0 && index <= _icons.Count) {
             _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("FFFFFF");
             toggleIndx = index;
             _icons[toggleIndx].GetChild<TextureRect>(0).SelfModulate = new Color("7defa7");
