@@ -92,7 +92,7 @@ namespace Github {
 			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
-			string path = "/repos/eumario/test-godot-manager/releases/latest";
+			string path = "/repos/eumario/godot-manager/releases/latest";
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted) {
 				await this.IdleFrame();
