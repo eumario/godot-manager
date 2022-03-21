@@ -139,7 +139,7 @@ text = "Domain:"
 margin_top = 90.0
 margin_right = 304.0
 margin_bottom = 112.0
-placeholder_text = "gotoengine.org"
+placeholder_text = "godotengine.org"
 
 [node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
 margin_top = 122.0

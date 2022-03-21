@@ -81,7 +81,7 @@ public class AssetLibPreview : ReferenceRect
     
     [SignalHandler("pressed", nameof(_Download))]
     async void OnDownloadPressed() {
-        // LOGIC: If asset is a Addon, after download is complete, popup Installer Refernece creator
+        // LOGIC: If asset is an Addon, after download is complete, popup Installer Reference creator
         // to allow user to select what files to be installed when selecting this addon.
         // If asset is a Template/Project/Demo, this will be added to templates for creating New Projects from.
         // Two new central repositories needed for Addons / Projects when saving to the user's computer.

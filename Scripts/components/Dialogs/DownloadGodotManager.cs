@@ -112,7 +112,7 @@ public class DownloadGodotManager : ReferenceRect
 	}
 
 	void CleanupClient() {
-		client.Disconnect("chunk_recieved", this, "OnChunkReceived");
+		client.Disconnect("chunk_received", this, "OnChunkReceived");
 		client.QueueFree();
 		client = null;
 	}

@@ -490,7 +490,7 @@ public class ProjectsPanel : Panel
 				await RemoveProject(pf);
 				break;
             case 6:
-                var res = AppDialogs.YesNoDialog.ShowDialog("Remove Missing Projects...", "Are you usre you want to remove any missing projects?");
+                var res = AppDialogs.YesNoDialog.ShowDialog("Remove Missing Projects...", "Are you sure you want to remove any missing projects?");
                 await res;
                 if (res.Result)
                     RemoveMissingProjects();
