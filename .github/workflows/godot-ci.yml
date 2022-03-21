@@ -89,7 +89,7 @@ jobs:
           filePath="${buildPath}/${EXPORT_FILENAME}"
           mkdir -v -p "${buildPath}"
           dotnet restore
-          godot -v --path "./$GAME_SUBDIRECTORY" --export-debug "${EXPORT_PLATFORM}" "${filePath}"
+          godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
           echo "::set-output name=build_directory::${buildPath}"
           echo "::set-output name=build_file::${filePath}"
       - name: Archive
