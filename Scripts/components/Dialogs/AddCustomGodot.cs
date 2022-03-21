@@ -72,7 +72,7 @@ public class AddCustomGodot : ReferenceRect
         gv.Id = Guid.NewGuid().ToString();
         gv.Tag = _Name.Text;
         gv.Url = "Local";
-#if GODOT_MACOS || GDOOT_OSX
+#if GODOT_MACOS || GODOT_OSX
         gv.Location = _Location.Text.GetBaseDir();
         gv.ExecutableName = "Godot";
 #else

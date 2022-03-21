@@ -145,7 +145,7 @@ public static class Util {
 		string base_path = "";
 #if GODOT_WINDOWS || GODOT_UWP || GODOT_LINUXBSD || GODOT_X11
 		base_path = path.GetBaseDir().NormalizePath();
-#elif GODOT_MACOS || GOODT_OSX
+#elif GODOT_MACOS || GODOT_OSX
 		base_path = path.GetParentFolder().GetBaseDir().NormalizePath();
 #endif
 		return base_path.Join("update").NormalizePath();
