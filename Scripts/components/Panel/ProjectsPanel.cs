@@ -193,15 +193,20 @@ public class ProjectsPanel : Panel
             clt.Toggled = cat.IsExpanded;
             _categoryList[cat.Id] = clt;
             _categoryView.AddChild(clt);
+            clt.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clt });
         }
 
         clFavorites = NewCL("Favorites");
         clFavorites.SetMeta("ID", -1);
+        clFavorites.Toggled = CentralStore.Settings.FavoritesToggled;
         _categoryView.AddChild(clFavorites);
+        clFavorites.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clFavorites });
 
         clUncategorized = NewCL("Un-Categorized");
         clUncategorized.SetMeta("ID",-2);
+        clUncategorized.Toggled = CentralStore.Settings.UncategorizedToggled;
         _categoryView.AddChild(clUncategorized);
+        clUncategorized.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clUncategorized });
 
         foreach(ProjectFile pf in SortListing()) {
             ple = NewPLE(pf);
@@ -256,6 +261,24 @@ public class ProjectsPanel : Panel
                 }
             }
         }
+    }
+
+    void OnCategoryListToggled(CategoryList clt) {
+        int id = (int)clt.GetMeta("ID");
+        if (id == -1 || id == -2) {
+            if (id == -1)
+                CentralStore.Settings.FavoritesToggled = clt.Toggled;
+            else
+                CentralStore.Settings.UncategorizedToggled = clt.Toggled;
+            CentralStore.Instance.SaveDatabase();
+            return;
+        }
+        Category cat = CentralStore.Categories.Where(x => x.Id == id).FirstOrDefault<Category>();
+        if (cat == null)
+            return;
+        
+        cat.IsExpanded = clt.Toggled;
+        CentralStore.Instance.SaveDatabase();
     }
 
     void OnListEntry_Clicked(ProjectLineEntry ple) {

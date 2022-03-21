@@ -6,6 +6,10 @@ using System;
 [Tool]
 public class CategoryList : VBoxContainer
 {
+#region Signals
+    [Signal]
+    public delegate void list_toggled();
+#endregion
 
 #region Node Variables
     [NodePath("CategoryName")]
@@ -65,8 +69,13 @@ public class CategoryList : VBoxContainer
 
         set {
             bToggled = value;
-            if (_toggleIcon != null)
+            if (_toggleIcon != null) {
                 _toggleIcon.FlipV = value;
+                if (_toggleIcon.FlipV)
+                    _categoryList.Hide();
+                else
+                    _categoryList.Show();
+            }
         }
     }
 
@@ -117,6 +126,7 @@ public class CategoryList : VBoxContainer
             _categoryList.Hide();
         else
             _categoryList.Show();
+        EmitSignal("list_toggled");
     }
 
     public ProjectLineEntry AddProject(ProjectFile projectFile) {

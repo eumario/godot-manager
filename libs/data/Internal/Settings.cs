@@ -34,6 +34,10 @@ public class Settings : Object {
 	[JsonProperty]
 	public bool EnableAutoScan;
 	[JsonProperty]
+	public bool FavoritesToggled;
+	[JsonProperty]
+	public bool UncategorizedToggled;
+	[JsonProperty]
 	public Array<string> ScanDirs;
 	[JsonProperty]
 	public Array<Dictionary<string, string>> AssetMirrors;
@@ -58,6 +62,8 @@ public class Settings : Object {
 		CloseManagerOnEdit = true;																		// Done
 		SelfContainedEditors = true;																	// Done
 		EnableAutoScan = false;																			// Done
+		FavoritesToggled = false;
+		UncategorizedToggled = false;
 		NoConsole = true;																				// Done
 		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
 		CheckInterval = TimeSpan.FromDays(1);															// Done
