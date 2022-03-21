@@ -189,9 +189,11 @@ public class CreateProject : ReferenceRect
         if (Directory.Exists(new_text)) {
             if (Directory.Exists(new_text.Join(_projectName.Text)))
                 ShowSuccess();
-            else if (Directory.GetDirectories(new_text).Length == 0 &&
-                Directory.GetFiles(new_text).Length == 0) {
-                ShowWarning("Project Directory does not exist!");
+            else if (Directory.GetFiles(new_text).Length == 0) {
+                if (Directory.GetDirectories(new_text).Length == 0 || Directory.GetDirectories(new_text).Length == 2)
+                    ShowSuccess();
+                else
+                    ShowWarning("Project Directory does not exist!");
             } else {
                 ShowError();
             }
