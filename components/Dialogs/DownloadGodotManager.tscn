@@ -1,0 +1,234 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/components/Dialogs/DownloadGodotManager.cs" type="Script" id=4]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 0.509804 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.137255, 0.14902, 0.180392, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.639216, 0.639216, 0.639216, 1 )
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 20
+
+[node name="DownloadGodotManager" type="ReferenceRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PC" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CC" type="CenterContainer" parent="PC"]
+margin_right = 1024.0
+margin_bottom = 700.0
+
+[node name="P" type="Panel" parent="PC/CC"]
+margin_left = 352.0
+margin_top = 225.0
+margin_right = 672.0
+margin_bottom = 475.0
+rect_min_size = Vector2( 320, 250 )
+custom_styles/panel = SubResource( 5 )
+
+[node name="VB" type="VBoxContainer" parent="PC/CC/P"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MC" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_right = 320.0
+margin_bottom = 26.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleBarBG" type="ColorRect" parent="PC/CC/P/VB/MC"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 318.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 316, 24 )
+rect_clip_content = true
+size_flags_horizontal = 0
+size_flags_vertical = 0
+color = Color( 0.219608, 0.239216, 0.290196, 1 )
+
+[node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MC/TitleBarBG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="PC/CC/P/VB/MC/TitleBarBG/HB"]
+margin_left = 62.0
+margin_top = 2.0
+margin_right = 200.0
+margin_bottom = 21.0
+size_flags_horizontal = 6
+custom_fonts/font = ExtResource( 2 )
+text = "Download Update"
+
+[node name="Close" parent="PC/CC/P/VB/MC/TitleBarBG/HB" instance=ExtResource( 3 )]
+margin_left = 266.0
+margin_right = 316.0
+margin_bottom = 24.0
+WindowMain = NodePath("../../../../../../../..")
+
+[node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_top = 30.0
+margin_right = 320.0
+margin_bottom = 209.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="VB" type="VBoxContainer" parent="PC/CC/P/VB/MCContent"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 312.0
+margin_bottom = 171.0
+custom_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="PC/CC/P/VB/MCContent/VB"]
+margin_right = 304.0
+margin_bottom = 107.0
+columns = 2
+
+[node name="Label5" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_right = 78.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 2 )
+text = "Download"
+
+[node name="FileName" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_left = 82.0
+margin_right = 304.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 2 )
+clip_text = true
+
+[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_top = 23.0
+margin_right = 78.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 1 )
+text = "Server:"
+align = 2
+
+[node name="Location" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_left = 82.0
+margin_top = 23.0
+margin_right = 304.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+clip_text = true
+
+[node name="FSLabel" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_top = 45.0
+margin_right = 78.0
+margin_bottom = 63.0
+custom_fonts/font = ExtResource( 1 )
+text = "File Size:"
+align = 2
+
+[node name="FileSize" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_left = 82.0
+margin_top = 45.0
+margin_right = 304.0
+margin_bottom = 63.0
+custom_fonts/font = ExtResource( 1 )
+clip_text = true
+
+[node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_top = 67.0
+margin_right = 78.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 1 )
+text = "Speed:"
+align = 2
+
+[node name="Speed" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_left = 82.0
+margin_top = 67.0
+margin_right = 304.0
+margin_bottom = 85.0
+custom_fonts/font = ExtResource( 1 )
+clip_text = true
+
+[node name="ETALabel" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_top = 89.0
+margin_right = 78.0
+margin_bottom = 107.0
+custom_fonts/font = ExtResource( 1 )
+text = "ETA:"
+align = 2
+
+[node name="Eta" type="Label" parent="PC/CC/P/VB/MCContent/VB/GridContainer"]
+margin_left = 82.0
+margin_top = 89.0
+margin_right = 304.0
+margin_bottom = 107.0
+custom_fonts/font = ExtResource( 1 )
+clip_text = true
+
+[node name="ProgressBar" type="ProgressBar" parent="PC/CC/P/VB/MCContent/VB"]
+margin_top = 117.0
+margin_right = 304.0
+margin_bottom = 137.0
+rect_pivot_offset = Vector2( 152, 7 )
+
+[node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
+margin_top = 213.0
+margin_right = 320.0
+margin_bottom = 250.0
+custom_constants/margin_bottom = 15
+
+[node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
+margin_right = 320.0
+margin_bottom = 22.0
+
+[node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_right = 133.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+
+[node name="CancelBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 137.0
+margin_right = 182.0
+margin_bottom = 22.0
+text = "Cancel"
+
+[node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 186.0
+margin_right = 320.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+
+[node name="DownloadSpeedTimer" type="Timer" parent="."]

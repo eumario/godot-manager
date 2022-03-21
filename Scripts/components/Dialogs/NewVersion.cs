@@ -7,6 +7,9 @@ public class NewVersion : ReferenceRect
 {
     [Signal]
     public delegate void download_update(Github.Release release, bool use_mono);
+    
+    [Signal]
+    public delegate void download_manager_update(Github.Release release);
 
     [NodePath("PC/CC/P/VB/MCContent/VC/ReleaseInfo")]
     Label ReleaseInfo = null;
@@ -32,13 +35,24 @@ public class NewVersion : ReferenceRect
 
     [SignalHandler("pressed", nameof(Download))]
     void OnDownloadClicked() {
+        if (UseMono.Visible)
+            EmitSignal("download_update", _release, UseMono.Pressed);
+        else
+            EmitSignal("download_manager_update", _release);
         Visible = false;
-        EmitSignal("download_update", _release, UseMono.Pressed);
     }
 
-    public void ShowDialog(Github.Release release) {
+    public void ShowDialog(Github.Release release, bool isGodotManager = false) {
         _release = release;
-        ReleaseInfo.Text = $"There is a new version of Godot available.\nVersion: {release.Name}\nReleased: {release.PublishedAt}\nReleased by: {release.Author.Login}";
+        if (!isGodotManager) {
+            ReleaseInfo.Text = $"There is a new version of Godot available.\nVersion: {release.Name}\nReleased: {release.PublishedAt}\nReleased by: {release.Author.Login}";
+            UseMono.Visible = true;
+            UseMono.Pressed = false;
+        }
+        else {
+            ReleaseInfo.Text = $"There is a new version of Godot Manager.\nVersion: {release.Name}\nReleased: {release.PublishedAt}\nReleased by: {release.Author.Login}";
+            UseMono.Visible = false;
+        }
         Visible = true;
     }
 

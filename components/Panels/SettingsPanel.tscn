@@ -192,7 +192,6 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -519,6 +518,7 @@ margin_right = 994.0
 margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -619,19 +619,19 @@ __meta__ = {
 [node name="MC" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 137.0
 margin_right = 984.0
-margin_bottom = 277.0
-rect_min_size = Vector2( 0, 140 )
+margin_bottom = 297.0
+rect_min_size = Vector2( 0, 160 )
 size_flags_horizontal = 3
-custom_constants/margin_right = 100
+custom_constants/margin_right = 80
 custom_constants/margin_top = 10
-custom_constants/margin_left = 100
+custom_constants/margin_left = 80
 custom_constants/margin_bottom = 10
 
 [node name="BuiltWith" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC"]
-margin_left = 100.0
+margin_left = 80.0
 margin_top = 10.0
-margin_right = 884.0
-margin_bottom = 130.0
+margin_right = 904.0
+margin_bottom = 150.0
 custom_fonts/normal_font = ExtResource( 13 )
 bbcode_enabled = true
 bbcode_text = "[table=3][cell][color=green]Project Name[/color][/cell][cell][color=green]Version[/color]     [/cell][cell][color=green]Website[/color][/cell]
@@ -645,14 +645,14 @@ text = "Project NameVersion     WebsiteGodot Engine (Mono Edition)      v0.0.0ht
 scroll_active = false
 
 [node name="HSeparator2" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 281.0
+margin_top = 301.0
 margin_right = 984.0
-margin_bottom = 285.0
+margin_bottom = 305.0
 
 [node name="Label2" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 289.0
+margin_top = 309.0
 margin_right = 984.0
-margin_bottom = 316.0
+margin_bottom = 336.0
 custom_fonts/font = ExtResource( 12 )
 text = "Special Thanks To"
 align = 1
@@ -661,9 +661,9 @@ __meta__ = {
 }
 
 [node name="MC2" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 320.0
+margin_top = 340.0
 margin_right = 984.0
-margin_bottom = 420.0
+margin_bottom = 440.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 80
 custom_constants/margin_top = 10
@@ -701,14 +701,14 @@ text = "Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    Marita
 scroll_active = false
 
 [node name="HSeparator3" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 424.0
+margin_top = 444.0
 margin_right = 984.0
-margin_bottom = 428.0
+margin_bottom = 448.0
 
 [node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 432.0
+margin_top = 452.0
 margin_right = 984.0
-margin_bottom = 459.0
+margin_bottom = 479.0
 custom_fonts/font = ExtResource( 12 )
 text = "Donations"
 align = 1
@@ -717,9 +717,9 @@ __meta__ = {
 }
 
 [node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 463.0
+margin_top = 483.0
 margin_right = 984.0
-margin_bottom = 523.0
+margin_bottom = 543.0
 size_flags_horizontal = 3
 
 [node name="HB" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer"]

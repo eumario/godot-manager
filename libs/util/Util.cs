@@ -1,6 +1,12 @@
 using Godot;
 using Godot.Collections;
 using Path = System.IO.Path;
+using DirectoryInfo = System.IO.DirectoryInfo;
+using DirectoryNotFoundException = System.IO.DirectoryNotFoundException;
+using FileNotFoundException = System.IO.FileNotFoundException;
+using FileInfo = System.IO.FileInfo;
+using Dir = System.IO.Directory;
+using SFile = System.IO.File;
 
 public static class Util {
 	public static string GetResourceBase(this string path, string file) {
@@ -57,6 +63,42 @@ public static class Util {
 		return path.NormalizePath();
 	}
 
+	public static string GetParentFolder(this string path) {
+		return path.GetBaseDir().GetBaseDir();
+	}
+
+	public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive = false) {
+		var dir = new DirectoryInfo(sourceDir);
+
+		if (!dir.Exists)
+			throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+		
+		DirectoryInfo[] dirs = dir.GetDirectories();
+
+		Dir.CreateDirectory(destinationDir);
+
+		foreach(FileInfo file in dir.GetFiles()) {
+			string targetFilePath = Path.Combine(destinationDir, file.Name);
+			file.CopyTo(targetFilePath);
+		}
+
+		if (recursive) {
+			foreach (DirectoryInfo subDir in dirs) {
+				string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+				CopyDirectory(subDir.FullName, newDestinationDir, true);
+			}
+		}
+	}
+
+	public static void CopyTo(string srcFile, string destFile) {
+		FileInfo file = new FileInfo(srcFile);
+		
+		if (!file.Exists)
+			throw new FileNotFoundException($"Source file not found: {file.FullName}");
+		
+		file.CopyTo(destFile);
+	}
+
 	public static SignalAwaiter IdleFrame(this Godot.Object obj) {
 		return obj.ToSignal(Engine.GetMainLoop(), "idle_frame");
 	}
@@ -96,5 +138,16 @@ public static class Util {
 			return false;
 		
 		return true;
+	}
+
+	public static string GetUpdateFolder() {
+		string path = OS.GetExecutablePath();
+		string base_path = "";
+#if GODOT_WINDOWS || GODOT_UWP || GODOT_LINUXBSD || GODOT_X11
+		base_path = path.GetBaseDir().NormalizePath();
+#elif GODOT_MACOS || GOODT_OSX
+		base_path = path.GetParentFolder().GetBaseDir().NormalizePath();
+#endif
+		return base_path.Join("update").NormalizePath();
 	}
 }

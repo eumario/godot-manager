@@ -228,7 +228,7 @@ public class ProjectsPanel : Panel
 
     public void OnProjectCreated(ProjectFile pf) {
         PopulateListing();
-        ExecuteEditorProject(pf.GodotVersion, pf.Location);
+        ExecuteEditorProject(pf.GodotVersion, pf.Location.GetBaseDir());
     }
 
     private void UpdateListExcept(ProjectLineEntry ple) {
@@ -404,8 +404,8 @@ public class ProjectsPanel : Panel
         
         ProcessStartInfo psi = new ProcessStartInfo();
         psi.FileName = gv.GetExecutablePath().GetOSDir();
-        psi.Arguments = $"--path {location}";
-        psi.WorkingDirectory = location;
+        psi.Arguments = $"--path \"{location}\"";
+        psi.WorkingDirectory = location.GetBaseDir().GetOSDir().NormalizePath();
         psi.UseShellExecute = !CentralStore.Settings.NoConsole;
         psi.CreateNoWindow = CentralStore.Settings.NoConsole;
 
@@ -427,11 +427,11 @@ public class ProjectsPanel : Panel
         
         ProcessStartInfo psi = new ProcessStartInfo();
         psi.FileName = gv.GetExecutablePath().GetOSDir();
-        psi.Arguments = $"--path {location} -e";
-        psi.WorkingDirectory = location;
+        psi.Arguments = $"--path \"{location}\" -e";
+        psi.WorkingDirectory = location.GetOSDir().NormalizePath();
         psi.UseShellExecute = !CentralStore.Settings.NoConsole;
         psi.CreateNoWindow = CentralStore.Settings.NoConsole;
-        
+
         Process proc = Process.Start(psi);
         if (CentralStore.Settings.CloseManagerOnEdit) {
             GetTree().Quit(0);

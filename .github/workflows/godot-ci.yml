@@ -6,7 +6,7 @@ on:
 
 env:
   GAME_SUBDIRECTORY: "godot-manager"
-  GODOT_VERSION: "3.4.2"
+  GODOT_VERSION: "3.4.3"
   GODOT_VERSION_MODIFIER: "stable.mono"
   EXPORT_NAME: "GodotManager"
   CUSTOM_ICON: "true"
@@ -56,24 +56,13 @@ jobs:
           - platform: linux
             extension: .x86_64
             type: executable
-          - platform: html
-            extension: .html
-            type: executable
     container:
-      image: barichello/godot-ci:mono-3.4.2
+      image: eumario/github-actions-ci:0.1.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           lfs: true
-      - name: Setup WINE and rcedit for windows build
-        if: ${{ matrix.platform == 'windows' && env.CUSTOM_ICON == 'true' }}
-        run: |
-          dpkg --add-architecture i386 && apt-get update && apt-get install -y wine
-          chown root:root -R ~
-          wget https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe && mkdir -v -p ~/.local/share/rcedit && mv rcedit-x64.exe ~/.local/share/rcedit/ && chmod +x ~/.local/share/rcedit/rcedit-x64.exe
-          mkdir dummy && godot -v --path dummy -q
-          echo 'export/windows/wine = "/usr/bin/wine64"' >> ~/.config/godot/editor_settings-3.tres && echo "export/windows/rcedit = \"$(realpath ~/.local/share/rcedit/rcedit-x64.exe)\"" >> ~/.config/godot/editor_settings-3.tres
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
@@ -99,7 +88,8 @@ jobs:
           buildPath="${GITHUB_WORKSPACE}/build/${EXPORT_PLATFORM}"
           filePath="${buildPath}/${EXPORT_FILENAME}"
           mkdir -v -p "${buildPath}"
-          godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
+          dotnet restore
+          godot -v --path "./$GAME_SUBDIRECTORY" --export-debug "${EXPORT_PLATFORM}" "${filePath}"
           echo "::set-output name=build_directory::${buildPath}"
           echo "::set-output name=build_file::${filePath}"
       - name: Archive
@@ -125,14 +115,9 @@ jobs:
           echo "::set-output name=filename::${filename}"
       - name: Upload Release Asset
         id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ needs.release.outputs.release_upload_url }}
-          asset_path: ${{ steps.archive.outputs.path }}
-          asset_name: ${{ steps.archive.outputs.filename }}
-          asset_content_type: application/zip
+          files: ${{ steps.archive.outputs.path }}
       - name: Upload on itch
         env:
           CHANNEL: ${{ matrix.platform }}

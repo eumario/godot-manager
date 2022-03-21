@@ -81,6 +81,41 @@ namespace Github {
 			return ret;			
 		}
 
+		public async Task<Release> GetLatestManagerRelease() {
+			Release ret = null;
+			Task<HTTPClient.Status> cres = client.StartClient("api.github.com", true);
+
+			while (!cres.IsCompleted) {
+				await this.IdleFrame();
+			}
+
+			if (!client.SuccessConnect(cres.Result))
+				return ret;
+			
+			string path = "/repos/eumario/test-godot-manager/releases/latest";
+			var tresult = client.MakeRequest(path);
+			while (!tresult.IsCompleted) {
+				await this.IdleFrame();
+			}
+
+			Mutex mutex = new Mutex();
+			mutex.Lock();
+			HTTPResponse result = tresult.Result;
+
+			client.Close();
+
+			UpdateLimit(result);
+
+			if (result.ResponseCode != 200)
+				return null;
+			else
+				ret = JsonConvert.DeserializeObject<Release>(result.Body, DefaultSettings.defaultJsonSettings);
+			
+			mutex.Unlock();
+
+			return ret;
+		}
+
 		public async Task<Array<Release>> GetReleases(int per_page=0, int page=1) {
 			Array<Release> ret = new Array<Release>();
 			Task<HTTPClient.Status> cres = client.StartClient("api.github.com",true);

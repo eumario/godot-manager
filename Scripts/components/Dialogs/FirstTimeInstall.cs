@@ -10,7 +10,7 @@ public class FirstTimeInstall : ReferenceRect
     [NodePath("PC/CC/P/VB/MCButtons/HB/DownloadGodot")]
     Button DownloadGodot = null;
 
-    [NodePath("/root/MainWindow/bg/Shell/Sidebar/VC/Godot")]
+    [NodePath("/root/SceneManager/MainWindow/bg/Shell/Sidebar/VC/Godot")]
     PageButton GodotButton = null;
 
     // Called when the node enters the scene tree for the first time.

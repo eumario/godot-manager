@@ -22,6 +22,7 @@ public class AppDialogs : Control
     public RemoveCategory RemoveCategory_ = null;
     public AssetLibPreview AssetLibPreview_ = null;
     public DownloadAddon DownloadAddon_ = null;
+    public DownloadGodotManager DownloadGodotManager_ = null;
     public AddonInstaller AddonInstaller_ = null;
     public AddonMirror AddonMirror_ = null;
 #endregion
@@ -45,6 +46,7 @@ public class AppDialogs : Control
     public static RemoveCategory RemoveCategory { get => Instance.RemoveCategory_; }
     public static AssetLibPreview AssetLibPreview { get => Instance.AssetLibPreview_; }
     public static DownloadAddon DownloadAddon { get => Instance.DownloadAddon_; }
+    public static DownloadGodotManager DownloadGodotManager { get => Instance.DownloadGodotManager_; }
     public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
     public static AddonMirror AddonMirror { get => Instance.AddonMirror_; }
 #endregion
@@ -79,6 +81,7 @@ public class AppDialogs : Control
         RemoveCategory_ = GD.Load<PackedScene>("res://components/Dialogs/RemoveCategory.tscn").Instance<RemoveCategory>();
         AssetLibPreview_ = GD.Load<PackedScene>("res://components/Dialogs/AssetLibPreview.tscn").Instance<AssetLibPreview>();
         DownloadAddon_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadAddon.tscn").Instance<DownloadAddon>();
+        DownloadGodotManager_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadGodotManager.tscn").Instance<DownloadGodotManager>();
         AddonInstaller_ = GD.Load<PackedScene>("res://components/Dialogs/AddonInstaller.tscn").Instance<AddonInstaller>();
         AddonMirror_ = GD.Load<PackedScene>("res://components/Dialogs/AddonMirror.tscn").Instance<AddonMirror>();
 
@@ -126,6 +129,7 @@ public class AppDialogs : Control
             CreateProject_, ImportProject_,     // Create Project / Import Project
             EditProject_,                       // Edit Project
             AssetLibPreview_, DownloadAddon_,   // Asset Library Preview / Download Addon/Project
+            DownloadGodotManager_,              // Download Godot Manager Update
             AddonMirror_,                       // Adding Addon Mirror to list
             CreateCategory_,                    // Create a Category
             RemoveCategory_,                    // Remove a Category

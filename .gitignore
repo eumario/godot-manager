@@ -7,7 +7,7 @@ export.cfg
 *.import
 
 # Excluded because it may contain sensitive information like keystore passwords
-export_presets.cfg
+# export_presets.cfg  # <-- Removed as we need it for Github CI.
 
 # Exclude imported translations
 *.translation
@@ -416,3 +416,4 @@ FodyWeavers.xsd
 
 # Build Directory
 builds/
+build/
