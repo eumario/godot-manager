@@ -147,14 +147,40 @@ public class ProjectsPanel : Panel
         }
     }
 
-    void ScanForProjects() {
+    async void ScanForProjects() {
         Array<string> projects = new Array<string>();
+        Array<string> scanDirs = CentralStore.Settings.ScanDirs.Duplicate();
+        int i = 0;
+
+        while (i < scanDirs.Count) {
+            if (!Dir.Exists(scanDirs[i]))
+                scanDirs.RemoveAt(i);
+            else
+                i++;
+        }
+
+        if (scanDirs.Count == 0) {
+            var res = AppDialogs.YesNoDialog.ShowDialog("Scan Project Folders","There are currently no valid Directories to scan, would you like to add one?");
+            while (!res.IsCompleted)
+                await this.IdleFrame();
+            
+            if (res.Result) {
+                AppDialogs.BrowseFolderDialog.CurrentFile = "";
+                AppDialogs.BrowseFolderDialog.CurrentPath = CentralStore.Settings.ProjectPath;
+                AppDialogs.BrowseFolderDialog.PopupCentered();
+                AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnScanProjects_DirSelected");
+                return;
+            } else
+                return;
+        }
+
         foreach(string dir in CentralStore.Settings.ScanDirs) {
             var projs = Dir.EnumerateFiles(dir,"project.godot",SearchOption.AllDirectories);
             foreach(string proj in projs) {
                 projects.Add(proj);
             }
         }
+
         foreach(string projdir in projects) {
             if (!CentralStore.Instance.HasProject(projdir)) {
                 ProjectFile pf = ProjectFile.ReadFromFile(projdir);
@@ -165,6 +191,14 @@ public class ProjectsPanel : Panel
             }
         }
         PopulateListing();
+    }
+
+    void OnScanProjects_DirSelected(string path) {
+        CentralStore.Settings.ScanDirs.Clear();
+        CentralStore.Settings.ScanDirs.Add(path);
+        CentralStore.Instance.SaveDatabase();
+        AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnScanProjects_DirSelected");
+        ScanForProjects();
     }
 
     public void PopulateListing() {
