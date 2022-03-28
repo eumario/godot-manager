@@ -2,6 +2,8 @@ using Godot;
 using Godot.Collections;
 using System.IO.Compression;
 using Directory = System.IO.Directory;
+using System.Diagnostics;
+using LibGit2Sharp;
 
 public class NewProject : Object {
 	public string ProjectName;
@@ -10,6 +12,7 @@ public class NewProject : Object {
 	public string GodotVersion;
 	public bool Gles3 = true;
 	public Array<AssetPlugin> Plugins;
+	public bool InitializeGit = true;
 
 	public bool CreateProject() {
 		if (Template == null)
@@ -18,7 +21,7 @@ public class NewProject : Object {
 			CreateProjectFile();
 			CreateDefaultEnvironment();
 			CopyIcon();
-			ExtractPlugins();
+			ExtractPlugins();			
 		} else {
 			// Project file should be provided in the Template.
 			ExtractTemplate();
@@ -32,6 +35,11 @@ public class NewProject : Object {
 
 			pf.Save(ProjectLocation.PlusFile("project.godot"));
 			ExtractPlugins();
+		}
+
+		if (InitializeGit)
+		{
+			Repository.Init(ProjectLocation);
 		}
 		
 		return true;
