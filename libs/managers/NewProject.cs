@@ -39,7 +39,14 @@ public class NewProject : Object {
 
 		if (InitializeGit)
 		{
-			Repository.Init(ProjectLocation);
+			try
+			{
+				Repository.Init(ProjectLocation);
+			}
+			catch(System.TypeInitializationException e)
+			{
+				GD.PushError("There was a problem initializing the git repository" + e.ToString());
+			}
 		}
 		
 		return true;
