@@ -9,7 +9,7 @@ public class ErrorWindow : WindowDialog
 
 	public override void _Ready()
 	{
-        //_textEdit = GetNode<TextEdit>("VBoxContainer/TextEdit");
+        _textEdit = GetNode<TextEdit>("VBoxContainer/TextEdit");
 		_textEdit.Text = "";
         GD.Print(_textEdit,"test");
         GD.Print("WHO YOU NOT WORK FER");

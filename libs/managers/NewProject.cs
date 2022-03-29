@@ -45,7 +45,7 @@ public class NewProject : Object {
 		{
 			var git = new GitRunner("git", ProjectLocation);
 			GD.Print(git.Run("init"));
-			CreateGitIgnore();
+			CreateGitFiles();
 
 		}
 		
@@ -120,7 +120,7 @@ public class NewProject : Object {
 		}
 	}
 
-	private void CreateGitIgnore()
+	private void CreateGitFiles()
 	{
 		File f = new File();
 		if (f.FileExists("res://default_gitignore.txt"))
@@ -137,6 +137,23 @@ public class NewProject : Object {
 			if (ErrorDisplay != null)
 			{
 				ErrorDisplay.ShowError("Could not find default_gitingore.txt file");
+			}
+		}
+
+		if (f.FileExists("res://default_gitattributes.txt"))
+		{
+			f.Open("res://default_gitattributes.txt", File.ModeFlags.Read);
+			var fileContent = f.GetAsText();
+			using (StreamWriter writer = new StreamWriter(ProjectLocation.PlusFile(".gitattributes").NormalizePath())){
+				writer.Write(fileContent);
+			}
+			f.Close();
+		}
+		else
+		{
+			if (ErrorDisplay != null)
+			{
+				ErrorDisplay.ShowError("Could not find default_gitattributes.txt file");
 			}
 		}
 	}
