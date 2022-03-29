@@ -140,6 +140,14 @@ public class UpdateWindow : Control
         });
 
         //************************
+        // xattr -cr "GodotManager.app"
+        //************************
+        steps.Push(() => {
+            _messageText.Text = "Clearing Security bits...";
+            Util.XAttr(exe_path.GetParentFolder().GetParentFolder().GetBaseDir(), "-cr");
+        })
+
+        //************************
         // Copy update/GodotManager.app/Contents to ../Contents
         //************************
         steps.Push(() => {

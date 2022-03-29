@@ -794,6 +794,10 @@ public class SettingsPanel : Panel
 		Util.Chmod(updater,0755);
 		#endif
 
+		#if GODOT_MACOS || GDOOT_OSX
+		Util.XAttr(Util.GetUpdateFolder().Join("Godot Manager.app"), "-cr");
+		#endif
+
 		ProcessStartInfo psi = new ProcessStartInfo();
 		psi.FileName = updater;
 		#if GODOT_WINDOWS || GODOT_UWP || GODOT_LINUXBSD || GODOT_X11

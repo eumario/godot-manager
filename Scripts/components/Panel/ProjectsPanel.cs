@@ -94,8 +94,9 @@ public class ProjectsPanel : Panel
             }
         }
 
-        if (CentralStore.Settings.EnableAutoScan)
+        if (CentralStore.Settings.EnableAutoScan) {
             ScanForProjects();
+        }
 
         PopulateListing();
     }
@@ -190,7 +191,6 @@ public class ProjectsPanel : Panel
                 }
             }
         }
-        PopulateListing();
     }
 
     void OnScanProjects_DirSelected(string path) {
@@ -199,6 +199,7 @@ public class ProjectsPanel : Panel
         CentralStore.Instance.SaveDatabase();
         AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnScanProjects_DirSelected");
         ScanForProjects();
+        PopulateListing();
     }
 
     public void PopulateListing() {
@@ -366,54 +367,32 @@ public class ProjectsPanel : Panel
 
 
     public async void _IdPressed(int id) {
+        ProjectFile pf;
         if (_popupMenu.ProjectLineEntry != null) {
-            ProjectLineEntry ple = _popupMenu.ProjectLineEntry;
-            switch(id) {
-                case 0:         // Open Project
-                    ExecuteEditorProject(ple.GodotVersion, ple.ProjectFile.Location.GetBaseDir());
-                    break;
-                case 1:         // Run Project
-                    ExecuteProject(ple.GodotVersion, ple.ProjectFile.Location.GetBaseDir());
-                    break;
-                case 2:         // Show Project Files
-                    OS.ShellOpen(ple.ProjectFile.Location.GetBaseDir());
-                    break;
-				case 3:         // Show Project Data Folder
-					string folder = GetProjectDataFolder(ple.ProjectFile);
-                    OS.ShellOpen(folder);
-					break;
-				case 4:         // Edit Project file
-                    // Handle Editing Certain Settings for ProjectFile
-                    AppDialogs.EditProject.ShowDialog(ple.ProjectFile);
-                    break;
-                case 5:         // Remove Project
-                    await RemoveProject(ple.ProjectFile);
-                    break;
-            }
+            pf = _popupMenu.ProjectLineEntry.ProjectFile;
         } else {
-            ProjectIconEntry pie = _popupMenu.ProjectIconEntry;
-            switch(id) {
-                case 0:         // Open Project
-                    ExecuteEditorProject(pie.GodotVersion, pie.ProjectFile.Location.GetBaseDir());
-                    break;
-                case 1:         // Run Project
-                    ExecuteProject(pie.GodotVersion, pie.ProjectFile.Location.GetBaseDir());
-                    break;
-                case 2:         // Show Project Files
-                    OS.ShellOpen(pie.ProjectFile.Location.GetBaseDir());
-                    break;
-                case 3:         // Show Project Data Folder
-                    string folder = GetProjectDataFolder(pie.ProjectFile);
-                    OS.ShellOpen(folder);
-                    break;
-                case 4:         // Edit Project file
-                    // Handle Editing Certain Settings for ProjectFile
-                    AppDialogs.EditProject.ShowDialog(pie.ProjectFile);
-                    break;
-                case 5:         // Remove Project
-                    await RemoveProject(pie.ProjectFile);
-                    break;
-            }
+            pf = _popupMenu.ProjectIconEntry.ProjectFile;
+        }
+        switch(id) {
+            case 0:     // Open Project
+                ExecuteEditorProject(pf.GodotVersion, pf.Location.GetBaseDir());
+                break;
+            case 1:     // Run Project
+                ExecuteProject(pf.GodotVersion, pf.Location.GetBaseDir());
+                break;
+            case 2:     // Show Project Files
+                OS.ShellOpen(pf.Location.GetBaseDir());
+                break;
+            case 3:     // Show Project Data Folder
+                string folder = GetProjectDataFolder(pf);
+                OS.ShellOpen(folder);
+                break;
+            case 4:     // Edit Project File
+                AppDialogs.EditProject.ShowDialog(pf);
+                break;
+            case 5:     // Remove Project
+                await RemoveProject(pf);
+                break;
         }
     }
 
@@ -428,21 +407,21 @@ public class ProjectsPanel : Panel
 
 	private string GetProjectDataFolder(ProjectFile pf)
 	{
-		ConfigFile cf = new ConfigFile();
-		cf.Load(pf.Location);
+		ProjectConfig pc = new ProjectConfig();
+		pc.Load(pf.Location);
 		string folder = "";
-		if (cf.HasSectionKey("application", "config/use_custom_user_dir"))
+		if (pc.HasSectionKey("application", "config/use_custom_user_dir"))
 		{
-			if ((bool)cf.GetValue("application", "config/use_custom_user_dir") == true)
+			if (pc.GetValue("application", "config/use_custom_user_dir") == "true")
 			{
 #if GODOT_WINDOWS || GODOT_UWP
 				folder = OS.GetEnvironment("APPDATA");
 #elif GODOT_LINUXBSD || GODOT_X11
-                            folder = "~/.local/share";
+                folder = "~/.local/share";
 #elif GODOT_MACOS || GODOT_OSX
-                            folder = "~/Library/Application Support";
+                folder = "~/Library/Application Support";
 #endif
-				folder = folder.PlusFile((string)cf.GetValue("application", "config/custom_user_dir_name"));
+				folder = folder.PlusFile(pc.GetValue("application", "config/custom_user_dir_name"));
 			} else {
 #if GODOT_WINDOWS || GODOT_UWP
                 folder = OS.GetEnvironment("APPDATA").PlusFile("Godot").PlusFile("app_userdata");

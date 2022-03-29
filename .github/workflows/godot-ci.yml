@@ -6,7 +6,7 @@ on:
 
 env:
   GAME_SUBDIRECTORY: "godot-manager"
-  GODOT_VERSION: "3.4.3"
+  GODOT_VERSION: "3.4.4"
   GODOT_VERSION_MODIFIER: "stable.mono"
   EXPORT_NAME: "GodotManager"
   CUSTOM_ICON: "true"
@@ -89,6 +89,7 @@ jobs:
           filePath="${buildPath}/${EXPORT_FILENAME}"
           mkdir -v -p "${buildPath}"
           dotnet restore
+          ./$GAME_SUBDIRECTORY/deploy/generate_version ${{ needs.release.outputs.version }} ./$GAME_SUBDIRECTORY/Godot-Manager.csproj ./$GAME_SUBDIRECTORY/lib/Version.cs
           godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
           echo "::set-output name=build_directory::${buildPath}"
           echo "::set-output name=build_file::${filePath}"
