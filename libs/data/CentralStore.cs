@@ -61,17 +61,10 @@ public class CentralStore {
 	}
 
 	public bool HasProject(string name) {
-		if (Path.GetFullPath(name) == name) {
-			var res = from pf in _data.Projects
-					where pf.Location == name
-					select pf;
-			return res.FirstOrDefault() != null;
-		} else {
-			var res = from pf in _data.Projects
-					where pf.Name == name
-					select pf;
-			return res.FirstOrDefault() != null;
-		}
+		var res = from pf in _data.Projects
+				where pf.Location == name
+				select pf;
+		return res.FirstOrDefault() != null;
 	}
 
 	public bool HasTemplate(string name) {
