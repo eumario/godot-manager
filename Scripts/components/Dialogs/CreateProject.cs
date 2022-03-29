@@ -112,7 +112,8 @@ public class CreateProject : ReferenceRect
             Gles3 = _gles3.Pressed,
             Godot4 = _useGodot4.Pressed,
             Plugins = new Array<AssetPlugin>(),
-			InitializeGit = _gitIntegrationBtn.Pressed
+			InitializeGit = _gitIntegrationBtn.Pressed,
+            ErrorDisplay = GetTree().CurrentScene.GetNode<ErrorWindow>("ErrorWindow")
         };
         if (_projectTemplates.Selected > 0)
             prj.Template = _projectTemplates.GetSelectedMetadata() as AssetProject;
