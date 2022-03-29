@@ -21,3 +21,9 @@ Godot Manager supports a decent set of settings that you can use to configure ho
 In the future, you will be able to add additional mirrors here, be it for the Asset Library or for the Godot Engines that are out there that you want to install, as long as the engine provides an easy way to track the data.
 
 Any comments, or suggestions are welcome, please feel free to open issues as you need.
+
+# Download
+
+You can grab the latest release from here on Github, or from Itch.io!
+
+[<img src="https://static.itch.io/images/badge-color.svg" width="250px">](https://eumario.itch.io/godot-manager)
