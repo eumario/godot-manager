@@ -7,6 +7,7 @@ using FileNotFoundException = System.IO.FileNotFoundException;
 using FileInfo = System.IO.FileInfo;
 using Dir = System.IO.Directory;
 using SFile = System.IO.File;
+using System.Linq;
 
 public static class Util {
 	public static string GetResourceBase(this string path, string file) {
@@ -63,9 +64,15 @@ public static class Util {
 		return path.NormalizePath();
 	}
 
+	public static string Join(this string[] parts, string separator) {
+		return string.Join(separator, parts);
+	}
+
 	public static string GetParentFolder(this string path) {
 		return path.GetBaseDir().GetBaseDir();
 	}
+
+	public static bool IsDirEmpty(this string path) => !Dir.Exists(path) || !Dir.EnumerateFileSystemEntries(path).Any();
 
 	public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive = false) {
 		var dir = new DirectoryInfo(sourceDir);
@@ -128,6 +135,14 @@ public static class Util {
 		return (output[0] as string).StripEdges();
 	}
 
+	public static string FindXAttr() {
+		Array output = new Array();
+		int exit_code = OS.Execute("which", new string[] { "xattr" }, true, output);
+		if (exit_code != 0)
+			return "";
+		return (output[0] as string).StripEdges();
+	}
+
 	public static bool Chmod(string path, int perms) {
 		string chmod_cmd = FindChmod();
 		if (chmod_cmd == "")
@@ -135,6 +150,18 @@ public static class Util {
 		
 		int exit_code = OS.Execute(chmod_cmd, new string[] { perms.ToString(), path.GetOSDir() }, true);
 		if (exit_code != 0) 
+			return false;
+		
+		return true;
+	}
+
+	public static bool XAttr(string path, string flags) {
+		string xattr_cmd = FindXAttr();
+		if (xattr_cmd == "")
+			return false;
+		
+		int exit_code = OS.Execute(xattr_cmd, new string[] { flags, path.GetOSDir() }, true);
+		if (exit_code != 0)
 			return false;
 		
 		return true;

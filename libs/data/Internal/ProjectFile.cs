@@ -23,23 +23,23 @@ public class ProjectFile : Godot.Object {
 
 	public static ProjectFile ReadFromFile(string filePath) {
 		ProjectFile projectFile = null;
-		ConfigFile project = new ConfigFile();
+		ProjectConfig project = new ProjectConfig();
 		var ret = project.Load(filePath);
 		if (ret == Error.Ok) {
-			if (!project.HasSectionKey("","config_version"))
+			if (!project.HasSectionKey("header","config_version"))
 				return projectFile;
 			if (!project.HasSection("application"))
 				return projectFile;
 			if (!project.HasSectionKey("application","config/name"))
 				return projectFile;
-			if ((int)project.GetValue("","config_version") == 4) {
+			if (project.GetValue("header","config_version") == "4" || project.GetValue("header","config_version") == "5") {
 				projectFile = new ProjectFile();
-				projectFile.Name = (string)project.GetValue("application", "config/name");
-				projectFile.Description = (string)project.GetValue("application", "config/description", "No Description");
+				projectFile.Name = project.GetValue("application", "config/name");
+				projectFile.Description = project.GetValue("application", "config/description", "No Description");
 				projectFile.Location = filePath.NormalizePath();
-				projectFile.Icon = (string)project.GetValue("application", "config/icon", "res://icon.png");
+				projectFile.Icon = project.GetValue("application", "config/icon", "res://icon.png");
 			} else {
-				GD.PrintErr($"{filePath}: Project Version does not match version 4.");
+				GD.PrintErr($"{filePath}: Project Version does not match version 4 or 5.");
 			}
 		} else {
 			GD.PrintErr($"Failed to load Project file: {filePath}, Error: {ret}");
@@ -72,24 +72,24 @@ public class ProjectFile : Godot.Object {
 	}
 
 	public void UpdateData() {
-		ConfigFile pf = new ConfigFile();
+		ProjectConfig pf = new ProjectConfig();
 		var ret = pf.Load(Location);
 		if (ret == Error.Ok) {
-			if ((int)pf.GetValue("","config_version") == 4) {
-				this.Name = (string)pf.GetValue("application", "config/name");
-				this.Description = (string)pf.GetValue("application", "config/description", "No Description");
-				this.Icon = (string)pf.GetValue("application","config/icon", "res://icon.png");
+			if (pf.GetValue("header","config_version") == "4" || pf.GetValue("header","config_version") == "5") {
+				this.Name = pf.GetValue("application", "config/name");
+				this.Description = pf.GetValue("application", "config/description", "No Description");
+				this.Icon = pf.GetValue("application","config/icon", "res://icon.png");
 			}
 		}
 	}
 
 	public void WriteUpdatedData() {
-		ConfigFile pf = new ConfigFile();
+		ProjectConfig pf = new ProjectConfig();
 		var ret = pf.Load(Location);
 		if (ret == Error.Ok) {
-			pf.SetValue("application", "config/name", this.Name);
-			pf.SetValue("application", "config/description", this.Description);
-			pf.SetValue("application", "config/icon", this.Icon);
+			pf.SetValue("application", "config/name", $"\"{this.Name}\"");
+			pf.SetValue("application", "config/description", $"\"{this.Description}\"");
+			pf.SetValue("application", "config/icon", $"\"{this.Icon}\"");
 			pf.Save(Location);
 		}
 	}

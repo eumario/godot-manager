@@ -2,6 +2,9 @@ using Godot;
 using Godot.Collections;
 using System.IO.Compression;
 using Directory = System.IO.Directory;
+using SFile = System.IO.File;
+using StreamWriter = System.IO.StreamWriter;
+using BinaryWriter = System.IO.BinaryWriter;
 
 public class NewProject : Object {
 	public string ProjectName;
@@ -9,6 +12,7 @@ public class NewProject : Object {
 	public AssetProject Template;
 	public string GodotVersion;
 	public bool Gles3 = true;
+	public bool Godot4 = false;
 	public Array<AssetPlugin> Plugins;
 
 	public bool CreateProject() {
@@ -24,7 +28,7 @@ public class NewProject : Object {
 			ExtractTemplate();
 			ConfigFile pf = new ConfigFile();
 			pf.Load(ProjectLocation.PlusFile("project.godot").NormalizePath());
-			pf.SetValue("application", "config/name", ProjectName);
+			pf.SetValue("application", "config/name", $"\"{ProjectName}\"");
 
 			// Need way to compile Assets before Enabling Plugins
 			// if (Plugins.Count > 0)
@@ -65,9 +69,9 @@ public class NewProject : Object {
 						// File we need to install
 						if (zae.FullName.EndsWith("/")) {
 							// Is folder, we need to ensure to make the folder in the Project Location.
-							Directory.CreateDirectory(ProjectLocation.PlusFile(path));
+							Directory.CreateDirectory(ProjectLocation.PlusFile(path).NormalizePath());
 						} else {
-							zae.ExtractToFile(ProjectLocation.PlusFile(path));
+							zae.ExtractToFile(ProjectLocation.PlusFile(path).NormalizePath());
 						}
 					}
 				}
@@ -84,69 +88,46 @@ public class NewProject : Object {
 				return;
 			icon_buffer = fh.GetBuffer((long)fh.GetLen());
 		}
-		using (File icon = new File()) {
-			var ret = icon.Open(ProjectLocation.PlusFile("icon.png"), File.ModeFlags.Write);
-			if (ret != Error.Ok)
-				return;
-			icon.StoreBuffer(icon_buffer);
+
+		using (var stream = SFile.OpenWrite(ProjectLocation.PlusFile("icon.png").NormalizePath())) {
+			using (BinaryWriter writer = new BinaryWriter(stream)) {
+				writer.Write(icon_buffer);
+			}
 		}
 	}
 
 	private void CreateDefaultEnvironment()
 	{
-		ConfigFile tres = new ConfigFile();
-		tres.SetValue("gd_resource type=\"Environment\" load_steps=2 format=2","","");
-		tres.SetValue("sub_resource type=\"ProceduralSky\" id=1", "", "");
-		tres.SetValue("resource", "background_mode", 2);
-		tres.SetValue("resource", "background_sky", "SubResource(1)");
-		tres.Save(ProjectLocation.PlusFile("default_env.tres"));
+		using (StreamWriter writer = new StreamWriter(ProjectLocation.PlusFile("default_env.tres").NormalizePath())) {
+			writer.WriteLine("[gd_resource type=\"Environment\" load_steps=2 format=2]");
+			writer.WriteLine("");
+			writer.WriteLine("[sub_resource type=\"ProceduralSky\" id=1]");
+			writer.WriteLine("");
+			writer.WriteLine("[resource]");
+			writer.WriteLine("background_mode = 2");
+			writer.WriteLine("background_sky = SubResource(1)");
+		}
 	}
 
 	private void CreateProjectFile()
 	{
-		ConfigFile pf = new ConfigFile();
-		pf.SetValue(null, "config_version", 4);
-		pf.SetValue(null, "_global_script_classes", new Array());
-		pf.SetValue(null, "_global_script_class_icons", new Dictionary());
-		pf.SetValue("application", "config/name", ProjectName);
-		pf.SetValue("application", "config/description", "Enter an interesting project description here!");
-		pf.SetValue("application", "config/icon", "res://icon.png");
+		ProjectConfig pf = new ProjectConfig();
+		pf.SetValue("header", "config_version", "4");
+		pf.SetValue("application", "config/name", $"\"{ProjectName}\"");
+		pf.SetValue("application", "config/description", "\"Enter an interesting project description here!\"");
+		pf.SetValue("application", "config/icon", "\"res://icon.png\"");
 
-		// Need way to compile Assets before Enabling Plugins
-		// if (Plugins.Count > 0)
-		// {
-		// 	SetupPlugins(pf);
-		// }
-
-		if (CentralStore.Instance.FindVersion(GodotVersion).IsMono)
-		{
-			pf.SetValue("mono", "debugger_agent/wait_timeout", 7000);
-		}
-
-		pf.SetValue("rendering", "environment/default_environment", "res://default_env.tres");
-		pf.Save(ProjectLocation.PlusFile("project.godot"));
-	}
-
-	private void SetupPlugins(ConfigFile pf)
-	{
-		Array<string> plugins = null;
-		if (pf.HasSectionKey("editor_plugins","enabled"))
-			plugins = pf.GetValue("editor_plugins","enabled") as Array<string>;
-		else	
-			plugins = new Array<string>();
-		foreach (AssetPlugin plgn in Plugins)
-		{
-			foreach (string file in plgn.InstallFiles)
+		if (Godot4) {
+			pf.SetValue("header", "config_version", "5");
+			pf.SetValue("application", "config/features", "PackedStringArray(\"4.0\", \"Vulkan Clustered\")");
+		} else {
+			if (CentralStore.Instance.FindVersion(GodotVersion).IsMono)
 			{
-				if (file.EndsWith("plugin.cfg"))
-				{
-					var path = file;
-					int pp = path.Find("/")+1;
-					path = path.Substr(pp,path.Length);
-					plugins.Add($"res://{path}");
-				}
+				pf.SetValue("mono", "debugger_agent/wait_timeout", "7000");
+				pf.SetValue("rendering", "environment/default_environment", "\"res://default_env.tres\"");
 			}
 		}
-		pf.SetValue("editor_plugins", "enabled", plugins);
+
+		pf.Save(ProjectLocation.PlusFile("project.godot").NormalizePath());
 	}
 }

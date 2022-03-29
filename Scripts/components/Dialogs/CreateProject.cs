@@ -10,6 +10,7 @@ public class CreateProject : ReferenceRect
     [Signal]
     public delegate void project_created(ProjectFile projFile);
 #endregion
+
 #region Node Paths
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/ProjectName")]
     LineEdit _projectName = null;
@@ -28,6 +29,12 @@ public class CreateProject : ReferenceRect
 
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/ErrorText")]
     Label _errorText = null;
+
+    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/CenterContainer/HBoxContainer4/Godot3")]
+    CheckBox _useGodot3 = null;
+
+    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/CenterContainer/HBoxContainer4/Godot4")]
+    CheckBox _useGodot4 = null;
 
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/ProjectTemplates")]
     OptionButton _projectTemplates = null;
@@ -61,22 +68,28 @@ public class CreateProject : ReferenceRect
 #endregion
 
 #region Helper Functions
-    public void ShowError() {
-        _errorText.Text = "Please choose an empty folder.";
-        _errorIcon.Texture = StatusError;
-        _createBtn.Disabled = true;
+    public enum DirError {
+        OK,
+        ERROR,
+        WARNING
     }
 
-    public void ShowWarning(string warn_msg) {
-        _errorText.Text = warn_msg;
-        _errorIcon.Texture = StatusWarning;
-        _createBtn.Disabled = true;
-    }
-
-    public void ShowSuccess() {
-        _errorText.Text = "";
-        _errorIcon.Texture = StatusSuccess;
-        _createBtn.Disabled = false;
+    public void ShowMessage(string msg, DirError err) {
+        _errorText.Text = msg;
+        switch(err) {
+            case DirError.OK:
+                _errorIcon.Texture = StatusSuccess;
+                _createBtn.Disabled = false;
+                break;
+            case DirError.WARNING:
+                _errorIcon.Texture = StatusWarning;
+                _createBtn.Disabled = false;
+                break;
+            case DirError.ERROR:
+                _errorIcon.Texture = StatusError;
+                _createBtn.Disabled = true;
+                break;
+        }
     }
 #endregion
 
@@ -84,16 +97,17 @@ public class CreateProject : ReferenceRect
     public override void _Ready()
     {
         this.OnReady();
-        ShowError();
+        ShowMessage("",DirError.OK);
     }
 
     [SignalHandler("pressed", nameof(_createBtn))]
     void OnCreatePressed() {
         NewProject prj = new NewProject {
             ProjectName = _projectName.Text,
-            ProjectLocation = _projectLocation.Text.PlusFile(_projectName.Text),
+            ProjectLocation = _projectLocation.Text,
             GodotVersion = _godotVersion.GetSelectedMetadata() as string,
             Gles3 = _gles3.Pressed,
+            Godot4 = _useGodot4.Pressed,
             Plugins = new Array<AssetPlugin>()
         };
         if (_projectTemplates.Selected > 0)
@@ -118,22 +132,26 @@ public class CreateProject : ReferenceRect
         string path = _projectLocation.Text;
         string newDir = path.Join(_projectName.Text).NormalizePath();
         Directory.CreateDirectory(newDir);
-        OnProjectLocation_TextChanged(_projectLocation.Text);
+        _projectLocation.Text = newDir;
+        TestPath(newDir);
     }
 
     [SignalHandler("pressed", nameof(_browseLocation))]
     void OnBrowseLocationPressed() {
         AppDialogs.BrowseFolderDialog.CurrentFile = "";
-        AppDialogs.BrowseFolderDialog.CurrentPath = "";
+        AppDialogs.BrowseFolderDialog.CurrentPath = (CentralStore.Settings.ProjectPath + "/").NormalizePath();
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
         AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnDirSelected");
     }
 
     void OnDirSelected(string bfdir) {
+        bfdir = bfdir.NormalizePath();
         _projectLocation.Text = bfdir;
         AppDialogs.BrowseFolderDialog.Visible = false;
         AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnDirSelected");
-        OnProjectLocation_TextChanged(_projectLocation.Text);
+        TestPath(bfdir);
+        if (bfdir.IsDirEmpty() && _projectName.Text == "Untitled Project")
+            _projectName.Text = bfdir.GetFile().Capitalize();
     }
 
     [SignalHandler("pressed", nameof(_cancelBtn))]
@@ -145,6 +163,7 @@ public class CreateProject : ReferenceRect
         int defaultGodot = -1;
         _projectName.Text = "Untitled Project";
         _projectLocation.Text = CentralStore.Settings.ProjectPath;
+        TestPath(CentralStore.Settings.ProjectPath);
 
         _godotVersion.Clear();
         foreach(GodotVersion version in CentralStore.Versions) {
@@ -186,19 +205,19 @@ public class CreateProject : ReferenceRect
 
     [SignalHandler("text_changed", nameof(_projectLocation))]
     void OnProjectLocation_TextChanged(string new_text) {
-        if (Directory.Exists(new_text)) {
-            if (Directory.Exists(new_text.Join(_projectName.Text)))
-                ShowSuccess();
-            else if (Directory.GetFiles(new_text).Length == 0) {
-                if (Directory.GetDirectories(new_text).Length == 0 || Directory.GetDirectories(new_text).Length == 2)
-                    ShowSuccess();
-                else
-                    ShowWarning("Project Directory does not exist!");
-            } else {
-                ShowError();
-            }
+        TestPath(new_text);
+    }
+
+    private void TestPath(string path) {
+        if (!Directory.Exists(path)) {
+            ShowMessage("The path specified doesn't exist.", DirError.ERROR);
+            return;
+        }
+        
+        if (!path.IsDirEmpty()) {
+            ShowMessage("Please choose an empty folder.", DirError.ERROR);
         } else {
-            ShowWarning("Base Directory does not exist!");
+            ShowMessage("",DirError.OK);
         }
     }
 }
