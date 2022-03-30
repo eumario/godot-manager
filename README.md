@@ -27,3 +27,9 @@ Any comments, or suggestions are welcome, please feel free to open issues as you
 You can grab the latest release from here on Github, or from Itch.io!
 
 [<img src="https://static.itch.io/images/badge-color.svg" width="250px">](https://eumario.itch.io/godot-manager)
+
+# Participate
+
+This project is an Open Source Project, licensed under the MIT License.  Participation is always welcome from the community.  A Discord server has been setup, and can be reached at the link below.
+
+[<img src="https://discord.com/assets/ff41b628a47ef3141164bfedb04fb220.png" width="250px">](https://discord.gg/ESkwAMN2Tt)
