@@ -204,6 +204,16 @@ public class ProjectLineEntry : ColorRect
     }
 
     // Test Drag and Drop
+    public override bool CanDropData(Vector2 position, object data)
+    {
+        return GetParent().GetParent<CategoryList>().CanDropData(position, data);
+    }
+
+    public override void DropData(Vector2 position, object data)
+    {
+        GetParent().GetParent<CategoryList>().DropData(position, data);
+    }
+
     public override object GetDragData(Vector2 position) {
         if (!(GetParent().GetParent() is CategoryList))
             return null;
@@ -211,9 +221,21 @@ public class ProjectLineEntry : ColorRect
         data["source"] = this;
         data["parent"] = this.GetParent().GetParent();
         var preview = GD.Load<PackedScene>("res://components/ProjectLineEntry.tscn").Instance<ProjectLineEntry>();
+        var notifier = new VisibilityNotifier2D();
+        preview.AddChild(notifier);
+        notifier.Connect("screen_entered", this, "OnDragStart");
+        notifier.Connect("screen_exited", this, "OnDragEnded");
         preview.ProjectFile = ProjectFile;
         SetDragPreview(preview);
         data["preview"] = preview;
         return data;
+    }
+
+    void OnDragStart() {
+        Input.SetMouseMode(Input.MouseMode.Confined);
+    }
+
+    void OnDragEnded() {
+        Input.SetMouseMode(Input.MouseMode.Visible);
     }
 }
