@@ -4,6 +4,19 @@ grep_version() {
 	echo "$(cat $1 | grep $2 | egrep -Eo "([0-9]{1,}\.)+[0-9]{1,}")"
 }
 
+GODOT_SHARP_EXTRAS="$(grep_version $2 GodotSharpExtras)"
+NEWTONSOFT_JSON="$(grep_version $2 Newtonsoft.JSON)"
+SYSTEM_IO_COMPRESSION="$(grep_version $2 System.IO.Compression)"
+IMAGE_SHARP="$(grep_version $2 Sixlabors.ImageSharp)"
+
+echo "Generating Versions:"
+echo "  Godot Manager: $1"
+echo "  GodotSharpExtras: $GODOT_SHARP_EXTRAS"
+echo "  Newtonsoft.JSON: $NEWTONSOFT_JSON"
+echo "  System.IO.Compression: $SYSTEM_IO_COMPRESSION"
+echo "  Sixlabors.ImageSharp: $IMAGE_SHARP"
+echo
+
 echo "public class VERSION {" > $3
 echo "	public static string GodotManager = \"$1\";" >> $3
 echo "	public static string GodotSharpExtras = \"$(grep_version $2 GodotSharpExtras)\";" >> $3
@@ -11,3 +24,5 @@ echo "	public static string NewtonsoftJSON = \"$(grep_version $2 Newtonsoft.JSON
 echo "	public static string SystemIOCompression = \"$(grep_version $2 System.IO.Compression)\";" >> $3
 echo "	public static string ImageSharp = \"$(grep_version $2 Sixlabors.ImageSharp)\";" >> $3
 echo "}" >> $3
+
+echo "Generation completed, stored in file $3"
