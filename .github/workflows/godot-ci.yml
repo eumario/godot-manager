@@ -57,7 +57,7 @@ jobs:
             extension: .x86_64
             type: executable
     container:
-      image: eumario/github-actions-ci:0.1.0
+      image: eumario/github-actions-ci:0.2.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -89,7 +89,8 @@ jobs:
           filePath="${buildPath}/${EXPORT_FILENAME}"
           mkdir -v -p "${buildPath}"
           dotnet restore
-          ./$GAME_SUBDIRECTORY/deploy/generate_version ${{ needs.release.outputs.version }} ./$GAME_SUBDIRECTORY/Godot-Manager.csproj ./$GAME_SUBDIRECTORY/lib/Version.cs
+          chmod a+x $GITHUB_WORKSPACE/deploy/generate_version
+          $GITHUB_WORKSPACE/deploy/generate_version ${{ needs.release.outputs.version }} $GITHUB_WORKSPACE/Godot-Manager.csproj $GITHUB_WORKSPACE/libs/Version.cs
           godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
           echo "::set-output name=build_directory::${buildPath}"
           echo "::set-output name=build_file::${filePath}"
