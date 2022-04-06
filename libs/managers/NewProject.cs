@@ -43,7 +43,7 @@ public class NewProject : Object {
 
 		if (InitializeGit)
 		{
-			var git = new GitRunner("git", ProjectLocation);
+			var git = new Runner("git", ProjectLocation);
 			GD.Print(git.Run("init"));
 			CreateGitFiles();
 
