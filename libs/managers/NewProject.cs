@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using GitTools;
 using System.IO.Compression;
 using Directory = System.IO.Directory;
 using SFile = System.IO.File;
@@ -14,6 +15,8 @@ public class NewProject : Object {
 	public bool Gles3 = true;
 	public bool Godot4 = false;
 	public Array<AssetPlugin> Plugins;
+	public bool InitializeGit = true;
+	public ErrorWindow ErrorDisplay = null;
 
 	public bool CreateProject() {
 		if (Template == null)
@@ -22,7 +25,7 @@ public class NewProject : Object {
 			CreateProjectFile();
 			CreateDefaultEnvironment();
 			CopyIcon();
-			ExtractPlugins();
+			ExtractPlugins();			
 		} else {
 			// Project file should be provided in the Template.
 			ExtractTemplate();
@@ -36,6 +39,14 @@ public class NewProject : Object {
 
 			pf.Save(ProjectLocation.PlusFile("project.godot"));
 			ExtractPlugins();
+		}
+
+		if (InitializeGit)
+		{
+			var git = new Runner("git", ProjectLocation);
+			GD.Print(git.Run("init"));
+			CreateGitFiles();
+
 		}
 		
 		return true;
@@ -84,7 +95,7 @@ public class NewProject : Object {
 		byte[] icon_buffer;
 		using (File fh = new File()) {
 			var ret = fh.Open("res://Assets/Icons/default_project_icon.png",File.ModeFlags.Read);
-			if (ret != Error.Ok)
+			if (ret != Godot.Error.Ok)
 				return;
 			icon_buffer = fh.GetBuffer((long)fh.GetLen());
 		}
@@ -106,6 +117,44 @@ public class NewProject : Object {
 			writer.WriteLine("[resource]");
 			writer.WriteLine("background_mode = 2");
 			writer.WriteLine("background_sky = SubResource(1)");
+		}
+	}
+
+	private void CreateGitFiles()
+	{
+		File f = new File();
+		if (f.FileExists("res://default_gitignore.txt"))
+		{
+			f.Open("res://default_gitignore.txt", File.ModeFlags.Read);
+			var fileContent = f.GetAsText();
+			using (StreamWriter writer = new StreamWriter(ProjectLocation.PlusFile(".gitignore").NormalizePath())){
+				writer.Write(fileContent);
+			}
+			f.Close();
+		}
+		else
+		{
+			if (ErrorDisplay != null)
+			{
+				ErrorDisplay.ShowError("Could not find default_gitingore.txt file");
+			}
+		}
+
+		if (f.FileExists("res://default_gitattributes.txt"))
+		{
+			f.Open("res://default_gitattributes.txt", File.ModeFlags.Read);
+			var fileContent = f.GetAsText();
+			using (StreamWriter writer = new StreamWriter(ProjectLocation.PlusFile(".gitattributes").NormalizePath())){
+				writer.Write(fileContent);
+			}
+			f.Close();
+		}
+		else
+		{
+			if (ErrorDisplay != null)
+			{
+				ErrorDisplay.ShowError("Could not find default_gitattributes.txt file");
+			}
 		}
 	}
 

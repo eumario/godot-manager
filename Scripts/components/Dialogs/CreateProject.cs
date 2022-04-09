@@ -7,28 +7,28 @@ public class CreateProject : ReferenceRect
 {
 
 #region Signals
-    [Signal]
-    public delegate void project_created(ProjectFile projFile);
+	[Signal]
+	public delegate void project_created(ProjectFile projFile);
 #endregion
 
 #region Node Paths
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/ProjectName")]
-    LineEdit _projectName = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/ProjectName")]
+	LineEdit _projectName = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/CreateFolder")]
-    Button _createFolder = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/CreateFolder")]
+	Button _createFolder = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer2/ProjectLocation")]
-    LineEdit _projectLocation = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer2/ProjectLocation")]
+	LineEdit _projectLocation = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer2/Browse")]
-    Button _browseLocation = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer2/Browse")]
+	Button _browseLocation = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer2/ErrorIcon")]
-    TextureRect _errorIcon = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer2/ErrorIcon")]
+	TextureRect _errorIcon = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/ErrorText")]
-    Label _errorText = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/ErrorText")]
+	Label _errorText = null;
 
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/CenterContainer/HBoxContainer4/Godot3")]
     CheckBox _useGodot3 = null;
@@ -39,29 +39,32 @@ public class CreateProject : ReferenceRect
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/ProjectTemplates")]
     OptionButton _projectTemplates = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/GodotVersion")]
-    OptionButton _godotVersion = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/GodotVersion")]
+	OptionButton _godotVersion = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer/GLES3")]
-    CheckBox _gles3 = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer/GLES3")]
+	CheckBox _gles3 = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer2/GLES2")]
-    CheckBox _gles2 = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer2/GLES2")]
+	CheckBox _gles2 = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer/VB/List")]
-    GridContainer _pluginList = null;
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer/VB/List")]
+	GridContainer _pluginList = null;
 
-    [NodePath("PC/CC/P/VB/MCButtons/HB/CreateBtn")]
-    Button _createBtn = null;
+	[NodePath("PC/CC/P/VB/MCButtons/HB/CreateBtn")]
+	Button _createBtn = null;
 
-    [NodePath("PC/CC/P/VB/MCButtons/HB/CancelBtn")]
-    Button _cancelBtn = null;
+	[NodePath("PC/CC/P/VB/MCButtons/HB/CancelBtn")]
+	Button _cancelBtn = null;
+	
+	[NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/VBoxContainer4/GitIntegration")]
+	CheckBox _gitIntegrationBtn = null;
 #endregion
 
 #region Resources
-    Texture StatusError = GD.Load<Texture>("res://Assets/Icons/icon_status_error.svg");
-    Texture StatusSuccess = GD.Load<Texture>("res://Assets/Icons/icon_status_success.svg");
-    Texture StatusWarning = GD.Load<Texture>("res://Assets/Icons/icon_status_warning.svg");
+	Texture StatusError = GD.Load<Texture>("res://Assets/Icons/icon_status_error.svg");
+	Texture StatusSuccess = GD.Load<Texture>("res://Assets/Icons/icon_status_success.svg");
+	Texture StatusWarning = GD.Load<Texture>("res://Assets/Icons/icon_status_warning.svg");
 #endregion
 
 #region Variables
@@ -108,7 +111,9 @@ public class CreateProject : ReferenceRect
             GodotVersion = _godotVersion.GetSelectedMetadata() as string,
             Gles3 = _gles3.Pressed,
             Godot4 = _useGodot4.Pressed,
-            Plugins = new Array<AssetPlugin>()
+            Plugins = new Array<AssetPlugin>(),
+			InitializeGit = _gitIntegrationBtn.Pressed,
+            ErrorDisplay = GetTree().CurrentScene.GetNode<ErrorWindow>("ErrorWindow")
         };
         if (_projectTemplates.Selected > 0)
             prj.Template = _projectTemplates.GetSelectedMetadata() as AssetProject;

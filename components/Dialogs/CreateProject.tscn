@@ -46,9 +46,6 @@ corner_radius_bottom_left = 4
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PC" type="PanelContainer" parent="."]
 anchor_right = 1.0
@@ -73,9 +70,7 @@ custom_styles/panel = SubResource( 5 )
 [node name="VB" type="VBoxContainer" parent="PC/CC/P"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 51.0
 
 [node name="MC" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_right = 530.0
@@ -360,6 +355,24 @@ margin_right = 494.0
 margin_bottom = 486.0
 custom_fonts/font = ExtResource( 7 )
 text = "Renderer can be changed later, but scenes may need to be adjusted."
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings"]
+margin_top = 439.0
+margin_right = 494.0
+margin_bottom = 480.0
+
+[node name="Label7" type="Label" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/VBoxContainer4"]
+margin_right = 494.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 6 )
+text = "Git:"
+
+[node name="GitIntegration" type="CheckBox" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/VBoxContainer4"]
+margin_top = 23.0
+margin_right = 494.0
+margin_bottom = 41.0
+pressed = true
+text = "Initialize Git Repository"
 
 [node name="Project Plugins" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
 visible = false
