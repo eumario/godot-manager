@@ -13,6 +13,8 @@ public class ProjectsPanel : Panel
 #region Node Accessors
     [NodePath("VC/MC/HC/ActionButtons")]
     ActionButtons _actionButtons = null;
+    [NodePath("VC/SC")]
+    ScrollContainer _scrollContainer = null;
     [NodePath("VC/SC/MarginContainer/ProjectList/ListView")]
     VBoxContainer _listView = null;
     [NodePath("VC/SC/MarginContainer/ProjectList/GridView")]
@@ -54,6 +56,15 @@ public class ProjectsPanel : Panel
         "Icon View",
         "Category View"
     };
+
+    bool dragging = false;
+    float _topBorder = 0.0f;
+    float _bottomBorder = 0.0f;
+    float _borderSize = 50.0f;
+    float _scrollSpeed = 0.0f;
+
+    Timer _scrollTimer = null;
+    Tween _scrollTween = null;
 #endregion
 
     Array<Container> _views;
@@ -98,7 +109,63 @@ public class ProjectsPanel : Panel
             ScanForProjects();
         }
 
+        _topBorder = _scrollContainer.RectGlobalPosition.y + _borderSize;
+        _bottomBorder = _scrollContainer.RectSize.y - _borderSize;
+
+        _scrollTimer = new Timer();
+        AddChild(_scrollTimer);
+        _scrollTimer.Connect("timeout", this, "OnScrollTimer");
+
+        _scrollTween = new Tween();
+        AddChild(_scrollTween);
+
         PopulateListing();
+    }
+
+    public override void _Input(InputEvent inputEvent) {
+        if (inputEvent is InputEventMouseMotion iemmEvent) {
+            if (!dragging)
+                return;
+            if (iemmEvent.Position.y <= _topBorder)
+            {
+                _scrollSpeed = Mathf.Clamp(iemmEvent.Position.y - _topBorder, -_borderSize, 0.0f);
+                if (_scrollSpeed == -_borderSize)
+                    _scrollSpeed *= 2;
+            }
+            else if (iemmEvent.Position.y >= _bottomBorder)
+            {
+                _scrollSpeed = Mathf.Clamp(iemmEvent.Position.y - _bottomBorder, 0.0f, _borderSize);
+                if (_scrollSpeed == _borderSize)
+                    _scrollSpeed *= 2;
+            }
+            else if (_scrollSpeed != 0)
+            {
+                _scrollSpeed = 0;
+            }
+        }
+    }
+
+    void OnScrollTimer() {
+        if (!dragging)
+            return;
+        if (_scrollSpeed == 0)
+            return;
+        if (_scrollContainer.ScrollVertical == 0 && _scrollSpeed < 0)
+            return;
+        if (_scrollContainer.ScrollVertical == _scrollContainer.GetVScrollbar().MaxValue && _scrollSpeed > 0)
+            return;
+        if (_scrollTween.IsActive())
+            _scrollTween.StopAll();
+        _scrollTween.InterpolateProperty(
+            _scrollContainer,
+            "scroll_vertical",
+            _scrollContainer.ScrollVertical,
+            _scrollContainer.ScrollVertical + _scrollSpeed,
+            0.24f,
+            Tween.TransitionType.Linear,
+            Tween.EaseType.Out);
+        _scrollTween.Start();
+        //_scrollContainer.ScrollVertical += (int)_scrollSpeed;
     }
 
 
@@ -133,13 +200,17 @@ public class ProjectsPanel : Panel
         return clt;
     }
 
-    void ConnectHandlers(Node inode) {
+    void ConnectHandlers(Node inode, bool isCategory = false) {
         if (inode is ProjectLineEntry ple) {
             ple.Connect("Clicked", this, "OnListEntry_Clicked");
             ple.Connect("DoubleClicked", this, "OnListEntry_DoubleClicked");
             ple.Connect("RightClicked", this, "OnListEntry_RightClicked");
             ple.Connect("RightDoubleClicked", this, "OnListEntry_RightDoubleClicked");
             ple.Connect("FavoriteUpdated", this, "OnListEntry_FavoriteUpdated");
+            if (isCategory) {
+                ple.Connect("DragStarted", this, "OnDragStarted");
+                ple.Connect("DragEnded", this, "OnDragEnded");
+            }
         } else if (inode is ProjectIconEntry pie) {
             pie.Connect("Clicked", this, "OnIconEntry_Clicked");
             pie.Connect("DoubleClicked", this, "OnIconEntry_DoubleClicked");
@@ -264,11 +335,11 @@ public class ProjectsPanel : Panel
                     clt = clUncategorized;
             }
             ple = clt.AddProject(pf);
-            ConnectHandlers(ple);
+            ConnectHandlers(ple,true);
 
             if (pf.CategoryId != -1 && pf.Favorite) {
                 ple = clFavorites.AddProject(pf);
-                ConnectHandlers(ple);
+                ConnectHandlers(ple,true);
             }
         }
         if (_missingProjects.Count == 0)
@@ -340,6 +411,16 @@ public class ProjectsPanel : Panel
 
     void OnListEntry_FavoriteUpdated(ProjectLineEntry ple) { 
         PopulateListing();
+    }
+
+    void OnDragStarted(ProjectLineEntry ple) {
+        dragging = true;
+        _scrollTimer.Start(0.25f);
+    }
+
+    void OnDragEnded(ProjectLineEntry ple) {
+        dragging = false;
+        _scrollTimer.Stop();
     }
 
     private void OnIconEntry_Clicked(ProjectIconEntry pie) {

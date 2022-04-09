@@ -96,6 +96,7 @@ HelpText = [ "List View", "Icon View", "Category View" ]
 margin_top = 44.0
 margin_right = 1024.0
 margin_bottom = 700.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

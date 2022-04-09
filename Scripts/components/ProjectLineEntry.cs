@@ -16,6 +16,10 @@ public class ProjectLineEntry : ColorRect
     public delegate void RightDoubleClicked(ProjectLineEntry self);
     [Signal]
     public delegate void FavoriteUpdated(ProjectLineEntry self);
+    [Signal]
+    public delegate void DragStarted(ProjectLineEntry self);
+    [Signal]
+    public delegate void DragEnded(ProjectLineEntry self);
 #endregion
 
 #region Private Node Variables
@@ -233,9 +237,11 @@ public class ProjectLineEntry : ColorRect
 
     void OnDragStart() {
         Input.SetMouseMode(Input.MouseMode.Confined);
+        EmitSignal("DragStarted", this);
     }
 
     void OnDragEnded() {
         Input.SetMouseMode(Input.MouseMode.Visible);
+        EmitSignal("DragEnded", this);
     }
 }
