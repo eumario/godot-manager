@@ -15,7 +15,7 @@ public class CentralStore {
 			_data = new CentralStoreData();
 		}
 	}
-	//public static CentralStore Instance { get => (_instance == null) ? _instance = new CentralStore() : _instance; }
+	
 	public static CentralStore Instance {
 		get {
 			if (_instance == null)
@@ -79,6 +79,27 @@ public class CentralStore {
 					where pt.Asset.Title == name
 					select pt;
 		return res.FirstOrDefault() != null;
+	}
+
+	public bool HasPluginId(string id) {
+		var res = from pt in CentralStore.Plugins
+				where pt.Asset.AssetId == id
+				select pt;
+		return res.FirstOrDefault() != null;
+	}
+
+	public AssetPlugin GetPlugin(string name) {
+		var res = from pt in CentralStore.Plugins
+					where pt.Asset.Title == name
+					select pt;
+		return res.First<AssetPlugin>();
+	}
+
+	public AssetPlugin GetPluginId(string id) {
+		var res = from pt in CentralStore.Plugins
+					where pt.Asset.AssetId == id
+					select pt;
+		return res.First<AssetPlugin>();
 	}
 
 	public GodotVersion FindVersion(string id) {
