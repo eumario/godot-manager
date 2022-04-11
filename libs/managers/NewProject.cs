@@ -26,7 +26,7 @@ public class NewProject : Object {
 		} else {
 			// Project file should be provided in the Template.
 			ExtractTemplate();
-			ConfigFile pf = new ConfigFile();
+			ProjectConfig pf = new ProjectConfig();
 			pf.Load(ProjectLocation.PlusFile("project.godot").NormalizePath());
 			pf.SetValue("application", "config/name", $"\"{ProjectName}\"");
 
