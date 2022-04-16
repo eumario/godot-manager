@@ -99,7 +99,7 @@ public class UpdateWindow : Control
         //************************
         steps.Push(() => {
             _messageText.Text = "Copying executable binary over...";
-            Util.CopyTo(exe_path,exe_path.GetParentFolder().Join(exe_path.GetFile()));
+            Util.CopyTo(exe_path,exe_path.GetParentFolder().Join(exe_path.GetFile()).NormalizePath());
         });
 
         //************************
@@ -108,7 +108,7 @@ public class UpdateWindow : Control
         steps.Push(() => {
             _messageText.Text = "Removing old files...";
             Dir.Delete(exe_path.GetParentFolder().Join("data_Godot-Manager").NormalizePath(),true);
-            SFile.Delete(exe_path.GetParentFolder().Join(exe_path.GetFile()));
+            SFile.Delete(exe_path.GetParentFolder().Join(exe_path.GetFile()).NormalizePath());
         });
 
         //************************

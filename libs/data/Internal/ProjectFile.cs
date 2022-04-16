@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
@@ -20,6 +21,8 @@ public class ProjectFile : Godot.Object {
 	public bool Favorite;
 	[JsonProperty]
 	public DateTime LastAccessed;
+	[JsonProperty]
+	public Array<string> Assets;
 
 	public static ProjectFile ReadFromFile(string filePath) {
 		ProjectFile projectFile = null;
@@ -58,6 +61,10 @@ public class ProjectFile : Godot.Object {
 		}
 
 		return ret;
+	}
+
+	public bool HasPlugin(string id) {
+		return Assets.Contains(id);
 	}
 
 	public ProjectFile() {

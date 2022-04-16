@@ -784,9 +784,9 @@ public class SettingsPanel : Panel
 		AppDialogs.DownloadGodotManager.Disconnect("download_complete", this,"OnDownloadGodotManagerCompleted");
 		string updatePath = Util.GetUpdateFolder().Join("update.zip").GetOSDir().NormalizePath();
 		#if GODOT_WINDOWS || GODOT_UWP || GODOT_LINUXBSD || GODOT_X11
-		string updater = Util.GetUpdateFolder().Join(OS.GetExecutablePath().GetFile());
+		string updater = Util.GetUpdateFolder().Join(OS.GetExecutablePath().GetFile()).NormalizePath();
 		#else
-		string updater = Util.GetUpdateFolder().Join("Godot Manager.app","Contents","MacOS",OS.GetExecutablePath().GetFile());
+		string updater = Util.GetUpdateFolder().Join("Godot Manager.app","Contents","MacOS",OS.GetExecutablePath().GetFile()).NormalizePath();
 		#endif
 		ZipFile.ExtractToDirectory(updatePath, updatePath.GetBaseDir());
 
@@ -795,7 +795,7 @@ public class SettingsPanel : Panel
 		#endif
 
 		#if GODOT_MACOS || GDOOT_OSX
-		Util.XAttr(Util.GetUpdateFolder().Join("Godot Manager.app"), "-cr");
+		Util.XAttr(Util.GetUpdateFolder().Join("Godot Manager.app").NormalizePath(), "-cr");
 		#endif
 
 		ProcessStartInfo psi = new ProcessStartInfo();

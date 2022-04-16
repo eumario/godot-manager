@@ -59,23 +59,12 @@ public class NewProject : Object {
 
 	private void ExtractPlugins()
 	{
+		if (!Directory.Exists(ProjectLocation.PlusFile("addons").NormalizePath()))
+			Directory.CreateDirectory(ProjectLocation.PlusFile("addons"));
+		
 		foreach(AssetPlugin plgn in Plugins) {
-			Array<string> files = plgn.InstallFiles;
-			using (ZipArchive za = ZipFile.OpenRead(ProjectSettings.GlobalizePath(plgn.Location))) {
-				foreach(ZipArchiveEntry zae in za.Entries) {
-					int pp = zae.FullName.Find("/") + 1;
-					string path = zae.FullName.Substr(pp,zae.FullName.Length);
-					if (files.Contains(zae.FullName)) {
-						// File we need to install
-						if (zae.FullName.EndsWith("/")) {
-							// Is folder, we need to ensure to make the folder in the Project Location.
-							Directory.CreateDirectory(ProjectLocation.PlusFile(path).NormalizePath());
-						} else {
-							zae.ExtractToFile(ProjectLocation.PlusFile(path).NormalizePath());
-						}
-					}
-				}
-			}
+			PluginInstaller installer = new PluginInstaller(plgn);
+			installer.Install(ProjectLocation);
 		}
 	}
 
@@ -84,8 +73,10 @@ public class NewProject : Object {
 		byte[] icon_buffer;
 		using (File fh = new File()) {
 			var ret = fh.Open("res://Assets/Icons/default_project_icon.png",File.ModeFlags.Read);
-			if (ret != Error.Ok)
+			if (ret != Error.Ok) {
+				GD.PrintErr("Failed to open Default Project Icon for reading...");
 				return;
+			}
 			icon_buffer = fh.GetBuffer((long)fh.GetLen());
 		}
 

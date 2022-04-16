@@ -1,6 +1,11 @@
 using Godot;
 using Godot.Sharp.Extras;
 using Godot.Collections;
+using System.Linq;
+using Directory = System.IO.Directory;
+using SFile = System.IO.File;
+using System.IO.Compression;
+using System.Text.RegularExpressions;
 
 public class EditProject : ReferenceRect
 {
@@ -10,29 +15,39 @@ public class EditProject : ReferenceRect
 #endregion
 
 #region Node Paths
-    [NodePath("PC/CC/P/VB/MCContent/VC/HC/ProjectIcon")]
+    #region General Tab
+    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/HC/ProjectIcon")]
     TextureRect _Icon = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/VC/HC/MC/VC/ProjectName")]
+    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/HC/MC/VC/ProjectName")]
     LineEdit _ProjectName = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/VC/GodotVersion")]
+    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/GodotVersion")]
     OptionButton _GodotVersion = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/VC/ProjectDescription")]
+    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/ProjectDescription")]
     TextEdit _ProjectDescription = null;
+    #endregion
 
+    #region Plugins Tab
+    [NodePath("PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC/VB/List")]
+    GridContainer _PluginList = null;
+    #endregion
+
+    #region Dialog Controls
     [NodePath("PC/CC/P/VB/MCButtons/HB/SaveBtn")]
     Button _SaveBtn = null;
 
     [NodePath("PC/CC/P/VB/MCButtons/HB/CancelBtn")]
     Button _CancelBtn = null;
+    #endregion
 #endregion
 
 #region Private Variables
     ProjectFile _pf = null;
     bool _isDirty = false;
     EPData _data;
+    Regex _gitTag = new Regex("-[A-Za-z0-9]{40,}");
 #endregion
 
 #region Internal Structure
@@ -41,6 +56,7 @@ public class EditProject : ReferenceRect
         public string ProjectName;
         public string GodotVersion;
         public string Description;
+        public Array<string> QueueAddons;
     }
 #endregion
 
@@ -85,10 +101,23 @@ public class EditProject : ReferenceRect
     {
         this.OnReady();
         _data = new EPData();
+        _data.QueueAddons = new Array<string>();
     }
 
 #region Public Functions
     public void ShowDialog(ProjectFile pf) {
+        foreach(CheckBox node in _PluginList.GetChildren()) {
+            node.QueueFree();
+        }
+
+        foreach(AssetPlugin plgn in CentralStore.Plugins) {
+            CheckBox plugin = new CheckBox();
+            plugin.Text = plgn.Asset.Title;
+            plugin.SetMeta("asset", plgn);
+            _PluginList.AddChild(plugin);
+            plugin.Connect("toggled", this, "OnToggledPlugin");
+        }
+
         ProjectFile = pf;
         PopulateData();
         Visible = true;
@@ -110,12 +139,74 @@ public class EditProject : ReferenceRect
             if (ProjectFile.GodotVersion == gdver.Id)
                 _GodotVersion.Selected = _GodotVersion.GetItemCount()-1;
         }
+
+        foreach(CheckBox btn in _PluginList.GetChildren()) {
+            btn.Pressed = false;
+        }
+
+        if (ProjectFile.Assets == null)
+            ProjectFile.Assets = new Array<string>();
+        
+        foreach(string assetId in ProjectFile.Assets) {
+            foreach(CheckBox btn in _PluginList.GetChildren()) {
+                AssetPlugin plugin = (AssetPlugin)btn.GetMeta("asset");
+                if (plugin.Asset.AssetId == assetId) {
+                    btn.Pressed = true;
+                }
+            }
+        }
+        
         _isDirty = false;
         _SaveBtn.Disabled = true;
+    }
+
+    async void UpdatePlugins() {
+        Array<AssetPlugin> plugins = new Array<AssetPlugin>();
+        Array<AssetPlugin> install = new Array<AssetPlugin>();
+        Array<AssetPlugin> remove = new Array<AssetPlugin>();
+
+        foreach(CheckBox btn in _PluginList.GetChildren()) {
+            if (btn.Pressed)
+                plugins.Add((AssetPlugin)btn.GetMeta("asset"));
+        }
+
+        var res = from asset in plugins
+                where !ProjectFile.Assets.Contains(asset.Asset.AssetId)
+                select asset;
+
+        foreach(AssetPlugin asset in res.AsEnumerable<AssetPlugin>())
+            install.Add(asset);
+        
+        foreach(string assetId in ProjectFile.Assets) {
+            var ares = from asset in plugins
+                        where asset.Asset.AssetId == assetId
+                        select asset;
+            if (ares.FirstOrDefault() == null)
+                remove.Add(CentralStore.Instance.GetPluginId(assetId));
+        }
+
+        foreach(AssetPlugin plugin in remove) {
+            PluginInstaller installer = new PluginInstaller(plugin);
+            installer.Uninstall(ProjectFile.Location.GetBaseDir().NormalizePath());
+            ProjectFile.Assets.Remove(plugin.Asset.AssetId);
+        }
+
+        foreach(AssetPlugin plugin in install) {
+            PluginInstaller installer = new PluginInstaller(plugin);
+            installer.Install(ProjectFile.Location.GetBaseDir().NormalizePath());
+            ProjectFile.Assets.Add(plugin.Asset.AssetId);
+        }
+        
+        CentralStore.Instance.SaveDatabase();
     }
 #endregion
 
 #region Event Handlers
+    void OnToggledPlugin(bool toggle) {
+        _isDirty = true;
+        _SaveBtn.Disabled = false;
+    }
+
     [SignalHandler("pressed", nameof(_SaveBtn))]
     void OnSaveBtnPressed() {
         ProjectFile.Name = ProjectName;
@@ -123,6 +214,7 @@ public class EditProject : ReferenceRect
         ProjectFile.Icon = IconPath;
         ProjectFile.GodotVersion = GodotVersion;
         ProjectFile.WriteUpdatedData();
+        UpdatePlugins();
         CentralStore.Instance.SaveDatabase();
         Visible = false;
         EmitSignal("project_updated");
@@ -162,9 +254,7 @@ public class EditProject : ReferenceRect
             var ret = AppDialogs.YesNoDialog.ShowDialog("Icon Selection","This file is outside your project structure, do you want to copy it to the root of your project?");
             await ret;
             if (ret.Result) {
-                var dir = new Directory();
-                dir.Copy(path, pfpath.PlusFile(path.GetFile()));
-                path = pfpath.PlusFile(path.GetFile());
+                SFile.Copy(path, pfpath.PlusFile(path.GetFile()));
                 IconPath = pfpath.GetProjectRoot(path);
             } else {
                 AppDialogs.MessageDialog.ShowMessage("Icon Selection", "Icon not copied, unable to use icon for Project.");

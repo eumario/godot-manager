@@ -118,9 +118,15 @@ public class CreateProject : ReferenceRect
                 prj.Plugins.Add(cp.GetMeta("asset") as AssetPlugin);
             }
         }
+
         prj.CreateProject();
         ProjectFile pf = ProjectFile.ReadFromFile(prj.ProjectLocation.PlusFile("project.godot").NormalizePath());
         pf.GodotVersion = prj.GodotVersion;
+        pf.Assets = new Array<string>();
+        
+        foreach(AssetPlugin plugin in prj.Plugins)
+            pf.Assets.Add(plugin.Asset.AssetId);
+        
         CentralStore.Projects.Add(pf);
         CentralStore.Instance.SaveDatabase();
         EmitSignal("project_created", pf);

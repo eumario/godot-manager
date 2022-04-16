@@ -58,10 +58,13 @@ public static class Util {
 	}
 
 	public static string Join(this string path, params string[] addTo) {
+		if (path.EndsWith("/"))
+			path = path.Substr(0,path.Length-1);
+		
 		foreach(string part in addTo) {
 			path += "/" + part;
 		}
-		return path.NormalizePath();
+		return path;
 	}
 
 	public static string Join(this string[] parts, string separator) {

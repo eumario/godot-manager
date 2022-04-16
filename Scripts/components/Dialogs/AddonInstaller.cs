@@ -3,6 +3,7 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using Newtonsoft.Json;
 using System.IO.Compression;
+using SFile = System.IO.File;
 
 public class AddonInstaller : ReferenceRect
 {
@@ -18,8 +19,7 @@ public class AddonInstaller : ReferenceRect
 #endregion
 
 #region Private Variables
-    private AssetPlugin _asset;
-    private Array<string> _files;
+    private PluginInstaller _installer;
     private TreeItem _root;
     private bool _updating = false;
     private Dictionary<string, TreeItem> _statusMap;
@@ -46,6 +46,8 @@ public class AddonInstaller : ReferenceRect
     Texture ift_folder = GD.Load<Texture>("res://Assets/Icons/icon_ft_folder.svg");
 
     Dictionary<string, Texture> IconRegistry = null;
+
+    Array<string> IgnoreFiles = null;
 #endregion
 
     void AddRegistry(string[] exts, Texture icon) {
@@ -82,17 +84,29 @@ public class AddonInstaller : ReferenceRect
         AddRegistry(new string[] {"::folder::"}, ift_folder);
     }
 
+    void InitIgnoreFiles() {
+        IgnoreFiles = new Array<string>();
+        IgnoreFiles.Add("res://icon.png");
+        IgnoreFiles.Add("res://icon.png.import");
+        IgnoreFiles.Add("res://project.godot");
+        IgnoreFiles.Add("res://default_env.tres");
+        IgnoreFiles.Add("res://.gitignore");
+        IgnoreFiles.Add("res://README.md");
+        IgnoreFiles.Add("res://LICENSE");
+        IgnoreFiles.Add("res://LICENSE.md");
+    }
+
     public override void _Ready()
     {
         this.OnReady();
         InitRegistry();
+        InitIgnoreFiles();
         _statusMap = new Dictionary<string, TreeItem>();
     }
 
     public void ShowDialog(AssetPlugin asset) {
-        _asset = asset;
+        _installer = new PluginInstaller(asset);
         _detailLabel.Text = $"Contents of asset {asset.Asset.Title}\nSelect files to Install:";
-        ParseZipFile();
         PopulateTree();
         Visible = true;
     }
@@ -136,18 +150,19 @@ public class AddonInstaller : ReferenceRect
         Array<string> installFiles = new Array<string>();
 
         foreach(string key in _statusMap.Keys) {
-            if (_statusMap[key] == null)
-                continue; // Should not happen, but for some reason does on MacOS in Proxmox environment?
-            if (_statusMap[key].IsChecked(0))
-                installFiles.Add(key);
+            if (_statusMap[key] != null) {
+                if (_statusMap[key].IsChecked(0))
+                    installFiles.Add(key);
+            }
         }
-        _asset.InstallFiles = installFiles;
+        _installer.AssetPlugin.InstallFiles = installFiles;
+        
         CentralStore.Instance.SaveDatabase();
         Visible = false;
     }
 
     [SignalHandler("item_edited", nameof(_addonTree))]
-    void OnItemEdited() {
+    async void OnItemEdited() {
         // Code "Copied" from Godot editor_asset_installer.cpp
         if (_updating)
             return;
@@ -159,6 +174,16 @@ public class AddonInstaller : ReferenceRect
         _updating = true;
 
         string path = item.GetMetadata(0) as string;
+
+        if (item.GetCustomColor(0) == new Color(1,0,0)) {
+            if (item.IsChecked(0)) {
+                var res = await AppDialogs.YesNoDialog.ShowDialog("Addon Installer - Ignored File","The file you have selected, is known to be a file that is part of your project structure, and can cause corruption if installed, do you wish to continue?");
+                item.SetChecked(0,res);
+                _updating = false;
+                if (!res)
+                    return;
+            }
+        }
 
         if (path == string.Empty || item == _root) {
             UpdateSubitems(item, item.IsChecked(0), true);
@@ -177,7 +202,7 @@ public class AddonInstaller : ReferenceRect
 
 
     void PopulateTree() {
-        // Code "Copied" from Godot editor_asset_installer.cpp
+        // Original code inspired by editor_asset_installer.cpp
         _updating = true;
         _addonTree.Clear();
         _root = _addonTree.CreateItem(null, -1);
@@ -188,14 +213,23 @@ public class AddonInstaller : ReferenceRect
         _root.SetEditable(0,true);
         Dictionary<string, TreeItem> folders = new Dictionary<string, TreeItem>();
 
-        foreach(string entry in _files) {
+        int indx = -1;
+        Array<string> _zipContents = _installer.GetZipContents();
+        foreach(string entry in _installer.GetFileList()) {
             string path = entry;
             bool isdir = false;
+            indx++;
+
+            if (path.IndexOf("/") > 0)
+                path = path.Substr(path.IndexOf("/")+1,path.Length);
 
             if (path.EndsWith("/")) {
                 path = path.Substr(0,path.Length-1);
                 isdir = true;
             }
+
+            if (path == "")
+                continue;
 
             int pp = path.FindLast("/");
 
@@ -232,19 +266,15 @@ public class AddonInstaller : ReferenceRect
                 ti.SetText(0,file);
 
                 ti.SetMetadata(0,"res://".Join(path));
+                
+                if (IgnoreFiles.Contains("res://".Join(path))) {
+                    ti.SetChecked(0,false);
+                    ti.SetCustomColor(0,new Color(1,0,0));
+                }
             }
 
-            _statusMap[entry] = ti;
+            _statusMap[_zipContents[indx]] = ti;
         }
         _updating = false;
-    }
-
-    void ParseZipFile() {
-        _files = new Array<string>();
-        using (ZipArchive za = ZipFile.OpenRead(ProjectSettings.GlobalizePath(_asset.Location))) {
-            foreach (ZipArchiveEntry zae in za.Entries) {
-                _files.Add(zae.FullName);
-            }
-        }
     }
 }
