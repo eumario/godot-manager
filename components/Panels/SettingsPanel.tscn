@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/components/Panel/SettingsPanel.cs" type="Script" id=1]
 [ext_resource path="res://Resources/GroupedButtons.tres" type="StyleBox" id=2]
@@ -8,10 +8,14 @@
 [ext_resource path="res://components/ActionButtons.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Icons/icon_undo.svg" type="Texture" id=7]
 [ext_resource path="res://Resources/TabContainer_Boxed.tres" type="StyleBox" id=8]
+[ext_resource path="res://Assets/UI/horizontal_rule.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Icons/itchio.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Icons/godot.svg" type="Texture" id=11]
 [ext_resource path="res://Resources/Fonts/droid-bold-22.tres" type="DynamicFont" id=12]
 [ext_resource path="res://Resources/Fonts/droid-regular-14.tres" type="DynamicFont" id=13]
+[ext_resource path="res://Assets/Icons/github.png" type="Texture" id=14]
 [ext_resource path="res://Assets/Icons/buy-me.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Icons/discord.png" type="Texture" id=16]
 [ext_resource path="res://components/ItemListWithButtons.tscn" type="PackedScene" id=17]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -20,6 +24,22 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/Fonts/droid-sans.bold.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+size = 26
+use_filter = true
+font_data = SubResource( 4 )
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+
+[sub_resource type="DynamicFont" id=12]
+size = 18
+use_filter = true
+font_data = SubResource( 10 )
 
 [node name="SettingsPanel" type="Panel"]
 anchor_right = 1.0
@@ -62,13 +82,13 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="VB/Header/HC"]
 margin_left = 214.0
-margin_right = 374.0
+margin_right = 314.0
 margin_bottom = 41.0
-rect_min_size = Vector2( 160, 40 )
+rect_min_size = Vector2( 100, 40 )
 
 [node name="PC" type="PanelContainer" parent="VB/Header/HC"]
-margin_left = 378.0
-margin_right = 627.0
+margin_left = 318.0
+margin_right = 664.0
 margin_bottom = 41.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_vertical = 4
@@ -77,7 +97,7 @@ custom_styles/panel = ExtResource( 2 )
 [node name="HC" type="HBoxContainer" parent="VB/Header/HC/PC"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 239.0
+margin_right = 336.0
 margin_bottom = 31.0
 
 [node name="General" type="Button" parent="VB/Header/HC/PC/HC"]
@@ -137,9 +157,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Licenses" type="Button" parent="VB/Header/HC/PC/HC"]
+[node name="Contributions" type="Button" parent="VB/Header/HC/PC/HC"]
 margin_left = 176.0
-margin_right = 229.0
+margin_right = 261.0
+margin_bottom = 21.0
+custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "Contributions"
+flat = true
+
+[node name="VSeparator4" type="VSeparator" parent="VB/Header/HC/PC/HC"]
+margin_left = 265.0
+margin_right = 269.0
+margin_bottom = 21.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Licenses" type="Button" parent="VB/Header/HC/PC/HC"]
+margin_left = 273.0
+margin_right = 326.0
 margin_bottom = 21.0
 custom_colors/font_color_hover = Color( 0.0156863, 0.815686, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.647059, 0.937255, 0.67451, 1 )
@@ -149,24 +188,24 @@ text = "Licenses"
 flat = true
 
 [node name="Spacer2" type="Control" parent="VB/Header/HC"]
-margin_left = 631.0
-margin_right = 842.0
+margin_left = 668.0
+margin_right = 932.0
 margin_bottom = 41.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 
 [node name="ActionButtons" parent="VB/Header/HC" instance=ExtResource( 6 )]
-margin_left = 846.0
-margin_right = 910.0
+margin_left = 936.0
+margin_right = 1000.0
 margin_bottom = 41.0
 Icons = [ ExtResource( 5 ), ExtResource( 7 ) ]
 HelpText = [ "Save Settings", "Undo Changes" ]
 
 [node name="Spacer3" type="Control" parent="VB/Header/HC"]
-margin_left = 914.0
+margin_left = 1004.0
 margin_right = 1014.0
 margin_bottom = 41.0
-rect_min_size = Vector2( 100, 40 )
+rect_min_size = Vector2( 10, 40 )
 
 [node name="MC" type="MarginContainer" parent="VB"]
 margin_top = 45.0
@@ -192,6 +231,7 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -518,14 +558,12 @@ margin_right = 994.0
 margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="MC" type="MarginContainer" parent="VB/MC/TC/About"]
 margin_right = 1004.0
 margin_bottom = 635.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
@@ -600,15 +638,18 @@ margin_bottom = 94.0
 size_flags_vertical = 10
 text = "Check for Updates"
 
-[node name="HSeparator" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
+[node name="HSeparator" type="TextureRect" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 98.0
 margin_right = 984.0
-margin_bottom = 102.0
+margin_bottom = 103.0
+rect_min_size = Vector2( 864, 5 )
+texture = ExtResource( 9 )
+stretch_mode = 1
 
 [node name="Label" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 106.0
+margin_top = 107.0
 margin_right = 984.0
-margin_bottom = 133.0
+margin_bottom = 134.0
 custom_fonts/font = ExtResource( 12 )
 text = "Built With"
 align = 1
@@ -617,9 +658,9 @@ __meta__ = {
 }
 
 [node name="MC" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 137.0
+margin_top = 138.0
 margin_right = 984.0
-margin_bottom = 297.0
+margin_bottom = 298.0
 rect_min_size = Vector2( 0, 160 )
 size_flags_horizontal = 3
 custom_constants/margin_right = 80
@@ -644,15 +685,18 @@ text = "Project NameVersion     WebsiteGodot Engine (Mono Edition)      v0.0.0ht
 "
 scroll_active = false
 
-[node name="HSeparator2" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 301.0
+[node name="HSeparator2" type="TextureRect" parent="VB/MC/TC/About/MC/VB"]
+margin_top = 302.0
 margin_right = 984.0
-margin_bottom = 305.0
+margin_bottom = 307.0
+rect_min_size = Vector2( 864, 5 )
+texture = ExtResource( 9 )
+stretch_mode = 1
 
 [node name="Label2" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 309.0
+margin_top = 311.0
 margin_right = 984.0
-margin_bottom = 336.0
+margin_bottom = 338.0
 custom_fonts/font = ExtResource( 12 )
 text = "Special Thanks To"
 align = 1
@@ -661,9 +705,9 @@ __meta__ = {
 }
 
 [node name="MC2" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 340.0
+margin_top = 342.0
 margin_right = 984.0
-margin_bottom = 440.0
+margin_bottom = 442.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 80
 custom_constants/margin_top = 10
@@ -700,15 +744,34 @@ text = "Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    Marita
 "
 scroll_active = false
 
-[node name="HSeparator3" type="HSeparator" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 444.0
+[node name="HSeparator3" type="TextureRect" parent="VB/MC/TC/About/MC/VB"]
+margin_top = 446.0
 margin_right = 984.0
-margin_bottom = 448.0
+margin_bottom = 451.0
+rect_min_size = Vector2( 864, 5 )
+texture = ExtResource( 9 )
+stretch_mode = 1
 
-[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 452.0
+[node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
+margin_top = 455.0
 margin_right = 984.0
-margin_bottom = 479.0
+margin_bottom = 546.0
+size_flags_horizontal = 3
+
+[node name="HB" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer"]
+margin_left = 75.0
+margin_right = 908.0
+margin_bottom = 91.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
+margin_right = 231.0
+margin_bottom = 91.0
+
+[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB"]
+margin_right = 231.0
+margin_bottom = 27.0
 custom_fonts/font = ExtResource( 12 )
 text = "Donations"
 align = 1
@@ -716,25 +779,123 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 483.0
-margin_right = 984.0
-margin_bottom = 543.0
-size_flags_horizontal = 3
+[node name="BuyMe" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB"]
+margin_top = 31.0
+margin_right = 231.0
+margin_bottom = 91.0
+texture = ExtResource( 15 )
 
-[node name="HB" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer"]
-margin_left = 376.0
-margin_right = 607.0
-margin_bottom = 60.0
-custom_constants/separation = 25
+[node name="VB2" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
+margin_left = 235.0
+margin_right = 445.0
+margin_bottom = 91.0
+
+[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
+margin_right = 210.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 12 )
+text = "Itch Page"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BuyMe" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
-margin_right = 231.0
-margin_bottom = 60.0
-texture = ExtResource( 15 )
+[node name="ItchIO" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
+margin_top = 31.0
+margin_right = 210.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 210, 60 )
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="VB3" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
+margin_left = 449.0
+margin_right = 639.0
+margin_bottom = 91.0
+
+[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB3"]
+margin_right = 190.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 12 )
+text = "Github"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Github" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB3"]
+margin_top = 31.0
+margin_right = 190.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 190, 60 )
+texture = ExtResource( 14 )
+expand = true
+stretch_mode = 6
+
+[node name="VB4" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
+margin_left = 643.0
+margin_right = 833.0
+margin_bottom = 91.0
+
+[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB4"]
+margin_right = 190.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 12 )
+text = "Discord"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Discord" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB4"]
+margin_top = 31.0
+margin_right = 190.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 190, 60 )
+texture = ExtResource( 16 )
+expand = true
+stretch_mode = 6
+
+[node name="Contributions" type="ScrollContainer" parent="VB/MC/TC"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="Contributors" type="RichTextLabel" parent="VB/MC/TC/Contributions"]
+margin_right = 1004.0
+margin_bottom = 635.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/mono_font = SubResource( 11 )
+custom_fonts/normal_font = SubResource( 12 )
+bbcode_enabled = true
+bbcode_text = "[center][code]Source Contributors[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=4]
+[cell][color=lime][url=https://github.com/Mo8it]Mo8it[/url][/color] | [/cell]
+[cell][color=lime][url=https://github.com/Salvakiya]Salvakiya[/url][/color] [/cell]
+[/table]
+
+[center][code]Donations / Purchases[/code][/center]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=4]
+[cell][color=green]Bradley Elliot[/color] | [/cell]
+[cell][color=green]Nio Kasgami[/color] | [/cell]
+[cell][color=green]Gamma Games[/color] [/cell]
+[/table]
+[/center]"
+text = "Source Contributors
+
+Mo8it | Salvakiya 
+
+Donations / Purchases
+
+Bradley Elliot | Nio Kasgami | Gamma Games 
+"
 
 [node name="Licenses" type="TabContainer" parent="VB/MC/TC"]
 visible = false
@@ -775,7 +936,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[color=yellow]-----------------------------------------------------------------------------------------------------------------------------------------------[/color]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 
 [color=aqua]License GodotSharpExtras:[/color]
 Copyright (c) 2021 Mario Steele
@@ -798,7 +959,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[color=yellow]-----------------------------------------------------------------------------------------------------------------------------------------------[/color]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 
 [color=aqua]License Godot Engine[/color]
 Copyright (c) 2007-2022 Juan Linietsky, Ariel Manzur.
@@ -822,7 +983,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[color=yellow]-----------------------------------------------------------------------------------------------------------------------------------------------[/color]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 
 [color=aqua]License Newtonsoft.JSON[/color]
 Copyright (c) 2007 James Newton-King
@@ -853,7 +1014,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 License GodotSharpExtras:
 Copyright (c) 2021 Mario Steele
@@ -876,7 +1037,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 License Godot Engine
 Copyright (c) 2007-2022 Juan Linietsky, Ariel Manzur.
@@ -900,7 +1061,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 License Newtonsoft.JSON
 Copyright (c) 2007 James Newton-King

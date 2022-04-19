@@ -23,6 +23,9 @@ public class SettingsPanel : Panel
 	[NodePath("VB/Header/HC/PC/HC/About")]
 	Button _aboutBtn = null;
 
+	[NodePath("VB/Header/HC/PC/HC/Contributions")]
+	Button _contributionBtn = null;
+
 	[NodePath("VB/Header/HC/PC/HC/Licenses")]
 	Button _licensesBtn = null;
 	#endregion
@@ -105,8 +108,22 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/About/MC/VB/MC2/SpecialThanks")]
 	RichTextLabel _specialThanks = null;
 
-	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/BuyMe")]
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB/BuyMe")]
 	TextureRect _buyMe = null;
+
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2/ItchIO")]
+	TextureRect _itchIo = null;
+
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB3/Github")]
+	TextureRect _github = null;
+
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB4/Discord")]
+	TextureRect _discord = null;
+	#endregion
+
+	#region Contributions Page
+	[NodePath("VB/MC/TC/Contributions/Contributors")]
+	RichTextLabel _contributors = null;
 	#endregion
 	
 	#region Licenses Page
@@ -328,6 +345,7 @@ public class SettingsPanel : Panel
 		_generalBtn.Pressed = true;
 		_projectsBtn.Pressed = false;
 		_aboutBtn.Pressed = false;
+		_contributionBtn.Pressed = false;
 		_licensesBtn.Pressed = false;
 		_pages.CurrentTab = 0;
 	}
@@ -337,6 +355,7 @@ public class SettingsPanel : Panel
 		_generalBtn.Pressed = false;
 		_projectsBtn.Pressed = true;
 		_aboutBtn.Pressed = false;
+		_contributionBtn.Pressed = false;
 		_licensesBtn.Pressed = false;
 		_pages.CurrentTab = 1;
 	}
@@ -346,8 +365,19 @@ public class SettingsPanel : Panel
 		_generalBtn.Pressed = false;
 		_projectsBtn.Pressed = false;
 		_aboutBtn.Pressed = true;
+		_contributionBtn.Pressed = false;
 		_licensesBtn.Pressed = false;
 		_pages.CurrentTab = 2;
+	}
+
+	[SignalHandler("pressed", nameof(_contributionBtn))]
+	void OnContributionPressed() {
+		_generalBtn.Pressed = false;
+		_projectsBtn.Pressed = false;
+		_aboutBtn.Pressed = false;
+		_contributionBtn.Pressed = true;
+		_licensesBtn.Pressed = false;
+		_pages.CurrentTab = 3;
 	}
 
 	[SignalHandler("pressed", nameof(_licensesBtn))]
@@ -355,8 +385,9 @@ public class SettingsPanel : Panel
 		_generalBtn.Pressed = false;
 		_projectsBtn.Pressed = false;
 		_aboutBtn.Pressed = false;
+		_contributionBtn.Pressed = false;
 		_licensesBtn.Pressed = true;
-		_pages.CurrentTab = 3;
+		_pages.CurrentTab = 4;
 	}
 #endregion
 
@@ -744,6 +775,7 @@ public class SettingsPanel : Panel
 	[SignalHandler("meta_clicked", nameof(_specialThanks))]
 	[SignalHandler("meta_clicked", nameof(_mitLicense))]
 	[SignalHandler("meta_clicked", nameof(_apacheLicense))]
+	[SignalHandler("meta_clicked", nameof(_contributors))]
 	void OnMetaClicked(object meta) {
 		OS.ShellOpen((string)meta);
 	}
@@ -818,6 +850,33 @@ public class SettingsPanel : Panel
 		if (inputEvent is InputEventMouseButton iembEvent) {
 			if (iembEvent.Pressed && iembEvent.ButtonIndex == (int)ButtonList.Left) {
 				OS.ShellOpen("https://www.buymeacoffee.com/eumario");
+			}
+		}
+	}
+
+	[SignalHandler("gui_input", nameof(_itchIo))]
+	void OnItchIo_GuiInput(InputEvent inputEvent) {
+		if (inputEvent is InputEventMouseButton iembEvent) {
+			if (iembEvent.Pressed && iembEvent.ButtonIndex == (int)ButtonList.Left) {
+				OS.ShellOpen("https://eumario.itch.io/godot-manager");
+			}
+		}
+	}
+
+	[SignalHandler("gui_input", nameof(_github))]
+	void OnGithub_GuiInput(InputEvent inputEvent) {
+		if (inputEvent is InputEventMouseButton iembEvent) {
+			if (iembEvent.Pressed && iembEvent.ButtonIndex == (int)ButtonList.Left) {
+				OS.ShellOpen("https://github.com/eumario/godot-manager");
+			}
+		}
+	}
+
+	[SignalHandler("gui_input", nameof(_discord))]
+	void OnDiscord_GuiInput(InputEvent inputEvent) {
+		if (inputEvent is InputEventMouseButton iembEvent) {
+			if (iembEvent.Pressed && iembEvent.ButtonIndex == (int)ButtonList.Left) {
+				OS.ShellOpen("https://discord.gg/ESkwAMN2Tt");
 			}
 		}
 	}
