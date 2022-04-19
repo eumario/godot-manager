@@ -122,6 +122,10 @@ public static class Util {
 
 	public static ImageTexture LoadImage(string path) {
 		var image = new Image();
+		
+		if (!SFile.Exists(path))
+			return null;
+
 		Error err = image.Load(path);
 		if (err != Error.Ok)
 			return null;
