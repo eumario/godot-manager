@@ -54,6 +54,9 @@ public class PaginationNav : CenterContainer
             btn.Connect("pressed", this, "PageChanged", new Array { i });
             _pageCount.AddChild(btn);
             abPages.Add(btn);
+            if (i > 9) {
+                btn.Visible = false;
+            }
         }
         if (totalPages > 0) {
             iCurrentPage = 1;
@@ -76,6 +79,21 @@ public class PaginationNav : CenterContainer
         } else {
             _lastPage.Disabled = false;
             _nextPage.Disabled = false;
+        }
+        int from = iCurrentPage - 5;
+        if (from < 0)
+            from = 0;
+        
+        int to = from + 9;
+        if (to > iTotalPages)
+            to = iTotalPages;
+        
+        for (int i = 0; i < iTotalPages; i++) {
+            if (i >= from && i <= to) {
+                abPages[i].Visible = true;
+            } else {
+                abPages[i].Visible = false;
+            }
         }
     }
 
