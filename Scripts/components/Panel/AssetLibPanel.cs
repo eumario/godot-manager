@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using TimeSpan = System.TimeSpan;
+using DateTime = System.DateTime;
 
 public class AssetLibPanel : Panel
 {
@@ -55,11 +57,17 @@ public class AssetLibPanel : Panel
     int _plaCurrentPage = 0;
     int _pltCurrentPage = 0;
     string lastSearch = "";
+    DateTime lastConfigureRequest;
+    DateTime lastSearchRequest;
+    TimeSpan defaultWaitSearch = TimeSpan.FromMinutes(5);
+    TimeSpan defaultWaitConfigure = TimeSpan.FromHours(2);
 #endregion
 
     public override void _Ready()
     {
         this.OnReady();
+        lastConfigureRequest = DateTime.Now - TimeSpan.FromHours(3);
+        lastSearchRequest = DateTime.Now - TimeSpan.FromMinutes(6);
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
         _mirrorSite.Clear();
         foreach (Dictionary<string, string> mirror in CentralStore.Settings.AssetMirrors) {
@@ -152,11 +160,15 @@ public class AssetLibPanel : Panel
     async void OnPageChanged(int page) {
         if (GetParent<TabContainer>().GetCurrentTabControl() == this)
 		{
-			await Configure(_templatesBtn.Pressed);
-            if (_category.GetItemCount() == 1)
-                return;
+            if ((DateTime.Now - lastConfigureRequest) >= defaultWaitConfigure) {
+			    await Configure(_templatesBtn.Pressed);
+                if (_category.GetItemCount() == 1)
+                    return;
+            }
 
-			await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
+            if ((DateTime.Now - lastSearchRequest) >= defaultWaitSearch) {
+			    await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
+            }
 		}
 	}
 
@@ -205,6 +217,7 @@ public class AssetLibPanel : Panel
 		{
 			_category.AddItem(category.Name, category.Id.ToInt());
 		}
+        lastConfigureRequest = DateTime.Now;
 	}
 
     private string[] GetSupport() {
@@ -248,5 +261,6 @@ public class AssetLibPanel : Panel
 		AppDialogs.BusyDialog.UpdateByline("Parsing results...");
 		pl.UpdateResults(stask.Result);
 		AppDialogs.BusyDialog.HideDialog();
+        lastSearchRequest = DateTime.Now;
 	}
 }
