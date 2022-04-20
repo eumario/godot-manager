@@ -49,10 +49,9 @@ public class DownloadGodotManager : ReferenceRect
 	DateTime dtStartTime;
 	GDCSHTTPClient client;
 	Uri dlUri;
-	bool bDownloading = false;
 	Array<double> adSpeedStack;
-	Github.Release grRelease;
-	Github.Asset gaAsset;
+	Github.Release grRelease = null;
+	Github.Asset gaAsset = null;
 	#endregion
 
 	#region Initializing Controls
@@ -118,7 +117,6 @@ public class DownloadGodotManager : ReferenceRect
 	}
 
 	async Task<bool> StartNetwork() {
-		bDownloading = true;
 		adSpeedStack.Clear();
 		Task<HTTPClient.Status> cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
 
@@ -179,7 +177,6 @@ public class DownloadGodotManager : ReferenceRect
 		}
 
 		client.Close();
-		bDownloading = false;
 		if (tresult.IsCanceled)
 		{
 			CleanupClient();
