@@ -64,6 +64,7 @@ public class PaginatedListing : ScrollContainer
         alqrLastResult = result;
         _topPageCount.SetPage(result.Page);
         _bottomPageCount.SetPage(result.Page);
+        ScrollVertical = 0;
         foreach(AssetLib.AssetResult asset in result.Result) {
             AssetLibEntry ale = tAssetLibEntry.Instance<AssetLibEntry>();
             ale.Title = asset.Title;
@@ -71,6 +72,14 @@ public class PaginatedListing : ScrollContainer
             ale.Author = asset.Author;
             ale.License = asset.Cost;
             ale.AssetId = asset.AssetId;
+            if (CentralStore.Instance.HasPlugin(asset.Title)) {
+                ale.Downloaded = true;
+                AssetPlugin plgn = CentralStore.Instance.GetPluginId(ale.AssetId);
+                if (plgn != null) {
+                    if (plgn.Asset.VersionString != asset.VersionString)
+                        ale.UpdateAvailable = true;
+                }
+            }
             _listing.AddChild(ale);
             Uri uri = new Uri(asset.IconUrl);
             string iconPath = $"{CentralStore.Settings.CachePath}/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";

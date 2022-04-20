@@ -179,9 +179,33 @@ public class AssetLibPreview : ReferenceRect
         }
 
         if (Templates.IndexOf(asset.Category) != -1) {
-            _Download.Disabled = CentralStore.Instance.HasTemplate(asset.Title);
+            if (CentralStore.Instance.HasTemplateId(asset.AssetId)) {
+                AssetProject tasset = CentralStore.Instance.GetTemplateId(asset.AssetId);
+                if (tasset.Asset.VersionString != asset.VersionString) {
+                    _Download.Disabled = false;
+                    _Download.Text = "Update Template";
+                } else {
+                    _Download.Disabled = true;
+                    _Download.Text = "Download";
+                }
+            } else {
+                _Download.Disabled = false;
+                _Download.Text = "Download";
+            }
         } else {
-            _Download.Disabled = CentralStore.Instance.HasPlugin(asset.Title);
+            if (CentralStore.Instance.HasPluginId(asset.AssetId)) {
+                AssetPlugin passet = CentralStore.Instance.GetPluginId(asset.AssetId);
+                if (passet.Asset.VersionString != asset.VersionString) {
+                    _Download.Disabled = false;
+                    _Download.Text = "Update Plugin";
+                } else {
+                    _Download.Disabled = true;
+                    _Download.Text = "Download";
+                }
+            } else {
+                _Download.Disabled = false;
+                _Download.Text = "Download";
+            }
         }
         
         dlq.StartDownload();
