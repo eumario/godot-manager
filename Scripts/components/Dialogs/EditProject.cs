@@ -160,7 +160,7 @@ public class EditProject : ReferenceRect
         _SaveBtn.Disabled = true;
     }
 
-    async void UpdatePlugins() {
+    void UpdatePlugins() {
         Array<AssetPlugin> plugins = new Array<AssetPlugin>();
         Array<AssetPlugin> install = new Array<AssetPlugin>();
         Array<AssetPlugin> remove = new Array<AssetPlugin>();
