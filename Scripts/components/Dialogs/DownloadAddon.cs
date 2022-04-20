@@ -255,11 +255,17 @@ public class DownloadAddon : ReferenceRect
             ap = new AssetProject();
             ap.Asset = Asset;
             ap.Location = sPath;
+            if (CentralStore.Instance.HasTemplateId(Asset.AssetId)) {
+                CentralStore.Templates.Remove(CentralStore.Instance.GetTemplateId(Asset.AssetId));
+            }
             CentralStore.Templates.Add(ap);
         } else {
             apl = new AssetPlugin();
             apl.Asset = Asset;
             apl.Location = sPath;
+            if (CentralStore.Instance.HasPluginId(Asset.AssetId)) {
+                CentralStore.Plugins.Remove(CentralStore.Instance.GetPluginId(Asset.AssetId));
+            }
             CentralStore.Plugins.Add(apl);
         }
         CentralStore.Instance.SaveDatabase();

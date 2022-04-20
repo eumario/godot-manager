@@ -141,7 +141,22 @@ public class AssetLibEntry : ColorRect
                     await this.IdleFrame();
                 AppDialogs.BusyDialog.Visible = false;
                 AppDialogs.AssetLibPreview.ShowDialog(asset.Result);
+                AppDialogs.AssetLibPreview.Connect("installed_addon", this, nameof(OnInstalledAddon));
+                AppDialogs.AssetLibPreview.Connect("preview_closed", this, nameof(OnPreviewClosed));
             }
         }
+    }
+
+    void OnInstalledAddon(bool update) {
+        GD.PrintErr("Installed Addon called");
+        Downloaded = true;
+        if (update)
+            UpdateAvailable = false;
+    }
+
+    void OnPreviewClosed() {
+        GD.PrintErr("Preview Closed called");
+        AppDialogs.AssetLibPreview.Disconnect("installed_addon", this, nameof(OnInstalledAddon));
+        AppDialogs.AssetLibPreview.Disconnect("preview_closed", this, nameof(OnPreviewClosed));
     }
 }

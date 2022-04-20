@@ -6,6 +6,14 @@ using File = System.IO.File;
 
 public class AssetLibPreview : ReferenceRect
 {
+#region Signals
+    [Signal]
+    public delegate void installed_addon(bool update);
+
+    [Signal]
+    public delegate void preview_closed();
+#endregion
+
 #region Node Paths
     [NodePath("PC/CC/P/VB/MC/TitleBarBG/HB/Title")]
     Label _DialogTitle = null;
@@ -92,11 +100,22 @@ public class AssetLibPreview : ReferenceRect
         await AppDialogs.DownloadAddon.StartDownload();
     }
 
-    void OnDownloadAddonCompleted(AssetLib.Asset asset, AssetProject ap, AssetPlugin apl) {
+    async void OnDownloadAddonCompleted(AssetLib.Asset asset, AssetProject ap, AssetPlugin apl) {
         AppDialogs.DownloadAddon.Disconnect("download_complete", this, "OnDownloadAddonCompleted");
         if (apl != null) {
             AppDialogs.AddonInstaller.ShowDialog(apl);
         }
+        while (AppDialogs.AddonInstaller.Visible)
+            await this.IdleFrame();
+        EmitSignal("installed_addon", (_Download.Text != "Download"));
+        Visible = false;
+        AppDialogs.MessageDialog.ShowMessage((apl == null ? "Template Download" : "Plugin Download"), 
+                                                $"Download of {asset.Title} completed.");
+    }
+
+    [SignalHandler("hide")]
+    void OnHide_AssetLibPreview() {
+        EmitSignal("preview_closed");
     }
 
     public void ShowDialog(AssetLib.Asset asset) {
