@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/components/Panel/SettingsPanel.cs" type="Script" id=1]
 [ext_resource path="res://Resources/GroupedButtons.tres" type="StyleBox" id=2]
@@ -25,6 +25,13 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+
+[sub_resource type="DynamicFont" id=13]
+use_filter = true
+font_data = SubResource( 10 )
+
 [sub_resource type="DynamicFontData" id=4]
 font_path = "res://Assets/Fonts/droid-sans.bold.ttf"
 
@@ -33,13 +40,12 @@ size = 26
 use_filter = true
 font_data = SubResource( 4 )
 
-[sub_resource type="DynamicFontData" id=10]
+[sub_resource type="DynamicFontData" id=14]
 font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
 
 [sub_resource type="DynamicFont" id=12]
-size = 18
 use_filter = true
-font_data = SubResource( 10 )
+font_data = SubResource( 14 )
 
 [node name="SettingsPanel" type="Panel"]
 anchor_right = 1.0
@@ -558,6 +564,7 @@ margin_right = 994.0
 margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -663,17 +670,17 @@ margin_right = 984.0
 margin_bottom = 298.0
 rect_min_size = Vector2( 0, 160 )
 size_flags_horizontal = 3
-custom_constants/margin_right = 80
+custom_constants/margin_right = 20
 custom_constants/margin_top = 10
-custom_constants/margin_left = 80
+custom_constants/margin_left = 20
 custom_constants/margin_bottom = 10
 
 [node name="BuiltWith" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC"]
-margin_left = 80.0
+margin_left = 20.0
 margin_top = 10.0
-margin_right = 904.0
+margin_right = 964.0
 margin_bottom = 150.0
-custom_fonts/normal_font = ExtResource( 13 )
+custom_fonts/normal_font = SubResource( 13 )
 bbcode_enabled = true
 bbcode_text = "[table=3][cell][color=green]Project Name[/color][/cell][cell][color=green]Version[/color]     [/cell][cell][color=green]Website[/color][/cell]
 [cell][color=aqua]Godot Engine (Mono Edition)      [/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://godotengine.org[/url][/color][/cell]
@@ -685,7 +692,7 @@ text = "Project NameVersion     WebsiteGodot Engine (Mono Edition)      v0.0.0ht
 "
 scroll_active = false
 
-[node name="HSeparator2" type="TextureRect" parent="VB/MC/TC/About/MC/VB"]
+[node name="HSeparator3" type="TextureRect" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 302.0
 margin_right = 984.0
 margin_bottom = 307.0
@@ -693,81 +700,24 @@ rect_min_size = Vector2( 864, 5 )
 texture = ExtResource( 9 )
 stretch_mode = 1
 
-[node name="Label2" type="Label" parent="VB/MC/TC/About/MC/VB"]
+[node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
 margin_top = 311.0
 margin_right = 984.0
-margin_bottom = 338.0
-custom_fonts/font = ExtResource( 12 )
-text = "Special Thanks To"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MC2" type="MarginContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 342.0
-margin_right = 984.0
-margin_bottom = 442.0
-size_flags_horizontal = 3
-custom_constants/margin_right = 80
-custom_constants/margin_top = 10
-custom_constants/margin_left = 80
-custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SpecialThanks" type="RichTextLabel" parent="VB/MC/TC/About/MC/VB/MC2"]
-margin_left = 80.0
-margin_top = 10.0
-margin_right = 904.0
-margin_bottom = 90.0
-rect_min_size = Vector2( 0, 80 )
-size_flags_vertical = 0
-custom_fonts/normal_font = ExtResource( 13 )
-bbcode_enabled = true
-bbcode_text = "[table=8]
-[cell][color=aqua]Lentsius[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/lentsius]Twitch[/url][/color]    [/cell]
-[cell][color=aqua]MartyPher[/color][/cell][cell]    [color=yellow][url=https://www.twitch.tv/martyrpher]Twitch[/url][/color]    [/cell]
-[cell][color=aqua]EroAxee[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/eroaxee]Twitch[/url][/color]    [/cell]
-[cell][color=aqua]MaritalStrafe[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/maritalstrafe]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]MightyMochiGames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/mightymochigames]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]velopman[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/velopman]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]Falinere[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/falinere]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]snopekgames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/snopekgames]Twitch[/url]    [/color][/cell]
-[cell][color=aqua]Stefan (GDC)[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/GameDevelopmentCenter]YouTube[/url]    [/color][/cell]
-[cell][color=aqua]GDQuest[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/Gdquest]YouTube[/url]    [/color][/cell]
-[cell][color=aqua]HeartBeast[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/uheartbeast]YouTube[/url]    [/color][/cell]
-[/table]
-"
-text = "Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    MaritalStrafe    Twitch    MightyMochiGames    Twitch    velopman    Twitch    Falinere    Twitch    snopekgames    Twitch    Stefan (GDC)    YouTube    GDQuest    YouTube    HeartBeast    YouTube    
-"
-scroll_active = false
-
-[node name="HSeparator3" type="TextureRect" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 446.0
-margin_right = 984.0
-margin_bottom = 451.0
-rect_min_size = Vector2( 864, 5 )
-texture = ExtResource( 9 )
-stretch_mode = 1
-
-[node name="CenterContainer" type="CenterContainer" parent="VB/MC/TC/About/MC/VB"]
-margin_top = 455.0
-margin_right = 984.0
-margin_bottom = 546.0
+margin_bottom = 545.0
 size_flags_horizontal = 3
 
 [node name="HB" type="HBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer"]
-margin_left = 75.0
-margin_right = 908.0
-margin_bottom = 91.0
+margin_left = 221.0
+margin_right = 762.0
+margin_bottom = 234.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 120
 
 [node name="VB" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
 margin_right = 231.0
-margin_bottom = 91.0
+margin_bottom = 234.0
+custom_constants/separation = 20
 
 [node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB"]
 margin_right = 231.0
@@ -780,19 +730,15 @@ __meta__ = {
 }
 
 [node name="BuyMe" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB"]
-margin_top = 31.0
+margin_top = 47.0
 margin_right = 231.0
-margin_bottom = 91.0
+margin_bottom = 107.0
 texture = ExtResource( 15 )
 
-[node name="VB2" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
-margin_left = 235.0
-margin_right = 445.0
-margin_bottom = 91.0
-
-[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
-margin_right = 210.0
-margin_bottom = 27.0
+[node name="Label4" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB"]
+margin_top = 127.0
+margin_right = 231.0
+margin_bottom = 154.0
 custom_fonts/font = ExtResource( 12 )
 text = "Itch Page"
 align = 1
@@ -800,21 +746,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ItchIO" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
-margin_top = 31.0
-margin_right = 210.0
-margin_bottom = 91.0
+[node name="ItchIO" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB"]
+margin_top = 174.0
+margin_right = 231.0
+margin_bottom = 234.0
 rect_min_size = Vector2( 210, 60 )
 texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
-[node name="VB3" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
-margin_left = 449.0
-margin_right = 639.0
-margin_bottom = 91.0
+[node name="VB2" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
+margin_left = 351.0
+margin_right = 541.0
+margin_bottom = 234.0
+custom_constants/separation = 20
 
-[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB3"]
+[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
 margin_right = 190.0
 margin_bottom = 27.0
 custom_fonts/font = ExtResource( 12 )
@@ -824,23 +771,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Github" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB3"]
-margin_top = 31.0
+[node name="Github" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
+margin_top = 47.0
 margin_right = 190.0
-margin_bottom = 91.0
+margin_bottom = 107.0
 rect_min_size = Vector2( 190, 60 )
 texture = ExtResource( 14 )
 expand = true
 stretch_mode = 6
 
-[node name="VB4" type="VBoxContainer" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB"]
-margin_left = 643.0
-margin_right = 833.0
-margin_bottom = 91.0
-
-[node name="Label3" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB4"]
+[node name="Label4" type="Label" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
+margin_top = 127.0
 margin_right = 190.0
-margin_bottom = 27.0
+margin_bottom = 154.0
 custom_fonts/font = ExtResource( 12 )
 text = "Discord"
 align = 1
@@ -848,17 +791,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Discord" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB4"]
-margin_top = 31.0
+[node name="Discord" type="TextureRect" parent="VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2"]
+margin_top = 174.0
 margin_right = 190.0
-margin_bottom = 91.0
+margin_bottom = 234.0
 rect_min_size = Vector2( 190, 60 )
 texture = ExtResource( 16 )
 expand = true
 stretch_mode = 6
 
 [node name="Contributions" type="ScrollContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -873,14 +815,32 @@ size_flags_vertical = 3
 custom_fonts/mono_font = SubResource( 11 )
 custom_fonts/normal_font = SubResource( 12 )
 bbcode_enabled = true
-bbcode_text = "[center][code]Source Contributors[/code]
+bbcode_text = "[center][code]Special Thanks[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=8]
+[cell][color=aqua]Lentsius[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/lentsius]Twitch[/url][/color]    [/cell]
+[cell][color=aqua]MartyPher[/color][/cell][cell]    [color=yellow][url=https://www.twitch.tv/martyrpher]Twitch[/url][/color]    [/cell]
+[cell][color=aqua]EroAxee[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/eroaxee]Twitch[/url][/color]    [/cell]
+[cell][color=aqua]MaritalStrafe[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/maritalstrafe]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]MightyMochiGames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/mightymochigames]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]velopman[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/velopman]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]Falinere[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/falinere]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]snopekgames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/snopekgames]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]Stefan (GDC)[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/GameDevelopmentCenter]YouTube[/url]    [/color][/cell]
+[cell][color=aqua]GDQuest[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/Gdquest]YouTube[/url]    [/color][/cell]
+[cell][color=aqua]HeartBeast[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/uheartbeast]YouTube[/url]    [/color][/cell]
+[/table]
+[/center]
+
+[center][code]Source Contributors[/code]
 [img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 [table=4]
 [cell][color=lime][url=https://github.com/Mo8it]Mo8it[/url][/color] | [/cell]
 [cell][color=lime][url=https://github.com/Salvakiya]Salvakiya[/url][/color] [/cell]
 [/table]
+[/center]
 
-[center][code]Donations / Purchases[/code][/center]
+[center][code]Donations / Purchases[/code]
 [img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 [table=4]
 [cell][color=green]Bradley Elliot[/color] | [/cell]
@@ -888,9 +848,15 @@ bbcode_text = "[center][code]Source Contributors[/code]
 [cell][color=green]Gamma Games[/color] [/cell]
 [/table]
 [/center]"
-text = "Source Contributors
+text = "Special Thanks
+
+Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    MaritalStrafe    Twitch    MightyMochiGames    Twitch    velopman    Twitch    Falinere    Twitch    snopekgames    Twitch    Stefan (GDC)    YouTube    GDQuest    YouTube    HeartBeast    YouTube    
+
+
+Source Contributors
 
 Mo8it | Salvakiya 
+
 
 Donations / Purchases
 

@@ -105,19 +105,16 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/About/MC/VB/MC/BuiltWith")]
 	RichTextLabel _builtWith = null;
 
-	[NodePath("VB/MC/TC/About/MC/VB/MC2/SpecialThanks")]
-	RichTextLabel _specialThanks = null;
-
 	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB/BuyMe")]
 	TextureRect _buyMe = null;
 
-	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2/ItchIO")]
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB/ItchIO")]
 	TextureRect _itchIo = null;
 
-	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB3/Github")]
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2/Github")]
 	TextureRect _github = null;
 
-	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB4/Discord")]
+	[NodePath("VB/MC/TC/About/MC/VB/CenterContainer/HB/VB2/Discord")]
 	TextureRect _discord = null;
 	#endregion
 
@@ -772,7 +769,6 @@ public class SettingsPanel : Panel
 #region Event Handler for About Page
 	[SignalHandler("meta_clicked", nameof(_emailWebsite))]
 	[SignalHandler("meta_clicked", nameof(_builtWith))]
-	[SignalHandler("meta_clicked", nameof(_specialThanks))]
 	[SignalHandler("meta_clicked", nameof(_mitLicense))]
 	[SignalHandler("meta_clicked", nameof(_apacheLicense))]
 	[SignalHandler("meta_clicked", nameof(_contributors))]
