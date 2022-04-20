@@ -148,14 +148,12 @@ public class AssetLibEntry : ColorRect
     }
 
     void OnInstalledAddon(bool update) {
-        GD.PrintErr("Installed Addon called");
         Downloaded = true;
         if (update)
             UpdateAvailable = false;
     }
 
     void OnPreviewClosed() {
-        GD.PrintErr("Preview Closed called");
         AppDialogs.AssetLibPreview.Disconnect("installed_addon", this, nameof(OnInstalledAddon));
         AppDialogs.AssetLibPreview.Disconnect("preview_closed", this, nameof(OnPreviewClosed));
     }
