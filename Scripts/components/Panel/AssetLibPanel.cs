@@ -6,12 +6,15 @@ using Godot.Sharp.Extras;
 public class AssetLibPanel : Panel
 {
 #region Nodes Path
+    #region Search Switcher
     [NodePath("VC/MC/HC/PC/HC/Addons")]
     Button _addonsBtn = null;
 
     [NodePath("VC/MC/HC/PC/HC/Templates")]
     Button _templatesBtn = null;
+    #endregion
 
+    #region Search Fields
     [NodePath("VC/HC/SearchField")]
     LineEdit _searchField = null;
 
@@ -32,15 +35,20 @@ public class AssetLibPanel : Panel
 
     [NodePath("VC/HC2/Support/SupportPopup")]
     PopupMenu _supportPopup = null;
+    #endregion
 
+    #region Paginated Listings for Addons and Templates
     [NodePath("VC/VC/plAddons")]
     PaginatedListing _plAddons = null;
 
     [NodePath("VC/VC/plTemplates")]
     PaginatedListing _plTemplates = null;
+    #endregion
 
+    #region Timers
     [NodePath("ExecuteDelay")]
     Timer _executeDelay = null;
+    #endregion
 #endregion
 
 #region Private Variables
