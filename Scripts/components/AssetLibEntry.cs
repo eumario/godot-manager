@@ -20,6 +20,12 @@ public class AssetLibEntry : ColorRect
 
     [NodePath("hc/vc/Author")]
     Label _author = null;
+
+    [NodePath("hc2/Downloaded")]
+    TextureRect _downloaded = null;
+
+    [NodePath("hc2/UpdateAvailable")]
+    TextureRect _updateAvailable = null;
 #endregion
 
 #region Private Variables
@@ -28,6 +34,8 @@ public class AssetLibEntry : ColorRect
     string sCategory;
     string sLicense;
     string sAuthor;
+    bool bDownloaded;
+    bool bUpdateAvailable;
 #endregion
 
 #region Public Accessors
@@ -77,6 +85,24 @@ public class AssetLibEntry : ColorRect
     }
 
     public string AssetId { get; set; }
+
+    public bool Downloaded {
+        get => (_downloaded != null ? _downloaded.Visible : bDownloaded);
+        set {
+            bDownloaded = value;
+            if (_downloaded != null)
+                _downloaded.Visible = value;
+        }
+    }
+
+    public bool UpdateAvailable {
+        get => (_updateAvailable != null ? _updateAvailable.Visible : bUpdateAvailable);
+        set {
+            bUpdateAvailable = value;
+            if (_updateAvailable != null)
+                _updateAvailable.Visible = value;
+        }
+    }
 #endregion
 
     // Called when the node enters the scene tree for the first time.
@@ -88,6 +114,8 @@ public class AssetLibEntry : ColorRect
         Category = sCategory;
         License = sLicense;
         Author = sAuthor;
+        Downloaded = bDownloaded;
+        UpdateAvailable = bUpdateAvailable;
     }
 
     [SignalHandler("mouse_entered")]
