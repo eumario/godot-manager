@@ -74,6 +74,13 @@ public class CentralStore {
 		return res.FirstOrDefault() != null;
 	}
 
+	public bool HasTemplateId(string id) {
+		var res = from pt in CentralStore.Templates
+					where pt.Asset.AssetId == id
+					select pt;
+		return res.FirstOrDefault() != null;
+	}
+
 	public bool HasPlugin(string name) {
 		var res = from pt in CentralStore.Plugins
 					where pt.Asset.Title == name
@@ -86,6 +93,20 @@ public class CentralStore {
 				where pt.Asset.AssetId == id
 				select pt;
 		return res.FirstOrDefault() != null;
+	}
+
+	public AssetProject GetTemplate(string name) {
+		var res = from pt in CentralStore.Templates
+					where pt.Asset.Title == name
+					select pt;
+		return res.First<AssetProject>();
+	}
+
+	public AssetProject GetTemplateId(string id) {
+		var res = from pt in CentralStore.Templates
+					where pt.Asset.AssetId == id
+					select pt;
+		return res.First<AssetProject>();
 	}
 
 	public AssetPlugin GetPlugin(string name) {
