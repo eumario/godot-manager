@@ -54,6 +54,12 @@ public class AssetLibPreview : ReferenceRect
     [NodePath("PC/CC/P/VB/MCButtons/HB/DownloadBtn")]
     Button _Download = null;
 
+    [NodePath("PC/CC/P/VB/MCButtons/HB/Uninstall")]
+    Button _Uninstall = null;
+
+    [NodePath("PC/CC/P/VB/MCButtons/HB/Sep3")]
+    Control _Sep3 = null;
+
     [NodePath("PC/CC/P/VB/MCButtons/HB/CloseBtn")]
     Button _Close = null;
 #endregion
@@ -199,8 +205,12 @@ public class AssetLibPreview : ReferenceRect
 
         if (Templates.IndexOf(asset.Category) != -1) {
             if (CentralStore.Instance.HasTemplateId(asset.AssetId)) {
+                _Uninstall.Visible = true;
+                _Sep3.Visible = true;
                 AssetProject tasset = CentralStore.Instance.GetTemplateId(asset.AssetId);
-                if (tasset.Asset.VersionString != asset.VersionString) {
+                if (tasset.Asset.VersionString != asset.VersionString ||
+                    tasset.Asset.Version != asset.Version ||
+                    tasset.Asset.ModifyDate != asset.ModifyDate) {
                     _Download.Disabled = false;
                     _Download.Text = "Update Template";
                 } else {
@@ -208,13 +218,19 @@ public class AssetLibPreview : ReferenceRect
                     _Download.Text = "Download";
                 }
             } else {
+                _Uninstall.Visible = false;
+                _Sep3.Visible = false;
                 _Download.Disabled = false;
                 _Download.Text = "Download";
             }
         } else {
             if (CentralStore.Instance.HasPluginId(asset.AssetId)) {
+                _Uninstall.Visible = true;
+                _Sep3.Visible = true;
                 AssetPlugin passet = CentralStore.Instance.GetPluginId(asset.AssetId);
-                if (passet.Asset.VersionString != asset.VersionString) {
+                if (passet.Asset.VersionString != asset.VersionString ||
+                    passet.Asset.Version != asset.Version ||
+                    passet.Asset.ModifyDate != asset.ModifyDate) {
                     _Download.Disabled = false;
                     _Download.Text = "Update Plugin";
                 } else {
@@ -222,6 +238,8 @@ public class AssetLibPreview : ReferenceRect
                     _Download.Text = "Download";
                 }
             } else {
+                _Uninstall.Visible = false;
+                _Sep3.Visible = false;
                 _Download.Disabled = false;
                 _Download.Text = "Download";
             }

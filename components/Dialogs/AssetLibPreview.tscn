@@ -111,7 +111,7 @@ WindowMain = NodePath("../../../../../../../..")
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 30.0
 margin_right = 800.0
-margin_bottom = 451.0
+margin_bottom = 449.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -123,11 +123,11 @@ custom_constants/margin_bottom = 8
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 792.0
-margin_bottom = 413.0
+margin_bottom = 411.0
 
 [node name="InfoPanel" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]
 margin_right = 300.0
-margin_bottom = 405.0
+margin_bottom = 403.0
 rect_min_size = Vector2( 300, 0 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
@@ -235,17 +235,17 @@ text = "0.1.0"
 [node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
 margin_top = 111.0
 margin_right = 300.0
-margin_bottom = 405.0
+margin_bottom = 403.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC"]
 margin_right = 300.0
-margin_bottom = 294.0
+margin_bottom = 292.0
 
 [node name="Description" type="RichTextLabel" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC"]
 margin_right = 300.0
-margin_bottom = 294.0
+margin_bottom = 292.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/table_vseparation = 5
@@ -257,11 +257,11 @@ bbcode_enabled = true
 [node name="ScreenShots" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]
 margin_left = 312.0
 margin_right = 784.0
-margin_bottom = 405.0
+margin_bottom = 403.0
 
 [node name="Preview" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots"]
 margin_right = 472.0
-margin_bottom = 281.0
+margin_bottom = 279.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 7 )
@@ -299,9 +299,9 @@ __meta__ = {
 }
 
 [node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots"]
-margin_top = 285.0
+margin_top = 283.0
 margin_right = 472.0
-margin_bottom = 405.0
+margin_bottom = 403.0
 rect_min_size = Vector2( 0, 120 )
 
 [node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/PC"]
@@ -311,40 +311,54 @@ margin_bottom = 120.0
 [node name="Thumbnails" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/PC/SC"]
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_top = 455.0
+margin_top = 453.0
 margin_right = 800.0
 margin_bottom = 490.0
 custom_constants/margin_bottom = 15
 
 [node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
 margin_right = 800.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 
 [node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_right = 220.0
-margin_bottom = 20.0
+margin_right = 226.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 
 [node name="DownloadBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 224.0
-margin_right = 299.0
-margin_bottom = 20.0
+margin_left = 230.0
+margin_right = 297.0
+margin_bottom = 22.0
 text = "Download"
 
 [node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 303.0
-margin_right = 524.0
-margin_bottom = 20.0
+margin_left = 301.0
+margin_right = 527.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+
+[node name="Uninstall" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
+visible = false
+margin_left = 529.0
+margin_right = 589.0
+margin_bottom = 22.0
+text = "Uninstall"
+
+[node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+visible = false
+margin_left = 416.0
+margin_right = 585.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 
 [node name="CloseBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 528.0
-margin_right = 575.0
-margin_bottom = 20.0
+margin_left = 531.0
+margin_right = 569.0
+margin_bottom = 22.0
 text = "Close"
 
-[node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 579.0
+[node name="Sep4" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
+margin_left = 573.0
 margin_right = 800.0
-margin_bottom = 20.0
+margin_bottom = 22.0
 size_flags_horizontal = 3

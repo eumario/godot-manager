@@ -72,12 +72,25 @@ public class PaginatedListing : ScrollContainer
             ale.Author = asset.Author;
             ale.License = asset.Cost;
             ale.AssetId = asset.AssetId;
-            if (CentralStore.Instance.HasPlugin(asset.Title)) {
-                ale.Downloaded = true;
+            if (CentralStore.Instance.HasPluginId(asset.AssetId)) {
                 AssetPlugin plgn = CentralStore.Instance.GetPluginId(ale.AssetId);
                 if (plgn != null) {
-                    if (plgn.Asset.VersionString != asset.VersionString)
+                    if (plgn.Asset.VersionString != asset.VersionString ||
+                        plgn.Asset.Version != asset.Version ||
+                        plgn.Asset.ModifyDate != asset.ModifyDate)
                         ale.UpdateAvailable = true;
+                    else
+                        ale.Downloaded = true;
+                }
+            } else if (CentralStore.Instance.HasTemplateId(asset.AssetId)) {
+                AssetProject prj = CentralStore.Instance.GetTemplateId(ale.AssetId);
+                if (prj != null) {
+                    if (prj.Asset.VersionString != asset.VersionString ||
+                        prj.Asset.Version != asset.Version ||
+                        prj.Asset.ModifyDate != asset.ModifyDate)
+                        ale.UpdateAvailable = true;
+                    else
+                        ale.Downloaded = true;
                 }
             }
             _listing.AddChild(ale);
