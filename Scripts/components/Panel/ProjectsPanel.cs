@@ -462,11 +462,14 @@ public class ProjectsPanel : Panel
                 ExecuteProject(pf.GodotVersion, pf.Location.GetBaseDir());
                 break;
             case 2:     // Show Project Files
-                OS.ShellOpen(pf.Location.GetBaseDir());
+                OS.ShellOpen("file://" + pf.Location.GetBaseDir());
                 break;
             case 3:     // Show Project Data Folder
                 string folder = GetProjectDataFolder(pf);
-                OS.ShellOpen(folder);
+                if (Dir.Exists(folder))
+                    OS.ShellOpen("file://" + folder);
+                else
+                    AppDialogs.MessageDialog.ShowMessage("Show Data Directory", $"The data directory {folder} does not exist!");
                 break;
             case 4:     // Edit Project File
                 AppDialogs.EditProject.ShowDialog(pf);
@@ -495,37 +498,16 @@ public class ProjectsPanel : Panel
 		{
 			if (pc.GetValue("application", "config/use_custom_user_dir") == "true")
 			{
-#if GODOT_WINDOWS || GODOT_UWP
-				folder = OS.GetEnvironment("APPDATA");
-#elif GODOT_LINUXBSD || GODOT_X11
-                folder = "~/.local/share";
-#elif GODOT_MACOS || GODOT_OSX
-                folder = "~/Library/Application Support";
-#endif
-				folder = folder.PlusFile(pc.GetValue("application", "config/custom_user_dir_name"));
+                folder = OS.GetDataDir().Join(pc.GetValue("application","config/custom_user_dir_name"));
 			} else {
-#if GODOT_WINDOWS || GODOT_UWP
-                folder = OS.GetEnvironment("APPDATA").PlusFile("Godot").PlusFile("app_userdata");
-#elif GODOT_LINUXBSD || GODOT_X11
-                folder = "~/local/share/godot/app_userdata";
-#elif GODOT_MACOS || GODOT_OSX
-                folder = "~/Library/Application Support/Godot/app_userdata";
-#endif
-			    folder = folder.PlusFile(pf.Name);                
+                folder = OS.GetDataDir().Join("Godot","app_userdata",pf.Name);
             }
 		}
 		else
 		{
-#if GODOT_WINDOWS || GODOT_UWP
-			folder = OS.GetEnvironment("APPDATA").PlusFile("Godot").PlusFile("app_userdata");
-#elif GODOT_LINUXBSD || GODOT_X11
-            folder = "~/local/share/godot/app_userdata";
-#elif GODOT_MACOS || GODOT_OSX
-            folder = "~/Library/Application Support/Godot/app_userdata";
-#endif
-			folder = folder.PlusFile(pf.Name);
+            folder = OS.GetDataDir().Join("Godot","app_userdata",pf.Name);
 		}
-        return folder;
+        return folder.NormalizePath();
 	}
 
 	private void ExecuteProject(string godotVersion, string location)
