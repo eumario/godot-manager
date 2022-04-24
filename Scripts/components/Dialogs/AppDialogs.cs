@@ -24,6 +24,7 @@ public class AppDialogs : Control
     public DownloadAddon DownloadAddon_ = null;
     public DownloadGodotManager DownloadGodotManager_ = null;
     public AddonInstaller AddonInstaller_ = null;
+    public FileConflictDialog FileConflictDialog_ = null;
     public AddonMirror AddonMirror_ = null;
 #endregion
 
@@ -48,6 +49,7 @@ public class AppDialogs : Control
     public static DownloadAddon DownloadAddon { get => Instance.DownloadAddon_; }
     public static DownloadGodotManager DownloadGodotManager { get => Instance.DownloadGodotManager_; }
     public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
+    public static FileConflictDialog FileConflictDialog { get => Instance.FileConflictDialog_; }
     public static AddonMirror AddonMirror { get => Instance.AddonMirror_; }
 #endregion
 
@@ -83,6 +85,7 @@ public class AppDialogs : Control
         DownloadAddon_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadAddon.tscn").Instance<DownloadAddon>();
         DownloadGodotManager_ = GD.Load<PackedScene>("res://components/Dialogs/DownloadGodotManager.tscn").Instance<DownloadGodotManager>();
         AddonInstaller_ = GD.Load<PackedScene>("res://components/Dialogs/AddonInstaller.tscn").Instance<AddonInstaller>();
+        FileConflictDialog_ = GD.Load<PackedScene>("res://components/Dialogs/FileConflictDialog.tscn").Instance<FileConflictDialog>();
         AddonMirror_ = GD.Load<PackedScene>("res://components/Dialogs/AddonMirror.tscn").Instance<AddonMirror>();
 
         ImageFileDialog_ = new FileDialog();
@@ -134,6 +137,7 @@ public class AppDialogs : Control
             CreateCategory_,                    // Create a Category
             RemoveCategory_,                    // Remove a Category
             AddonInstaller_,                    // Installer Dialog for Addon/Plugins
+            FileConflictDialog_,                // File Conflict Dialog
             YesNoDialog_,                       // Yes No Prompt
             YesNoCancelDialog_,                 // Yes, No, Cancel Prompt
             BusyDialog_,                        // Busy Dialog
