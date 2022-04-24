@@ -41,11 +41,11 @@ margin_right = 1024.0
 margin_bottom = 700.0
 
 [node name="P" type="Panel" parent="PC/CC"]
-margin_left = 352.0
-margin_top = 275.0
-margin_right = 672.0
-margin_bottom = 425.0
-rect_min_size = Vector2( 320, 150 )
+margin_left = 322.0
+margin_top = 255.0
+margin_right = 702.0
+margin_bottom = 445.0
+rect_min_size = Vector2( 380, 190 )
 custom_styles/panel = SubResource( 6 )
 
 [node name="VB" type="VBoxContainer" parent="PC/CC/P"]
@@ -56,8 +56,8 @@ __meta__ = {
 }
 
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_right = 320.0
-margin_bottom = 150.0
+margin_right = 380.0
+margin_bottom = 190.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -68,13 +68,13 @@ custom_constants/margin_bottom = 8
 [node name="VC" type="VBoxContainer" parent="PC/CC/P/VB/MCContent"]
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 312.0
-margin_bottom = 142.0
+margin_right = 372.0
+margin_bottom = 182.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="PC/CC/P/VB/MCContent/VC"]
-margin_right = 304.0
+margin_right = 364.0
 margin_bottom = 19.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 2 )
@@ -85,21 +85,21 @@ max_lines_visible = 5
 
 [node name="MessageText" type="Label" parent="PC/CC/P/VB/MCContent/VC"]
 margin_top = 23.0
-margin_right = 304.0
-margin_bottom = 106.0
+margin_right = 364.0
+margin_bottom = 146.0
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 1 )
 autowrap = true
 
 [node name="CC" type="CenterContainer" parent="PC/CC/P/VB/MCContent/VC"]
-margin_top = 110.0
-margin_right = 304.0
-margin_bottom = 134.0
+margin_top = 150.0
+margin_right = 364.0
+margin_bottom = 174.0
 size_flags_horizontal = 3
 
 [node name="HC" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/VC/CC"]
-margin_left = 132.0
-margin_right = 172.0
+margin_left = 162.0
+margin_right = 202.0
 margin_bottom = 24.0
 custom_constants/separation = 40
 

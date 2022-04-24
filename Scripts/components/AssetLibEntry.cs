@@ -143,6 +143,7 @@ public class AssetLibEntry : ColorRect
                 AppDialogs.AssetLibPreview.ShowDialog(asset.Result);
                 AppDialogs.AssetLibPreview.Connect("installed_addon", this, nameof(OnInstalledAddon));
                 AppDialogs.AssetLibPreview.Connect("preview_closed", this, nameof(OnPreviewClosed));
+                AppDialogs.AssetLibPreview.Connect("uninstalled_addon", this, nameof(OnUninstallAddon));
             }
         }
     }
@@ -153,8 +154,14 @@ public class AssetLibEntry : ColorRect
             UpdateAvailable = false;
     }
 
+    void OnUninstallAddon() {
+        Downloaded = false;
+        UpdateAvailable = false;
+    }
+
     void OnPreviewClosed() {
         AppDialogs.AssetLibPreview.Disconnect("installed_addon", this, nameof(OnInstalledAddon));
         AppDialogs.AssetLibPreview.Disconnect("preview_closed", this, nameof(OnPreviewClosed));
+        AppDialogs.AssetLibPreview.Disconnect("uninstalled_addon", this, nameof(OnUninstallAddon));
     }
 }

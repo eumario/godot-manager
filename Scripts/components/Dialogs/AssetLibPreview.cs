@@ -11,6 +11,9 @@ public class AssetLibPreview : ReferenceRect
     public delegate void installed_addon(bool update);
 
     [Signal]
+    public delegate void uninstalled_addon();
+
+    [Signal]
     public delegate void preview_closed();
 #endregion
 
@@ -247,6 +250,45 @@ public class AssetLibPreview : ReferenceRect
         
         dlq.StartDownload();
         Visible = true;
+    }
+
+    [SignalHandler("pressed", nameof(_Uninstall))]
+    async void OnPressed_Uninstall() {
+        if (CentralStore.Instance.HasPluginId(_asset.AssetId)) {
+            // Handle Asset Uninstall
+            Array<ProjectFile> usingPlugin = new Array<ProjectFile>();
+            foreach(ProjectFile pf in CentralStore.Projects) {
+                if (pf.Assets == null)
+                    continue;
+                if (pf.Assets.Contains(_asset.AssetId))
+                    usingPlugin.Add(pf);
+            }
+
+            if (usingPlugin.Count > 0) {
+                bool res = await AppDialogs.YesNoDialog.ShowDialog("Uninstall - Plugin in Use",$"The plugin {_asset.Title} is currently used in {usingPlugin.Count} project(s). Uninstalling will remove tracking of this plugin, continue?");
+                if (!res) {
+                    return;
+                }
+                foreach(ProjectFile pf in usingPlugin) {
+                    pf.Assets.Remove(_asset.AssetId);
+                }
+            }
+            AssetPlugin plg = CentralStore.Instance.GetPluginId(_asset.AssetId);
+            CentralStore.Plugins.Remove(plg);
+            AppDialogs.MessageDialog.ShowMessage("Plugin Uninstall", $"{_asset.Title} has been uninstalled.  Any projects referencing it, no longer have a reference.  The addon files still remain in the Addons folder of the project, and will need to be removed manually.");
+        } else if (CentralStore.Instance.HasTemplateId(_asset.AssetId)) {
+            // Handle Template Uninstall
+            AssetProject prj = CentralStore.Instance.GetTemplateId(_asset.AssetId);
+            if (prj == null) {
+                AppDialogs.MessageDialog.ShowMessage("Asset Uninstall", $"{_asset.Title} is not found in plugins or Templates.");
+                return;
+            }
+
+            CentralStore.Templates.Remove(prj);
+            AppDialogs.MessageDialog.ShowMessage("Template Uninstall",$"{_asset.Title} has been uninstalled.");
+        }
+        EmitSignal("uninstalled_addon");
+        Visible = false;
     }
 
     [SignalHandler("gui_input", nameof(_PlayButton))]
