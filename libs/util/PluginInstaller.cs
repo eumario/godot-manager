@@ -96,6 +96,7 @@ public class PluginInstaller : Object
 	public async void Install(string instLocation) {
 		Array<string> files = _plugin.InstallFiles;
 		bool needAddonsFolder = true;
+		bool confirm_all = false;
 		foreach(string file in files) {
 			if (file.IndexOf("addons") >= 0) {
 				needAddonsFolder = false;
@@ -130,12 +131,26 @@ public class PluginInstaller : Object
 							Directory.CreateDirectory(instLocation.Join(path).NormalizePath());
 					} else {
 						if (SFile.Exists(instLocation.Join(path).NormalizePath())) {
-							var ynres = await AppDialogs.YesNoDialog.ShowDialog("Install Addon",
-											$"The file {zae.Name} already exists at {instLocation.Join(path).NormalizePath()}, do you wish to overwrite it?");
-							try {
-								zae.ExtractToFile(instLocation.Join(path).NormalizePath(), ynres);
-							} catch (System.Exception ex) {
-								GD.PrintErr($"Failed to write to file: {zae.Name} Reason: {ex.Message}");
+							FileConflictDialog.ConflictAction res;
+							if (!confirm_all) {
+								AppDialogs.FileConflictDialog.ArchiveFile = zae.FullName;
+								AppDialogs.FileConflictDialog.DestinationFile = instLocation.Join(path).NormalizePath();
+								res = await AppDialogs.FileConflictDialog.ShowDialog();
+								if (res == FileConflictDialog.ConflictAction.ConfirmAll)
+									confirm_all = true;
+							} else
+								res = FileConflictDialog.ConflictAction.ConfirmAll;
+							switch(res) {
+								case FileConflictDialog.ConflictAction.Confirm:
+								case FileConflictDialog.ConflictAction.ConfirmAll:
+									try {
+										zae.ExtractToFile(instLocation.Join(path).NormalizePath(), true);
+									} catch (System.Exception ex) {
+										GD.PrintErr($"Failed to write to file: {zae.Name} Reason: {ex.Message}");
+									}
+									break;
+								case FileConflictDialog.ConflictAction.Abort:
+									return;
 							}
 						} else {
 							try {
@@ -151,7 +166,14 @@ public class PluginInstaller : Object
 		}
 	}
 
-	public void Uninstall(string instLocation) {
+	void DeleteImports(string path) {
+		foreach(string file in Directory.EnumerateFiles(path)) {
+			if (file.EndsWith(".import"))
+				SFile.Delete(file);
+		}
+	}
+
+	public void Uninstall(string instLocation, bool showDialogs=true) {
 		Array<string> files = _plugin.InstallFiles;
 		Array<string> dirs = new Array<string>();
 		bool needAddonsFolder = true;
@@ -197,6 +219,8 @@ public class PluginInstaller : Object
 			if (path == "addons/")
 				continue;
 			
+			DeleteImports(instLocation.Join(path));
+
 			if (Directory.Exists(instLocation.Join(path).NormalizePath())) {
 				if (Directory.EnumerateFileSystemEntries(instLocation.Join(path)).Count() == 0)
 					Directory.Delete(instLocation.Join(path).NormalizePath());
@@ -205,7 +229,9 @@ public class PluginInstaller : Object
 			}
 		}
 
-		if (dirtyUninstall)
-			AppDialogs.MessageDialog.ShowMessage($"Uninstall {_plugin.Asset.Title}", "Godot Manager has uninstalled the plugin, but files may still remain, please check your Project.");
+		if (dirtyUninstall) {
+			if (showDialogs)
+				AppDialogs.MessageDialog.ShowMessage($"Uninstall {_plugin.Asset.Title}", "Godot Manager has uninstalled the plugin, but files may still remain, please check your Project.");
+		}
 	}
 }

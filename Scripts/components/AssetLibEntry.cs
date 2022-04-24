@@ -140,6 +140,7 @@ public class AssetLibEntry : ColorRect
                 while (!asset.IsCompleted)
                     await this.IdleFrame();
                 AppDialogs.BusyDialog.Visible = false;
+                AssetId = asset.Result.AssetId;
                 AppDialogs.AssetLibPreview.ShowDialog(asset.Result);
                 AppDialogs.AssetLibPreview.Connect("installed_addon", this, nameof(OnInstalledAddon));
                 AppDialogs.AssetLibPreview.Connect("preview_closed", this, nameof(OnPreviewClosed));
@@ -148,10 +149,39 @@ public class AssetLibEntry : ColorRect
         }
     }
 
-    void OnInstalledAddon(bool update) {
+    async void OnInstalledAddon(bool update) {
         Downloaded = true;
-        if (update)
+        if (update) {
             UpdateAvailable = false;
+            Array<ProjectFile> updateList = new Array<ProjectFile>();
+            foreach(ProjectFile pf in CentralStore.Projects) {
+                if (pf.Assets == null)
+                    continue;
+                
+                if (pf.Assets.Contains(AssetId)) {
+                    updateList.Add(pf);
+                }
+            }
+
+            if (updateList.Count > 0) {
+                bool res = await AppDialogs.YesNoDialog.ShowDialog("Update Plugins", $"Found {updateList.Count} project(s) that currently reference this addon, do you wish to update them?");
+                if (!res)
+                    return;
+                
+                AppDialogs.BusyDialog.UpdateHeader("Updating Projects...");
+                AppDialogs.BusyDialog.UpdateByline("Processing...");
+                AppDialogs.BusyDialog.ShowDialog();
+
+                foreach(ProjectFile pf in updateList) {
+                    AppDialogs.BusyDialog.UpdateByline($"Updating Project {pf.Name}...");
+                    PluginInstaller installer = new PluginInstaller(CentralStore.Instance.GetPluginId(AssetId));
+                    installer.Uninstall(pf.Location.GetBaseDir().NormalizePath(),false);
+                    installer.Install(pf.Location.GetBaseDir().NormalizePath());
+                }
+                AppDialogs.BusyDialog.UpdateByline("Completed.");
+                AppDialogs.BusyDialog.HideDialog();
+            }
+        }
     }
 
     void OnUninstallAddon() {
