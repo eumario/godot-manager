@@ -113,6 +113,14 @@ public static class Util {
 		return obj.ToSignal(Engine.GetMainLoop(), "idle_frame");
 	}
 
+	public static SignalAwaiter WaitTimer(this Godot.Node obj, int milliseconds) {
+		return obj.ToSignal(obj.GetTree().CreateTimer(milliseconds / 1000.0f), "timeout");
+	}
+
+	public static SignalAwaiter WaitTimer(this Godot.Node obj, float seconds) {
+		return obj.ToSignal(obj.GetTree().CreateTimer(seconds), "timeout");
+	}
+
 	public static string EngineVersion {
 		get {
 			Dictionary vers = Engine.GetVersionInfo();
