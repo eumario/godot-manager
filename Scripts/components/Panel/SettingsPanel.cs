@@ -798,6 +798,7 @@ public class SettingsPanel : Panel
 			AppDialogs.NewVersion.ShowDialog(rel,true);
 			AppDialogs.NewVersion.Connect("download_manager_update", this, "OnDownloadManagerUpdate");
 		} else {
+			AppDialogs.BusyDialog.HideDialog();
 			AppDialogs.MessageDialog.ShowMessage("Check for Godot Manager Updates","Currently on latest version of Godot Manager.");
 		}
 	}
