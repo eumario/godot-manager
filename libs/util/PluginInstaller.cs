@@ -167,6 +167,9 @@ public class PluginInstaller : Object
 	}
 
 	void DeleteImports(string path) {
+		if (!Directory.Exists(path.GetOSDir().NormalizePath()))
+			return;
+		
 		foreach(string file in Directory.EnumerateFiles(path)) {
 			if (file.EndsWith(".import"))
 				SFile.Delete(file);
