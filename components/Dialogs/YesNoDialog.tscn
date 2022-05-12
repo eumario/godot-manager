@@ -98,8 +98,8 @@ margin_bottom = 134.0
 size_flags_horizontal = 3
 
 [node name="HC" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/VC/CC"]
-margin_left = 97.0
-margin_right = 207.0
+margin_left = 101.0
+margin_right = 203.0
 margin_bottom = 24.0
 custom_constants/separation = 40
 
@@ -111,6 +111,6 @@ text = "Yes"
 
 [node name="Cancel" type="Button" parent="PC/CC/P/VB/MCContent/VC/CC/HC"]
 margin_left = 80.0
-margin_right = 110.0
+margin_right = 102.0
 margin_bottom = 24.0
 text = "No"
