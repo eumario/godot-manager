@@ -8,6 +8,7 @@ using FileInfo = System.IO.FileInfo;
 using Dir = System.IO.Directory;
 using SFile = System.IO.File;
 using System.Linq;
+using System.IO.Compression;
 
 public static class Util {
 	public static string GetResourceBase(this string path, string file) {
@@ -131,12 +132,18 @@ public static class Util {
 	public static ImageTexture LoadImage(string path) {
 		var image = new Image();
 		
-		if (!SFile.Exists(path.GetOSDir().NormalizePath()))
-			return null;
+		if (path.StartsWith("res://"))
+		{
+			StreamTexture tex = GD.Load<StreamTexture>(path);
+			image = tex.GetData();
+		} else {
+			if (!SFile.Exists(path.GetOSDir().NormalizePath()))
+				return null;
 
-		Error err = image.Load(path);
-		if (err != Error.Ok)
-			return null;
+			Error err = image.Load(path);
+			if (err != Error.Ok)
+				return null;
+		}
 		var texture = new ImageTexture();
 		texture.CreateFromImage(image);
 		return texture;
@@ -191,5 +198,21 @@ public static class Util {
 		base_path = path.GetParentFolder().GetBaseDir().NormalizePath();
 #endif
 		return base_path.Join("update").NormalizePath();
+	}
+
+	public static string ReadFile(this ZipArchiveEntry zae) {
+		byte[] buffer = new byte[zae.Length];
+		using (var fh = zae.Open()) {
+			fh.Read(buffer, 0, (int)zae.Length);
+		}
+		return buffer.GetStringFromUTF8();
+	}
+
+	public static byte[] ReadBuffer(this ZipArchiveEntry zae) {
+		byte[] buffer = new byte[zae.Length];
+		using (var fh = zae.Open()) {
+			fh.Read(buffer, 0, (int)zae.Length);
+		}
+		return buffer;
 	}
 }
