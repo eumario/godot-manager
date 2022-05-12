@@ -93,8 +93,10 @@ public class ImportProject : ReferenceRect
 
     [SignalHandler("pressed", nameof(_locationBrowse))]
     void OnLocationBrowsePressed() {
+        AppDialogs.ImportFileDialog.WindowTitle = "Open Godot Project...";
+        AppDialogs.ImportFileDialog.Filters = new string[] { "*.godot" };
         AppDialogs.ImportFileDialog.CurrentFile = "";
-        AppDialogs.ImportFileDialog.CurrentPath = "";
+        AppDialogs.ImportFileDialog.CurrentPath = _locationValue.Text == "" ? CentralStore.Settings.ProjectPath : _locationValue.Text;
         AppDialogs.ImportFileDialog.PopupCentered(new Vector2(510, 390));
         AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnFileSelected");
     }
