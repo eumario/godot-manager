@@ -70,21 +70,8 @@ public class NewProject : Object {
 
 	private void CopyIcon()
 	{
-		byte[] icon_buffer;
-		using (File fh = new File()) {
-			var ret = fh.Open("res://Assets/Icons/default_project_icon.png",File.ModeFlags.Read);
-			if (ret != Error.Ok) {
-				GD.PrintErr("Failed to open Default Project Icon for reading...");
-				return;
-			}
-			icon_buffer = fh.GetBuffer((long)fh.GetLen());
-		}
-
-		using (var stream = SFile.OpenWrite(ProjectLocation.PlusFile("icon.png").NormalizePath())) {
-			using (BinaryWriter writer = new BinaryWriter(stream)) {
-				writer.Write(icon_buffer);
-			}
-		}
+		var image = GD.Load<Texture>("res://Assets/Icons/default_project_icon.png");
+		image.GetData().SavePng(ProjectLocation.PlusFile("icon.png").NormalizePath());
 	}
 
 	private void CreateDefaultEnvironment()
