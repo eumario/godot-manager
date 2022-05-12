@@ -6,14 +6,14 @@
 [ext_resource path="res://Scripts/components/GodotLineEntry.cs" type="Script" id=4]
 
 [sub_resource type="DynamicFontData" id=10]
-font_path = "res://Assets/Fonts/droid-sans.bold.ttf"
+font_path = "res://Assets/Fonts/DroidSans-Bold.ttf"
 
 [sub_resource type="DynamicFont" id=11]
 use_filter = true
 font_data = SubResource( 10 )
 
 [sub_resource type="DynamicFontData" id=12]
-font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+font_path = "res://Assets/Fonts/DroidSans.ttf"
 
 [sub_resource type="DynamicFont" id=13]
 size = 14
@@ -21,7 +21,7 @@ use_filter = true
 font_data = SubResource( 12 )
 
 [sub_resource type="DynamicFontData" id=14]
-font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+font_path = "res://Assets/Fonts/DroidSans.ttf"
 
 [sub_resource type="DynamicFont" id=15]
 size = 14

@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/components/PageButton.cs" type="Script" id=1]
 
 [sub_resource type="DynamicFontData" id=6]
-font_path = "res://Assets/Fonts/droid-sans.regular.ttf"
+font_path = "res://Assets/Fonts/DroidSans.ttf"
 
 [sub_resource type="DynamicFont" id=7]
 size = 18
