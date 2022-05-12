@@ -4,6 +4,11 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using TimeSpan = System.TimeSpan;
 using DateTime = System.DateTime;
+using FileStream = System.IO.FileStream;
+using FileMode = System.IO.FileMode;
+using Directory = System.IO.Directory;
+using SFile = System.IO.File;
+using System.IO.Compression;
 
 public class AssetLibPanel : Panel
 {
@@ -14,37 +19,62 @@ public class AssetLibPanel : Panel
 
     [NodePath("VC/MC/HC/PC/HC/Templates")]
     Button _templatesBtn = null;
+
+    [NodePath("VC/MC/HC/PC/HC/Manage")]
+    Button _manageBtn = null;
     #endregion
 
+    #region Search Container
+    [NodePath("VC/SearchContainer")]
+    VBoxContainer _searchContainer = null;
+
     #region Search Fields
-    [NodePath("VC/HC/SearchField")]
+    [NodePath("VC/SearchContainer/HC/SearchField")]
     LineEdit _searchField = null;
 
-    [NodePath("VC/HC/Import")]
+    [NodePath("VC/SearchContainer/HC/Import")]
     Button _import = null;
 
-    [NodePath("VC/HC2/SortBy")]
+    [NodePath("VC/SearchContainer/HC2/SortBy")]
     OptionButton _sortBy = null;
 
-    [NodePath("VC/HC2/Category")]
+    [NodePath("VC/SearchContainer/HC2/Category")]
     OptionButton _category = null;
 
-    [NodePath("VC/HC2/MirrorSite")]
+    [NodePath("VC/SearchContainer/HC2/MirrorSite")]
     OptionButton _mirrorSite = null;
 
-    [NodePath("VC/HC2/Support")]
+    [NodePath("VC/SearchContainer/HC2/Support")]
     Button _support = null;
 
-    [NodePath("VC/HC2/Support/SupportPopup")]
+    [NodePath("VC/SearchContainer/HC2/Support/SupportPopup")]
     PopupMenu _supportPopup = null;
     #endregion
 
     #region Paginated Listings for Addons and Templates
-    [NodePath("VC/VC/plAddons")]
+    [NodePath("VC/SearchContainer/plAddons")]
     PaginatedListing _plAddons = null;
 
-    [NodePath("VC/VC/plTemplates")]
+    [NodePath("VC/SearchContainer/plTemplates")]
     PaginatedListing _plTemplates = null;
+    #endregion
+    #endregion
+
+    #region Manage Container
+    [NodePath("VC/ManageContainer")]
+    VBoxContainer _manageContainer = null;
+
+    [NodePath("VC/ManageContainer/HC/PC/HC/Addons")]
+    Button _mAddonsBtn = null;
+
+    [NodePath("VC/ManageContainer/HC/PC/HC/Templates")]
+    Button _mTemplateBtn = null;
+
+    [NodePath("VC/ManageContainer/plmAddons")]
+    PaginatedListing _plmAddons = null;
+
+    [NodePath("VC/ManageContainer/plmTemplates")]
+    PaginatedListing _plmTemplates = null;
     #endregion
 
     #region Timers
@@ -56,6 +86,7 @@ public class AssetLibPanel : Panel
 #region Private Variables
     int _plaCurrentPage = 0;
     int _pltCurrentPage = 0;
+    int _plmCurrentPage = 0;
     string lastSearch = "";
     DateTime lastConfigureRequest;
     DateTime lastSearchRequest;
@@ -78,8 +109,53 @@ public class AssetLibPanel : Panel
     }
 
     [SignalHandler("pressed", nameof(_import))]
-    void OnImportPressed() {
-        // TODO: Implement Importing Addons/Plugins/Projects that are either just folders that need to be zipped up, or a zip file that isn't on a website, but stored locally.
+    async void OnImportPressed() {
+        var result = await AppDialogs.YesNoCancelDialog.ShowDialog("Import Asset...","Do you wish to import a Template or an Addon?","Template","Addon","Cancel");
+        if (result == YesNoCancelDialog.ActionResult.FirstAction) {
+            AppDialogs.ImportFileDialog.WindowTitle = "Import Template...";
+            AppDialogs.ImportFileDialog.Filters = new string[] { "project.godot", "*.zip" };
+            AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnTemplateImport");
+        } else if (result == YesNoCancelDialog.ActionResult.SecondAction) {
+            AppDialogs.ImportFileDialog.WindowTitle = "Import Plugin...";
+            AppDialogs.ImportFileDialog.Filters = new string[] { "plugin.cfg", "*.zip" };
+            AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnPluginImport");
+        } else {
+            return;
+        }
+        AppDialogs.ImportFileDialog.Connect("hide", this, "OnImportClosed");
+        AppDialogs.ImportFileDialog.CurrentFile = "";
+        AppDialogs.ImportFileDialog.CurrentPath = "";
+        AppDialogs.ImportFileDialog.PopupCentered(new Vector2(510, 390));
+    }
+
+    void OnImportClosed() {
+        if (AppDialogs.ImportFileDialog.IsConnected("file_selected", this, "OnTemplateImport"))
+            AppDialogs.ImportFileDialog.Disconnect("file_selected", this, "OnTemplateImport");
+
+        if (AppDialogs.ImportFileDialog.IsConnected("file_selected", this, "OnPluginImport"))
+            AppDialogs.ImportFileDialog.Disconnect("file_selected", this, "OnPluginImport");
+        
+        AppDialogs.ImportFileDialog.Disconnect("hide", this, "OnImportClosed");
+    }
+
+    void OnPluginImport(string filepath) {
+        if (filepath.EndsWith(".cfg")) {  // Plugin Directory Selected
+            PluginDirectoryImport(filepath);
+        } else if (filepath.EndsWith(".zip")) { // Zip File Selected
+            AssetZipImport(filepath, true);
+        } else {
+            AppDialogs.MessageDialog.ShowMessage("Import Plugin", $"Unable to use {filepath} to import the plugin.");
+        }
+    }
+
+    void OnTemplateImport(string filepath) {
+        if (filepath.EndsWith("godot.project")) {
+            TemplateDirectoryImport(filepath);
+        } else if (filepath.EndsWith(".zip")) {
+            AssetZipImport(filepath, false);
+        } else {
+            AppDialogs.MessageDialog.ShowMessage("Import Template", $"Unable to use {filepath} to import the template.");
+        }
     }
 
     [SignalHandler("id_pressed", nameof(_supportPopup))]
@@ -142,8 +218,11 @@ public class AssetLibPanel : Panel
     [SignalHandler("pressed", nameof(_addonsBtn))]
     async void OnAddonsPressed() {
         _templatesBtn.Pressed = false;
+        _manageBtn.Pressed = false;
         _plTemplates.Visible = false;
         _plAddons.Visible = true;
+        _searchContainer.Visible = true;
+        _manageContainer.Visible = false;
         await Configure(false);
         await UpdatePaginatedListing(_plAddons);
     }
@@ -151,10 +230,45 @@ public class AssetLibPanel : Panel
     [SignalHandler("pressed", nameof(_templatesBtn))]
     async void OnTemplatesPressed() {
         _addonsBtn.Pressed = false;
+        _manageBtn.Pressed = false;
         _plTemplates.Visible = true;
         _plAddons.Visible = false;
+        _searchContainer.Visible = true;
+        _manageContainer.Visible = false;
         await Configure(true);
         await UpdatePaginatedListing(_plTemplates);
+    }
+
+    [SignalHandler("pressed", nameof(_manageBtn))]
+    async void OnManagePressed() {
+        _addonsBtn.Pressed = false;
+        _templatesBtn.Pressed = false;
+        _plTemplates.Visible = false;
+        _plAddons.Visible = false;
+        _searchContainer.Visible = false;
+        _manageContainer.Visible = true;
+        if (_mTemplateBtn.Pressed)
+            await UpdatePaginatedListing(_plmTemplates);
+        else
+            await UpdatePaginatedListing(_plmAddons);
+    }
+
+    [SignalHandler("pressed", nameof(_mAddonsBtn))]
+    async void OnManageAddonPressed() {
+        _plmAddons.Visible = true;
+        _mAddonsBtn.Pressed = true;
+        _plmTemplates.Visible = false;
+        _mTemplateBtn.Pressed = false;
+        await UpdatePaginatedListing(_plmAddons);
+    }
+
+    [SignalHandler("pressed", nameof(_mTemplateBtn))]
+    async void OnManageTemplatePressed() {
+        _plmAddons.Visible = false;
+        _mAddonsBtn.Pressed = false;
+        _plmTemplates.Visible = true;
+        _mTemplateBtn.Pressed = true;
+        await UpdatePaginatedListing(_plmTemplates);
     }
 
     async void OnPageChanged(int page) {
@@ -179,6 +293,203 @@ public class AssetLibPanel : Panel
             return;
         
         await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
+    }
+
+    AssetLib.Asset CreateAssetDirectory(string filepath, bool is_plugin) {
+        AssetLib.Asset asset = new AssetLib.Asset();
+        if (is_plugin) {
+            ConfigFile cfg = new ConfigFile();
+            cfg.Load(filepath);
+            asset.Type = "addon";
+            asset.Title = cfg.GetValue("plugin","name") as string;
+            asset.Author = cfg.GetValue("plugin","author") as string;
+            asset.VersionString = cfg.GetValue("plugin","version") as string;
+            asset.Description = cfg.GetValue("plugin","description") as string;
+        } else {
+            ProjectConfig pc = new ProjectConfig(filepath);
+            pc.Load();
+            asset.Type = "project";
+            asset.Title = pc.GetValue("application","config/name");
+            asset.Author = "Local User";
+            asset.VersionString = "0.0.0";
+            asset.Description = pc.GetValue("application","config/description");
+        }
+        asset.AssetId = $"local-{CentralStore.Settings.LocalAddonCount}";
+        asset.AuthorId = "-1";
+        asset.Version = "-1";
+        asset.Category = "Local";
+        asset.CategoryId = "-3";
+        asset.GodotVersion = "3.4";
+        asset.Rating = "";
+        asset.Cost = "";
+        asset.SupportLevel = "";
+        asset.DownloadProvider = "local";
+        asset.DownloadCommit = "";
+        asset.BrowseUrl = $"file://{filepath.GetBaseDir()}";
+        asset.IssuesUrl = "";
+        asset.Searchable = "";
+        asset.ModifyDate = DateTime.UtcNow.ToString();
+        asset.DownloadUrl = $"file://{filepath.GetBaseDir()}";
+        asset.Previews = new Array<AssetLib.Preview>();
+        asset.DownloadHash = "";
+        return asset;
+    }
+
+    AssetLib.Asset CreateAssetZip(string filepath, bool is_plugin) {
+        AssetLib.Asset asset = new AssetLib.Asset();
+        if (is_plugin) {
+            ConfigFile cfg = new ConfigFile();
+            bool found = false;
+            
+            using (var za = ZipFile.OpenRead(filepath)) {
+                foreach(var zae in za.Entries) {
+                    if (zae.FullName.EndsWith("plugin.cfg")) {
+                        found = true;
+                        cfg.Parse(zae.ReadFile());
+                        break;
+                    }
+                }
+            }
+
+            if (!found)
+                return null;
+            
+            
+            asset.Type = "addon";
+            asset.Title = cfg.GetValue("plugin","name") as string;
+            asset.Author = cfg.GetValue("plugin","author") as string;
+            asset.VersionString = cfg.GetValue("plugin","version") as string;
+            asset.Description = cfg.GetValue("plugin","description") as string;
+            asset.IconUrl = "res://Assets/Icons/default_project_icon.png";
+        } else {
+            ProjectConfig pc = new ProjectConfig();
+            bool found = false;
+
+            using (var za = ZipFile.OpenRead(filepath)) {
+                foreach(var zae in za.Entries) {
+                    if (zae.FullName.EndsWith("project.godot")) {
+                        found = true;
+                        pc.LoadBuffer(zae.ReadFile());
+                        break;
+                    }
+                }
+            }
+
+            if (!found)
+                return null;
+            
+
+            asset.Type = "project";
+            asset.Title = pc.GetValue("application","config/name");
+            asset.Author = "Local User";
+            asset.VersionString = "0.0.0";
+            asset.Description = pc.GetValue("application","config/description");
+            asset.IconUrl = "zip+" + pc.GetValue("application","config/icon");
+        }
+        asset.AssetId = $"local-{CentralStore.Settings.LocalAddonCount}";
+        asset.AuthorId = "-1";
+        asset.Version = "-1";
+        asset.Category = "Local";
+        asset.CategoryId = "-3";
+        asset.GodotVersion = "3.4";
+        asset.Rating = "";
+        asset.Cost = "";
+        asset.SupportLevel = "";
+        asset.DownloadProvider = "local";
+        asset.DownloadCommit = "";
+        asset.BrowseUrl = $"file://{filepath.GetBaseDir()}";
+        asset.IssuesUrl = "";
+        asset.Searchable = "";
+        asset.ModifyDate = DateTime.UtcNow.ToString();
+        asset.DownloadUrl = $"file://{filepath}";
+        asset.Previews = new Array<AssetLib.Preview>();
+        asset.DownloadHash = "";
+        return asset;
+    }
+
+    async void PluginDirectoryImport(string filepath) {
+        // "E:\Projects\Godot\EditorPlugins\addons\data_editor\plugin.cfg"
+        string addonPath = filepath.GetBaseDir().NormalizePath();
+        string addonName = addonPath.GetFile();
+        // "E:\Projects\Godot\EditorPlugins\addons\data_editor"
+        string zipFile = $"{CentralStore.Settings.CachePath}/AssetLib/local-{CentralStore.Settings.LocalAddonCount}-{addonName}.zip";
+        using(var fh = new FileStream(zipFile, FileMode.Create)) {
+            using (var afh = new ZipArchive(fh, ZipArchiveMode.Create)) {
+                GD.Print($"addonPath: {addonPath}");
+
+                foreach (string entry in Directory.EnumerateFileSystemEntries(addonPath,"*",System.IO.SearchOption.AllDirectories)) {
+                    if (entry == "." || entry == "..")
+                        continue;
+                    if (entry.EndsWith(".import"))
+                        continue;
+                    if (Directory.Exists(entry))
+                        continue;
+                    
+                    var zipPath = $"addons/{addonName}".Join(entry.Substring(addonPath.Length+1));
+                    afh.CreateEntryFromFile(entry, zipPath);
+                }
+            }
+        }
+        AssetPlugin plgn = new AssetPlugin();
+        plgn.Asset = CreateAssetDirectory(filepath, true);
+        plgn.Location = zipFile;
+        AppDialogs.AddonInstaller.ShowDialog(plgn);
+        while (AppDialogs.AddonInstaller.Visible)
+            await this.IdleFrame();
+        CentralStore.Plugins.Add(plgn);
+        CentralStore.Settings.LocalAddonCount++;
+        CentralStore.Instance.SaveDatabase();
+    }
+
+    void TemplateDirectoryImport(string filepath) {
+        string templatePath = filepath.GetBaseDir().NormalizePath();
+        string templateName = templatePath.GetFile();
+        string zipFile = $"{CentralStore.Settings.CachePath}/AssetLib/local-{CentralStore.Settings.LocalAddonCount}-{templateName}.zip";
+        using(var fh = new FileStream(zipFile, FileMode.Create)) {
+            using(var afh = new ZipArchive(fh, ZipArchiveMode.Create)) {
+                foreach (string entry in Directory.EnumerateFileSystemEntries(templatePath, "", System.IO.SearchOption.AllDirectories)) {
+                    if (entry == "." || entry == "..")
+                        continue;
+                    if (entry.EndsWith(".import"))
+                        continue;
+                    if (Directory.Exists(entry))
+                        continue;
+                    
+                    var zipPath = entry.Substring(templatePath.Length+1);
+                    afh.CreateEntryFromFile(entry, zipPath);
+                }
+            }
+        }
+        AssetProject prj = new AssetProject();
+        prj.Asset = CreateAssetDirectory(filepath, false);
+        prj.Location = zipFile;
+        CentralStore.Templates.Add(prj);
+        CentralStore.Settings.LocalAddonCount++;
+        CentralStore.Instance.SaveDatabase();
+    }
+
+    async void AssetZipImport(string filepath, bool is_plugin) {
+        string zipFile = filepath.NormalizePath();
+        string zipName = zipFile.GetFile().BaseName();
+        string newZipFile = $"{CentralStore.Settings.CachePath}/AssetLib/local-{CentralStore.Settings.LocalAddonCount}-{zipName}.zip";
+        SFile.Copy(zipFile, newZipFile);
+        AssetLib.Asset asset = CreateAssetZip(filepath, is_plugin);
+        if (is_plugin) {
+            AssetPlugin plgn = new AssetPlugin();
+            plgn.Asset = asset;
+            plgn.Location = newZipFile;
+            AppDialogs.AddonInstaller.ShowDialog(plgn);
+            while (AppDialogs.AddonInstaller.Visible)
+                await this.IdleFrame();
+            CentralStore.Plugins.Add(plgn);
+        } else {
+            AssetProject prj = new AssetProject();
+            prj.Asset = asset;
+            prj.Location = newZipFile;
+            CentralStore.Templates.Add(prj);
+        }
+        CentralStore.Settings.LocalAddonCount++;
+        CentralStore.Instance.SaveDatabase();
     }
 
 	private async Task Configure(bool projectsOnly)
@@ -236,31 +547,39 @@ public class AssetLibPanel : Panel
 
 	private async Task UpdatePaginatedListing(PaginatedListing pl)
 	{
-		AppDialogs.BusyDialog.UpdateHeader("Getting search results...");
-		AppDialogs.BusyDialog.UpdateByline("Connecting...");
-        AppDialogs.BusyDialog.ShowDialog();
-
-        bool projectsOnly = (pl == _plTemplates);
-        int sortBy = _sortBy.Selected;
-        int categoryId = _category.GetSelectedId();
-        string filter = _searchField.Text;
-        string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
-
-		Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, projectsOnly ? _pltCurrentPage : _plaCurrentPage, projectsOnly, sortBy,
-                GetSupport(), categoryId, filter);
-		while (!stask.IsCompleted)
-			await this.IdleFrame();
-
-        if (stask.Result == null) {
+        if (pl == _plmAddons || pl == _plmTemplates) {
             pl.ClearResults();
-            AppDialogs.BusyDialog.HideDialog();
-            AppDialogs.MessageDialog.ShowMessage("Asset Library",$"Unable to connect to {url}.");
-            return;
-        }
+            if (pl == _plmAddons)
+                pl.UpdateAddons();
+            else
+                pl.UpdateTemplates();
+        } else {
+            AppDialogs.BusyDialog.UpdateHeader("Getting search results...");
+            AppDialogs.BusyDialog.UpdateByline("Connecting...");
+            AppDialogs.BusyDialog.ShowDialog();
 
-		AppDialogs.BusyDialog.UpdateByline("Parsing results...");
-		pl.UpdateResults(stask.Result);
-		AppDialogs.BusyDialog.HideDialog();
-        lastSearchRequest = DateTime.Now;
+            bool projectsOnly = (pl == _plTemplates);
+            int sortBy = _sortBy.Selected;
+            int categoryId = _category.GetSelectedId();
+            string filter = _searchField.Text;
+            string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
+
+            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, projectsOnly ? _pltCurrentPage : _plaCurrentPage, projectsOnly, sortBy,
+                    GetSupport(), categoryId, filter);
+            while (!stask.IsCompleted)
+                await this.IdleFrame();
+
+            if (stask.Result == null) {
+                pl.ClearResults();
+                AppDialogs.BusyDialog.HideDialog();
+                AppDialogs.MessageDialog.ShowMessage("Asset Library",$"Unable to connect to {url}.");
+                return;
+            }
+
+            AppDialogs.BusyDialog.UpdateByline("Parsing results...");
+            pl.UpdateResults(stask.Result);
+            AppDialogs.BusyDialog.HideDialog();
+            lastSearchRequest = DateTime.Now;
+        }
 	}
 }

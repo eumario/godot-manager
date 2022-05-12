@@ -66,7 +66,7 @@ public class PaginatedListing : ScrollContainer
             ale.License = plgn.Asset.Cost;
             ale.AssetId = plgn.Asset.AssetId;
             ale.UpdateAvailable = false;
-            ale.Downloaded = true;
+            ale.Downloaded = false;
             _listing.AddChild(ale);
             if (plgn.Asset.IconUrl == null || plgn.Asset.IconUrl == "") {
                 ale.Icon = Util.LoadImage("res://Assets/Icons/default_project_icon.png");
@@ -110,7 +110,7 @@ public class PaginatedListing : ScrollContainer
             ale.License = prj.Asset.Cost;
             ale.AssetId = prj.Asset.AssetId;
             ale.UpdateAvailable = false;
-            ale.Downloaded = true;
+            ale.Downloaded = false;
             _listing.AddChild(ale);
             if (prj.Asset.IconUrl == null || prj.Asset.IconUrl == "") {
                 ale.Icon = Util.LoadImage("res://Assets/Icons/missing_icon.svg");

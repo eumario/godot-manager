@@ -49,6 +49,9 @@ public class Settings : Object {
 	[JsonProperty]
 	public Dictionary<string, string> CurrentEngineMirror;
 
+	[JsonProperty]
+	public int LocalAddonCount;
+
 	public bool FirstTimeRun = false;
 
 	public Settings() {
@@ -72,6 +75,7 @@ public class Settings : Object {
 		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)
 		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented (Version 0.2 Target)
 		CurrentEngineMirror = new Dictionary<string, string>();											// Not Implemented (Version 0.2 Target)
+		LocalAddonCount = 0;
 	}
 
 	public void SetupDefaultValues() {
