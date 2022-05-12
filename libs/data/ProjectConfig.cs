@@ -58,6 +58,40 @@ public class ProjectConfig : Object {
 		}
 	}
 
+	public Error LoadBuffer(string buffer = "") {
+		sections = new Dictionary<string, Dictionary<string, string>>();
+
+		sections["header"] = new Dictionary<string, string>();
+		string current_section = "header";
+		string last_key = "";
+
+		foreach (var data in buffer.Split("\n",true)) {
+			var line = data.StripEdges();
+
+			if (line.BeginsWith(";"))
+				continue;
+			
+			if (line.BeginsWith("[")) {
+				current_section = line.Substring(1,line.Length-2);
+				sections[current_section] = new Dictionary<string, string>();
+				continue;
+			}
+			if (line.IndexOf("=") != -1) {
+				string[] parts = line.Split("=");
+				string key = parts[0];
+				last_key = key;
+				string value = parts[1];
+				sections[current_section][key] = value;
+				continue;
+			}
+
+			if (!string.IsNullOrEmpty(line)) {
+				sections[current_section][last_key] += "\n" + line;
+			}
+		}
+		return Error.Ok;
+	}
+
 	public Error Load(string fname = "") { 
 		if (fname != "")
 			fileName = fname;
