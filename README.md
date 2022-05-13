@@ -28,6 +28,12 @@ You can grab the latest release from here on Github, or from Itch.io!
 
 [<img src="https://static.itch.io/images/badge-color.svg" width="250px">](https://eumario.itch.io/godot-manager)
 
+# Sponsors
+
+Currently, Godot manager has the following sponsors for the project.  Check them out!
+
+[<img src="https://static.quiver.dev/production/app/img/quiver-logo.ccff488edbb7.svg" width="250px">](https://quiver.dev)
+
 # Participate
 
 This project is an Open Source Project, licensed under the MIT License.  Participation is always welcome from the community.  A Discord server has been setup, and can be reached at the link below.
