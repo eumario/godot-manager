@@ -15,6 +15,12 @@ public class ProjectsPanel : Panel
     ActionButtons _actionButtons = null;
     [NodePath("VC/SC")]
     ScrollContainer _scrollContainer = null;
+    [NodePath("VC/ProjectSort")]
+    MarginContainer _projectSort = null;
+    [NodePath("VC/ProjectSort/PC/HeaderButtons/ProjectName")]
+    HeaderButton _projectName = null;
+    [NodePath("VC/ProjectSort/PC/HeaderButtons/GodotVersion")]
+    HeaderButton _godotVersion = null;
     [NodePath("VC/SC/MarginContainer/ProjectList/ListView")]
     VBoxContainer _listView = null;
     [NodePath("VC/SC/MarginContainer/ProjectList/GridView")]
@@ -56,6 +62,11 @@ public class ProjectsPanel : Panel
         "Icon View",
         "Category View"
     };
+
+    Dictionary<ProjectFile, ProjectLineEntry> pleCache;
+    Dictionary<ProjectFile, ProjectIconEntry> pieCache;
+    Dictionary<Category, CategoryList> catCache;
+    Dictionary<CategoryList, Dictionary<ProjectFile,ProjectLineEntry>> cpleCache;
 
     bool dragging = false;
     float _topBorder = 0.0f;
@@ -143,6 +154,18 @@ public class ProjectsPanel : Panel
                 _scrollSpeed = 0;
             }
         }
+    }
+
+    [SignalHandler("direction_changed", nameof(_projectName))]
+    void OnDirChanged_ProjectName(HeaderButton.SortDirection @dir) {
+        _godotVersion.Indeterminate();
+        PopulateListing();
+    }
+
+    [SignalHandler("direction_changed", nameof(_godotVersion))]
+    void OnDirChanged_GodotVersion(HeaderButton.SortDirection @dir) {
+        _projectName.Indeterminate();
+        PopulateListing();
     }
 
     void OnScrollTimer() {
@@ -273,79 +296,167 @@ public class ProjectsPanel : Panel
         PopulateListing();
     }
 
+    // Optimizing PopulateListing() to utilize Cache of Nodes, adding and removing only as
+    // CentralStore changes.  Sorting will happen AFTER all nodes have been generated, and will
+    // be added / ordered from the cache to the display controls.
+    // (At Least in ListView, Icon and Project no such sorting, but will ensure all updates will be
+    // executed at a faster pace, then previous method of Freeing all, and Re-creating. )
     public void PopulateListing() {
+
+        // Initialize if not initialized
+        if (pleCache == null)
+            pleCache = new Dictionary<ProjectFile, ProjectLineEntry>();
+        if (pieCache == null)
+            pieCache = new Dictionary<ProjectFile, ProjectIconEntry>();
+        if (catCache == null)
+            catCache = new Dictionary<Category, CategoryList>();
+        if (cpleCache == null)
+            cpleCache = new Dictionary<CategoryList, Dictionary<ProjectFile, ProjectLineEntry>>();
+        
         ProjectLineEntry ple;
         ProjectIconEntry pie;
         CategoryList clt;
 
-        foreach(Node child in _listView.GetChildren()) {
-            child.QueueFree();
-        }
-        foreach(Node child in _gridView.GetChildren()) {
-            child.QueueFree();
-        }
-        foreach(CategoryList child in _categoryView.GetChildren()) {
-            foreach(Node cchild in child.List.GetChildren()) {
-                cchild.QueueFree();
-            }
-            child.QueueFree();
-        }
-
-        _categoryList.Clear();
-
+        // Create our Categories
         foreach(Category cat in CentralStore.Categories) {
+            if (catCache.ContainsKey(cat))
+                continue;
             clt = NewCL(cat.Name);
-            clt.SetMeta("ID",cat.Id);
+            clt.SetMeta("ID", cat.Id);
             clt.Toggled = cat.IsExpanded;
             _categoryList[cat.Id] = clt;
+            catCache[cat] = clt;
+            cpleCache[clt] = new Dictionary<ProjectFile, ProjectLineEntry>();
             _categoryView.AddChild(clt);
             clt.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clt });
         }
 
-        clFavorites = NewCL("Favorites");
-        clFavorites.SetMeta("ID", -1);
-        clFavorites.Toggled = CentralStore.Settings.FavoritesToggled;
-        _categoryView.AddChild(clFavorites);
-        clFavorites.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clFavorites });
+        if (clFavorites == null) {
+            clFavorites = NewCL("Favorites");
+            clFavorites.SetMeta("ID", -1);
+            clFavorites.Toggled = CentralStore.Settings.FavoritesToggled;
+            _categoryView.AddChild(clFavorites);
+            clFavorites.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clFavorites });
+            cpleCache[clFavorites] = new Dictionary<ProjectFile, ProjectLineEntry>();
+        }
 
-        clUncategorized = NewCL("Un-Categorized");
-        clUncategorized.SetMeta("ID",-2);
-        clUncategorized.Toggled = CentralStore.Settings.UncategorizedToggled;
-        _categoryView.AddChild(clUncategorized);
-        clUncategorized.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clUncategorized });
+        if (clUncategorized == null) {
+            clUncategorized = NewCL("Un-Categorized");
+            clUncategorized.SetMeta("ID", -2);
+            clUncategorized.Toggled = CentralStore.Settings.UncategorizedToggled;
+            _categoryView.AddChild(clUncategorized);
+            clUncategorized.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clUncategorized });
+            cpleCache[clUncategorized] = new Dictionary<ProjectFile, ProjectLineEntry>();
+        }
 
-        foreach(ProjectFile pf in SortListing()) {
-            ple = NewPLE(pf);
-            pie = NewPIE(pf);
-            _listView.AddChild(ple);
-            _gridView.AddChild(pie);
-
-            ConnectHandlers(ple);
-            ConnectHandlers(pie);
-            if (pf.CategoryId == -1) {
-                if (pf.Favorite) {
-                    clt = clFavorites;
-                } else {
-                    clt = clUncategorized;
-                }
-            } else {
-                if (_categoryList.ContainsKey(pf.CategoryId))
-                    clt = _categoryList[pf.CategoryId];
-                else
-                    clt = clUncategorized;
+        // Create our Project Entries
+        foreach(ProjectFile pf in CentralStore.Projects) {
+            clt = null;
+            if (!pleCache.ContainsKey(pf)) {
+                ple = NewPLE(pf);
+                pleCache[pf] = ple;
+                ConnectHandlers(ple);
             }
-            ple = clt.AddProject(pf);
-            ConnectHandlers(ple,true);
+            if (!pieCache.ContainsKey(pf)) {
+                pie = NewPIE(pf);
+                pieCache[pf] = pie;
+                ConnectHandlers(pie);
+            }
 
-            if (pf.CategoryId != -1 && pf.Favorite) {
-                ple = clFavorites.AddProject(pf);
-                ConnectHandlers(ple,true);
+            if (_categoryList.ContainsKey(pf.CategoryId)) {
+                clt = _categoryList[pf.CategoryId];
+            }
+            
+            if (clt == null && pf.Favorite)
+                clt = clFavorites;
+            
+            if (clt == null)
+                clt = clUncategorized;
+
+            if (!cpleCache[clt].ContainsKey(pf)) {
+                ple = clt.AddProject(pf);
+                cpleCache[clt][pf] = ple;
+                ConnectHandlers(ple, true);
             }
         }
+        
+        // Clean up of Project Entries
+        foreach(ProjectFile pf in pleCache.Keys) {
+            if (!CentralStore.Projects.Contains(pf)) {
+                pleCache[pf].QueueFree();
+                pleCache.Remove(pf);
+            }
+        }
+        
+        foreach(ProjectFile pf in pieCache.Keys) {
+            if (!CentralStore.Projects.Contains(pf)) {
+                pieCache[pf].QueueFree();
+                pieCache.Remove(pf);
+            }
+        }
+
+        // Cleanup of Categories
+        foreach(CategoryList cclt in cpleCache.Keys) {
+            foreach(ProjectFile pf in cpleCache[cclt].Keys) {
+                if (!CentralStore.Projects.Contains(pf)) {
+                    cpleCache[cclt][pf].QueueFree();
+                    cpleCache[cclt].Remove(pf);
+                } else if (cclt == clFavorites && !pf.Favorite && cpleCache[cclt].Keys.Contains(pf)) {
+                    cpleCache[cclt][pf].QueueFree();
+                    cpleCache[cclt].Remove(pf);
+                }
+            }
+            
+            if (cclt != clFavorites && cclt != clUncategorized) {
+                int CatID = (int)cclt.GetMeta("ID");
+                if (!CentralStore.Instance.HasCategoryId(CatID)) {
+                    Category cCat = null;
+                    foreach(Category cat in catCache.Keys) {
+                        if (catCache[cat] == cclt)
+                            cCat = cat;
+                    }
+                    if (cCat != null) {
+                        cpleCache.Remove(cclt);
+                        catCache.Remove(cCat);
+                        _categoryList.Remove(CatID);
+                    }
+                }
+            }
+
+            if (cclt == clUncategorized) {
+                foreach(ProjectFile pf in cpleCache[cclt].Keys) {
+                    if (pf.Favorite) {
+                        cpleCache[cclt][pf].QueueFree();
+                        cpleCache[cclt].Remove(pf);
+                    }
+                }
+            }
+
+            cclt.SortListing();
+        }
+
+        PopulateSort();
+
         if (_missingProjects.Count == 0)
             _actionButtons.SetHidden(6);
         else
             _actionButtons.SetVisible(6);
+    }
+
+    public void PopulateSort() {
+        foreach(Node node in _listView.GetChildren())
+            _listView.RemoveChild(node);
+
+        foreach(Node node in _gridView.GetChildren())
+            _gridView.RemoveChild(node);
+        
+        foreach(ProjectFile pf in SortListing()) {
+            _listView.AddChild(pleCache[pf]);
+        }
+
+        foreach(ProjectFile pf in SortListing(true)) {
+            _gridView.AddChild(pieCache[pf]);
+        }
     }
 
     public void OnProjectCreated(ProjectFile pf) {
@@ -656,14 +767,53 @@ public class ProjectsPanel : Panel
             _actionButtons.SetHidden(3);
             _actionButtons.SetHidden(4);
         }
+        if (page == 0) {
+            _projectSort.Visible = true;
+        } else {
+            _projectSort.Visible = false;
+        }
         _currentView = (View)page;
         CentralStore.Settings.LastView = Views[page];
     }
 
-    public Array<ProjectFile> SortListing() {
+    public Array<ProjectFile> SortListing(bool @default = false) {
         Array<ProjectFile> projectFiles = new Array<ProjectFile>();
-        var fav = CentralStore.Projects.Where(pf => pf.Favorite == true).OrderByDescending(pf => pf.LastAccessed);
-        var non_fav = CentralStore.Projects.Where(pf => pf.Favorite != true).OrderByDescending(pf => pf.LastAccessed);
+        System.Collections.Generic.IEnumerable<ProjectFile> fav;
+        System.Collections.Generic.IEnumerable<ProjectFile> non_fav;
+
+        // Default Behavior
+        if (_projectName.Direction == HeaderButton.SortDirection.Indeterminate &&
+             _godotVersion.Direction == HeaderButton.SortDirection.Indeterminate ||
+             @default) {
+            fav = CentralStore.Projects.Where(pf => pf.Favorite)
+                        .OrderByDescending(pf => pf.LastAccessed);
+
+            non_fav = CentralStore.Projects.Where(pf => !pf.Favorite)
+                        .OrderByDescending(pf => pf.LastAccessed);
+        // Sort by Project Name
+        } else if (_projectName.Direction != HeaderButton.SortDirection.Indeterminate &&
+                    _godotVersion.Direction == HeaderButton.SortDirection.Indeterminate) {
+            if (_projectName.Direction == HeaderButton.SortDirection.Up) {
+                foreach (ProjectFile pf in CentralStore.Projects.OrderByDescending(pf => pf.Name))
+                    projectFiles.Add(pf);
+            } else {
+                foreach (ProjectFile pf in CentralStore.Projects.OrderBy(pf => pf.Name))
+                    projectFiles.Add(pf);
+            }
+            return projectFiles;
+        // Sort by Godot Version
+        } else {
+            if (_godotVersion.Direction == HeaderButton.SortDirection.Up) {
+                foreach (ProjectFile pf in CentralStore.Projects.OrderBy(pf => CentralStore.Instance.GetVersion(pf.GodotVersion).Tag)
+                            .ThenBy(pf => !CentralStore.Instance.GetVersion(pf.GodotVersion).IsMono))
+                    projectFiles.Add(pf);
+            } else {
+                foreach (ProjectFile pf in CentralStore.Projects.OrderByDescending(pf => CentralStore.Instance.GetVersion(pf.GodotVersion).Tag)
+                            .ThenByDescending(pf => !CentralStore.Instance.GetVersion(pf.GodotVersion).IsMono))
+                    projectFiles.Add(pf);
+            }
+            return projectFiles;
+        }
 
         foreach(ProjectFile pf in fav)
             projectFiles.Add(pf);

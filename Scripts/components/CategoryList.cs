@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
 using System;
+using System.Linq;
 
 [Tool]
 public class CategoryList : VBoxContainer
@@ -129,6 +130,35 @@ public class CategoryList : VBoxContainer
         EmitSignal("list_toggled");
     }
 
+    public async void SortListing() {
+        Array<ProjectLineEntry> pleCache = new Array<ProjectLineEntry>();
+        Array<ProjectFile> pfCache = new Array<ProjectFile>();
+
+        foreach(ProjectLineEntry ple in _categoryList.GetChildren()) {
+            pleCache.Add(ple);
+            pfCache.Add(ple.ProjectFile);
+            _categoryList.RemoveChild(ple);
+        }
+
+        await this.IdleFrame();
+
+        var fav = pfCache.Where(pf => pf.Favorite)
+                    .OrderByDescending(pf => pf.LastAccessed);
+        
+        var non_fav = pfCache.Where(pf => !pf.Favorite)
+                    .OrderByDescending(pf => pf.LastAccessed);
+
+        foreach(ProjectFile pf in fav) {
+            int indx = pfCache.IndexOf(pf);
+            _categoryList.AddChild(pleCache[indx]);
+        }
+
+        foreach(ProjectFile pf in non_fav) {
+            int indx = pfCache.IndexOf(pf);
+            _categoryList.AddChild(pleCache[indx]);
+        }
+    }
+
     public ProjectLineEntry AddProject(ProjectFile projectFile) {
         ProjectLineEntry ple = pstProject.Instance<ProjectLineEntry>();
         if (!ProjectFile.ProjectExists(projectFile.Location))
@@ -166,5 +196,7 @@ public class CategoryList : VBoxContainer
         List.AddChild(ple);
         ple.ProjectFile.CategoryId = (int)GetMeta("ID");
         CentralStore.Instance.SaveDatabase();
+        parent.SortListing();
+        SortListing();
 	}
 }

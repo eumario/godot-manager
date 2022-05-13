@@ -130,6 +130,13 @@ public class CentralStore {
 		return query.FirstOrDefault<GodotVersion>();
 	}
 
+	public GodotVersion GetVersion(string id) {
+		var query = from gv in Versions
+					where gv.Id == id
+					select gv;
+		return query.First<GodotVersion>();
+	}
+
 	public bool HasCategory(string name) {
 		var res = from c in CentralStore.Categories
 					where c.Name.ToLower() == name.ToLower()
