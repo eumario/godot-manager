@@ -10,6 +10,9 @@ public class CategoryList : VBoxContainer
 #region Signals
     [Signal]
     public delegate void list_toggled();
+
+    [Signal]
+    public delegate void drag_drop_completed(CategoryList origin, CategoryList destination, ProjectLineEntry project);
 #endregion
 
 #region Node Variables
@@ -131,6 +134,8 @@ public class CategoryList : VBoxContainer
     }
 
     public async void SortListing() {
+        // Wait for 1 idle frame, so that QueueFree() executes.
+        await this.IdleFrame();
         Array<ProjectLineEntry> pleCache = new Array<ProjectLineEntry>();
         Array<ProjectFile> pfCache = new Array<ProjectFile>();
 
@@ -140,22 +145,19 @@ public class CategoryList : VBoxContainer
             _categoryList.RemoveChild(ple);
         }
 
-        await this.IdleFrame();
-
         var fav = pfCache.Where(pf => pf.Favorite)
                     .OrderByDescending(pf => pf.LastAccessed);
         
         var non_fav = pfCache.Where(pf => !pf.Favorite)
                     .OrderByDescending(pf => pf.LastAccessed);
 
-        foreach(ProjectFile pf in fav) {
-            int indx = pfCache.IndexOf(pf);
-            _categoryList.AddChild(pleCache[indx]);
-        }
-
-        foreach(ProjectFile pf in non_fav) {
-            int indx = pfCache.IndexOf(pf);
-            _categoryList.AddChild(pleCache[indx]);
+        foreach(IOrderedEnumerable<ProjectFile> apf in new System.Collections.ArrayList() { fav, non_fav }) {
+            foreach(ProjectFile pf in apf) {
+                int indx = pfCache.IndexOf(pf);
+                if (indx == -1)
+                    continue;
+                _categoryList.AddChild(pleCache[indx]);
+            }
         }
     }
 
@@ -196,6 +198,7 @@ public class CategoryList : VBoxContainer
         List.AddChild(ple);
         ple.ProjectFile.CategoryId = (int)GetMeta("ID");
         CentralStore.Instance.SaveDatabase();
+        EmitSignal("drag_drop_completed", parent, this, ple);
         parent.SortListing();
         SortListing();
 	}
