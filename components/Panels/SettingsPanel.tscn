@@ -53,9 +53,6 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VB" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -832,6 +829,13 @@ bbcode_text = "[center][code]Special Thanks[/code]
 [/table]
 [/center]
 
+[center][code]Sponsors[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=1]
+[cell][url=https://quiver.dev][img=250x103]res://Assets/Icons/quiver-logo.png[/img][/url][/cell]
+[/table]
+[/center]
+
 [center][code]Source Contributors[/code]
 [img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 [table=4]
@@ -851,6 +855,11 @@ bbcode_text = "[center][code]Special Thanks[/code]
 text = "Special Thanks
 
 Lentsius    Twitch    MartyPher    Twitch    EroAxee    Twitch    MaritalStrafe    Twitch    MightyMochiGames    Twitch    velopman    Twitch    Falinere    Twitch    snopekgames    Twitch    Stefan (GDC)    YouTube    GDQuest    YouTube    HeartBeast    YouTube    
+
+
+Sponsors
+
+
 
 
 Source Contributors
