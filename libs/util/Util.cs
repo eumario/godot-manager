@@ -27,17 +27,6 @@ public static class Util {
 		return Path.GetExtension(path);
 	}
 
-	public static ImageTexture LoadImage(this string path, int width = 64, int height = 64, Image.Interpolation interpolate = Image.Interpolation.Cubic) {
-		Image img = new Image();
-		ImageTexture texture = null;
-		if (img.Load(path) == Error.Ok) {
-			img.Resize(width,height,interpolate);
-			texture = new ImageTexture();
-			texture.CreateFromImage(img);
-		}
-		return texture;
-	}
-
 	static string[] ByteSizes = new string[5] { "B", "KB", "MB", "GB", "TB"};
 
 
@@ -138,6 +127,9 @@ public static class Util {
 			image = tex.GetData();
 		} else {
 			if (!SFile.Exists(path.GetOSDir().NormalizePath()))
+				return null;
+
+			if (SixLabors.ImageSharp.Image.DetectFormat(path.GetOSDir().NormalizePath()) == null)
 				return null;
 
 			Error err = image.Load(path);

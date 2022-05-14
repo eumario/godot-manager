@@ -126,7 +126,7 @@ public class EditProject : ReferenceRect
 
 #region Private Functions
     void PopulateData() {
-        _Icon.Texture = ProjectFile.Location.GetResourceBase(IconPath).LoadImage();
+        _Icon.Texture = Util.LoadImage(ProjectFile.Location.GetResourceBase(IconPath));
         _ProjectName.Text = ProjectName;
         _ProjectDescription.Text = Description;
         _GodotVersion.Clear();
@@ -262,7 +262,7 @@ public class EditProject : ReferenceRect
                 return;
             }
         }
-        _Icon.Texture = path.LoadImage();
+        _Icon.Texture = Util.LoadImage(path);
         AppDialogs.ImageFileDialog.Visible = false;
         _isDirty = true;
         _SaveBtn.Disabled = false;

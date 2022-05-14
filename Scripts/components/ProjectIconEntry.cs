@@ -58,7 +58,7 @@ public class ProjectIconEntry : ColorRect
                     _icon.Texture = _missingIcon;
                 else {
                     if (System.IO.File.Exists(value)) {
-                        var texture = value.LoadImage();
+                        var texture = Util.LoadImage(value);
                         if (texture == null)
                             _icon.Texture = _defaultIcon;
                         else
