@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Version 0.1.3
+- Fixed bug where When no update is found, does not hide the BusyDialog. (Thanks to chriba)
+- Fixed bug when creating a new Project, the Icon was not properly copied to the new directory.  New method properly reads the data, and writes it to the new project directory, when not using a template.
+- Updated Droid Sans fonts.  Grabbed official version of Droid Sans and Droid Sans Bold, that should have Unicode characters for other languages, which should fix Non-English characters from showing in Dialogs.
+- Added function to load a ProjectFile from memory buffer (EG: String), there by allowing loading of Project files from Zip Files.
+- Added ReadFile() and ReadBuffer() for ZipArchiveEntries, allowing for reading of the file into memory, either as a string, or byte array.
+- Fixed Util.LoadImage() to properly read Packed Image files with the executable pack, along with regular images stored in the filesystem.
+- Updated UI to properly show a Shade of Grey for files that are disabled, fixing an UI Issue with File Browsing dialogs that are set to look for folders, instead of files, making the text readable.
+- Added functions to PaginatedListing control, to allow for loading of Installed Addons / Templates, instead of using Results from an Asset Library query.
+- Updated ImportProject, to set required fields for Importing projects, defaulting to the setting for Projects folder.
+- Added functionality to allow for Importing of Addons / Templates manually, instead of just from the Asset Library.  This will allow for manually downloaded addons to be installed, along with creating of archives for Addons / Templates from existing projects on the user's system.
+- Fixed bug with Cleanup of *.import files, where it was not checking for existance of the folder, before attempting to get a listing of the directory.
+- Implemented Sorting Feature.  In ListView, the default sorting is to sort by Favoriates an Last Accessed timestamp.  In CategoryView, it will default to the same sorting of Favoriates, and Last Accessed Timestamp.  Now in ListView, you can now sort by Project Name, and sort by the Version of Godot the project uses.
+- Updated Credits to include credit for chriba in source contributions, and our new Sponsor, Quiver.
+- Uniform usage of LoadImage(), now uses Util.LoadImage(), instead of a string extension LoadImage(), to reduce code complexity.
+- With sorting implemented, switched from always clearing all nodes associated with project listings for all views, to using a Cache system, caching created nodes, with the created projects / categories, to allow for faster sorting.  With the clear and re-create method, it can take anywhere from ~3-5 seconds for a decent quantity of projects to load, now with Cache system, it takes ~500ms to sort things, making things more instantanious and responsive.
+- Fixed minor graphical bug with the switch to new Font, that was causing non-displayable characters from showing as default glyphs for Droid Sans.
+
 ## Version 0.1.2
 - Fixed extension search for Godot executable name in import godot engine dialog, now properly recognizes .64 and .32 on Linux based systems.
 - Fixed Add Custom Godot Engine dialog, not closing when adding the engine to the list of available engines.
