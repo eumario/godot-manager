@@ -158,13 +158,11 @@ public class ProjectsPanel : Panel
 
     [SignalHandler("direction_changed", nameof(_projectName))]
     void OnDirChanged_ProjectName(HeaderButton.SortDirection @dir) {
-        _godotVersion.Indeterminate();
         PopulateListing();
     }
 
     [SignalHandler("direction_changed", nameof(_godotVersion))]
     void OnDirChanged_GodotVersion(HeaderButton.SortDirection @dir) {
-        _projectName.Indeterminate();
         PopulateListing();
     }
 
@@ -796,8 +794,8 @@ public class ProjectsPanel : Panel
     }
 
     public System.Collections.ArrayList SortListing(bool @default = false) {
-        System.Collections.Generic.IEnumerable<ProjectFile> fav;
-        System.Collections.Generic.IEnumerable<ProjectFile> non_fav;
+        IOrderedEnumerable<ProjectFile> fav;
+        IOrderedEnumerable<ProjectFile> non_fav;
 
         // Default Behavior
         if (_projectName.Direction == HeaderButton.SortDirection.Indeterminate &&
@@ -813,24 +811,27 @@ public class ProjectsPanel : Panel
                     _godotVersion.Direction == HeaderButton.SortDirection.Indeterminate) {
             if (_projectName.Direction == HeaderButton.SortDirection.Up) {
                 fav = CentralStore.Projects.OrderByDescending(pf => pf.Name);
-                non_fav = Enumerable.Empty<ProjectFile>();
+                non_fav = null;
             } else {
                 fav = CentralStore.Projects.OrderBy(pf => pf.Name);
-                non_fav = Enumerable.Empty<ProjectFile>();
+                non_fav = null;
             }
         // Sort by Godot Version
         } else {
             if (_godotVersion.Direction == HeaderButton.SortDirection.Up) {
                 fav = CentralStore.Projects.OrderBy(pf => CentralStore.Instance.GetVersion(pf.GodotVersion).Tag)
                         .ThenBy(pf => !CentralStore.Instance.GetVersion(pf.GodotVersion).IsMono);
-                non_fav = Enumerable.Empty<ProjectFile>();
+                non_fav = null;
             } else {
                 fav = CentralStore.Projects.OrderByDescending(pf => CentralStore.Instance.GetVersion(pf.GodotVersion).Tag)
                         .ThenByDescending(pf => !CentralStore.Instance.GetVersion(pf.GodotVersion).IsMono);
-                non_fav = Enumerable.Empty<ProjectFile>();
+                non_fav = null;
             }
         }
 
-        return new System.Collections.ArrayList() { fav, non_fav };
+        if (non_fav == null)
+            return new System.Collections.ArrayList() { fav };
+        else
+            return new System.Collections.ArrayList() { fav, non_fav };
     }
 }   

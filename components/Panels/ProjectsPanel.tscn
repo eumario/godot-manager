@@ -71,7 +71,7 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="VC/MC/HC"]
 margin_left = 218.0
-margin_right = 465.0
+margin_right = 460.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 __meta__ = {
@@ -79,16 +79,15 @@ __meta__ = {
 }
 
 [node name="ActionButtons" parent="VC/MC/HC" instance=ExtResource( 4 )]
-margin_left = 473.0
-margin_top = 5.0
-margin_right = 647.0
-margin_bottom = 35.0
+margin_left = 468.0
+margin_right = 652.0
+margin_bottom = 40.0
 size_flags_vertical = 4
 Icons = [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 6 ), ExtResource( 11 ) ]
 HelpText = [ "New Project", "Import Project", "Scan Projects", "Add Category", "Remove Category", "Remove Project", "Remove Missing Projects" ]
 
 [node name="Spacer2" type="Control" parent="VC/MC/HC"]
-margin_left = 655.0
+margin_left = 660.0
 margin_right = 902.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
@@ -113,6 +112,7 @@ custom_constants/margin_left = 30
 margin_left = 30.0
 margin_right = 994.0
 margin_bottom = 44.0
+hint_tooltip = "Single Click to change order, Double Click to clear ordering."
 custom_styles/panel = SubResource( 2 )
 
 [node name="HeaderButtons" type="HBoxContainer" parent="VC/ProjectSort/PC"]
@@ -130,6 +130,7 @@ rect_min_size = Vector2( 35, 0 )
 margin_left = 39.0
 margin_right = 289.0
 margin_bottom = 34.0
+hint_tooltip = "Single Click to change order, Double Click to clear ordering."
 Title = "Project Name"
 
 [node name="Spacer2" type="Control" parent="VC/ProjectSort/PC/HeaderButtons"]
@@ -142,6 +143,7 @@ rect_min_size = Vector2( 280, 0 )
 margin_left = 577.0
 margin_right = 827.0
 margin_bottom = 34.0
+hint_tooltip = "Single Click to change order, Double Click to clear ordering."
 Title = "Godot Version"
 
 [node name="SC" type="ScrollContainer" parent="VC"]
