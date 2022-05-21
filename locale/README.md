@@ -33,9 +33,9 @@ This will ensure all strings are properly updated.  This needs to be run everyti
 
 ## Adding Translations
 
-Once you have an up to date Template, you can open the template with PoEdit, and begin adding translations for strings.  You may get an error dialog about the '\n' character being used in strings, you can safely ignore these.  Once open, you can go to the bottom of the window, and select the "Create new translation" button to create a translation for the specified language, and start going through, and updating all strings with the proper translation.  Once done, you can select, File > Save from the menu bar, or click the Floppy Disk Icon marked Save on the Toolbar, to save it as a PO file.
+Once you have an up to date Template, you can open the template with PoEdit, and begin adding translations for strings.  You may get an error dialog about the '\n' character being used in strings, you can safely ignore these.  Once open, you can go to the bottom of the window, and select the "**Create new translation**" button to create a translation for the specified language, and start going through, and updating all strings with the proper translation.  Once done, you can select, **File > Save** from the menu bar, or click the Floppy Disk Icon marked Save on the Toolbar, to save it as a PO file.
 
-Once the PO file has been generated, you can add it to the project, by going into the Godot Editor, Going to Project > Project Settings... menu, then click on the Localization tab, and click Add... button, navigate to locale, and select the language file, to add it to the project.
+Once the PO file has been generated, you can add it to the project, by going into the Godot Editor, Going to **Project > Project Settings...** menu, then click on the Localization tab, and click **Add...** button, navigate to locale, and select the language file, to add it to the project.
 
 ## Special Formatting Characters
 
