@@ -182,7 +182,7 @@ public class UpdateWindow : Control
                 _messageText.Text = Tr("Waiting for Godot Manager to exit...");
                 AwaitManagerExit(pid);
                 ProcessUpdate();
-                _messageText.Text = string.Format(Tr("Update Complete, starting Godot Manager in (%d) seconds...)"),delay);
+                _messageText.Text = string.Format(Tr("Update Complete, starting Godot Manager in ({0}) seconds...)"),delay);
                 _waitTimer.Start();
             } else {
                 GetParent<SceneManager>().RunMainWindow();
@@ -207,7 +207,7 @@ public class UpdateWindow : Control
             Process proc = Process.Start(launchGM_psi);
             GetTree().Quit(0);
         } else {
-            _messageText.Text = string.Format(Tr("Update Complete, starting Godot Manager in (%d) seconds..."),delay);
+            _messageText.Text = string.Format(Tr("Update Complete, starting Godot Manager in ({0}) seconds..."),delay);
             _waitTimer.Start();
         }
     }

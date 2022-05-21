@@ -39,7 +39,7 @@ Once the PO file has been generated, you can add it to the project, by going int
 
 ## Special Formatting Characters
 
-Godot Manager's C# Code utilizes String Formatting for messages displayed to the user.  As referenced in the POT file, there's Special characters that are used as placeholders for these user input strings or numbers.  These are generally represented as **%s** or **%d**, do not change these characters, as they are needed to properly substitute information in their place holder status.
+Godot Manager's C# Code utilizes String Formatting for messages displayed to the user.  In C#, formatting is handled by using the `{}` brackets to denote a positional substitution.  Example: `Updating Project {0}...`  The entire part of `{0}` needs to remain intact for the formatting to occur correctly, and therefore, this does not need to be translated, or changed.
 
 Another thing used is Escape Characters, such as **\n** to represent a new line.  Do not change these, as they can mess up the formatting of the string.
 

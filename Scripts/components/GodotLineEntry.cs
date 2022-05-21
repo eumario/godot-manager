@@ -184,7 +184,7 @@ public class GodotLineEntry : HBoxContainer
         set {
             sSource = value;
             if (_source != null)
-                _source.Text = string.Format(Tr("Source: %s"),value);
+                _source.Text = string.Format(Tr("Source: {0}"),value);
         }
     }
 
@@ -195,7 +195,7 @@ public class GodotLineEntry : HBoxContainer
         set {
             sFilesize = value;
             if (_filesize != null)
-                _filesize.Text = string.Format(Tr("Size: %s"),value);
+                _filesize.Text = string.Format(Tr("Size: {0}"),value);
         }
     }
 
@@ -297,7 +297,7 @@ public class GodotLineEntry : HBoxContainer
         var speed = tb - lbc;
         adSpeedStack.Add(speed);
         var avgSpeed = adSpeedStack.Sum() / adSpeedStack.Count;
-        _downloadSpeed.Text = string.Format(Tr("Speed: %s/s"),Util.FormatSize(avgSpeed));
+        _downloadSpeed.Text = string.Format(Tr("Speed: {0}/s"),Util.FormatSize(avgSpeed));
         TimeSpan elapsedTime = DateTime.Now - dtStartTime;
         if (tb == 0)
             return;

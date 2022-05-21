@@ -6,17 +6,16 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Godot Manager v0.1\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-21 02:36-0500\n"
+"POT-Creation-Date: 2022-05-21 18:13-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Mario Steele <mario@ruby-im.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.1\n"
-"X-Generator: Poedit 3.0.1\n"
 
 #: ../Scenes/MainWindow.tscn:133 ../components/Panels/SettingsPanel.tscn:608
 msgid "Godot Manager"
@@ -63,8 +62,7 @@ msgid "Waiting for Godot Manager to exit..."
 msgstr ""
 
 #: ../Scripts/Scenes/UpdateWindow.cs:185
-#, python-format
-msgid "Update Complete, starting Godot Manager in (%d) seconds...)"
+msgid "Update Complete, starting Godot Manager in ({0}) seconds...)"
 msgstr ""
 
 #: ../Scripts/Scenes/UpdateWindow.cs:193
@@ -72,8 +70,7 @@ msgid "Cleaning up..."
 msgstr ""
 
 #: ../Scripts/Scenes/UpdateWindow.cs:210
-#, python-format
-msgid "Update Complete, starting Godot Manager in (%d) seconds..."
+msgid "Update Complete, starting Godot Manager in ({0}) seconds..."
 msgstr ""
 
 #: ../Scripts/Scenes/UpdateWindow.cs:240
@@ -113,9 +110,8 @@ msgid "Update Plugins"
 msgstr ""
 
 #: ../Scripts/components/AssetLibEntry.cs:167
-#, python-format
 msgid ""
-"Found %d project(s) that currently reference this addon, do you wish to "
+"Found {0} project(s) that currently reference this addon, do you wish to "
 "update them?"
 msgstr ""
 
@@ -129,8 +125,7 @@ msgid "Processing..."
 msgstr ""
 
 #: ../Scripts/components/AssetLibEntry.cs:176
-#, python-format
-msgid "Updating Project %s..."
+msgid "Updating Project {0}..."
 msgstr ""
 
 #: ../Scripts/components/AssetLibEntry.cs:181
@@ -138,18 +133,15 @@ msgid "Completed."
 msgstr ""
 
 #: ../Scripts/components/GodotLineEntry.cs:187
-#, python-format
-msgid "Source: %s"
+msgid "Source: {0}"
 msgstr ""
 
 #: ../Scripts/components/GodotLineEntry.cs:198
-#, python-format
-msgid "Size: %s"
+msgid "Size: {0}"
 msgstr ""
 
 #: ../Scripts/components/GodotLineEntry.cs:300
-#, python-format
-msgid "Speed: %s/s"
+msgid "Speed: {0}/s"
 msgstr ""
 
 #: ../Scripts/components/GodotLineEntry.cs:305
@@ -184,14 +176,13 @@ msgstr ""
 
 #: ../Scripts/components/Dialogs/AddCustomGodot.cs:67
 msgid ""
-"Need to provide a Name and a location for the custom version of the Godot "
-"engine."
+"Need to provide a Name and a location for the custom version of the Godot"
+" engine."
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AddonInstaller.cs:109
-#, python-format
 msgid ""
-"Contents of asset %s\n"
+"Contents of asset {0}\n"
 "Select files to Install:"
 msgstr ""
 
@@ -258,10 +249,9 @@ msgid "Uninstall - Plugin in Use"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:272
-#, python-format
 msgid ""
-"The plugin %s is currently used in %d project(s). Uninstalling will remove "
-"tracking of this plugin, continue?"
+"The plugin {0} is currently used in {1} project(s). Uninstalling will "
+"remove tracking of this plugin, continue?"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:283
@@ -269,9 +259,8 @@ msgid "Plugin Uninstall"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:284
-#, python-format
 msgid ""
-"%s has been uninstalled.  Any projects referencing it, no longer have a "
+"{0} has been uninstalled.  Any projects referencing it, no longer have a "
 "reference.  The addon files still remain in the Addons folder of the "
 "project, and will need to be removed manually."
 msgstr ""
@@ -281,8 +270,7 @@ msgid "Asset Uninstall"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:290
-#, python-format
-msgid "%s is not found in plugins or Templates."
+msgid "{0} is not found in plugins or Templates."
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:295
@@ -290,8 +278,7 @@ msgid "Template Uninstall"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:295
-#, python-format
-msgid "%s has been uninstalled."
+msgid "{0} has been uninstalled."
 msgstr ""
 
 #: ../Scripts/components/Dialogs/CreateCategory.cs:34
@@ -321,8 +308,7 @@ msgid "Download Cancelled"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:228
-#, python-format
-msgid "Addon download '%s' cancelled."
+msgid "Addon download '{0}' cancelled."
 msgstr ""
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:292
@@ -336,8 +322,7 @@ msgid "Elapsed:"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:331
-#, python-format
-msgid "Downloading %s"
+msgid "Downloading {0}"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:334
@@ -385,21 +370,19 @@ msgid "You need to select a Godot Version to use with this Project."
 msgstr ""
 
 #: ../Scripts/components/Dialogs/NewVersion.cs:48
-#, python-format
 msgid ""
 "There is a new version of Godot available.\n"
-"Version: %s\n"
-"Released: %s\n"
-"Released by: %s"
+"Version: {0}\n"
+"Released:{1}\n"
+"Released by: {2}"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/NewVersion.cs:55
-#, python-format
 msgid ""
 "There is a new version of Godot Manager.\n"
-"Version: %s\n"
-"Released: %s\n"
-"Released by: %s"
+"Version: {0}\n"
+"Released: {1}\n"
+"Released by: {2}"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/RemoveCategory.cs:42
@@ -414,15 +397,13 @@ msgid "You must select a category before it can be removed."
 msgstr ""
 
 #: ../Scripts/components/Dialogs/RemoveCategory.cs:48
-#, python-format
-msgid "The selected Category '%s' no longer exists!  This shouldn't happen!"
+msgid "The selected Category '{0}' no longer exists!  This shouldn't happen!"
 msgstr ""
 
 #: ../Scripts/components/Dialogs/RemoveCategory.cs:53
-#, python-format
 msgid ""
-"You are about to remove category '%s'.  All projects listed under this will "
-"be moved to Uncategorized category, do you want to continue?"
+"You are about to remove category '{0}'.  All projects listed under this "
+"will be moved to Uncategorized category, do you want to continue?"
 msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:113
@@ -469,8 +450,7 @@ msgid "Import Plugin"
 msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:147
-#, python-format
-msgid "Unable to use %s to import the plugin."
+msgid "Unable to use {0} to import the plugin."
 msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:157
@@ -478,8 +458,7 @@ msgid "Import Template"
 msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:157
-#, python-format
-msgid "Unable to use %s to import the template."
+msgid "Unable to use {0} to import the template."
 msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:497
@@ -498,8 +477,7 @@ msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:523
 #: ../Scripts/components/Panel/AssetLibPanel.cs:575
-#, python-format
-msgid "Unable to connect to %s."
+msgid "Unable to connect to {0}."
 msgstr ""
 
 #: ../Scripts/components/Panel/AssetLibPanel.cs:557
@@ -524,15 +502,13 @@ msgid "Remove Godot Install"
 msgstr ""
 
 #: ../Scripts/components/Panel/GodotPanel.cs:183
-#, python-format
 msgid ""
-"You are about to remove the reference to %s, are you sure you want to "
+"You are about to remove the reference to {0}, are you sure you want to "
 "continue?"
 msgstr ""
 
 #: ../Scripts/components/Panel/GodotPanel.cs:188
-#, python-format
-msgid "You are about to uninstall %s, are you sure you want to continue?"
+msgid "You are about to uninstall {0}, are you sure you want to continue?"
 msgstr ""
 
 #: ../Scripts/components/Panel/GodotPanel.cs:313
@@ -544,8 +520,7 @@ msgid "Github Connection Error"
 msgstr ""
 
 #: ../Scripts/components/Panel/GodotPanel.cs:334
-#, python-format
-msgid "Downloaded %s..."
+msgid "Downloaded {0}..."
 msgstr ""
 
 #: ../Scripts/components/Panel/GodotPanel.cs:338
@@ -558,8 +533,7 @@ msgstr ""
 
 #: ../Scripts/components/Panel/GodotPanel.cs:351
 #: ../Scripts/components/Panel/GodotPanel.cs:355
-#, python-format
-msgid "Processing %d/%d"
+msgid "Processing {0}/{1}"
 msgstr ""
 
 #: ../Scripts/components/Panel/ProjectsPanel.cs:108
@@ -572,7 +546,8 @@ msgstr ""
 
 #: ../Scripts/components/Panel/ProjectsPanel.cs:256
 msgid ""
-"There are currently no valid Directories to scan, would you like to add one?"
+"There are currently no valid Directories to scan, would you like to add "
+"one?"
 msgstr ""
 
 #: ../Scripts/components/Panel/ProjectsPanel.cs:600
@@ -580,8 +555,7 @@ msgid "Show Data Directory"
 msgstr ""
 
 #: ../Scripts/components/Panel/ProjectsPanel.cs:600
-#, python-format
-msgid "The data directory %s does not exist!"
+msgid "The data directory {0} does not exist!"
 msgstr ""
 
 #: ../Scripts/components/Panel/ProjectsPanel.cs:720
@@ -598,9 +572,8 @@ msgid "Remove Project"
 msgstr ""
 
 #: ../Scripts/components/Panel/ProjectsPanel.cs:731
-#, python-format
 msgid ""
-"You are about to remove Project %s.\n"
+"You are about to remove Project {0}.\n"
 "Do you wish to remove the files as well?"
 msgstr ""
 
@@ -1058,8 +1031,8 @@ msgstr ""
 #: ../components/Dialogs/FirstTimeInstall.tscn:116
 msgid ""
 "We have detected that this is the first time that you have run Godot "
-"Manager.  Would you like to specify a custom Godot Engine, or download one "
-"from the Official Repository?"
+"Manager.  Would you like to specify a custom Godot Engine, or download "
+"one from the Official Repository?"
 msgstr ""
 
 #: ../components/Dialogs/FirstTimeInstall.tscn:163
@@ -1288,8 +1261,7 @@ msgstr ""
 #: ../libs/managers/Downloader.cs:58 ../libs/managers/Downloader.cs:59
 #: ../libs/managers/GDCSHTTPClient.cs:161
 #: ../libs/managers/GDCSHTTPClient.cs:162
-#, python-format
-msgid "Unable to resolve %s"
+msgid "Unable to resolve {0}"
 msgstr ""
 
 #: ../libs/managers/Downloader.cs:59 ../libs/managers/Downloader.cs:63
@@ -1298,49 +1270,41 @@ msgid "Downloader Failure"
 msgstr ""
 
 #: ../libs/managers/Downloader.cs:62 ../libs/managers/Downloader.cs:63
-#, python-format
-msgid "Failed to connect to %s"
+msgid "Failed to connect to {0}"
 msgstr ""
 
 #: ../libs/managers/Downloader.cs:66 ../libs/managers/Downloader.cs:67
-#, python-format
-msgid "Connection error with %s"
+msgid "Connection error with {0}"
 msgstr ""
 
 #: ../libs/managers/Downloader.cs:70 ../libs/managers/Downloader.cs:71
-#, python-format
-msgid "Failed to negotiate SSL Connection with %s"
+msgid "Failed to negotiate SSL Connection with {0}"
 msgstr ""
 
 #: ../libs/managers/GDCSHTTPClient.cs:162
 #: ../libs/managers/GDCSHTTPClient.cs:166
 #: ../libs/managers/GDCSHTTPClient.cs:170
 #: ../libs/managers/GDCSHTTPClient.cs:174
-#, python-format
-msgid "%s Failure"
+msgid "{0} Failure"
 msgstr ""
 
 #: ../libs/managers/GDCSHTTPClient.cs:165
 #: ../libs/managers/GDCSHTTPClient.cs:166
-#, python-format
-msgid "Unable to resolve %s:%d"
+msgid "Unable to resolve {0}:{1}"
 msgstr ""
 
 #: ../libs/managers/GDCSHTTPClient.cs:169
 #: ../libs/managers/GDCSHTTPClient.cs:170
-#, python-format
-msgid "Connection error with %s:%d"
+msgid "Connection error with {0}:{1}"
 msgstr ""
 
 #: ../libs/managers/GDCSHTTPClient.cs:173
 #: ../libs/managers/GDCSHTTPClient.cs:174
-#, python-format
-msgid "Failed to negotiate SSL Connection with %s:%d"
+msgid "Failed to negotiate SSL Connection with {0}:{1}"
 msgstr ""
 
 #: ../libs/util/PluginInstaller.cs:237
-#, python-format
-msgid "Uninstall %s"
+msgid "Uninstall {0}"
 msgstr ""
 
 #: ../libs/util/PluginInstaller.cs:237
@@ -1348,3 +1312,4 @@ msgid ""
 "Godot Manager has uninstalled the plugin, but files may still remain, "
 "please check your Project."
 msgstr ""
+

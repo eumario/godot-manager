@@ -158,20 +158,20 @@ public class GDCSHTTPClient : Node {
 	public bool SuccessConnect(HTTPClient.Status result, bool dialogErrors = false, bool printErrors = true) {
 		switch(result) {
 			case HTTPClient.Status.CantResolve:
-				if (printErrors) GD.PrintErr(string.Format(Tr("Unable to resolve %s"),sHost));
-				if (dialogErrors) OS.Alert(string.Format(Tr("Unable to resolve %s"),sHost), string.Format(Tr("%s Failure"),sProperName));
+				if (printErrors) GD.PrintErr(string.Format(Tr("Unable to resolve {0}"),sHost));
+				if (dialogErrors) OS.Alert(string.Format(Tr("Unable to resolve {0}"),sHost), string.Format(Tr("{0} Failure"),sProperName));
 				return false;
 			case HTTPClient.Status.CantConnect:
-				if (printErrors) GD.PrintErr(string.Format(Tr("Unable to resolve %s:%d"),sHost,bUseSSL ? 443 : 80));
-				if (dialogErrors) OS.Alert(string.Format(Tr("Unable to resolve %s:%d"),sHost,bUseSSL ? 443 : 80), string.Format(Tr("%s Failure"),sProperName));
+				if (printErrors) GD.PrintErr(string.Format(Tr("Unable to resolve {0}:{1}"),sHost,bUseSSL ? 443 : 80));
+				if (dialogErrors) OS.Alert(string.Format(Tr("Unable to resolve {0}:{1}"),sHost,bUseSSL ? 443 : 80), string.Format(Tr("{0} Failure"),sProperName));
 				return false;
 			case HTTPClient.Status.ConnectionError:
-				if (printErrors) GD.PrintErr(string.Format(Tr("Connection error with %s:%d"),sHost,bUseSSL ? 443 : 80));
-				if (dialogErrors) OS.Alert(string.Format(Tr("Connection error with %s:%d"),sHost,bUseSSL ? 443 : 80), string.Format(Tr("%s Failure"),sProperName));
+				if (printErrors) GD.PrintErr(string.Format(Tr("Connection error with {0}:{1}"),sHost,bUseSSL ? 443 : 80));
+				if (dialogErrors) OS.Alert(string.Format(Tr("Connection error with {0}:{1}"),sHost,bUseSSL ? 443 : 80), string.Format(Tr("{0} Failure"),sProperName));
 				return false;
 			case HTTPClient.Status.SslHandshakeError:
-				if (printErrors) GD.PrintErr(string.Format(Tr("Failed to negotiate SSL Connection with %s:%d"),sHost,bUseSSL ? 443 : 80));
-				if (dialogErrors) OS.Alert(string.Format(Tr("Failed to negotiate SSL Connection with %s:%d"),sHost,bUseSSL ? 443 : 80), string.Format(Tr("%s Failure"),sProperName));
+				if (printErrors) GD.PrintErr(string.Format(Tr("Failed to negotiate SSL Connection with {0}:{1}"),sHost,bUseSSL ? 443 : 80));
+				if (dialogErrors) OS.Alert(string.Format(Tr("Failed to negotiate SSL Connection with {0}:{1}"),sHost,bUseSSL ? 443 : 80), string.Format(Tr("{0} Failure"),sProperName));
 				return false;
 			case HTTPClient.Status.Connected:
 				return true;

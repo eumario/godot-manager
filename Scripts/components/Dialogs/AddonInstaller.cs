@@ -106,7 +106,7 @@ public class AddonInstaller : ReferenceRect
 
     public void ShowDialog(AssetPlugin asset) {
         _installer = new PluginInstaller(asset);
-        _detailLabel.Text = string.Format(Tr("Contents of asset %s\nSelect files to Install:"),asset.Asset.Title);
+        _detailLabel.Text = string.Format(Tr("Contents of asset {0}\nSelect files to Install:"),asset.Asset.Title);
         PopulateTree();
         Visible = true;
     }

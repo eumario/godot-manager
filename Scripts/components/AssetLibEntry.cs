@@ -164,7 +164,7 @@ public class AssetLibEntry : ColorRect
             }
 
             if (updateList.Count > 0) {
-                bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Update Plugins"), string.Format(Tr("Found %d project(s) that currently reference this addon, do you wish to update them?"),updateList.Count));
+                bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Update Plugins"), string.Format(Tr("Found {0} project(s) that currently reference this addon, do you wish to update them?"),updateList.Count));
                 if (!res)
                     return;
                 
@@ -173,7 +173,7 @@ public class AssetLibEntry : ColorRect
                 AppDialogs.BusyDialog.ShowDialog();
 
                 foreach(ProjectFile pf in updateList) {
-                    AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Updating Project %s..."),pf.Name));
+                    AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Updating Project {0}..."),pf.Name));
                     PluginInstaller installer = new PluginInstaller(CentralStore.Instance.GetPluginId(AssetId));
                     installer.Uninstall(pf.Location.GetBaseDir().NormalizePath(),false);
                     installer.Install(pf.Location.GetBaseDir().NormalizePath());

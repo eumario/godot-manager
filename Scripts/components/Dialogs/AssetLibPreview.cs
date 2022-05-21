@@ -269,7 +269,7 @@ public class AssetLibPreview : ReferenceRect
 
             if (usingPlugin.Count > 0) {
                 bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Uninstall - Plugin in Use"),
-                    string.Format(Tr("The plugin %s is currently used in %d project(s). Uninstalling will remove tracking of this plugin, continue?"),
+                    string.Format(Tr("The plugin {0} is currently used in {1} project(s). Uninstalling will remove tracking of this plugin, continue?"),
                     _asset.Title,usingPlugin.Count));
                 if (!res) {
                     return;
@@ -281,18 +281,18 @@ public class AssetLibPreview : ReferenceRect
             AssetPlugin plg = CentralStore.Instance.GetPluginId(_asset.AssetId);
             CentralStore.Plugins.Remove(plg);
             AppDialogs.MessageDialog.ShowMessage(Tr("Plugin Uninstall"),
-                string.Format(Tr("%s has been uninstalled.  Any projects referencing it, no longer have a reference." +
+                string.Format(Tr("{0} has been uninstalled.  Any projects referencing it, no longer have a reference." +
                 "  The addon files still remain in the Addons folder of the project, and will need to be removed manually."),_asset.Title));
         } else if (CentralStore.Instance.HasTemplateId(_asset.AssetId)) {
             // Handle Template Uninstall
             AssetProject prj = CentralStore.Instance.GetTemplateId(_asset.AssetId);
             if (prj == null) {
-                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Uninstall"), string.Format(Tr("%s is not found in plugins or Templates."),_asset.Title));
+                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Uninstall"), string.Format(Tr("{0} is not found in plugins or Templates."),_asset.Title));
                 return;
             }
 
             CentralStore.Templates.Remove(prj);
-            AppDialogs.MessageDialog.ShowMessage(Tr("Template Uninstall"),string.Format(Tr("%s has been uninstalled."),_asset.Title));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Template Uninstall"),string.Format(Tr("{0} has been uninstalled."),_asset.Title));
         }
         EmitSignal("uninstalled_addon");
         Visible = false;

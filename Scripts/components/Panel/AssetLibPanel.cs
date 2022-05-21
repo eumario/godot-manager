@@ -144,7 +144,7 @@ public class AssetLibPanel : Panel
         } else if (filepath.EndsWith(".zip")) { // Zip File Selected
             AssetZipImport(filepath, true);
         } else {
-            AppDialogs.MessageDialog.ShowMessage(Tr("Import Plugin"), string.Format(Tr("Unable to use %s to import the plugin."),filepath));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Plugin"), string.Format(Tr("Unable to use {0} to import the plugin."),filepath));
         }
     }
 
@@ -154,7 +154,7 @@ public class AssetLibPanel : Panel
         } else if (filepath.EndsWith(".zip")) {
             AssetZipImport(filepath, false);
         } else {
-            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"), string.Format(Tr("Unable to use %s to import the template."),filepath));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"), string.Format(Tr("Unable to use {0} to import the template."),filepath));
         }
     }
 
@@ -520,7 +520,7 @@ public class AssetLibPanel : Panel
             PaginatedListing pl = _addonsBtn.Pressed ? _plAddons : _plTemplates;
             pl.ClearResults();
             AppDialogs.BusyDialog.HideDialog();
-            AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to %s."),url));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to {0}."),url));
             return;
         }
 
@@ -572,7 +572,7 @@ public class AssetLibPanel : Panel
             if (stask.Result == null) {
                 pl.ClearResults();
                 AppDialogs.BusyDialog.HideDialog();
-                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to %s."),url));
+                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to {0}."),url));
                 return;
             }
 

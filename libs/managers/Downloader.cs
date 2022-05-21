@@ -55,20 +55,20 @@ public class Downloader : Object {
 	private bool SuccessConnect(HTTPClient.Status result) {
 		switch(result) {
 			case HTTPClient.Status.CantResolve:
-				GD.PrintErr(string.Format(Tr("Unable to resolve %s"),downloadUri.Host));
-				OS.Alert(string.Format(Tr("Unable to resolve %s"),downloadUri.Host), Tr("Downloader Failure"));
+				GD.PrintErr(string.Format(Tr("Unable to resolve {0}"),downloadUri.Host));
+				OS.Alert(string.Format(Tr("Unable to resolve {0}"),downloadUri.Host), Tr("Downloader Failure"));
 				return false;
 			case HTTPClient.Status.CantConnect:
-				GD.PrintErr(string.Format(Tr("Failed to connect to %s"),downloadUri.Host));
-				OS.Alert(string.Format(Tr("Failed to connect to %s"),downloadUri.Host), Tr("Downloader Failure"));
+				GD.PrintErr(string.Format(Tr("Failed to connect to {0}"),downloadUri.Host));
+				OS.Alert(string.Format(Tr("Failed to connect to {0}"),downloadUri.Host), Tr("Downloader Failure"));
 				return false;
 			case HTTPClient.Status.ConnectionError:
-				GD.PrintErr(string.Format(Tr("Connection error with %s"),downloadUri.Host));
-				OS.Alert(string.Format(Tr("Connection error with %s"),downloadUri.Host), Tr("Downloader Failure"));
+				GD.PrintErr(string.Format(Tr("Connection error with {0}"),downloadUri.Host));
+				OS.Alert(string.Format(Tr("Connection error with {0}"),downloadUri.Host), Tr("Downloader Failure"));
 				return false;
 			case HTTPClient.Status.SslHandshakeError:
-				GD.PrintErr(string.Format(Tr("Failed to negotiate SSL Connection with %s"),downloadUri.Host));
-				OS.Alert(string.Format(Tr("Failed to negotiate SSL Connection with %s"),downloadUri.Host), Tr("Downloader Failure"));
+				GD.PrintErr(string.Format(Tr("Failed to negotiate SSL Connection with {0}"),downloadUri.Host));
+				OS.Alert(string.Format(Tr("Failed to negotiate SSL Connection with {0}"),downloadUri.Host), Tr("Downloader Failure"));
 				return false;
 			case HTTPClient.Status.Connected:
 				return true;

@@ -597,7 +597,7 @@ public class ProjectsPanel : Panel
                 if (Dir.Exists(folder))
                     OS.ShellOpen("file://" + folder);
                 else
-                    AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), string.Format(Tr("The data directory %s does not exist!"),folder));
+                    AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), string.Format(Tr("The data directory {0} does not exist!"),folder));
                 break;
             case 4:     // Edit Project File
                 AppDialogs.EditProject.ShowDialog(pf);
@@ -728,7 +728,7 @@ public class ProjectsPanel : Panel
 	private async Task RemoveProject(ProjectFile pf)
 	{
 		var task = AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Remove Project"),
-                string.Format(Tr("You are about to remove Project %s.\nDo you wish to remove the files as well?"),pf.Name),
+                string.Format(Tr("You are about to remove Project {0}.\nDo you wish to remove the files as well?"),pf.Name),
 			Tr("Project and Files"), Tr("Just Project"));
 		while (!task.IsCompleted)
 			await this.IdleFrame();

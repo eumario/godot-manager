@@ -225,7 +225,7 @@ public class DownloadAddon : ReferenceRect
 		if (result.Cancelled)
 		{
 			AppDialogs.MessageDialog.ShowMessage(Tr("Download Cancelled"),
-                string.Format(Tr($"Addon download '%s' cancelled."),Asset.Title));
+                string.Format(Tr($"Addon download '{0}' cancelled."),Asset.Title));
 			CleanupClient();
 			Visible = false;
 			return false;
@@ -328,7 +328,7 @@ public class DownloadAddon : ReferenceRect
 	}
 
 	public void LoadInformation() {
-        _Title.Text = string.Format(Tr("Downloading %s"),Asset.Type.Capitalize());
+        _Title.Text = string.Format(Tr("Downloading {0}"),Asset.Type.Capitalize());
         _FileName.Text = Asset.Title;
         _Location.Text = Asset.DownloadProvider;
         _FSLabel.Text = Tr("File Size:");

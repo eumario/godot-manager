@@ -46,14 +46,14 @@ public class NewVersion : ReferenceRect
         _release = release;
         if (!isGodotManager) {
             ReleaseInfo.Text = string.Format(Tr("There is a new version of Godot available.\n" + 
-                "Version: %s\nReleased: %s\nReleased by: %s"),
+                "Version: {0}\nReleased:{1}\nReleased by: {2}"),
                 release.Name,release.PublishedAt.ToLongDateString(),release.Author.Login);
             UseMono.Visible = true;
             UseMono.Pressed = false;
         }
         else {
             ReleaseInfo.Text = string.Format(Tr("There is a new version of Godot Manager.\n" +
-                "Version: %s\nReleased: %s\nReleased by: %s"),
+                "Version: {0}\nReleased: {1}\nReleased by: {2}"),
                 release.Name, release.PublishedAt.ToLongDateString(), release.Author.Login);
             UseMono.Visible = false;
         }

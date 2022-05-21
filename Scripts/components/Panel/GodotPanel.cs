@@ -180,12 +180,12 @@ public class GodotPanel : Panel
         if (gle.Source == gle.GodotVersion.Location) {
             result = AppDialogs.YesNoDialog.ShowDialog(
                 Tr("Remove Godot Install"),
-                string.Format(Tr("You are about to remove the reference to %s, are you sure you want to continue?"),gle.GodotVersion.Tag)
+                string.Format(Tr("You are about to remove the reference to {0}, are you sure you want to continue?"),gle.GodotVersion.Tag)
             );
         } else {
             result = AppDialogs.YesNoDialog.ShowDialog(
                 Tr("Remove Godot Install"),
-                string.Format(Tr("You are about to uninstall %s, are you sure you want to continue?"),gle.GodotVersion.Tag)
+                string.Format(Tr("You are about to uninstall {0}, are you sure you want to continue?"),gle.GodotVersion.Tag)
             );
         }
         while (!result.IsCompleted)
@@ -331,7 +331,7 @@ public class GodotPanel : Panel
     private int downloadedBytes = 0;
     void OnChunkReceived(int bytes) {
         downloadedBytes += bytes;
-        AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Downloaded %s..."),Util.FormatSize(downloadedBytes)));
+        AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Downloaded {0}..."),Util.FormatSize(downloadedBytes)));
     }
 
     public async Task GatherReleases() {
@@ -348,11 +348,11 @@ public class GodotPanel : Panel
         Github.Github.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
         
         AppDialogs.BusyDialog.UpdateHeader(Tr("Processing Release Information from Github..."));
-        AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing %d/%d"),0,Releases.Count));
+        AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing {0}/{1}"),0,Releases.Count));
         int i = 0;
         foreach(Github.Release release in Releases) {
             i++;
-            AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing %d/%d"),i,Releases.Count));
+            AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing {0}/{1}"),i,Releases.Count));
             GithubVersion gv = GithubVersion.FromAPI(release);
             CentralStore.GHVersions.Add(gv);
             await this.IdleFrame();
