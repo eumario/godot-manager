@@ -178,7 +178,7 @@ public class SettingsPanel : Panel
 		updateActionButtons();
 
 		GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
-		_versionInfo.Text = $"Version {VERSION.GodotManager}";
+		_versionInfo.Text = $"Version {VERSION.GodotManager}-{VERSION.Channel}";
 
 		_updateCheckInterval.Disabled = !_checkForUpdates.Pressed;
 	}

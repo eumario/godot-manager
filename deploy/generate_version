@@ -19,6 +19,7 @@ echo
 
 echo "public class VERSION {" > $3
 echo "	public static string GodotManager = \"$1-release\";" >> $3
+echo "  public static string Channel = \"release\";" >> $3
 echo "	public static string GodotSharpExtras = \"$(grep_version $2 GodotSharpExtras)\";" >> $3
 echo "	public static string NewtonsoftJSON = \"$(grep_version $2 Newtonsoft.JSON)\";" >> $3
 echo "	public static string SystemIOCompression = \"$(grep_version $2 System.IO.Compression)\";" >> $3
