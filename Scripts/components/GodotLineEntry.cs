@@ -184,7 +184,7 @@ public class GodotLineEntry : HBoxContainer
         set {
             sSource = value;
             if (_source != null)
-                _source.Text = $"Source: {value}";
+                _source.Text = string.Format(Tr("Source: %s"),value);
         }
     }
 
@@ -195,7 +195,7 @@ public class GodotLineEntry : HBoxContainer
         set {
             sFilesize = value;
             if (_filesize != null)
-                _filesize.Text = $"Size: {value}";
+                _filesize.Text = string.Format(Tr("Size: %s"),value);
         }
     }
 
@@ -297,12 +297,12 @@ public class GodotLineEntry : HBoxContainer
         var speed = tb - lbc;
         adSpeedStack.Add(speed);
         var avgSpeed = adSpeedStack.Sum() / adSpeedStack.Count;
-        _downloadSpeed.Text = $"Speed: {Util.FormatSize(avgSpeed)}/s";
+        _downloadSpeed.Text = string.Format(Tr("Speed: %s/s"),Util.FormatSize(avgSpeed));
         TimeSpan elapsedTime = DateTime.Now - dtStartTime;
         if (tb == 0)
             return;
         TimeSpan estTime = TimeSpan.FromSeconds( (Downloader.totalSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
-        _etaRemaining.Text = "ETA: " + estTime.ToString("hh':'mm':'ss");
+        _etaRemaining.Text = Tr("ETA: ") + estTime.ToString("hh':'mm':'ss");
         iLastByteCount = (int)_progressBar.Value;
         mutex.Unlock();
     }

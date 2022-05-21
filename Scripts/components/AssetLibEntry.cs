@@ -62,7 +62,7 @@ public class AssetLibEntry : ColorRect
         set {
             sCategory = value;
             if (_category != null)
-                _category.Text = "Category: " + value;
+                _category.Text = Tr("Category: ") + value;
         }
     }
 
@@ -71,7 +71,7 @@ public class AssetLibEntry : ColorRect
         set {
             sLicense = value;
             if (_license != null)
-                _license.Text = "License: " + value;
+                _license.Text = Tr("License: ") + value;
         }
     }
 
@@ -80,7 +80,7 @@ public class AssetLibEntry : ColorRect
         set {
             sAuthor = value;
             if (_author != null)
-                _author.Text = "Author: " + value;
+                _author.Text = Tr("Author: ") + value;
         }
     }
 
@@ -133,8 +133,8 @@ public class AssetLibEntry : ColorRect
         if (inputEvent is InputEventMouseButton iembEvent) {
             if (iembEvent.Pressed && (ButtonList)iembEvent.ButtonIndex == ButtonList.Left)
             {
-                AppDialogs.BusyDialog.UpdateHeader("Getting asset information...");
-                AppDialogs.BusyDialog.UpdateByline("Connecting...");
+                AppDialogs.BusyDialog.UpdateHeader(Tr("Getting asset information..."));
+                AppDialogs.BusyDialog.UpdateByline(Tr("Connecting..."));
                 AppDialogs.BusyDialog.ShowDialog();
                 Task<AssetLib.Asset> asset = AssetLib.AssetLib.Instance.GetAsset(AssetId);
                 while (!asset.IsCompleted)
@@ -164,21 +164,21 @@ public class AssetLibEntry : ColorRect
             }
 
             if (updateList.Count > 0) {
-                bool res = await AppDialogs.YesNoDialog.ShowDialog("Update Plugins", $"Found {updateList.Count} project(s) that currently reference this addon, do you wish to update them?");
+                bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Update Plugins"), string.Format(Tr("Found %d project(s) that currently reference this addon, do you wish to update them?"),updateList.Count));
                 if (!res)
                     return;
                 
-                AppDialogs.BusyDialog.UpdateHeader("Updating Projects...");
-                AppDialogs.BusyDialog.UpdateByline("Processing...");
+                AppDialogs.BusyDialog.UpdateHeader(Tr("Updating Projects..."));
+                AppDialogs.BusyDialog.UpdateByline(Tr("Processing..."));
                 AppDialogs.BusyDialog.ShowDialog();
 
                 foreach(ProjectFile pf in updateList) {
-                    AppDialogs.BusyDialog.UpdateByline($"Updating Project {pf.Name}...");
+                    AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Updating Project %s..."),pf.Name));
                     PluginInstaller installer = new PluginInstaller(CentralStore.Instance.GetPluginId(AssetId));
                     installer.Uninstall(pf.Location.GetBaseDir().NormalizePath(),false);
                     installer.Install(pf.Location.GetBaseDir().NormalizePath());
                 }
-                AppDialogs.BusyDialog.UpdateByline("Completed.");
+                AppDialogs.BusyDialog.UpdateByline(Tr("Completed."));
                 AppDialogs.BusyDialog.HideDialog();
             }
         }

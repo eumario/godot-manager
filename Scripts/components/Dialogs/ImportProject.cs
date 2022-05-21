@@ -68,11 +68,11 @@ public class ImportProject : ReferenceRect
     [SignalHandler("pressed", nameof(_addBtn))]
     void OnAddBtnPressed() {
         if (_locationValue.Text == "") {
-            AppDialogs.MessageDialog.ShowMessage("No Project Selected", "You need to select a project before it can be added.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("No Project Selected"), Tr("You need to select a project before it can be added."));
             return;
         }
         if (_godotVersions.Selected == -1) {
-            AppDialogs.MessageDialog.ShowMessage("No Godot Version Selected", "You need to select a Godot Version to use with this Project.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("No Godot Version Selected"), Tr("You need to select a Godot Version to use with this Project."));
             return;
         }
         int id = _godotVersions.GetItemId(_godotVersions.Selected);
@@ -93,7 +93,7 @@ public class ImportProject : ReferenceRect
 
     [SignalHandler("pressed", nameof(_locationBrowse))]
     void OnLocationBrowsePressed() {
-        AppDialogs.ImportFileDialog.WindowTitle = "Open Godot Project...";
+        AppDialogs.ImportFileDialog.WindowTitle = Tr("Open Godot Project...");
         AppDialogs.ImportFileDialog.Filters = new string[] { "*.godot" };
         AppDialogs.ImportFileDialog.CurrentFile = "";
         AppDialogs.ImportFileDialog.CurrentPath = _locationValue.Text == "" ? CentralStore.Settings.ProjectPath : _locationValue.Text;

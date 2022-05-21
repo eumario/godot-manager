@@ -92,7 +92,7 @@ public class AppDialogs : Control
         ImageFileDialog_.Name = "ImageFileDialog";
         ImageFileDialog_.Mode = FileDialog.ModeEnum.OpenFile;
         ImageFileDialog_.Access = FileDialog.AccessEnum.Filesystem;
-        ImageFileDialog_.WindowTitle = "Open Icon...";
+        ImageFileDialog_.WindowTitle = Tr("Open Icon...");
         ImageFileDialog_.Filters = new string[] {"*.png", "*.webp", "*.svg", "*.svgz"};
         ImageFileDialog_.RectMinSize = new Vector2(510, 390);
         ImageFileDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
@@ -102,7 +102,7 @@ public class AppDialogs : Control
         ImportFileDialog_.Name = "ImportFileDialog";
         ImportFileDialog_.Mode = FileDialog.ModeEnum.OpenFile;
         ImportFileDialog_.Access = FileDialog.AccessEnum.Filesystem;
-        ImportFileDialog_.WindowTitle = "Open Godot Project...";
+        ImportFileDialog_.WindowTitle = Tr("Open Godot Project...");
         ImportFileDialog_.Filters = new string[] {"*.godot"};
         ImportFileDialog_.RectMinSize = new Vector2(510, 390);
         ImportFileDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
@@ -112,7 +112,7 @@ public class AppDialogs : Control
         BrowseFolderDialog_.Name = "BrowseFileDialog";
         BrowseFolderDialog_.Mode = FileDialog.ModeEnum.OpenDir;
         BrowseFolderDialog_.Access = FileDialog.AccessEnum.Filesystem;
-        BrowseFolderDialog_.WindowTitle = "Open Folder";
+        BrowseFolderDialog_.WindowTitle = Tr("Open Folder");
         BrowseFolderDialog_.RectMinSize = new Vector2(510, 390);
         BrowseFolderDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");
 
@@ -121,7 +121,7 @@ public class AppDialogs : Control
         BrowseGodotDialog_.Name = "BrowseGodotDialog";
         BrowseGodotDialog_.Mode = FileDialog.ModeEnum.OpenFile;
         BrowseGodotDialog_.Access = FileDialog.AccessEnum.Filesystem;
-        BrowseGodotDialog_.WindowTitle = "Find Godot...";
+        BrowseGodotDialog_.WindowTitle = Tr("Find Godot...");
         BrowseGodotDialog_.Filters = new string[] { "*.exe", "*.x86_64", "*.x86", "*.64", "*.32", ".app", "godot"};
         BrowseGodotDialog_.RectMinSize = new Vector2(510, 390);
         BrowseGodotDialog_.Theme = GD.Load<Theme>("res://Resources/DefaultTheme.tres");

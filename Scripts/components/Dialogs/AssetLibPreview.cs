@@ -134,7 +134,10 @@ public class AssetLibPreview : ReferenceRect
         _Category.Text = asset.Category;
         _Version.Text = asset.VersionString;
         _License.Text = asset.Cost;
-        _Description.BbcodeText = $"[table=1][cell][color=lime]Support[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]Homepage[/url][/color][/cell][cell][color=aqua][url={asset.IssuesUrl}]Issue/Support Page[/url][/color][/cell][/table]\n\n{asset.Description}";
+        _Description.BbcodeText = "[table=1][cell][color=lime]" + 
+        Tr("Support") + $"[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]" + 
+        Tr("Homepage") + $"[/url][/color][/cell][cell][color=aqua][url={asset.IssuesUrl}]" +
+        Tr("Issue/Support Page") + $"[/url][/color][/cell][/table]\n\n{asset.Description}";
         _asset = asset;
         
         Uri uri = new Uri(asset.IconUrl);
@@ -265,7 +268,9 @@ public class AssetLibPreview : ReferenceRect
             }
 
             if (usingPlugin.Count > 0) {
-                bool res = await AppDialogs.YesNoDialog.ShowDialog("Uninstall - Plugin in Use",$"The plugin {_asset.Title} is currently used in {usingPlugin.Count} project(s). Uninstalling will remove tracking of this plugin, continue?");
+                bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Uninstall - Plugin in Use"),
+                    string.Format(Tr("The plugin %s is currently used in %d project(s). Uninstalling will remove tracking of this plugin, continue?"),
+                    _asset.Title,usingPlugin.Count));
                 if (!res) {
                     return;
                 }
@@ -275,17 +280,19 @@ public class AssetLibPreview : ReferenceRect
             }
             AssetPlugin plg = CentralStore.Instance.GetPluginId(_asset.AssetId);
             CentralStore.Plugins.Remove(plg);
-            AppDialogs.MessageDialog.ShowMessage("Plugin Uninstall", $"{_asset.Title} has been uninstalled.  Any projects referencing it, no longer have a reference.  The addon files still remain in the Addons folder of the project, and will need to be removed manually.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Plugin Uninstall"),
+                string.Format(Tr("%s has been uninstalled.  Any projects referencing it, no longer have a reference." +
+                "  The addon files still remain in the Addons folder of the project, and will need to be removed manually."),_asset.Title));
         } else if (CentralStore.Instance.HasTemplateId(_asset.AssetId)) {
             // Handle Template Uninstall
             AssetProject prj = CentralStore.Instance.GetTemplateId(_asset.AssetId);
             if (prj == null) {
-                AppDialogs.MessageDialog.ShowMessage("Asset Uninstall", $"{_asset.Title} is not found in plugins or Templates.");
+                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Uninstall"), string.Format(Tr("%s is not found in plugins or Templates."),_asset.Title));
                 return;
             }
 
             CentralStore.Templates.Remove(prj);
-            AppDialogs.MessageDialog.ShowMessage("Template Uninstall",$"{_asset.Title} has been uninstalled.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Template Uninstall"),string.Format(Tr("%s has been uninstalled."),_asset.Title));
         }
         EmitSignal("uninstalled_addon");
         Visible = false;

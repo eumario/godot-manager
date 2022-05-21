@@ -38,7 +38,7 @@ public class ProjectFile : Godot.Object {
 			if (project.GetValue("header","config_version") == "4" || project.GetValue("header","config_version") == "5") {
 				projectFile = new ProjectFile();
 				projectFile.Name = project.GetValue("application", "config/name");
-				projectFile.Description = project.GetValue("application", "config/description", "No Description");
+				projectFile.Description = project.GetValue("application", "config/description", projectFile.Tr("No Description"));
 				projectFile.Location = filePath.NormalizePath();
 				projectFile.Icon = project.GetValue("application", "config/icon", "res://icon.png");
 			} else {
@@ -84,7 +84,7 @@ public class ProjectFile : Godot.Object {
 		if (ret == Error.Ok) {
 			if (pf.GetValue("header","config_version") == "4" || pf.GetValue("header","config_version") == "5") {
 				this.Name = pf.GetValue("application", "config/name");
-				this.Description = pf.GetValue("application", "config/description", "No Description");
+				this.Description = pf.GetValue("application", "config/description", Tr("No Description"));
 				this.Icon = pf.GetValue("application","config/icon", "res://icon.png");
 			}
 		}

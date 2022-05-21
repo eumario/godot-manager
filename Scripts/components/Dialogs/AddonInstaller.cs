@@ -106,7 +106,7 @@ public class AddonInstaller : ReferenceRect
 
     public void ShowDialog(AssetPlugin asset) {
         _installer = new PluginInstaller(asset);
-        _detailLabel.Text = $"Contents of asset {asset.Asset.Title}\nSelect files to Install:";
+        _detailLabel.Text = string.Format(Tr("Contents of asset %s\nSelect files to Install:"),asset.Asset.Title);
         PopulateTree();
         Visible = true;
     }
@@ -177,7 +177,7 @@ public class AddonInstaller : ReferenceRect
 
         if (item.GetCustomColor(0) == new Color(1,0,0)) {
             if (item.IsChecked(0)) {
-                var res = await AppDialogs.YesNoDialog.ShowDialog("Addon Installer - Ignored File","The file you have selected, is known to be a file that is part of your project structure, and can cause corruption if installed, do you wish to continue?");
+                var res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Addon Installer - Ignored File"),Tr("The file you have selected, is known to be a file that is part of your project structure, and can cause corruption if installed, do you wish to continue?"));
                 item.SetChecked(0,res);
                 _updating = false;
                 if (!res)

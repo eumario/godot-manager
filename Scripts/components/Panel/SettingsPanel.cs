@@ -137,13 +137,6 @@ public class SettingsPanel : Panel
 	#endregion
 
 	#region Version String for About
-	string VERSION_INFORMATION = $@"[table=3][cell][color=green]Project Name[/color][/cell][cell][color=green]Version[/color]     [/cell][cell][color=green]Website[/color][/cell]
-[cell][color=aqua]Godot Engine (Mono Edition)      [/color][/cell][cell][color=white]v{Engine.GetVersionInfo()["string"]}     [/color][/cell][cell][color=yellow][url]https://godotengine.org[/url][/color][/cell]
-[cell][color=aqua]GodotSharpExtras[/color][/cell][cell][color=white]v{VERSION.GodotSharpExtras}[/color][/cell][cell][color=yellow][url]https://github.com/eumario/GodotSharpExtras[/url][/color][/cell]
-[cell][color=aqua]NewtonSoft JSON[/color][/cell][cell][color=white]v{VERSION.NewtonsoftJSON}[/color][/cell][cell][color=yellow][url]https://www.newtonsoft.com/json[/url][/color][/cell]
-[cell][color=aqua]SixLabors ImageSharp[/color][/cell][cell][color=white]v{VERSION.ImageSharp}[/color][/cell][cell][color=yellow][url]https://sixlabors.com/products/imagesharp/[/url][/color][/cell]
-[cell][color=aqua]System.IO.Compression[/color][/cell][cell][color=white]v{VERSION.SystemIOCompression}[/color][/cell][cell][color=yellow][url]https://www.nuget.org/packages/System.IO.Compression/[/url][/color][/cell][/table]
-";
 	#endregion
 
 	#region Private Variables
@@ -165,7 +158,7 @@ public class SettingsPanel : Panel
 	public override void _Ready()
 	{
 		this.OnReady();
-		_builtWith.BbcodeText = VERSION_INFORMATION;
+		_builtWith.BbcodeText = BuildVersionInfo(); //VERSION_INFORMATION;
 		_undoActions = new ActionStack();
 		_views = new Array<string>();
 
@@ -185,6 +178,27 @@ public class SettingsPanel : Panel
 
 	void updateActionButtons() {
 		_actionButtons.Visible = _undoActions.Count > 0;
+	}
+
+	string BuildVersionInfo() {
+		return "[table=3][cell][color=green]" + Tr("Project Name") +
+		"[/color][/cell][cell][color=green]" + Tr("Version") +
+		"[/color]     [/cell][cell][color=green]Website[/color][/cell]" +
+		"[cell][color=aqua]Godot Engine (Mono Edition)      [/color][/cell][cell][color=white]v" +
+		Engine.GetVersionInfo()["string"] +
+		"     [/color][/cell][cell][color=yellow][url]https://godotengine.org[/url][/color][/cell]" +
+		"[cell][color=aqua]GodotSharpExtras[/color][/cell][cell][color=white]v" +
+		VERSION.GodotSharpExtras +
+		"[/color][/cell][cell][color=yellow][url]https://github.com/eumario/GodotSharpExtras[/url][/color][/cell]" +
+		"[cell][color=aqua]NewtonSoft JSON[/color][/cell][cell][color=white]v" + 
+		VERSION.NewtonsoftJSON +
+		"[/color][/cell][cell][color=yellow][url]https://www.newtonsoft.com/json[/url][/color][/cell]" +
+		"[cell][color=aqua]SixLabors ImageSharp[/color][/cell][cell][color=white]v" +
+		VERSION.ImageSharp +
+		"[/color][/cell][cell][color=yellow][url]https://sixlabors.com/products/imagesharp/[/url][/color][/cell]" +
+		"[cell][color=aqua]System.IO.Compression[/color][/cell][cell][color=white]v" +
+		VERSION.SystemIOCompression +
+		"[/color][/cell][cell][color=yellow][url]https://www.nuget.org/packages/System.IO.Compression/[/url][/color][/cell][/table]";
 	}
 
 #region Internal Functions for use in the Settings Page
@@ -321,7 +335,7 @@ public class SettingsPanel : Panel
 			LoadSettings();
 		} else {
 			if (_undoActions.Count > 0) {
-				var res = AppDialogs.YesNoDialog.ShowDialog("Unsaved Settings", "You have unsaved settings, do you wish to save your settings?");
+				var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Unsaved Settings"), Tr("You have unsaved settings, do you wish to save your settings?"));
 				await res;
 				if (res.Result)
 					UpdateSettings();
@@ -425,7 +439,7 @@ public class SettingsPanel : Panel
 	[SignalHandler("pressed", nameof(_godotBrowseButton))]
 	void OnGodotBrowse() {
 		AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnBrowseGodot_DirSelected");
-		AppDialogs.BrowseFolderDialog.WindowTitle = "Browse for Godot Install Folder...";
+		AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Browse for Godot Install Folder...");
 		AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
 	}
 
@@ -450,7 +464,7 @@ public class SettingsPanel : Panel
 	[SignalHandler("pressed", nameof(_cacheBrowseButton))]
 	void OnBrowseCacheLocation() {
 		AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnBrowseCache_DirSelected");
-		AppDialogs.BrowseFolderDialog.WindowTitle = "Browse for Cache Folder...";
+		AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Browse for Cache Folder...");
 		AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
 	}
 
@@ -778,8 +792,8 @@ public class SettingsPanel : Panel
 
 	[SignalHandler("pressed", nameof(_checkForUpdatesGM))]
 	async void OnCheckForUpdatesGM_Pressed() {
-		AppDialogs.BusyDialog.UpdateHeader("Checking for updates for Godot Manager...");
-		AppDialogs.BusyDialog.UpdateByline("Connecting to GitHub...");
+		AppDialogs.BusyDialog.UpdateHeader(Tr("Checking for updates for Godot Manager..."));
+		AppDialogs.BusyDialog.UpdateByline(Tr("Connecting to GitHub..."));
 		AppDialogs.BusyDialog.ShowDialog();
 		var res = Github.Github.Instance.GetLatestManagerRelease();
 		while (!res.IsCompleted) {
@@ -788,7 +802,7 @@ public class SettingsPanel : Panel
 
 		if (res.Result == null) {
 			AppDialogs.BusyDialog.HideDialog();
-			AppDialogs.MessageDialog.ShowMessage("Godot Manager - Check for Updates", "Failed to get release information from Github");
+			AppDialogs.MessageDialog.ShowMessage(Tr("Godot Manager - Check for Updates"), Tr("Failed to get release information from Github"));
 			return;
 		}
 
@@ -799,7 +813,7 @@ public class SettingsPanel : Panel
 			AppDialogs.NewVersion.Connect("download_manager_update", this, "OnDownloadManagerUpdate");
 		} else {
 			AppDialogs.BusyDialog.HideDialog();
-			AppDialogs.MessageDialog.ShowMessage("Check for Godot Manager Updates","Currently on latest version of Godot Manager.");
+			AppDialogs.MessageDialog.ShowMessage(Tr("Check for Godot Manager Updates"),Tr("Currently on latest version of Godot Manager."));
 		}
 	}
 

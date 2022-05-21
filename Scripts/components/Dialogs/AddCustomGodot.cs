@@ -64,7 +64,7 @@ public class AddCustomGodot : ReferenceRect
     [SignalHandler("pressed", nameof(_AddBtn))]
     void OnAddPressed() {
         if (_Name.Text == "" || _Location.Text == "") {
-            AppDialogs.MessageDialog.ShowMessage("Add Custom Godot", "Need to provide a Name and a location for the custom version of the Godot engine.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Add Custom Godot"), Tr("Need to provide a Name and a location for the custom version of the Godot engine."));
             return;
         }
 

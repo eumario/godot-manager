@@ -224,7 +224,8 @@ public class DownloadAddon : ReferenceRect
 
 		if (result.Cancelled)
 		{
-			AppDialogs.MessageDialog.ShowMessage("Download Cancelled", $"Addon download '{Asset.Title}' cancelled.");
+			AppDialogs.MessageDialog.ShowMessage(Tr("Download Cancelled"),
+                string.Format(Tr($"Addon download '%s' cancelled."),Asset.Title));
 			CleanupClient();
 			Visible = false;
 			return false;
@@ -288,9 +289,9 @@ public class DownloadAddon : ReferenceRect
 			else
 			{
 				iFileSize = -1;
-				_FSLabel.Text = "Downloaded:";
+				_FSLabel.Text = Tr("Downloaded:");
 				_FileSize.Text = "0 bytes";
-				_ETALabel.Text = "Elapsed:";
+				_ETALabel.Text = Tr("Elapsed:");
 				_Eta.Text = "00:00:00";
 				_ProgressBar.Value = 0;
 				_ProgressBar.MaxValue = 100;
@@ -303,9 +304,9 @@ public class DownloadAddon : ReferenceRect
 			iFileSize = -1;
 			_ProgressBar.Value = 0;
 			_ProgressBar.MaxValue = 100;
-			_FSLabel.Text = "Downloaded:";
+			_FSLabel.Text = Tr("Downloaded:");
 			_FileSize.Text = "0 bytes";
-			_ETALabel.Text = "Elapsed:";
+			_ETALabel.Text = Tr("Elapsed:");
 			_Eta.Text = "00:00:00";
 			Task task = StartIndeterminateTween();
 		}
@@ -327,14 +328,14 @@ public class DownloadAddon : ReferenceRect
 	}
 
 	public void LoadInformation() {
-        _Title.Text = $"Downloading {Asset.Type.Capitalize()}";
+        _Title.Text = string.Format(Tr("Downloading %s"),Asset.Type.Capitalize());
         _FileName.Text = Asset.Title;
         _Location.Text = Asset.DownloadProvider;
-        _FSLabel.Text = "File Size:";
-        _FileSize.Text = "Unknown";
-        _Speed.Text = "Unknown";
-        _ETALabel.Text = "ETA:";
-        _Eta.Text = "Unknown";
+        _FSLabel.Text = Tr("File Size:");
+        _FileSize.Text = Tr("Unknown");
+        _Speed.Text = Tr("Unknown");
+        _ETALabel.Text = Tr("ETA:");
+        _Eta.Text = Tr("Unknown");
         _ProgressBar.Value = 0;
         _ProgressBar.MaxValue = 100;
         iTotalBytes = 0;

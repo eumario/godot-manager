@@ -105,7 +105,7 @@ public class ProjectsPanel : Panel
         _missingProjects = new Array<ProjectFile>();
 
         if (_viewSelector.SelectedView != -1) {
-            if (CentralStore.Settings.DefaultView == "Last View Used") {
+            if (CentralStore.Settings.DefaultView == Tr("Last View Used")) {
                 int indx = Views.IndexOf(CentralStore.Settings.LastView);
                 _viewSelector.SetView(indx);
                 OnViewSelector_Clicked(indx);
@@ -253,7 +253,7 @@ public class ProjectsPanel : Panel
         }
 
         if (scanDirs.Count == 0) {
-            var res = AppDialogs.YesNoDialog.ShowDialog("Scan Project Folders","There are currently no valid Directories to scan, would you like to add one?");
+            var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Scan Project Folders"),Tr("There are currently no valid Directories to scan, would you like to add one?"));
             while (!res.IsCompleted)
                 await this.IdleFrame();
             
@@ -597,7 +597,7 @@ public class ProjectsPanel : Panel
                 if (Dir.Exists(folder))
                     OS.ShellOpen("file://" + folder);
                 else
-                    AppDialogs.MessageDialog.ShowMessage("Show Data Directory", $"The data directory {folder} does not exist!");
+                    AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), string.Format(Tr("The data directory %s does not exist!"),folder));
                 break;
             case 4:     // Edit Project File
                 AppDialogs.EditProject.ShowDialog(pf);
@@ -717,7 +717,7 @@ public class ProjectsPanel : Panel
 				await RemoveProject(pf);
 				break;
             case 6:
-                var res = AppDialogs.YesNoDialog.ShowDialog("Remove Missing Projects...", "Are you sure you want to remove any missing projects?");
+                var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Remove Missing Projects..."), Tr("Are you sure you want to remove any missing projects?"));
                 await res;
                 if (res.Result)
                     RemoveMissingProjects();
@@ -727,8 +727,9 @@ public class ProjectsPanel : Panel
 
 	private async Task RemoveProject(ProjectFile pf)
 	{
-		var task = AppDialogs.YesNoCancelDialog.ShowDialog("Remove Project", $"You are about to remove Project {pf.Name}.\nDo you wish to remove the files as well?",
-			"Project and Files", "Just Project");
+		var task = AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Remove Project"),
+                string.Format(Tr("You are about to remove Project %s.\nDo you wish to remove the files as well?"),pf.Name),
+			Tr("Project and Files"), Tr("Just Project"));
 		while (!task.IsCompleted)
 			await this.IdleFrame();
 		switch (task.Result)
@@ -746,7 +747,7 @@ public class ProjectsPanel : Panel
 				PopulateListing();
 				break;
 			case YesNoCancelDialog.ActionResult.CancelAction:
-				AppDialogs.MessageDialog.ShowMessage("Remove Project", "Remove Project has been cancelled.");
+				AppDialogs.MessageDialog.ShowMessage(Tr("Remove Project"), Tr("Remove Project has been cancelled."));
 				break;
 		}
 	}

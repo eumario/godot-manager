@@ -34,6 +34,10 @@ window/size/borderless=true
 theme/custom="res://Resources/DefaultTheme.tres"
 theme/custom_font="res://Resources/Fonts/droid-regular-14.tres"
 
+[locale]
+
+translations=PoolStringArray( "res://locale/en_US.po" )
+
 [mono]
 
 debugger_agent/wait_timeout=7000

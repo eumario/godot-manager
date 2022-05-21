@@ -64,7 +64,7 @@ public class ProjectLineEntry : ColorRect
             Name = value.Name;
             Description = value.Description;
             Icon = value.Location.GetResourceBase(value.Icon);
-            Location = MissingProject ? "Unknown Location" : value.Location;
+            Location = MissingProject ? Tr("Unknown Location") : value.Location;
             GodotVersion = value.GodotVersion;
             if (HeartIcon != null) {
                 HeartIcon.SetCheck(value.Favorite);
@@ -122,7 +122,7 @@ public class ProjectLineEntry : ColorRect
             sDesc = value;
             if (_desc != null) {
                 if (sDesc == null || sDesc.StripEdges() == "")
-                    _desc.Text = "No Description";
+                    _desc.Text = Tr("No Description");
                 else
                     _desc.Text = value;
             }
@@ -155,7 +155,7 @@ public class ProjectLineEntry : ColorRect
                 if (gv != null) {
                     _version.Text = gv.GetDisplayName();
                 } else {
-                    _version.Text = "Unknown";
+                    _version.Text = Tr("Unknown");
                 }
             }
         }

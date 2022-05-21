@@ -59,8 +59,8 @@ public class Settings : Object {
 		DefaultEngine = Guid.Empty.ToString();															// Done
 		EnginePath = "user://versions";																	// Done
 		CachePath = "user://cache";																		// Done
-		LastView = "List View";																			// Done
-		DefaultView = "List View";																		// Done
+		LastView = Tr("List View");																		// Done
+		DefaultView = Tr("List View");																	// Done
 		CheckForUpdates = true;																			// Done
 		CloseManagerOnEdit = true;																		// Done
 		SelfContainedEditors = true;																	// Done

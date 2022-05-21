@@ -64,7 +64,7 @@ public class UpdateWindow : Control
         // Launch GodotManager
         //************************
         steps.Push(() => {
-            _messageText.Text = "Finished copying files, launching GodotManager...";
+            _messageText.Text = Tr("Finished copying files, launching GodotManager...");
             launchGM_psi = new ProcessStartInfo();
             launchGM_psi.FileName = exe_path.GetParentFolder().Join(exe_path.GetFile()).NormalizePath();
             launchGM_psi.Arguments = $"--update-complete {Process.GetCurrentProcess().Id}";
@@ -79,7 +79,7 @@ public class UpdateWindow : Control
         // Copy over update/data_GodotManager to update/../data_GodotManager
         //************************
         steps.Push(() => {
-            _messageText.Text = "Copying data files from update to install location...";
+            _messageText.Text = Tr("Copying data files from update to install location...");
             Util.CopyDirectory(exe_path.GetBaseDir().Join("data_Godot-Manager").NormalizePath(),
                                 exe_path.GetParentFolder().Join("data_Godot-Manager").NormalizePath(), true);
         });
@@ -89,7 +89,7 @@ public class UpdateWindow : Control
         // Ensure GodotManager.x86_64 is executable
         //************************
         steps.Push(() => {
-            _messageText.Text = "Setting binary to be executable...";
+            _messageText.Text = Tr("Setting binary to be executable...");
             Util.Chmod(exe_path.GetParentFolder().Join(exe_path.GetFile()).NormalizePath(), 0755);
         });
         #endif
@@ -98,7 +98,7 @@ public class UpdateWindow : Control
         // Copy GodotManager.[exe|x86_64] to update/../GodotManager.[exe|x86_64]
         //************************
         steps.Push(() => {
-            _messageText.Text = "Copying executable binary over...";
+            _messageText.Text = Tr("Copying executable binary over...");
             Util.CopyTo(exe_path,exe_path.GetParentFolder().Join(exe_path.GetFile()).NormalizePath());
         });
 
@@ -106,7 +106,7 @@ public class UpdateWindow : Control
         // Remove Old Files
         //************************
         steps.Push(() => {
-            _messageText.Text = "Removing old files...";
+            _messageText.Text = Tr("Removing old files...");
             Dir.Delete(exe_path.GetParentFolder().Join("data_Godot-Manager").NormalizePath(),true);
             SFile.Delete(exe_path.GetParentFolder().Join(exe_path.GetFile()).NormalizePath());
         });
@@ -120,7 +120,7 @@ public class UpdateWindow : Control
         // Launch parent Directory Contents/MacOS/GodotManager
         //************************
         steps.Push(() => {
-            _messageText.Text = "Finished copying files, launching GodotManager...";
+            _messageText.Text = Tr("Finished copying files, launching GodotManager...");
             launchGM_psi = new ProcessStartInfo();
             launchGM_psi.FileName = exe_path.GetParentFolder().GetParentFolder().GetBaseDir().Join("Contents","MacOS",exe_path.GetFile()).NormalizePath();
             launchGM_psi.Arguments = $"--update-complete {Process.GetCurrentProcess().Id}";
@@ -135,7 +135,7 @@ public class UpdateWindow : Control
         // chmod a+x Contents/MacOS/GodotManager
         //************************
         steps.Push(() => {
-            _messageText.Text = "Setting binary to be executable...";
+            _messageText.Text = Tr("Setting binary to be executable...");
             Util.Chmod(exe_path.GetParentFolder().GetParentFolder().GetBaseDir().Join(exe_path.GetFile()).NormalizePath(), 0755);
         });
 
@@ -143,7 +143,7 @@ public class UpdateWindow : Control
         // xattr -cr "GodotManager.app"
         //************************
         steps.Push(() => {
-            _messageText.Text = "Clearing Security bits...";
+            _messageText.Text = Tr("Clearing Security bits...");
             Util.XAttr(exe_path.GetParentFolder().GetParentFolder().GetBaseDir(), "-cr");
         });
 
@@ -151,7 +151,7 @@ public class UpdateWindow : Control
         // Copy update/GodotManager.app/Contents to ../Contents
         //************************
         steps.Push(() => {
-            _messageText.Text = "Copying App bundle contents to install location...";
+            _messageText.Text = Tr("Copying App bundle contents to install location...");
             Util.CopyDirectory(exe_path.GetParentFolder(), exe_path.GetParentFolder().GetParentFolder().GetBaseDir().Join("Contents"),true);
         });
 
@@ -159,7 +159,7 @@ public class UpdateWindow : Control
         // Remove Contents folder so we can update.
         //************************
         steps.Push(() => {
-            _messageText.Text = "Removing Old Version of Godot Manager...";
+            _messageText.Text = Tr("Removing Old Version of Godot Manager...");
             Dir.Delete(exe_path.GetParentFolder().GetParentFolder().GetBaseDir().Join("Contents"),true);
         });
         #endif
@@ -179,10 +179,10 @@ public class UpdateWindow : Control
         if (args[0] == "--update" && args.Length > 1) {
             int pid = -1;
             if (int.TryParse(args[1], out pid)) {
-                _messageText.Text = "Waiting for Godot Manager to exit...";
+                _messageText.Text = Tr("Waiting for Godot Manager to exit...");
                 AwaitManagerExit(pid);
                 ProcessUpdate();
-                _messageText.Text = $"Update Complete, starting Godot Manager in ({delay}) seconds...";
+                _messageText.Text = string.Format(Tr("Update Complete, starting Godot Manager in (%d) seconds...)"),delay);
                 _waitTimer.Start();
             } else {
                 GetParent<SceneManager>().RunMainWindow();
@@ -190,7 +190,7 @@ public class UpdateWindow : Control
         } else if (args[0] == "--update-complete" && args.Length > 1) {
             int pid = -1;
             if (int.TryParse(args[1], out pid)) {
-                _messageText.Text = "Cleaning up...";
+                _messageText.Text = Tr("Cleaning up...");
                 AwaitManagerExit(pid);
                 CleanupUpdate();
                 GetParent<SceneManager>().RunMainWindow();
@@ -207,7 +207,7 @@ public class UpdateWindow : Control
             Process proc = Process.Start(launchGM_psi);
             GetTree().Quit(0);
         } else {
-            _messageText.Text = $"Update Complete, starting Godot Manager in ({delay}) seconds...";
+            _messageText.Text = string.Format(Tr("Update Complete, starting Godot Manager in (%d) seconds..."),delay);
             _waitTimer.Start();
         }
     }
@@ -237,7 +237,7 @@ public class UpdateWindow : Control
             return;
         } catch (InvalidOperationException) {
             // MSDN: The process was not started by this object.  (???)
-            OS.Alert("Process was not started by this Object.","Update Process Failed.");
+            OS.Alert(Tr("Process was not started by this Object."),Tr("Update Process Failed."));
             GetTree().Quit(-1);
             return;
         }

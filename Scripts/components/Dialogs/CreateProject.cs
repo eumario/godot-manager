@@ -216,12 +216,12 @@ public class CreateProject : ReferenceRect
 
     private void TestPath(string path) {
         if (!Directory.Exists(path)) {
-            ShowMessage("The path specified doesn't exist.", DirError.ERROR);
+            ShowMessage(Tr("The path specified doesn't exist."), DirError.ERROR);
             return;
         }
         
         if (!path.IsDirEmpty()) {
-            ShowMessage("Please choose an empty folder.", DirError.ERROR);
+            ShowMessage(Tr("Please choose an empty folder."), DirError.ERROR);
         } else {
             ShowMessage("",DirError.OK);
         }

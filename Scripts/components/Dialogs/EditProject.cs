@@ -133,7 +133,7 @@ public class EditProject : ReferenceRect
         foreach(GodotVersion gdver in CentralStore.Versions) {
             string gdName = gdver.GetDisplayName();
             if (gdver.Id == CentralStore.Settings.DefaultEngine)
-                gdName += " (Default)";
+                gdName += Tr(" (Default)");
             _GodotVersion.AddItem(gdName);
             _GodotVersion.SetItemMetadata(_GodotVersion.GetItemCount()-1, gdver.Id);
             if (ProjectFile.GodotVersion == gdver.Id)
@@ -223,7 +223,7 @@ public class EditProject : ReferenceRect
     [SignalHandler("pressed", nameof(_CancelBtn))]
     async void OnCancelBtnPressed() {
         if (_isDirty) {
-            var res = AppDialogs.YesNoDialog.ShowDialog("Edit Project", "There is unsaved changes, do you wish to continue?");
+            var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Edit Project"), Tr("There is unsaved changes, do you wish to continue?"));
             await res;
             if (res.Result) {
                 Visible = false;
@@ -251,13 +251,13 @@ public class EditProject : ReferenceRect
         if (path.StartsWith(pfpath))
             IconPath = pfpath.GetProjectRoot(path);
         else {
-            var ret = AppDialogs.YesNoDialog.ShowDialog("Icon Selection","This file is outside your project structure, do you want to copy it to the root of your project?");
+            var ret = AppDialogs.YesNoDialog.ShowDialog(Tr("Icon Selection"),Tr("This file is outside your project structure, do you want to copy it to the root of your project?"));
             await ret;
             if (ret.Result) {
                 SFile.Copy(path, pfpath.PlusFile(path.GetFile()));
                 IconPath = pfpath.GetProjectRoot(path);
             } else {
-                AppDialogs.MessageDialog.ShowMessage("Icon Selection", "Icon not copied, unable to use icon for Project.");
+                AppDialogs.MessageDialog.ShowMessage(Tr("Icon Selection"), Tr("Icon not copied, unable to use icon for Project."));
                 AppDialogs.ImageFileDialog.Visible = false;
                 return;
             }

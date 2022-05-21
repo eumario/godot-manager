@@ -112,7 +112,7 @@ public class ProjectIconEntry : ColorRect
             pfProjectFile = value;
             ProjectName = value.Name;
             Icon = value.Location.GetResourceBase(value.Icon);
-            Location = MissingProject ? "Unknown Location" : value.Location;
+            Location = MissingProject ? Tr("Unknown Location") : value.Location;
             GodotVersion = value.GodotVersion;
         }
     }
@@ -129,7 +129,7 @@ public class ProjectIconEntry : ColorRect
                 if (gv != null)
                     _godotVersion.Text = gv.GetDisplayName();
                 else
-                    _godotVersion.Text = "Unknown";
+                    _godotVersion.Text = Tr("Unknown");
             }
         }
     }

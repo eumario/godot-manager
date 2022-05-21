@@ -188,7 +188,7 @@ public class DownloadGodotManager : ReferenceRect
 
 		if (result.Cancelled)
 		{
-			AppDialogs.MessageDialog.ShowMessage("Download Cancelled", "Download of update was cancelled.");
+			AppDialogs.MessageDialog.ShowMessage(Tr("Download Cancelled"), Tr("Download of update was cancelled."));
 			CleanupClient();
 			Visible = false;
 			return false;
@@ -238,8 +238,8 @@ public class DownloadGodotManager : ReferenceRect
 		_FileName.Text = gaAsset.Name;
 		_Location.Text = gaAsset.BrowserDownloadUrl;
 		_FileSize.Text = Util.FormatSize(gaAsset.Size);
-		_Speed.Text = "Unknown";
-		_Eta.Text = "Unknown";
+		_Speed.Text = Tr("Unknown");
+		_Eta.Text = Tr("Unknown");
 		_ProgressBar.Value = 0;
 		_ProgressBar.MaxValue = 100;
 		iTotalBytes = 0;

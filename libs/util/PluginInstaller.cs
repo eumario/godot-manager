@@ -234,7 +234,7 @@ public class PluginInstaller : Object
 
 		if (dirtyUninstall) {
 			if (showDialogs)
-				AppDialogs.MessageDialog.ShowMessage($"Uninstall {_plugin.Asset.Title}", "Godot Manager has uninstalled the plugin, but files may still remain, please check your Project.");
+				AppDialogs.MessageDialog.ShowMessage(string.Format(Tr("Uninstall %s"),_plugin.Asset.Title), Tr("Godot Manager has uninstalled the plugin, but files may still remain, please check your Project."));
 		}
 	}
 }

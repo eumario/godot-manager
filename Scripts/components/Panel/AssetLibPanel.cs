@@ -110,13 +110,13 @@ public class AssetLibPanel : Panel
 
     [SignalHandler("pressed", nameof(_import))]
     async void OnImportPressed() {
-        var result = await AppDialogs.YesNoCancelDialog.ShowDialog("Import Asset...","Do you wish to import a Template or an Addon?","Template","Addon","Cancel");
+        var result = await AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Import Asset..."),Tr("Do you wish to import a Template or an Addon?"),Tr("Template"),Tr("Addon"),Tr("Cancel"));
         if (result == YesNoCancelDialog.ActionResult.FirstAction) {
-            AppDialogs.ImportFileDialog.WindowTitle = "Import Template...";
+            AppDialogs.ImportFileDialog.WindowTitle = Tr("Import Template...");
             AppDialogs.ImportFileDialog.Filters = new string[] { "project.godot", "*.zip" };
             AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnTemplateImport");
         } else if (result == YesNoCancelDialog.ActionResult.SecondAction) {
-            AppDialogs.ImportFileDialog.WindowTitle = "Import Plugin...";
+            AppDialogs.ImportFileDialog.WindowTitle = Tr("Import Plugin...");
             AppDialogs.ImportFileDialog.Filters = new string[] { "plugin.cfg", "*.zip" };
             AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnPluginImport");
         } else {
@@ -144,7 +144,7 @@ public class AssetLibPanel : Panel
         } else if (filepath.EndsWith(".zip")) { // Zip File Selected
             AssetZipImport(filepath, true);
         } else {
-            AppDialogs.MessageDialog.ShowMessage("Import Plugin", $"Unable to use {filepath} to import the plugin.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Plugin"), string.Format(Tr("Unable to use %s to import the plugin."),filepath));
         }
     }
 
@@ -154,7 +154,7 @@ public class AssetLibPanel : Panel
         } else if (filepath.EndsWith(".zip")) {
             AssetZipImport(filepath, false);
         } else {
-            AppDialogs.MessageDialog.ShowMessage("Import Template", $"Unable to use {filepath} to import the template.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"), string.Format(Tr("Unable to use %s to import the template."),filepath));
         }
     }
 
@@ -494,8 +494,8 @@ public class AssetLibPanel : Panel
 
 	private async Task Configure(bool projectsOnly)
 	{
-		AppDialogs.BusyDialog.UpdateHeader("Gathering information from GodotEngine Assetlib...");
-		AppDialogs.BusyDialog.UpdateByline("Connecting...");
+		AppDialogs.BusyDialog.UpdateHeader(Tr("Gathering information from GodotEngine Assetlib..."));
+		AppDialogs.BusyDialog.UpdateByline(Tr("Connecting..."));
 		AppDialogs.BusyDialog.ShowDialog();
 
         string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
@@ -509,8 +509,8 @@ public class AssetLibPanel : Panel
 
 		AssetLib.AssetLib.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
 
-		AppDialogs.BusyDialog.UpdateHeader("Processing Data from GodotEngine Assetlib...");
-		AppDialogs.BusyDialog.UpdateByline("Processing...");
+		AppDialogs.BusyDialog.UpdateHeader(Tr("Processing Data from GodotEngine Assetlib..."));
+		AppDialogs.BusyDialog.UpdateByline(Tr("Processing..."));
 
 		_category.Clear();
         _category.AddItem("All", 0);
@@ -520,7 +520,7 @@ public class AssetLibPanel : Panel
             PaginatedListing pl = _addonsBtn.Pressed ? _plAddons : _plTemplates;
             pl.ClearResults();
             AppDialogs.BusyDialog.HideDialog();
-            AppDialogs.MessageDialog.ShowMessage("Asset Library",$"Unable to connect to {url}.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to %s."),url));
             return;
         }
 
@@ -554,8 +554,8 @@ public class AssetLibPanel : Panel
             else
                 pl.UpdateTemplates();
         } else {
-            AppDialogs.BusyDialog.UpdateHeader("Getting search results...");
-            AppDialogs.BusyDialog.UpdateByline("Connecting...");
+            AppDialogs.BusyDialog.UpdateHeader(Tr("Getting search results..."));
+            AppDialogs.BusyDialog.UpdateByline(Tr("Connecting..."));
             AppDialogs.BusyDialog.ShowDialog();
 
             bool projectsOnly = (pl == _plTemplates);
@@ -572,11 +572,11 @@ public class AssetLibPanel : Panel
             if (stask.Result == null) {
                 pl.ClearResults();
                 AppDialogs.BusyDialog.HideDialog();
-                AppDialogs.MessageDialog.ShowMessage("Asset Library",$"Unable to connect to {url}.");
+                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to %s."),url));
                 return;
             }
 
-            AppDialogs.BusyDialog.UpdateByline("Parsing results...");
+            AppDialogs.BusyDialog.UpdateByline(Tr("Parsing results..."));
             pl.UpdateResults(stask.Result);
             AppDialogs.BusyDialog.HideDialog();
             lastSearchRequest = DateTime.Now;

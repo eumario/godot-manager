@@ -33,9 +33,9 @@ public class AddonMirror : ReferenceRect
 
     public void ShowDialog(string protocol="", string domainName="", string pathTo="", bool editing = false) {
         if (editing == false)
-            GetNode<Label>("PC/CC/P/VB/MC/TitleBarBG/HB/Title").Text = "Add Addon Mirror";
+            GetNode<Label>("PC/CC/P/VB/MC/TitleBarBG/HB/Title").Text = Tr("Add Addon Mirror");
         else
-            GetNode<Label>("PC/CC/P/VB/MC/TitleBarBG/HB/Title").Text = "Edit Addon Mirror";
+            GetNode<Label>("PC/CC/P/VB/MC/TitleBarBG/HB/Title").Text = Tr("Edit Addon Mirror");
 
         for(int i = 0; i < _protocol.GetItemCount(); i++) {
             if (_protocol.GetItemText(i) == protocol) {
@@ -56,7 +56,7 @@ public class AddonMirror : ReferenceRect
         string protocol, domainName, pathTo;
 
         if (_domainName.Text == "") {
-            AppDialogs.MessageDialog.ShowMessage("Add Mirror Error","You need to provide a Domain name in which to connect to.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Add Mirror Error"),Tr("You need to provide a Domain name in which to connect to."));
             return;
         }
         protocol = _protocol.GetItemText(_protocol.Selected);

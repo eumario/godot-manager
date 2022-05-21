@@ -45,12 +45,16 @@ public class NewVersion : ReferenceRect
     public void ShowDialog(Github.Release release, bool isGodotManager = false) {
         _release = release;
         if (!isGodotManager) {
-            ReleaseInfo.Text = $"There is a new version of Godot available.\nVersion: {release.Name}\nReleased: {release.PublishedAt}\nReleased by: {release.Author.Login}";
+            ReleaseInfo.Text = string.Format(Tr("There is a new version of Godot available.\n" + 
+                "Version: %s\nReleased: %s\nReleased by: %s"),
+                release.Name,release.PublishedAt.ToLongDateString(),release.Author.Login);
             UseMono.Visible = true;
             UseMono.Pressed = false;
         }
         else {
-            ReleaseInfo.Text = $"There is a new version of Godot Manager.\nVersion: {release.Name}\nReleased: {release.PublishedAt}\nReleased by: {release.Author.Login}";
+            ReleaseInfo.Text = string.Format(Tr("There is a new version of Godot Manager.\n" +
+                "Version: %s\nReleased: %s\nReleased by: %s"),
+                release.Name, release.PublishedAt.ToLongDateString(), release.Author.Login);
             UseMono.Visible = false;
         }
         Visible = true;
