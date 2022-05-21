@@ -29,7 +29,7 @@ writing PO template file to godot-l10n.pot
 [eumario@dev locale]: 
 ```
 
-This will ensure all strings are properly updated.  This needs to be run everytime a Label/Button Text is changed, or the Godot Tr() function is used in C#.  If no changes are made to the source code from checkout, the latest pot should be available for users to update.
+This will ensure all strings are properly updated.  This needs to be run everytime a Label/Button Text is changed, or the Godot Tr() function is used in C#.  If no changes are made to the source code from checkout, the latest pot should be available for users to translate from.
 
 ## Adding Translations
 
