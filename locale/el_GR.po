@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-21 18:13-0500\n"
-"PO-Revision-Date: 2022-05-26 21:36+0300\n"
+"PO-Revision-Date: 2022-05-27 17:22+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: el_GR\n"
@@ -157,12 +157,12 @@ msgstr "Ταχύτητα: {0}/s"
 
 #: ../Scripts/components/GodotLineEntry.cs:305
 msgid "ETA: "
-msgstr ""
+msgstr "ETA: "
 
 #: ../Scripts/components/ProjectIconEntry.cs:115
 #: ../Scripts/components/ProjectLineEntry.cs:67
 msgid "Unknown Location"
-msgstr ""
+msgstr "Άγνωστη Τοποθεσία"
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:335
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:336
@@ -172,34 +172,38 @@ msgstr ""
 #: ../Scripts/components/ProjectIconEntry.cs:132
 #: ../Scripts/components/ProjectLineEntry.cs:158
 msgid "Unknown"
-msgstr ""
+msgstr "Άγνωστο"
 
 #: ../Scripts/components/ProjectLineEntry.cs:125
 #: ../libs/data/Internal/ProjectFile.cs:87
 msgid "No Description"
-msgstr ""
+msgstr "Χωρίς περιγραφή"
 
 #: ../Scripts/components/Dialogs/AddCustomGodot.cs:67
 #: ../components/Dialogs/AddCustomGodot.tscn:92
 #: ../components/Dialogs/FirstTimeInstall.tscn:147
 msgid "Add Custom Godot"
-msgstr ""
+msgstr "Προσθέστε προσαρμοσμένο Godot"
 
 #: ../Scripts/components/Dialogs/AddCustomGodot.cs:67
 msgid ""
 "Need to provide a Name and a location for the custom version of the Godot "
 "engine."
 msgstr ""
+"Πρέπει να δώσετε ένα όνομα και μια τοποθεσία για την προσαρμοσμένη έκδοση "
+"της μηχανής Godot."
 
 #: ../Scripts/components/Dialogs/AddonInstaller.cs:109
 msgid ""
 "Contents of asset {0}\n"
 "Select files to Install:"
 msgstr ""
+"Περιεχόμενα του στοιχείων {0}\n"
+"Επιλέξτε αρχεία για εγκατάσταση:"
 
 #: ../Scripts/components/Dialogs/AddonInstaller.cs:180
 msgid "Addon Installer - Ignored File"
-msgstr ""
+msgstr "Εγκαταστάτης πρόσθετων - αγνοημένο αρχείο"
 
 #: ../Scripts/components/Dialogs/AddonInstaller.cs:180
 msgid ""
@@ -207,67 +211,72 @@ msgid ""
 "project structure, and can cause corruption if installed, do you wish to "
 "continue?"
 msgstr ""
+"Το αρχείο που επιλέξατε, είναι γνωστό ότι είναι ένα αρχείο που αποτελεί "
+"μέρος της δομής του έργου σας και μπορεί να προκαλέσει βλάβη αν "
+"εγκατασταθεί, επιθυμείτε να συνεχίσετε;"
 
 #: ../Scripts/components/Dialogs/AddonMirror.cs:36
 #: ../components/Dialogs/AddonMirror.tscn:91
 msgid "Add Addon Mirror"
-msgstr ""
+msgstr "Προσθήκη Addon Mirror"
 
 #: ../Scripts/components/Dialogs/AddonMirror.cs:38
 msgid "Edit Addon Mirror"
-msgstr ""
+msgstr "Επεξεργασία Addon Mirror"
 
 #: ../Scripts/components/Dialogs/AddonMirror.cs:59
 msgid "Add Mirror Error"
-msgstr ""
+msgstr "Προσθήκη σφάλματος Mirror"
 
 #: ../Scripts/components/Dialogs/AddonMirror.cs:59
 msgid "You need to provide a Domain name in which to connect to."
-msgstr ""
+msgstr "Πρέπει να δώσετε ένα όνομα τομέα στο οποίο θα συνδεθείτε."
 
 #: ../Scripts/components/Dialogs/AppDialogs.cs:95
 msgid "Open Icon..."
-msgstr ""
+msgstr "Άνοιγμα εικονιδίου..."
 
 #: ../Scripts/components/Dialogs/AppDialogs.cs:105
 #: ../Scripts/components/Dialogs/ImportProject.cs:96
 msgid "Open Godot Project..."
-msgstr ""
+msgstr "Ανοίξτε ένα έργο Godot..."
 
 #: ../Scripts/components/Dialogs/AppDialogs.cs:115
 msgid "Open Folder"
-msgstr ""
+msgstr "Άνοιγμα φακέλου"
 
 #: ../Scripts/components/Dialogs/AppDialogs.cs:124
 msgid "Find Godot..."
-msgstr ""
+msgstr "Βρείτε το Godot..."
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:138
 #: ../components/Panels/AssetLibPanel.tscn:299
 msgid "Support"
-msgstr ""
+msgstr "Υποστήριξη"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:139
 msgid "Homepage"
-msgstr ""
+msgstr "Αρχική σελίδα"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:140
 msgid "Issue/Support Page"
-msgstr ""
+msgstr "Σελίδα προβλήματος/υποστήριξης"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:271
 msgid "Uninstall - Plugin in Use"
-msgstr ""
+msgstr "Απεγκατάσταση - Πρόσθετο σε χρήση"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:272
 msgid ""
 "The plugin {0} is currently used in {1} project(s). Uninstalling will remove "
 "tracking of this plugin, continue?"
 msgstr ""
+"Το πρόσθετο {0} χρησιμοποιείται επί του παρόντος σε {1} έργο(α). Η "
+"απεγκατάσταση θα αφαιρέσει την παρακολούθηση αυτού του πρόσθετου, συνεχίστε?"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:283
 msgid "Plugin Uninstall"
-msgstr ""
+msgstr "Απεγκατάσταση προσθέτου"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:284
 msgid ""
@@ -275,98 +284,101 @@ msgid ""
 "reference.  The addon files still remain in the Addons folder of the "
 "project, and will need to be removed manually."
 msgstr ""
+"{0} έχει απεγκατασταθεί.  Όλα τα έργα που αναφέρονται σε αυτό, δεν έχουν "
+"πλέον αναφορά.  Τα αρχεία του πρόσθετου παραμένουν στο φάκελο Addons του "
+"έργου και θα πρέπει να αφαιρεθούν χειροκίνητα."
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:290
 msgid "Asset Uninstall"
-msgstr ""
+msgstr "Απεγκατάσταση των στοιχείων"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:290
 msgid "{0} is not found in plugins or Templates."
-msgstr ""
+msgstr "{0} δεν βρέθηκε σε πρόσθετα ή πρότυπα."
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:295
 msgid "Template Uninstall"
-msgstr ""
+msgstr "Απεγκατάσταση προτύπου"
 
 #: ../Scripts/components/Dialogs/AssetLibPreview.cs:295
 msgid "{0} has been uninstalled."
-msgstr ""
+msgstr "{0} έχει απεγκατασταθεί."
 
 #: ../Scripts/components/Dialogs/CreateCategory.cs:34
 #: ../Scripts/components/Dialogs/CreateCategory.cs:38
 msgid "Create Category Error"
-msgstr ""
+msgstr "Σφάλμα δημιουργίας κατηγορίας"
 
 #: ../Scripts/components/Dialogs/CreateCategory.cs:34
 msgid "Category name cannot be blank."
-msgstr ""
+msgstr "Το όνομα της κατηγορίας δεν μπορεί να είναι κενό."
 
 #: ../Scripts/components/Dialogs/CreateCategory.cs:38
 msgid "There is already a category by that name."
-msgstr ""
+msgstr "Υπάρχει ήδη μια κατηγορία με αυτό το όνομα."
 
 #: ../Scripts/components/Dialogs/CreateProject.cs:219
 msgid "The path specified doesn't exist."
-msgstr ""
+msgstr "Η καθορισμένη διαδρομή δεν υπάρχει."
 
 #: ../Scripts/components/Dialogs/CreateProject.cs:224
 msgid "Please choose an empty folder."
-msgstr ""
+msgstr "Παρακαλούμε επιλέξτε έναν άδειο φάκελο."
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:227
 #: ../Scripts/components/Dialogs/DownloadGodotManager.cs:191
 msgid "Download Cancelled"
-msgstr ""
+msgstr "Λήψη Ακυρώθηκε"
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:228
 msgid "Addon download '{0}' cancelled."
-msgstr ""
+msgstr "Η λήψη του πρόσθετου '{0}' ακυρώθηκε."
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:292
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:307
 msgid "Downloaded:"
-msgstr ""
+msgstr "Κατέβηκε:"
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:294
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:309
 msgid "Elapsed:"
-msgstr ""
+msgstr "Πέρασε:"
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:331
 msgid "Downloading {0}"
-msgstr ""
+msgstr "Λήψη {0}"
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:334
 #: ../components/Dialogs/DownloadAddon.tscn:158
 #: ../components/Dialogs/DownloadGodotManager.tscn:158
 msgid "File Size:"
-msgstr ""
+msgstr "Μέγεθος αρχείου:"
 
 #: ../Scripts/components/Dialogs/DownloadAddon.cs:337
 #: ../components/Dialogs/DownloadAddon.tscn:190
 #: ../components/Dialogs/DownloadGodotManager.tscn:190
 msgid "ETA:"
-msgstr ""
+msgstr "ETA:"
 
 #: ../Scripts/components/Dialogs/DownloadGodotManager.cs:191
 msgid "Download of update was cancelled."
-msgstr ""
+msgstr "Η λήψη της ενημέρωσης ακυρώθηκε."
 
 #: ../Scripts/components/Dialogs/EditProject.cs:136
 msgid " (Default)"
-msgstr ""
+msgstr " (Προεπιλογή)"
 
 #: ../Scripts/components/Dialogs/EditProject.cs:226
 msgid "Edit Project"
-msgstr ""
+msgstr "Επεξεργασία έργου"
 
 #: ../Scripts/components/Dialogs/EditProject.cs:226
 msgid "There is unsaved changes, do you wish to continue?"
-msgstr ""
+msgstr "Υπάρχουν μη αποθηκευμένες αλλαγές, επιθυμείτε να συνεχίσετε;"
 
 #: ../Scripts/components/Dialogs/ImportProject.cs:71
 msgid "No Project Selected"
-msgstr ""
+msgstr "Δεν επιλέχθηκε έργο"
 
 #: ../Scripts/components/Dialogs/ImportProject.cs:71
 msgid "You need to select a project before it can be added."
