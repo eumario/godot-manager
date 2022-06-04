@@ -25,10 +25,14 @@ public class GDCSHTTPClient : Node {
 		}
 	}
 
+	private string GetUserAgent() {
+		return $"User-Agent: Godot-Manager/{VERSION.GodotManager}-{VERSION.Channel} ({Platform.OperatingSystem})";
+	}
+
 	private string[] GetRequestHeaders() {
 		return new string[] {
 			"Accept: application/vnd.github.v3+json",
-			"User-Agent: Godot-Manager/0.1"
+			GetUserAgent()
 		};
 	}
 
