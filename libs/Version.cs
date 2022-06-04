@@ -1,5 +1,5 @@
 public class VERSION {
-	public static string GodotManager = "0.1.4";
+	public static string GodotManager = "0.2.0";
 	public static string Channel = "dev";
 	public static string GodotSharpExtras = "0.2.3";
 	public static string NewtonsoftJSON = "13.0.1";

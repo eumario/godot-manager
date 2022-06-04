@@ -43,6 +43,8 @@ public class GodotPanel : Panel
         this.OnReady();
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
         AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
+        // TODO: Refactor DownloadSource to use Github / Mirror to determine what Mirror we are using.  Mirrors grabbed from
+        // TODO: MirrorManager.GetMirrors(); (Array<MirrorSite>)
         DownloadSource.Clear();
         DownloadSource.AddItem("Github");
         DownloadSource.AddItem("TuxFamily.org");
@@ -87,7 +89,7 @@ public class GodotPanel : Panel
         }
     }
 
-	public async Task CheckForUpdates()
+	public async Task CheckForUpdates() // TODO: Need to check for updates from MirrorManager as well.
 	{
         AppDialogs.BusyDialog.UpdateHeader(Tr("Grabbing information from Github"));
         AppDialogs.BusyDialog.UpdateByline(Tr("Getting the latest version information from Github for Godot Engine..."));
@@ -194,7 +196,7 @@ public class GodotPanel : Panel
         Task task = null;
 
         if (result.Result) {
-            if (gle.GodotVersion.GithubVersion == null && gle.GodotVersion.TuxfamilyVersion == null) {
+            if (gle.GodotVersion.GithubVersion == null && gle.GodotVersion.MirrorVersion == null) {
                 // Custom Godot added Locally, do not remove files, only remove entry.
                 foreach (ProjectFile pf in CentralStore.Projects) {
                     if (pf.GodotVersion == gle.GodotVersion.Id) {
@@ -261,6 +263,8 @@ public class GodotPanel : Panel
 
         await this.IdleFrame();
 
+        // TODO: Check for which mirror is being used, before populating list.
+
         foreach(GithubVersion gv in CentralStore.GHVersions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
             gle.GithubVersion = gv;
@@ -268,6 +272,8 @@ public class GodotPanel : Panel
             Available.List.AddChild(gle);
             gle.Connect("install_clicked", this, "OnInstallClicked");
         }
+
+        // TODO:  Impelemnt using CentralStore.MRVersions to populate List as well, when mirror is selected.
 
         foreach(GodotVersion gdv in CentralStore.Versions) {
             GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();

@@ -63,6 +63,7 @@ public class GodotLineEntry : HBoxContainer
     private bool bMono = false;
     private GodotVersion gvGodotVersion = null;
     private GithubVersion gvGithubVersion = null;
+    private MirrorVersion gvMirrorVersion = null;
     private Downloader Downloader = null;
 
     private int iLastByteCount = 0;
@@ -94,6 +95,7 @@ public class GodotLineEntry : HBoxContainer
         set {
             bMono = value;
             GithubVersion = gvGithubVersion;
+            MirrorVersion = gvMirrorVersion;
         }
     }
 
@@ -160,6 +162,44 @@ public class GodotLineEntry : HBoxContainer
                     break;
                 
                 default:
+                    break;
+            }
+        }
+    }
+
+    public MirrorVersion MirrorVersion {
+        get {
+            return gvMirrorVersion;
+        }
+
+        set {
+            gvMirrorVersion = value;
+            if (value == null)
+                return;
+            Label = value.Version;
+            switch(Platform.OperatingSystem) {
+                case "Windows":
+                case "UWP (Windows 10)":
+                    if (Platform.Bits == "32") {
+                        Source = value.Win32;
+                        Filesize = Util.FormatSize(value.Win32_Size);
+                    } else {
+                        Source = value.Win64;
+                        Filesize = Util.FormatSize(value.Win64_Size);
+                    }
+                    break;
+                case "Linux (or BSD)":
+                    if (Platform.Bits == "32") {
+                        Source = value.Linux32;
+                        Filesize = Util.FormatSize(value.Linux32_Size);
+                    } else {
+                        Source = value.Linux64;
+                        Filesize = Util.FormatSize(value.Linux64_Size);
+                    }
+                    break;
+                case "macOS":
+                    Source = value.OSX64;
+                    Filesize = Util.FormatSize(value.OSX64_Size);
                     break;
             }
         }
@@ -234,6 +274,7 @@ public class GodotLineEntry : HBoxContainer
 
         GodotVersion = gvGodotVersion;
         GithubVersion = gvGithubVersion;
+        MirrorVersion = gvMirrorVersion;
 
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
@@ -312,6 +353,7 @@ public class GodotLineEntry : HBoxContainer
         _fileSize.Text = $"{Util.FormatSize(_progressBar.Value)}/{Util.FormatSize(Downloader.totalSize)}";
     }
 
+    // Needs to create the Godot Version from Github when present, and create Godot Version when Mirror is Present.
     public GodotVersion CreateGodotVersion() {
         GodotVersion gv = new GodotVersion();
         string gdFile = Mono ? new Uri(GithubVersion.PlatformMonoDownloadURL).AbsolutePath.GetFile() : new Uri(GithubVersion.PlatformDownloadURL).AbsolutePath.GetFile();
@@ -380,6 +422,7 @@ public class GodotLineEntry : HBoxContainer
         return gv;
     }
 
+    // Needs Refactoring to use Github when present, otherwise use Mirror when present.
     public async Task StartDownload() {
         Downloader = Downloader.DownloadGithub(GithubVersion,Mono);
         string outFile = $"{CentralStore.Settings.CachePath}/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
