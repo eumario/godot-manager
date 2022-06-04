@@ -1054,9 +1054,9 @@ msgstr ""
 #, python-format
 msgid ""
 "There is a new version of Godot available.\r\n"
-"Version: %s\r\n"
-"Released: %s\r\n"
-"Released by: %s"
+"Version: {0}\r\n"
+"Released: {1}\r\n"
+"Released by: {2}"
 msgstr ""
 
 #: ../components/Dialogs/NewVersion.tscn:100

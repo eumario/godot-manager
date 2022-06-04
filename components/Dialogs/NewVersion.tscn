@@ -89,9 +89,9 @@ margin_right = 304.0
 margin_bottom = 104.0
 custom_fonts/font = ExtResource( 1 )
 text = "There is a new version of Godot available.
-Version: %s
-Released: %s
-Released by: %s"
+Version: {0}
+Released: {1}
+Released by: {2}"
 
 [node name="UseMono" type="CheckBox" parent="PC/CC/P/VB/MCContent/VC"]
 margin_top = 108.0
