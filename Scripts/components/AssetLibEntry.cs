@@ -133,15 +133,36 @@ public class AssetLibEntry : ColorRect
         if (inputEvent is InputEventMouseButton iembEvent) {
             if (iembEvent.Pressed && (ButtonList)iembEvent.ButtonIndex == ButtonList.Left)
             {
-                AppDialogs.BusyDialog.UpdateHeader(Tr("Getting asset information..."));
-                AppDialogs.BusyDialog.UpdateByline(Tr("Connecting..."));
-                AppDialogs.BusyDialog.ShowDialog();
-                Task<AssetLib.Asset> asset = AssetLib.AssetLib.Instance.GetAsset(AssetId);
-                while (!asset.IsCompleted)
-                    await this.IdleFrame();
-                AppDialogs.BusyDialog.Visible = false;
-                AssetId = asset.Result.AssetId;
-                AppDialogs.AssetLibPreview.ShowDialog(asset.Result);
+                AssetLib.Asset asset = null;
+                if (!AssetId.StartsWith("local-")) {
+                    AppDialogs.BusyDialog.UpdateHeader(Tr("Getting asset information..."));
+                    AppDialogs.BusyDialog.UpdateByline(Tr("Connecting..."));
+                    AppDialogs.BusyDialog.ShowDialog();
+                    Task<AssetLib.Asset> res = AssetLib.AssetLib.Instance.GetAsset(AssetId);
+                    while (!res.IsCompleted)
+                        await this.IdleFrame();
+                    AppDialogs.BusyDialog.Visible = false;
+                    AssetId = res.Result.AssetId;
+                    asset = res.Result;
+                } else {
+                    var res = CentralStore.Instance.GetPluginId(AssetId);
+                    if (res == null) {
+                        var tres = CentralStore.Instance.GetTemplateId(AssetId);
+                        if (tres == null) {
+                            AppDialogs.MessageDialog.ShowMessage("Failed to Fetch Asset", $"Unable to get Asset information for {AssetId}");
+                            return;
+                        } else {
+                            asset = tres.Asset;
+                        }
+                    } else {
+                        asset = res.Asset;
+                    }
+                }
+                if (asset == null) {
+                    AppDialogs.MessageDialog.ShowMessage("Failed to Fetch Asset", $"Unable to get Asset information for {AssetId}");
+                    return;
+                }
+                AppDialogs.AssetLibPreview.ShowDialog(asset);
                 AppDialogs.AssetLibPreview.Connect("installed_addon", this, nameof(OnInstalledAddon));
                 AppDialogs.AssetLibPreview.Connect("preview_closed", this, nameof(OnPreviewClosed));
                 AppDialogs.AssetLibPreview.Connect("uninstalled_addon", this, nameof(OnUninstallAddon));

@@ -99,28 +99,28 @@ public class CentralStore {
 		var res = from pt in CentralStore.Templates
 					where pt.Asset.Title == name
 					select pt;
-		return res.First<AssetProject>();
+		return res.FirstOrDefault<AssetProject>();
 	}
 
 	public AssetProject GetTemplateId(string id) {
 		var res = from pt in CentralStore.Templates
 					where pt.Asset.AssetId == id
 					select pt;
-		return res.First<AssetProject>();
+		return res.FirstOrDefault<AssetProject>();
 	}
 
 	public AssetPlugin GetPlugin(string name) {
 		var res = from pt in CentralStore.Plugins
 					where pt.Asset.Title == name
 					select pt;
-		return res.First<AssetPlugin>();
+		return res.FirstOrDefault<AssetPlugin>();
 	}
 
 	public AssetPlugin GetPluginId(string id) {
 		var res = from pt in CentralStore.Plugins
 					where pt.Asset.AssetId == id
 					select pt;
-		return res.First<AssetPlugin>();
+		return res.FirstOrDefault<AssetPlugin>();
 	}
 
 	public GodotVersion FindVersion(string id) {
