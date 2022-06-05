@@ -22,6 +22,9 @@ public class Settings : Object {
 	[JsonProperty] public bool EnableAutoScan;
 	[JsonProperty] public bool FavoritesToggled;
 	[JsonProperty] public bool UncategorizedToggled;
+	[JsonProperty] public bool UseProxy;
+	[JsonProperty] public string ProxyHost;
+	[JsonProperty] public int ProxyPort;
 	[JsonProperty] public Array<string> ScanDirs;
 	[JsonProperty] public Array<Dictionary<string, string>> AssetMirrors;
 	[JsonProperty] public Array<Dictionary<string, string>> EngineMirrors;
@@ -50,6 +53,9 @@ public class Settings : Object {
 		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
 		CheckInterval = TimeSpan.FromDays(1);															// Done
 		ScanDirs = new Array<string>();																	// Done
+		UseProxy = false;
+		ProxyHost = "localhost";
+		ProxyPort = 8000;
 		AssetMirrors = new Array<Dictionary<string, string>>();											// Done
 		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)
 		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented (Version 0.2 Target)

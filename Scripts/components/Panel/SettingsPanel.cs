@@ -63,6 +63,18 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/HBCI/UpdateCheckInterval")]
 	OptionButton _updateCheckInterval = null;
 
+	[NodePath("VB/MC/TC/General/GC/HBCI/CheckBox")]
+	CheckBox _useProxy = null;
+
+	[NodePath("VB/MC/TC/General/GC/HBCI/ProxyContainer")]
+	HBoxContainer _proxyContainer = null;
+
+	[NodePath("VB/MC/TC/General/GC/HBCI/ProxyContainer/ProxyHost")]
+	LineEdit _proxyHost = null;
+
+	[NodePath("VB/MC/TC/General/GC/HBCI/ProxyContainer/ProxyPort")]
+	LineEdit _proxyPort = null;
+
 	[NodePath("VB/MC/TC/General/GC/VBLO/NoConsole")]
 	CheckBox _noConsole = null;
 
@@ -219,6 +231,10 @@ public class SettingsPanel : Panel
 		_defaultProjectView.Select(_views.IndexOf(CentralStore.Settings.DefaultView));
 		PopulateGodotEngine();
 		_checkForUpdates.Pressed = CentralStore.Settings.CheckForUpdates;
+		_useProxy.Pressed = CentralStore.Settings.UseProxy;
+		_proxyContainer.Visible = CentralStore.Settings.UseProxy;
+		_proxyHost.Text = CentralStore.Settings.ProxyHost;
+		_proxyPort.Text = $"{CentralStore.Settings.ProxyPort}";
 		_updateCheckInterval.Select(GetIntervalIndex());
 		_editorProfiles.Pressed = CentralStore.Settings.SelfContainedEditors;
 		_noConsole.Pressed = CentralStore.Settings.NoConsole;
@@ -269,6 +285,9 @@ public class SettingsPanel : Panel
 		CentralStore.Settings.DefaultEngine = (string)_defaultEngine.GetItemMetadata(_defaultEngine.Selected);
 		CentralStore.Settings.CheckForUpdates = _checkForUpdates.Pressed;
 		CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[_updateCheckInterval.Selected]);
+		CentralStore.Settings.UseProxy = _useProxy.Pressed;
+		CentralStore.Settings.ProxyHost = _proxyHost.Text;
+		CentralStore.Settings.ProxyPort = _proxyPort.Text.ToInt();
 		CentralStore.Settings.SelfContainedEditors = _editorProfiles.Pressed;
 
 		foreach(GodotVersion version in CentralStore.Versions) {
@@ -536,6 +555,11 @@ public class SettingsPanel : Panel
 			updateActionButtons();
 		}
 		CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[index]);
+	}
+
+	[SignalHandler("pressed", nameof(_useProxy))]
+	void OnPressed_UseProxy() {
+		_proxyContainer.Visible = _useProxy.Pressed;
 	}
 
 	[SignalHandler("toggled", nameof(_noConsole))]

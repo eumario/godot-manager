@@ -234,7 +234,6 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -357,6 +356,7 @@ margin_left = 190.0
 margin_top = 124.0
 margin_right = 994.0
 margin_bottom = 145.0
+custom_constants/separation = 10
 
 [node name="CheckIntervalLabel" type="Label" parent="VB/MC/TC/General/GC/HBCI"]
 margin_top = 1.0
@@ -366,12 +366,55 @@ custom_fonts/font = ExtResource( 4 )
 text = "             Check Interval:"
 
 [node name="UpdateCheckInterval" type="OptionButton" parent="VB/MC/TC/General/GC/HBCI"]
-margin_left = 173.0
-margin_right = 237.0
+margin_left = 179.0
+margin_right = 243.0
 margin_bottom = 21.0
 text = "1 hour"
 items = [ "1 hour", null, false, 0, null, "12 Hours", null, false, 1, null, "1 Day", null, false, 2, null, "1 Week", null, false, 3, null, "Bi-Weekly", null, false, 4, null, "Monthly (Every 30 days)", null, false, 5, null ]
 selected = 0
+
+[node name="CheckBox" type="CheckBox" parent="VB/MC/TC/General/GC/HBCI"]
+margin_left = 253.0
+margin_right = 337.0
+margin_bottom = 21.0
+text = "Use Proxy"
+
+[node name="ProxyContainer" type="HBoxContainer" parent="VB/MC/TC/General/GC/HBCI"]
+visible = false
+margin_left = 347.0
+margin_right = 804.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_top = 2.0
+margin_right = 33.0
+margin_bottom = 19.0
+text = "Host:"
+
+[node name="ProxyHost" type="LineEdit" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 43.0
+margin_right = 344.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 354.0
+margin_top = 2.0
+margin_right = 385.0
+margin_bottom = 19.0
+text = "Port:"
+
+[node name="ProxyPort" type="LineEdit" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 395.0
+margin_right = 447.0
+margin_bottom = 21.0
+
+[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 457.0
+margin_right = 457.0
+margin_bottom = 21.0
 
 [node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
 margin_top = 164.0
@@ -561,6 +604,7 @@ margin_right = 994.0
 margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
