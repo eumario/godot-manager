@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Uri = System.Uri;
 using Github;
 using Godot;
 using Godot.Collections;
@@ -33,7 +34,13 @@ namespace Mirrors {
 
 		public async Task<Array<MirrorSite>> GetMirrors() {
 			Array<MirrorSite> mirrors = new Array<MirrorSite>();
-			Task<HTTPClient.Status> cres = client.StartClient("gmm.eumario.info", true);
+			Uri uri = new Uri("https://gmm.eumario.info/mirrors");
+			if (CentralStore.Settings.UseProxy) 
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, true);
+			else
+				client.ClearProxy();
+			
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, true);
 
 			while (!cres.IsCompleted)
 				await this.IdleFrame();
@@ -41,7 +48,7 @@ namespace Mirrors {
 			if (!client.SuccessConnect(cres.Result))
 				return mirrors;
 			
-			string path = "/mirrors";
+			string path = uri.AbsolutePath;
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted)
 				await this.IdleFrame();
@@ -63,7 +70,13 @@ namespace Mirrors {
 
 		public async Task<Array<MirrorVersion>> GetEngineLinks(int mirrorId) {
 			Array<MirrorVersion> versions = new Array<MirrorVersion>();
-			Task<HTTPClient.Status> cres = client.StartClient("gmm.eumario.info", true);
+			Uri uri = new Uri($"https://gmm.eumario.info/listings/{mirrorId}");
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, true);
+			else
+				client.ClearProxy();
+			
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, true);
 
 			while (!cres.IsCompleted)
 				await this.IdleFrame();
@@ -71,7 +84,7 @@ namespace Mirrors {
 			if (!client.SuccessConnect(cres.Result))
 				return versions;
 			
-			string path = $"/mirrors/{mirrorId}";
+			string path = uri.AbsolutePath;
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted)
 				await this.IdleFrame();

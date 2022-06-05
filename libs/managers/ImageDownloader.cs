@@ -29,7 +29,12 @@ public class ImageDownloader : Object {
 		else
 			uri = new Uri(sUrl);
 		
-		Task<HTTPClient.Status> cres = client.StartClient(uri.Host, (uri.Scheme == "https"));
+		if (CentralStore.Settings.UseProxy)
+			client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+		else
+			client.ClearProxy();
+		
+		Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, (uri.Scheme == "https"));
 
 		while (!cres.IsCompleted)
 			await this.IdleFrame();

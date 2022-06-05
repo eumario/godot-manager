@@ -31,7 +31,8 @@ public class GDCSHTTPClient : Node {
 
 	private string[] GetRequestHeaders() {
 		return new string[] {
-			"Accept: application/vnd.github.v3+json",
+			//"Accept: application/vnd.github.v3+json",
+			"Accept: */*",
 			GetUserAgent()
 		};
 	}
@@ -50,6 +51,11 @@ public class GDCSHTTPClient : Node {
 			client.SetHttpsProxy(host, port);
 		else
 			client.SetHttpProxy(host, port);
+	}
+
+	public void ClearProxy() {
+		client.SetHttpsProxy("",0);
+		client.SetHttpProxy("",0);
 	}
 
 	public async Task<HTTPClient.Status> StartClient(string host, bool use_ssl = false) {

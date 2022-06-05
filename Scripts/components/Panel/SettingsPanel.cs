@@ -8,6 +8,7 @@ using Dir = System.IO.Directory;
 using SFile = System.IO.File;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 public class SettingsPanel : Panel
 {
@@ -164,6 +165,8 @@ public class SettingsPanel : Panel
 	};
 	bool bPInternal = false;
 	ActionStack _undoActions;
+
+	Regex IsNumeric = new Regex(@"\d+");
 	#endregion
 
 	// Called when the node enters the scene tree for the first time.
@@ -559,7 +562,48 @@ public class SettingsPanel : Panel
 
 	[SignalHandler("pressed", nameof(_useProxy))]
 	void OnPressed_UseProxy() {
+		bool oldVal = CentralStore.Settings.UseProxy;
+		if (!bPInternal) {
+			_undoActions.Push(() => {
+				CentralStore.Settings.UseProxy = oldVal;
+				_proxyContainer.Visible = oldVal;
+				_useProxy.Pressed = oldVal;
+			});
+			updateActionButtons();
+		}
 		_proxyContainer.Visible = _useProxy.Pressed;
+		CentralStore.Settings.UseProxy = _useProxy.Pressed;
+	}
+
+	[SignalHandler("text_changed", nameof(_proxyHost))]
+	void OnTextChanged_ProxyHost(string newText) {
+		string oldVal = CentralStore.Settings.ProxyHost;
+		if (!bPInternal) {
+			_undoActions.Push(() => {
+				CentralStore.Settings.ProxyHost = oldVal;
+				_proxyHost.Text = oldVal;
+			});
+			updateActionButtons();
+		}
+		CentralStore.Settings.ProxyHost = _proxyHost.Text;
+	}
+	
+	[SignalHandler("text_changed", nameof(_proxyPort))]
+	void OnTextChanged_ProxyPort(string newText) {
+		if (!bPInternal) {
+			if (newText != string.Empty && IsNumeric.IsMatch(newText)) {
+				int oldVal = CentralStore.Settings.ProxyPort;
+				_undoActions.Push(() => {
+					CentralStore.Settings.ProxyPort = oldVal;
+					_proxyPort.Text = $"{oldVal}";
+				});
+				CentralStore.Settings.ProxyPort = _proxyPort.Text.ToInt();
+			} else {
+				if (newText != string.Empty)
+					_proxyPort.Text = newText.Substr(0,newText.Length-1);
+			}
+			updateActionButtons();
+		}
 	}
 
 	[SignalHandler("toggled", nameof(_noConsole))]

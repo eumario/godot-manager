@@ -31,6 +31,15 @@ public class Downloader : Object {
 
 	private async Task<HTTPClient.Status> StartClient() {
 		client.BlockingModeEnabled = false;
+		if (CentralStore.Settings.UseProxy) {
+			if (downloadUri.Scheme == "https")
+				client.SetHttpsProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort);
+			else
+				client.SetHttpProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort);
+		} else {
+			client.SetHttpsProxy("",0);
+			client.SetHttpProxy("",0);
+		}
 		var res = client.ConnectToHost(downloadUri.Host, downloadUri.Port, downloadUri.Scheme == "https", downloadUri.Scheme == "https");
 
 		if (res != Error.Ok)
