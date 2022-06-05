@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-21 18:13-0500\n"
-"PO-Revision-Date: 2022-05-21 18:13-0500\n"
+"POT-Creation-Date: 2022-06-04 22:13-0500\n"
+"PO-Revision-Date: 2022-06-04 22:18-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.10.1\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: ../Scenes/MainWindow.tscn:133 ../components/Panels/SettingsPanel.tscn:608
+#: ../Scenes/MainWindow.tscn:133 ../components/Panels/SettingsPanel.tscn:652
 msgid "Godot Manager"
 msgstr "Godot Manager"
 
@@ -103,7 +103,7 @@ msgstr "Getting asset information..."
 #: ../Scripts/components/AssetLibEntry.cs:137
 #: ../Scripts/components/Panel/AssetLibPanel.cs:498
 #: ../Scripts/components/Panel/AssetLibPanel.cs:558
-#: ../Scripts/components/Panel/GodotPanel.cs:339
+#: ../Scripts/components/Panel/GodotPanel.cs:345
 msgid "Connecting..."
 msgstr "Connecting..."
 
@@ -136,19 +136,19 @@ msgstr "Updating Project {0}..."
 msgid "Completed."
 msgstr "Completed."
 
-#: ../Scripts/components/GodotLineEntry.cs:187
+#: ../Scripts/components/GodotLineEntry.cs:227
 msgid "Source: {0}"
 msgstr "Source: {0}"
 
-#: ../Scripts/components/GodotLineEntry.cs:198
+#: ../Scripts/components/GodotLineEntry.cs:238
 msgid "Size: {0}"
 msgstr "Size: {0}"
 
-#: ../Scripts/components/GodotLineEntry.cs:300
+#: ../Scripts/components/GodotLineEntry.cs:341
 msgid "Speed: {0}/s"
 msgstr "Speed: {0}/s"
 
-#: ../Scripts/components/GodotLineEntry.cs:305
+#: ../Scripts/components/GodotLineEntry.cs:346
 msgid "ETA: "
 msgstr "ETA: "
 
@@ -157,18 +157,18 @@ msgstr "ETA: "
 msgid "Unknown Location"
 msgstr "Unknown Location"
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:335
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:336
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:338
-#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:241
-#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:242
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:344
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:345
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:347
+#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:249
+#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:250
 #: ../Scripts/components/ProjectIconEntry.cs:132
 #: ../Scripts/components/ProjectLineEntry.cs:158
 msgid "Unknown"
 msgstr "Unknown"
 
 #: ../Scripts/components/ProjectLineEntry.cs:125
-#: ../libs/data/Internal/ProjectFile.cs:87
+#: ../libs/data/Internal/ProjectFile.cs:78
 msgid "No Description"
 msgstr "No Description"
 
@@ -318,42 +318,42 @@ msgstr "The path specified doesn't exist."
 msgid "Please choose an empty folder."
 msgstr "Please choose an empty folder."
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:227
-#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:191
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:236
+#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:199
 msgid "Download Cancelled"
 msgstr "Download Cancelled"
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:228
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:237
 msgid "Addon download '{0}' cancelled."
 msgstr "Addon download '{0}' cancelled."
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:292
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:307
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:301
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:316
 msgid "Downloaded:"
 msgstr "Downloaded:"
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:294
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:309
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:303
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:318
 msgid "Elapsed:"
 msgstr "Elapsed:"
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:331
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:340
 msgid "Downloading {0}"
 msgstr "Downloading {0}"
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:334
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:343
 #: ../components/Dialogs/DownloadAddon.tscn:158
 #: ../components/Dialogs/DownloadGodotManager.tscn:158
 msgid "File Size:"
 msgstr "File Size:"
 
-#: ../Scripts/components/Dialogs/DownloadAddon.cs:337
+#: ../Scripts/components/Dialogs/DownloadAddon.cs:346
 #: ../components/Dialogs/DownloadAddon.tscn:190
 #: ../components/Dialogs/DownloadGodotManager.tscn:190
 msgid "ETA:"
 msgstr "ETA:"
 
-#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:191
+#: ../Scripts/components/Dialogs/DownloadGodotManager.cs:199
 msgid "Download of update was cancelled."
 msgstr "Download of update was cancelled."
 
@@ -514,20 +514,20 @@ msgstr "Getting search results..."
 msgid "Parsing results..."
 msgstr "Parsing results..."
 
-#: ../Scripts/components/Panel/GodotPanel.cs:92
+#: ../Scripts/components/Panel/GodotPanel.cs:94
 msgid "Grabbing information from Github"
 msgstr "Grabbing information from Github"
 
-#: ../Scripts/components/Panel/GodotPanel.cs:93
+#: ../Scripts/components/Panel/GodotPanel.cs:95
 msgid "Getting the latest version information from Github for Godot Engine..."
 msgstr "Getting the latest version information from Github for Godot Engine..."
 
-#: ../Scripts/components/Panel/GodotPanel.cs:182
-#: ../Scripts/components/Panel/GodotPanel.cs:187
+#: ../Scripts/components/Panel/GodotPanel.cs:184
+#: ../Scripts/components/Panel/GodotPanel.cs:189
 msgid "Remove Godot Install"
 msgstr "Remove Godot Install"
 
-#: ../Scripts/components/Panel/GodotPanel.cs:183
+#: ../Scripts/components/Panel/GodotPanel.cs:185
 msgid ""
 "You are about to remove the reference to {0}, are you sure you want to "
 "continue?"
@@ -535,32 +535,32 @@ msgstr ""
 "You are about to remove the reference to {0}, are you sure you want to "
 "continue?"
 
-#: ../Scripts/components/Panel/GodotPanel.cs:188
+#: ../Scripts/components/Panel/GodotPanel.cs:190
 msgid "You are about to uninstall {0}, are you sure you want to continue?"
 msgstr "You are about to uninstall {0}, are you sure you want to continue?"
 
-#: ../Scripts/components/Panel/GodotPanel.cs:313
+#: ../Scripts/components/Panel/GodotPanel.cs:319
 msgid "Failed to get Release information from Github"
 msgstr "Failed to get Release information from Github"
 
-#: ../Scripts/components/Panel/GodotPanel.cs:313
+#: ../Scripts/components/Panel/GodotPanel.cs:319
 msgid "Github Connection Error"
 msgstr "Github Connection Error"
 
-#: ../Scripts/components/Panel/GodotPanel.cs:334
+#: ../Scripts/components/Panel/GodotPanel.cs:340
 msgid "Downloaded {0}..."
 msgstr "Downloaded {0}..."
 
-#: ../Scripts/components/Panel/GodotPanel.cs:338
+#: ../Scripts/components/Panel/GodotPanel.cs:344
 msgid "Fetching Releases from Github..."
 msgstr "Fetching Releases from Github..."
 
-#: ../Scripts/components/Panel/GodotPanel.cs:350
+#: ../Scripts/components/Panel/GodotPanel.cs:356
 msgid "Processing Release Information from Github..."
 msgstr "Processing Release Information from Github..."
 
-#: ../Scripts/components/Panel/GodotPanel.cs:351
-#: ../Scripts/components/Panel/GodotPanel.cs:355
+#: ../Scripts/components/Panel/GodotPanel.cs:357
+#: ../Scripts/components/Panel/GodotPanel.cs:361
 msgid "Processing {0}/{1}"
 msgstr "Processing {0}/{1}"
 
@@ -619,53 +619,53 @@ msgstr "Just Project"
 msgid "Remove Project has been cancelled."
 msgstr "Remove Project has been cancelled."
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:184
+#: ../Scripts/components/Panel/SettingsPanel.cs:199
 #: ../components/ProjectIconEntry.tscn:54
 #: ../components/ProjectLineEntry.tscn:50
 msgid "Project Name"
 msgstr "Project Name"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:185
+#: ../Scripts/components/Panel/SettingsPanel.cs:200
 msgid "Version"
 msgstr "Version"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:338
+#: ../Scripts/components/Panel/SettingsPanel.cs:360
 msgid "Unsaved Settings"
 msgstr "Unsaved Settings"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:338
+#: ../Scripts/components/Panel/SettingsPanel.cs:360
 msgid "You have unsaved settings, do you wish to save your settings?"
 msgstr "You have unsaved settings, do you wish to save your settings?"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:442
+#: ../Scripts/components/Panel/SettingsPanel.cs:464
 msgid "Browse for Godot Install Folder..."
 msgstr "Browse for Godot Install Folder..."
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:467
+#: ../Scripts/components/Panel/SettingsPanel.cs:489
 msgid "Browse for Cache Folder..."
 msgstr "Browse for Cache Folder..."
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:795
+#: ../Scripts/components/Panel/SettingsPanel.cs:863
 msgid "Checking for updates for Godot Manager..."
 msgstr "Checking for updates for Godot Manager..."
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:796
+#: ../Scripts/components/Panel/SettingsPanel.cs:864
 msgid "Connecting to GitHub..."
 msgstr "Connecting to GitHub..."
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:805
+#: ../Scripts/components/Panel/SettingsPanel.cs:873
 msgid "Godot Manager - Check for Updates"
 msgstr "Godot Manager - Check for Updates"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:805
+#: ../Scripts/components/Panel/SettingsPanel.cs:873
 msgid "Failed to get release information from Github"
 msgstr "Failed to get release information from Github"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:816
+#: ../Scripts/components/Panel/SettingsPanel.cs:884
 msgid "Check for Godot Manager Updates"
 msgstr "Check for Godot Manager Updates"
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:816
+#: ../Scripts/components/Panel/SettingsPanel.cs:884
 msgid "Currently on latest version of Godot Manager."
 msgstr "Currently on latest version of Godot Manager."
 
@@ -763,9 +763,9 @@ msgstr "Location:"
 #: ../components/Dialogs/AddCustomGodot.tscn:154
 #: ../components/Dialogs/CreateProject.tscn:216
 #: ../components/Dialogs/ImportProject.tscn:140
-#: ../components/Panels/SettingsPanel.tscn:281
-#: ../components/Panels/SettingsPanel.tscn:311
-#: ../components/Panels/SettingsPanel.tscn:506
+#: ../components/Panels/SettingsPanel.tscn:280
+#: ../components/Panels/SettingsPanel.tscn:310
+#: ../components/Panels/SettingsPanel.tscn:549
 msgid "Browse"
 msgstr "Browse"
 
@@ -785,10 +785,10 @@ msgstr "Addon Installer - Setup"
 
 #: ../components/Dialogs/AddonInstaller.tscn:121
 msgid ""
-"Contents of asset {Asset.Title}\r\n"
+"Contents of asset {Asset.Title}\n"
 "Select files to Install:"
 msgstr ""
-"Contents of asset {Asset.Title}\r\n"
+"Contents of asset {Asset.Title}\n"
 "Select files to Install:"
 
 #: ../components/Dialogs/AddonInstaller.tscn:163
@@ -939,14 +939,14 @@ msgstr "OpenGL ES 3.0"
 
 #: ../components/Dialogs/CreateProject.tscn:321
 msgid ""
-"Higher Visual Quality\r\n"
-"All Features available\r\n"
-"Incompatible with older hardware\r\n"
+"Higher Visual Quality\n"
+"All Features available\n"
+"Incompatible with older hardware\n"
 "Not recommended for web games"
 msgstr ""
-"Higher Visual Quality\r\n"
-"All Features available\r\n"
-"Incompatible with older hardware\r\n"
+"Higher Visual Quality\n"
+"All Features available\n"
+"Incompatible with older hardware\n"
 "Not recommended for web games"
 
 #: ../components/Dialogs/CreateProject.tscn:342
@@ -955,14 +955,14 @@ msgstr "OpenGL ES 2.0"
 
 #: ../components/Dialogs/CreateProject.tscn:351
 msgid ""
-"Lower Visual Quality\r\n"
-"Some Features not available\r\n"
-"Works on most hardware\r\n"
+"Lower Visual Quality\n"
+"Some Features not available\n"
+"Works on most hardware\n"
 "Recommended for web games"
 msgstr ""
-"Lower Visual Quality\r\n"
-"Some Features not available\r\n"
-"Works on most hardware\r\n"
+"Lower Visual Quality\n"
+"Some Features not available\n"
+"Works on most hardware\n"
 "Recommended for web games"
 
 #: ../components/Dialogs/CreateProject.tscn:362
@@ -1099,16 +1099,15 @@ msgid "New Release - Godot"
 msgstr "New Release - Godot"
 
 #: ../components/Dialogs/NewVersion.tscn:91
-#, python-format
 msgid ""
-"There is a new version of Godot available.\r\n"
-"Version: {0}\r\n"
-"Released: {1}\r\n"
+"There is a new version of Godot available.\n"
+"Version: {0}\n"
+"Released: {1}\n"
 "Released by: {2}"
 msgstr ""
-"There is a new version of Godot available.\r\n"
-"Version: {0}\r\n"
-"Released: {1}\r\n"
+"There is a new version of Godot available.\n"
+"Version: {0}\n"
+"Released: {1}\n"
 "Released by: {2}"
 
 #: ../components/Dialogs/NewVersion.tscn:100
@@ -1180,12 +1179,12 @@ msgid "View C#"
 msgstr "View C#"
 
 #: ../components/Panels/GodotPanel.tscn:109
-#: ../components/Panels/SettingsPanel.tscn:413
+#: ../components/Panels/SettingsPanel.tscn:456
 msgid "Mirrors:"
 msgstr "Mirrors:"
 
 #: ../components/Panels/GodotPanel.tscn:117
-#: ../components/Panels/SettingsPanel.tscn:762
+#: ../components/Panels/SettingsPanel.tscn:806
 msgid "Github"
 msgstr "Github"
 
@@ -1214,29 +1213,29 @@ msgstr "Contributions"
 msgid "Licenses"
 msgstr "Licenses"
 
-#: ../components/Panels/SettingsPanel.tscn:261
+#: ../components/Panels/SettingsPanel.tscn:260
 msgid "Install Location:"
 msgstr "Install Location:"
 
-#: ../components/Panels/SettingsPanel.tscn:290
+#: ../components/Panels/SettingsPanel.tscn:289
 msgid "Cache Location:"
 msgstr "Cache Location:"
 
-#: ../components/Panels/SettingsPanel.tscn:320
+#: ../components/Panels/SettingsPanel.tscn:319
 msgid "Startup Project View:"
 msgstr "Startup Project View:"
 
-#: ../components/Panels/SettingsPanel.tscn:328
-#: ../libs/data/Internal/Settings.cs:62 ../libs/data/Internal/Settings.cs:63
+#: ../components/Panels/SettingsPanel.tscn:327
+#: ../libs/data/Internal/Settings.cs:44 ../libs/data/Internal/Settings.cs:45
 msgid "List View"
 msgstr "List View"
 
-#: ../components/Panels/SettingsPanel.tscn:339
+#: ../components/Panels/SettingsPanel.tscn:338
 msgid "Default Godot Engine:"
 msgstr "Default Godot Engine:"
 
-#: ../components/Panels/SettingsPanel.tscn:353
-#: ../components/Panels/SettingsPanel.tscn:642
+#: ../components/Panels/SettingsPanel.tscn:352
+#: ../components/Panels/SettingsPanel.tscn:686
 msgid "Check for Updates"
 msgstr "Check for Updates"
 
@@ -1248,47 +1247,59 @@ msgstr "             Check Interval:"
 msgid "1 hour"
 msgstr "1 hour"
 
-#: ../components/Panels/SettingsPanel.tscn:383
+#: ../components/Panels/SettingsPanel.tscn:380
+msgid "Use Proxy"
+msgstr "Use Proxy"
+
+#: ../components/Panels/SettingsPanel.tscn:394
+msgid "Host:"
+msgstr "Host:"
+
+#: ../components/Panels/SettingsPanel.tscn:407
+msgid "Port:"
+msgstr "Port:"
+
+#: ../components/Panels/SettingsPanel.tscn:426
 msgid "Godot Launch Options:"
 msgstr "Godot Launch Options:"
 
-#: ../components/Panels/SettingsPanel.tscn:396
+#: ../components/Panels/SettingsPanel.tscn:439
 msgid "Launch Without Console"
 msgstr "Launch Without Console"
 
-#: ../components/Panels/SettingsPanel.tscn:403
+#: ../components/Panels/SettingsPanel.tscn:446
 msgid "Separate Editor Profiles"
 msgstr "Separate Editor Profiles"
 
-#: ../components/Panels/SettingsPanel.tscn:486
+#: ../components/Panels/SettingsPanel.tscn:529
 msgid "Default Project Location:"
 msgstr "Default Project Location:"
 
-#: ../components/Panels/SettingsPanel.tscn:515
+#: ../components/Panels/SettingsPanel.tscn:558
 msgid "Project Launch Options:"
 msgstr "Project Launch Options:"
 
-#: ../components/Panels/SettingsPanel.tscn:524
+#: ../components/Panels/SettingsPanel.tscn:567
 msgid "Exit Godot Manager"
 msgstr "Exit Godot Manager"
 
-#: ../components/Panels/SettingsPanel.tscn:533
+#: ../components/Panels/SettingsPanel.tscn:576
 msgid "Enable Auto Scan:"
 msgstr "Enable Auto Scan:"
 
-#: ../components/Panels/SettingsPanel.tscn:542
+#: ../components/Panels/SettingsPanel.tscn:585
 msgid "Scan each time Godot Manager is Launched"
 msgstr "Scan each time Godot Manager is Launched"
 
-#: ../components/Panels/SettingsPanel.tscn:552
+#: ../components/Panels/SettingsPanel.tscn:595
 msgid "Directories to Scan:"
 msgstr "Directories to Scan:"
 
-#: ../components/Panels/SettingsPanel.tscn:615
+#: ../components/Panels/SettingsPanel.tscn:659
 msgid "Version 0.1.0"
 msgstr "Version 0.1.0"
 
-#: ../components/Panels/SettingsPanel.tscn:628
+#: ../components/Panels/SettingsPanel.tscn:672
 msgid ""
 "Created By: Mario Steele <mario@ruby-im.net>\n"
 "Website: http://github.com/eumario/godot-manager"
@@ -1296,64 +1307,64 @@ msgstr ""
 "Created By: Mario Steele <mario@ruby-im.net>\n"
 "Website: http://github.com/eumario/godot-manager"
 
-#: ../components/Panels/SettingsPanel.tscn:657
+#: ../components/Panels/SettingsPanel.tscn:701
 msgid "Built With"
 msgstr "Built With"
 
-#: ../components/Panels/SettingsPanel.tscn:720
+#: ../components/Panels/SettingsPanel.tscn:764
 msgid "Donations"
 msgstr "Donations"
 
-#: ../components/Panels/SettingsPanel.tscn:737
+#: ../components/Panels/SettingsPanel.tscn:781
 msgid "Itch Page"
 msgstr "Itch Page"
 
-#: ../components/Panels/SettingsPanel.tscn:782
+#: ../components/Panels/SettingsPanel.tscn:826
 msgid "Discord"
 msgstr "Discord"
 
-#: ../libs/managers/Downloader.cs:58 ../libs/managers/Downloader.cs:59
-#: ../libs/managers/GDCSHTTPClient.cs:161
-#: ../libs/managers/GDCSHTTPClient.cs:162
+#: ../libs/managers/Downloader.cs:67 ../libs/managers/Downloader.cs:68
+#: ../libs/managers/GDCSHTTPClient.cs:178
+#: ../libs/managers/GDCSHTTPClient.cs:179
 msgid "Unable to resolve {0}"
 msgstr "Unable to resolve {0}"
 
-#: ../libs/managers/Downloader.cs:59 ../libs/managers/Downloader.cs:63
-#: ../libs/managers/Downloader.cs:67 ../libs/managers/Downloader.cs:71
+#: ../libs/managers/Downloader.cs:68 ../libs/managers/Downloader.cs:72
+#: ../libs/managers/Downloader.cs:76 ../libs/managers/Downloader.cs:80
 msgid "Downloader Failure"
 msgstr "Downloader Failure"
 
-#: ../libs/managers/Downloader.cs:62 ../libs/managers/Downloader.cs:63
+#: ../libs/managers/Downloader.cs:71 ../libs/managers/Downloader.cs:72
 msgid "Failed to connect to {0}"
 msgstr "Failed to connect to {0}"
 
-#: ../libs/managers/Downloader.cs:66 ../libs/managers/Downloader.cs:67
+#: ../libs/managers/Downloader.cs:75 ../libs/managers/Downloader.cs:76
 msgid "Connection error with {0}"
 msgstr "Connection error with {0}"
 
-#: ../libs/managers/Downloader.cs:70 ../libs/managers/Downloader.cs:71
+#: ../libs/managers/Downloader.cs:79 ../libs/managers/Downloader.cs:80
 msgid "Failed to negotiate SSL Connection with {0}"
 msgstr "Failed to negotiate SSL Connection with {0}"
 
-#: ../libs/managers/GDCSHTTPClient.cs:162
-#: ../libs/managers/GDCSHTTPClient.cs:166
-#: ../libs/managers/GDCSHTTPClient.cs:170
-#: ../libs/managers/GDCSHTTPClient.cs:174
+#: ../libs/managers/GDCSHTTPClient.cs:179
+#: ../libs/managers/GDCSHTTPClient.cs:183
+#: ../libs/managers/GDCSHTTPClient.cs:187
+#: ../libs/managers/GDCSHTTPClient.cs:191
 msgid "{0} Failure"
 msgstr "{0} Failure"
 
-#: ../libs/managers/GDCSHTTPClient.cs:165
-#: ../libs/managers/GDCSHTTPClient.cs:166
+#: ../libs/managers/GDCSHTTPClient.cs:182
+#: ../libs/managers/GDCSHTTPClient.cs:183
 msgid "Unable to resolve {0}:{1}"
 msgstr "Unable to resolve {0}:{1}"
 
-#: ../libs/managers/GDCSHTTPClient.cs:169
-#: ../libs/managers/GDCSHTTPClient.cs:170
+#: ../libs/managers/GDCSHTTPClient.cs:186
+#: ../libs/managers/GDCSHTTPClient.cs:187
 msgid "Connection error with {0}:{1}"
 msgstr "Connection error with {0}:{1}"
 
-#: ../libs/managers/GDCSHTTPClient.cs:173
-#: ../libs/managers/GDCSHTTPClient.cs:174
+#: ../libs/managers/GDCSHTTPClient.cs:190
+#: ../libs/managers/GDCSHTTPClient.cs:191
 msgid "Failed to negotiate SSL Connection with {0}:{1}"
 msgstr "Failed to negotiate SSL Connection with {0}:{1}"
 
