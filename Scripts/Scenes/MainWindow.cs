@@ -3,6 +3,8 @@ using Godot.Sharp.Extras;
 using Godot.Collections;
 using Directory = System.IO.Directory;
 using SFile = System.IO.File;
+using System;
+using System.Linq;
 
 public class MainWindow : Control
 {
@@ -48,9 +50,43 @@ public class MainWindow : Control
 		dlgs.Name = "AppDialogs";
 		AddChild(dlgs);
 
+		var res = CleanupCarriageReturns();
+
 		if (CentralStore.Settings.FirstTimeRun) {
 			AppDialogs.FirstTimeInstall.Visible = true;
 		}
+	}
+
+	private Array<int> CleanupCarriageReturns(Node node = null)
+	{
+		Array<int> count = new Array<int>() { 0, 0 };
+		if (node == null) {
+			node = GetTree().Root;
+		}
+
+		foreach(Node cnode in node.GetChildren()) {
+			if (cnode.GetChildCount() > 0) {
+				var res = CleanupCarriageReturns(cnode);
+				count[0] += res[0];
+				count[1] += res[1];
+			}
+			if (cnode is Label || cnode is TextEdit || cnode is LineEdit) {
+				var data = (string)cnode.Get("text");
+				if (data.Contains("\r")) {
+					cnode.Set("text", data.Replace("\r",""));
+					count[0] += 1;
+				}
+			}
+			if (cnode is RichTextLabel) {
+				var data = (string)cnode.Get("bbcode_text");
+				if (data.Contains("\r")) {
+					cnode.Set("bbcode_text", data.Replace("\r", ""));
+					count[0] += 1;
+				}
+			}
+			count[1] = count[1] + 1;
+		}
+		return count;
 	}
 
 	void EnsureDirStructure() {
