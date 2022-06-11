@@ -600,12 +600,36 @@ public class ProjectsPanel : Panel
                     AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), string.Format(Tr("The data directory {0} does not exist!"),folder));
                 break;
             case 4:     // Edit Project File
+                AppDialogs.EditProject.Connect("project_updated", this, "OnProjectUpdated", new Array { pf });
+                AppDialogs.EditProject.Connect("hide", this, "OnHide_EditProject");
                 AppDialogs.EditProject.ShowDialog(pf);
                 break;
             case 5:     // Remove Project
                 await RemoveProject(pf);
                 break;
         }
+    }
+
+    private void OnProjectUpdated(ProjectFile pf) {
+        var ple = pleCache.Where( x => x.Key == pf ).Select( x => x.Value ).FirstOrDefault<ProjectLineEntry>();
+        if (ple != null) {
+            ple.ProjectFile = pf;
+        }
+
+        foreach(CategoryList cat in cpleCache.Keys) {
+            ple = cpleCache[cat].Where( x => x.Key == pf).Select( x => x.Value ).FirstOrDefault<ProjectLineEntry>();
+            if (ple != null)
+                ple.ProjectFile = pf;
+        }
+
+        var pie = pieCache.Where( x => x.Key == pf ).Select( x => x.Value ).FirstOrDefault<ProjectIconEntry>();
+        if (pie != null)
+            pie.ProjectFile = pf;
+    }
+
+    private void OnHide_EditProject() {
+        AppDialogs.EditProject.Disconnect("project_updated", this, "OnProjectUpdated");
+        AppDialogs.EditProject.Disconnect("hide", this, "OnHide_EditProject");
     }
 
     private void RemoveMissingProjects() {

@@ -3,6 +3,7 @@ using Godot.Collections;
 using DateTime = System.DateTime;
 using Newtonsoft.Json;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class MirrorSite : Object
 {
 	[JsonProperty] public int Id { get; set; } = 0;

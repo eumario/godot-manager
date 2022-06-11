@@ -216,8 +216,8 @@ public class EditProject : ReferenceRect
         ProjectFile.WriteUpdatedData();
         UpdatePlugins();
         CentralStore.Instance.SaveDatabase();
-        Visible = false;
         EmitSignal("project_updated");
+        Visible = false;
     }
 
     [SignalHandler("pressed", nameof(_CancelBtn))]

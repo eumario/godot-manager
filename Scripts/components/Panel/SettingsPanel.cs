@@ -85,8 +85,8 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/MirrorTabs/Asset Library")]
 	ItemListWithButtons _assetMirror = null;
 
-	[NodePath("VB/MC/TC/General/GC/MirrorTabs/Godot Engine")]
-	ItemListWithButtons _godotMirror = null;
+	// [NodePath("VB/MC/TC/General/GC/MirrorTabs/Godot Engine")]
+	// ItemListWithButtons _godotMirror = null;
 	#endregion
 
 	#region Projects Page
@@ -251,14 +251,14 @@ public class SettingsPanel : Panel
 			_assetMirror.SetMeta(mirror["name"], mirror["url"]);
 		}
 		
-		_godotMirror.Clear();
-		foreach (string meta in _godotMirror.GetMetaList())
-			_godotMirror.RemoveMeta(meta);
+		// _godotMirror.Clear();
+		// foreach (string meta in _godotMirror.GetMetaList())
+		// 	_godotMirror.RemoveMeta(meta);
 		
-		foreach (Dictionary<string, string> mirror in CentralStore.Settings.EngineMirrors) {
-			_godotMirror.AddItem(mirror["name"]);
-			_godotMirror.SetMeta(mirror["name"], mirror["url"]);
-		}
+		// foreach (Dictionary<string, string> mirror in CentralStore.Settings.EngineMirrors) {
+		// 	_godotMirror.AddItem(mirror["name"]);
+		// 	_godotMirror.SetMeta(mirror["name"], mirror["url"]);
+		// }
 
 		// Project Page
 		_defaultProjectLocation.Text = CentralStore.Settings.ProjectPath.NormalizePath();
@@ -315,12 +315,12 @@ public class SettingsPanel : Panel
 			CentralStore.Settings.AssetMirrors.Add(data);
 		}
 		CentralStore.Settings.EngineMirrors.Clear();
-		for (int i = 0; i < _godotMirror.GetItemCount(); i++) {
-			Dictionary<string, string> data = new Dictionary<string, string>();
-			data["name"] = _godotMirror.GetItemText(i);
-			data["url"] = (string)_godotMirror.GetMeta(data["name"]);
-			CentralStore.Settings.EngineMirrors.Add(data);
-		}
+		// for (int i = 0; i < _godotMirror.GetItemCount(); i++) {
+		// 	Dictionary<string, string> data = new Dictionary<string, string>();
+		// 	data["name"] = _godotMirror.GetItemText(i);
+		// 	data["url"] = (string)_godotMirror.GetMeta(data["name"]);
+		// 	CentralStore.Settings.EngineMirrors.Add(data);
+		// }
 		CentralStore.Settings.ProjectPath = _defaultProjectLocation.Text.GetOSDir().NormalizePath();
 		CentralStore.Settings.CloseManagerOnEdit = _exitGodotManager.Pressed;
 		CentralStore.Settings.ScanDirs.Clear();
@@ -715,22 +715,22 @@ public class SettingsPanel : Panel
 	}
 	#endregion
 
-	#region Godot Mirror Actions
-	[SignalHandler("add_requested", nameof(_godotMirror))]
-	void OnGodotMirror_Add() {
+	// #region Godot Mirror Actions
+	// [SignalHandler("add_requested", nameof(_godotMirror))]
+	// void OnGodotMirror_Add() {
 
-	}
+	// }
 
-	[SignalHandler("edit_requested", nameof(_godotMirror))]
-	void OnGodotMirror_Edit() {
+	// [SignalHandler("edit_requested", nameof(_godotMirror))]
+	// void OnGodotMirror_Edit() {
 
-	}
+	// }
 
-	[SignalHandler("remove_requested", nameof(_godotMirror))]
-	void OnGodotMirror_Remove() {
+	// [SignalHandler("remove_requested", nameof(_godotMirror))]
+	// void OnGodotMirror_Remove() {
 
-	}
-	#endregion
+	// }
+	// #endregion
 #endregion
 
 #region Event Handlers for Projects Page

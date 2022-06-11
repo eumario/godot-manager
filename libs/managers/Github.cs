@@ -89,7 +89,7 @@ namespace Github {
 
 		public async Task<Release> GetLatestManagerRelease() {
 			Release ret = null;
-			Uri uri = new Uri("https://api.github.com/eumario.godot-manager/releases/latest");
+			Uri uri = new Uri("https://api.github.com/eumario/godot-manager/releases/latest");
 			if (CentralStore.Settings.UseProxy)
 				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
 			else
@@ -172,6 +172,36 @@ namespace Github {
 			mutex.Unlock();
 
 			return ret;
+		}
+
+		public async Task<Array<Release>> GetAllReleases() {
+			Array<Release> releases = new Array<Release>();
+			Mutex mutex = new Mutex();
+			bool stop = false;
+			int page = 1;
+			while (stop == false) {
+				var tres = GetReleases(30,page);
+				while (!tres.IsCompleted)
+					await this.IdleFrame();
+				
+				mutex.Lock();
+				if (tres.Result == null) {
+					OS.Alert(Tr("Failed to get Release information from Github"), Tr("Github Connection Error"));
+					stop = true;
+					continue;
+				}
+				Array<Release> relRes = tres.Result;
+				if (relRes.Count > 0) {
+					foreach(Release release in relRes) {
+						releases.Add(release);
+					}
+				} else
+					stop = true;
+				page++;
+				mutex.Unlock();
+			}
+
+			return releases;
 		}
 	}
 }

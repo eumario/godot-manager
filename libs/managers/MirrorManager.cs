@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Uri = System.Uri;
-using Github;
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;

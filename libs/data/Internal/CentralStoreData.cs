@@ -7,7 +7,8 @@ public class CentralStoreData : Object {
 	[JsonProperty] public Array<ProjectFile> Projects;
 	[JsonProperty] public Array<GodotVersion> Versions;
 	[JsonProperty] public Array<GithubVersion> GHVersions;
-	[JsonProperty] public Dictionary<MirrorSite, Array<MirrorVersion>> MRVersions;
+	[JsonProperty] public Array<MirrorSite> Mirrors;
+	[JsonProperty] public Dictionary<int, Array<MirrorVersion>> MRVersions;
 	[JsonProperty] public Array<Category> Categories;
 	[JsonProperty] public Array<AssetPlugin> Plugins;
 	[JsonProperty] public Array<AssetProject> Templates;
@@ -17,7 +18,8 @@ public class CentralStoreData : Object {
 		Projects = new Array<ProjectFile>();
 		Versions = new Array<GodotVersion>();
 		GHVersions = new Array<GithubVersion>();
-		MRVersions = new Dictionary<MirrorSite, Array<MirrorVersion>>();
+		Mirrors = new Array<MirrorSite>();
+		MRVersions = new Dictionary<int, Array<MirrorVersion>>();
 		Categories = new Array<Category>();
 		Plugins = new Array<AssetPlugin>();
 		Templates = new Array<AssetProject>();
