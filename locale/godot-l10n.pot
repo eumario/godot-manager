@@ -6,16 +6,36 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Godot Manager v0.2.0\n"
-"Report-Msgid-Bugs-To: mario@ruby-im.net\n"
-"POT-Creation-Date: 2022-06-11 02:56-0500\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-06-12 15:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Mario Steele <mario@ruby-im.net>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.1\n"
+
+#: ../Scenes/MainWindow.tscn:70
+msgid "Show Sidebar"
+msgstr ""
+
+#: ../Scenes/MainWindow.tscn:74
+msgid "Page: Projects"
+msgstr ""
+
+#: ../Scenes/MainWindow.tscn:83
+msgid "Page: Asset Library"
+msgstr ""
+
+#: ../Scenes/MainWindow.tscn:91
+msgid "Page: Godot Engines"
+msgstr ""
+
+#: ../Scenes/MainWindow.tscn:105
+msgid "Page: Settings"
+msgstr ""
 
 #: ../Scenes/MainWindow.tscn:133 ../components/Panels/SettingsPanel.tscn:619
 msgid "Godot Manager"
@@ -99,10 +119,10 @@ msgid "Getting asset information..."
 msgstr ""
 
 #: ../Scripts/components/AssetLibEntry.cs:139
-#: ../Scripts/components/Panel/AssetLibPanel.cs:501
-#: ../Scripts/components/Panel/AssetLibPanel.cs:561
-#: ../Scripts/components/Panel/GodotPanel.cs:440
-#: ../Scripts/components/Panel/GodotPanel.cs:473
+#: ../Scripts/components/Panel/AssetLibPanel.cs:512
+#: ../Scripts/components/Panel/AssetLibPanel.cs:572
+#: ../Scripts/components/Panel/GodotPanel.cs:447
+#: ../Scripts/components/Panel/GodotPanel.cs:480
 msgid "Connecting..."
 msgstr ""
 
@@ -121,7 +141,7 @@ msgid "Updating Projects..."
 msgstr ""
 
 #: ../Scripts/components/AssetLibEntry.cs:193
-#: ../Scripts/components/Panel/AssetLibPanel.cs:516
+#: ../Scripts/components/Panel/AssetLibPanel.cs:527
 msgid "Processing..."
 msgstr ""
 
@@ -172,6 +192,7 @@ msgstr ""
 #: ../Scripts/components/Dialogs/AddCustomGodot.cs:67
 #: ../components/Dialogs/AddCustomGodot.tscn:92
 #: ../components/Dialogs/FirstTimeInstall.tscn:147
+#: ../components/Panels/GodotPanel.tscn:85
 msgid "Add Custom Godot"
 msgstr ""
 
@@ -390,6 +411,7 @@ msgstr ""
 #: ../Scripts/components/Dialogs/RemoveCategory.cs:47
 #: ../Scripts/components/Dialogs/RemoveCategory.cs:52
 #: ../components/Dialogs/RemoveCategory.tscn:91
+#: ../components/Panels/ProjectsPanel.tscn:87
 msgid "Remove Category"
 msgstr ""
 
@@ -407,28 +429,65 @@ msgid ""
 "will be moved to Uncategorized category, do you want to continue?"
 msgstr ""
 
+#: ../Scripts/components/Panel/AssetLibPanel.cs:110
+#: ../components/Panels/AssetLibPanel.tscn:238
+msgid "Recently Updated"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:111
+msgid "Least Recently Updated"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:112
+msgid "Name (A-Z)"
+msgstr ""
+
 #: ../Scripts/components/Panel/AssetLibPanel.cs:113
+msgid "Name (Z-A)"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:114
+msgid "License (A-Z)"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:115
+msgid "License (Z-A)"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:117
+msgid "Official"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:118
+msgid "Community"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:119
+msgid "Testing"
+msgstr ""
+
+#: ../Scripts/components/Panel/AssetLibPanel.cs:124
 msgid "Import Asset..."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:113
+#: ../Scripts/components/Panel/AssetLibPanel.cs:124
 msgid "Do you wish to import a Template or an Addon?"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:113
+#: ../Scripts/components/Panel/AssetLibPanel.cs:124
 msgid "Template"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:113
+#: ../Scripts/components/Panel/AssetLibPanel.cs:124
 msgid "Addon"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:113
-#: ../Scripts/components/Panel/GodotPanel.cs:275
+#: ../Scripts/components/Panel/AssetLibPanel.cs:124
+#: ../Scripts/components/Panel/GodotPanel.cs:282
 #: ../components/Dialogs/AddCustomGodot.tscn:194
 #: ../components/Dialogs/AddonMirror.tscn:188
 #: ../components/Dialogs/CreateCategory.tscn:162
-#: ../components/Dialogs/CreateProject.tscn:430
+#: ../components/Dialogs/CreateProject.tscn:424
 #: ../components/Dialogs/DownloadAddon.tscn:226
 #: ../components/Dialogs/DownloadGodotManager.tscn:226
 #: ../components/Dialogs/EditProject.tscn:304
@@ -439,243 +498,335 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:115
+#: ../Scripts/components/Panel/AssetLibPanel.cs:126
 msgid "Import Template..."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:119
+#: ../Scripts/components/Panel/AssetLibPanel.cs:130
 msgid "Import Plugin..."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:147
+#: ../Scripts/components/Panel/AssetLibPanel.cs:158
 msgid "Import Plugin"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:147
+#: ../Scripts/components/Panel/AssetLibPanel.cs:158
 msgid "Unable to use {0} to import the plugin."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:157
+#: ../Scripts/components/Panel/AssetLibPanel.cs:168
 msgid "Import Template"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:157
+#: ../Scripts/components/Panel/AssetLibPanel.cs:168
 msgid "Unable to use {0} to import the template."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:500
+#: ../Scripts/components/Panel/AssetLibPanel.cs:511
 msgid "Gathering information from GodotEngine Assetlib..."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:515
+#: ../Scripts/components/Panel/AssetLibPanel.cs:526
 msgid "Processing Data from GodotEngine Assetlib..."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:526
-#: ../Scripts/components/Panel/AssetLibPanel.cs:578
+#: ../Scripts/components/Panel/AssetLibPanel.cs:537
+#: ../Scripts/components/Panel/AssetLibPanel.cs:589
 #: ../components/Panels/AssetLibPanel.tscn:88
 msgid "Asset Library"
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:526
-#: ../Scripts/components/Panel/AssetLibPanel.cs:578
+#: ../Scripts/components/Panel/AssetLibPanel.cs:537
+#: ../Scripts/components/Panel/AssetLibPanel.cs:589
 msgid "Unable to connect to {0}."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:560
+#: ../Scripts/components/Panel/AssetLibPanel.cs:571
 msgid "Getting search results..."
 msgstr ""
 
-#: ../Scripts/components/Panel/AssetLibPanel.cs:582
+#: ../Scripts/components/Panel/AssetLibPanel.cs:593
 msgid "Parsing results..."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:173
+#: ../Scripts/components/Panel/GodotPanel.cs:71
+msgid "Mono / C#"
+msgstr ""
+
+#: ../Scripts/components/Panel/GodotPanel.cs:72
+msgid "Release Type"
+msgstr ""
+
+#: ../Scripts/components/Panel/GodotPanel.cs:73
+msgid "Stable"
+msgstr ""
+
+#: ../Scripts/components/Panel/GodotPanel.cs:74
+msgid "Alpha"
+msgstr ""
+
+#: ../Scripts/components/Panel/GodotPanel.cs:75
+msgid "Beta"
+msgstr ""
+
+#: ../Scripts/components/Panel/GodotPanel.cs:76
+msgid "Release Candidate"
+msgstr ""
+
+#: ../Scripts/components/Panel/GodotPanel.cs:180
 msgid "Grabbing information from Github"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:174
+#: ../Scripts/components/Panel/GodotPanel.cs:181
 msgid "Getting the latest version information from Github for Godot Engine..."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:253
+#: ../Scripts/components/Panel/GodotPanel.cs:260
 msgid "Unable to connect to server {0}"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:256
+#: ../Scripts/components/Panel/GodotPanel.cs:263
 msgid "Unable to resolve server {0}"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:259
+#: ../Scripts/components/Panel/GodotPanel.cs:266
 msgid "Unable to connect to server {0}:{1}"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:262
+#: ../Scripts/components/Panel/GodotPanel.cs:269
 msgid "Request to server {0} failed to produce a result."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:265
+#: ../Scripts/components/Panel/GodotPanel.cs:272
 msgid "SSL certificate/Communication failed with {0}."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:268
+#: ../Scripts/components/Panel/GodotPanel.cs:275
 msgid "Unable to save Cache file to disk at location {0}."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:271
+#: ../Scripts/components/Panel/GodotPanel.cs:278
 msgid "Unknown error has ocurred, unable to download package."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:275
+#: ../Scripts/components/Panel/GodotPanel.cs:282
 msgid "Download Engine Failed"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:275
+#: ../Scripts/components/Panel/GodotPanel.cs:282
 msgid "Retry"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:310
-#: ../Scripts/components/Panel/GodotPanel.cs:315
+#: ../Scripts/components/Panel/GodotPanel.cs:317
+#: ../Scripts/components/Panel/GodotPanel.cs:322
 msgid "Remove Godot Install"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:311
+#: ../Scripts/components/Panel/GodotPanel.cs:318
 msgid ""
 "You are about to remove the reference to {0}, are you sure you want to "
 "continue?"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:316
+#: ../Scripts/components/Panel/GodotPanel.cs:323
 msgid "You are about to uninstall {0}, are you sure you want to continue?"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:435
+#: ../Scripts/components/Panel/GodotPanel.cs:442
 msgid "Downloaded {0}..."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:439
+#: ../Scripts/components/Panel/GodotPanel.cs:446
 msgid "Fetching Releases from Github..."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:451
+#: ../Scripts/components/Panel/GodotPanel.cs:458
 msgid "Processing Release Information from Github..."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:452
-#: ../Scripts/components/Panel/GodotPanel.cs:456
-#: ../Scripts/components/Panel/GodotPanel.cs:485
-#: ../Scripts/components/Panel/GodotPanel.cs:489
+#: ../Scripts/components/Panel/GodotPanel.cs:459
+#: ../Scripts/components/Panel/GodotPanel.cs:463
+#: ../Scripts/components/Panel/GodotPanel.cs:492
+#: ../Scripts/components/Panel/GodotPanel.cs:496
 msgid "Processing {0}/{1}"
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:472
+#: ../Scripts/components/Panel/GodotPanel.cs:479
 msgid "Fetching Releases from {0}..."
 msgstr ""
 
-#: ../Scripts/components/Panel/GodotPanel.cs:484
+#: ../Scripts/components/Panel/GodotPanel.cs:491
 msgid "Processing Release Information from {0}..."
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:108
+#: ../Scripts/components/Panel/ProjectsPanel.cs:93
+msgid "Open"
+msgstr ""
+
+#: ../Scripts/components/Panel/ProjectsPanel.cs:94
+msgid "Run"
+msgstr ""
+
+#: ../Scripts/components/Panel/ProjectsPanel.cs:95
+msgid "Show Project Files"
+msgstr ""
+
+#: ../Scripts/components/Panel/ProjectsPanel.cs:96
+msgid "Show Data Folder"
+msgstr ""
+
+#: ../Scripts/components/Panel/ProjectsPanel.cs:97
+msgid "Edit"
+msgstr ""
+
+#: ../Scripts/components/Panel/ProjectsPanel.cs:98
+#: ../components/Dialogs/RemoveCategory.tscn:149
+msgid "Remove"
+msgstr ""
+
+#: ../Scripts/components/Panel/ProjectsPanel.cs:114
+#: ../Scripts/components/Panel/SettingsPanel.cs:196
 msgid "Last View Used"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:256
+#: ../Scripts/components/Panel/ProjectsPanel.cs:262
 msgid "Scan Project Folders"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:256
+#: ../Scripts/components/Panel/ProjectsPanel.cs:262
 msgid ""
 "There are currently no valid Directories to scan, would you like to add "
 "one?"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:600
+#: ../Scripts/components/Panel/ProjectsPanel.cs:606
 msgid "Show Data Directory"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:600
+#: ../Scripts/components/Panel/ProjectsPanel.cs:606
 msgid "The data directory {0} does not exist!"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:744
+#: ../Scripts/components/Panel/ProjectsPanel.cs:750
 msgid "Remove Missing Projects..."
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:744
+#: ../Scripts/components/Panel/ProjectsPanel.cs:750
 msgid "Are you sure you want to remove any missing projects?"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:754
-#: ../Scripts/components/Panel/ProjectsPanel.cs:774
+#: ../Scripts/components/Panel/ProjectsPanel.cs:760
+#: ../Scripts/components/Panel/ProjectsPanel.cs:780
+#: ../components/Panels/ProjectsPanel.tscn:87
 msgid "Remove Project"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:755
+#: ../Scripts/components/Panel/ProjectsPanel.cs:761
 msgid ""
 "You are about to remove Project {0}.\n"
 "Do you wish to remove the files as well?"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:756
+#: ../Scripts/components/Panel/ProjectsPanel.cs:762
 msgid "Project and Files"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:756
+#: ../Scripts/components/Panel/ProjectsPanel.cs:762
 msgid "Just Project"
 msgstr ""
 
-#: ../Scripts/components/Panel/ProjectsPanel.cs:774
+#: ../Scripts/components/Panel/ProjectsPanel.cs:780
 msgid "Remove Project has been cancelled."
 msgstr ""
 
+#: ../Scripts/components/Panel/SettingsPanel.cs:193
+#: ../components/Panels/ProjectsPanel.tscn:102
+#: ../components/Panels/SettingsPanel.tscn:324
+#: ../libs/data/Internal/Settings.cs:44 ../libs/data/Internal/Settings.cs:45
+msgid "List View"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:194
+#: ../components/Panels/ProjectsPanel.tscn:102
+msgid "Icon View"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:195
+#: ../components/Panels/ProjectsPanel.tscn:102
+msgid "Category View"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:198
+msgid "1 Hour"
+msgstr ""
+
 #: ../Scripts/components/Panel/SettingsPanel.cs:199
+msgid "12 Hours"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:200
+msgid "1 Day"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:201
+msgid "1 Week"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:202
+msgid "Bi-Weekly"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:203
+msgid "Monthly (Every 30 Days)"
+msgstr ""
+
+#: ../Scripts/components/Panel/SettingsPanel.cs:211
 #: ../components/ProjectIconEntry.tscn:54
 #: ../components/ProjectLineEntry.tscn:50
 msgid "Project Name"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:200
+#: ../Scripts/components/Panel/SettingsPanel.cs:212
 msgid "Version"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:360
+#: ../Scripts/components/Panel/SettingsPanel.cs:372
 msgid "Unsaved Settings"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:360
+#: ../Scripts/components/Panel/SettingsPanel.cs:372
 msgid "You have unsaved settings, do you wish to save your settings?"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:464
+#: ../Scripts/components/Panel/SettingsPanel.cs:476
 msgid "Browse for Godot Install Folder..."
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:489
+#: ../Scripts/components/Panel/SettingsPanel.cs:501
 msgid "Browse for Cache Folder..."
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:863
+#: ../Scripts/components/Panel/SettingsPanel.cs:875
 msgid "Checking for updates for Godot Manager..."
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:864
+#: ../Scripts/components/Panel/SettingsPanel.cs:876
 msgid "Connecting to GitHub..."
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:873
+#: ../Scripts/components/Panel/SettingsPanel.cs:885
 msgid "Godot Manager - Check for Updates"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:873
+#: ../Scripts/components/Panel/SettingsPanel.cs:885
 msgid "Failed to get release information from Github"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:884
+#: ../Scripts/components/Panel/SettingsPanel.cs:896
 msgid "Check for Godot Manager Updates"
 msgstr ""
 
-#: ../Scripts/components/Panel/SettingsPanel.cs:884
+#: ../Scripts/components/Panel/SettingsPanel.cs:896
 msgid "Currently on latest version of Godot Manager."
 msgstr ""
 
@@ -695,17 +846,37 @@ msgstr ""
 msgid "Author: cybereality"
 msgstr ""
 
+#: ../components/AssetLibEntry.tscn:111
+msgid "Addon Downloaded"
+msgstr ""
+
+#: ../components/AssetLibEntry.tscn:119
+msgid "Update Available"
+msgstr ""
+
 #: ../components/CategoryButton.tscn:72
 #: ../components/Dialogs/AddCustomGodot.tscn:129
 msgid "Hello World"
+msgstr ""
+
+#: ../components/GodotLineEntry.tscn:63
+msgid "Engine Version"
 msgstr ""
 
 #: ../components/GodotLineEntry.tscn:66
 msgid "Godot Version x.x.x (Stable)"
 msgstr ""
 
+#: ../components/GodotLineEntry.tscn:78
+msgid "Download Mirror"
+msgstr ""
+
 #: ../components/GodotLineEntry.tscn:82
 msgid "Source: TuxFamily.org"
+msgstr ""
+
+#: ../components/GodotLineEntry.tscn:89
+msgid "Engine Archive Filesize"
 msgstr ""
 
 #: ../components/GodotLineEntry.tscn:92
@@ -722,6 +893,14 @@ msgstr ""
 
 #: ../components/GodotLineEntry.tscn:134
 msgid "Speed: 0.00KB/s"
+msgstr ""
+
+#: ../components/GodotLineEntry.tscn:141
+msgid "Download / Uninstall"
+msgstr ""
+
+#: ../components/GodotLineEntry.tscn:154
+msgid "Make Default Engine"
 msgstr ""
 
 #: ../components/HeaderButton.tscn:37
@@ -761,6 +940,14 @@ msgstr ""
 msgid "Location: /home/eumario/Projects/Godot/ProjectName"
 msgstr ""
 
+#: ../components/ProjectLineEntry.tscn:81
+msgid "Godot Engine Version"
+msgstr ""
+
+#: ../components/ProjectLineEntry.tscn:96
+msgid "Favorite"
+msgstr ""
+
 #: ../components/Dialogs/AddCustomGodot.tscn:122
 msgid "Godot Engine Tag:"
 msgstr ""
@@ -771,7 +958,7 @@ msgid "Location:"
 msgstr ""
 
 #: ../components/Dialogs/AddCustomGodot.tscn:154
-#: ../components/Dialogs/CreateProject.tscn:216
+#: ../components/Dialogs/CreateProject.tscn:211
 #: ../components/Dialogs/ImportProject.tscn:140
 #: ../components/Panels/SettingsPanel.tscn:277
 #: ../components/Panels/SettingsPanel.tscn:307
@@ -901,51 +1088,51 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:111
+#: ../components/Dialogs/CreateProject.tscn:105
 msgid "Create Project\t"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:150
+#: ../components/Dialogs/CreateProject.tscn:145
 #: ../components/Dialogs/EditProject.tscn:190
 msgid "Project Name:"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:171
+#: ../components/Dialogs/CreateProject.tscn:166
 msgid "Create Folder"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:183
+#: ../components/Dialogs/CreateProject.tscn:178
 msgid "Project Location:"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:237
-#: ../components/Dialogs/CreateProject.tscn:281
+#: ../components/Dialogs/CreateProject.tscn:232
+#: ../components/Dialogs/CreateProject.tscn:276
 #: ../components/Dialogs/EditProject.tscn:202
 #: ../components/Dialogs/ImportProject.tscn:147
 msgid "Godot Version:"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:255
+#: ../components/Dialogs/CreateProject.tscn:250
 msgid "Godot 3.x Tree"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:262
+#: ../components/Dialogs/CreateProject.tscn:257
 msgid "Godot 4.x (Alpha) Tree"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:269
+#: ../components/Dialogs/CreateProject.tscn:264
 msgid "Template Project:"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:293
+#: ../components/Dialogs/CreateProject.tscn:288
 msgid "Renderer:"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:312
+#: ../components/Dialogs/CreateProject.tscn:307
 msgid "OpenGL ES 3.0"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:321
+#: ../components/Dialogs/CreateProject.tscn:316
 msgid ""
 "Higher Visual Quality\r\n"
 "All Features available\r\n"
@@ -953,11 +1140,11 @@ msgid ""
 "Not recommended for web games"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:342
+#: ../components/Dialogs/CreateProject.tscn:337
 msgid "OpenGL ES 2.0"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:351
+#: ../components/Dialogs/CreateProject.tscn:346
 msgid ""
 "Lower Visual Quality\r\n"
 "Some Features not available\r\n"
@@ -965,18 +1152,18 @@ msgid ""
 "Recommended for web games"
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:362
+#: ../components/Dialogs/CreateProject.tscn:357
 msgid "Renderer can be changed later, but scenes may need to be adjusted."
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:390
+#: ../components/Dialogs/CreateProject.tscn:384
 msgid ""
 "*NOTE* Any Addons With Checkboxes here, will be installed to the new "
 "Project, and automatically enabled for the Godot Editor to see when it "
 "loads the project."
 msgstr ""
 
-#: ../components/Dialogs/CreateProject.tscn:418
+#: ../components/Dialogs/CreateProject.tscn:412
 msgid "Create & Edit"
 msgstr ""
 
@@ -1080,6 +1267,7 @@ msgid "Download Godot"
 msgstr ""
 
 #: ../components/Dialogs/ImportProject.tscn:92
+#: ../components/Panels/ProjectsPanel.tscn:87
 msgid "Import Project"
 msgstr ""
 
@@ -1106,10 +1294,6 @@ msgstr ""
 msgid "Select Category to Remove:"
 msgstr ""
 
-#: ../components/Dialogs/RemoveCategory.tscn:149
-msgid "Remove"
-msgstr ""
-
 #: ../components/Panels/AssetLibPanel.tscn:120
 msgid "Addons"
 msgstr ""
@@ -1132,10 +1316,6 @@ msgstr ""
 
 #: ../components/Panels/AssetLibPanel.tscn:230
 msgid "Sort:"
-msgstr ""
-
-#: ../components/Panels/AssetLibPanel.tscn:238
-msgid "Recently Updated"
 msgstr ""
 
 #: ../components/Panels/AssetLibPanel.tscn:261
@@ -1162,6 +1342,14 @@ msgstr ""
 msgid "Godot Versions"
 msgstr ""
 
+#: ../components/Panels/GodotPanel.tscn:85
+msgid "Scan For Godot (Not Available)"
+msgstr ""
+
+#: ../components/Panels/GodotPanel.tscn:85
+msgid "Check for Updates to Godot Engine"
+msgstr ""
+
 #: ../components/Panels/GodotPanel.tscn:112
 msgid "Tags"
 msgstr ""
@@ -1171,14 +1359,52 @@ msgstr ""
 msgid "Mirrors:"
 msgstr ""
 
+#: ../components/Panels/GodotPanel.tscn:137
+msgid "Select a Mirror to Download From."
+msgstr ""
+
 #: ../components/Panels/GodotPanel.tscn:138
 #: ../components/Panels/SettingsPanel.tscn:773
 msgid "Github"
 msgstr ""
 
+#: ../components/Panels/GodotPanel.tscn:158
+msgid "Installed versions of Godot Engine"
+msgstr ""
+
+#: ../components/Panels/GodotPanel.tscn:165
+msgid "Versions of Godot currently downloading"
+msgstr ""
+
+#: ../components/Panels/GodotPanel.tscn:171
+msgid "Available versions to Download"
+msgstr ""
+
 #: ../components/Panels/ProjectsPanel.tscn:68
 #: ../components/Panels/SettingsPanel.tscn:130
 msgid "Projects"
+msgstr ""
+
+#: ../components/Panels/ProjectsPanel.tscn:87
+msgid "New Project"
+msgstr ""
+
+#: ../components/Panels/ProjectsPanel.tscn:87
+msgid "Scan Projects"
+msgstr ""
+
+#: ../components/Panels/ProjectsPanel.tscn:87
+msgid "Add Category"
+msgstr ""
+
+#: ../components/Panels/ProjectsPanel.tscn:87
+msgid "Remove Missing Projects"
+msgstr ""
+
+#: ../components/Panels/ProjectsPanel.tscn:115
+#: ../components/Panels/ProjectsPanel.tscn:133
+#: ../components/Panels/ProjectsPanel.tscn:146
+msgid "Single Click to change order, Double Click to clear ordering."
 msgstr ""
 
 #: ../components/Panels/SettingsPanel.tscn:79
@@ -1201,8 +1427,39 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
+#: ../components/Panels/SettingsPanel.tscn:202
+msgid "Save Settings"
+msgstr ""
+
+#: ../components/Panels/SettingsPanel.tscn:202
+msgid "Undo Changes"
+msgstr ""
+
+#: ../components/Panels/SettingsPanel.tscn:254
+#: ../components/Panels/SettingsPanel.tscn:270
+#: ../components/Panels/SettingsPanel.tscn:509
+msgid ""
+"The default install location where Godot Engines will be installed to.  "
+"By Default, will install to Godot Manager's Data folder."
+msgstr ""
+
 #: ../components/Panels/SettingsPanel.tscn:257
 msgid "Install Location:"
+msgstr ""
+
+#: ../components/Panels/SettingsPanel.tscn:283
+#: ../components/Panels/SettingsPanel.tscn:300
+#: ../components/Panels/SettingsPanel.tscn:313
+#: ../components/Panels/SettingsPanel.tscn:332
+#: ../components/Panels/SettingsPanel.tscn:420
+#: ../components/Panels/SettingsPanel.tscn:449
+#: ../components/Panels/SettingsPanel.tscn:492
+#: ../components/Panels/SettingsPanel.tscn:522
+#: ../components/Panels/SettingsPanel.tscn:540
+#: ../components/Panels/SettingsPanel.tscn:558
+msgid ""
+"The location to store cache images, engine downloads, and Asset "
+"Addons/Templates."
 msgstr ""
 
 #: ../components/Panels/SettingsPanel.tscn:286
@@ -1211,11 +1468,6 @@ msgstr ""
 
 #: ../components/Panels/SettingsPanel.tscn:316
 msgid "Startup Project View:"
-msgstr ""
-
-#: ../components/Panels/SettingsPanel.tscn:324
-#: ../libs/data/Internal/Settings.cs:44 ../libs/data/Internal/Settings.cs:45
-msgid "List View"
 msgstr ""
 
 #: ../components/Panels/SettingsPanel.tscn:335

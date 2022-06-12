@@ -17,7 +17,7 @@ To update the POT file (PO Template), you will need to open a Terminal, and Go i
 Example:
 ```
 [eumario@dev ~]: cd Projects/godot-manager/locale
-[eumario@dev locale]: pybabel extract -F babelrc -k text -k LineEdit/placeholder_text -k Tr -o godot-l10n.pot ..
+[eumario@dev locale]: pybabel extract -F babelrc -k text -k LineEdit/placeholder_text -k Tr -k hint_tooltip -k HelpText -o godot-l10n.pot ..
 extracting messages from ..\Scenes\MainWindow.tscn (encoding="utf-8")
 extracting messages from ..\Scenes\SceneManager.tscn (encoding="utf-8")
 extracting messages from ..\Scenes\UpdateWindow.tscn (encoding="utf-8")

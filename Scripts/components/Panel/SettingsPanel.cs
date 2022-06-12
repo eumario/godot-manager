@@ -189,6 +189,19 @@ public class SettingsPanel : Panel
 		_versionInfo.Text = $"Version {VERSION.GodotManager}-{VERSION.Channel}";
 
 		_updateCheckInterval.Disabled = !_checkForUpdates.Pressed;
+
+		// Translations for Options
+		_defaultProjectView.UpdateTr(0, Tr("List View"));
+		_defaultProjectView.UpdateTr(1, Tr("Icon View"));
+		_defaultProjectView.UpdateTr(2, Tr("Category View"));
+		_defaultProjectView.UpdateTr(3, Tr("Last View Used"));
+
+		_updateCheckInterval.UpdateTr(0, Tr("1 Hour"));
+		_updateCheckInterval.UpdateTr(1, Tr("12 Hours"));
+		_updateCheckInterval.UpdateTr(2, Tr("1 Day"));
+		_updateCheckInterval.UpdateTr(3, Tr("1 Week"));
+		_updateCheckInterval.UpdateTr(4, Tr("Bi-Weekly"));
+		_updateCheckInterval.UpdateTr(5, Tr("Monthly (Every 30 Days)"));
 	}
 
 	void updateActionButtons() {

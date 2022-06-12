@@ -5,5 +5,5 @@
 [node name="ProjectPopup" type="PopupMenu"]
 margin_right = 20.0
 margin_bottom = 20.0
-items = [ "Open", null, 0, false, false, 0, 0, null, "", false, "Run", null, 0, false, false, 1, 0, null, "", false, "Show Files", null, 0, false, false, 2, 0, null, "", false, "Show Data Folder", null, 0, false, false, 3, 0, null, "", false, "Edit", null, 0, false, false, 4, 0, null, "", false, "Remove", null, 0, false, false, 5, 0, null, "", false ]
+items = [ "Open", null, 0, false, false, 0, 0, null, "", false, "Run", null, 0, false, false, 1, 0, null, "", false, "Show Project Files", null, 0, false, false, 2, 0, null, "", false, "Show Data Folder", null, 0, false, false, 3, 0, null, "", false, "Edit", null, 0, false, false, 4, 0, null, "", false, "Remove", null, 0, false, false, 5, 0, null, "", false ]
 script = ExtResource( 1 )

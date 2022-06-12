@@ -90,6 +90,14 @@ public class ProjectsPanel : Panel
         _views.Add(_categoryView);
 
         _popupMenu = GD.Load<PackedScene>("res://components/ProjectPopup.tscn").Instance<ProjectPopup>();
+
+        // Translations for Menu Items
+        _popupMenu.UpdateTr(0, Tr("Open"));
+        _popupMenu.UpdateTr(1, Tr("Run"));
+        _popupMenu.UpdateTr(2, Tr("Show Project Files"));
+        _popupMenu.UpdateTr(3, Tr("Show Data Folder"));
+        _popupMenu.UpdateTr(4, Tr("Edit"));
+        _popupMenu.UpdateTr(5, Tr("Remove"));
         AddChild(_popupMenu);
         _popupMenu.SetAsToplevel(true);
 

@@ -110,7 +110,7 @@ margin_right = 61.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 60, 0 )
 text = "Tags"
-items = [ "Mono / C#", null, 1, false, false, 0, 0, null, "", false, "Release", null, 0, false, true, 1, 0, null, "", true, "Stable", null, 2, true, false, 2, 0, null, "", false, "Alpha", null, 2, false, false, 3, 0, null, "", false, "Beta", null, 2, false, false, 4, 0, null, "", false, "Release Candidate", null, 2, false, false, 5, 0, null, "", false ]
+items = [ "Mono / C#", null, 1, false, false, 0, 0, null, "", false, "Release Type", null, 0, false, true, 1, 0, null, "", true, "Stable", null, 2, true, false, 2, 0, null, "", false, "Alpha", null, 2, false, false, 3, 0, null, "", false, "Beta", null, 2, false, false, 4, 0, null, "", false, "Release Candidate", null, 2, false, false, 5, 0, null, "", false ]
 
 [node name="Spacer3" type="Control" parent="VB/MC/HC"]
 margin_left = 784.0
@@ -134,7 +134,7 @@ margin_left = 874.0
 margin_right = 1014.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 140, 0 )
-hint_tooltip = "Select a Mirror to Download From.  (Tuxfamily not available)"
+hint_tooltip = "Select a Mirror to Download From."
 text = "Github"
 items = [ "Github", null, false, 0, null, "TuxFamily.org", null, false, 1, null ]
 selected = 0

@@ -68,6 +68,14 @@ public class GodotPanel : Panel
         TagSelection.GetPopup().HideOnCheckableItemSelection = false;
         TagSelection.GetPopup().Connect("id_pressed", this, "OnIdPressed_TagSelection");
 
+        // Translations for Menu Items
+        TagSelection.UpdateTr(0, Tr("Mono / C#"));
+        TagSelection.UpdateTr(1, Tr("Release Type"));
+        TagSelection.UpdateTr(2, Tr("Stable"));
+        TagSelection.UpdateTr(3, Tr("Alpha"));
+        TagSelection.UpdateTr(4, Tr("Beta"));
+        TagSelection.UpdateTr(5, Tr("Release Candidate"));
+
         OnlyMono();
     }
 
