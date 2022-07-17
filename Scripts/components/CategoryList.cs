@@ -17,9 +17,9 @@ public class CategoryList : VBoxContainer
 
 #region Node Variables
     [NodePath("CategoryName")]
-    private Label _categoryName = null;
+    private readonly Label _categoryName = null;
     [NodePath("CategoryList")]
-    private VBoxContainer _categoryList = null;
+    private readonly VBoxContainer _categoryList = null;
     [NodePath("hc/ToggleIcon")]
     private TextureRect _toggleIcon = null;
 #endregion
@@ -101,8 +101,8 @@ public class CategoryList : VBoxContainer
 #endregion
 
 #region Templates
-    private PackedScene pstProject = GD.Load<PackedScene>("res://components/ProjectLineEntry.tscn");
-    private PackedScene pstGodot = GD.Load<PackedScene>("res://components/GodotLineEntry.tscn");
+    private readonly PackedScene pstProject = GD.Load<PackedScene>("res://components/ProjectLineEntry.tscn");
+    private readonly PackedScene pstGodot = GD.Load<PackedScene>("res://components/GodotLineEntry.tscn");
 #endregion
 
     // Called when the node enters the scene tree for the first time.
@@ -117,9 +117,8 @@ public class CategoryList : VBoxContainer
 
     [SignalHandler("gui_input", nameof(_toggleIcon))]
     void OnToggle_GuiInput(InputEvent inputEvent) {
-        if (!(inputEvent is InputEventMouseButton))
+        if (!(inputEvent is InputEventMouseButton iemb))
             return;
-        var iemb = inputEvent as InputEventMouseButton;
         if (!iemb.Pressed)
             return;
         if ((ButtonList)iemb.ButtonIndex != ButtonList.Left)
@@ -184,10 +183,8 @@ public class CategoryList : VBoxContainer
 		CategoryList parent = dictData["parent"] as CategoryList;
         if (parent == this)
             return false;
-        if (dictData["source"] is ProjectLineEntry)
-            return true;
-        return false;      
-	}
+        return dictData["source"] is ProjectLineEntry;
+    }
 
 	public override void DropData(Vector2 position, object data)
 	{
