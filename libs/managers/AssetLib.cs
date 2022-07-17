@@ -98,6 +98,11 @@ namespace AssetLib {
 			return ret;
 		}
 
+		// TODO: Add API lookup of Pending Assets
+		// TODO-URL: /asset-library/api/asset/edit?&asset=-1 == All Assets Pending
+		// TODO-URL: /asset-library/api/asset/edit/{id}
+		// TODO-NOTE: No Cookie Needed to access API.
+
 		public async Task<QueryResult> Search(string query) {
 			QueryResult ret = null;
 			Uri uri = new Uri(query);
