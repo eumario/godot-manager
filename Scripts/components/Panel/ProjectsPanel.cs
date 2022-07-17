@@ -248,7 +248,41 @@ public class ProjectsPanel : Panel
         }
     }
 
-    async void ScanForProjects() {
+    async Task<Array<string>> ScanDirectories(Array<string> scanDirs) {
+		Array<string> projects = new Array<string>();
+
+		await this.IdleFrame();
+
+		foreach(string dir in scanDirs) {
+            var projs = Dir.EnumerateFiles(dir, "project.godot", SearchOption.AllDirectories);
+            foreach(string proj in projs)
+                projects.Add(proj);
+		}
+		return projects;
+	}
+
+    private async Task<Array<string>> UpdateProjects(Array<string> projs) {
+		Array<string> added = new Array<string>();
+		await this.IdleFrame();
+
+        foreach(string proj in projs) {
+			AppDialogs.BusyDialog.UpdateByline($"Processing {projs.IndexOf(proj)}/{projs.Count}...");
+			await this.IdleFrame();
+			if (CentralStore.Instance.HasProject(proj.NormalizePath()))
+            {
+                await this.IdleFrame();
+            } else {
+				ProjectFile pf = ProjectFile.ReadFromFile(proj.NormalizePath());
+                if (pf == null) continue;
+                pf.GodotVersion = CentralStore.Settings.DefaultEngine;
+                CentralStore.Projects.Add(pf);
+                added.Add(proj);
+            }
+        }
+		return added;
+	}
+
+    private async void ScanForProjects() {
         Array<string> projects = new Array<string>();
         Array<string> scanDirs = CentralStore.Settings.ScanDirs.Duplicate();
         int i = 0;
@@ -275,21 +309,29 @@ public class ProjectsPanel : Panel
                 return;
         }
 
-        foreach(string dir in CentralStore.Settings.ScanDirs) {
-            var projs = Dir.EnumerateFiles(dir,"project.godot",SearchOption.AllDirectories);
-            foreach(string proj in projs) {
-                projects.Add(proj);
-            }
-        }
+		AppDialogs.BusyDialog.UpdateHeader("Scanning for Projects...");
+		AppDialogs.BusyDialog.UpdateByline("Scanning for Project files....");
+		AppDialogs.BusyDialog.ShowDialog();
 
-        foreach(string projdir in projects) {
-            if (!CentralStore.Instance.HasProject(projdir)) {
-                ProjectFile pf = ProjectFile.ReadFromFile(projdir);
-                if (pf != null) {
-                    pf.GodotVersion = CentralStore.Settings.DefaultEngine;
-                    CentralStore.Projects.Add(pf);
-                }
-            }
+        var projsTask = ScanDirectories(scanDirs);
+        while (!projsTask.IsCompleted)
+			await this.IdleFrame();
+
+		AppDialogs.BusyDialog.UpdateByline($"Processing 0/{projsTask.Result.Count}...");
+
+		var addedTask = UpdateProjects(projsTask.Result);
+        while (!addedTask.IsCompleted)
+			await this.IdleFrame();
+
+		AppDialogs.BusyDialog.HideDialog();
+        if (addedTask.Result.Count == 0)
+            AppDialogs.MessageDialog.ShowMessage("Scan Projects", "No new projects found.");
+        else
+        {
+            AppDialogs.MessageDialog.ShowMessage("Scan Projects",
+                $"Found {addedTask.Result.Count} new projects, and added to database.");
+            CentralStore.Instance.SaveDatabase();
+            PopulateListing();
         }
     }
 
@@ -587,9 +629,11 @@ public class ProjectsPanel : Panel
         ProjectFile pf;
         if (_popupMenu.ProjectLineEntry != null) {
             pf = _popupMenu.ProjectLineEntry.ProjectFile;
-        } else {
+			_currentPLE = _popupMenu.ProjectLineEntry;
+		} else {
             pf = _popupMenu.ProjectIconEntry.ProjectFile;
-        }
+			_currentPIE = _popupMenu.ProjectIconEntry;
+		}
         switch(id) {
             case 0:     // Open Project
                 ExecuteEditorProject(pf.GodotVersion, pf.Location.GetBaseDir());
