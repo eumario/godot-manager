@@ -236,12 +236,12 @@ public class ProjectLineEntry : ColorRect
     }
 
     void OnDragStart() {
-        Input.SetMouseMode(Input.MouseMode.Confined);
-        EmitSignal("DragStarted", this);
+		Input.MouseMode = Input.MouseModeEnum.Confined;
+		EmitSignal("DragStarted", this);
     }
 
     void OnDragEnded() {
-        Input.SetMouseMode(Input.MouseMode.Visible);
-        EmitSignal("DragEnded", this);
+		Input.MouseMode = Input.MouseModeEnum.Visible;
+		EmitSignal("DragEnded", this);
     }
 }
