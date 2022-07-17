@@ -8,11 +8,10 @@ using System.Linq;
 
 public class MainWindow : Control
 {
-	//[NodePath("bg/Shell/Sidebar")]
-	//ColorRect _sidebar = null;
+	[NodePath("bg/Shell/Sidebar")]
+	ColorRect _sidebar = null;
 	Array<PageButton> _buttons;
-	[NodePath("bg/Shell/VC/TabContainer")]
-	TabContainer _notebook = null;
+	[NodePath("bg/Shell/VC/TabContainer")] TabContainer _notebook = null;
 
 	public MainWindow() {
 		if (!CentralStore.Instance.LoadDatabase()) {
