@@ -33,7 +33,7 @@ namespace Mirrors {
 
 		public async Task<Array<MirrorSite>> GetMirrors() {
 			Array<MirrorSite> mirrors = new Array<MirrorSite>();
-			Uri uri = new Uri("https://gmm.eumario.info/mirrors");
+			Uri uri = new Uri("https://gmm.cdwgames.com/mirrors");
 			if (CentralStore.Settings.UseProxy) 
 				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, true);
 			else
@@ -69,7 +69,7 @@ namespace Mirrors {
 
 		public async Task<Array<MirrorVersion>> GetEngineLinks(int mirrorId) {
 			Array<MirrorVersion> versions = new Array<MirrorVersion>();
-			Uri uri = new Uri($"https://gmm.eumario.info/listings/{mirrorId}");
+			Uri uri = new Uri($"https://gmm.cdwgames.com/listings/{mirrorId}");
 			if (CentralStore.Settings.UseProxy)
 				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, true);
 			else

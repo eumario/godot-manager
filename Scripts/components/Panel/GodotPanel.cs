@@ -9,6 +9,7 @@ using Directory = System.IO.Directory;
 using Path = System.IO.Path;
 using Guid = System.Guid;
 using DateTime = System.DateTime;
+using TimeSpan = System.TimeSpan;
 using Mirrors;
 
 public class GodotPanel : Panel
@@ -48,17 +49,23 @@ public class GodotPanel : Panel
         AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
         DownloadSource.Clear();
         DownloadSource.AddItem("Github");
-        var res = MirrorManager.Instance.GetMirrors();
-        while (!res.IsCompleted)
-            await this.IdleFrame();
-        
-        foreach(MirrorSite site in res.Result) {
-            var cres = from csite in CentralStore.Mirrors
-                    where csite.Id == site.Id
-                    select csite;
-            if (cres.FirstOrDefault<MirrorSite>() == null) {
-                CentralStore.Mirrors.Add(site);
-                CentralStore.MRVersions[site.Id] = new Array<MirrorVersion>();
+
+        if (CentralStore.Mirrors.Count == 0 || CentralStore.Settings.LastMirrorCheck < (DateTime.UtcNow - CentralStore.Settings.CheckInterval)) {
+            var res = MirrorManager.Instance.GetMirrors();
+            while (!res.IsCompleted)
+                await this.IdleFrame();
+            
+            foreach(MirrorSite site in res.Result) {
+                var cres = from csite in CentralStore.Mirrors
+                        where csite.Id == site.Id
+                        select csite;
+                if (cres.FirstOrDefault<MirrorSite>() == null) {
+                    CentralStore.Mirrors.Add(site);
+                    CentralStore.MRVersions[site.Id] = new Array<MirrorVersion>();
+					CentralStore.Settings.LastUpdateMirrorCheck[site.Id] = new UpdateCheck() {
+                        LastCheck = DateTime.UtcNow - TimeSpan.FromDays(1)
+                    };
+				}
             }
         }
 
@@ -133,12 +140,28 @@ public class GodotPanel : Panel
     {
         if (index == 0) {
             OnlyMono();
-            //await PopulateList();
+            if (CentralStore.GHVersions.Count == 0) {
+                var t = GatherReleases();
+                while(!t.IsCompleted) {
+                    await this.IdleFrame();
+                }
+            } else {
+                if (CentralStore.Settings.CheckForUpdates &&
+                    (DateTime.UtcNow - CentralStore.Settings.LastCheck) >= CentralStore.Settings.CheckInterval)
+                {
+                    await CheckForUpdates();
+                }
+            }
         } else {
             AllTags();
             int id = DownloadSource.GetSelectedId();
             if (CentralStore.MRVersions[id].Count == 0) {
                 await GatherReleases();
+            } else {
+                if (CentralStore.Settings.CheckForUpdates &&
+                    (DateTime.UtcNow - CentralStore.Settings.LastUpdateMirrorCheck[id].LastCheck) >= CentralStore.Settings.CheckInterval) {
+					await CheckForUpdates();
+				}
             }
         }
         await PopulateList();
@@ -159,7 +182,9 @@ public class GodotPanel : Panel
     }
 
     async void OnPageChanged(int page) {
-        if (GetParent<TabContainer>().GetCurrentTabControl() == this) {
+        if (GetParent<TabContainer>().GetCurrentTabControl() != this) return;
+
+        if (DownloadSource.Selected == 0) {
             if (CentralStore.GHVersions.Count == 0) {
                 var t = GatherReleases();
                 while(!t.IsCompleted) {
@@ -168,21 +193,68 @@ public class GodotPanel : Panel
             } else {
                 if (CentralStore.Settings.CheckForUpdates &&
                     (DateTime.UtcNow - CentralStore.Settings.LastCheck) >= CentralStore.Settings.CheckInterval)
-				{
-					await CheckForUpdates();
-				}
-			}
-            await PopulateList();
+                {
+                    await CheckForUpdates();
+                }
+            }
+        } else {
+            MirrorSite site = CentralStore.Mirrors[DownloadSource.Selected - 1];
+            if (CentralStore.MRVersions[site.Id].Count == 0) {
+                var t = GatherReleases();
+                while (!t.IsCompleted)
+                    await this.IdleFrame();
+            } else {
+                if (CentralStore.Settings.CheckForUpdates &&
+                    (DateTime.UtcNow - CentralStore.Settings.LastUpdateMirrorCheck[site.Id].LastCheck) >= CentralStore.Settings.CheckInterval)
+                {
+                    await CheckForUpdates();
+                }
+            }
         }
+        await PopulateList();
     }
 
 	public async Task CheckForUpdates() // TODO: Need to check for updates from MirrorManager as well.
 	{
-        AppDialogs.BusyDialog.UpdateHeader(Tr("Grabbing information from Github"));
-        AppDialogs.BusyDialog.UpdateByline(Tr("Getting the latest version information from Github for Godot Engine..."));
-        AppDialogs.BusyDialog.ShowDialog();
+		MirrorSite site = null;
+		if (DownloadSource.Selected == 0)
+		{
+			AppDialogs.BusyDialog.UpdateHeader(Tr("Grabbing information from Github"));
+			AppDialogs.BusyDialog.UpdateByline(Tr("Getting the latest version information from Github for Godot Engine..."));
+		}
+		else
+		{
+			site = CentralStore.Mirrors[DownloadSource.Selected - 1];
+			AppDialogs.BusyDialog.UpdateHeader(string.Format(Tr("Grabbing information for mirror {0}"), site.Name));
+			AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Grabbing the latest version information for mirror {0} for Godot Engine..."), site.Name));
+		}
+		AppDialogs.BusyDialog.ShowDialog();
+		if (DownloadSource.Selected == 0)
+		    await CheckForGithub();
+		else
+			await CheckForMirror();
 
-		var tres = Github.Github.Instance.GetLatestRelease();
+        if (DownloadSource.Selected == 0)
+    		CentralStore.Settings.LastCheck = DateTime.UtcNow;
+        else
+			CentralStore.Settings.LastUpdateMirrorCheck[site.Id].LastCheck = DateTime.UtcNow;
+
+		AppDialogs.BusyDialog.HideDialog();
+		CentralStore.Instance.SaveDatabase();
+	}
+
+    private async Task CheckForMirror() {
+		int id = DownloadSource.GetSelectedId();
+		CentralStore.MRVersions[id].Clear();
+		var t = GatherMirrorReleases();
+        while (!t.IsCompleted)
+			await this.IdleFrame();
+		await PopulateList();
+	}
+
+	private async Task CheckForGithub()
+	{
+        var tres = Github.Github.Instance.GetLatestRelease();
 		while (!tres.IsCompleted)
 		{
 			await this.IdleFrame();
@@ -195,24 +267,20 @@ public class GodotPanel : Panel
 		if (c == null)
 		{
 			CentralStore.GHVersions.Clear();
-			var t = GatherReleases();
+			var t = GatherGithubReleases();
 			while (!t.IsCompleted)
 			{
 				await this.IdleFrame();
 			}
 			//AppDialogs.NewVersion.UpdateReleaseInfo(tres.Result);
 			//AppDialogs.NewVersion.Visible = true;
-            await PopulateList();
-            AppDialogs.NewVersion.Connect("download_update", this, "OnDownloadUpdate");
-            AppDialogs.NewVersion.ShowDialog(tres.Result);
+			await PopulateList();
+			AppDialogs.NewVersion.Connect("download_update", this, "OnDownloadUpdate");
+			AppDialogs.NewVersion.ShowDialog(tres.Result);
 		}
-
-        AppDialogs.BusyDialog.HideDialog();
-        CentralStore.Settings.LastCheck = DateTime.UtcNow;
-        CentralStore.Instance.SaveDatabase();
 	}
 
-    async void OnDownloadUpdate(Github.Release release, bool useMono) {
+	async void OnDownloadUpdate(Github.Release release, bool useMono) {
         AppDialogs.NewVersion.Disconnect("download_update", this, "OnDownloadUpdate");
         foreach (GodotLineEntry gle in Available.List.GetChildren()) {
             if (gle.GithubVersion.Name == release.Name) {
