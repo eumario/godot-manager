@@ -137,11 +137,16 @@ public class AssetLibPreview : ReferenceRect
         _Description.BbcodeText = "[table=1][cell][color=lime]" + 
         Tr("Support") + $"[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]" + 
         Tr("Homepage") + $"[/url][/color][/cell][cell][color=aqua][url={asset.IssuesUrl}]" +
-        Tr("Issue/Support Page") + $"[/url][/color][/cell][/table]\n\n{asset.Description}";
+        Tr("Issue/Support Page") + $"[/url][/color][/cell][/table]\n\n{asset.Description.Replace("\r","")}";
+        _Description.ScrollToLine(0);
         _asset = asset;
         
-        Uri uri = new Uri(asset.IconUrl);
-        sIconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
+        if (asset.IconUrl == null || asset.IconUrl == "") {
+            sIconPath = "res://Assets/Icons/missing_icon.svg";
+        } else {
+            Uri uri = new Uri(asset.IconUrl);
+            sIconPath = $"user://cache/images/{asset.AssetId}{uri.AbsolutePath.GetExtension()}";
+        }
         
         if (!File.Exists(sIconPath.GetOSDir().NormalizePath())) {
             dldIcon = new ImageDownloader(asset.IconUrl, sIconPath);

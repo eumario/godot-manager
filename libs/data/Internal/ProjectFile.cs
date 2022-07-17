@@ -5,24 +5,15 @@ using DateTime = System.DateTime;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ProjectFile : Godot.Object {
-	[JsonProperty]
-	public string Icon;
-	[JsonProperty]
-	public string Name;
-	[JsonProperty]
-	public string Description;
-	[JsonProperty]
-	public string Location;
-	[JsonProperty]
-	public string GodotVersion;
-	[JsonProperty]
-	public int CategoryId;
-	[JsonProperty]
-	public bool Favorite;
-	[JsonProperty]
-	public DateTime LastAccessed;
-	[JsonProperty]
-	public Array<string> Assets;
+	[JsonProperty] public string Icon;
+	[JsonProperty] public string Name;
+	[JsonProperty] public string Description;
+	[JsonProperty] public string Location;
+	[JsonProperty] public string GodotVersion;
+	[JsonProperty] public int CategoryId;
+	[JsonProperty] public bool Favorite;
+	[JsonProperty] public DateTime LastAccessed;
+	[JsonProperty] public Array<string> Assets;
 
 	public static ProjectFile ReadFromFile(string filePath) {
 		ProjectFile projectFile = null;

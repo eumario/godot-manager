@@ -30,7 +30,8 @@ public class CentralStore {
 	public static Array<ProjectFile> Projects { get => Instance._data.Projects; }
 	public static Array<GodotVersion> Versions { get => Instance._data.Versions; }
 	public static Array<GithubVersion> GHVersions { get => Instance._data.GHVersions; }
-	public static Array<TuxfamilyVersion> TFVersions { get => Instance._data.TFVersions; }
+	public static Array<MirrorSite> Mirrors { get => Instance._data.Mirrors; }
+	public static Dictionary<int, Array<MirrorVersion>> MRVersions { get => Instance._data.MRVersions; }
 	public static Array<Category> Categories { get => Instance._data.Categories; }
 	public static Array<AssetPlugin> Plugins { get => Instance._data.Plugins; }
 	public static Array<AssetProject> Templates { get => Instance._data.Templates; }
@@ -99,28 +100,28 @@ public class CentralStore {
 		var res = from pt in CentralStore.Templates
 					where pt.Asset.Title == name
 					select pt;
-		return res.First<AssetProject>();
+		return res.FirstOrDefault<AssetProject>();
 	}
 
 	public AssetProject GetTemplateId(string id) {
 		var res = from pt in CentralStore.Templates
 					where pt.Asset.AssetId == id
 					select pt;
-		return res.First<AssetProject>();
+		return res.FirstOrDefault<AssetProject>();
 	}
 
 	public AssetPlugin GetPlugin(string name) {
 		var res = from pt in CentralStore.Plugins
 					where pt.Asset.Title == name
 					select pt;
-		return res.First<AssetPlugin>();
+		return res.FirstOrDefault<AssetPlugin>();
 	}
 
 	public AssetPlugin GetPluginId(string id) {
 		var res = from pt in CentralStore.Plugins
 					where pt.Asset.AssetId == id
 					select pt;
-		return res.First<AssetPlugin>();
+		return res.FirstOrDefault<AssetPlugin>();
 	}
 
 	public GodotVersion FindVersion(string id) {

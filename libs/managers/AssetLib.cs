@@ -54,6 +54,10 @@ namespace AssetLib {
 		public async Task<ConfigureResult> Configure(string url, bool templatesOnly) {
 			ConfigureResult ret = null;
 			Uri uri = new Uri(url);
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+			else
+				client.ClearProxy();
 			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, uri.Scheme == "https");
 
 			while (!cres.IsCompleted) {
@@ -94,9 +98,16 @@ namespace AssetLib {
 			return ret;
 		}
 
+		// TODO: Add API lookup of Pending Assets
+		// TODO-URL: /asset-library/api/asset/edit?&asset=-1 == All Assets Pending
+		// TODO-URL: /asset-library/api/asset/edit/{id}
+		// TODO-NOTE: No Cookie Needed to access API.
+
 		public async Task<QueryResult> Search(string query) {
 			QueryResult ret = null;
 			Uri uri = new Uri(query);
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
 			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, uri.Scheme == "https");
 
 			while (!cres.IsCompleted)
@@ -166,7 +177,12 @@ namespace AssetLib {
 
 		public async Task<Asset> GetAsset(string assetId) {
 			Asset res = null;
-			Task<HTTPClient.Status> cres = client.StartClient("godotengine.org");
+			Uri uri = new Uri($"https://godotengine.org/asset-library/api/asset/{assetId}");
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+			else
+				client.ClearProxy();
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, uri.Scheme == "https");
 
 			while (!cres.IsCompleted)
 				await this.IdleFrame();
@@ -174,7 +190,7 @@ namespace AssetLib {
 			if (!client.SuccessConnect(cres.Result))
 				return res;
 			
-			string path = $"/asset-library/api/asset/{assetId}";
+			string path = uri.AbsolutePath;
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted)
 				await this.IdleFrame();

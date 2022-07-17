@@ -207,4 +207,16 @@ public static class Util {
 		}
 		return buffer;
 	}
+
+	public static void UpdateTr(this PopupMenu self, int indx, string text) {
+		self.SetItemText(indx, text);
+	}
+
+	public static void UpdateTr(this OptionButton self, int indx, string text) {
+		self.GetPopup().SetItemText(indx, text);
+	}
+
+	public static void UpdateTr(this MenuButton self, int indx, string text) {
+		self.GetPopup().SetItemText(indx, text);
+	}
 }

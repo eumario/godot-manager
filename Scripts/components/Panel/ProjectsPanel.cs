@@ -90,6 +90,14 @@ public class ProjectsPanel : Panel
         _views.Add(_categoryView);
 
         _popupMenu = GD.Load<PackedScene>("res://components/ProjectPopup.tscn").Instance<ProjectPopup>();
+
+        // Translations for Menu Items
+        _popupMenu.UpdateTr(0, Tr("Open"));
+        _popupMenu.UpdateTr(1, Tr("Run"));
+        _popupMenu.UpdateTr(2, Tr("Show Project Files"));
+        _popupMenu.UpdateTr(3, Tr("Show Data Folder"));
+        _popupMenu.UpdateTr(4, Tr("Edit"));
+        _popupMenu.UpdateTr(5, Tr("Remove"));
         AddChild(_popupMenu);
         _popupMenu.SetAsToplevel(true);
 
@@ -240,7 +248,41 @@ public class ProjectsPanel : Panel
         }
     }
 
-    async void ScanForProjects() {
+    async Task<Array<string>> ScanDirectories(Array<string> scanDirs) {
+		Array<string> projects = new Array<string>();
+
+		await this.IdleFrame();
+
+		foreach(string dir in scanDirs) {
+            var projs = Dir.EnumerateFiles(dir, "project.godot", SearchOption.AllDirectories);
+            foreach(string proj in projs)
+                projects.Add(proj);
+		}
+		return projects;
+	}
+
+    private async Task<Array<string>> UpdateProjects(Array<string> projs) {
+		Array<string> added = new Array<string>();
+		await this.IdleFrame();
+
+        foreach(string proj in projs) {
+			AppDialogs.BusyDialog.UpdateByline($"Processing {projs.IndexOf(proj)}/{projs.Count}...");
+			await this.IdleFrame();
+			if (CentralStore.Instance.HasProject(proj.NormalizePath()))
+            {
+                await this.IdleFrame();
+            } else {
+				ProjectFile pf = ProjectFile.ReadFromFile(proj.NormalizePath());
+                if (pf == null) continue;
+                pf.GodotVersion = CentralStore.Settings.DefaultEngine;
+                CentralStore.Projects.Add(pf);
+                added.Add(proj);
+            }
+        }
+		return added;
+	}
+
+    private async void ScanForProjects() {
         Array<string> projects = new Array<string>();
         Array<string> scanDirs = CentralStore.Settings.ScanDirs.Duplicate();
         int i = 0;
@@ -267,21 +309,29 @@ public class ProjectsPanel : Panel
                 return;
         }
 
-        foreach(string dir in CentralStore.Settings.ScanDirs) {
-            var projs = Dir.EnumerateFiles(dir,"project.godot",SearchOption.AllDirectories);
-            foreach(string proj in projs) {
-                projects.Add(proj);
-            }
-        }
+		AppDialogs.BusyDialog.UpdateHeader("Scanning for Projects...");
+		AppDialogs.BusyDialog.UpdateByline("Scanning for Project files....");
+		AppDialogs.BusyDialog.ShowDialog();
 
-        foreach(string projdir in projects) {
-            if (!CentralStore.Instance.HasProject(projdir)) {
-                ProjectFile pf = ProjectFile.ReadFromFile(projdir);
-                if (pf != null) {
-                    pf.GodotVersion = CentralStore.Settings.DefaultEngine;
-                    CentralStore.Projects.Add(pf);
-                }
-            }
+        var projsTask = ScanDirectories(scanDirs);
+        while (!projsTask.IsCompleted)
+			await this.IdleFrame();
+
+		AppDialogs.BusyDialog.UpdateByline($"Processing 0/{projsTask.Result.Count}...");
+
+		var addedTask = UpdateProjects(projsTask.Result);
+        while (!addedTask.IsCompleted)
+			await this.IdleFrame();
+
+		AppDialogs.BusyDialog.HideDialog();
+        if (addedTask.Result.Count == 0)
+            AppDialogs.MessageDialog.ShowMessage("Scan Projects", "No new projects found.");
+        else
+        {
+            AppDialogs.MessageDialog.ShowMessage("Scan Projects",
+                $"Found {addedTask.Result.Count} new projects, and added to database.");
+            CentralStore.Instance.SaveDatabase();
+            PopulateListing();
         }
     }
 
@@ -579,9 +629,11 @@ public class ProjectsPanel : Panel
         ProjectFile pf;
         if (_popupMenu.ProjectLineEntry != null) {
             pf = _popupMenu.ProjectLineEntry.ProjectFile;
-        } else {
+			_currentPLE = _popupMenu.ProjectLineEntry;
+		} else {
             pf = _popupMenu.ProjectIconEntry.ProjectFile;
-        }
+			_currentPIE = _popupMenu.ProjectIconEntry;
+		}
         switch(id) {
             case 0:     // Open Project
                 ExecuteEditorProject(pf.GodotVersion, pf.Location.GetBaseDir());
@@ -600,12 +652,36 @@ public class ProjectsPanel : Panel
                     AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), string.Format(Tr("The data directory {0} does not exist!"),folder));
                 break;
             case 4:     // Edit Project File
+                AppDialogs.EditProject.Connect("project_updated", this, "OnProjectUpdated", new Array { pf });
+                AppDialogs.EditProject.Connect("hide", this, "OnHide_EditProject");
                 AppDialogs.EditProject.ShowDialog(pf);
                 break;
             case 5:     // Remove Project
                 await RemoveProject(pf);
                 break;
         }
+    }
+
+    private void OnProjectUpdated(ProjectFile pf) {
+        var ple = pleCache.Where( x => x.Key == pf ).Select( x => x.Value ).FirstOrDefault<ProjectLineEntry>();
+        if (ple != null) {
+            ple.ProjectFile = pf;
+        }
+
+        foreach(CategoryList cat in cpleCache.Keys) {
+            ple = cpleCache[cat].Where( x => x.Key == pf).Select( x => x.Value ).FirstOrDefault<ProjectLineEntry>();
+            if (ple != null)
+                ple.ProjectFile = pf;
+        }
+
+        var pie = pieCache.Where( x => x.Key == pf ).Select( x => x.Value ).FirstOrDefault<ProjectIconEntry>();
+        if (pie != null)
+            pie.ProjectFile = pf;
+    }
+
+    private void OnHide_EditProject() {
+        AppDialogs.EditProject.Disconnect("project_updated", this, "OnProjectUpdated");
+        AppDialogs.EditProject.Disconnect("hide", this, "OnHide_EditProject");
     }
 
     private void RemoveMissingProjects() {

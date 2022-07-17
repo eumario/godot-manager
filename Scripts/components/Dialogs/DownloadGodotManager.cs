@@ -118,7 +118,11 @@ public class DownloadGodotManager : ReferenceRect
 
 	async Task<bool> StartNetwork() {
 		adSpeedStack.Clear();
-		Task<HTTPClient.Status> cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
+		if (CentralStore.Settings.UseProxy)
+			client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, dlUri.Scheme == "https");
+		else
+			client.ClearProxy();
+		Task<HTTPClient.Status> cres = client.StartClient(dlUri.Host, dlUri.Port, (dlUri.Scheme == "https"));
 
 		while (!cres.IsCompleted)
 			await this.IdleFrame();
@@ -154,7 +158,11 @@ public class DownloadGodotManager : ReferenceRect
 			return false;
 		}
 
-		cres = client.StartClient(dlUri.Host, (dlUri.Scheme == "https"));
+		if (CentralStore.Settings.UseProxy)
+			client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, dlUri.Scheme == "https");
+		else
+			client.ClearProxy();
+		cres = client.StartClient(dlUri.Host, dlUri.Port, (dlUri.Scheme == "https"));
 		while (!cres.IsCompleted)
 			await this.IdleFrame();
 		

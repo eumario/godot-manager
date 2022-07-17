@@ -106,6 +106,18 @@ public class AssetLibPanel : Panel
             _mirrorSite.AddItem(mirror["name"]);
             _mirrorSite.SetItemMetadata(indx,mirror["url"]);
         }
+
+        // Translations for Options/Menu Items
+        _sortBy.UpdateTr(0, Tr("Recently Updated"));
+        _sortBy.UpdateTr(1, Tr("Least Recently Updated"));
+        _sortBy.UpdateTr(2, Tr("Name (A-Z)"));
+        _sortBy.UpdateTr(3, Tr("Name (Z-A)"));
+        _sortBy.UpdateTr(4, Tr("License (A-Z)"));
+        _sortBy.UpdateTr(5, Tr("License (Z-A)"));
+
+        _supportPopup.UpdateTr(0, Tr("Official"));
+        _supportPopup.UpdateTr(1, Tr("Community"));
+        _supportPopup.UpdateTr(2, Tr("Testing"));
     }
 
     [SignalHandler("pressed", nameof(_import))]
@@ -305,6 +317,7 @@ public class AssetLibPanel : Panel
             asset.Author = cfg.GetValue("plugin","author") as string;
             asset.VersionString = cfg.GetValue("plugin","version") as string;
             asset.Description = cfg.GetValue("plugin","description") as string;
+            asset.IconUrl = "res://Assets/Icons/default_project_icon.png";
         } else {
             ProjectConfig pc = new ProjectConfig(filepath);
             pc.Load();
@@ -313,6 +326,7 @@ public class AssetLibPanel : Panel
             asset.Author = "Local User";
             asset.VersionString = "0.0.0";
             asset.Description = pc.GetValue("application","config/description");
+            asset.IconUrl = "zip+res://icon.png";
         }
         asset.AssetId = $"local-{CentralStore.Settings.LocalAddonCount}";
         asset.AuthorId = "-1";
@@ -385,6 +399,7 @@ public class AssetLibPanel : Panel
             asset.VersionString = "0.0.0";
             asset.Description = pc.GetValue("application","config/description");
             asset.IconUrl = "zip+" + pc.GetValue("application","config/icon");
+            
         }
         asset.AssetId = $"local-{CentralStore.Settings.LocalAddonCount}";
         asset.AuthorId = "-1";

@@ -8,6 +8,7 @@ using Dir = System.IO.Directory;
 using SFile = System.IO.File;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 public class SettingsPanel : Panel
 {
@@ -63,6 +64,18 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/HBCI/UpdateCheckInterval")]
 	OptionButton _updateCheckInterval = null;
 
+	[NodePath("VB/MC/TC/General/GC/HBCI/CheckBox")]
+	CheckBox _useProxy = null;
+
+	[NodePath("VB/MC/TC/General/GC/HBCI/ProxyContainer")]
+	HBoxContainer _proxyContainer = null;
+
+	[NodePath("VB/MC/TC/General/GC/HBCI/ProxyContainer/ProxyHost")]
+	LineEdit _proxyHost = null;
+
+	[NodePath("VB/MC/TC/General/GC/HBCI/ProxyContainer/ProxyPort")]
+	LineEdit _proxyPort = null;
+
 	[NodePath("VB/MC/TC/General/GC/VBLO/NoConsole")]
 	CheckBox _noConsole = null;
 
@@ -72,8 +85,8 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/MirrorTabs/Asset Library")]
 	ItemListWithButtons _assetMirror = null;
 
-	[NodePath("VB/MC/TC/General/GC/MirrorTabs/Godot Engine")]
-	ItemListWithButtons _godotMirror = null;
+	// [NodePath("VB/MC/TC/General/GC/MirrorTabs/Godot Engine")]
+	// ItemListWithButtons _godotMirror = null;
 	#endregion
 
 	#region Projects Page
@@ -152,6 +165,8 @@ public class SettingsPanel : Panel
 	};
 	bool bPInternal = false;
 	ActionStack _undoActions;
+
+	Regex IsNumeric = new Regex(@"\d+");
 	#endregion
 
 	// Called when the node enters the scene tree for the first time.
@@ -174,6 +189,19 @@ public class SettingsPanel : Panel
 		_versionInfo.Text = $"Version {VERSION.GodotManager}-{VERSION.Channel}";
 
 		_updateCheckInterval.Disabled = !_checkForUpdates.Pressed;
+
+		// Translations for Options
+		_defaultProjectView.UpdateTr(0, Tr("List View"));
+		_defaultProjectView.UpdateTr(1, Tr("Icon View"));
+		_defaultProjectView.UpdateTr(2, Tr("Category View"));
+		_defaultProjectView.UpdateTr(3, Tr("Last View Used"));
+
+		_updateCheckInterval.UpdateTr(0, Tr("1 Hour"));
+		_updateCheckInterval.UpdateTr(1, Tr("12 Hours"));
+		_updateCheckInterval.UpdateTr(2, Tr("1 Day"));
+		_updateCheckInterval.UpdateTr(3, Tr("1 Week"));
+		_updateCheckInterval.UpdateTr(4, Tr("Bi-Weekly"));
+		_updateCheckInterval.UpdateTr(5, Tr("Monthly (Every 30 Days)"));
 	}
 
 	void updateActionButtons() {
@@ -219,6 +247,10 @@ public class SettingsPanel : Panel
 		_defaultProjectView.Select(_views.IndexOf(CentralStore.Settings.DefaultView));
 		PopulateGodotEngine();
 		_checkForUpdates.Pressed = CentralStore.Settings.CheckForUpdates;
+		_useProxy.Pressed = CentralStore.Settings.UseProxy;
+		_proxyContainer.Visible = CentralStore.Settings.UseProxy;
+		_proxyHost.Text = CentralStore.Settings.ProxyHost;
+		_proxyPort.Text = $"{CentralStore.Settings.ProxyPort}";
 		_updateCheckInterval.Select(GetIntervalIndex());
 		_editorProfiles.Pressed = CentralStore.Settings.SelfContainedEditors;
 		_noConsole.Pressed = CentralStore.Settings.NoConsole;
@@ -232,14 +264,14 @@ public class SettingsPanel : Panel
 			_assetMirror.SetMeta(mirror["name"], mirror["url"]);
 		}
 		
-		_godotMirror.Clear();
-		foreach (string meta in _godotMirror.GetMetaList())
-			_godotMirror.RemoveMeta(meta);
+		// _godotMirror.Clear();
+		// foreach (string meta in _godotMirror.GetMetaList())
+		// 	_godotMirror.RemoveMeta(meta);
 		
-		foreach (Dictionary<string, string> mirror in CentralStore.Settings.EngineMirrors) {
-			_godotMirror.AddItem(mirror["name"]);
-			_godotMirror.SetMeta(mirror["name"], mirror["url"]);
-		}
+		// foreach (Dictionary<string, string> mirror in CentralStore.Settings.EngineMirrors) {
+		// 	_godotMirror.AddItem(mirror["name"]);
+		// 	_godotMirror.SetMeta(mirror["name"], mirror["url"]);
+		// }
 
 		// Project Page
 		_defaultProjectLocation.Text = CentralStore.Settings.ProjectPath.NormalizePath();
@@ -269,6 +301,9 @@ public class SettingsPanel : Panel
 		CentralStore.Settings.DefaultEngine = (string)_defaultEngine.GetItemMetadata(_defaultEngine.Selected);
 		CentralStore.Settings.CheckForUpdates = _checkForUpdates.Pressed;
 		CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[_updateCheckInterval.Selected]);
+		CentralStore.Settings.UseProxy = _useProxy.Pressed;
+		CentralStore.Settings.ProxyHost = _proxyHost.Text;
+		CentralStore.Settings.ProxyPort = _proxyPort.Text.ToInt();
 		CentralStore.Settings.SelfContainedEditors = _editorProfiles.Pressed;
 
 		foreach(GodotVersion version in CentralStore.Versions) {
@@ -293,12 +328,12 @@ public class SettingsPanel : Panel
 			CentralStore.Settings.AssetMirrors.Add(data);
 		}
 		CentralStore.Settings.EngineMirrors.Clear();
-		for (int i = 0; i < _godotMirror.GetItemCount(); i++) {
-			Dictionary<string, string> data = new Dictionary<string, string>();
-			data["name"] = _godotMirror.GetItemText(i);
-			data["url"] = (string)_godotMirror.GetMeta(data["name"]);
-			CentralStore.Settings.EngineMirrors.Add(data);
-		}
+		// for (int i = 0; i < _godotMirror.GetItemCount(); i++) {
+		// 	Dictionary<string, string> data = new Dictionary<string, string>();
+		// 	data["name"] = _godotMirror.GetItemText(i);
+		// 	data["url"] = (string)_godotMirror.GetMeta(data["name"]);
+		// 	CentralStore.Settings.EngineMirrors.Add(data);
+		// }
 		CentralStore.Settings.ProjectPath = _defaultProjectLocation.Text.GetOSDir().NormalizePath();
 		CentralStore.Settings.CloseManagerOnEdit = _exitGodotManager.Pressed;
 		CentralStore.Settings.ScanDirs.Clear();
@@ -538,6 +573,52 @@ public class SettingsPanel : Panel
 		CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[index]);
 	}
 
+	[SignalHandler("pressed", nameof(_useProxy))]
+	void OnPressed_UseProxy() {
+		bool oldVal = CentralStore.Settings.UseProxy;
+		if (!bPInternal) {
+			_undoActions.Push(() => {
+				CentralStore.Settings.UseProxy = oldVal;
+				_proxyContainer.Visible = oldVal;
+				_useProxy.Pressed = oldVal;
+			});
+			updateActionButtons();
+		}
+		_proxyContainer.Visible = _useProxy.Pressed;
+		CentralStore.Settings.UseProxy = _useProxy.Pressed;
+	}
+
+	[SignalHandler("text_changed", nameof(_proxyHost))]
+	void OnTextChanged_ProxyHost(string newText) {
+		string oldVal = CentralStore.Settings.ProxyHost;
+		if (!bPInternal) {
+			_undoActions.Push(() => {
+				CentralStore.Settings.ProxyHost = oldVal;
+				_proxyHost.Text = oldVal;
+			});
+			updateActionButtons();
+		}
+		CentralStore.Settings.ProxyHost = _proxyHost.Text;
+	}
+	
+	[SignalHandler("text_changed", nameof(_proxyPort))]
+	void OnTextChanged_ProxyPort(string newText) {
+		if (!bPInternal) {
+			if (newText != string.Empty && IsNumeric.IsMatch(newText)) {
+				int oldVal = CentralStore.Settings.ProxyPort;
+				_undoActions.Push(() => {
+					CentralStore.Settings.ProxyPort = oldVal;
+					_proxyPort.Text = $"{oldVal}";
+				});
+				CentralStore.Settings.ProxyPort = _proxyPort.Text.ToInt();
+			} else {
+				if (newText != string.Empty)
+					_proxyPort.Text = newText.Substr(0,newText.Length-1);
+			}
+			updateActionButtons();
+		}
+	}
+
 	[SignalHandler("toggled", nameof(_noConsole))]
 	void OnNoConsole(bool toggle) {
 		bool oldVal = CentralStore.Settings.NoConsole;
@@ -647,22 +728,22 @@ public class SettingsPanel : Panel
 	}
 	#endregion
 
-	#region Godot Mirror Actions
-	[SignalHandler("add_requested", nameof(_godotMirror))]
-	void OnGodotMirror_Add() {
+	// #region Godot Mirror Actions
+	// [SignalHandler("add_requested", nameof(_godotMirror))]
+	// void OnGodotMirror_Add() {
 
-	}
+	// }
 
-	[SignalHandler("edit_requested", nameof(_godotMirror))]
-	void OnGodotMirror_Edit() {
+	// [SignalHandler("edit_requested", nameof(_godotMirror))]
+	// void OnGodotMirror_Edit() {
 
-	}
+	// }
 
-	[SignalHandler("remove_requested", nameof(_godotMirror))]
-	void OnGodotMirror_Remove() {
+	// [SignalHandler("remove_requested", nameof(_godotMirror))]
+	// void OnGodotMirror_Remove() {
 
-	}
-	#endregion
+	// }
+	// #endregion
 #endregion
 
 #region Event Handlers for Projects Page

@@ -63,7 +63,7 @@ public class GodotLineEntry : HBoxContainer
     private bool bMono = false;
     private GodotVersion gvGodotVersion = null;
     private GithubVersion gvGithubVersion = null;
-    private Downloader Downloader = null;
+    private MirrorVersion gvMirrorVersion = null;
 
     private int iLastByteCount = 0;
     Array<double> adSpeedStack;
@@ -94,6 +94,7 @@ public class GodotLineEntry : HBoxContainer
         set {
             bMono = value;
             GithubVersion = gvGithubVersion;
+            MirrorVersion = gvMirrorVersion;
         }
     }
 
@@ -165,6 +166,44 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
+    public MirrorVersion MirrorVersion {
+        get {
+            return gvMirrorVersion;
+        }
+
+        set {
+            gvMirrorVersion = value;
+            if (value == null)
+                return;
+            Label = value.Version;
+            switch(Platform.OperatingSystem) {
+                case "Windows":
+                case "UWP (Windows 10)":
+                    if (Platform.Bits == "32") {
+                        Source = value.Win32;
+                        Filesize = Util.FormatSize(value.Win32_Size);
+                    } else {
+                        Source = value.Win64;
+                        Filesize = Util.FormatSize(value.Win64_Size);
+                    }
+                    break;
+                case "Linux (or BSD)":
+                    if (Platform.Bits == "32") {
+                        Source = value.Linux32;
+                        Filesize = Util.FormatSize(value.Linux32_Size);
+                    } else {
+                        Source = value.Linux64;
+                        Filesize = Util.FormatSize(value.Linux64_Size);
+                    }
+                    break;
+                case "macOS":
+                    Source = value.OSX64;
+                    Filesize = Util.FormatSize(value.OSX64_Size);
+                    break;
+            }
+        }
+    }
+
 	public string Label {
         get {
             return sLabel;
@@ -225,6 +264,8 @@ public class GodotLineEntry : HBoxContainer
             return bDefault;
         }
     }
+
+    public int TotalSize { get; set; }
 #endregion
 
 
@@ -234,6 +275,7 @@ public class GodotLineEntry : HBoxContainer
 
         GodotVersion = gvGodotVersion;
         GithubVersion = gvGithubVersion;
+        MirrorVersion = gvMirrorVersion;
 
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
@@ -257,6 +299,18 @@ public class GodotLineEntry : HBoxContainer
     public void ToggleDownloadProgress(bool value) {
         _downloadProgress.Visible = value;
         _eta.Visible = value;
+    }
+
+    public void StartDownloadStats(int totalSize) {
+        dtStartTime = DateTime.Now;
+        TotalSize = totalSize;
+        _progressBar.MinValue = 0;
+        _progressBar.MaxValue = totalSize;
+        _downloadSpeedTimer.Start();
+    }
+
+    public void StopDownloadStats() {
+        _downloadSpeedTimer.Stop();
     }
 
     public void ToggleDefault(bool value) {
@@ -301,110 +355,14 @@ public class GodotLineEntry : HBoxContainer
         TimeSpan elapsedTime = DateTime.Now - dtStartTime;
         if (tb == 0)
             return;
-        TimeSpan estTime = TimeSpan.FromSeconds( (Downloader.totalSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
+        TimeSpan estTime = TimeSpan.FromSeconds( (TotalSize - tb) / ((double)tb / elapsedTime.TotalSeconds));
         _etaRemaining.Text = Tr("ETA: ") + estTime.ToString("hh':'mm':'ss");
         iLastByteCount = (int)_progressBar.Value;
         mutex.Unlock();
     }
 
-    void OnChunkReceived(int bytes) {
+    public void OnChunkReceived(int bytes) {
         _progressBar.Value += bytes;
-        _fileSize.Text = $"{Util.FormatSize(_progressBar.Value)}/{Util.FormatSize(Downloader.totalSize)}";
-    }
-
-    public GodotVersion CreateGodotVersion() {
-        GodotVersion gv = new GodotVersion();
-        string gdFile = Mono ? new Uri(GithubVersion.PlatformMonoDownloadURL).AbsolutePath.GetFile() : new Uri(GithubVersion.PlatformDownloadURL).AbsolutePath.GetFile();
-        gv.Id = Guid.NewGuid().ToString();
-        gv.Tag = GithubVersion.Name;
-        gv.Url = Mono ? GithubVersion.PlatformMonoDownloadURL : GithubVersion.PlatformDownloadURL;
-#if GODOT_MACOS || GODOT_OSX
-        gv.Location = $"{CentralStore.Settings.EnginePath}/{GithubVersion.Name + (Mono ? "_mono" : "") }";
-#else
-        gv.Location = $"{CentralStore.Settings.EnginePath}/{(Mono ? gdFile.ReplaceN(".zip","") : GithubVersion.Name)}";
-#endif
-        gv.CacheLocation = $"{CentralStore.Settings.CachePath}/Godot/{gdFile}".GetOSDir().NormalizePath();
-        gv.DownloadedDate = DateTime.UtcNow;
-        gv.GithubVersion = GithubVersion;
-        gv.IsMono = Mono;
-
-        Array<string> fileList = new Array<string>();
-        using (ZipArchive za = ZipFile.OpenRead(gv.CacheLocation.GetOSDir().NormalizePath())) {
-            foreach (ZipArchiveEntry zae in za.Entries) {
-                fileList.Add(zae.Name);
-            }
-        }
-
-#if GODOT_WINDOWS || GODOT_UWP
-
-        foreach(string fname in fileList) {
-            if (fname.EndsWith(".exe") && fname.StartsWith("Godot")) {
-                gv.ExecutableName = fname;
-                break;
-            }
-        }
-
-#elif GODOT_LINUXBSD || GODOT_X11
-
-        foreach(string fname in fileList) {
-            if (Environment.Is64BitProcess) {
-                if (fname.EndsWith(".64") && fname.StartsWith("Godot")) {
-                    gv.ExecutableName = fname;
-                    break;
-                }
-            } else {
-                if (fname.EndsWith(".32") && fname.StartsWith("Godot")) {
-                    gv.ExecutableName = fname;
-                    break;
-                }
-            }
-        }
-
-        Util.Chmod(gv.GetExecutablePath(), 0755);
-
-#elif GODOT_MACOS || GODOT_OSX
-
-        gv.ExecutableName = "Godot";
-        Util.Chmod(gv.GetExecutablePath(), 0755);
-
-#endif
-
-        if (CentralStore.Settings.SelfContainedEditors) {
-            File fh = new File();
-            fh.Open($"{gv.Location}/._sc_".GetOSDir().NormalizePath(), File.ModeFlags.Write);
-            fh.StoreString(" ");
-            fh.Close();
-        }
-
-        GodotVersion = gv;
-        return gv;
-    }
-
-    public async Task StartDownload() {
-        Downloader = Downloader.DownloadGithub(GithubVersion,Mono);
-        string outFile = $"{CentralStore.Settings.CachePath}/Godot/{Downloader.downloadUri.AbsolutePath.GetFile()}";
-
-#if GODOT_MACOS || GODOT_OSX
-        string instDir = $"{CentralStore.Settings.EnginePath}/{GithubVersion.Name + (Mono ? "_mono" : "")}";
-#else
-        string instDir = $"{CentralStore.Settings.EnginePath}/{(Mono ? "" : GithubVersion.Name)}";
-#endif
-        Downloader.Connect("chunk_received", this, "OnChunkReceived");
-        _progressBar.MinValue = 0;
-        _progressBar.MaxValue = Downloader.totalSize;
-        _progressBar.Value = 0;
-        _downloadSpeedTimer.Start();
-        _fileSize.Text = $"{Util.FormatSize(0)}/{Util.FormatSize(Downloader.totalSize)}";
-        dtStartTime = DateTime.Now;
-
-        Task<bool> bres = Downloader.DownloadFile(outFile);
-        while (!bres.IsCompleted)
-            await this.IdleFrame();
-
-        _downloadSpeedTimer.Stop();
-        if (bres.Result) {
-            ZipFile.ExtractToDirectory(ProjectSettings.GlobalizePath(outFile),
-                                        ProjectSettings.GlobalizePath(instDir));
-        }
+        _fileSize.Text = $"{Util.FormatSize(_progressBar.Value)}/{Util.FormatSize(TotalSize)}";
     }
 }

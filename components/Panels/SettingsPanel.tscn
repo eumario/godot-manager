@@ -57,9 +57,6 @@ script = ExtResource( 1 )
 [node name="VB" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Header" type="MarginContainer" parent="VB"]
 margin_right = 1024.0
@@ -234,7 +231,6 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="General" type="MarginContainer" parent="VB/MC/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -357,6 +353,7 @@ margin_left = 190.0
 margin_top = 124.0
 margin_right = 994.0
 margin_bottom = 145.0
+custom_constants/separation = 10
 
 [node name="CheckIntervalLabel" type="Label" parent="VB/MC/TC/General/GC/HBCI"]
 margin_top = 1.0
@@ -366,12 +363,55 @@ custom_fonts/font = ExtResource( 4 )
 text = "             Check Interval:"
 
 [node name="UpdateCheckInterval" type="OptionButton" parent="VB/MC/TC/General/GC/HBCI"]
-margin_left = 173.0
-margin_right = 237.0
+margin_left = 179.0
+margin_right = 243.0
 margin_bottom = 21.0
 text = "1 hour"
 items = [ "1 hour", null, false, 0, null, "12 Hours", null, false, 1, null, "1 Day", null, false, 2, null, "1 Week", null, false, 3, null, "Bi-Weekly", null, false, 4, null, "Monthly (Every 30 days)", null, false, 5, null ]
 selected = 0
+
+[node name="CheckBox" type="CheckBox" parent="VB/MC/TC/General/GC/HBCI"]
+margin_left = 253.0
+margin_right = 337.0
+margin_bottom = 21.0
+text = "Use Proxy"
+
+[node name="ProxyContainer" type="HBoxContainer" parent="VB/MC/TC/General/GC/HBCI"]
+visible = false
+margin_left = 347.0
+margin_right = 804.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_top = 2.0
+margin_right = 33.0
+margin_bottom = 19.0
+text = "Host:"
+
+[node name="ProxyHost" type="LineEdit" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 43.0
+margin_right = 344.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 354.0
+margin_top = 2.0
+margin_right = 385.0
+margin_bottom = 19.0
+text = "Port:"
+
+[node name="ProxyPort" type="LineEdit" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 395.0
+margin_right = 447.0
+margin_bottom = 21.0
+
+[node name="Spacer" type="Control" parent="VB/MC/TC/General/GC/HBCI/ProxyContainer"]
+margin_left = 457.0
+margin_right = 457.0
+margin_bottom = 21.0
 
 [node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
 margin_top = 164.0
@@ -427,36 +467,6 @@ margin_left = 8.0
 margin_top = 28.0
 margin_right = -1.0
 margin_bottom = -1.0
-
-[node name="Godot Engine" parent="VB/MC/TC/General/GC/MirrorTabs" instance=ExtResource( 17 )]
-visible = false
-margin_left = 8.0
-margin_top = 29.0
-margin_right = -1.0
-margin_bottom = -1.0
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-Disabled = true
-
-[node name="AddItem" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD" index="1"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-
-[node name="EditItem" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD" index="2"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-
-[node name="RemoveItem" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/VBMOD" index="3"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-
-[node name="Spacer" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine" index="1"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-
-[node name="SCML" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine" index="2"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-
-[node name="PC" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/SCML" index="0"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
-
-[node name="ItemList" parent="VB/MC/TC/General/GC/MirrorTabs/Godot Engine/SCML/PC" index="0"]
-hint_tooltip = "This is currently unavailable, feature will be implemented in version 0.2."
 
 [node name="Projects" type="MarginContainer" parent="VB/MC/TC"]
 visible = false
@@ -561,6 +571,7 @@ margin_right = 994.0
 margin_bottom = 625.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -1466,5 +1477,3 @@ http://www.apache.org/licenses/
    See the License for the specific language governing permissions and
    limitations under the License.
 "
-
-[editable path="VB/MC/TC/General/GC/MirrorTabs/Godot Engine"]

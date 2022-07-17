@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 namespace AssetLib {
 	[JsonObject(MemberSerialization.OptIn)]
 	public class ConfigureResult : Object {
-		[JsonProperty]
-		public Array<CategoryResult> Categories;
+		[JsonProperty] public Array<CategoryResult> Categories;
 	}
 }

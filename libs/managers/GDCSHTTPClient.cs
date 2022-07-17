@@ -25,10 +25,15 @@ public class GDCSHTTPClient : Node {
 		}
 	}
 
+	public static string GetUserAgent() {
+		return $"User-Agent: Godot-Manager/{VERSION.GodotManager}-{VERSION.Channel} ({Platform.OperatingSystem})";
+	}
+
 	private string[] GetRequestHeaders() {
 		return new string[] {
-			"Accept: application/vnd.github.v3+json",
-			"User-Agent: Godot-Manager/0.1"
+			//"Accept: application/vnd.github.v3+json",
+			"Accept: */*",
+			GetUserAgent()
 		};
 	}
 
@@ -40,6 +45,18 @@ public class GDCSHTTPClient : Node {
 		bCancelled = true;
 	}
 	public bool IsCancelled() => bCancelled;
+
+	public void SetProxy(string host, int port, bool ssl = false) {
+		if (ssl)
+			client.SetHttpsProxy(host, port);
+		else
+			client.SetHttpProxy(host, port);
+	}
+
+	public void ClearProxy() {
+		client.SetHttpsProxy("",0);
+		client.SetHttpProxy("",0);
+	}
 
 	public async Task<HTTPClient.Status> StartClient(string host, bool use_ssl = false) {
 		client.BlockingModeEnabled = false;

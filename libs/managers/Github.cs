@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Uri = System.Uri;
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
@@ -48,7 +49,12 @@ namespace Github {
 
 		public async Task<Release> GetLatestRelease() {
 			Release ret = null;
-			Task<HTTPClient.Status> cres = client.StartClient("api.github.com",true);
+			Uri uri = new Uri("https://api.github.com/repos/godotengine/godot/releases/latest");
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+			else
+				client.ClearProxy();
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, true);
 
 			while (!cres.IsCompleted) {
 				await this.IdleFrame();
@@ -57,7 +63,7 @@ namespace Github {
 			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
-			string path = "/repos/godotengine/godot/releases/latest";
+			string path = uri.AbsolutePath;
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted) {
 				await this.IdleFrame();
@@ -83,7 +89,12 @@ namespace Github {
 
 		public async Task<Release> GetLatestManagerRelease() {
 			Release ret = null;
-			Task<HTTPClient.Status> cres = client.StartClient("api.github.com", true);
+			Uri uri = new Uri("https://api.github.com/eumario/godot-manager/releases/latest");
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+			else
+				client.ClearProxy();
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, true);
 
 			while (!cres.IsCompleted) {
 				await this.IdleFrame();
@@ -92,7 +103,7 @@ namespace Github {
 			if (!client.SuccessConnect(cres.Result))
 				return ret;
 			
-			string path = "/repos/eumario/godot-manager/releases/latest";
+			string path = uri.AbsolutePath;
 			var tresult = client.MakeRequest(path);
 			while (!tresult.IsCompleted) {
 				await this.IdleFrame();
@@ -118,7 +129,12 @@ namespace Github {
 
 		public async Task<Array<Release>> GetReleases(int per_page=0, int page=1) {
 			Array<Release> ret = new Array<Release>();
-			Task<HTTPClient.Status> cres = client.StartClient("api.github.com",true);
+			Uri uri = new Uri("https://api.github.com/repos/godotengine/godot/releases");
+			if (CentralStore.Settings.UseProxy)
+				client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+			else
+				client.ClearProxy();
+			Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port ,true);
 			
 			while (!cres.IsCompleted) {
 				await this.IdleFrame();
@@ -156,6 +172,36 @@ namespace Github {
 			mutex.Unlock();
 
 			return ret;
+		}
+
+		public async Task<Array<Release>> GetAllReleases() {
+			Array<Release> releases = new Array<Release>();
+			Mutex mutex = new Mutex();
+			bool stop = false;
+			int page = 1;
+			while (stop == false) {
+				var tres = GetReleases(30,page);
+				while (!tres.IsCompleted)
+					await this.IdleFrame();
+				
+				mutex.Lock();
+				if (tres.Result == null) {
+					OS.Alert(Tr("Failed to get Release information from Github"), Tr("Github Connection Error"));
+					stop = true;
+					continue;
+				}
+				Array<Release> relRes = tres.Result;
+				if (relRes.Count > 0) {
+					foreach(Release release in relRes) {
+						releases.Add(release);
+					}
+				} else
+					stop = true;
+				page++;
+				mutex.Unlock();
+			}
+
+			return releases;
 		}
 	}
 }

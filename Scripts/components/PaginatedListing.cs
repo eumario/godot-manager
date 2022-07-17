@@ -92,6 +92,15 @@ public class PaginatedListing : ScrollContainer
                 }
             }
         }
+        dlq.StartDownload();
+    }
+
+    string FindFile(ZipArchive za, string file) {
+        foreach (var entry in za.Entries) {
+            if (entry.FullName.Contains(file))
+                return entry.FullName;
+        }
+        return "";
     }
 
     public void UpdateTemplates() {
@@ -121,12 +130,15 @@ public class PaginatedListing : ScrollContainer
                     string zipPath = prj.Asset.IconUrl.Substring("zip+res://".Length);
                     if (!File.Exists(iconPath)) {
                         using (ZipArchive za = ZipFile.Open(prj.Location,ZipArchiveMode.Read)) {
-                            ZipArchiveEntry zae = za.GetEntry(zipPath);
-                            byte[] buffer = zae.ReadBuffer();
-                            var fh = new Godot.File();
-                            fh.Open(iconPath,Godot.File.ModeFlags.Write);
-                            fh.StoreBuffer(buffer);
-                            fh.Close();
+                            zipPath = FindFile(za, zipPath);
+                            if (zipPath != "") {
+                                ZipArchiveEntry zae = za.GetEntry(FindFile(za, zipPath));
+                                byte[] buffer = zae.ReadBuffer();
+                                var fh = new Godot.File();
+                                fh.Open(iconPath,Godot.File.ModeFlags.Write);
+                                fh.StoreBuffer(buffer);
+                                fh.Close();
+                            }
                         }
                     }
                 } else {
@@ -149,6 +161,7 @@ public class PaginatedListing : ScrollContainer
                 }
             }
         }
+        dlq.StartDownload();
     }
 
     public void UpdateResults(AssetLib.QueryResult result) {
