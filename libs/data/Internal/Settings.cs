@@ -14,6 +14,8 @@ public class Settings : Object {
 	[JsonProperty] public string LastView;
 	[JsonProperty] public string DefaultView;
 	[JsonProperty] public DateTime LastCheck;
+	[JsonProperty] public DateTime LastMirrorCheck;
+	[JsonProperty] public Dictionary<int, UpdateCheck> LastUpdateMirrorCheck;
 	[JsonProperty] public bool CheckForUpdates;
 	[JsonProperty] public TimeSpan CheckInterval;
 	[JsonProperty] public bool CloseManagerOnEdit;
@@ -51,6 +53,8 @@ public class Settings : Object {
 		UncategorizedToggled = false;
 		NoConsole = true;																				// Done
 		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
+		LastMirrorCheck = DateTime.UtcNow.AddDays(-1);
+		LastUpdateMirrorCheck = new Dictionary<int, UpdateCheck>();
 		CheckInterval = TimeSpan.FromDays(1);															// Done
 		ScanDirs = new Array<string>();																	// Done
 		UseProxy = false;
