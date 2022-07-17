@@ -13,14 +13,7 @@ public class SceneManager : Control
 	public override void _Ready()
 	{
 		string[] args = OS.GetCmdlineArgs();
-		if (args.Length == 0) {
-			OS.MinWindowSize = DEFAULT_RESOLUTION;
-			OS.WindowSize = DEFAULT_RESOLUTION;
-			OS.CenterWindow();
-			MainWindow win = mainWindow.Instance<MainWindow>();
-			AddChild(win);
-			win.Visible = true;
-		} else {
+		if (args.Length > 0 && (args[0] == "--update" || args[0] == "--update-complete")) {
 			OS.MinWindowSize = UPDATE_RESOLUTION;
 			OS.WindowSize = UPDATE_RESOLUTION;
 			OS.CenterWindow();
@@ -29,6 +22,18 @@ public class SceneManager : Control
 			win.Visible = true;
 			win.StartUpdate(args);
 			//win.CallDeferred("StartUpdate",args);
+		} else {
+			OS.MinWindowSize = DEFAULT_RESOLUTION;
+			OS.WindowSize = DEFAULT_RESOLUTION;
+			OS.CenterWindow();
+			MainWindow win = mainWindow.Instance<MainWindow>();
+			AddChild(win);
+			
+			if (args.Length > 0) {
+				AppDialogs.ImportProject.ShowDialog(args[0]);
+			}
+		
+			win.Visible = true;
 		}
 	}
 

@@ -58,9 +58,9 @@ public class ImportProject : ReferenceRect
 		}
 	}
 
-	public void ShowDialog() {
+	public void ShowDialog(string location = "") {
         UpdateGodotVersions();
-        _locationValue.Text = "";
+        _locationValue.Text = location;
         _godotVersions.Selected = iDefault;
         Visible = true;
     }
