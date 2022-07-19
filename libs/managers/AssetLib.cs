@@ -207,7 +207,12 @@ namespace AssetLib {
 
 			if (result.ResponseCode == 200)
 				res = JsonConvert.DeserializeObject<Asset>(result.Body, Github.DefaultSettings.defaultJsonSettings);
-			
+
+			res.IconUrl.StripEdges();
+			foreach (var i in res.Previews)
+			{
+				res.Previews[res.Previews.IndexOf(i)].Thumbnail = i.Thumbnail.StripEdges();
+			}
 			mutex.Unlock();
 			return res;
 		}
