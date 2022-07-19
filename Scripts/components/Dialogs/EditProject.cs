@@ -15,32 +15,39 @@ public class EditProject : ReferenceRect
 #endregion
 
 #region Node Paths
-    #region General Tab
-    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/HC/ProjectIcon")]
-    TextureRect _Icon = null;
+[NodePath("PC/CC/P/VB/MCContent/TC")] private TabContainer _TabContainer = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/HC/MC/VC/ProjectName")]
-    LineEdit _ProjectName = null;
+#region General Tab
+[NodePath("PC/CC/P/VB/MCContent/TC/General/VC/HC/ProjectIcon")]
+TextureRect _Icon = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/GodotVersion")]
-    OptionButton _GodotVersion = null;
+[NodePath("PC/CC/P/VB/MCContent/TC/General/VC/HC/MC/VC/ProjectName")]
+LineEdit _ProjectName = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TC/General/VC/ProjectDescription")]
-    TextEdit _ProjectDescription = null;
-    #endregion
+[NodePath("PC/CC/P/VB/MCContent/TC/General/VC/GodotVersion")]
+OptionButton _GodotVersion = null;
 
-    #region Plugins Tab
-    [NodePath("PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC/VB/List")]
-    GridContainer _PluginList = null;
-    #endregion
+[NodePath("PC/CC/P/VB/MCContent/TC/General/VC/ProjectDescription")]
+TextEdit _ProjectDescription = null;
+#endregion
 
-    #region Dialog Controls
-    [NodePath("PC/CC/P/VB/MCButtons/HB/SaveBtn")]
-    Button _SaveBtn = null;
+#region Plugins Tab
+[NodePath("PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC/List")]
+VBoxContainer _PluginList = null;
+#endregion
 
-    [NodePath("PC/CC/P/VB/MCButtons/HB/CancelBtn")]
-    Button _CancelBtn = null;
-    #endregion
+#region Dialog Controls
+[NodePath("PC/CC/P/VB/MCButtons/HB/SaveBtn")]
+Button _SaveBtn = null;
+
+[NodePath("PC/CC/P/VB/MCButtons/HB/CancelBtn")]
+Button _CancelBtn = null;
+#endregion
+#endregion
+
+#region Resources
+[Resource("res://components/AddonLineEntry.tscn")] private PackedScene ALineEntry = null;
+[Resource("res://Assets/Icons/default_project_icon.png")] private Texture DefaultIcon = null;
 #endregion
 
 #region Private Variables
@@ -102,21 +109,32 @@ public class EditProject : ReferenceRect
 
 #region Public Functions
     public void ShowDialog(ProjectFile pf) {
-        foreach(CheckBox node in _PluginList.GetChildren()) {
+        foreach(AddonLineEntry node in _PluginList.GetChildren()) {
             node.QueueFree();
         }
 
-        foreach(AssetPlugin plgn in CentralStore.Plugins) {
-            CheckBox plugin = new CheckBox();
-            plugin.Text = plgn.Asset.Title;
-            plugin.SetMeta("asset", plgn);
-            _PluginList.AddChild(plugin);
-            plugin.Connect("toggled", this, "OnToggledPlugin");
+        foreach(AssetPlugin plgn in CentralStore.Plugins)
+        {
+            string imgLoc =
+                $"{CentralStore.Settings.CachePath}/images/{plgn.Asset.AssetId}{plgn.Asset.IconUrl.GetExtension()}"
+                    .NormalizePath();
+            AddonLineEntry ale = ALineEntry.Instance<AddonLineEntry>();
+            
+            ale.Icon = Util.LoadImage(imgLoc);
+            if (ale.Icon == null) ale.Icon = DefaultIcon;
+            
+            ale.Title = plgn.Asset.Title;
+            ale.Version = plgn.Asset.VersionString;
+            ale.SetMeta("asset", plgn);
+            _PluginList.AddChild(ale);
+            ale.Connect("install_clicked", this, "OnToggledPlugin");
         }
 
         ProjectFile = pf;
         PopulateData();
         Visible = true;
+        _PluginList.GetParent().GetParent<ScrollContainer>().ScrollVertical = 0;
+        _TabContainer.CurrentTab = 0;
     }
 #endregion
 
@@ -136,18 +154,20 @@ public class EditProject : ReferenceRect
                 _GodotVersion.Selected = _GodotVersion.GetItemCount()-1;
         }
 
-        foreach(CheckBox btn in _PluginList.GetChildren()) {
-            btn.Pressed = false;
+        foreach(AddonLineEntry ale in _PluginList.GetChildren())
+        {
+            ale.Installed = false;
         }
 
         if (ProjectFile.Assets == null)
             ProjectFile.Assets = new Array<string>();
         
         foreach(string assetId in ProjectFile.Assets) {
-            foreach(CheckBox btn in _PluginList.GetChildren()) {
-                AssetPlugin plugin = (AssetPlugin)btn.GetMeta("asset");
-                if (plugin.Asset.AssetId == assetId) {
-                    btn.Pressed = true;
+            foreach(AddonLineEntry ale in _PluginList.GetChildren()) {
+                AssetPlugin plugin = (AssetPlugin)ale.GetMeta("asset");
+                if (plugin.Asset.AssetId == assetId)
+                {
+                    ale.Installed = true;
                 }
             }
         }
@@ -161,9 +181,9 @@ public class EditProject : ReferenceRect
         Array<AssetPlugin> install = new Array<AssetPlugin>();
         Array<AssetPlugin> remove = new Array<AssetPlugin>();
 
-        foreach(CheckBox btn in _PluginList.GetChildren()) {
-            if (btn.Pressed)
-                plugins.Add((AssetPlugin)btn.GetMeta("asset"));
+        foreach(AddonLineEntry ale in _PluginList.GetChildren()) {
+            if (ale.Installed)
+                plugins.Add((AssetPlugin)ale.GetMeta("asset"));
         }
 
         var res = from asset in plugins
