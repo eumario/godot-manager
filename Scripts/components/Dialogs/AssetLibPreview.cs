@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using Godot.Sharp.Extras.Fluent;
 using Uri = System.Uri;
 using File = System.IO.File;
 
@@ -39,6 +40,9 @@ public class AssetLibPreview : ReferenceRect
     [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC/Version")]
     Label _Version = null;
 
+    [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC/AssetId")]
+    Label _AssetId = null;
+
     [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC/Description")]
     RichTextLabel _Description = null;
 
@@ -75,7 +79,7 @@ public class AssetLibPreview : ReferenceRect
     private AssetLib.Asset _asset;
 
     private Array<string> Templates = new Array<string> {"Templates", "Projects", "Demos"};
-#endregion
+    #endregion
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -105,12 +109,13 @@ public class AssetLibPreview : ReferenceRect
 
         AppDialogs.DownloadAddon.Asset = _asset;
         AppDialogs.DownloadAddon.LoadInformation();
-        AppDialogs.DownloadAddon.Connect("download_complete", this, "OnDownloadAddonCompleted");
+
+        if (!AppDialogs.DownloadAddon.IsConnected("download_complete", this, "OnDownloadAddonCompleted"))
+            AppDialogs.DownloadAddon.Connect("download_complete", this, "OnDownloadAddonCompleted", new Array(), (uint)ConnectFlags.Oneshot);
         await AppDialogs.DownloadAddon.StartDownload();
     }
 
     async void OnDownloadAddonCompleted(AssetLib.Asset asset, AssetProject ap, AssetPlugin apl) {
-        AppDialogs.DownloadAddon.Disconnect("download_complete", this, "OnDownloadAddonCompleted");
         if (apl != null) {
             AppDialogs.AddonInstaller.ShowDialog(apl);
         }
@@ -134,6 +139,7 @@ public class AssetLibPreview : ReferenceRect
         _Category.Text = asset.Category;
         _Version.Text = asset.VersionString;
         _License.Text = asset.Cost;
+        _AssetId.Text = asset.AssetId;
         _Description.BbcodeText = "[table=1][cell][color=lime]" + 
         Tr("Support") + $"[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]" + 
         Tr("Homepage") + $"[/url][/color][/cell][cell][color=aqua][url={asset.IssuesUrl}]" +
@@ -369,10 +375,25 @@ public class AssetLibPreview : ReferenceRect
     }
 
 	private void UpdateThumbnail(int indx)
-	{
+    {
+        string iconPath;
 		TextureRect preview = _Thumbnails.GetChild(indx) as TextureRect;
-		string iconPath = preview.GetMeta("iconPath") as string;
-		if (File.Exists(iconPath.GetOSDir().NormalizePath()))
+        if (preview.HasMeta("iconPath"))
+        {
+            iconPath = preview.GetMeta("iconPath") as string;
+            if (iconPath == null)
+            {
+                preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                return;
+            }
+        }
+        else
+        {
+            preview.Texture = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+            return;
+        }
+
+        if (File.Exists(iconPath.GetOSDir().NormalizePath()))
 		{
             if (iconPath.EndsWith(".gif")) {
                 GifTexture gif = new GifTexture(iconPath);
