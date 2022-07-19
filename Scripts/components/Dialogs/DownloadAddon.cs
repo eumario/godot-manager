@@ -171,6 +171,9 @@ public class DownloadAddon : ReferenceRect
 			await this.IdleFrame();
 		client.Close();
 
+		if (tresult.IsCanceled || tresult.Result == null)
+			return false;
+
 		HTTPResponse result = tresult.Result;
 		Array<int> redirect_codes = new Array<int> { 301, 302, 303, 307, 308 };
 
@@ -358,6 +361,10 @@ public class DownloadAddon : ReferenceRect
         Visible = true;
         LoadInformation();
         dlUri = new Uri(Asset.DownloadUrl);
-        await StartNetwork();
+        if (!await StartNetwork())
+        {
+	        AppDialogs.MessageDialog.ShowMessage("Download Cancelled", "The requested download has been cancelled.");
+	        this.Visible = false;
+        }
     }
 }
