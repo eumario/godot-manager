@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/components/Dialogs/EditProject.cs" type="Script" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
@@ -24,21 +24,6 @@ border_color = Color( 0.639216, 0.639216, 0.639216, 1 )
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 corner_detail = 20
-
-[sub_resource type="StyleBoxFlat" id=8]
-content_margin_left = 10.0
-content_margin_right = 10.0
-content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color( 0.301961, 0.301961, 0.301961, 0.788235 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [node name="EditProject" type="ReferenceRect"]
 anchor_right = 1.0
@@ -69,9 +54,6 @@ custom_styles/panel = SubResource( 5 )
 [node name="VB" type="VBoxContainer" parent="PC/CC/P"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MC" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_right = 550.0
@@ -118,7 +100,7 @@ WindowMain = NodePath("../../../../../../../..")
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 30.0
 margin_right = 550.0
-margin_bottom = 379.0
+margin_bottom = 380.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -130,13 +112,13 @@ custom_constants/margin_bottom = 8
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 542.0
-margin_bottom = 341.0
+margin_bottom = 342.0
 
 [node name="General" type="MarginContainer" parent="PC/CC/P/VB/MCContent/TC"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 28.0
+margin_top = 27.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/margin_right = 5
@@ -148,7 +130,7 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 529.0
-margin_bottom = 300.0
+margin_bottom = 302.0
 custom_constants/separation = 7
 
 [node name="HC" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
@@ -192,7 +174,7 @@ text = "Project Name:"
 [node name="ProjectName" type="LineEdit" parent="PC/CC/P/VB/MCContent/TC/General/VC/HC/MC/VC"]
 margin_top = 23.0
 margin_right = 446.0
-margin_bottom = 45.0
+margin_bottom = 44.0
 
 [node name="Label2" type="Label" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
 margin_top = 71.0
@@ -204,42 +186,42 @@ text = "Godot Version:"
 [node name="GodotVersion" type="OptionButton" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
 margin_top = 97.0
 margin_right = 524.0
-margin_bottom = 119.0
+margin_bottom = 118.0
 
 [node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
-margin_top = 126.0
+margin_top = 125.0
 margin_right = 524.0
-margin_bottom = 145.0
+margin_bottom = 144.0
 custom_fonts/font = ExtResource( 2 )
 text = "Description:"
 
 [node name="ProjectDescription" type="TextEdit" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
-margin_top = 152.0
+margin_top = 151.0
 margin_right = 524.0
-margin_bottom = 295.0
+margin_bottom = 297.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Addons" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 28.0
+margin_top = 27.0
 
 [node name="Project Plugins" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC/Addons"]
 margin_right = 534.0
-margin_bottom = 305.0
+margin_bottom = 307.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/TC/Addons/Project Plugins"]
 margin_right = 534.0
-margin_bottom = 305.0
+margin_bottom = 307.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MC" type="MarginContainer" parent="PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer"]
 margin_right = 534.0
-margin_bottom = 305.0
+margin_bottom = 307.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 5
@@ -247,64 +229,50 @@ custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
 
-[node name="VB" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC"]
+[node name="List" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 529.0
-margin_bottom = 300.0
+margin_bottom = 302.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC/VB"]
-margin_right = 524.0
-margin_bottom = 59.0
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_styles/normal = SubResource( 8 )
-text = "*NOTE* Current installed Addons are already checked.  Select Additional addons, and click Save to Add the Addons to the Project."
-autowrap = true
-
-[node name="List" type="GridContainer" parent="PC/CC/P/VB/MCContent/TC/Addons/Project Plugins/ScrollContainer/MC/VB"]
-margin_top = 63.0
-margin_right = 524.0
-margin_bottom = 63.0
-columns = 2
-
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_top = 383.0
+margin_top = 384.0
 margin_right = 550.0
 margin_bottom = 420.0
 custom_constants/margin_bottom = 15
 
 [node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
 margin_right = 550.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 
 [node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_right = 152.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 
 [node name="SaveBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 156.0
 margin_right = 189.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 disabled = true
 text = "Save"
 
 [node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 193.0
 margin_right = 345.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 
 [node name="CancelBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 349.0
 margin_right = 394.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 text = "Cancel"
 
 [node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 398.0
 margin_right = 550.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
