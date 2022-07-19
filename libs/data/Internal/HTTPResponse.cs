@@ -59,12 +59,8 @@ public class HTTPResponse : Object {
 					//rb.AddRange(chunk);
 					call_from.EmitSignal("chunk_received", chunk.Length);
 				}
-				if (client.GetStatus() != HTTPClient.Status.Body) {
-					GD.Print($"Client status changed, Client Status: {client.GetStatus()}");
-				}
 			}
 			TimeSpan elapsed = DateTime.Now - start;
-			GD.Print($"Time taken: {elapsed.Minutes}m {elapsed.Seconds}s");
 		}
 		BodyRaw = SFile.ReadAllBytes(tmpfile);
 		SFile.Delete(tmpfile);
