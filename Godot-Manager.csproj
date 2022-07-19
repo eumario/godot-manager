@@ -9,6 +9,13 @@
     <PackageReference Include="Newtonsoft.JSON" Version="13.0.1" />
     <PackageReference Include="Sixlabors.ImageSharp" Version="1.0.4" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+    <None Include="**/*.tscn" />
+    <None Include="**/*.svg" />
+    <None Include="**/*.png" />
+    <None Include="**/*.cfg" />
+    <None Include="**/*.ttf" />
+    <None Include="**/*.otf" />
+    <None Include="**/*.tres" />
   </ItemGroup>
   <PropertyGroup Condition="true">
     <NoWarn>0414</NoWarn>
