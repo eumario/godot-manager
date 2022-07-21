@@ -4,6 +4,8 @@ using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
 using DateTimeOffset = System.DateTimeOffset;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 namespace Github {
 	public class Github : Node {

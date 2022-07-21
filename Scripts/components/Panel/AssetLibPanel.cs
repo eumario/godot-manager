@@ -9,6 +9,8 @@ using FileMode = System.IO.FileMode;
 using Directory = System.IO.Directory;
 using SFile = System.IO.File;
 using System.IO.Compression;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class AssetLibPanel : Panel
 {

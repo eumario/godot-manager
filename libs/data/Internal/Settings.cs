@@ -5,95 +5,102 @@ using DateTime = System.DateTime;
 using TimeSpan = System.TimeSpan;
 using Guid = System.Guid;
 
-[JsonObject(MemberSerialization.OptIn)]
-public class Settings : Object {
-	[JsonProperty] public string ProjectPath;
-	[JsonProperty] public string DefaultEngine;
-	[JsonProperty] public string EnginePath;
-	[JsonProperty] public string CachePath;
-	[JsonProperty] public string LastView;
-	[JsonProperty] public string DefaultView;
-	[JsonProperty] public DateTime LastCheck;
-	[JsonProperty] public DateTime LastMirrorCheck;
-	[JsonProperty] public Dictionary<int, UpdateCheck> LastUpdateMirrorCheck;
-	[JsonProperty] public bool CheckForUpdates;
-	[JsonProperty] public TimeSpan CheckInterval;
-	[JsonProperty] public bool CloseManagerOnEdit;
-	[JsonProperty] public bool NoConsole;
-	[JsonProperty] public bool SelfContainedEditors;
-	[JsonProperty] public bool EnableAutoScan;
-	[JsonProperty] public bool FavoritesToggled;
-	[JsonProperty] public bool UncategorizedToggled;
-	[JsonProperty] public bool UseProxy;
-	[JsonProperty] public string ProxyHost;
-	[JsonProperty] public int ProxyPort;
-	[JsonProperty] public Array<string> ScanDirs;
-	[JsonProperty] public Array<Dictionary<string, string>> AssetMirrors;
-	[JsonProperty] public Array<Dictionary<string, string>> EngineMirrors;
+namespace GodotManager.Data.JsonDB.Models
+{
 
-	[JsonProperty] public Dictionary<string, string> CurrentAssetMirror;
-	[JsonProperty] public Dictionary<string, string> CurrentEngineMirror;
+	[JsonObject(MemberSerialization.OptIn)]
+	public class Settings : Object
+	{
+		[JsonProperty] public string ProjectPath;
+		[JsonProperty] public string DefaultEngine;
+		[JsonProperty] public string EnginePath;
+		[JsonProperty] public string CachePath;
+		[JsonProperty] public string LastView;
+		[JsonProperty] public string DefaultView;
+		[JsonProperty] public DateTime LastCheck;
+		[JsonProperty] public DateTime LastMirrorCheck;
+		[JsonProperty] public Dictionary<int, UpdateCheck> LastUpdateMirrorCheck;
+		[JsonProperty] public bool CheckForUpdates;
+		[JsonProperty] public TimeSpan CheckInterval;
+		[JsonProperty] public bool CloseManagerOnEdit;
+		[JsonProperty] public bool NoConsole;
+		[JsonProperty] public bool SelfContainedEditors;
+		[JsonProperty] public bool EnableAutoScan;
+		[JsonProperty] public bool FavoritesToggled;
+		[JsonProperty] public bool UncategorizedToggled;
+		[JsonProperty] public bool UseProxy;
+		[JsonProperty] public string ProxyHost;
+		[JsonProperty] public int ProxyPort;
+		[JsonProperty] public Array<string> ScanDirs;
+		[JsonProperty] public Array<Dictionary<string, string>> AssetMirrors;
+		[JsonProperty] public Array<Dictionary<string, string>> EngineMirrors;
 
-	[JsonProperty] public int LocalAddonCount;
+		[JsonProperty] public Dictionary<string, string> CurrentAssetMirror;
+		[JsonProperty] public Dictionary<string, string> CurrentEngineMirror;
 
-	public bool FirstTimeRun = false;
+		[JsonProperty] public int LocalAddonCount;
 
-	public Settings() {
-		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath();			// Done
-		DefaultEngine = Guid.Empty.ToString();															// Done
-		EnginePath = "user://versions";																	// Done
-		CachePath = "user://cache";																		// Done
-		LastView = Tr("List View");																		// Done
-		DefaultView = Tr("List View");																	// Done
-		CheckForUpdates = true;																			// Done
-		CloseManagerOnEdit = true;																		// Done
-		SelfContainedEditors = true;																	// Done
-		EnableAutoScan = false;																			// Done
-		FavoritesToggled = false;
-		UncategorizedToggled = false;
-		NoConsole = true;																				// Done
-		LastCheck = DateTime.UtcNow.AddDays(-1);														// Done
-		LastMirrorCheck = DateTime.UtcNow.AddDays(-1);
-		LastUpdateMirrorCheck = new Dictionary<int, UpdateCheck>();
-		CheckInterval = TimeSpan.FromDays(1);															// Done
-		ScanDirs = new Array<string>();																	// Done
-		UseProxy = false;
-		ProxyHost = "localhost";
-		ProxyPort = 8000;
-		AssetMirrors = new Array<Dictionary<string, string>>();											// Done
-		EngineMirrors = new Array<Dictionary<string, string>>();										// Not Implemented (Version 0.2 Target)
-		CurrentAssetMirror = new Dictionary<string, string>();											// Semi-Implemented (Version 0.2 Target)
-		CurrentEngineMirror = new Dictionary<string, string>();											// Not Implemented (Version 0.2 Target)
-		LocalAddonCount = 0;
-	}
+		public bool FirstTimeRun = false;
 
-	public void SetupDefaultValues() {
-		FirstTimeRun = true;
-		Dictionary<string, string> data = new Dictionary<string, string>();
+		public Settings()
+		{
+			ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath(); // Done
+			DefaultEngine = Guid.Empty.ToString(); // Done
+			EnginePath = "user://versions"; // Done
+			CachePath = "user://cache"; // Done
+			LastView = Tr("List View"); // Done
+			DefaultView = Tr("List View"); // Done
+			CheckForUpdates = true; // Done
+			CloseManagerOnEdit = true; // Done
+			SelfContainedEditors = true; // Done
+			EnableAutoScan = false; // Done
+			FavoritesToggled = false;
+			UncategorizedToggled = false;
+			NoConsole = true; // Done
+			LastCheck = DateTime.UtcNow.AddDays(-1); // Done
+			LastMirrorCheck = DateTime.UtcNow.AddDays(-1);
+			LastUpdateMirrorCheck = new Dictionary<int, UpdateCheck>();
+			CheckInterval = TimeSpan.FromDays(1); // Done
+			ScanDirs = new Array<string>(); // Done
+			UseProxy = false;
+			ProxyHost = "localhost";
+			ProxyPort = 8000;
+			AssetMirrors = new Array<Dictionary<string, string>>(); // Done
+			EngineMirrors = new Array<Dictionary<string, string>>(); // Not Implemented (Version 0.2 Target)
+			CurrentAssetMirror = new Dictionary<string, string>(); // Semi-Implemented (Version 0.2 Target)
+			CurrentEngineMirror = new Dictionary<string, string>(); // Not Implemented (Version 0.2 Target)
+			LocalAddonCount = 0;
+		}
 
-		// Scan Directories (Default Project path added)
-		ScanDirs.Add(ProjectPath);
+		public void SetupDefaultValues()
+		{
+			FirstTimeRun = true;
+			Dictionary<string, string> data = new Dictionary<string, string>();
 
-		// Asset Library Mirrors
-		data["name"] = "godotengine.org";
-		data["url"] = "https://godotengine.org/asset-library/api/";
-		AssetMirrors.Add(data.Duplicate());
-		CurrentAssetMirror = data.Duplicate();
-		data.Clear();
-		data["name"] = "localhost";
-		data["url"] = "http://localhost/asset-library/api/";
-		AssetMirrors.Add(data.Duplicate());
-		data.Clear();
+			// Scan Directories (Default Project path added)
+			ScanDirs.Add(ProjectPath);
 
-		// Engine Mirrors
-		data["name"] = "Github";
-		data["url"] = "https://github.com/godotengine/godot";
-		EngineMirrors.Add(data.Duplicate());
-		CurrentEngineMirror = data.Duplicate();
-		data.Clear();
-		data["name"] = "Tuxfamily";
-		data["url"] = "https://downloads.tuxfamily.org/godotengine/";
-		EngineMirrors.Add(data.Duplicate());
-		data.Clear();
+			// Asset Library Mirrors
+			data["name"] = "godotengine.org";
+			data["url"] = "https://godotengine.org/asset-library/api/";
+			AssetMirrors.Add(data.Duplicate());
+			CurrentAssetMirror = data.Duplicate();
+			data.Clear();
+			data["name"] = "localhost";
+			data["url"] = "http://localhost/asset-library/api/";
+			AssetMirrors.Add(data.Duplicate());
+			data.Clear();
+
+			// Engine Mirrors
+			data["name"] = "Github";
+			data["url"] = "https://github.com/godotengine/godot";
+			EngineMirrors.Add(data.Duplicate());
+			CurrentEngineMirror = data.Duplicate();
+			data.Clear();
+			data["name"] = "Tuxfamily";
+			data["url"] = "https://downloads.tuxfamily.org/godotengine/";
+			EngineMirrors.Add(data.Duplicate());
+			data.Clear();
+		}
 	}
 }

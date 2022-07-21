@@ -2,6 +2,8 @@ using Godot;
 using Godot.Sharp.Extras;
 using Godot.Collections;
 using System.Threading.Tasks;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class AssetLibEntry : ColorRect
 {

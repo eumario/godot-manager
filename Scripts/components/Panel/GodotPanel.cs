@@ -11,6 +11,8 @@ using Guid = System.Guid;
 using DateTime = System.DateTime;
 using TimeSpan = System.TimeSpan;
 using Mirrors;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class GodotPanel : Panel
 {

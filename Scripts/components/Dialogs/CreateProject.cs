@@ -2,6 +2,8 @@ using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
 using Directory = System.IO.Directory;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class CreateProject : ReferenceRect
 {

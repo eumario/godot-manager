@@ -5,6 +5,8 @@ using Directory = System.IO.Directory;
 using SFile = System.IO.File;
 using System;
 using System.Linq;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class MainWindow : Control
 {

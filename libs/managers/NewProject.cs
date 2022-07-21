@@ -5,6 +5,8 @@ using Directory = System.IO.Directory;
 using SFile = System.IO.File;
 using StreamWriter = System.IO.StreamWriter;
 using BinaryWriter = System.IO.BinaryWriter;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class NewProject : Object {
 	public string ProjectName;

@@ -6,6 +6,8 @@ using System.Linq;
 using Uri = System.Uri;
 using DateTime = System.DateTime;
 using TimeSpan = System.TimeSpan;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class DownloadAddon : ReferenceRect
 {

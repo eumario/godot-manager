@@ -1,7 +1,8 @@
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
-
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class RemoveCategory : ReferenceRect
 {

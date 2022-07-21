@@ -7,6 +7,8 @@ using DateTime = System.DateTime;
 using TimeSpan = System.TimeSpan;
 using Dir = System.IO.Directory;
 using System.Threading.Tasks;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 
 public class DownloadGodotManager : ReferenceRect

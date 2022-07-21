@@ -9,6 +9,8 @@ using TimeSpan = System.TimeSpan;
 using Uri = System.Uri;
 using Guid = System.Guid;
 using Environment = System.Environment;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class GodotLineEntry : HBoxContainer
 {

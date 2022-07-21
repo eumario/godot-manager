@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Godot;
 using Newtonsoft.Json;
 using Uri = System.Uri;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 namespace AssetLib {
 	public class AssetLib : Node {

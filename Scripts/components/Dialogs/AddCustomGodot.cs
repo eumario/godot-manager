@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Sharp.Extras;
 using Guid = System.Guid;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class AddCustomGodot : ReferenceRect
 {

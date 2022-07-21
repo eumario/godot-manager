@@ -4,6 +4,8 @@ using Godot.Sharp.Extras;
 using Godot.Sharp.Extras.Fluent;
 using Uri = System.Uri;
 using File = System.IO.File;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class AssetLibPreview : ReferenceRect
 {

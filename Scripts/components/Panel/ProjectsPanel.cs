@@ -7,6 +7,8 @@ using System.Diagnostics;
 using Dir = System.IO.Directory;
 using SearchOption = System.IO.SearchOption;
 using DateTime = System.DateTime;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class ProjectsPanel : Panel
 {

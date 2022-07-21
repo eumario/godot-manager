@@ -9,6 +9,8 @@ using SFile = System.IO.File;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class SettingsPanel : Panel
 {

@@ -3,6 +3,8 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using System;
 using System.Linq;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 [Tool]
 public class CategoryList : VBoxContainer

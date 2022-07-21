@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using Uri = System.Uri;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class ImageDownloader : Object {
 	GDCSHTTPClient client;

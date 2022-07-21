@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Sharp.Extras;
 using System;
+using GodotManager.Data.JsonDB;
+using GodotManager.Data.JsonDB.Models;
 
 public class ProjectIconEntry : ColorRect
 {
