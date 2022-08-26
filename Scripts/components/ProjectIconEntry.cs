@@ -174,7 +174,6 @@ public class ProjectIconEntry : ColorRect
     void OnGuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
-        GD.Print($"Icon Rect Size: {RectSize.x}x{RectSize.y}");
         var iemb = inputEvent as InputEventMouseButton;
         if (!iemb.Pressed)
             return;
