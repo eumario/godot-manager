@@ -38,6 +38,9 @@ public class ProjectIconEntry : ColorRect
     private string sGodotVersion;
     //private int iGodotVersion;
     private ProjectFile pfProjectFile;
+
+    [Resource("res://Resources/Fonts/droid-bold-16.tres")] private Font titleFont = null;
+    [Resource("res://Resources/Fonts/droid-regular-14.tres")]private Font subLineFont = null;
 #endregion
 
 #region Public Accessors
@@ -80,8 +83,15 @@ public class ProjectIconEntry : ColorRect
 
         set {
             sProjectName = value;
-            if (_projectName != null)
+            if (_projectName != null) {
+                Vector2 size = titleFont.GetStringSize(value);
+                if (size.x > 280) {
+                    _projectName.Align = Label.AlignEnum.Left;
+                } else {
+                    _projectName.Align = Label.AlignEnum.Center;
+                }
                 _projectName.Text = value;
+            }
         }
     }
 
@@ -95,11 +105,19 @@ public class ProjectIconEntry : ColorRect
 
         set {
             sProjectLocation = value;
-            if (_projectLocation != null)
+            if (_projectLocation != null) {
+                Vector2 size = subLineFont.GetStringSize(value);
+                if (size.x > 280) {
+                    _projectLocation.Align = Label.AlignEnum.Left;
+                } else {
+                    _projectLocation.Align = Label.AlignEnum.Center;
+                }
+
                 if (MissingProject)
                     _projectLocation.Text = value;
                 else
                     _projectLocation.Text = value.GetBaseDir();
+            }
         }
     }
 
@@ -126,10 +144,18 @@ public class ProjectIconEntry : ColorRect
             sGodotVersion = value;
             GodotVersion gv = CentralStore.Instance.FindVersion(value);
             if (_godotVersion != null) {
-                if (gv != null)
+                if (gv != null) {
                     _godotVersion.Text = gv.GetDisplayName();
-                else
+                    Vector2 size = subLineFont.GetStringSize(gv.GetDisplayName());
+                    if (size.x > 280) {
+                        _godotVersion.Align = Label.AlignEnum.Left;
+                    } else {
+                        _godotVersion.Align = Label.AlignEnum.Center;
+                    }
+                } else {
                     _godotVersion.Text = Tr("Unknown");
+                    _godotVersion.Align = Label.AlignEnum.Center;
+                }
             }
         }
     }
@@ -148,6 +174,7 @@ public class ProjectIconEntry : ColorRect
     void OnGuiInput(InputEvent inputEvent) {
         if (!(inputEvent is InputEventMouseButton))
             return;
+        GD.Print($"Icon Rect Size: {RectSize.x}x{RectSize.y}");
         var iemb = inputEvent as InputEventMouseButton;
         if (!iemb.Pressed)
             return;

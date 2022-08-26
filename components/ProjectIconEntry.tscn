@@ -12,9 +12,6 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 289, 131 )
 color = Color( 1, 1, 1, 0.192157 )
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="cc" type="CenterContainer" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -24,20 +21,18 @@ rect_min_size = Vector2( 289, 131 )
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="vc" type="VBoxContainer" parent="cc"]
-margin_left = 459.0
-margin_top = 284.0
-margin_right = 565.0
+margin_left = 372.0
+margin_top = 285.0
+margin_right = 652.0
 margin_bottom = 415.0
+rect_min_size = Vector2( 280, 130 )
 
 [node name="ProjectIcon" type="TextureRect" parent="cc/vc"]
-margin_left = 21.0
-margin_right = 85.0
-margin_bottom = 64.0
+margin_left = 108.0
+margin_right = 172.0
+margin_bottom = 65.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 4
 size_flags_vertical = 3
@@ -46,28 +41,34 @@ expand = true
 stretch_mode = 6
 
 [node name="ProjectName" type="Label" parent="cc/vc"]
-margin_top = 68.0
-margin_right = 106.0
-margin_bottom = 87.0
-size_flags_horizontal = 4
+margin_top = 69.0
+margin_right = 280.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
 custom_fonts/font = ExtResource( 3 )
 text = "Project Name"
+align = 1
+clip_text = true
 
 [node name="ProjectLocation" type="Label" parent="cc/vc"]
-margin_top = 91.0
-margin_right = 106.0
+margin_top = 92.0
+margin_right = 280.0
 margin_bottom = 109.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "/home/eumario/Projects/Godot/ProjectName"
+align = 1
 clip_text = true
 
 [node name="GodotVersion" type="Label" parent="cc/vc"]
-margin_left = 12.0
 margin_top = 113.0
-margin_right = 94.0
-margin_bottom = 131.0
-size_flags_horizontal = 4
+margin_right = 280.0
+margin_bottom = 130.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "Godot vX.X.X"
+align = 1
+clip_text = true
