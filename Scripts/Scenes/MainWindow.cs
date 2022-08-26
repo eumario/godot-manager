@@ -51,6 +51,14 @@ public class MainWindow : Control
 
 		var res = CleanupCarriageReturns();
 
+		if (CentralStore.Settings.UseSystemTitlebar) {
+			OS.WindowBorderless = false;
+			GetTree().Root.GetNode<Titlebar>("SceneManager/MainWindow/bg/Shell/VC/TitleBar").Visible = false;
+		} else {
+			OS.WindowBorderless = true;
+			GetTree().Root.GetNode<Titlebar>("SceneManager/MainWindow/bg/Shell/VC/TitleBar").Visible = true;
+		}
+
 		if (CentralStore.Settings.FirstTimeRun) {
 			AppDialogs.FirstTimeInstall.Visible = true;
 		}

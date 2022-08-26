@@ -18,6 +18,7 @@ public class Settings : Object {
 	[JsonProperty] public Dictionary<int, UpdateCheck> LastUpdateMirrorCheck;
 	[JsonProperty] public bool CheckForUpdates;
 	[JsonProperty] public TimeSpan CheckInterval;
+	[JsonProperty] public bool UseSystemTitlebar;
 	[JsonProperty] public bool CloseManagerOnEdit;
 	[JsonProperty] public bool NoConsole;
 	[JsonProperty] public bool SelfContainedEditors;
@@ -56,6 +57,7 @@ public class Settings : Object {
 		LastMirrorCheck = DateTime.UtcNow.AddDays(-1);
 		LastUpdateMirrorCheck = new Dictionary<int, UpdateCheck>();
 		CheckInterval = TimeSpan.FromDays(1);															// Done
+		UseSystemTitlebar = false;
 		ScanDirs = new Array<string>();																	// Done
 		UseProxy = false;
 		ProxyHost = "localhost";

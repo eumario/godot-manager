@@ -64,6 +64,9 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/HBCI/UpdateCheckInterval")]
 	OptionButton _updateCheckInterval = null;
 
+	[NodePath("VB/MC/TC/General/GC/TitleBar")]
+	CheckBox _useSystemTitlebar = null;
+
 	[NodePath("VB/MC/TC/General/GC/HBCI/CheckBox")]
 	CheckBox _useProxy = null;
 
@@ -247,6 +250,7 @@ public class SettingsPanel : Panel
 		_defaultProjectView.Select(_views.IndexOf(CentralStore.Settings.DefaultView));
 		PopulateGodotEngine();
 		_checkForUpdates.Pressed = CentralStore.Settings.CheckForUpdates;
+		_useSystemTitlebar.Pressed = CentralStore.Settings.UseSystemTitlebar;
 		_useProxy.Pressed = CentralStore.Settings.UseProxy;
 		_proxyContainer.Visible = CentralStore.Settings.UseProxy;
 		_proxyHost.Text = CentralStore.Settings.ProxyHost;
@@ -301,10 +305,19 @@ public class SettingsPanel : Panel
 		CentralStore.Settings.DefaultEngine = (string)_defaultEngine.GetItemMetadata(_defaultEngine.Selected);
 		CentralStore.Settings.CheckForUpdates = _checkForUpdates.Pressed;
 		CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[_updateCheckInterval.Selected]);
+		CentralStore.Settings.UseSystemTitlebar = _useSystemTitlebar.Pressed;
 		CentralStore.Settings.UseProxy = _useProxy.Pressed;
 		CentralStore.Settings.ProxyHost = _proxyHost.Text;
 		CentralStore.Settings.ProxyPort = _proxyPort.Text.ToInt();
 		CentralStore.Settings.SelfContainedEditors = _editorProfiles.Pressed;
+
+		if (CentralStore.Settings.UseSystemTitlebar) {
+			OS.WindowBorderless = false;
+			GetTree().Root.GetNode<Titlebar>("SceneManager/MainWindow/bg/Shell/VC/TitleBar").Visible = false;
+		} else {
+			OS.WindowBorderless = true;
+			GetTree().Root.GetNode<Titlebar>("SceneManager/MainWindow/bg/Shell/VC/TitleBar").Visible = true;
+		}
 
 		foreach(GodotVersion version in CentralStore.Versions) {
 			if (_editorProfiles.Pressed) {
@@ -800,6 +813,19 @@ public class SettingsPanel : Panel
 			updateActionButtons();
 		}
 		CentralStore.Settings.EnableAutoScan = toggle;
+	}
+
+	[SignalHandler("toggled", nameof(_useSystemTitlebar))]
+	void OnUseSystemTitlebar(bool toggle) {
+		bool oldVal = CentralStore.Settings.UseSystemTitlebar;
+		if (!bPInternal) {
+			_undoActions.Push(() => {
+				CentralStore.Settings.UseSystemTitlebar = oldVal;
+				_useSystemTitlebar.Pressed = oldVal;
+			});
+			updateActionButtons();
+		}
+		CentralStore.Settings.UseSystemTitlebar = toggle;
 	}
 
 	#region Directory Scan List Actions

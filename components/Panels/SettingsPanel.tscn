@@ -413,10 +413,22 @@ margin_left = 457.0
 margin_right = 457.0
 margin_bottom = 21.0
 
-[node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 164.0
+[node name="Control" type="Control" parent="VB/MC/TC/General/GC"]
+margin_top = 155.0
 margin_right = 180.0
-margin_bottom = 183.0
+margin_bottom = 172.0
+
+[node name="TitleBar" type="CheckBox" parent="VB/MC/TC/General/GC"]
+margin_left = 190.0
+margin_top = 155.0
+margin_right = 994.0
+margin_bottom = 172.0
+text = "Use System Titlebar"
+
+[node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
+margin_top = 191.0
+margin_right = 180.0
+margin_bottom = 210.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -425,9 +437,9 @@ align = 2
 
 [node name="VBLO" type="VBoxContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 155.0
+margin_top = 182.0
 margin_right = 994.0
-margin_bottom = 193.0
+margin_bottom = 220.0
 
 [node name="NoConsole" type="CheckBox" parent="VB/MC/TC/General/GC/VBLO"]
 margin_right = 804.0
@@ -443,7 +455,7 @@ custom_fonts/font = ExtResource( 13 )
 text = "Separate Editor Profiles"
 
 [node name="Label8" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 203.0
+margin_top = 230.0
 margin_right = 180.0
 margin_bottom = 625.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
@@ -455,7 +467,7 @@ align = 2
 
 [node name="MirrorTabs" type="TabContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 203.0
+margin_top = 230.0
 margin_right = 994.0
 margin_bottom = 625.0
 size_flags_horizontal = 3
@@ -470,8 +482,10 @@ margin_bottom = -1.0
 
 [node name="Projects" type="MarginContainer" parent="VB/MC/TC"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_left = 490.0
+margin_top = 129.0
+margin_right = 999.0
+margin_bottom = 316.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
@@ -480,8 +494,8 @@ custom_constants/margin_bottom = 5
 [node name="GC" type="GridContainer" parent="VB/MC/TC/Projects"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 999.0
-margin_bottom = 630.0
+margin_right = 504.0
+margin_bottom = 182.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
@@ -498,20 +512,20 @@ align = 2
 
 [node name="HBPL" type="HBoxContainer" parent="VB/MC/TC/Projects/GC"]
 margin_left = 204.0
-margin_right = 994.0
+margin_right = 499.0
 margin_bottom = 21.0
 size_flags_horizontal = 3
 custom_constants/separation = 20
 
 [node name="DefaultProjectLocation" type="LineEdit" parent="VB/MC/TC/Projects/GC/HBPL"]
-margin_right = 719.0
+margin_right = 224.0
 margin_bottom = 21.0
 hint_tooltip = "The default install location where Godot Engines will be installed to.  By Default, will install to Godot Manager's Data folder."
 size_flags_horizontal = 3
 
 [node name="BrowseProjectLocation" type="Button" parent="VB/MC/TC/Projects/GC/HBPL"]
-margin_left = 739.0
-margin_right = 790.0
+margin_left = 244.0
+margin_right = 295.0
 margin_bottom = 21.0
 text = "Browse"
 
@@ -528,7 +542,7 @@ align = 2
 [node name="ExitManager" type="CheckBox" parent="VB/MC/TC/Projects/GC"]
 margin_left = 204.0
 margin_top = 31.0
-margin_right = 994.0
+margin_right = 499.0
 margin_bottom = 50.0
 custom_fonts/font = ExtResource( 13 )
 text = "Exit Godot Manager"
@@ -546,7 +560,7 @@ align = 2
 [node name="AutoScanProjects" type="CheckBox" parent="VB/MC/TC/Projects/GC"]
 margin_left = 204.0
 margin_top = 60.0
-margin_right = 994.0
+margin_right = 499.0
 margin_bottom = 79.0
 custom_fonts/font = ExtResource( 13 )
 text = "Scan each time Godot Manager is Launched"
@@ -554,7 +568,7 @@ text = "Scan each time Godot Manager is Launched"
 [node name="Label1" type="Label" parent="VB/MC/TC/Projects/GC"]
 margin_top = 89.0
 margin_right = 194.0
-margin_bottom = 625.0
+margin_bottom = 177.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 size_flags_vertical = 7
@@ -567,8 +581,8 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 204.0
 margin_top = 89.0
-margin_right = 994.0
-margin_bottom = 625.0
+margin_right = 499.0
+margin_bottom = 177.0
 
 [node name="About" type="VBoxContainer" parent="VB/MC/TC"]
 visible = false
