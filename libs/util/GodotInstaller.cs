@@ -174,14 +174,14 @@ public class GodotInstaller : Object {
 		}
 #elif GODOT_LINUXBSD || GODOT_X11
 		foreach (string fname in fileList) {
-			if (Environment.Is64BitProcess) {
+			if (System.Environment.Is64BitProcess) {
 				if (fname.EndsWith(".64") && fname.StartsWith("Godot")) {
 					_version.ExecutableName = fname;
 					break;
 				}
 			} else {
 				if (fname.EndsWith(".32") && fname.StartsWith("Godot")) {
-					_version.Executable = fname;
+					_version.ExecutableName = fname;
 					break;
 				}
 			}
