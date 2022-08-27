@@ -425,10 +425,22 @@ margin_right = 994.0
 margin_bottom = 172.0
 text = "Use System Titlebar"
 
-[node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 191.0
+[node name="Control2" type="Control" parent="VB/MC/TC/General/GC"]
+margin_top = 182.0
 margin_right = 180.0
-margin_bottom = 210.0
+margin_bottom = 199.0
+
+[node name="UseLastMirror" type="CheckBox" parent="VB/MC/TC/General/GC"]
+margin_left = 190.0
+margin_top = 182.0
+margin_right = 994.0
+margin_bottom = 199.0
+text = "Use Last Mirror Selected"
+
+[node name="Label5" type="Label" parent="VB/MC/TC/General/GC"]
+margin_top = 218.0
+margin_right = 180.0
+margin_bottom = 237.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
 mouse_filter = 1
 custom_fonts/font = ExtResource( 4 )
@@ -437,9 +449,9 @@ align = 2
 
 [node name="VBLO" type="VBoxContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 182.0
+margin_top = 209.0
 margin_right = 994.0
-margin_bottom = 220.0
+margin_bottom = 247.0
 
 [node name="NoConsole" type="CheckBox" parent="VB/MC/TC/General/GC/VBLO"]
 margin_right = 804.0
@@ -455,7 +467,7 @@ custom_fonts/font = ExtResource( 13 )
 text = "Separate Editor Profiles"
 
 [node name="Label8" type="Label" parent="VB/MC/TC/General/GC"]
-margin_top = 230.0
+margin_top = 257.0
 margin_right = 180.0
 margin_bottom = 625.0
 hint_tooltip = "The location to store cache images, engine downloads, and Asset Addons/Templates."
@@ -467,7 +479,7 @@ align = 2
 
 [node name="MirrorTabs" type="TabContainer" parent="VB/MC/TC/General/GC"]
 margin_left = 190.0
-margin_top = 230.0
+margin_top = 257.0
 margin_right = 994.0
 margin_bottom = 625.0
 size_flags_horizontal = 3

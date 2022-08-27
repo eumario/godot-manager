@@ -93,10 +93,6 @@ public class EditProject : ReferenceRect
     }
 #endregion
 
-    // TODO: Need to implement UI Glue to Data Backend, once Data has been edited, mark as dirty, and enable Save Button.
-    // Warn when Dirty when closing / canceling the dialog.
-    // Once Confirmed to make changes, save the CentralStore database.  (Need to set a revert point, so maybe not directly
-    // accessing _pf is a good idea.)
     public override void _Ready()
     {
         this.OnReady();

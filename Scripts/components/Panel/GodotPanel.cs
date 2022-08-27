@@ -164,6 +164,9 @@ public class GodotPanel : Panel
 				}
             }
         }
+
+        if (CentralStore.Settings.UseLastMirror)
+            CentralStore.Settings.LastEngineMirror = index;
         await PopulateList();
     }
 
@@ -183,6 +186,15 @@ public class GodotPanel : Panel
 
     async void OnPageChanged(int page) {
         if (GetParent<TabContainer>().GetCurrentTabControl() != this) return;
+
+        if (CentralStore.Settings.UseLastMirror)
+        {
+            DownloadSource.Selected = CentralStore.Settings.LastEngineMirror;
+            if (CentralStore.Settings.LastEngineMirror == 0)
+                OnlyMono();
+            else
+                AllTags();
+        }
 
         if (DownloadSource.Selected == 0) {
             if (CentralStore.GHVersions.Count == 0) {
@@ -214,7 +226,7 @@ public class GodotPanel : Panel
         await PopulateList();
     }
 
-	public async Task CheckForUpdates() // TODO: Need to check for updates from MirrorManager as well.
+	public async Task CheckForUpdates()
 	{
 		MirrorSite site = null;
 		if (DownloadSource.Selected == 0)

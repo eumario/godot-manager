@@ -67,6 +67,9 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/TitleBar")]
 	CheckBox _useSystemTitlebar = null;
 
+	[NodePath("VB/MC/TC/General/GC/UseLastMirror")]
+	CheckBox _useLastMirror = null;
+
 	[NodePath("VB/MC/TC/General/GC/HBCI/CheckBox")]
 	CheckBox _useProxy = null;
 
@@ -251,6 +254,7 @@ public class SettingsPanel : Panel
 		PopulateGodotEngine();
 		_checkForUpdates.Pressed = CentralStore.Settings.CheckForUpdates;
 		_useSystemTitlebar.Pressed = CentralStore.Settings.UseSystemTitlebar;
+		_useLastMirror.Pressed = CentralStore.Settings.UseLastMirror;
 		_useProxy.Pressed = CentralStore.Settings.UseProxy;
 		_proxyContainer.Visible = CentralStore.Settings.UseProxy;
 		_proxyHost.Text = CentralStore.Settings.ProxyHost;
@@ -306,6 +310,7 @@ public class SettingsPanel : Panel
 		CentralStore.Settings.CheckForUpdates = _checkForUpdates.Pressed;
 		CentralStore.Settings.CheckInterval = System.TimeSpan.FromHours(_dCheckInterval[_updateCheckInterval.Selected]);
 		CentralStore.Settings.UseSystemTitlebar = _useSystemTitlebar.Pressed;
+		CentralStore.Settings.UseLastMirror = _useLastMirror.Pressed;
 		CentralStore.Settings.UseProxy = _useProxy.Pressed;
 		CentralStore.Settings.ProxyHost = _proxyHost.Text;
 		CentralStore.Settings.ProxyPort = _proxyPort.Text.ToInt();
@@ -340,13 +345,7 @@ public class SettingsPanel : Panel
 			data["url"] = (string)_assetMirror.GetMeta(data["name"]);
 			CentralStore.Settings.AssetMirrors.Add(data);
 		}
-		CentralStore.Settings.EngineMirrors.Clear();
-		// for (int i = 0; i < _godotMirror.GetItemCount(); i++) {
-		// 	Dictionary<string, string> data = new Dictionary<string, string>();
-		// 	data["name"] = _godotMirror.GetItemText(i);
-		// 	data["url"] = (string)_godotMirror.GetMeta(data["name"]);
-		// 	CentralStore.Settings.EngineMirrors.Add(data);
-		// }
+		
 		CentralStore.Settings.ProjectPath = _defaultProjectLocation.Text.GetOSDir().NormalizePath();
 		CentralStore.Settings.CloseManagerOnEdit = _exitGodotManager.Pressed;
 		CentralStore.Settings.ScanDirs.Clear();
@@ -826,6 +825,23 @@ public class SettingsPanel : Panel
 			updateActionButtons();
 		}
 		CentralStore.Settings.UseSystemTitlebar = toggle;
+	}
+
+	[SignalHandler("toggled", nameof(_useLastMirror))]
+	void OnUseLastMirror(bool toggle)
+	{
+		bool oldVal = CentralStore.Settings.UseLastMirror;
+		if (!bPInternal)
+		{
+			_undoActions.Push(() =>
+			{
+				CentralStore.Settings.UseLastMirror = oldVal;
+				_useLastMirror.Pressed = oldVal;
+			});
+			updateActionButtons();
+		}
+
+		CentralStore.Settings.UseLastMirror = toggle;
 	}
 
 	#region Directory Scan List Actions
