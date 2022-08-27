@@ -54,9 +54,11 @@ public class MainWindow : Control
 		if (CentralStore.Settings.UseSystemTitlebar) {
 			OS.WindowBorderless = false;
 			GetTree().Root.GetNode<Titlebar>("SceneManager/MainWindow/bg/Shell/VC/TitleBar").Visible = false;
+			GetTree().Root.GetNode<Control>("SceneManager/MainWindow/bg/Shell/VC/VisibleSpacer").Visible = true;
 		} else {
 			OS.WindowBorderless = true;
 			GetTree().Root.GetNode<Titlebar>("SceneManager/MainWindow/bg/Shell/VC/TitleBar").Visible = true;
+			GetTree().Root.GetNode<Control>("SceneManager/MainWindow/bg/Shell/VC/VisibleSpacer").Visible = false;
 		}
 
 		if (CentralStore.Settings.FirstTimeRun) {

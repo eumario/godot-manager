@@ -112,6 +112,12 @@ margin_right = 1024.0
 margin_bottom = 700.0
 size_flags_horizontal = 3
 
+[node name="VisibleSpacer" type="Control" parent="bg/Shell/VC"]
+visible = false
+margin_right = 950.0
+margin_bottom = 5.0
+rect_min_size = Vector2( 0, 10 )
+
 [node name="TitleBar" type="HBoxContainer" parent="bg/Shell/VC"]
 margin_right = 950.0
 margin_bottom = 50.0
