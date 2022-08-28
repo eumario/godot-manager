@@ -25,27 +25,27 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFontData" id=10]
+[sub_resource type="DynamicFontData" id=14]
 font_path = "res://Assets/Fonts/DroidSans.ttf"
 
 [sub_resource type="DynamicFont" id=13]
 use_filter = true
-font_data = SubResource( 10 )
+font_data = SubResource( 14 )
 
-[sub_resource type="DynamicFontData" id=4]
+[sub_resource type="DynamicFontData" id=15]
 font_path = "res://Assets/Fonts/DroidSans-Bold.ttf"
 
 [sub_resource type="DynamicFont" id=11]
 size = 26
 use_filter = true
-font_data = SubResource( 4 )
+font_data = SubResource( 15 )
 
-[sub_resource type="DynamicFontData" id=14]
+[sub_resource type="DynamicFontData" id=16]
 font_path = "res://Assets/Fonts/DroidSans.ttf"
 
 [sub_resource type="DynamicFont" id=12]
 use_filter = true
-font_data = SubResource( 14 )
+font_data = SubResource( 16 )
 
 [node name="SettingsPanel" type="Panel"]
 anchor_right = 1.0

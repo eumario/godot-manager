@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/components/Panel/NewsPanel.cs" type="Script" id=2]
+[ext_resource path="res://Assets/Icons/check_for_updates.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.294118, 0.317647, 0.388235, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="NewsPanel" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="VB" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Header" type="MarginContainer" parent="VB"]
+margin_right = 1024.0
+margin_bottom = 40.0
+custom_constants/margin_right = 5
+custom_constants/margin_left = 5
+
+[node name="HC" type="HBoxContainer" parent="VB/Header"]
+margin_left = 5.0
+margin_right = 1019.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="VB/Header/HC"]
+margin_top = 5.0
+margin_right = 210.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 210, 30 )
+custom_fonts/font = ExtResource( 1 )
+custom_styles/normal = SubResource( 1 )
+text = "News"
+align = 1
+valign = 1
+
+[node name="Spacer" type="Control" parent="VB/Header/HC"]
+margin_left = 214.0
+margin_right = 970.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+size_flags_horizontal = 3
+
+[node name="RefreshIcon" type="TextureRect" parent="VB/Header/HC"]
+unique_name_in_owner = true
+margin_left = 974.0
+margin_right = 1014.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="MC" type="MarginContainer" parent="VB"]
+margin_top = 44.0
+margin_right = 1024.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VB/MC"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 646.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="NewsList" type="VBoxContainer" parent="VB/MC/ScrollContainer"]
+unique_name_in_owner = true
+margin_right = 1004.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3

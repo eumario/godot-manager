@@ -16,8 +16,10 @@ public class CategoryList : VBoxContainer
 #endregion
 
 #region Node Variables
-    [NodePath("CategoryName")]
+    [NodePath("hc1/CategoryName")]
     private readonly Label _categoryName = null;
+    [NodePath("hc1/Pin")]
+    private readonly TextureRect _pinIcon = null;
     [NodePath("CategoryList")]
     private readonly VBoxContainer _categoryList = null;
     [NodePath("hc/ToggleIcon")]

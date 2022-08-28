@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://components/ToggleButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://components/PageButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Icons/project.svg" type="Texture" id=3]
 [ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Icons/book.svg" type="Texture" id=5]
+[ext_resource path="res://components/Panels/NewsPanel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Icons/minus.svg" type="Texture" id=7]
 [ext_resource path="res://Assets/Icons/godot.svg" type="Texture" id=8]
 [ext_resource path="res://Assets/Icons/settings.svg" type="Texture" id=9]
@@ -13,6 +14,7 @@
 [ext_resource path="res://components/Panels/AssetLibPanel.tscn" type="PackedScene" id=12]
 [ext_resource path="res://components/Panels/GodotPanel.tscn" type="PackedScene" id=13]
 [ext_resource path="res://components/Panels/SettingsPanel.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Assets/Icons/news.svg" type="Texture" id=15]
 [ext_resource path="res://Scripts/Scenes/MainWindow.cs" type="Script" id=16]
 [ext_resource path="res://Resources/Fonts/droid-bold-22.tres" type="DynamicFont" id=18]
 
@@ -62,9 +64,6 @@ color = Color( 0.219608, 0.239216, 0.290196, 1 )
 [node name="VC" type="VBoxContainer" parent="bg/Shell/Sidebar"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ToggleButton" parent="bg/Shell/Sidebar/VC" instance=ExtResource( 1 )]
 hint_tooltip = "Show Sidebar"
@@ -92,8 +91,16 @@ hint_tooltip = "Page: Godot Engines"
 Label = "Versions"
 Icon = ExtResource( 8 )
 
-[node name="Control" type="Control" parent="bg/Shell/Sidebar/VC"]
+[node name="News" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
 margin_top = 216.0
+margin_right = 70.0
+margin_bottom = 266.0
+hint_tooltip = "Page: Godot Engines"
+Label = "News"
+Icon = ExtResource( 15 )
+
+[node name="Control" type="Control" parent="bg/Shell/Sidebar/VC"]
+margin_top = 270.0
 margin_right = 70.0
 margin_bottom = 646.0
 size_flags_vertical = 3
@@ -165,6 +172,9 @@ tabs_visible = false
 visible = false
 
 [node name="Godot" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 13 )]
+visible = false
+
+[node name="NewsPanel" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 6 )]
 visible = false
 
 [node name="Settings" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 14 )]

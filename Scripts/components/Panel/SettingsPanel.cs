@@ -380,7 +380,7 @@ public class SettingsPanel : Panel
 
 #region Event Handlers for Notebook
 	async void OnPageChanged(int page) {
-		if (page == 3) {
+		if (GetParent<TabContainer>().GetCurrentTabControl() == this) {
 			LoadSettings();
 		} else {
 			if (_undoActions.Count > 0) {

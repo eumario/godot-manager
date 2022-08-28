@@ -107,6 +107,8 @@ public class MainWindow : Control
 			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
 		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images")))
 			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images"));
+		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images/news")))
+			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images/news"));
 		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://versions")))
 			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
 	}
