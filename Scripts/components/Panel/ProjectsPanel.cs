@@ -349,7 +349,8 @@ public class ProjectsPanel : Panel
     // be added / ordered from the cache to the display controls.
     // (At Least in ListView, Icon and Project no such sorting, but will ensure all updates will be
     // executed at a faster pace, then previous method of Freeing all, and Re-creating. )
-    public void PopulateListing() {
+    public void PopulateListing()
+    {
 
         // Initialize if not initialized
         if (pleCache == null)
@@ -360,27 +361,32 @@ public class ProjectsPanel : Panel
             catCache = new Dictionary<Category, CategoryList>();
         if (cpleCache == null)
             cpleCache = new Dictionary<CategoryList, Dictionary<ProjectFile, ProjectLineEntry>>();
-        
+
         ProjectLineEntry ple;
         ProjectIconEntry pie;
         CategoryList clt;
 
         // Create our Categories
-        foreach(Category cat in CentralStore.Categories) {
+        foreach (Category cat in CentralStore.Categories)
+        {
             if (catCache.ContainsKey(cat))
                 continue;
             clt = NewCL(cat.Name);
+            clt.Pinned = CentralStore.Instance.IsCategoryPinned(cat);
             clt.SetMeta("ID", cat.Id);
             clt.Toggled = cat.IsExpanded;
+            clt.Pinnable = true;
             _categoryList[cat.Id] = clt;
             catCache[cat] = clt;
             cpleCache[clt] = new Dictionary<ProjectFile, ProjectLineEntry>();
             _categoryView.AddChild(clt);
             clt.Connect("list_toggled", this, "OnCategoryListToggled", new Array { clt });
+            clt.Connect("pin_toggled", this, "OnCategoryPinned", new Array() { clt });
             clt.Connect("drag_drop_completed", this, "OnDragDropCompleted");
         }
 
-        if (clFavorites == null) {
+        if (clFavorites == null)
+        {
             clFavorites = NewCL("Favorites");
             clFavorites.SetMeta("ID", -1);
             clFavorites.Toggled = CentralStore.Settings.FavoritesToggled;
@@ -390,7 +396,8 @@ public class ProjectsPanel : Panel
             cpleCache[clFavorites] = new Dictionary<ProjectFile, ProjectLineEntry>();
         }
 
-        if (clUncategorized == null) {
+        if (clUncategorized == null)
+        {
             clUncategorized = NewCL("Un-Categorized");
             clUncategorized.SetMeta("ID", -2);
             clUncategorized.Toggled = CentralStore.Settings.UncategorizedToggled;
@@ -401,72 +408,92 @@ public class ProjectsPanel : Panel
         }
 
         // Create our Project Entries
-        foreach(ProjectFile pf in CentralStore.Projects) {
+        foreach (ProjectFile pf in CentralStore.Projects)
+        {
             clt = null;
-            if (!pleCache.ContainsKey(pf)) {
+            if (!pleCache.ContainsKey(pf))
+            {
                 ple = NewPLE(pf);
                 pleCache[pf] = ple;
                 ConnectHandlers(ple);
             }
-            if (!pieCache.ContainsKey(pf)) {
+
+            if (!pieCache.ContainsKey(pf))
+            {
                 pie = NewPIE(pf);
                 pieCache[pf] = pie;
                 ConnectHandlers(pie);
             }
 
-            if (_categoryList.ContainsKey(pf.CategoryId)) {
+            if (_categoryList.ContainsKey(pf.CategoryId))
+            {
                 clt = _categoryList[pf.CategoryId];
             }
-            
+
             if (clt == null && pf.Favorite)
                 clt = clFavorites;
-            
+
             if (clt == null)
                 clt = clUncategorized;
 
-            if (!cpleCache[clt].ContainsKey(pf)) {
+            if (!cpleCache[clt].ContainsKey(pf))
+            {
                 ple = clt.AddProject(pf);
                 cpleCache[clt][pf] = ple;
                 ConnectHandlers(ple, true);
             }
         }
-        
+
         // Clean up of Project Entries
-        foreach(ProjectFile pf in pleCache.Keys) {
-            if (!CentralStore.Projects.Contains(pf)) {
+        foreach (ProjectFile pf in pleCache.Keys)
+        {
+            if (!CentralStore.Projects.Contains(pf))
+            {
                 pleCache[pf].QueueFree();
                 pleCache.Remove(pf);
             }
         }
-        
-        foreach(ProjectFile pf in pieCache.Keys) {
-            if (!CentralStore.Projects.Contains(pf)) {
+
+        foreach (ProjectFile pf in pieCache.Keys)
+        {
+            if (!CentralStore.Projects.Contains(pf))
+            {
                 pieCache[pf].QueueFree();
                 pieCache.Remove(pf);
             }
         }
 
         // Cleanup of Categories
-        foreach(CategoryList cclt in cpleCache.Keys) {
-            foreach(ProjectFile pf in cpleCache[cclt].Keys) {
-                if (!CentralStore.Projects.Contains(pf)) {
+        foreach (CategoryList cclt in cpleCache.Keys)
+        {
+            foreach (ProjectFile pf in cpleCache[cclt].Keys)
+            {
+                if (!CentralStore.Projects.Contains(pf))
+                {
                     cpleCache[cclt][pf].QueueFree();
                     cpleCache[cclt].Remove(pf);
-                } else if (cclt == clFavorites && !pf.Favorite && cpleCache[cclt].Keys.Contains(pf)) {
+                }
+                else if (cclt == clFavorites && !pf.Favorite && cpleCache[cclt].Keys.Contains(pf))
+                {
                     cpleCache[cclt][pf].QueueFree();
                     cpleCache[cclt].Remove(pf);
                 }
             }
-            
-            if (cclt != clFavorites && cclt != clUncategorized) {
+
+            if (cclt != clFavorites && cclt != clUncategorized)
+            {
                 int CatID = (int)cclt.GetMeta("ID");
-                if (!CentralStore.Instance.HasCategoryId(CatID)) {
+                if (!CentralStore.Instance.HasCategoryId(CatID))
+                {
                     Category cCat = null;
-                    foreach(Category cat in catCache.Keys) {
+                    foreach (Category cat in catCache.Keys)
+                    {
                         if (catCache[cat] == cclt)
                             cCat = cat;
                     }
-                    if (cCat != null) {
+
+                    if (cCat != null)
+                    {
                         cpleCache.Remove(cclt);
                         catCache.Remove(cCat);
                         _categoryList.Remove(CatID);
@@ -474,9 +501,12 @@ public class ProjectsPanel : Panel
                 }
             }
 
-            if (cclt == clUncategorized) {
-                foreach(ProjectFile pf in cpleCache[cclt].Keys) {
-                    if (pf.Favorite) {
+            if (cclt == clUncategorized)
+            {
+                foreach (ProjectFile pf in cpleCache[cclt].Keys)
+                {
+                    if (pf.Favorite)
+                    {
                         cpleCache[cclt][pf].QueueFree();
                         cpleCache[cclt].Remove(pf);
                     }
@@ -514,7 +544,19 @@ public class ProjectsPanel : Panel
 
         foreach(Node node in _gridView.GetChildren())
             _gridView.RemoveChild(node);
+
+        foreach(Node node in _categoryView.GetChildren())
+            _categoryView.RemoveChild(node);
+
+        foreach (Category cat in CentralStore.Instance.GetPinnedCategories())
+            _categoryView.AddChild(catCache[cat]);
         
+        foreach (Category cat in CentralStore.Instance.GetUnpinnedCategories())
+            _categoryView.AddChild(catCache[cat]);
+        
+        _categoryView.AddChild(clFavorites);
+        _categoryView.AddChild(clUncategorized);
+
         foreach(IOrderedEnumerable<ProjectFile> apf in SortListing()) {
             foreach(ProjectFile pf in apf)
                 _listView.AddChild(pleCache[pf]);
@@ -562,6 +604,26 @@ public class ProjectsPanel : Panel
             return;
         
         cat.IsExpanded = clt.Toggled;
+        CentralStore.Instance.SaveDatabase();
+    }
+
+    void OnCategoryPinned(CategoryList clt)
+    {
+        int id = (int)clt.GetMeta("ID");
+        Category cat = CentralStore.Categories.Where(x => x.Id == id).FirstOrDefault<Category>();
+        if (cat == null)
+            return;
+
+        if (clt.Pinned)
+        {
+            CentralStore.Instance.PinCategory(cat);
+        }
+        else
+        {
+            CentralStore.Instance.UnpinCategory(cat);
+        }
+
+        PopulateSort();
         CentralStore.Instance.SaveDatabase();
     }
 

@@ -1,31 +1,44 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/Icons/drop_down1.svg" type="Texture" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/components/CategoryList.cs" type="Script" id=3]
+[ext_resource path="res://Assets/Icons/pin.svg" type="Texture" id=4]
 
 [node name="CategoryList" type="VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 94.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 CategoryName = ""
 
-[node name="CategoryName" type="Label" parent="."]
+[node name="hc1" type="HBoxContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 18.0
+margin_bottom = 17.0
+
+[node name="CategoryName" type="Label" parent="hc1"]
+margin_right = 1024.0
+margin_bottom = 17.0
 mouse_filter = 1
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="hc" type="HBoxContainer" parent="."]
-margin_top = 22.0
+[node name="Pin" type="TextureRect" parent="hc1"]
+visible = false
+margin_left = 1004.0
 margin_right = 1024.0
-margin_bottom = 26.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 20, 20 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 5
+
+[node name="hc" type="HBoxContainer" parent="."]
+margin_top = 21.0
+margin_right = 1024.0
+margin_bottom = 25.0
 
 [node name="HSeparator" type="HSeparator" parent="hc"]
 margin_right = 1024.0
@@ -42,24 +55,24 @@ margin_bottom = 16.0
 texture = ExtResource( 1 )
 
 [node name="Spacer" type="Control" parent="."]
-margin_top = 30.0
+margin_top = 29.0
 margin_right = 1024.0
-margin_bottom = 40.0
+margin_bottom = 39.0
 rect_min_size = Vector2( 0, 10 )
 mouse_filter = 1
 
 [node name="CategoryList" type="VBoxContainer" parent="."]
-margin_top = 44.0
+margin_top = 43.0
 margin_right = 1024.0
-margin_bottom = 44.0
+margin_bottom = 43.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Spacer2" type="Control" parent="."]
-margin_top = 48.0
+margin_top = 47.0
 margin_right = 1024.0
-margin_bottom = 63.0
+margin_bottom = 62.0
 rect_min_size = Vector2( 0, 15 )
 mouse_filter = 1

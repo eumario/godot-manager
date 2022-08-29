@@ -12,8 +12,11 @@ public class CategoryList : VBoxContainer
     public delegate void list_toggled();
 
     [Signal]
+    public delegate void pin_toggled();
+
+    [Signal]
     public delegate void drag_drop_completed(CategoryList origin, CategoryList destination, ProjectLineEntry project);
-#endregion
+    #endregion
 
 #region Node Variables
     [NodePath("hc1/CategoryName")]
@@ -29,7 +32,9 @@ public class CategoryList : VBoxContainer
 #region Private Variables
     private string sText;
     private bool bToggable;
+    private bool bPinnable;
     private bool bToggled;
+    private bool bPinned;
 #endregion
 
 #region Exports / Class Fields
@@ -65,6 +70,18 @@ public class CategoryList : VBoxContainer
         }
     }
 
+    [Export]
+    public bool Pinnable
+    {
+        get => bPinnable;
+        set
+        {
+            bPinnable = value;
+            if (_pinIcon != null)
+                _pinIcon.Visible = value;
+        }
+    }
+
     public bool Toggled {
         get {
             if (_toggleIcon != null)
@@ -81,6 +98,22 @@ public class CategoryList : VBoxContainer
                     _categoryList.Hide();
                 else
                     _categoryList.Show();
+            }
+        }
+    }
+
+    public bool Pinned
+    {
+        get => bPinned;
+        set
+        {
+            bPinned = value;
+            if (_pinIcon != null)
+            {
+                if (value)
+                    _pinIcon.SelfModulate = new Color(0, 1, 0);
+                else
+                    _pinIcon.SelfModulate = new Color(1, 1, 1);
             }
         }
     }
@@ -115,6 +148,8 @@ public class CategoryList : VBoxContainer
         CategoryName = sText;
         Toggable = bToggable;
         Toggled = bToggled;
+        Pinnable = bPinnable;
+        Pinned = bPinned;
     }
 
     [SignalHandler("gui_input", nameof(_toggleIcon))]
@@ -132,6 +167,20 @@ public class CategoryList : VBoxContainer
         else
             _categoryList.Show();
         EmitSignal("list_toggled");
+    }
+
+    [SignalHandler("gui_input", nameof(_pinIcon))]
+    void OnPin_GuiInput(InputEvent @event)
+    {
+        if (!(@event is InputEventMouseButton iemb))
+            return;
+        if (!iemb.Pressed)
+            return;
+        if ((ButtonList)iemb.ButtonIndex != ButtonList.Left)
+            return;
+
+        Pinned = !Pinned;
+        EmitSignal("pin_toggled");
     }
 
     public async void SortListing() {

@@ -154,7 +154,7 @@ size_flags_vertical = 3
 custom_constants/separation = 30
 
 [node name="Install" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
-margin_bottom = 65.0
+margin_bottom = 62.0
 hint_tooltip = "Installed versions of Godot Engine"
 CategoryName = "Installed Versions"
 
@@ -166,7 +166,7 @@ hint_tooltip = "Versions of Godot currently downloading"
 CategoryName = "Currently Downloading"
 
 [node name="Available" parent="VB/SC/GodotList" instance=ExtResource( 3 )]
-margin_top = 95.0
-margin_bottom = 160.0
+margin_top = 92.0
+margin_bottom = 154.0
 hint_tooltip = "Available versions to Download"
 CategoryName = "Available to Download"
