@@ -188,6 +188,7 @@ public class AssetLibPreview : ReferenceRect
                 preview.SetMeta("iconPath", iconPath);
                 dlq.Push(dld);
             } else {
+                dldPreviews.Add(null);
                 if (iconPath.EndsWith(".gif")) {
                     GifTexture gif = new GifTexture(iconPath);
                     preview.Texture = gif;
@@ -359,7 +360,9 @@ public class AssetLibPreview : ReferenceRect
                 if (indx == 0) {
                     UpdatePreview(_Thumbnails.GetChild(indx) as TextureRect);
                 }
-			}
+
+                dldPreviews[indx] = null;
+            }
 		}
     }
 
@@ -371,7 +374,12 @@ public class AssetLibPreview : ReferenceRect
 	private void UpdateThumbnail(int indx)
 	{
 		TextureRect preview = _Thumbnails.GetChild(indx) as TextureRect;
-		string iconPath = preview.GetMeta("iconPath") as string;
+        if (!preview.HasMeta("iconPath"))
+            return;
+        object iconMeta = preview.GetMeta("iconPath");
+        if (iconMeta is null)
+            return;
+        string iconPath = iconMeta as string;
 		if (File.Exists(iconPath.GetOSDir().NormalizePath()))
 		{
             if (iconPath.EndsWith(".gif")) {
