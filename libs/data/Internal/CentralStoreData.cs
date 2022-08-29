@@ -10,6 +10,7 @@ public class CentralStoreData : Object {
 	[JsonProperty] public Array<MirrorSite> Mirrors;
 	[JsonProperty] public Dictionary<int, Array<MirrorVersion>> MRVersions;
 	[JsonProperty] public Array<Category> Categories;
+	[JsonProperty] public Array<int> PinnedCategories;
 	[JsonProperty] public Array<AssetPlugin> Plugins;
 	[JsonProperty] public Array<AssetProject> Templates;
 	[JsonProperty] public Settings Settings;
@@ -21,6 +22,7 @@ public class CentralStoreData : Object {
 		Mirrors = new Array<MirrorSite>();
 		MRVersions = new Dictionary<int, Array<MirrorVersion>>();
 		Categories = new Array<Category>();
+		PinnedCategories = new Array<int>();
 		Plugins = new Array<AssetPlugin>();
 		Templates = new Array<AssetProject>();
 		Settings = new Settings();

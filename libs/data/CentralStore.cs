@@ -33,6 +33,7 @@ public class CentralStore {
 	public static Array<MirrorSite> Mirrors { get => Instance._data.Mirrors; }
 	public static Dictionary<int, Array<MirrorVersion>> MRVersions { get => Instance._data.MRVersions; }
 	public static Array<Category> Categories { get => Instance._data.Categories; }
+	public static Array<int> PinnedCategories { get => Instance._data.PinnedCategories; }
 	public static Array<AssetPlugin> Plugins { get => Instance._data.Plugins; }
 	public static Array<AssetProject> Templates { get => Instance._data.Templates; }
 #endregion
@@ -69,56 +70,56 @@ public class CentralStore {
 	}
 
 	public bool HasTemplate(string name) {
-		var res = from pt in CentralStore.Templates
+		var res = from pt in Templates
 					where pt.Asset.Title == name
 					select pt;
 		return res.FirstOrDefault() != null;
 	}
 
 	public bool HasTemplateId(string id) {
-		var res = from pt in CentralStore.Templates
+		var res = from pt in Templates
 					where pt.Asset.AssetId == id
 					select pt;
 		return res.FirstOrDefault() != null;
 	}
 
 	public bool HasPlugin(string name) {
-		var res = from pt in CentralStore.Plugins
+		var res = from pt in Plugins
 					where pt.Asset.Title == name
 					select pt;
 		return res.FirstOrDefault() != null;
 	}
 
 	public bool HasPluginId(string id) {
-		var res = from pt in CentralStore.Plugins
+		var res = from pt in Plugins
 				where pt.Asset.AssetId == id
 				select pt;
 		return res.FirstOrDefault() != null;
 	}
 
 	public AssetProject GetTemplate(string name) {
-		var res = from pt in CentralStore.Templates
+		var res = from pt in Templates
 					where pt.Asset.Title == name
 					select pt;
 		return res.FirstOrDefault<AssetProject>();
 	}
 
 	public AssetProject GetTemplateId(string id) {
-		var res = from pt in CentralStore.Templates
+		var res = from pt in Templates
 					where pt.Asset.AssetId == id
 					select pt;
 		return res.FirstOrDefault<AssetProject>();
 	}
 
 	public AssetPlugin GetPlugin(string name) {
-		var res = from pt in CentralStore.Plugins
+		var res = from pt in Plugins
 					where pt.Asset.Title == name
 					select pt;
 		return res.FirstOrDefault<AssetPlugin>();
 	}
 
 	public AssetPlugin GetPluginId(string id) {
-		var res = from pt in CentralStore.Plugins
+		var res = from pt in Plugins
 					where pt.Asset.AssetId == id
 					select pt;
 		return res.FirstOrDefault<AssetPlugin>();
@@ -139,31 +140,70 @@ public class CentralStore {
 	}
 
 	public bool HasCategory(string name) {
-		var res = from c in CentralStore.Categories
+		var res = from c in Categories
 					where c.Name.ToLower() == name.ToLower()
 					select c;
 		return res.FirstOrDefault() != null;
 	}
 
 	public bool HasCategoryId(int id) {
-		var res = from c in CentralStore.Categories
+		var res = from c in Categories
 					where c.Id == id
 					select c;
 		return res.FirstOrDefault() != null;
 	}
 
 	public Category GetCategoryById(int id) {
-		var res = from c in CentralStore.Categories
+		var res = from c in Categories
 					where c.Id == id
 					select c;
 		return res.FirstOrDefault();
 	}
 
 	public Category GetCategoryByName(string name) {
-		var res = from c in CentralStore.Categories
+		var res = from c in Categories
 					where c.Name.ToLower() == name.ToLower()
 					select c;
 		return res.FirstOrDefault();
+	}
+
+	public void PinCategory(Category cat)
+	{
+		if (IsCategoryPinned(cat))
+			return;
+		PinnedCategories.Add(cat.Id);
+	}
+
+	public void UnpinCategory(Category cat)
+	{
+		if (!IsCategoryPinned(cat))
+			return;
+		PinnedCategories.Remove(cat.Id);
+	}
+
+	public bool IsCategoryPinned(Category cat)
+	{
+		return PinnedCategories.Contains(cat.Id);
+	}
+
+	public Array<Category> GetPinnedCategories()
+	{
+		var pinned = new Array<Category>();
+		foreach (int id in PinnedCategories)
+			pinned.Add(GetCategoryById(id));
+		return pinned;
+	}
+
+	public Array<Category> GetUnpinnedCategories()
+	{
+		var unpinned = new Array<Category>();
+		foreach (Category cat in Categories)
+		{
+			if (!IsCategoryPinned(cat))
+				unpinned.Add(cat);
+		}
+
+		return unpinned;
 	}
 #endregion
 
