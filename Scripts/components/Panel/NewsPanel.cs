@@ -29,7 +29,7 @@ public class NewsPanel : Panel
 
     private void OnPageChanged(int page)
     {
-        if (GetParent<TabContainer>().GetCurrentTabControl() == this)
+        if (GetParent<TabContainer>().GetCurrentTabControl() == this && NewsList.GetChildCount() == 0)
         {
             RefreshNews();
         }
@@ -47,6 +47,13 @@ public class NewsPanel : Panel
 
     private async void RefreshNews()
     {
+        if (NewsList.GetChildCount() != 0)
+        {
+            foreach (Node item in NewsList.GetChildren())
+            {
+                item.QueueFree();
+            }
+        }
         AppDialogs.BusyDialog.UpdateHeader("Loading News...");
         AppDialogs.BusyDialog.UpdateByline("Fetching news from GodotEngine.org...");
         AppDialogs.BusyDialog.ShowDialog();
