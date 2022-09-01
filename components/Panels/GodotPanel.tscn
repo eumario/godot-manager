@@ -5,7 +5,7 @@
 [ext_resource path="res://components/CategoryList.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Resources/Fonts/droid-bold-14.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Assets/Icons/import.svg" type="Texture" id=5]
-[ext_resource path="res://Assets/Icons/scan.svg" type="Texture" id=6]
+[ext_resource path="res://Assets/Icons/web.svg" type="Texture" id=6]
 [ext_resource path="res://Assets/Icons/check_for_updates.png" type="Texture" id=7]
 [ext_resource path="res://components/ActionButtons.tscn" type="PackedScene" id=8]
 
@@ -82,7 +82,7 @@ margin_left = 418.0
 margin_right = 506.0
 margin_bottom = 40.0
 Icons = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
-HelpText = [ "Add Custom Godot", "Scan For Godot (Not Available)", "Check for Updates to Godot Engine" ]
+HelpText = [ "Add Custom Godot", "Download from Website", "Check for Updates to Godot Engine" ]
 
 [node name="Spacer2" type="Control" parent="VB/MC/HC"]
 margin_left = 514.0

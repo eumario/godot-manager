@@ -23,9 +23,6 @@ corner_detail = 20
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PC" type="PanelContainer" parent="."]
 anchor_right = 1.0
@@ -100,7 +97,7 @@ WindowMain = NodePath("../../../../../../../..")
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 30.0
 margin_right = 320.0
-margin_bottom = 209.0
+margin_bottom = 210.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -112,7 +109,7 @@ custom_constants/margin_bottom = 8
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 312.0
-margin_bottom = 171.0
+margin_bottom = 172.0
 custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
@@ -124,77 +121,77 @@ text = "Godot Engine Tag:"
 [node name="Name" type="LineEdit" parent="PC/CC/P/VB/MCContent/VB"]
 margin_top = 29.0
 margin_right = 304.0
-margin_bottom = 51.0
+margin_bottom = 50.0
 custom_fonts/font = ExtResource( 1 )
 text = "Hello World"
 
 [node name="Label2" type="Label" parent="PC/CC/P/VB/MCContent/VB"]
-margin_top = 61.0
+margin_top = 60.0
 margin_right = 304.0
-margin_bottom = 80.0
+margin_bottom = 79.0
 custom_fonts/font = ExtResource( 2 )
 text = "Location:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/VB"]
-margin_top = 90.0
+margin_top = 89.0
 margin_right = 304.0
-margin_bottom = 112.0
+margin_bottom = 110.0
 custom_constants/separation = 12
 
 [node name="Location" type="LineEdit" parent="PC/CC/P/VB/MCContent/VB/HBoxContainer"]
 margin_right = 241.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 
 [node name="Browse" type="Button" parent="PC/CC/P/VB/MCContent/VB/HBoxContainer"]
 margin_left = 253.0
 margin_right = 304.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 text = "Browse"
 
 [node name="MonoEnabled" type="CheckBox" parent="PC/CC/P/VB/MCContent/VB"]
-margin_top = 122.0
+margin_top = 120.0
 margin_right = 304.0
-margin_bottom = 141.0
+margin_bottom = 139.0
 custom_fonts/font = ExtResource( 2 )
 text = "Is Mono Enabled"
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_top = 213.0
+margin_top = 214.0
 margin_right = 320.0
 margin_bottom = 250.0
 custom_constants/margin_bottom = 15
 
 [node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
 margin_right = 320.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 
 [node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_right = 76.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 
 [node name="AddBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 80.0
 margin_right = 109.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 text = "Add"
 
 [node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 113.0
 margin_right = 190.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 
 [node name="CancelBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 194.0
 margin_right = 239.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 text = "Cancel"
 
 [node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 243.0
 margin_right = 320.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
