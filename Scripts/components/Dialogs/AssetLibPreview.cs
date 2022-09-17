@@ -42,6 +42,9 @@ public class AssetLibPreview : ReferenceRect
     [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC/AddonId")]
     Label _AddonId = null;
 
+    [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC/GodotVersion")]
+    private Label _GodotVersion = null;
+
     [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC/Description")]
     RichTextLabel _Description = null;
 
@@ -137,6 +140,7 @@ public class AssetLibPreview : ReferenceRect
         _Category.Text = asset.Category;
         _Version.Text = asset.VersionString;
         _AddonId.Text = asset.AssetId;
+        _GodotVersion.Text = "v" + asset.GodotVersion;
         _License.Text = asset.Cost;
         _Description.BbcodeText = "[table=1][cell][color=lime]" + 
         Tr("Support") + $"[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]" + 

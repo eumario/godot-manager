@@ -132,17 +132,17 @@ rect_min_size = Vector2( 300, 0 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
 margin_right = 300.0
-margin_bottom = 124.0
+margin_bottom = 145.0
 custom_constants/separation = 20
 
 [node name="Control" type="Control" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
-margin_bottom = 124.0
+margin_bottom = 145.0
 
 [node name="Icon" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
 margin_left = 20.0
-margin_top = 30.0
+margin_top = 40.0
 margin_right = 84.0
-margin_bottom = 94.0
+margin_bottom = 104.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -153,7 +153,7 @@ stretch_mode = 6
 [node name="PluginInfo" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
 margin_left = 104.0
 margin_right = 300.0
-margin_bottom = 124.0
+margin_bottom = 145.0
 size_flags_horizontal = 3
 
 [node name="PluginName" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo"]
@@ -167,83 +167,83 @@ clip_text = true
 [node name="GC" type="GridContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo"]
 margin_top = 23.0
 margin_right = 196.0
-margin_bottom = 124.0
+margin_bottom = 145.0
 columns = 2
 
 [node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_right = 65.0
+margin_right = 72.0
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 6 )
 text = "Category:"
 align = 2
 
 [node name="Category" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_left = 69.0
-margin_right = 131.0
+margin_left = 76.0
+margin_right = 138.0
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 5 )
 text = "Materials"
 
 [node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_top = 21.0
-margin_right = 65.0
+margin_right = 72.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 6 )
 text = "Author:"
 align = 2
 
 [node name="Author" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_left = 69.0
+margin_left = 76.0
 margin_top = 21.0
-margin_right = 131.0
+margin_right = 138.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 5 )
 text = "KoBeWi"
 
 [node name="Label5" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_top = 42.0
-margin_right = 65.0
+margin_right = 72.0
 margin_bottom = 59.0
 custom_fonts/font = ExtResource( 6 )
 text = "License:"
 align = 2
 
 [node name="License" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_left = 69.0
+margin_left = 76.0
 margin_top = 42.0
-margin_right = 131.0
+margin_right = 138.0
 margin_bottom = 59.0
 custom_fonts/font = ExtResource( 5 )
 text = "Unlicense"
 
 [node name="Label7" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_top = 63.0
-margin_right = 65.0
+margin_right = 72.0
 margin_bottom = 80.0
 custom_fonts/font = ExtResource( 6 )
 text = "Version:"
 align = 2
 
 [node name="Version" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_left = 69.0
+margin_left = 76.0
 margin_top = 63.0
-margin_right = 131.0
+margin_right = 138.0
 margin_bottom = 80.0
 custom_fonts/font = ExtResource( 5 )
 text = "0.1.0"
 
 [node name="Label8" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_top = 84.0
-margin_right = 65.0
+margin_right = 72.0
 margin_bottom = 101.0
 custom_fonts/font = ExtResource( 6 )
 text = "ID:"
 align = 2
 
 [node name="AddonId" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_left = 69.0
+margin_left = 76.0
 margin_top = 84.0
-margin_right = 131.0
+margin_right = 138.0
 margin_bottom = 101.0
 mouse_filter = 0
 mouse_default_cursor_shape = 2
@@ -251,8 +251,27 @@ custom_colors/font_color = Color( 0, 0.972549, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "12345"
 
+[node name="Label9" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_top = 105.0
+margin_right = 72.0
+margin_bottom = 122.0
+custom_fonts/font = ExtResource( 6 )
+text = "Godot Ver:"
+align = 2
+
+[node name="GodotVersion" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_left = 76.0
+margin_top = 105.0
+margin_right = 138.0
+margin_bottom = 122.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+custom_colors/font_color = Color( 0.266667, 1, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "12345"
+
 [node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
-margin_top = 128.0
+margin_top = 149.0
 margin_right = 300.0
 margin_bottom = 404.0
 size_flags_horizontal = 3
@@ -260,11 +279,11 @@ size_flags_vertical = 3
 
 [node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC"]
 margin_right = 300.0
-margin_bottom = 276.0
+margin_bottom = 255.0
 
 [node name="Description" type="RichTextLabel" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC"]
 margin_right = 300.0
-margin_bottom = 276.0
+margin_bottom = 255.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/table_vseparation = 5
