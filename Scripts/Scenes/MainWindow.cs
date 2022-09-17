@@ -99,18 +99,19 @@ public class MainWindow : Control
 	}
 
 	void EnsureDirStructure() {
-		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache")))
-			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache"));
-		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/Godot")))
-			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/Godot"));
-		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/AssetLib")))
-			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/AssetLib"));
-		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images")))
-			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images"));
-		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://cache/images/news")))
-			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://cache/images/news"));
-		if (!Directory.Exists(ProjectSettings.GlobalizePath("user://versions")))
-			Directory.CreateDirectory(ProjectSettings.GlobalizePath("user://versions"));
+		
+		if (!Directory.Exists(CentralStore.Settings.CachePath))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath);
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("Godot")))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("Godot"));
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("AssetLib")))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("AssetLib"));
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("images")))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("images"));
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("images","news")))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("images","news"));
+		if (!Directory.Exists(CentralStore.Settings.EnginePath))
+			Directory.CreateDirectory(CentralStore.Settings.EnginePath);
 	}
 	
 	void OnPageButton_Clicked(PageButton pb) {
