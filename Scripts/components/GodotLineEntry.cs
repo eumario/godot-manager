@@ -47,6 +47,11 @@ public class GodotLineEntry : HBoxContainer
     [NodePath("vc/ETA/DownloadSpeed")]
     private Label _downloadSpeed = null;
 
+    [NodePath("vc/Location")] private HBoxContainer _loc = null;
+
+    [NodePath("vc/Location/DownloadLocation")]
+    private Label _downloadLocation = null;
+
     [NodePath("DownloadSpeedTimer")]
     private Timer _downloadSpeedTimer = null;
 
@@ -58,6 +63,7 @@ public class GodotLineEntry : HBoxContainer
     private string sLabel = "Godot Version x.x.x (Stable)";
     private string sSource = "Source: TuxFamily.org";
     private string sFilesize = "Size: 32MB";
+    private string sLocation = @"E:\Apps\GodotManager\versions\TestLocation";
     private bool bDownloaded = false;
     private bool bDefault = false;
     private bool bMono = false;
@@ -81,7 +87,10 @@ public class GodotLineEntry : HBoxContainer
             if (value != null) {
                 Mono = value.IsMono;
                 Label = value.Tag;
-                Source = value.Location;
+                Source = value.Url;
+                Location = value.GetExecutablePath();
+                if (_loc != null)
+                    _loc.Visible = true;
             }
         }
     }
@@ -108,6 +117,8 @@ public class GodotLineEntry : HBoxContainer
             if (value == null)
                 return;
             Label = value.Name;
+            if (_loc != null)
+                _loc.Visible = false;
             switch(Platform.OperatingSystem) {
                 case "Windows":
                 case "UWP (Windows 10)":
@@ -176,28 +187,27 @@ public class GodotLineEntry : HBoxContainer
             if (value == null)
                 return;
             Label = value.Version;
+            if (_loc != null)
+                _loc.Visible = false;
+            Source = value.PlatformDownloadURL;
             switch(Platform.OperatingSystem) {
                 case "Windows":
                 case "UWP (Windows 10)":
-                    if (Platform.Bits == "32") {
-                        Source = value.Win32;
+                    if (Platform.Bits == "32")
+                    {
                         Filesize = Util.FormatSize(value.Win32_Size);
                     } else {
-                        Source = value.Win64;
                         Filesize = Util.FormatSize(value.Win64_Size);
                     }
                     break;
                 case "Linux (or BSD)":
                     if (Platform.Bits == "32") {
-                        Source = value.Linux32;
                         Filesize = Util.FormatSize(value.Linux32_Size);
                     } else {
-                        Source = value.Linux64;
                         Filesize = Util.FormatSize(value.Linux64_Size);
                     }
                     break;
                 case "macOS":
-                    Source = value.OSX64;
                     Filesize = Util.FormatSize(value.OSX64_Size);
                     break;
             }
@@ -238,6 +248,22 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
+    public string Location
+    {
+        get
+        {
+            return sLocation;
+        }
+        set
+        {
+            sLocation = value;
+            if (_downloadLocation != null)
+                _downloadLocation.Text = sLocation.GetBaseDir();
+            if (_loc != null)
+                _loc.Visible = true;
+        }
+    }
+
     [Export]
     public bool Downloaded {
         get {
@@ -273,9 +299,9 @@ public class GodotLineEntry : HBoxContainer
     {
         this.OnReady();
 
-        GodotVersion = gvGodotVersion;
         GithubVersion = gvGithubVersion;
         MirrorVersion = gvMirrorVersion;
+        GodotVersion = gvGodotVersion;
 
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
