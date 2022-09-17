@@ -141,7 +141,7 @@ namespace AssetLib {
 			return ret;
 		}
 
-		public async Task<QueryResult> Search(string url, int page = 0, bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
+		public async Task<QueryResult> Search(string url, int page = 0, string godot_version = "any", bool templates_only = false, int sort_by = 0, string[] support_list = null, int category = 0, string filter = "") {
 			string args = "";
 			if (templates_only)
 				args += "?type=project&";
@@ -149,8 +149,8 @@ namespace AssetLib {
 				args += "?";
 			
 			args += $"sort={sort_key[sort_by]}";
-
-			args += $"&godot_version={Util.EngineVersion}";
+			
+			args += $"&godot_version={godot_version}";
 
 			if (support_list != null)
 				args += $"&support={string.Join("+",support_list)}";

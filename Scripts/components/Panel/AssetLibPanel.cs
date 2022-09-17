@@ -579,7 +579,7 @@ public class AssetLibPanel : Panel
             string filter = _searchField.Text;
             string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
 
-            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, projectsOnly ? _pltCurrentPage : _plaCurrentPage, projectsOnly, sortBy,
+            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, projectsOnly ? _pltCurrentPage : _plaCurrentPage, "any", projectsOnly, sortBy,
                     GetSupport(), categoryId, filter);
             while (!stask.IsCompleted)
                 await this.IdleFrame();
