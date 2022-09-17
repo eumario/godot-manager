@@ -38,6 +38,9 @@ public class AssetLibPreview : ReferenceRect
 
     [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC/Version")]
     Label _Version = null;
+    
+    [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC/AddonId")]
+    Label _AddonId = null;
 
     [NodePath("PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC/Description")]
     RichTextLabel _Description = null;
@@ -133,6 +136,7 @@ public class AssetLibPreview : ReferenceRect
         _Author.Text = asset.Author;
         _Category.Text = asset.Category;
         _Version.Text = asset.VersionString;
+        _AddonId.Text = asset.AssetId;
         _License.Text = asset.Cost;
         _Description.BbcodeText = "[table=1][cell][color=lime]" + 
         Tr("Support") + $"[/color][/cell][cell][color=aqua][url={asset.BrowseUrl}]" + 
@@ -259,6 +263,15 @@ public class AssetLibPreview : ReferenceRect
         
         dlq.StartDownload();
         Visible = true;
+    }
+
+    [SignalHandler("gui_input", nameof(_AddonId))]
+    void OnGuiInput_AddonId(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton iemb && iemb.ButtonIndex == (int)ButtonList.Left)
+        {
+            OS.ShellOpen($"https://godotengine.org/asset-library/asset/{_AddonId.Text}");
+        }
     }
 
     [SignalHandler("pressed", nameof(_Uninstall))]

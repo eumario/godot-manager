@@ -111,7 +111,7 @@ WindowMain = NodePath("../../../../../../../..")
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 30.0
 margin_right = 800.0
-margin_bottom = 449.0
+margin_bottom = 450.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -123,26 +123,26 @@ custom_constants/margin_bottom = 8
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 792.0
-margin_bottom = 411.0
+margin_bottom = 412.0
 
 [node name="InfoPanel" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]
 margin_right = 300.0
-margin_bottom = 403.0
+margin_bottom = 404.0
 rect_min_size = Vector2( 300, 0 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
 margin_right = 300.0
-margin_bottom = 107.0
+margin_bottom = 124.0
 custom_constants/separation = 20
 
 [node name="Control" type="Control" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
-margin_bottom = 107.0
+margin_bottom = 124.0
 
 [node name="Icon" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
 margin_left = 20.0
-margin_top = 21.0
+margin_top = 30.0
 margin_right = 84.0
-margin_bottom = 85.0
+margin_bottom = 94.0
 rect_min_size = Vector2( 64, 64 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -153,7 +153,7 @@ stretch_mode = 6
 [node name="PluginInfo" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer"]
 margin_left = 104.0
 margin_right = 300.0
-margin_bottom = 107.0
+margin_bottom = 124.0
 size_flags_horizontal = 3
 
 [node name="PluginName" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo"]
@@ -167,12 +167,12 @@ clip_text = true
 [node name="GC" type="GridContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo"]
 margin_top = 23.0
 margin_right = 196.0
-margin_bottom = 107.0
+margin_bottom = 124.0
 columns = 2
 
 [node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_right = 65.0
-margin_bottom = 18.0
+margin_bottom = 17.0
 custom_fonts/font = ExtResource( 6 )
 text = "Category:"
 align = 2
@@ -180,72 +180,91 @@ align = 2
 [node name="Category" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_left = 69.0
 margin_right = 131.0
-margin_bottom = 18.0
+margin_bottom = 17.0
 custom_fonts/font = ExtResource( 5 )
 text = "Materials"
 
 [node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_top = 22.0
+margin_top = 21.0
 margin_right = 65.0
-margin_bottom = 40.0
+margin_bottom = 38.0
 custom_fonts/font = ExtResource( 6 )
 text = "Author:"
 align = 2
 
 [node name="Author" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_left = 69.0
-margin_top = 22.0
+margin_top = 21.0
 margin_right = 131.0
-margin_bottom = 40.0
+margin_bottom = 38.0
 custom_fonts/font = ExtResource( 5 )
 text = "KoBeWi"
 
 [node name="Label5" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_top = 44.0
+margin_top = 42.0
 margin_right = 65.0
-margin_bottom = 62.0
+margin_bottom = 59.0
 custom_fonts/font = ExtResource( 6 )
 text = "License:"
 align = 2
 
 [node name="License" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_left = 69.0
-margin_top = 44.0
+margin_top = 42.0
 margin_right = 131.0
-margin_bottom = 62.0
+margin_bottom = 59.0
 custom_fonts/font = ExtResource( 5 )
 text = "Unlicense"
 
 [node name="Label7" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
-margin_top = 66.0
+margin_top = 63.0
 margin_right = 65.0
-margin_bottom = 84.0
+margin_bottom = 80.0
 custom_fonts/font = ExtResource( 6 )
 text = "Version:"
 align = 2
 
 [node name="Version" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
 margin_left = 69.0
-margin_top = 66.0
+margin_top = 63.0
 margin_right = 131.0
-margin_bottom = 84.0
+margin_bottom = 80.0
 custom_fonts/font = ExtResource( 5 )
 text = "0.1.0"
 
+[node name="Label8" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_top = 84.0
+margin_right = 65.0
+margin_bottom = 101.0
+custom_fonts/font = ExtResource( 6 )
+text = "ID:"
+align = 2
+
+[node name="AddonId" type="Label" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/HBoxContainer/PluginInfo/GC"]
+margin_left = 69.0
+margin_top = 84.0
+margin_right = 131.0
+margin_bottom = 101.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+custom_colors/font_color = Color( 0, 0.972549, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "12345"
+
 [node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel"]
-margin_top = 111.0
+margin_top = 128.0
 margin_right = 300.0
-margin_bottom = 403.0
+margin_bottom = 404.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC"]
 margin_right = 300.0
-margin_bottom = 292.0
+margin_bottom = 276.0
 
 [node name="Description" type="RichTextLabel" parent="PC/CC/P/VB/MCContent/HSC/InfoPanel/PC/SC"]
 margin_right = 300.0
-margin_bottom = 292.0
+margin_bottom = 276.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/table_vseparation = 5
@@ -257,11 +276,11 @@ bbcode_enabled = true
 [node name="ScreenShots" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/HSC"]
 margin_left = 312.0
 margin_right = 784.0
-margin_bottom = 403.0
+margin_bottom = 404.0
 
 [node name="Preview" type="TextureRect" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots"]
 margin_right = 472.0
-margin_bottom = 279.0
+margin_bottom = 280.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 7 )
@@ -299,9 +318,9 @@ __meta__ = {
 }
 
 [node name="PC" type="PanelContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots"]
-margin_top = 283.0
+margin_top = 284.0
 margin_right = 472.0
-margin_bottom = 403.0
+margin_bottom = 404.0
 rect_min_size = Vector2( 0, 120 )
 
 [node name="SC" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/PC"]
@@ -311,30 +330,30 @@ margin_bottom = 120.0
 [node name="Thumbnails" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/HSC/ScreenShots/PC/SC"]
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_top = 453.0
+margin_top = 454.0
 margin_right = 800.0
 margin_bottom = 490.0
 custom_constants/margin_bottom = 15
 
 [node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
 margin_right = 800.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 
 [node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_right = 226.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 
 [node name="DownloadBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 230.0
 margin_right = 297.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 text = "Download"
 
 [node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 301.0
 margin_right = 527.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 
 [node name="Uninstall" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
@@ -354,11 +373,11 @@ size_flags_horizontal = 3
 [node name="CloseBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 531.0
 margin_right = 569.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 text = "Close"
 
 [node name="Sep4" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
 margin_left = 573.0
 margin_right = 800.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
