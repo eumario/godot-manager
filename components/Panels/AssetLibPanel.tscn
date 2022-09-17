@@ -175,18 +175,18 @@ custom_constants/separation = 20
 
 [node name="HC" type="HBoxContainer" parent="VC/SearchContainer"]
 margin_right = 1024.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 custom_constants/separation = 8
 
 [node name="Spacer" type="Control" parent="VC/SearchContainer/HC"]
 margin_right = 5.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="SearchField" type="LineEdit" parent="VC/SearchContainer/HC"]
 margin_left = 13.0
 margin_right = 954.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
 clear_button_enabled = true
@@ -197,25 +197,25 @@ caret_blink = true
 [node name="Import" type="Button" parent="VC/SearchContainer/HC"]
 margin_left = 962.0
 margin_right = 1011.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 1 )
 text = "Import"
 
 [node name="Spacer2" type="Control" parent="VC/SearchContainer/HC"]
 margin_left = 1019.0
 margin_right = 1024.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="HC2" type="HBoxContainer" parent="VC/SearchContainer"]
-margin_top = 42.0
+margin_top = 41.0
 margin_right = 1024.0
-margin_bottom = 64.0
+margin_bottom = 62.0
 custom_constants/separation = 8
 
 [node name="Spacer" type="Control" parent="VC/SearchContainer/HC2"]
 margin_right = 5.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 5, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -224,7 +224,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="VC/SearchContainer/HC2"]
 margin_left = 13.0
 margin_right = 44.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Sort:"
@@ -232,52 +232,75 @@ valign = 1
 
 [node name="SortBy" type="OptionButton" parent="VC/SearchContainer/HC2"]
 margin_left = 52.0
-margin_right = 295.0
-margin_bottom = 22.0
+margin_right = 202.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 text = "Recently Updated"
 items = [ "Recently Updated", null, false, 0, null, "Least Recently Updated", null, false, 1, null, "Name (A-Z)", null, false, 2, null, "Name (Z-A)", null, false, 3, null, "License (A-Z)", null, false, 4, null, "License (Z-A)", null, false, 5, null ]
 selected = 0
 
 [node name="VSeparator" type="VSeparator" parent="VC/SearchContainer/HC2"]
-margin_left = 303.0
-margin_right = 307.0
-margin_bottom = 22.0
+margin_left = 210.0
+margin_right = 214.0
+margin_bottom = 21.0
 
 [node name="Label2" type="Label" parent="VC/SearchContainer/HC2"]
-margin_left = 315.0
-margin_right = 384.0
-margin_bottom = 22.0
+margin_left = 222.0
+margin_right = 291.0
+margin_bottom = 21.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Category: "
 valign = 1
 
 [node name="Category" type="OptionButton" parent="VC/SearchContainer/HC2"]
-margin_left = 392.0
-margin_right = 636.0
-margin_bottom = 22.0
+margin_left = 299.0
+margin_right = 450.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 text = "All"
 
 [node name="VSeparator2" type="VSeparator" parent="VC/SearchContainer/HC2"]
-margin_left = 644.0
-margin_right = 648.0
-margin_bottom = 22.0
+margin_left = 458.0
+margin_right = 462.0
+margin_bottom = 21.0
+
+[node name="Label4" type="Label" parent="VC/SearchContainer/HC2"]
+margin_left = 470.0
+margin_right = 570.0
+margin_bottom = 21.0
+size_flags_vertical = 5
+custom_fonts/font = ExtResource( 2 )
+text = "Godot Version:"
+valign = 1
+
+[node name="GodotVersion" type="OptionButton" parent="VC/SearchContainer/HC2"]
+margin_left = 578.0
+margin_right = 729.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Any"
+items = [ "Any", null, false, 0, null, "4.0", null, false, 1, null, "3.5", null, false, 2, null, "3.4", null, false, 3, null, "3.3", null, false, 4, null, "3.2", null, false, 5, null, "3.1", null, false, 6, null, "3.0.4", null, false, 7, null, "3.0.2", null, false, 8, null, "3.0", null, false, 9, null, "2.1.4", null, false, 10, null, "2.1.3", null, false, 11, null, "2.1", null, false, 12, null ]
+selected = 0
+
+[node name="VSeparator4" type="VSeparator" parent="VC/SearchContainer/HC2"]
+margin_left = 737.0
+margin_right = 741.0
+margin_bottom = 21.0
 
 [node name="Label3" type="Label" parent="VC/SearchContainer/HC2"]
-margin_left = 656.0
-margin_right = 689.0
-margin_bottom = 22.0
+margin_left = 749.0
+margin_right = 782.0
+margin_bottom = 21.0
 size_flags_vertical = 5
 custom_fonts/font = ExtResource( 2 )
 text = "Site: "
 valign = 1
 
 [node name="MirrorSite" type="OptionButton" parent="VC/SearchContainer/HC2"]
-margin_left = 697.0
+margin_left = 790.0
 margin_right = 941.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 text = "godotengine.org"
 items = [ "godotengine.org", null, false, 0, null, "localhost", null, false, 1, null ]
@@ -286,12 +309,12 @@ selected = 0
 [node name="VSeparator3" type="VSeparator" parent="VC/SearchContainer/HC2"]
 margin_left = 949.0
 margin_right = 953.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 
 [node name="Support" type="Button" parent="VC/SearchContainer/HC2"]
 margin_left = 961.0
 margin_right = 1011.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 1 )
 custom_styles/hover = SubResource( 21 )
 custom_styles/pressed = SubResource( 22 )
@@ -306,14 +329,14 @@ items = [ "Official", null, 1, true, false, 0, 0, null, "", false, "Community", 
 [node name="Spacer2" type="Control" parent="VC/SearchContainer/HC2"]
 margin_left = 1019.0
 margin_right = 1024.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 5, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="plAddons" parent="VC/SearchContainer" instance=ExtResource( 6 )]
-margin_top = 84.0
+margin_top = 82.0
 margin_bottom = 619.0
 
 [node name="plTemplates" parent="VC/SearchContainer" instance=ExtResource( 6 )]

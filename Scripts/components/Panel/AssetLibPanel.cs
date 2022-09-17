@@ -41,6 +41,9 @@ public class AssetLibPanel : Panel
     [NodePath("VC/SearchContainer/HC2/Category")]
     OptionButton _category = null;
 
+    [NodePath("VC/SearchContainer/HC2/GodotVersion")]
+    private OptionButton _godotVersion = null;
+
     [NodePath("VC/SearchContainer/HC2/MirrorSite")]
     OptionButton _mirrorSite = null;
 
@@ -171,9 +174,10 @@ public class AssetLibPanel : Panel
     }
 
     [SignalHandler("id_pressed", nameof(_supportPopup))]
-    async void OnSupportPopup_IdPressed(int id) {
+    async void OnSupportPopup_IdPressed(int id)
+    {
         _supportPopup.SetItemChecked(id, !_supportPopup.IsItemChecked(id));
-        await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons: _plTemplates);
+        await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
     }
 
     [SignalHandler("pressed", nameof(_support))]
@@ -210,6 +214,14 @@ public class AssetLibPanel : Panel
 
     [SignalHandler("item_selected", nameof(_sortBy))]
     async void OnSortBySelected(int index) {
+        _plaCurrentPage = 0;
+        _pltCurrentPage = 0;
+        await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
+    }
+
+    [SignalHandler("item_selected", nameof(_godotVersion))]
+    async void OnGodotVersionSelected(int index)
+    {
         _plaCurrentPage = 0;
         _pltCurrentPage = 0;
         await UpdatePaginatedListing(_addonsBtn.Pressed ? _plAddons : _plTemplates);
@@ -560,6 +572,11 @@ public class AssetLibPanel : Panel
         return asupport;
     }
 
+    public string GetGodotVersion()
+    {
+        return _godotVersion.GetItemText(_godotVersion.Selected).ToLower();
+    }
+
 	private async Task UpdatePaginatedListing(PaginatedListing pl)
 	{
         if (pl == _plmAddons || pl == _plmTemplates) {
@@ -579,15 +596,17 @@ public class AssetLibPanel : Panel
             string filter = _searchField.Text;
             string url = (string)_mirrorSite.GetItemMetadata(_mirrorSite.Selected);
 
-            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, projectsOnly ? _pltCurrentPage : _plaCurrentPage, "any", projectsOnly, sortBy,
-                    GetSupport(), categoryId, filter);
+            Task<AssetLib.QueryResult> stask = AssetLib.AssetLib.Instance.Search(url, 
+                projectsOnly ? _pltCurrentPage : _plaCurrentPage,
+                    GetGodotVersion(), projectsOnly, sortBy, GetSupport(), categoryId, filter);
             while (!stask.IsCompleted)
                 await this.IdleFrame();
 
             if (stask.Result == null) {
                 pl.ClearResults();
                 AppDialogs.BusyDialog.HideDialog();
-                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),string.Format(Tr("Unable to connect to {0}."),url));
+                AppDialogs.MessageDialog.ShowMessage(Tr("Asset Library"),
+                    string.Format(Tr("Unable to connect to {0}."),url));
                 return;
             }
 
