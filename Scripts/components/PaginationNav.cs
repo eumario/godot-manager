@@ -59,7 +59,7 @@ public class PaginationNav : CenterContainer
             }
         }
         if (totalPages > 0) {
-            iCurrentPage = 1;
+            iCurrentPage = 0;
             (_pageCount.GetChild(0) as Button).Disabled = true;
             CheckPage();
         }
@@ -73,7 +73,7 @@ public class PaginationNav : CenterContainer
             _firstPage.Disabled = false;
             _prevPage.Disabled = false;
         }
-        if (iCurrentPage == iTotalPages) {
+        if (iCurrentPage + 1 == iTotalPages) {
             _lastPage.Disabled = true;
             _nextPage.Disabled = true;
         } else {
@@ -116,7 +116,7 @@ public class PaginationNav : CenterContainer
         
         if (page < 0)
             return;
-        
+
         CheckPage();
         
         if (_pageCount.GetChildCount() > 0 && _pageCount.GetChildCount() > iCurrentPage)
