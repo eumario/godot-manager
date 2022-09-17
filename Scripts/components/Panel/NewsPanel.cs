@@ -108,7 +108,7 @@ public class NewsPanel : Panel
             }
             else
             {
-                newsItem.Image = imgPath;
+                newsItem.Image = imgPath.GetOSDir().NormalizePath();
             }
             
             NewsList.AddChild(newsItem);
@@ -130,7 +130,7 @@ public class NewsPanel : Panel
                     string imgPath = item.GetMeta("imgPath") as string;
                     if (SFile.Exists(imgPath.GetOSDir().NormalizePath()))
                     {
-                        item.Image = imgPath;
+                        item.Image = imgPath.GetOSDir().NormalizePath();
                     }
                     else
                     {
