@@ -13,6 +13,7 @@ public class CentralStoreData : Object {
 	[JsonProperty] public Array<int> PinnedCategories;
 	[JsonProperty] public Array<AssetPlugin> Plugins;
 	[JsonProperty] public Array<AssetProject> Templates;
+	[JsonProperty] public Array<CustomEngineDownload> CustomEngines;
 	[JsonProperty] public Settings Settings;
 
 	public CentralStoreData() {
@@ -25,6 +26,7 @@ public class CentralStoreData : Object {
 		PinnedCategories = new Array<int>();
 		Plugins = new Array<AssetPlugin>();
 		Templates = new Array<AssetProject>();
+		CustomEngines = new Array<CustomEngineDownload>();
 		Settings = new Settings();
 	}
 }

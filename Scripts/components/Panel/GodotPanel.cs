@@ -188,7 +188,8 @@ public class GodotPanel : Panel
             case 0:     // Add Custom Godot
                 AppDialogs.AddCustomGodot.ShowDialog();
                 break;
-            case 1:     // Scan for Godot
+            case 1:     // Manage Custom Godot Downloads
+                AppDialogs.ManageCustomDownloads.ShowDialog();
                 break;
             case 2:     // Manually Check for Updates for Godot
                 await CheckForUpdates();

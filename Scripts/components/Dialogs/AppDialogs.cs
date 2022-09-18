@@ -26,6 +26,7 @@ public class AppDialogs : Control
     public AddonInstaller AddonInstaller_ = null;
     public FileConflictDialog FileConflictDialog_ = null;
     public AddonMirror AddonMirror_ = null;
+    public ManageCustomDownloads ManageCustomDownloads_ = null;
 #endregion
 
 #region Singleton Variables to access in program
@@ -51,6 +52,7 @@ public class AppDialogs : Control
     public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
     public static FileConflictDialog FileConflictDialog { get => Instance.FileConflictDialog_; }
     public static AddonMirror AddonMirror { get => Instance.AddonMirror_; }
+    public static ManageCustomDownloads ManageCustomDownloads { get => Instance.ManageCustomDownloads_; }
 #endregion
 
     private static AppDialogs _instance = null;
@@ -87,6 +89,7 @@ public class AppDialogs : Control
         AddonInstaller_ = GD.Load<PackedScene>("res://components/Dialogs/AddonInstaller.tscn").Instance<AddonInstaller>();
         FileConflictDialog_ = GD.Load<PackedScene>("res://components/Dialogs/FileConflictDialog.tscn").Instance<FileConflictDialog>();
         AddonMirror_ = GD.Load<PackedScene>("res://components/Dialogs/AddonMirror.tscn").Instance<AddonMirror>();
+        ManageCustomDownloads_ = GD.Load<PackedScene>("res://components/Dialogs/ManageCustomDownloads.tscn").Instance<ManageCustomDownloads>();
 
         ImageFileDialog_ = new FileDialog();
         ImageFileDialog_.Name = "ImageFileDialog";
@@ -132,6 +135,7 @@ public class AppDialogs : Control
             CreateProject_, ImportProject_,     // Create Project / Import Project
             EditProject_,                       // Edit Project
             AssetLibPreview_, DownloadAddon_,   // Asset Library Preview / Download Addon/Project
+            ManageCustomDownloads_,             // Custom Godot Editor Downloads
             DownloadGodotManager_,              // Download Godot Manager Update
             AddonMirror_,                       // Adding Addon Mirror to list
             CreateCategory_,                    // Create a Category

@@ -36,6 +36,7 @@ public class CentralStore {
 	public static Array<int> PinnedCategories { get => Instance._data.PinnedCategories; }
 	public static Array<AssetPlugin> Plugins { get => Instance._data.Plugins; }
 	public static Array<AssetProject> Templates { get => Instance._data.Templates; }
+	public static Array<CustomEngineDownload> CustomEngines { get => Instance._data.CustomEngines; }
 #endregion
 
 #region Instance Methods
@@ -204,6 +205,14 @@ public class CentralStore {
 		}
 
 		return unpinned;
+	}
+
+	public bool HasCustomEngineId(int id)
+	{
+		var res = from e in CustomEngines
+			where e.Id == id
+			select e;
+		return res.FirstOrDefault() != null;
 	}
 #endregion
 
