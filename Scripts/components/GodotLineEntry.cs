@@ -21,6 +21,9 @@ public class GodotLineEntry : HBoxContainer
     [Signal]
     public delegate void default_selected(GodotLineEntry entry);
 
+    [Signal]
+    public delegate void right_clicked(GodotLineEntry entry);
+
 #region Private Node Variables
     [NodePath("vc/VersionTag")]
     private Label _label = null;
@@ -347,6 +350,16 @@ public class GodotLineEntry : HBoxContainer
             } else {
                 _default.SelfModulate = new Color("ffffff");
             }
+        }
+    }
+
+    [SignalHandler("gui_input")]
+    void OnGuiInput(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed &&
+            (ButtonList)iemb.ButtonIndex == ButtonList.Right)
+        {
+            EmitSignal("right_clicked", this);
         }
     }
 

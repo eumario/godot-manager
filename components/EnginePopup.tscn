@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/components/EnginePopup.cs" type="Script" id=1]
+
+[node name="EnginePopup" type="PopupMenu"]
+margin_right = 10.0
+margin_bottom = 10.0
+items = [ "Install/Uninstall", null, 0, false, false, 0, 0, null, "", false, "Make Default", null, 0, false, false, 1, 0, null, "", false, "Copy Engine Path", null, 0, false, false, 2, 0, null, "", false, "Open Engine Path", null, 0, false, false, 3, 0, null, "", false ]
+script = ExtResource( 1 )

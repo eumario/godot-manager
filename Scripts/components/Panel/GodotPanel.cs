@@ -14,7 +14,7 @@ using Mirrors;
 
 public class GodotPanel : Panel
 {
-#region Nodes
+    #region Nodes
     // [NodePath("VB/MC/HC/UseMono")]
     // CheckBox UseMono = null;
 
@@ -35,16 +35,28 @@ public class GodotPanel : Panel
 
     [NodePath("VB/SC/GodotList/Available")]
     CategoryList Available = null;
-#endregion
+    #endregion
 
-#region Templates
-    PackedScene GodotLE = GD.Load<PackedScene>("res://components/GodotLineEntry.tscn");
-#endregion
+    #region Templates
+
+    [Resource("res://components/GodotLineEntry.tscn")]
+    private PackedScene GodotLE = null;
+
+    [Resource("res://components/EnginePopup.tscn")]
+    private PackedScene EnginePopup = null;
+
+    #endregion
+
+    private EnginePopup _enginePopup = null;
 
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
     {
         this.OnReady();
+        _enginePopup = EnginePopup.Instance<EnginePopup>();
+        _enginePopup.Name = "EngineContextMenu";
+        AddChild(_enginePopup);
+        
         GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
         AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
         DownloadSource.Clear();
@@ -463,6 +475,7 @@ public class GodotPanel : Panel
             Installed.List.AddChild(gle);
             gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
             gle.Connect("default_selected", this, "OnDefaultSelected");
+            gle.Connect("right_clicked", this, "OnRightClicked_Installed");
         }
 
         if (DownloadSource.Selected == 0) {
@@ -473,6 +486,7 @@ public class GodotPanel : Panel
                 gle.Mono = IsMono();
                 Available.List.AddChild(gle);
                 gle.Connect("install_clicked", this, "OnInstallClicked");
+                gle.Connect("right_clicked", this, "OnRightClicked_Installable");
             }
         } else {
             // Handle Mirror
@@ -482,10 +496,61 @@ public class GodotPanel : Panel
                 gle.Mono = IsMono();
                 Available.List.AddChild(gle);
                 gle.Connect("install_clicked", this, "OnInstallClicked");
+                gle.Connect("right_clicked", this, "OnRightClicked_Installable");
             }
         }
 
         UpdateVisibility();
+    }
+
+    void OnRightClicked_Installable(GodotLineEntry gle)
+    {
+        _enginePopup.GodotLineEntry = gle;
+        _enginePopup.SetItemText(0,"Install");
+        _enginePopup.SetItemDisabled(1,true);
+        _enginePopup.SetItemDisabled(2,true);
+        _enginePopup.SetItemDisabled(3, true);
+        _enginePopup.Popup_(new Rect2(GetGlobalMousePosition(), _enginePopup.RectSize));
+    }
+
+    void OnRightClicked_Installed(GodotLineEntry gle)
+    {
+        _enginePopup.GodotLineEntry = gle;
+        _enginePopup.SetItemText(0, "Uninstall");
+        _enginePopup.SetItemDisabled(1, false);
+        _enginePopup.SetItemDisabled(2, false);
+        _enginePopup.SetItemDisabled(3, false);
+        _enginePopup.Popup_(new Rect2(GetGlobalMousePosition(), _enginePopup.RectSize));
+    }
+
+    public void _IdPressed(int id)
+    {
+        switch (id)
+        {
+            case 0:
+                if (_enginePopup.GodotLineEntry.Downloaded)
+                {
+                    // Uninstall
+                    OnUninstallClicked(_enginePopup.GodotLineEntry);
+                }
+                else
+                {
+                    // Install
+                    OnInstallClicked(_enginePopup.GodotLineEntry);
+                }
+
+                break;
+            case 1:
+                OnDefaultSelected(_enginePopup.GodotLineEntry);
+                break;
+            case 2:
+                OS.Clipboard = _enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath();
+                OS.Alert("Location copied to Clipboard", "Copy Engine Location");
+                break;
+            case 3:
+                OS.ShellOpen(_enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath().GetBaseDir());
+                break;
+        }
     }
 
     private void UpdateVisibility() {
