@@ -14,12 +14,12 @@
     <NoWarn>0414</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="**/*.tscn"/>
-    <None Include="**/*.tres"/>
-    <None Include="**/*.svg"/>
-    <None Include="**/*.png"/>
-    <None Include="**/*.ico"/>
-    <None Include="**/*.ttf"/>
-    <None Include="**/*.cfg"/>
+    <None Include="**/*.tscn" />
+    <None Include="**/*.tres" />
+    <None Include="**/*.svg" />
+    <None Include="**/*.png" />
+    <None Include="**/*.ico" />
+    <None Include="**/*.ttf" />
+    <None Include="**/*.cfg" />
   </ItemGroup>
 </Project>
