@@ -17,7 +17,9 @@ public class FirstTimeInstall : ReferenceRect
     public override void _Ready()
     {
         this.OnReady();
-        
+        CentralStore.Settings.CachePath = CentralStore.Settings.CachePath.GetOSDir().NormalizePath();
+        CentralStore.Settings.EnginePath = CentralStore.Settings.EnginePath.GetOSDir().NormalizePath();
+        CentralStore.Instance.SaveDatabase();
     }
 
     [SignalHandler("pressed", nameof(AddGodot))]
