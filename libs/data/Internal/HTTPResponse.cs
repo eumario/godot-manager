@@ -27,6 +27,7 @@ public class HTTPResponse : Object {
 		this.call_from = call_from;
 		ResponseCode = client.GetResponseCode();
 		Headers = client.GetResponseHeadersAsDictionary();
+		call_from.EmitSignal("headers_received", Headers);
 		Cancelled = false;
 		bBinary = binary;
 		Task res = GetBody();

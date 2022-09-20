@@ -6,6 +6,9 @@ public class GDCSHTTPClient : Node {
 	public delegate void chunk_received(int size);
 
 	[Signal]
+	public delegate void headers_received(Godot.Collections.Dictionary headers);
+
+	[Signal]
 	public delegate void request_completed();
 
 	private HTTPClient client = null;
