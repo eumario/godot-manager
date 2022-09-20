@@ -178,9 +178,15 @@ public class GodotInstaller : Object {
 				if (fname.EndsWith(".64") && fname.StartsWith("Godot")) {
 					_version.ExecutableName = fname;
 					break;
+				} else if (fname.EndsWith(".x86_64") && fname.StartsWith("Godot")) {
+					_version.ExecutableName = fname;
+					break;
 				}
 			} else {
 				if (fname.EndsWith(".32") && fname.StartsWith("Godot")) {
+					_version.ExecutableName = fname;
+					break;
+				} else if (fname.EndsWith(".x86_32") && fname.StartsWith("Godot")) {
 					_version.ExecutableName = fname;
 					break;
 				}
