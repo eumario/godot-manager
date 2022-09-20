@@ -442,6 +442,28 @@ public class GodotPanel : Panel
             }
 
             CentralStore.Versions.Remove(gle.GodotVersion);
+            
+            if (CentralStore.Versions.Count == 1)
+            {
+                result = AppDialogs.YesNoDialog.ShowDialog(
+                        Tr("Remove Godot Install"),
+                        Tr("You only have 1 version of Godot Engine installed, do you wish to set it as your default and associate it with projects?"));
+
+                while (!result.IsCompleted)
+                    await this.IdleFrame();
+
+                if (result.Result)
+                {
+                    GodotVersion gv = CentralStore.Versions[0];
+                    foreach (ProjectFile pf in CentralStore.Projects)
+                    {
+                        pf.GodotVersion = gv.Id;
+                    }
+
+                    CentralStore.Settings.DefaultEngine = gv.Id;
+                }
+            }
+            
             CentralStore.Instance.SaveDatabase();
 
             if (gle.GodotVersion.GithubVersion != null || gle.GodotVersion.MirrorVersion != null || gle.GodotVersion.CustomEngine != null)
