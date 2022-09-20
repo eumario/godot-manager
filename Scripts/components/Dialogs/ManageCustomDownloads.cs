@@ -6,6 +6,9 @@ using Godot.Sharp.Extras;
 
 public class ManageCustomDownloads : ReferenceRect
 {
+    [Signal]
+    public delegate void update_list();
+    
     #region NodePaths
 
     [NodePath] private TextureButton AddCustomVersion = null;
@@ -48,11 +51,6 @@ public class ManageCustomDownloads : ReferenceRect
     [SignalHandler("pressed", nameof(AddCustomVersion))]
     void OnPressed_AddCustomVersion()
     {
-        // int id = CentralStore.Categories.Count;
-        // while (CentralStore.Instance.HasCategoryId(id)) {
-        //     id++;
-        // }
-        // c.Id = id;
         if (_currentCed != null)
         {
             UpdateStruct();
@@ -91,14 +89,46 @@ public class ManageCustomDownloads : ReferenceRect
     async Task OnPressed_RemoveCustomVersion()
     {
         var delCed = CustomVersionList.GetItemMetadata(CustomVersionList.GetSelectedItems()[0]) as CustomEngineDownload;
-        //AppDialogs.MessageDialog.ShowMessage("Remove Custom Engine Donwload", $"Are you sure you want to delete '{delCed.Name}' from your list of downloads?");
-        var res = await AppDialogs.YesNoDialog.ShowDialog("Remove Custom Engine Donwload",
-            $"Are you sure you want to delete '{delCed.Name}' from your list of downloads?");
-        if (res)
+        bool installed = false;
+        GodotVersion installedGv = null;
+        foreach (GodotVersion gv in CentralStore.Versions)
         {
+            if (gv.CustomEngine == delCed)
+            {
+                installed = true;
+                installedGv = gv;
+                break;
+            }
+        }
+
+        if (delCed == _currentCed)
+            _currentCed = null;
+
+        if (installed)
+        {
+            var res = await AppDialogs.YesNoDialog.ShowDialog("Remove Custom Engine Download",
+                $"There is a version of this engine installed, do you wish to uninstall it?");
+            if (res)
+            {
+                var installer = GodotInstaller.FromVersion(installedGv);
+                installer.Uninstall();
+                CentralStore.Versions.Remove(installedGv);
+            }
+
             CentralStore.CustomEngines.Remove(delCed);
             CentralStore.Instance.SaveDatabase();
             UpdateList();
+        }
+        else
+        {
+            var res = await AppDialogs.YesNoDialog.ShowDialog("Remove Custom Engine Donwload",
+                $"Are you sure you want to delete '{delCed.Name}' from your list of downloads?");
+            if (res)
+            {
+                CentralStore.CustomEngines.Remove(delCed);
+                CentralStore.Instance.SaveDatabase();
+                UpdateList();
+            }
         }
     }
 
@@ -132,19 +162,59 @@ public class ManageCustomDownloads : ReferenceRect
     
     #region Private Functions
 
-    private void UpdateStruct()
+    private async void UpdateStruct()
     {
+        if (_currentCed == null)
+        {
+            _currentCed = new CustomEngineDownload();
+            CentralStore.CustomEngines.Add(_currentCed);
+            int id = CentralStore.CustomEngines.Count;
+            while (CentralStore.Instance.HasCustomEngineId(id))
+                id++;
+
+            _currentCed.Id = id;
+        }
+
+        if (_currentCed.Url != DownloadUrl.Text)
+        {
+            // Need to Update our download size.
+            var client = new GDCSHTTPClient();
+            var uri = new Uri(DownloadUrl.Text);
+            var res = await client.StartClient(uri.Host, uri.Port, uri.Scheme == "https");
+            if (res == HTTPClient.Status.Connected)
+            {
+                var headers = await client.HeadRequest(uri.PathAndQuery);
+                if (headers.Headers.Contains("Transfer-Encoding"))
+                    _currentCed.DownloadSize = 0;
+                else
+                {
+                    int size = 0;
+                    if (int.TryParse((string)headers.Headers["Content-Length"], out size))
+                    {
+                        _currentCed.DownloadSize = size;
+                    }
+                }
+            }
+            client.QueueFree();
+        }
+
         _currentCed.Name = DownloadName.Text;
         _currentCed.Url = DownloadUrl.Text;
         _currentCed.Interval = IntervalValues[DownloadInterval.Selected];
         _currentCed.TagName = TagName.Text;
+        bool found = false;
         for (int i = 0; i < CustomVersionList.GetItemCount(); i++)
         {
             if (CustomVersionList.GetItemMetadata(i) == _currentCed)
             {
                 CustomVersionList.SetItemText(i, DownloadName.Text);
+                found = true;
             }
         }
+        CentralStore.Instance.SaveDatabase();
+
+        if (!found)
+            UpdateList();
 
         ClearFields();
     }
@@ -166,6 +236,8 @@ public class ManageCustomDownloads : ReferenceRect
             CustomVersionList.AddItem(ced.Name == "" ? "<no name>" : ced.Name);
             CustomVersionList.SetItemMetadata(CustomVersionList.GetItemCount()-1, ced);
         }
+        
+        EmitSignal("update_list");
     }
 
     private void ClearFields()

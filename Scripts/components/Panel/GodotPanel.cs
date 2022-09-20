@@ -96,6 +96,8 @@ public class GodotPanel : Panel
         TagSelection.UpdateTr(5, Tr("Release Candidate"));
 
         OnlyMono();
+
+        AppDialogs.ManageCustomDownloads.Connect("update_list", this, "OnUpdateList");
     }
 
     async void OnIdPressed_TagSelection(int id) {
@@ -338,6 +340,11 @@ public class GodotPanel : Panel
         await PopulateList();
     }
 
+    void OnUpdateList()
+    {
+        PopulateList();
+    }
+
     async void OnDownloadFailed(GodotInstaller installer, HTTPClient.Status status, GodotLineEntry gle) {
         Downloading.List.RemoveChild(gle);
         if (Downloading.List.GetChildCount() == 0)
@@ -386,7 +393,9 @@ public class GodotPanel : Panel
 
         GodotInstaller installer = null;
 
-        if (gle.GithubVersion == null)
+        if (gle.GithubVersion == null && gle.MirrorVersion == null)
+            installer = GodotInstaller.FromCustomEngineDownload(gle.CustomEngine);
+        else if (gle.GithubVersion == null && gle.CustomEngine == null)
             installer = GodotInstaller.FromMirror(gle.MirrorVersion, IsMono());
         else
             installer = GodotInstaller.FromGithub(gle.GithubVersion, IsMono());
@@ -435,7 +444,7 @@ public class GodotPanel : Panel
             CentralStore.Versions.Remove(gle.GodotVersion);
             CentralStore.Instance.SaveDatabase();
 
-            if (gle.GodotVersion.GithubVersion != null || gle.GodotVersion.MirrorVersion != null)
+            if (gle.GodotVersion.GithubVersion != null || gle.GodotVersion.MirrorVersion != null || gle.GodotVersion.CustomEngine != null)
                 installer.Uninstall();
 
             await PopulateList();
@@ -477,6 +486,16 @@ public class GodotPanel : Panel
             gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
             gle.Connect("default_selected", this, "OnDefaultSelected");
             gle.Connect("right_clicked", this, "OnRightClicked_Installed");
+        }
+        
+        // Handle CustomEngineDownload first, before official mirrors
+        foreach (CustomEngineDownload ced in CentralStore.CustomEngines)
+        {
+            GodotLineEntry gle = GodotLE.Instance<GodotLineEntry>();
+            gle.CustomEngine = ced;
+            Available.List.AddChild(gle);
+            gle.Connect("install_clicked", this, "OnInstallClicked");
+            gle.Connect("right_clicked", this, "OnRightClicked_Installable");
         }
 
         if (DownloadSource.Selected == 0) {

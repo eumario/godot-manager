@@ -28,12 +28,14 @@ public class GodotInstaller : Object {
 
 	public int DownloadSize {
 		get {
-			if (_version.GithubVersion == null)
+			if (_version.GithubVersion == null && _version.CustomEngine == null)
 				return _version.MirrorVersion.PlatformDownloadSize;
-			else
+			
+			if (_version.CustomEngine == null && _version.MirrorVersion == null)
 				return _version.IsMono ? 
 						_version.GithubVersion.PlatformMonoDownloadSize : 
 						_version.GithubVersion.PlatformDownloadSize;
+			return _version.CustomEngine.DownloadSize;
 		}
 	}
 
@@ -41,6 +43,7 @@ public class GodotInstaller : Object {
 		_version = version;
 		_client = new GDCSHTTPClient();
 		_client.Connect("chunk_received", this, "OnChunkReceived");
+		_client.Connect("headers_received", this, "OnHeadersReceived");
 	}
 
 	public static GodotInstaller FromGithub(GithubVersion gh, bool is_mono = false) {
@@ -83,6 +86,41 @@ public class GodotInstaller : Object {
 
 		GodotInstaller installer = new GodotInstaller(gv);
 		return installer;
+	}
+
+	public static GodotInstaller FromCustomEngineDownload(CustomEngineDownload ced)
+	{
+		GodotVersion gv = new GodotVersion()
+		{
+			Id = Guid.NewGuid().ToString(),
+			Tag = ced.TagName,
+			Url = ced.Url,
+#if GODOT_MACOS || GODOT_OSX
+			Location = $"{CentralStore.Settings.EnginePath}/{ced.TagName}",
+#else
+			Location = $"{CentralStore.Settings.EnginePath}/{ced.TagName}",
+#endif
+			CacheLocation = $"{CentralStore.Settings.CachePath}/Godot/{ced.Url.GetFile()}",
+			DownloadedDate = DateTime.Now,
+			CustomEngine = ced
+		};
+
+		GodotInstaller installer = new GodotInstaller(gv);
+		return installer;
+	}
+
+	void OnHeadersReceived(Dictionary headers)
+	{
+		if (DownloadSize == 0)
+		{
+			if (headers.Contains("Transfer-Encoding")) // ContainsKey("Transfer-Encoding"))
+				return;
+			int size = 0;
+			if (int.TryParse((string)headers["Content-Length"], out size))
+			{
+				_version.CustomEngine.DownloadSize = size;
+			}
+		}
 	}
 
 	public static GodotInstaller FromVersion(GodotVersion vers) {

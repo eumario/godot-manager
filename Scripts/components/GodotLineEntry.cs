@@ -73,6 +73,7 @@ public class GodotLineEntry : HBoxContainer
     private GodotVersion gvGodotVersion = null;
     private GithubVersion gvGithubVersion = null;
     private MirrorVersion gvMirrorVersion = null;
+    private CustomEngineDownload gvCustomEngine = null;
 
     private int iLastByteCount = 0;
     Array<double> adSpeedStack;
@@ -92,6 +93,12 @@ public class GodotLineEntry : HBoxContainer
                 Label = value.Tag;
                 Source = value.Url;
                 Location = value.GetExecutablePath();
+                if (value.GithubVersion != null)
+                    Filesize = Util.FormatSize(value.GithubVersion.PlatformDownloadSize);
+                if (value.MirrorVersion != null)
+                    Filesize = Util.FormatSize(value.MirrorVersion.PlatformDownloadSize);
+                if (value.CustomEngine != null)
+                    Filesize = Util.FormatSize(value.CustomEngine.DownloadSize);
                 if (_loc != null)
                     _loc.Visible = true;
             }
@@ -217,6 +224,23 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
+    public CustomEngineDownload CustomEngine
+    {
+        get
+        {
+            return gvCustomEngine;
+        }
+        set
+        {
+            gvCustomEngine = value;
+            if (value == null)
+                return;
+            Label = value.TagName;
+            Source = value.Url;
+            Filesize = value.DownloadSize == 0 ? "Unknown" : Util.FormatSize(value.DownloadSize);
+        }
+    }
+
 	public string Label {
         get {
             return sLabel;
@@ -304,6 +328,7 @@ public class GodotLineEntry : HBoxContainer
 
         GithubVersion = gvGithubVersion;
         MirrorVersion = gvMirrorVersion;
+        CustomEngine = gvCustomEngine;
         GodotVersion = gvGodotVersion;
 
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");

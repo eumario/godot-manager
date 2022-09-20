@@ -13,6 +13,7 @@ public class CustomEngineDownload : Object
     [JsonProperty] public bool NightlyBuild;
     [JsonProperty] public TimeSpan Interval;
     [JsonProperty] public string TagName;
+    [JsonProperty] public int DownloadSize;
 
     public CustomEngineDownload()
     {
@@ -22,5 +23,6 @@ public class CustomEngineDownload : Object
         NightlyBuild = false;
         Interval = TimeSpan.Zero;
         TagName = "";
+        DownloadSize = 0;
     }
 }

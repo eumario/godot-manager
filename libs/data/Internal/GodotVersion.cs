@@ -17,6 +17,7 @@ public class GodotVersion : Object {
 	[JsonProperty] public bool HideConsole;	// If we should hide the console for Godot Editor.
 	[JsonProperty] public GithubVersion GithubVersion;
 	[JsonProperty] public MirrorVersion MirrorVersion;
+	[JsonProperty] public CustomEngineDownload CustomEngine;
 
 	public GodotVersion() {
 		Id = Guid.Empty.ToString();
