@@ -962,7 +962,7 @@ public class SettingsPanel : Panel
 		Util.Chmod(updater,0755);
 		#endif
 
-		#if GODOT_MACOS || GDOOT_OSX
+		#if GODOT_MACOS || GODOT_OSX
 		Util.XAttr(Util.GetUpdateFolder().Join("Godot Manager.app").NormalizePath(), "-cr");
 		#endif
 
