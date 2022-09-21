@@ -54,7 +54,7 @@ public class GodotInstaller : Object {
 			Tag = gh.Name,
 			Url = is_mono ? gh.PlatformMonoDownloadURL : gh.PlatformDownloadURL,
 #if GODOT_MACOS || GODOT_OSX
-			Location = $"{CentralStore.Settings.EnginePath}/{gv.Name + (is_mono ? "_mono" : "") }",
+			Location = $"{CentralStore.Settings.EnginePath}/{gh.Name + (is_mono ? "_mono" : "") }",
 #else
 			Location = $"{CentralStore.Settings.EnginePath}/{(is_mono ? gdFile.ReplaceN(".zip","") : gh.Name)}",
 #endif
@@ -234,8 +234,8 @@ public class GodotInstaller : Object {
 		Util.Chmod(_version.GetExecutablePath(), 0755);
 #elif GODOT_MACOS || GODOT_OSX
 
-		gv.ExecutableName = "Godot";
-		Util.Chmod(gv.GetExecutablePath(), 0755);
+		_version.ExecutableName = "Godot";
+		Util.Chmod(_version.GetExecutablePath(), 0755);
 
 #endif
 		if (CentralStore.Settings.SelfContainedEditors) {

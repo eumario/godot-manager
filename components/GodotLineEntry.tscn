@@ -138,10 +138,10 @@ size_flags_horizontal = 3
 text = "Speed: 0.00KB/s"
 
 [node name="Location" type="HBoxContainer" parent="vc"]
-visible = false
 margin_top = 44.0
 margin_right = 462.0
 margin_bottom = 61.0
+size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="vc/Location"]
 margin_right = 57.0
@@ -150,9 +150,11 @@ text = "Location:"
 
 [node name="DownloadLocation" type="Label" parent="vc/Location"]
 margin_left = 61.0
-margin_right = 394.0
+margin_right = 462.0
 margin_bottom = 17.0
+size_flags_horizontal = 3
 text = "E:\\Apps\\GodotManager\\versions\\Godot_vx.x.x-stable"
+clip_text = true
 
 [node name="Download" type="TextureRect" parent="."]
 margin_left = 978.0

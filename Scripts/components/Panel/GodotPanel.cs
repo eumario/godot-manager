@@ -590,7 +590,7 @@ public class GodotPanel : Panel
                 OS.Alert("Location copied to Clipboard", "Copy Engine Location");
                 break;
             case 3:
-                OS.ShellOpen(_enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath().GetBaseDir());
+                OS.ShellOpen("file://" + _enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath().GetBaseDir());
                 break;
         }
     }
