@@ -6,7 +6,7 @@ on:
 
 env:
   GAME_SUBDIRECTORY: "godot-manager"
-  GODOT_VERSION: "3.4.4"
+  GODOT_VERSION: "3.5"
   GODOT_VERSION_MODIFIER: "stable.mono"
   EXPORT_NAME: "GodotManager"
   CUSTOM_ICON: "true"
@@ -22,7 +22,7 @@ jobs:
       version: ${{ steps.get_version.outputs.version-without-v }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.0.2
         with:
           lfs: true
       - name: Get version name
@@ -57,7 +57,7 @@ jobs:
             extension: .x86_64
             type: executable
     container:
-      image: eumario/github-actions-ci:0.2.0
+      image: eumario/godot-mono-github-actions-ci:0.1.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
