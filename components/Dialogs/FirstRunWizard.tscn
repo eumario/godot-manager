@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Resources/Fonts/droid-regular-16.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Resources/Fonts/droid-bold-22.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Resources/DefaultTheme.tres" type="Theme" id=5]
 [ext_resource path="res://components/GodotFirstInstall.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/components/Dialogs/FirstRunWizard.cs" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -24,9 +25,7 @@ corner_detail = 20
 [node name="FirstRunWizard" type="ReferenceRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 7 )
 
 [node name="PC" type="PanelContainer" parent="."]
 anchor_right = 1.0
