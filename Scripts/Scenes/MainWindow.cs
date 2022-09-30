@@ -61,8 +61,10 @@ public class MainWindow : Control
 			GetTree().Root.GetNode<Control>("SceneManager/MainWindow/bg/Shell/VC/VisibleSpacer").Visible = false;
 		}
 
-		if (CentralStore.Settings.FirstTimeRun) {
-			AppDialogs.FirstTimeInstall.Visible = true;
+		if (CentralStore.Settings.FirstTimeRun)
+		{
+			AppDialogs.FirstRunWizard.ShowDialog();
+			//AppDialogs.FirstTimeInstall.Visible = true;
 		}
 	}
 
