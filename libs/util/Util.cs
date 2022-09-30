@@ -140,21 +140,30 @@ public static class Util {
 		texture.CreateFromImage(image);
 		return texture;
 	}
-	
-	public static string FindChmod() {
+
+	public static string Which(string cmd)
+	{
 		Array output = new Array();
-		int exit_code = OS.Execute("which", new string[] { "chmod" }, true, output);
+		#if GODOT_X11 || GODOT_LINUXBSD || GODOT_OSX || GODOT_MACOS
+		string which = "which";
+		#elif GODOT_WINDOWS || GODOT_UWP
+		string which = "where";
+		#endif
+		int exit_code = OS.Execute(which, new string[] { cmd }, true, output);
 		if (exit_code != 0)
-			return "";
-		return (output[0] as string).StripEdges();
+			return null;
+		else
+			return (output[0] as string).StripEdges();
+	}
+	
+	public static string FindChmod()
+	{
+		return Which("chmod");
 	}
 
-	public static string FindXAttr() {
-		Array output = new Array();
-		int exit_code = OS.Execute("which", new string[] { "xattr" }, true, output);
-		if (exit_code != 0)
-			return "";
-		return (output[0] as string).StripEdges();
+	public static string FindXAttr()
+	{
+		return Which("xattr");
 	}
 
 	public static bool Chmod(string path, int perms) {
@@ -219,4 +228,49 @@ public static class Util {
 	public static void UpdateTr(this MenuButton self, int indx, string text) {
 		self.GetPopup().SetItemText(indx, text);
 	}
+	
+	#if GODOT_X11 || GODOT_LINUXBSD
+	private static string FindPkExec()
+	{
+		if (Which("pkexec") != null)
+			return Which("pkexec");
+		if (Which("gksu") != null)
+			return Which("gksu");
+		if (Which("gksudo") != null)
+			return Which("gksudo");
+		if (Which("kdesudo") != null)
+			return Which("kdesudo");
+		return Which("sudo");
+	}
+	public static int PkExec(string command)
+	{
+		string pkexec = FindPkExec();
+		Array<string> args = new Array<string>();
+		
+		if (pkexec.Contains("pkexec"))
+		{
+			args.Add("--disable-internal-agent");
+		}
+
+		if (pkexec.Contains("gksu") || pkexec.Contains("gksudo"))
+		{
+			args.Add("--preserve-env");
+			args.Add("--sudo-mode");
+			args.Add("--description 'Install Shortcut'");
+		}
+
+		if (pkexec.Contains("kdesudo"))
+		{
+			args.Add("--comment 'Godot Manager needs Administrative privileges to complete the requested actions.'");
+		}
+
+		if (pkexec.Contains("sudo") && !(pkexec.Contains("gksudo") || pkexec.Contains("kdesudo")))
+		{
+			return OS.Execute("bash", new string[] { pkexec, "-e", command }, true, null, false, true);
+		}
+
+		args.Add(command);
+		return OS.Execute(pkexec, args.ToArray(), true);
+	}
+	#endif
 }
