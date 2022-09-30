@@ -274,5 +274,4 @@ public class GodotInstaller : Object {
 
 		SFile.Delete(_version.CacheLocation);
 	}
-
 }
