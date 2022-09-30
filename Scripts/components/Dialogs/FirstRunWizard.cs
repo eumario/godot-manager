@@ -221,6 +221,7 @@ StartupNotify=true
         CentralStore.Settings.EnginePath = EngineLoc.Text;
         CentralStore.Settings.ProjectPath = ProjectLoc.Text;
         CentralStore.Settings.ScanDirs = new Array<string>() { ProjectLoc.Text };
+        #if GODOT_X11 || GODOT_LINUXBSD
         if (finished)
         {
             if (CreateShortcut.Pressed)
@@ -273,6 +274,7 @@ StartupNotify=true
                 System.IO.File.Delete("/tmp/godot-manager.desktop");
             }
         }
+        #endif
         CentralStore.Instance.SaveDatabase();
     }
 }
