@@ -190,7 +190,7 @@ public class GodotInstaller : Object {
 
 	public void Install() {
 		string instDir = _version.Location;
-#if GODOT_WINDOWS || GODOT_UWP
+#if GODOT_WINDOWS || GODOT_UWP || GODOT_LINUXBSD || GODOT_X11
 		if (_version.IsMono)
 			instDir = instDir.GetBaseDir();
 #endif
