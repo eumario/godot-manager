@@ -20,8 +20,9 @@ run/main_scene="res://Scenes/SceneManager.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot-Manager"
 run/low_processor_mode=true
-config/icon="res://godot.png"
-config/windows_native_icon="res://godot.ico"
+boot_splash/image="res://Assets/images/splash.png"
+boot_splash/fullsize=false
+config/icon="res://godot-manager.png"
 
 [display]
 
