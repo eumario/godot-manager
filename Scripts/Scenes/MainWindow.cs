@@ -100,18 +100,18 @@ public class MainWindow : Control
 
 	void EnsureDirStructure() {
 		
-		if (!Directory.Exists(CentralStore.Settings.CachePath))
-			Directory.CreateDirectory(CentralStore.Settings.CachePath);
-		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("Godot")))
-			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("Godot"));
-		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("AssetLib")))
-			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("AssetLib"));
-		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("images")))
-			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("images"));
-		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("images","news")))
-			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("images","news"));
-		if (!Directory.Exists(CentralStore.Settings.EnginePath))
-			Directory.CreateDirectory(CentralStore.Settings.EnginePath);
+		if (!Directory.Exists(CentralStore.Settings.CachePath.GetOSDir()))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.GetOSDir());
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("Godot").GetOSDir()))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("Godot").GetOSDir());
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("AssetLib").GetOSDir()))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("AssetLib").GetOSDir());
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("images").GetOSDir()))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("images").GetOSDir());
+		if (!Directory.Exists(CentralStore.Settings.CachePath.Join("images","news").GetOSDir()))
+			Directory.CreateDirectory(CentralStore.Settings.CachePath.Join("images","news").GetOSDir());
+		if (!Directory.Exists(CentralStore.Settings.EnginePath.GetOSDir()))
+			Directory.CreateDirectory(CentralStore.Settings.EnginePath.GetOSDir());
 	}
 	
 	void OnPageButton_Clicked(PageButton pb) {
