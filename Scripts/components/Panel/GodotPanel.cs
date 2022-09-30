@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
@@ -12,6 +13,7 @@ using DateTime = System.DateTime;
 using TimeSpan = System.TimeSpan;
 using Mirrors;
 
+[Tool]
 public class GodotPanel : Panel
 {
     #region Nodes
@@ -49,16 +51,37 @@ public class GodotPanel : Panel
 
     private EnginePopup _enginePopup = null;
 
+    [Export] private bool InWizard = false;
+
+    private List<string> NoHideWizard = new List<string>()
+    {
+        "Spacer2", "PC", "Spacer3", "Label2", "DownloadSource"
+    };
+
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
     {
         this.OnReady();
+        if (InWizard)
+        {
+            var node = GetNode<HBoxContainer>("VB/MC/HC");
+            foreach (Control child in node.GetChildren())
+            {
+                if (NoHideWizard.Contains(child.Name))
+                    continue;
+                child.Visible = false;
+            }
+        }
         _enginePopup = EnginePopup.Instance<EnginePopup>();
         _enginePopup.Name = "EngineContextMenu";
         AddChild(_enginePopup);
-        
-        GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
-        AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
+
+        if (!InWizard)
+        {
+            GetParent<TabContainer>().Connect("tab_changed", this, "OnPageChanged");
+            AppDialogs.AddCustomGodot.Connect("added_custom_godot", this, "PopulateList");
+        }
+
         DownloadSource.Clear();
         DownloadSource.AddItem("Github");
 

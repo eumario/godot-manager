@@ -40,6 +40,7 @@ translations=PoolStringArray( "res://locale/en_US.po" )
 
 [mono]
 
+project/assembly_name="Godot-Manager"
 debugger_agent/wait_timeout=7000
 
 [rendering]
