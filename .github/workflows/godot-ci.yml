@@ -6,7 +6,7 @@ on:
 
 env:
   GAME_SUBDIRECTORY: "godot-manager"
-  GODOT_VERSION: "3.5"
+  GODOT_VERSION: "3.5.1"
   GODOT_VERSION_MODIFIER: "stable.mono"
   EXPORT_NAME: "GodotManager"
   CUSTOM_ICON: "true"
