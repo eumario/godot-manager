@@ -41,7 +41,7 @@ public class MainWindow : Control
 				pb.Deactivate();
 			pb.Connect("Clicked", this, "OnPageButton_Clicked");
 		}
-		Texture appTex = GD.Load<Texture>("res://icon.png");
+		Texture appTex = GD.Load<Texture>("res://godot-manager.png");
 		Image appIcon = (Image)appTex.GetData();
 		OS.SetIcon(appIcon);
 		AppDialogs dlgs = AppDialogs.Instance;

@@ -243,7 +243,7 @@ StartupNotify=true
                 if (!System.IO.Directory.Exists(iconPath.GetBaseDir())) dirsToMake.Add(iconPath.GetBaseDir());
                 
                 // Save Icon
-                var res = GD.Load<StreamTexture>("res://icon.png");
+                var res = GD.Load<StreamTexture>("res://godot-manager.png");
                 var data = res.GetData();
                 data.SavePng("/tmp/godot-manager.png");
                 var body = string.Format(DESKTOP_ENTRY, iconPath, executablePath);
