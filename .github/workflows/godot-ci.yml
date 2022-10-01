@@ -92,6 +92,11 @@ jobs:
           chmod a+x $GITHUB_WORKSPACE/deploy/generate_version
           $GITHUB_WORKSPACE/deploy/generate_version ${{ needs.release.outputs.version }} $GITHUB_WORKSPACE/Godot-Manager.csproj $GITHUB_WORKSPACE/libs/Version.cs
           godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
+          if [ "${EXPORT_PLATFORM}" = "windows" ]
+          then
+          	create_icon "${GITHUB_WORKSPACE}/godot-manager.ico" "${GITHUB_WORKSPACE}/godot-manager.png"
+          	replace_icon "${GITHUB_WORKSPACE}/godot-manager.ico" "${filePath}"
+	  fi
           echo "::set-output name=build_directory::${buildPath}"
           echo "::set-output name=build_file::${filePath}"
       - name: Archive
