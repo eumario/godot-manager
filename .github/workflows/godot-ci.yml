@@ -57,7 +57,7 @@ jobs:
             extension: .x86_64
             type: executable
     container:
-      image: eumario/godot-mono-github-actions-ci:0.1.0
+      image: eumario/godot-mono-github-actions-ci:0.2.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -96,7 +96,7 @@ jobs:
           then
           	create_icon "${GITHUB_WORKSPACE}/godot-manager.ico" "${GITHUB_WORKSPACE}/godot-manager.png"
           	replace_icon "${GITHUB_WORKSPACE}/godot-manager.ico" "${filePath}"
-	  fi
+          fi
           echo "::set-output name=build_directory::${buildPath}"
           echo "::set-output name=build_file::${filePath}"
       - name: Archive
