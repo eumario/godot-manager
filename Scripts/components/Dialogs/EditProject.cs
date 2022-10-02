@@ -267,13 +267,15 @@ Button _CancelBtn = null;
         if (path.StartsWith(pfpath))
             IconPath = pfpath.GetProjectRoot(path);
         else {
-            var ret = AppDialogs.YesNoDialog.ShowDialog(Tr("Icon Selection"),Tr("This file is outside your project structure, do you want to copy it to the root of your project?"));
+            var ret = AppDialogs.YesNoDialog.ShowDialog(Tr("Icon Selection"),
+                Tr("This file is outside your project structure, do you want to copy it to the root of your project?"));
             await ret;
             if (ret.Result) {
                 SFile.Copy(path, pfpath.PlusFile(path.GetFile()));
                 IconPath = pfpath.GetProjectRoot(path);
             } else {
-                AppDialogs.MessageDialog.ShowMessage(Tr("Icon Selection"), Tr("Icon not copied, unable to use icon for Project."));
+                AppDialogs.MessageDialog.ShowMessage(Tr("Icon Selection"),
+                    Tr("Icon not copied, unable to use icon for Project."));
                 AppDialogs.ImageFileDialog.Visible = false;
                 return;
             }

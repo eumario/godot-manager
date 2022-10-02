@@ -57,11 +57,7 @@ public class ProjectsPanel : Panel
     ProjectPopup _popupMenu = null;
     Array<ProjectFile> _missingProjects = null;
 
-    Array<string> Views = new Array<string> {
-        "List View",
-        "Icon View",
-        "Category View"
-    };
+    private Array<string> Views = null;
 
     Dictionary<ProjectFile, ProjectLineEntry> pleCache;
     Dictionary<ProjectFile, ProjectIconEntry> pieCache;
@@ -83,6 +79,11 @@ public class ProjectsPanel : Panel
     public override void _Ready()
     {
         this.OnReady();
+        Views = new Array<string> {
+            Tr("List View"),
+            Tr("Icon View"),
+            Tr("Category View")
+        };
 
         _views = new Array<Container>();
         _views.Add(_listView);
@@ -295,7 +296,8 @@ public class ProjectsPanel : Panel
         }
 
         if (scanDirs.Count == 0) {
-            var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Scan Project Folders"),Tr("There are currently no valid Directories to scan, would you like to add one?"));
+            var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Scan Project Folders"),
+                Tr("There are currently no valid Directories to scan, would you like to add one?"));
             while (!res.IsCompleted)
                 await this.IdleFrame();
             
@@ -309,15 +311,15 @@ public class ProjectsPanel : Panel
                 return;
         }
 
-		AppDialogs.BusyDialog.UpdateHeader("Scanning for Projects...");
-		AppDialogs.BusyDialog.UpdateByline("Scanning for Project files....");
+		AppDialogs.BusyDialog.UpdateHeader(Tr("Scanning for Projects..."));
+		AppDialogs.BusyDialog.UpdateByline(Tr("Scanning for Project files...."));
 		AppDialogs.BusyDialog.ShowDialog();
 
         var projsTask = ScanDirectories(scanDirs);
         while (!projsTask.IsCompleted)
 			await this.IdleFrame();
 
-		AppDialogs.BusyDialog.UpdateByline($"Processing 0/{projsTask.Result.Count}...");
+		AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing 0/{0}..."),projsTask.Result.Count));
 
 		var addedTask = UpdateProjects(projsTask.Result);
         while (!addedTask.IsCompleted)
@@ -325,11 +327,11 @@ public class ProjectsPanel : Panel
 
 		AppDialogs.BusyDialog.HideDialog();
         if (addedTask.Result.Count == 0)
-            AppDialogs.MessageDialog.ShowMessage("Scan Projects", "No new projects found.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Scan Projects"), Tr("No new projects found."));
         else
         {
-            AppDialogs.MessageDialog.ShowMessage("Scan Projects",
-                $"Found {addedTask.Result.Count} new projects, and added to database.");
+            AppDialogs.MessageDialog.ShowMessage(Tr("Scan Projects"),
+                string.Format(Tr("Found {0} new projects, and added to database."),addedTask.Result.Count));
             CentralStore.Instance.SaveDatabase();
             PopulateListing();
         }
@@ -711,7 +713,8 @@ public class ProjectsPanel : Panel
                 if (Dir.Exists(folder))
                     OS.ShellOpen("file://" + folder);
                 else
-                    AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), string.Format(Tr("The data directory {0} does not exist!"),folder));
+                    AppDialogs.MessageDialog.ShowMessage(Tr("Show Data Directory"), 
+                        string.Format(Tr("The data directory {0} does not exist!"),folder));
                 break;
             case 4:     // Edit Project File
                 AppDialogs.EditProject.Connect("project_updated", this, "OnProjectUpdated", new Array { pf });
@@ -855,7 +858,8 @@ public class ProjectsPanel : Panel
 				await RemoveProject(pf);
 				break;
             case 6:
-                var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Remove Missing Projects..."), Tr("Are you sure you want to remove any missing projects?"));
+                var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Remove Missing Projects..."), 
+                    Tr("Are you sure you want to remove any missing projects?"));
                 await res;
                 if (res.Result)
                     RemoveMissingProjects();
@@ -885,7 +889,8 @@ public class ProjectsPanel : Panel
 				PopulateListing();
 				break;
 			case YesNoCancelDialog.ActionResult.CancelAction:
-				AppDialogs.MessageDialog.ShowMessage(Tr("Remove Project"), Tr("Remove Project has been cancelled."));
+				AppDialogs.MessageDialog.ShowMessage(Tr("Remove Project"), 
+                    Tr("Remove Project has been cancelled."));
 				break;
 		}
 	}

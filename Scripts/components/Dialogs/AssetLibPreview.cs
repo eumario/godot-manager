@@ -124,8 +124,8 @@ public class AssetLibPreview : ReferenceRect
             await this.IdleFrame();
         EmitSignal("installed_addon", (_Download.Text != "Download"));
         Visible = false;
-        AppDialogs.MessageDialog.ShowMessage((apl == null ? "Template Download" : "Plugin Download"), 
-                                                $"Download of {asset.Title} completed.");
+        AppDialogs.MessageDialog.ShowMessage((apl == null ? Tr("Template Download") : Tr("Plugin Download")), 
+            string.Format(Tr("Download of {0} completed."),asset.Title));
     }
 
     [SignalHandler("hide")]
@@ -232,16 +232,16 @@ public class AssetLibPreview : ReferenceRect
                     tasset.Asset.Version != asset.Version ||
                     tasset.Asset.ModifyDate != asset.ModifyDate) {
                     _Download.Disabled = false;
-                    _Download.Text = "Update Template";
+                    _Download.Text = Tr("Update Template");
                 } else {
                     _Download.Disabled = true;
-                    _Download.Text = "Download";
+                    _Download.Text = Tr("Download");
                 }
             } else {
                 _Uninstall.Visible = false;
                 _Sep3.Visible = false;
                 _Download.Disabled = false;
-                _Download.Text = "Download";
+                _Download.Text = Tr("Download");
             }
         } else {
             if (CentralStore.Instance.HasPluginId(asset.AssetId)) {
@@ -252,16 +252,16 @@ public class AssetLibPreview : ReferenceRect
                     passet.Asset.Version != asset.Version ||
                     passet.Asset.ModifyDate != asset.ModifyDate) {
                     _Download.Disabled = false;
-                    _Download.Text = "Update Plugin";
+                    _Download.Text = Tr("Update Plugin");
                 } else {
                     _Download.Disabled = true;
-                    _Download.Text = "Download";
+                    _Download.Text = Tr("Download");
                 }
             } else {
                 _Uninstall.Visible = false;
                 _Sep3.Visible = false;
                 _Download.Disabled = false;
-                _Download.Text = "Download";
+                _Download.Text = Tr("Download");
             }
         }
         
@@ -292,7 +292,8 @@ public class AssetLibPreview : ReferenceRect
 
             if (usingPlugin.Count > 0) {
                 bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Uninstall - Plugin in Use"),
-                    string.Format(Tr("The plugin {0} is currently used in {1} project(s). Uninstalling will remove tracking of this plugin, continue?"),
+                    string.Format(Tr("The plugin {0} is currently used in {1} project(s). Uninstalling" +
+                                     " will remove tracking of this plugin, continue?"),
                     _asset.Title,usingPlugin.Count));
                 if (!res) {
                     return;

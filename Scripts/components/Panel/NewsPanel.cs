@@ -54,8 +54,8 @@ public class NewsPanel : Panel
                 item.QueueFree();
             }
         }
-        AppDialogs.BusyDialog.UpdateHeader("Loading News...");
-        AppDialogs.BusyDialog.UpdateByline("Fetching news from GodotEngine.org...");
+        AppDialogs.BusyDialog.UpdateHeader(Tr("Loading News..."));
+        AppDialogs.BusyDialog.UpdateByline(Tr("Fetching news from GodotEngine.org..."));
         AppDialogs.BusyDialog.ShowDialog();
         InitClient();
         if (CentralStore.Settings.UseProxy)
@@ -86,7 +86,7 @@ public class NewsPanel : Panel
             return;
         }
 
-        AppDialogs.BusyDialog.UpdateByline("Parsing news entries...");
+        AppDialogs.BusyDialog.UpdateByline(Tr("Parsing news entries..."));
         var feed = ParseNews(result.Body);
         foreach (Dictionary<string,string> item in feed)
         {

@@ -68,11 +68,13 @@ public class ImportProject : ReferenceRect
     [SignalHandler("pressed", nameof(_addBtn))]
     void OnAddBtnPressed() {
         if (_locationValue.Text == "") {
-            AppDialogs.MessageDialog.ShowMessage(Tr("No Project Selected"), Tr("You need to select a project before it can be added."));
+            AppDialogs.MessageDialog.ShowMessage(Tr("No Project Selected"),
+                Tr("You need to select a project before it can be added."));
             return;
         }
         if (_godotVersions.Selected == -1) {
-            AppDialogs.MessageDialog.ShowMessage(Tr("No Godot Version Selected"), Tr("You need to select a Godot Version to use with this Project."));
+            AppDialogs.MessageDialog.ShowMessage(Tr("No Godot Version Selected"),
+                Tr("You need to select a Godot Version to use with this Project."));
             return;
         }
         int id = _godotVersions.GetItemId(_godotVersions.Selected);

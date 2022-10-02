@@ -149,7 +149,8 @@ public class AssetLibEntry : ColorRect
                     if (res == null) {
                         var tres = CentralStore.Instance.GetTemplateId(AssetId);
                         if (tres == null) {
-                            AppDialogs.MessageDialog.ShowMessage("Failed to Fetch Asset", $"Unable to get Asset information for {AssetId}");
+                            AppDialogs.MessageDialog.ShowMessage(Tr("Failed to Fetch Asset"), 
+                                string.Format(Tr("Unable to get Asset information for {0}"),AssetId));
                             return;
                         } else {
                             asset = tres.Asset;
@@ -159,7 +160,8 @@ public class AssetLibEntry : ColorRect
                     }
                 }
                 if (asset == null) {
-                    AppDialogs.MessageDialog.ShowMessage("Failed to Fetch Asset", $"Unable to get Asset information for {AssetId}");
+                    AppDialogs.MessageDialog.ShowMessage(Tr("Failed to Fetch Asset"), 
+                        string.Format(Tr($"Unable to get Asset information for {0}"),AssetId));
                     return;
                 }
                 AppDialogs.AssetLibPreview.ShowDialog(asset);
@@ -185,7 +187,8 @@ public class AssetLibEntry : ColorRect
             }
 
             if (updateList.Count > 0) {
-                bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Update Plugins"), string.Format(Tr("Found {0} project(s) that currently reference this addon, do you wish to update them?"),updateList.Count));
+                bool res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Update Plugins"), 
+                    string.Format(Tr("Found {0} project(s) that currently reference this addon, do you wish to update them?"),updateList.Count));
                 if (!res)
                     return;
                 

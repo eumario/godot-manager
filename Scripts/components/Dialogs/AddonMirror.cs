@@ -56,7 +56,8 @@ public class AddonMirror : ReferenceRect
         string protocol, domainName, pathTo;
 
         if (_domainName.Text == "") {
-            AppDialogs.MessageDialog.ShowMessage(Tr("Add Mirror Error"),Tr("You need to provide a Domain name in which to connect to."));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Add Mirror Error"),
+                Tr("You need to provide a Domain name in which to connect to."));
             return;
         }
         protocol = _protocol.GetItemText(_protocol.Selected);

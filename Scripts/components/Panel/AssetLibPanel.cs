@@ -125,7 +125,9 @@ public class AssetLibPanel : Panel
 
     [SignalHandler("pressed", nameof(_import))]
     async void OnImportPressed() {
-        var result = await AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Import Asset..."),Tr("Do you wish to import a Template or an Addon?"),Tr("Template"),Tr("Addon"),Tr("Cancel"));
+        var result = await AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Import Asset..."),
+            Tr("Do you wish to import a Template or an Addon?"),
+            Tr("Template"),Tr("Addon"),Tr("Cancel"));
         if (result == YesNoCancelDialog.ActionResult.FirstAction) {
             AppDialogs.ImportFileDialog.WindowTitle = Tr("Import Template...");
             AppDialogs.ImportFileDialog.Filters = new string[] { "project.godot", "*.zip" };
@@ -159,7 +161,8 @@ public class AssetLibPanel : Panel
         } else if (filepath.EndsWith(".zip")) { // Zip File Selected
             AssetZipImport(filepath, true);
         } else {
-            AppDialogs.MessageDialog.ShowMessage(Tr("Import Plugin"), string.Format(Tr("Unable to use {0} to import the plugin."),filepath));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Plugin"), 
+                string.Format(Tr("Unable to use {0} to import the plugin."),filepath));
         }
     }
 
@@ -169,7 +172,8 @@ public class AssetLibPanel : Panel
         } else if (filepath.EndsWith(".zip")) {
             AssetZipImport(filepath, false);
         } else {
-            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"), string.Format(Tr("Unable to use {0} to import the template."),filepath));
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"), 
+                string.Format(Tr("Unable to use {0} to import the template."),filepath));
         }
     }
 
@@ -345,7 +349,7 @@ public class AssetLibPanel : Panel
         asset.Version = "-1";
         asset.Category = "Local";
         asset.CategoryId = "-3";
-        asset.GodotVersion = "3.4";
+        asset.GodotVersion = "3.5";
         asset.Rating = "";
         asset.Cost = "";
         asset.SupportLevel = "";
@@ -418,7 +422,7 @@ public class AssetLibPanel : Panel
         asset.Version = "-1";
         asset.Category = "Local";
         asset.CategoryId = "-3";
-        asset.GodotVersion = "3.4";
+        asset.GodotVersion = "3.5";
         asset.Rating = "";
         asset.Cost = "";
         asset.SupportLevel = "";

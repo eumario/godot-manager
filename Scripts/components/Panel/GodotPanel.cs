@@ -610,7 +610,7 @@ public class GodotPanel : Panel
                 break;
             case 2:
                 OS.Clipboard = _enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath();
-                OS.Alert("Location copied to Clipboard", "Copy Engine Location");
+                OS.Alert(Tr("Location copied to Clipboard"), Tr("Copy Engine Location"));
                 break;
             case 3:
                 OS.ShellOpen("file://" + _enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath().GetBaseDir());

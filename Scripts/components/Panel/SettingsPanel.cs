@@ -384,7 +384,8 @@ public class SettingsPanel : Panel
 			LoadSettings();
 		} else {
 			if (_undoActions.Count > 0) {
-				var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Unsaved Settings"), Tr("You have unsaved settings, do you wish to save your settings?"));
+				var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Unsaved Settings"), 
+					Tr("You have unsaved settings, do you wish to save your settings?"));
 				await res;
 				if (res.Result)
 					UpdateSettings();
@@ -871,6 +872,7 @@ public class SettingsPanel : Panel
 		int index = _directoryScan.GetSelected();
 		if (index == -1)
 			return;
+		AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Folder to Add to Scan");
 		AppDialogs.BrowseFolderDialog.CurrentFile = "";
 		AppDialogs.BrowseFolderDialog.CurrentPath = _directoryScan.GetItemText(index).NormalizePath();
 		AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnEditDirScan_DirSelected", new Array() { index });
@@ -927,7 +929,8 @@ public class SettingsPanel : Panel
 
 		if (res.Result == null) {
 			AppDialogs.BusyDialog.HideDialog();
-			AppDialogs.MessageDialog.ShowMessage(Tr("Godot Manager - Check for Updates"), Tr("Failed to get release information from Github"));
+			AppDialogs.MessageDialog.ShowMessage(Tr("Godot Manager - Check for Updates"), 
+				Tr("Failed to get release information from Github"));
 			return;
 		}
 
@@ -938,7 +941,8 @@ public class SettingsPanel : Panel
 			AppDialogs.NewVersion.Connect("download_manager_update", this, "OnDownloadManagerUpdate");
 		} else {
 			AppDialogs.BusyDialog.HideDialog();
-			AppDialogs.MessageDialog.ShowMessage(Tr("Check for Godot Manager Updates"),Tr("Currently on latest version of Godot Manager."));
+			AppDialogs.MessageDialog.ShowMessage(Tr("Check for Godot Manager Updates"),
+				Tr("Currently on latest version of Godot Manager."));
 		}
 	}
 

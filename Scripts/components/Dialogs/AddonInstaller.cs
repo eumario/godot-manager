@@ -177,7 +177,8 @@ public class AddonInstaller : ReferenceRect
 
         if (item.GetCustomColor(0) == new Color(1,0,0)) {
             if (item.IsChecked(0)) {
-                var res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Addon Installer - Ignored File"),Tr("The file you have selected, is known to be a file that is part of your project structure, and can cause corruption if installed, do you wish to continue?"));
+                var res = await AppDialogs.YesNoDialog.ShowDialog(Tr("Addon Installer - Ignored File"), 
+                Tr("The file you have selected, is known to be a file that is part of your project structure, and can cause corruption if installed, do you wish to continue?"));
                 item.SetChecked(0,res);
                 _updating = false;
                 if (!res)

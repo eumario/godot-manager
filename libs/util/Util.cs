@@ -10,7 +10,10 @@ using SFile = System.IO.File;
 using System.Linq;
 using System.IO.Compression;
 
-public static class Util {
+public static class Util
+{
+
+	private static Godot.Object dummy = new Godot.Object();
 	public static string GetResourceBase(this string path, string file) {
 		return Path.Combine(path.GetBaseDir(), file.Replace("res://", "")).Replace(@"\","/");
 	}
@@ -261,7 +264,7 @@ public static class Util {
 
 		if (pkexec.Contains("kdesudo"))
 		{
-			args.Add("--comment 'Godot Manager needs Administrative privileges to complete the requested actions.'");
+			args.Add($"--comment '{dummy.Tr("Godot Manager needs Administrative privileges to complete the requested actions.")}'");
 		}
 
 		if (pkexec.Contains("sudo") && !(pkexec.Contains("gksudo") || pkexec.Contains("kdesudo")))

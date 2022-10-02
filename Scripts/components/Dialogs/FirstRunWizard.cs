@@ -119,7 +119,7 @@ StartupNotify=true
     [SignalHandler("pressed", nameof(EngineBrowse))]
     void OnPressed_EngineBrowse()
     {
-        AppDialogs.BrowseFolderDialog.WindowTitle = "Location for Godot Engines";
+        AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Godot Engines");
         AppDialogs.BrowseFolderDialog.CurrentDir = EngineLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_EngineBrowse)))
             AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_EngineBrowse), new Array(), (int)ConnectFlags.Oneshot);
@@ -130,7 +130,7 @@ StartupNotify=true
     [SignalHandler("pressed", nameof(CacheBrowse))]
     void OnPressed_CacheBrowse()
     {
-        AppDialogs.BrowseFolderDialog.WindowTitle = "Location for Cache Store";
+        AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Cache Store");
         AppDialogs.BrowseFolderDialog.CurrentDir = CacheLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_CacheBrowse)))
             AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_CacheBrowse), new Array(), (int)ConnectFlags.Oneshot);
@@ -141,7 +141,7 @@ StartupNotify=true
     [SignalHandler("pressed", nameof(ProjectBrowse))]
     void OnPressed_ProjectBrowse()
     {
-        AppDialogs.BrowseFolderDialog.WindowTitle = "Location for Projects";
+        AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Projects");
         AppDialogs.BrowseFolderDialog.CurrentDir = ProjectLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_ProjectBrowse)))
             AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_ProjectBrowse), new Array(), (int)ConnectFlags.Oneshot);
@@ -200,9 +200,9 @@ StartupNotify=true
     [SignalHandler("pressed", nameof(Cancel))]
     async void OnPressed_Cancel()
     {
-        var res = await AppDialogs.YesNoDialog.ShowDialog("First Run Wizard", 
-            "Are you sure you want to cancel this first run wizard? " + 
-            " Any settings you have changed, will be lost.");
+        var res = await AppDialogs.YesNoDialog.ShowDialog(Tr("First Run Wizard"), 
+            Tr("Are you sure you want to cancel this first run wizard? " + 
+            " Any settings you have changed, will be lost."));
         if (res)
         { // System.IO.Compression.FileSystem
             CentralStore.Settings.EnginePath = OriginalSettings[0];
