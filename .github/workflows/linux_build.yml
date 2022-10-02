@@ -1,0 +1,91 @@
+name: 🐧 Linux Builds
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  GAME_SUBDIRECTORY: "godot-manager"
+  GODOT_VERSION: "3.5.1"
+  GODOT_VERSION_MODIFIER: "stable.mono"
+  EXPORT_NAME: "GodotManager"
+  CUSTOM_ICON: "true"
+  ITCHIO_USERNAME: "eumario"
+  ITCHIO_GAME: "godot-manager"
+
+jobs:
+  export:
+    name: Create Build
+    runs-on: ubuntu-latest
+    container:
+      image: eumario/godot-mono-github-actions-ci:0.2.0
+    steps:
+      - name: 🔍 Get Release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+        
+      - name: 🔍 Get Version Information
+        id: get_version
+        uses: battila7/get-version-action@v2
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.${GODOT_VERSION_MODIFIER} ~/.local/share/godot/templates/${GODOT_VERSION}.${GODOT_VERSION_MODIFIER}
+        
+      - name: 🛠️ Build
+        id: build
+        env:
+          EXPORT_PLATFORM: linux
+          VERISON: ${{ steps.get_version.outputs.version-without-v }}
+        run: |
+          buildPath="${GITHUB_WORKSPACE}/build/${EXPORT_PLATFORM}"
+          filePath="${buildPath}/${EXPORT_NAME}.x86_64"
+          mkdir -v -p "${buildPath}"
+          dotnet restore
+          chmod a+x $GITHUB_WORKSPACE/deploy/generate_version
+          $GITHUB_WORKSPACE/deploy/generate_version $VERSION $GITHUB_WORKSPACE/Godot-Manager.csproj $GITHUB_WORKSPACE/libs/Version.cs
+          godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
+          echo "::set-output name=build_directory::${buildPath}"
+          echo "::set-output name=build_file::${filePath}"
+        
+      - name: 🎁 Package
+        id: archive
+        env:
+          EXPORT_PLATFORM: linux
+          BUILD_DIRECTORY: ${{ steps.build.outputs.build_directory }}
+          BUILD_FILE: ${{ steps.build.outputs.build_file }}
+          VERSION: ${{ steps.get_version.outputs.version-without-v }}
+        run: |
+          rootBuildPath="${GITHUB_WORKSPACE}/build"
+          formattedExportName="$( echo ${EXPORT_NAME} | sed 's/./\L&/g' | sed 's/ /-/g' )"
+          filename="${formattedExportName}-${EXPORT_PLATFORM}-v${VERSION}.zip"
+          filePath="${rootBuildPath}/${filename}"
+          cd "${BUILD_DIRECTORY}"
+          zip -r "${filePath}" *
+          echo "::set-output name=path::${filePath}"
+          echo "::set-output name=filename::${filename}"
+        
+      - name: 📡 Upload Release Build
+        id: upload-release-build
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: ${{ steps.archive.outputs.path }}
+          release_id: ${{ steps.get_release.outputs.id}}
+        
+      - name: 📡💻 Upload to Itch.io
+        env:
+          CHANNEL: linux
+          PACKAGE: ${{ steps.archive.outputs.path }}
+          VERSION: ${{ needs.outputs.version }}
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        if: ${{ env.BUTLER_API_KEY != '' && env.ITCHIO_USERNAME != '' && env.ITCHIO_GAME != '' }}
+        run: butler push --userversion=${VERSION} "${PACKAGE}" ${ITCHIO_USERNAME}/${ITCHIO_GAME}:${CHANNEL}
