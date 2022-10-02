@@ -442,7 +442,6 @@ public class AssetLibPanel : Panel
         string zipFile = $"{CentralStore.Settings.CachePath}/AssetLib/local-{CentralStore.Settings.LocalAddonCount}-{addonName}.zip";
         using(var fh = new FileStream(zipFile, FileMode.Create)) {
             using (var afh = new ZipArchive(fh, ZipArchiveMode.Create)) {
-                GD.Print($"addonPath: {addonPath}");
 
                 foreach (string entry in Directory.EnumerateFileSystemEntries(addonPath,"*",System.IO.SearchOption.AllDirectories)) {
                     if (entry == "." || entry == "..")

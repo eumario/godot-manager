@@ -49,9 +49,6 @@ public class HTTPResponse : Object {
 					return;
 				}
 				var res = client.Poll();
-				//System.Threading.Thread.Sleep(5);
-				if (res != Error.Ok)
-					GD.Print($"Error: {res}");
 				byte[] chunk = client.ReadResponseBodyChunk();
 				if (chunk.Length == 0)
 					await this.IdleFrame();
@@ -60,12 +57,8 @@ public class HTTPResponse : Object {
 					//rb.AddRange(chunk);
 					call_from.EmitSignal("chunk_received", chunk.Length);
 				}
-				if (client.GetStatus() != HTTPClient.Status.Body) {
-					GD.Print($"Client status changed, Client Status: {client.GetStatus()}");
-				}
 			}
 			TimeSpan elapsed = DateTime.Now - start;
-			GD.Print($"Time taken: {elapsed.Minutes}m {elapsed.Seconds}s");
 		}
 		BodyRaw = SFile.ReadAllBytes(tmpfile);
 		SFile.Delete(tmpfile);
