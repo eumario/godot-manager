@@ -5,7 +5,6 @@ public class AppDialogs : Control
 {
 #region Node Paths
     public FirstRunWizard FirstRunWizard_ = null;
-    public FirstTimeInstall FirstTimeInstall_ = null;
     public AddCustomGodot AddCustomGodot_ = null;
     public BusyDialog BusyDialog_ = null;
     public NewVersion NewVersion_ = null;
@@ -32,7 +31,6 @@ public class AppDialogs : Control
 
 #region Singleton Variables to access in program
     public static FirstRunWizard FirstRunWizard { get => Instance.FirstRunWizard_; }
-    public static FirstTimeInstall FirstTimeInstall { get => Instance.FirstTimeInstall_; }
     public static AddCustomGodot AddCustomGodot { get => Instance.AddCustomGodot_; }
     public static BusyDialog BusyDialog { get => Instance.BusyDialog_; }
     public static NewVersion NewVersion { get => Instance.NewVersion_; }
@@ -74,7 +72,6 @@ public class AppDialogs : Control
 
         // Initialize Dialogs
         FirstRunWizard_ = GD.Load<PackedScene>("res://components/Dialogs/FirstRunWizard.tscn").Instance<FirstRunWizard>();
-        FirstTimeInstall_ = GD.Load<PackedScene>("res://components/Dialogs/FirstTimeInstall.tscn").Instance<FirstTimeInstall>();
         AddCustomGodot_ = GD.Load<PackedScene>("res://components/Dialogs/AddCustomGodot.tscn").Instance<AddCustomGodot>();
         BusyDialog_ = GD.Load<PackedScene>("res://components/Dialogs/BusyDialog.tscn").Instance<BusyDialog>();
         NewVersion_ = GD.Load<PackedScene>("res://components/Dialogs/NewVersion.tscn").Instance<NewVersion>();
@@ -134,7 +131,6 @@ public class AppDialogs : Control
 
         dialogs = new Array<ReferenceRect> {    // Hierarchy of Dialogs in window, for proper displaying
             FirstRunWizard_,                    // First Run Wizard Helper
-            FirstTimeInstall_,                  // First Time Installation Helper
             AddCustomGodot_, NewVersion_,       // Add Custom Godot / New Godot Version Prompt
             CreateProject_, ImportProject_,     // Create Project / Import Project
             EditProject_,                       // Edit Project
