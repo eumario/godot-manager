@@ -112,6 +112,7 @@ margin_right = 542.0
 margin_bottom = 342.0
 
 [node name="General" type="MarginContainer" parent="PC/CC/P/VB/MCContent/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
@@ -199,7 +200,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Addons" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0

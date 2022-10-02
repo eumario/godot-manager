@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Resources/Fonts/droid-bold-16.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/Icons/icon_status_error.svg" type="Texture" id=2]
@@ -27,28 +27,10 @@ corner_detail = 20
 
 [sub_resource type="ButtonGroup" id=6]
 
-[sub_resource type="StyleBoxFlat" id=7]
-content_margin_left = 10.0
-content_margin_right = 10.0
-content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color( 0.301961, 0.301961, 0.301961, 0.788235 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
 [node name="CreateProject" type="ReferenceRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PC" type="PanelContainer" parent="."]
 anchor_right = 1.0
@@ -135,6 +117,7 @@ margin_bottom = 542.0
 theme = ExtResource( 8 )
 
 [node name="Project Settings" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -362,39 +345,24 @@ custom_fonts/font = ExtResource( 7 )
 text = "Renderer can be changed later, but scenes may need to be adjusted."
 
 [node name="Project Plugins" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
-margin_top = 26.0
+margin_top = 29.0
 margin_right = -10.0
 margin_bottom = -4.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins"]
 margin_right = 494.0
-margin_bottom = 435.0
+margin_bottom = 501.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VB" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer"]
+[node name="List" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer"]
 margin_right = 494.0
-margin_bottom = 435.0
+margin_bottom = 501.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer/VB"]
-margin_right = 494.0
-margin_bottom = 68.0
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_styles/normal = SubResource( 7 )
-text = "*NOTE* Any Addons With Checkboxes here, will be installed to the new Project, and automatically enabled for the Godot Editor to see when it loads the project."
-autowrap = true
-
-[node name="List" type="GridContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer/VB"]
-margin_top = 72.0
-margin_right = 494.0
-margin_bottom = 72.0
-columns = 2
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 584.0

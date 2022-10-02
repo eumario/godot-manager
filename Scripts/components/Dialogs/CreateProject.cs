@@ -48,8 +48,8 @@ public class CreateProject : ReferenceRect
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer2/GLES2")]
     CheckBox _gles2 = null;
 
-    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer/VB/List")]
-    GridContainer _pluginList = null;
+    [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Plugins/ScrollContainer/List")]
+    VBoxContainer _pluginList = null;
 
     [NodePath("PC/CC/P/VB/MCButtons/HB/CreateBtn")]
     Button _createBtn = null;
@@ -62,6 +62,11 @@ public class CreateProject : ReferenceRect
     Texture StatusError = GD.Load<Texture>("res://Assets/Icons/icon_status_error.svg");
     Texture StatusSuccess = GD.Load<Texture>("res://Assets/Icons/icon_status_success.svg");
     Texture StatusWarning = GD.Load<Texture>("res://Assets/Icons/icon_status_warning.svg");
+#endregion
+
+#region Assets
+    [Resource("res://components/AddonLineEntry.tscn")] private PackedScene ALineEntry = null;
+    [Resource("res://Assets/Icons/default_project_icon.png")] private Texture DefaultIcon = null;
 #endregion
 
 #region Variables
@@ -113,9 +118,9 @@ public class CreateProject : ReferenceRect
         if (_projectTemplates.Selected > 0)
             prj.Template = _projectTemplates.GetSelectedMetadata() as AssetProject;
         
-        foreach(CheckBox cp in _pluginList.GetChildren()) {
-            if (cp.Pressed) {
-                prj.Plugins.Add(cp.GetMeta("asset") as AssetPlugin);
+        foreach(AddonLineEntry ale in _pluginList.GetChildren()) {
+            if (ale.Installed) {
+                prj.Plugins.Add(ale.GetMeta("asset") as AssetPlugin);
             }
         }
 
@@ -197,15 +202,25 @@ public class CreateProject : ReferenceRect
             _projectTemplates.SetItemMetadata(CentralStore.Templates.IndexOf(tmpl)+1, tmpl);
         }
 
-        foreach(CheckBox plugin in _pluginList.GetChildren())
-            plugin.QueueFree();
-        
-        foreach(AssetPlugin plgn in CentralStore.Plugins) {
-            CheckBox plugin = new CheckBox();
-            plugin.Text = plgn.Asset.Title;
-            plugin.SetMeta("asset",plgn);
-            _pluginList.AddChild(plugin);
+        foreach (AddonLineEntry node in _pluginList.GetChildren()) node.QueueFree();
+
+        foreach (AssetPlugin plgn in CentralStore.Plugins)
+        {
+            string imgLoc =
+                $"{CentralStore.Settings.CachePath}/images/{plgn.Asset.AssetId}{plgn.Asset.IconUrl.GetExtension()}"
+                    .NormalizePath();
+            AddonLineEntry ale = ALineEntry.Instance<AddonLineEntry>();
+
+            ale.Icon = Util.LoadImage(imgLoc);
+            if (ale.Icon == null) ale.Icon = DefaultIcon;
+
+            ale.Title = plgn.Asset.Title;
+            ale.Version = plgn.Asset.VersionString;
+            ale.SetMeta("asset", plgn);
+            _pluginList.AddChild(ale);
         }
+        
+        
         Visible = true;
     }
 
