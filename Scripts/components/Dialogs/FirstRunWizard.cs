@@ -3,6 +3,7 @@ using System.Text;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using File = Godot.File;
 
 [SuppressMessage("ReSharper", "CheckNamespace")]
 [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -10,6 +11,7 @@ using Godot.Sharp.Extras;
 public class FirstRunWizard : ReferenceRect
 {
     #region XDestkop String
+
     const string DESKTOP_ENTRY = @"[Desktop Entry]
 Version=1.0
 Type=Application
@@ -22,31 +24,33 @@ Terminal=false
 StartupWMClass=Godot-Manager
 StartupNotify=true
 ";
+
     #endregion
 
     #region Signals
 
     [Signal]
     public delegate void wizard_completed();
+
     #endregion
-    
+
     #region Node Paths
 
     // Main Wizard Controls
     [NodePath] private Button PrevStep = null;
     [NodePath] private Button Cancel = null;
     [NodePath] private Button NextStep = null;
-    
+
     // Wizard Pages
     [NodePath] private Panel Page1 = null;
     [NodePath] private Panel Page2 = null;
     [NodePath] private Panel Page3 = null;
     [NodePath] private Panel Page4 = null;
     [NodePath] private Panel Page5 = null;
-    
+
     // Wizard Control
     [NodePath] private TabContainer Wizard = null;
-    
+
     // STEPS
     // Step 2 (All Platforms) - Setup Directories
     [NodePath] private LineEdit EngineLoc = null;
@@ -60,13 +64,14 @@ StartupNotify=true
     [NodePath] private LineEdit ProjectLoc = null;
     [NodePath] private Button ProjectBrowse = null;
     [NodePath] private Button ProjectDefault = null;
-    
+
     // Step 3 (Linux Only) - Create Desktop Entry
     [NodePath] private CheckBox CreateShortcut = null;
     [NodePath] private CheckBox GlobalShortcut = null;
-    
+
     // Step 4 (All Platforms) - Install Godot Engines
     [NodePath] private GodotPanel GodotPanel = null;
+
     #endregion
 
     private bool loaded_engines = false;
@@ -113,8 +118,9 @@ StartupNotify=true
     void OnPressed_CacheDefault() => CacheLoc.Text = "user://cache/".GetOSDir().NormalizePath();
 
     [SignalHandler("pressed", nameof(ProjectDefault))]
-    void OnPressed_ProjectDefault() => ProjectLoc.Text = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects","").NormalizePath();
-    
+    void OnPressed_ProjectDefault() =>
+        ProjectLoc.Text = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects", "").NormalizePath();
+
     // Browse Buttons Handlers
     [SignalHandler("pressed", nameof(EngineBrowse))]
     void OnPressed_EngineBrowse()
@@ -122,7 +128,8 @@ StartupNotify=true
         AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Godot Engines");
         AppDialogs.BrowseFolderDialog.CurrentDir = EngineLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_EngineBrowse)))
-            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_EngineBrowse), new Array(), (int)ConnectFlags.Oneshot);
+            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_EngineBrowse), new Array(),
+                (int)ConnectFlags.Oneshot);
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
@@ -133,18 +140,20 @@ StartupNotify=true
         AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Cache Store");
         AppDialogs.BrowseFolderDialog.CurrentDir = CacheLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_CacheBrowse)))
-            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_CacheBrowse), new Array(), (int)ConnectFlags.Oneshot);
+            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_CacheBrowse), new Array(),
+                (int)ConnectFlags.Oneshot);
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
-    
+
     [SignalHandler("pressed", nameof(ProjectBrowse))]
     void OnPressed_ProjectBrowse()
     {
         AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Projects");
         AppDialogs.BrowseFolderDialog.CurrentDir = ProjectLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_ProjectBrowse)))
-            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_ProjectBrowse), new Array(), (int)ConnectFlags.Oneshot);
+            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_ProjectBrowse),
+                new Array(), (int)ConnectFlags.Oneshot);
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
@@ -176,6 +185,7 @@ StartupNotify=true
             EmitSignal("wizard_completed");
             Visible = false;
         }
+
         if (Wizard.CurrentTab <= Wizard.GetTabCount())
             Wizard.CurrentTab++;
         if (Wizard.CurrentTab == Wizard.GetTabCount() - 1)
@@ -194,17 +204,19 @@ StartupNotify=true
                 loaded_engines = true;
             }
         }
+
         PrevStep.Disabled = false;
     }
 
     [SignalHandler("pressed", nameof(Cancel))]
     async void OnPressed_Cancel()
     {
-        var res = await AppDialogs.YesNoDialog.ShowDialog(Tr("First Run Wizard"), 
-            Tr("Are you sure you want to cancel this first run wizard? " + 
-            " Any settings you have changed, will be lost."));
+        var res = await AppDialogs.YesNoDialog.ShowDialog(Tr("First Run Wizard"),
+            Tr("Are you sure you want to cancel this first run wizard? " +
+               " Any settings you have changed, will be lost."));
         if (res)
-        { // System.IO.Compression.FileSystem
+        {
+            // System.IO.Compression.FileSystem
             CentralStore.Settings.EnginePath = OriginalSettings[0];
             CentralStore.Settings.CachePath = OriginalSettings[1];
             CentralStore.Settings.ProjectPath = OriginalSettings[2];
@@ -213,7 +225,7 @@ StartupNotify=true
             HideDialog();
         }
     }
-    
+
     // Save our Settings:
     private void UpdateSettings(bool finished = false)
     {
@@ -221,60 +233,73 @@ StartupNotify=true
         CentralStore.Settings.EnginePath = EngineLoc.Text;
         CentralStore.Settings.ProjectPath = ProjectLoc.Text;
         CentralStore.Settings.ScanDirs = new Array<string>() { ProjectLoc.Text };
-        #if GODOT_X11 || GODOT_LINUXBSD
-        if (finished)
-        {
-            if (CreateShortcut.Pressed)
-            {
-                Array<string> dirsToMake = new Array<string>();
-                string shortcutPath = OS.GetEnvironment("HOME").Join(".local","share","applications","godot-manager.desktop").NormalizePath();
-                string iconPath = OS.GetEnvironment("HOME").Join(".local", "share", "icons", "hicolor", "64x64", "apps", "godot-manager.png");
-                string executablePath = OS.GetExecutablePath();
-                
-                bool needRoot = false;
-                if (GlobalShortcut.Pressed)
-                {
-                    shortcutPath = "/usr/local/share/applications/godot-manager.desktop".NormalizePath();
-                    iconPath = "/usr/local/share/icons/hicolor/64x64/apps/godot-manager.png".NormalizePath();
-                    needRoot = true;
-                }
-                
-                if (!System.IO.Directory.Exists(shortcutPath.GetBaseDir())) dirsToMake.Add(shortcutPath.GetBaseDir());
-                if (!System.IO.Directory.Exists(iconPath.GetBaseDir())) dirsToMake.Add(iconPath.GetBaseDir());
-                
-                // Save Icon
-                var res = GD.Load<StreamTexture>("res://godot-manager.png");
-                var data = res.GetData();
-                data.SavePng("/tmp/godot-manager.png");
-                var body = string.Format(DESKTOP_ENTRY, iconPath, executablePath);
-                System.IO.File.WriteAllText("/tmp/godot-manager.desktop", body, Encoding.UTF8);
-
-                if (needRoot)
-                {
-                    using (var fh = new File())
-                    {
-                        fh.Open("/tmp/installer.sh", File.ModeFlags.Write);
-                        fh.StoreString("#!/bin/bash\n\n");
-                        foreach(var dir in dirsToMake) fh.StoreString($"mkdir -p {dir}\n");
-                        fh.StoreString($"cp /tmp/godot-manager.png {iconPath}\n");
-                        fh.StoreString($"cp /tmp/godot-manager.desktop {shortcutPath}\n");
-                        fh.Close();
-                        Util.Chmod("/tmp/installer.sh", 0755);
-                        var execre = Util.PkExec("/tmp/installer.sh");
-                        System.IO.File.Delete("/tmp/installer.sh");
-                    }
-                }
-                else
-                {
-                    foreach (var dir in dirsToMake) System.IO.Directory.CreateDirectory(dir);
-                    System.IO.File.Copy("/tmp/godot-manager.png", iconPath);
-                    System.IO.File.Copy("/tmp/godot-manager.desktop", shortcutPath);
-                }
-                System.IO.File.Delete("/tmp/godot-manager.png");
-                System.IO.File.Delete("/tmp/godot-manager.desktop");
-            }
-        }
-        #endif
+#if GODOT_X11 || GODOT_LINUXBSD
+        if (finished && CreateShortcut.Pressed) CreateShortcuts();
+#endif
         CentralStore.Instance.SaveDatabase();
     }
+
+#if GODOT_X11 || GODOT_LINUXBSD
+    void CreateShortcuts()
+    {
+        string iconPath = OS.GetExecutablePath().GetBaseDir().Join("godot-manager.svg");
+        string executablePath = OS.GetExecutablePath();
+
+        using (var fh = new File())
+        {
+            var err = fh.Open("res://godot-manager.dat", File.ModeFlags.Read);
+            var size = fh.GetLen();
+            var svg = fh.GetBuffer((long)size);
+            fh.Close();
+            System.IO.File.WriteAllBytes(iconPath, svg);
+        }
+        
+        bool needRoot = false;
+        if (GlobalShortcut.Pressed)
+        {
+            iconPath = "/opt/GodotManager/godot-manager.svg";
+            needRoot = true;
+        }
+        
+        var body = string.Format(DESKTOP_ENTRY, iconPath, executablePath);
+        System.IO.File.WriteAllText("/tmp/godot-manager.desktop", body, Encoding.ASCII);
+        
+        if (needRoot)
+        {
+            bool needToCopy = false;
+            if (!executablePath.StartsWith($"/opt/GodotManager"))
+            {
+                executablePath = "/opt/GodotManager/GodotManager.x86_64";
+                body = string.Format(DESKTOP_ENTRY, iconPath, executablePath);
+                System.IO.File.WriteAllText("/tmp/godot-manager.desktop", body, Encoding.ASCII);
+                needToCopy = true;
+            }
+
+            using (var fh = new File())
+            {
+                fh.Open("/tmp/installer.sh", File.ModeFlags.Write);
+                fh.StoreString("#!/bin/bash\n\n");
+                if (needToCopy)
+                {
+                    if (System.IO.Directory.Exists("/opt/GodotManager")) fh.StoreString("rm -rf /opt/GodotManager\n");
+                    fh.StoreString("mkdir -p /opt/GodotManager\n");
+                    fh.StoreString($"cp -r {OS.GetExecutablePath().GetBaseDir()}/* /opt/GodotManager/\n");
+                }
+                fh.StoreString($"xdg-desktop-menu install --mode system /tmp/godot-manager.desktop\n");
+                fh.StoreString($"xdg-desktop-menu install forceupdate --mode system\n");
+
+                fh.Close();
+                Util.Chmod("/tmp/installer.sh", 0755);
+                var execre = Util.PkExec("/tmp/installer.sh");
+                System.IO.File.Delete("/tmp/installer.sh");
+            }
+        }
+        else
+        {
+            Util.XdgDesktopMenu("/tmp/godot-manager.desktop");
+            Util.XdgDesktopMenuUpdate();
+        }
+        System.IO.File.Delete("/tmp/godot-manager.desktop");
+    }
+    #endif
 }
