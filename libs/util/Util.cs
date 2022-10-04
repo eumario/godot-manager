@@ -248,6 +248,12 @@ public static class Util
 	public static int PkExec(string command)
 	{
 		string pkexec = FindPkExec();
+		if (pkexec == null)
+		{
+			GD.Print("Failed to find suitable Set-User command!");
+			return -127;
+		}
+
 		Array<string> args = new Array<string>();
 		
 		if (pkexec.Contains("pkexec"))
@@ -275,5 +281,31 @@ public static class Util
 		args.Add(command);
 		return OS.Execute(pkexec, args.ToArray(), true);
 	}
-	#endif
+
+	public static int XdgDesktopMenu(string desktopFile)
+	{
+		string xdg_desktop_menu = Which("xdg-desktop-menu");
+		if (xdg_desktop_menu == null)
+		{
+			GD.Print("Failed to find XDG Desktop Menu command, unable to install Desktop entry.");
+			return -127;
+		}
+
+		return OS.Execute(xdg_desktop_menu,
+			new string[] { "install", "--mode", "user", desktopFile }, true);
+	}
+
+	public static int XdgDesktopMenuUpdate()
+	{
+		string xdg_desktop_menu = Which("xdg-desktop-menu");
+		if (xdg_desktop_menu == null)
+		{
+			GD.Print("Failed to find XDG Desktop Menu command, unable to install Desktop entry.");
+			return -127;
+		}
+
+		return OS.Execute(xdg_desktop_menu,
+			new string[] { "forceupdate", "--mode", "user" });
+	}
+#endif
 }
