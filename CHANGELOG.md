@@ -4,6 +4,55 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Version 0.2.0
+- Added Channel to Godot Manager, now has Dev for Development version, and Release for Release Version.
+- Started work on Translation, now having strings properly translated throughout entire project.
+- Added documentation for Assisting with the Translation of the Application.
+- Partial Greek Translation provided by GalaxyGamingBoy
+- Refactored CentralDataStore to have proper naming
+- Implemented Mirror Sites, for official mirrors of Godot Engine, that will be scraped by Godot Mirror Manager.
+- Added Proxy Support, to allow HTTP Communication to go through Proxies setup in Settings.
+- Added code to Clean up Translations that improperly had a Line-Feed(\r) character in it.  This will allow for cleaner translations.
+- Fixed bug for searching for Plugins and Templates, where a null wasn't being returned when not found.  Now using Linq to search central store.
+- Fixed bug where Asset Preview was still querying Godot AssetLib for locally imported plugins/templates.
+- Fixed error in UpdateAddons/UpdateTemplates where Icons were added to the Download Queue, but the Download Queue was never started.
+- Fixed bug where Asset Listing was not accounting for Locally imported Plugins/Templates when trying to get their icons.
+- Ensure all Asset Entries in listing have an icon associated with it for local Plugins/Templates, either by using one provided in Zip File, or by using default_project_icon
+- Implemented Mirror Selection from mirrors retrieved from Godot Mirror Manager.  Added switch to allow searching for Mono or Standard Edition, and when a Mirror is selected, to search by Stable/Alpha/Beta/Release Candidate.
+- Removed Mirror Manager from Settings Panel.
+- De-coupled Downloading logic from Godot Panel, and Godot Line Entry into Github and Mirror classes, keeping code more organized.
+- Deprecated Downloader class, and switched to using GDCSHTTPClient for all downloading functions.
+- Switched from Recreating Project line entries, and Godot Line entries to recycling existing ones, and only adding, or removing as needed, speeding up loading of the entire application, as well as Sorting.
+- Added support to Directly Import Godot Projects, by using the Godot Manager executable.  (Thanks Oliveoil)
+- Changed way that files are downloaded.  Files are now temporarily stored in a temp file, instead of in memory, to prevent errors in memory.
+- Added Update Checks for Mirrors, so Interval Checks can be made against Mirrors
+- Fixed bug, where Duplicate Projects were being added to the Central Store, when there was only 1 project to be added.
+- Fixed 2 bugs on Linux/BSD where System needs to be prefix, and Executable Name was not named properly in the property.
+- Added Capabilities to use Operating System's Titlebar, instead of Faux Titlebar internal to Godot Manager, now toggable as a Setting.
+- Fix UI bug where Labels on IconView, to ensure that there is proper spacing, and justification of the labels, so that they don't run over each other.
+- Added ability to use Last Engine Mirror Selected between runs.
+- Added UI Fix to allow things to be properly aligned to new space when switching between Internal and OS Titlebar.
+- Added New Panel for Godot News, so now you can see News from the Godot Engine website directly in the Manager.
+- Fixed minor bug where Indexes were not properly aligning to their images in the Download queue.
+- Added ability to Pin Categories in Category View, so you can pin specific categories to the Top of the view.  Favorites, and Uncategoriezed will remain at bottom.
+- Added ability to create Custom Downloads for Godot Engines.  It will download a Singular release url, useful for Nightly Builds.
+- Fixed minor bug where Checking to ensure directories exist, it properly get's the Operating System's Location, and ensures to use the Settings that are saved, in order to get validated location.
+- Updated Asset UI, to show the Asset ID for those who want to see the ID of the Asset.  Clicking on the ID, will take you directly to the Asset's page on Godot's Asset Library.
+- Fixed bug with Paginated views, not properly updating when lower numbers of results were presented.
+- Implemented Version searching in Asset Library.  Will now let you search for Any version of Godot, or a specific version of godot, to find templates, or addons.
+- Updated Asset UI to ensure that it is showing the Version of Godot the Addon/Template targets.
+- Added Label to show where Godot Engine is installed to.
+- Added Popup Menu for Godot Engines, so you can Uninstall, Make Default, Copy Engine Path, or Open Engine Path for Installed versions of Godot Engine, and Install for Available versions to download.
+- Updated Godot Manager's downloading of Alpha/Beta naming scheme for Godot 4, as altered from Godot 3.x naming scheme.
+- Added check if there is 1 version left of Godot installed after an uninstall of Godot, it will ask user if they want to associate all projects with specified version of Godot, if so, it will update all Projects with that specific version.
+- Implemented new First Run Wizard dialog, now gives a wizard interface for when Godot Manager is first run on a system, and nothing has been saved to the Central Store database.  This will give the user a chance to setup Paths for where to install Godot, where to cache files, and where to find Projects, or setup to Save new Projects in said location.
+- Deprecated FirstTimeInstall, in favor of new FirstRunWizard.
+- Fixed bug on Linux where Installer wasn't properly following Folder structure for Mono Editions of Godot, when decompressing from the Zip File.
+- Added new Splash Screen for Godot Manager
+- Cleaned up all redundant copies of the Godot Manager Icon, and Updated the Godot Manager Icon to 256x256 sized icon.
+- Implemented new method for Updating the Icon of the Executable on Windows, to properly used the correct size definitions, and properly update the icon.
+- Implemented integration of Godot Manager with Linux XDG Desktop settings, allowing a user when running First Run Wizard to integrate Godot Manager with the Menu system of their Desktop Environment.
+
 ## Version 0.1.3
 - Fixed bug where When no update is found, does not hide the BusyDialog. (Thanks to chriba)
 - Fixed bug when creating a new Project, the Icon was not properly copied to the new directory.  New method properly reads the data, and writes it to the new project directory, when not using a template.
