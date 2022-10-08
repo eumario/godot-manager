@@ -128,8 +128,13 @@ StartupNotify=true
         AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Godot Engines");
         AppDialogs.BrowseFolderDialog.CurrentDir = EngineLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_EngineBrowse)))
-            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_EngineBrowse), new Array(),
+        {
+            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_EngineBrowse), null,
                 (int)ConnectFlags.Oneshot);
+            AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, nameof(OnPopupHide_EngineBrowse), null,
+                (int)ConnectFlags.Oneshot);
+        }
+
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
@@ -140,8 +145,13 @@ StartupNotify=true
         AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Cache Store");
         AppDialogs.BrowseFolderDialog.CurrentDir = CacheLoc.Text;
         if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_CacheBrowse)))
-            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_CacheBrowse), new Array(),
-                (int)ConnectFlags.Oneshot);
+        {
+            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_CacheBrowse), null,
+                    (int)ConnectFlags.Oneshot);
+            AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, nameof(OnPopupHide_CacheBrowse), null,
+                    (int)ConnectFlags.Oneshot);
+        }
+
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
@@ -151,9 +161,11 @@ StartupNotify=true
     {
         AppDialogs.BrowseFolderDialog.WindowTitle = Tr("Location for Projects");
         AppDialogs.BrowseFolderDialog.CurrentDir = ProjectLoc.Text;
-        if (!AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_ProjectBrowse)))
-            AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_ProjectBrowse),
-                new Array(), (int)ConnectFlags.Oneshot);
+        AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, nameof(OnDirSelected_ProjectBrowse), null,
+            (int)ConnectFlags.Oneshot);
+        AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, nameof(OnPopupHide_ProjectBrowse), null,
+            (int)ConnectFlags.Oneshot);
+
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
@@ -161,9 +173,28 @@ StartupNotify=true
     // File Dialog Handlers
     void OnDirSelected_EngineBrowse(string dir) => EngineLoc.Text = dir.GetOSDir().Join("").NormalizePath();
 
+
     void OnDirSelected_CacheBrowse(string dir) => CacheLoc.Text = dir.GetOSDir().Join("").NormalizePath();
 
     void OnDirSelected_ProjectBrowse(string dir) => ProjectLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+
+    void OnPopupHide_EngineBrowse()
+    {
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_EngineBrowse)))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, nameof(OnDirSelected_EngineBrowse));
+    }
+    
+    void OnPopupHide_CacheBrowse()
+    {
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_CacheBrowse)))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, nameof(OnDirSelected_CacheBrowse));
+    }
+    
+    void OnPopupHide_ProjectBrowse()
+    {
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_ProjectBrowse)))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, nameof(OnDirSelected_ProjectBrowse));
+    }
 
     // Navigation buttons Handlers
     [SignalHandler("pressed", nameof(PrevStep))]

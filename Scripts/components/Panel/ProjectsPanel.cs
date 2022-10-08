@@ -305,7 +305,8 @@ public class ProjectsPanel : Panel
                 AppDialogs.BrowseFolderDialog.CurrentFile = "";
                 AppDialogs.BrowseFolderDialog.CurrentPath = CentralStore.Settings.ProjectPath;
                 AppDialogs.BrowseFolderDialog.PopupCentered();
-                AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnScanProjects_DirSelected");
+                AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnScanProjects_DirSelected", null, (int)ConnectFlags.Oneshot);
+                AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, "OnScanProjects_PopupHide", null, (int)ConnectFlags.Oneshot);
                 return;
             } else
                 return;
@@ -344,6 +345,12 @@ public class ProjectsPanel : Panel
         AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnScanProjects_DirSelected");
         ScanForProjects();
         PopulateListing();
+    }
+
+    void OnScanProjects_PopupHide()
+    {
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, "OnScanProjects_DirSelected"))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnScanProjects_DirSelected");
     }
 
     // Optimizing PopulateListing() to utilize Cache of Nodes, adding and removing only as

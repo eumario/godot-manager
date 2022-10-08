@@ -47,8 +47,8 @@ public class AddCustomGodot : ReferenceRect
 #region Events
     [SignalHandler("pressed", nameof(_Browse))]
     void OnBrowsePressed() {
-        AppDialogs.BrowseGodotDialog.Connect("file_selected", this, "OnFileSelected");
-        AppDialogs.BrowseGodotDialog.Connect("popup_hide", this, "OnBrowseDialogHidden");
+        AppDialogs.BrowseGodotDialog.Connect("file_selected", this, "OnFileSelected", null, (uint)ConnectFlags.Oneshot);
+        AppDialogs.BrowseGodotDialog.Connect("popup_hide", this, "OnBrowseDialogHidden", null, (uint)ConnectFlags.Oneshot);
         AppDialogs.BrowseGodotDialog.PopupCentered();
     }
 
@@ -57,8 +57,8 @@ public class AddCustomGodot : ReferenceRect
     }
 
     void OnBrowseDialogHidden() {
-        AppDialogs.BrowseGodotDialog.Disconnect("file_selected", this, "OnFileSelected");
-        AppDialogs.BrowseGodotDialog.Disconnect("popup_hide", this, "OnBrowseDialogHidden");
+        if (AppDialogs.BrowseFolderDialog.IsConnected("file_selected", this, "OnFileSelected"))
+            AppDialogs.BrowseGodotDialog.Disconnect("file_selected", this, "OnFileSelected");
     }
 
     [SignalHandler("pressed", nameof(_AddBtn))]

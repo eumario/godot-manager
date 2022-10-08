@@ -101,6 +101,13 @@ public class ImportProject : ReferenceRect
         AppDialogs.ImportFileDialog.CurrentPath = _locationValue.Text == "" ? CentralStore.Settings.ProjectPath : _locationValue.Text;
         AppDialogs.ImportFileDialog.PopupCentered(new Vector2(510, 390));
         AppDialogs.ImportFileDialog.Connect("file_selected", this, "OnFileSelected");
+        AppDialogs.ImportFileDialog.Connect("popup_hide", this, "OnLocationImportHidden", null, (uint)ConnectFlags.Oneshot);
+    }
+
+    void OnLocationImportHidden()
+    {
+        if (AppDialogs.ImportFileDialog.IsConnected("file_selected", this, "OnFileSelected"))
+            AppDialogs.ImportFileDialog.Disconnect("file_selected", this, "OnFileSelected");
     }
 
     void OnFileSelected(string file_path) {

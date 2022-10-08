@@ -152,7 +152,8 @@ public class CreateProject : ReferenceRect
         AppDialogs.BrowseFolderDialog.CurrentFile = "";
         AppDialogs.BrowseFolderDialog.CurrentPath = (CentralStore.Settings.ProjectPath + "/").NormalizePath();
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
-        AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnDirSelected");
+        AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnDirSelected", null, (int)ConnectFlags.Oneshot);
+        AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, "OnDirSelected_PopupHidden", null, (int)ConnectFlags.Oneshot);
     }
 
     void OnDirSelected(string bfdir) {
@@ -163,6 +164,12 @@ public class CreateProject : ReferenceRect
         TestPath(bfdir);
         if (bfdir.IsDirEmpty() && _projectName.Text == "Untitled Project")
             _projectName.Text = bfdir.GetFile().Capitalize();
+    }
+
+    void OnDirSelected_PopupHidden()
+    {
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, "OnDirSelected"))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnDirSelected");
     }
 
     [SignalHandler("pressed", nameof(_cancelBtn))]

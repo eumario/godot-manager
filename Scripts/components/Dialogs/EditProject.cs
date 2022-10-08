@@ -253,10 +253,14 @@ Button _CancelBtn = null;
     void OnIconGuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb) {
             if (iemb.Pressed && iemb.ButtonIndex == (int)ButtonList.Left)
-                AppDialogs.ImageFileDialog.Connect("file_selected", this, "OnFileSelected");
-                AppDialogs.ImageFileDialog.Connect("popup_hide", this, "OnFilePopupHide");
+            {
+                AppDialogs.ImageFileDialog.Connect("file_selected", this, "OnFileSelected", null,
+                    (int)ConnectFlags.Oneshot);
+                AppDialogs.ImageFileDialog.Connect("popup_hide", this, "OnFilePopupHide", null,
+                    (uint)ConnectFlags.Oneshot);
                 AppDialogs.ImageFileDialog.CurrentDir = ProjectFile.Location.GetBaseDir();
                 AppDialogs.ImageFileDialog.PopupCentered();
+            }
         }
     }
 
@@ -288,7 +292,6 @@ Button _CancelBtn = null;
 
     void OnFilePopupHide() {
         AppDialogs.ImageFileDialog.Disconnect("file_selected", this, "OnFileSelected");
-        AppDialogs.ImageFileDialog.Disconnect("popup_hide", this, "OnFilePopupHide");
     }
 
     [SignalHandler("text_changed", nameof(_ProjectName))]
