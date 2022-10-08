@@ -124,7 +124,9 @@ public class AssetLibPanel : Panel
     }
 
     [SignalHandler("pressed", nameof(_import))]
-    async void OnImportPressed() {
+    async void OnImportPressed()
+    {
+        AppDialogs.ImportFileDialog.Connect("popup_hide", this, "OnImportClosed", null, (uint)ConnectFlags.Oneshot);
         var result = await AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Import Asset..."),
             Tr("Do you wish to import a Template or an Addon?"),
             Tr("Template"),Tr("Addon"),Tr("Cancel"));
@@ -139,7 +141,6 @@ public class AssetLibPanel : Panel
         } else {
             return;
         }
-        AppDialogs.ImportFileDialog.Connect("hide", this, "OnImportClosed");
         AppDialogs.ImportFileDialog.CurrentFile = "";
         AppDialogs.ImportFileDialog.CurrentPath = "";
         AppDialogs.ImportFileDialog.PopupCentered(new Vector2(510, 390));
@@ -151,8 +152,6 @@ public class AssetLibPanel : Panel
 
         if (AppDialogs.ImportFileDialog.IsConnected("file_selected", this, "OnPluginImport"))
             AppDialogs.ImportFileDialog.Disconnect("file_selected", this, "OnPluginImport");
-        
-        AppDialogs.ImportFileDialog.Disconnect("hide", this, "OnImportClosed");
     }
 
     void OnPluginImport(string filepath) {
@@ -166,14 +165,20 @@ public class AssetLibPanel : Panel
         }
     }
 
-    void OnTemplateImport(string filepath) {
-        if (filepath.EndsWith("godot.project")) {
+    void OnTemplateImport(string filepath)
+    {
+        if (filepath.EndsWith("godot.project"))
+        {
             TemplateDirectoryImport(filepath);
-        } else if (filepath.EndsWith(".zip")) {
+        }
+        else if (filepath.EndsWith(".zip"))
+        {
             AssetZipImport(filepath, false);
-        } else {
-            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"), 
-                string.Format(Tr("Unable to use {0} to import the template."),filepath));
+        }
+        else
+        {
+            AppDialogs.MessageDialog.ShowMessage(Tr("Import Template"),
+                string.Format(Tr("Unable to use {0} to import the template."), filepath));
         }
     }
 
