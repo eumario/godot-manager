@@ -769,7 +769,7 @@ public class ProjectsPanel : Panel
 			{
                 folder = OS.GetDataDir().Join(pc.GetValue("application","config/custom_user_dir_name"));
 			} else {
-                folder = OS.GetDataDir().Join("Godot","app_userdata",pf.Name);
+                folder = OS.GetDataDir().Join("godot","app_userdata",pf.Name);
             }
 		}
 		else
