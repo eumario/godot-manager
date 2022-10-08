@@ -87,7 +87,7 @@ jobs:
         env:
           CHANNEL: windows
           PACKAGE: ${{ steps.archive.outputs.path }}
-          VERSION: ${{ needs.outputs.version }}
+          VERSION: ${{ steps.get_version.outputs.version-without-v }}
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         if: ${{ env.BUTLER_API_KEY != '' && env.ITCHIO_USERNAME != '' && env.ITCHIO_GAME != '' }}
         run: butler push --userversion=${VERSION} "${PACKAGE}" ${ITCHIO_USERNAME}/${ITCHIO_GAME}:${CHANNEL}
