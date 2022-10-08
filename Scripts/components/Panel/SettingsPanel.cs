@@ -527,7 +527,6 @@ public class SettingsPanel : Panel
 
 	void OnBrowseCache_DirSelected(string dir_name) {
 		_cacheInstallLocation.Text = dir_name.GetOSDir().NormalizePath();
-		AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnBrowseCache_DirSelected");
 		OnCacheInstallLocation();
 	}
 
@@ -800,7 +799,6 @@ public class SettingsPanel : Panel
 	void OnBrowseProjectLocation_DirSelected(string path) {
 		_defaultProjectLocation.Text = path.NormalizePath();
 		AppDialogs.BrowseFolderDialog.Visible = false;
-		AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnBrowseProjectLocation_DirSelected");
 		OnDefaultProjectLocation();
 	}
 
