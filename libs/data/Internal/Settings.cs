@@ -31,6 +31,10 @@ public class Settings : Object {
 	[JsonProperty] public int ProxyPort;
 	[JsonProperty] public Array<string> ScanDirs;
 	[JsonProperty] public Array<Dictionary<string, string>> AssetMirrors;
+#if GODOT_X11 || GODOT_LINUXBSD
+	[JsonProperty] public bool ShortcutMade;
+	[JsonProperty] public bool ShortcutRoot;
+#endif
 
 	[JsonProperty] public Dictionary<string, string> CurrentAssetMirror;
 	[JsonProperty] public int LastEngineMirror;
@@ -64,6 +68,8 @@ public class Settings : Object {
 		ProxyHost = "localhost";
 		ProxyPort = 8000;
 		AssetMirrors = new Array<Dictionary<string, string>>();
+		ShortcutMade = false;
+		ShortcutRoot = false;
 		CurrentAssetMirror = new Dictionary<string, string>();
 		LastEngineMirror = 0;
 		LocalAddonCount = 0;

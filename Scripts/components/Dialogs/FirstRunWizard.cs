@@ -12,7 +12,7 @@ public class FirstRunWizard : ReferenceRect
 {
     #region XDestkop String
 
-    const string DESKTOP_ENTRY = @"[Desktop Entry]
+    public const string DESKTOP_ENTRY = @"[Desktop Entry]
 Version=1.0
 Type=Application
 Name=Godot Manager
@@ -316,21 +316,24 @@ StartupNotify=true
                     fh.StoreString("mkdir -p /opt/GodotManager\n");
                     fh.StoreString($"cp -r {OS.GetExecutablePath().GetBaseDir()}/* /opt/GodotManager/\n");
                 }
-                fh.StoreString($"xdg-desktop-menu install --mode system /tmp/godot-manager.desktop\n");
-                fh.StoreString($"xdg-desktop-menu install forceupdate --mode system\n");
+                fh.StoreString("xdg-desktop-menu install --mode system /tmp/godot-manager.desktop\n");
+                fh.StoreString("xdg-desktop-menu install forceupdate --mode system\n");
 
                 fh.Close();
                 Util.Chmod("/tmp/installer.sh", 0755);
-                var execre = Util.PkExec("/tmp/installer.sh");
+                var execre = Util.PkExec("/tmp/installer.sh", Tr("Install Shortcut"),
+                    Tr("Godot Manager needs Administrative privileges to complete the requested actions."));
                 System.IO.File.Delete("/tmp/installer.sh");
             }
         }
         else
         {
-            Util.XdgDesktopMenu("/tmp/godot-manager.desktop");
-            Util.XdgDesktopMenuUpdate();
+            Util.XdgDesktopInstall("/tmp/godot-manager.desktop");
+            Util.XdgDesktopUpdate();
         }
         System.IO.File.Delete("/tmp/godot-manager.desktop");
+        CentralStore.Settings.ShortcutMade = true;
+        CentralStore.Settings.ShortcutRoot = needRoot;
     }
     #endif
 }

@@ -8,6 +8,7 @@ using Dir = System.IO.Directory;
 using SFile = System.IO.File;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 public class SettingsPanel : Panel
@@ -64,8 +65,17 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/HBCI/UpdateCheckInterval")]
 	OptionButton _updateCheckInterval = null;
 
-	[NodePath("VB/MC/TC/General/GC/TitleBar")]
-	CheckBox _useSystemTitlebar = null;
+	[NodePath("VB/MC/TC/General/GC/SIContainer/TitleBar")]
+	private CheckBox _useSystemTitlebar = null;
+
+	[NodePath("VB/MC/TC/General/GC/SIContainer/CDELabel")]
+	private Label _cdeLabel = null;
+	
+	[NodePath("VB/MC/TC/General/GC/SIContainer/CreateDesktopEntry")]
+	private Button _createDesktopEntry = null;
+
+	[NodePath("VB/MC/TC/General/GC/SIContainer/RemoveDesktopEntry")]
+	private Button _removeDesktopEntry = null;
 
 	[NodePath("VB/MC/TC/General/GC/UseLastMirror")]
 	CheckBox _useLastMirror = null;
@@ -179,6 +189,8 @@ public class SettingsPanel : Panel
 	public override void _Ready()
 	{
 		this.OnReady();
+		UpdateShortcutButtons();
+
 		_builtWith.BbcodeText = BuildVersionInfo(); //VERSION_INFORMATION;
 		_undoActions = new ActionStack();
 		_views = new Array<string>();
@@ -208,6 +220,14 @@ public class SettingsPanel : Panel
 		_updateCheckInterval.UpdateTr(3, Tr("1 Week"));
 		_updateCheckInterval.UpdateTr(4, Tr("Bi-Weekly"));
 		_updateCheckInterval.UpdateTr(5, Tr("Monthly (Every 30 Days)"));
+	}
+	
+	void UpdateShortcutButtons() {
+		_cdeLabel.Visible = Platform.OperatingSystem == "Linux (or BSD)";
+		_createDesktopEntry.Visible = Platform.OperatingSystem == "Linux (or BSD)";
+		_removeDesktopEntry.Visible = Platform.OperatingSystem == "Linux (or BSD)";
+		_createDesktopEntry.Disabled = CentralStore.Settings.ShortcutMade;
+		_removeDesktopEntry.Disabled = !CentralStore.Settings.ShortcutMade;
 	}
 
 	void updateActionButtons() {
@@ -645,6 +665,129 @@ public class SettingsPanel : Panel
 			updateActionButtons();
 		}
 	}
+
+	#if GODOT_X11 || GODOT_LINUXBSD
+	[SignalHandler("pressed", nameof(_createDesktopEntry))]
+	async void OnPressed_CreateDesktopEntry()
+	{
+		string iconPath = OS.GetExecutablePath().GetBaseDir().Join("godot-manager.svg");
+		string executablePath = OS.GetExecutablePath();
+
+		var allUsers = await AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Create Desktop Entry"),
+			Tr("Do you wish to integrate for all users, or just your user?"), Tr("All Users"),
+			Tr("Just You"), Tr("Cancel"));
+		bool needRoot = false;
+		if (allUsers == YesNoCancelDialog.ActionResult.FirstAction)
+			needRoot = true;
+		else if (allUsers == YesNoCancelDialog.ActionResult.CancelAction)
+			return;
+
+		
+		using (var fh = new File())
+		{
+			var err = fh.Open("res://godot-manager.dat", File.ModeFlags.Read);
+			var size = fh.GetLen();
+			var svg = fh.GetBuffer((long)size);
+			fh.Close();
+			System.IO.File.WriteAllBytes(iconPath,svg);
+		}
+		
+		if (needRoot)
+		{
+			iconPath = "/opt/GodotManager/godot-manager.svg";
+		}
+		
+		System.IO.File.WriteAllText("/tmp/godot-manager.desktop", 
+			string.Format(FirstRunWizard.DESKTOP_ENTRY, iconPath, executablePath), Encoding.ASCII);
+		if (needRoot)
+		{
+			bool needToCopy = false;
+			if (!executablePath.StartsWith("/opt/GodotManager"))
+			{
+				executablePath = "/opt/GodotManager/GodotManager.x86_64";
+				System.IO.File.WriteAllText("/tmp/godot-manager.desktop",
+					string.Format(FirstRunWizard.DESKTOP_ENTRY, iconPath, executablePath), Encoding.ASCII);
+				needToCopy = true;
+			}
+
+			using (var fh = new File())
+			{
+				fh.Open("/tmp/godot-installer.sh", File.ModeFlags.Write);
+				fh.StoreString("#!/bin/bash\n\n");
+				if (needToCopy)
+				{
+					if (System.IO.Directory.Exists("/opt/GodotManager")) fh.StoreString("rm -rf /opt/GodotManager\n");
+					fh.StoreString("mkdir -p /opt/GodotManager\n");
+					fh.StoreString($"cp -r {OS.GetExecutablePath().GetBaseDir()}/* /opt/GodotManager/\n");
+				}
+				fh.StoreString("xdg-desktop-menu install --mode system /tmp/godot-manager.desktop\n");
+				fh.StoreString("xdg-desktop-menu forceupdate --mode system\n");
+
+				fh.Close();
+				Util.Chmod("/tmp/godot-installer.sh", 0755);
+				var execre = Util.PkExec("/tmp/godot-installer.sh", Tr("Install Shortcut"),
+					Tr("Godot Manager needs Administrative privileges to complete the requested actions."));
+				GD.Print($"Execre: {execre}");
+				if (execre > 0)
+				{
+					AppDialogs.MessageDialog.ShowMessage(Tr("Install Shortcut"), Tr("Failed to install Shortcut."));
+					return;
+				}
+				System.IO.File.Delete("/tmp/godot-installer.sh");
+			}
+		}
+		else
+		{
+			Util.XdgDesktopInstall("/tmp/godot-manager.desktop");
+			Util.XdgDesktopUpdate();
+		}
+		System.IO.File.Delete("/tmp/godot-manager.desktop");
+		CentralStore.Settings.ShortcutMade = true;
+		CentralStore.Settings.ShortcutRoot = needRoot;
+		CentralStore.Instance.SaveDatabase();
+		UpdateShortcutButtons();
+	}
+
+	[SignalHandler("pressed", nameof(_removeDesktopEntry))]
+	async void OnPressed_RemoveDesktopEntry()
+	{
+		if (CentralStore.Settings.ShortcutMade)
+		{
+			if (CentralStore.Settings.ShortcutRoot)
+			{
+				using (var fh = new File())
+				{
+					var res = fh.Open("/tmp/godot-uninstaller.sh", File.ModeFlags.Write);
+					fh.StoreString("#!/bin/bash\n\n");
+					fh.StoreString("xdg-desktop-menu uninstall --mode system godot-manager.desktop\n");
+					fh.StoreString("xdg-desktop-menu forceupdate --mode system\n");
+
+					fh.Close();
+					Util.Chmod("/tmp/godot-uninstaller.sh", 0755);
+					var execre = Util.PkExec("/tmp/godot-uninstaller.sh", Tr("Remove Shortcut"),
+						Tr("Godot Manager needs Administrative privileges to complete the requested actions."));
+					GD.Print($"execre: {execre}");
+					if (execre > 0)
+					{
+						AppDialogs.MessageDialog.ShowMessage(Tr("Remove Shortcut"), Tr("Failed to remove Shortcut.") );
+						return;
+					}
+					System.IO.File.Delete("/tmp/godot-uninstaller.sh");
+				}
+			}
+			else
+			{
+				Util.XdgDesktopUninstall("godot-manager.desktop");
+				Util.XdgDesktopUpdate();
+			}
+
+			CentralStore.Settings.ShortcutMade = false;
+			CentralStore.Settings.ShortcutRoot = false;
+			CentralStore.Instance.SaveDatabase();
+			UpdateShortcutButtons();
+		}
+	}
+	#endif
 
 	[SignalHandler("toggled", nameof(_noConsole))]
 	void OnNoConsole(bool toggle) {
