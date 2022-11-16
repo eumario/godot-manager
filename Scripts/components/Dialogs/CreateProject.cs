@@ -181,32 +181,32 @@ public class CreateProject : ReferenceRect
     [SignalHandler("toggled", nameof(_useGodot3))]
     void OnToggled_UseGodot3(bool toggle)
     {
-        _gles3.Text = "OpenGL ES 3.0";
-        _gles2.Text = "OpenGL ES 2.0";
-        _gles3Desc.Text = @"Higher Visual Quality
+        _gles3.Text = Tr("OpenGL ES 3.0");
+        _gles2.Text = Tr("OpenGL ES 2.0");
+        _gles3Desc.Text = Tr(@"Higher Visual Quality
 All Features available
 Incompatible with older hardware
-Not recommended for web games";
-        _gles2Desc.Text = @"Lower Visual Quality
+Not recommended for web games");
+        _gles2Desc.Text = Tr(@"Lower Visual Quality
 Some Features not available
 Works on most hardware
-Recommended for web games";
+Recommended for web games");
         PopulateEngines();
     }
 
     [SignalHandler("toggled", nameof(_useGodot4))]
     void OnToggled_UseGodot4(bool toggle)
     {
-        _gles3.Text = "Forward+";
-        _gles2.Text = "Mobile";
-        _gles3Desc.Text = @"Supports desktop platforms only.
+        _gles3.Text = Tr("Forward+");
+        _gles2.Text = Tr("Mobile");
+        _gles3Desc.Text = Tr(@"Supports desktop platforms only.
 Advanced 3D graphics available.
 Can scale to large complex scenes.
-Slower rendering of simple scenes.";
-        _gles2Desc.Text = @"Supports desktop + mobile platforms.
+Slower rendering of simple scenes.");
+        _gles2Desc.Text = Tr(@"Supports desktop + mobile platforms.
 Less advanced 3D graphics.
 Less scalable for complex scenes.
-Faster rendering of simple scenes.";
+Faster rendering of simple scenes.");
         PopulateEngines();
     }
 
