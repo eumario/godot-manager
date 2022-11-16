@@ -117,7 +117,6 @@ margin_bottom = 542.0
 theme = ExtResource( 8 )
 
 [node name="Project Settings" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -281,12 +280,12 @@ margin_right = 494.0
 margin_bottom = 453.0
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3"]
+[node name="GLES3" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3"]
 margin_right = 241.0
 margin_bottom = 98.0
 size_flags_horizontal = 3
 
-[node name="GLES3" type="CheckBox" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer"]
+[node name="GLES3" type="CheckBox" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES3"]
 margin_right = 241.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
@@ -294,7 +293,7 @@ pressed = true
 group = SubResource( 6 )
 text = "OpenGL ES 3.0"
 
-[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer"]
+[node name="GLES3Desc" type="Label" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES3"]
 margin_top = 21.0
 margin_right = 241.0
 margin_bottom = 98.0
@@ -312,19 +311,19 @@ margin_left = 245.0
 margin_right = 249.0
 margin_bottom = 98.0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3"]
+[node name="GLES2" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3"]
 margin_left = 253.0
 margin_right = 494.0
 margin_bottom = 98.0
 size_flags_horizontal = 3
 
-[node name="GLES2" type="CheckBox" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer2"]
+[node name="GLES2" type="CheckBox" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES2"]
 margin_right = 241.0
 margin_bottom = 17.0
 group = SubResource( 6 )
 text = "OpenGL ES 2.0"
 
-[node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/VBoxContainer2"]
+[node name="GLES2Desc" type="Label" parent="PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES2"]
 margin_top = 21.0
 margin_right = 241.0
 margin_bottom = 98.0
@@ -345,6 +344,7 @@ custom_fonts/font = ExtResource( 7 )
 text = "Renderer can be changed later, but scenes may need to be adjusted."
 
 [node name="Project Plugins" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0

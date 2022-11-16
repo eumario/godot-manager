@@ -28,6 +28,8 @@ public class GodotVersion : Object {
 		HideConsole = false;
 	}
 
+	public bool IsGodot4() => Tag.StartsWith("4") || Tag.StartsWith("v4");
+
 	public string GetDisplayName() {
 		return $"Godot {Tag + (IsMono ? " - Mono" : "")}";
 	}
