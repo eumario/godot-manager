@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Icons/godot.svg" type="Texture" id=1]
+[ext_resource path="res://components/Panels/SplashScreen.cs" type="Script" id=2]
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/Fonts/DroidSans-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+size = 62
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 4 )
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://Assets/Fonts/DroidSans.ttf"
+
+[sub_resource type="DynamicFont" id=12]
+size = 42
+use_filter = true
+font_data = SubResource( 10 )
+
+[node name="SplashScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -218.0
+margin_right = 128.0
+margin_bottom = 38.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="."]
+margin_left = 283.0
+margin_top = 377.0
+margin_right = 747.0
+margin_bottom = 450.0
+custom_fonts/font = SubResource( 11 )
+text = "Godot Manager"
+
+[node name="VersionInfo" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -122.0
+margin_top = 118.5
+margin_right = 122.0
+margin_bottom = 167.5
+custom_fonts/font = SubResource( 12 )
+text = "Version 0.2.0"
