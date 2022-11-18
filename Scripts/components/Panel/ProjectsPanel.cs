@@ -580,7 +580,7 @@ public class ProjectsPanel : Panel
 
     public void OnProjectCreated(ProjectFile pf) {
         PopulateListing();
-        ExecuteEditorProject(pf.GodotVersion, pf.Location.GetBaseDir());
+        ExecuteEditorProject(pf);
     }
 
     private void UpdateListExcept(ProjectLineEntry ple) {
@@ -646,7 +646,7 @@ public class ProjectsPanel : Panel
         if (ple.MissingProject)
             return;
         ple.ProjectFile.LastAccessed = DateTime.UtcNow;
-        ExecuteEditorProject(ple.GodotVersion, ple.Location.GetBaseDir());
+        ExecuteEditorProject(ple.ProjectFile);
     }
 
     void OnListEntry_RightClicked(ProjectLineEntry ple) {
@@ -683,7 +683,7 @@ public class ProjectsPanel : Panel
         if (pie.MissingProject)
             return;
         pie.ProjectFile.LastAccessed = DateTime.UtcNow;
-		ExecuteEditorProject(pie.GodotVersion, pie.Location.GetBaseDir());
+		ExecuteEditorProject(pie.ProjectFile);
 	}
 
     void OnIconEntry_RightClicked(ProjectIconEntry pie) {
@@ -708,10 +708,10 @@ public class ProjectsPanel : Panel
 		}
         switch(id) {
             case 0:     // Open Project
-                ExecuteEditorProject(pf.GodotVersion, pf.Location.GetBaseDir());
+                ExecuteEditorProject(pf);
                 break;
             case 1:     // Run Project
-                ExecuteProject(pf.GodotVersion, pf.Location.GetBaseDir());
+                ExecuteProject(pf);
                 break;
             case 2:     // Show Project Files
                 OS.ShellOpen("file://" + pf.Location.GetBaseDir());
@@ -787,16 +787,16 @@ public class ProjectsPanel : Panel
         return folder.NormalizePath();
 	}
 
-	private void ExecuteProject(string godotVersion, string location)
+	private void ExecuteProject(ProjectFile pf)
 	{
-		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
+		GodotVersion gv = CentralStore.Instance.FindVersion(pf.GodotVersion);
         if (gv == null)
             return;
         
         ProcessStartInfo psi = new ProcessStartInfo();
         psi.FileName = gv.GetExecutablePath().GetOSDir();
-        psi.Arguments = $"--path \"{location}\"";
-        psi.WorkingDirectory = location.GetBaseDir().GetOSDir().NormalizePath();
+        psi.Arguments = $"--path \"{pf.Location.GetBaseDir()}\"";
+        psi.WorkingDirectory = pf.Location.GetBaseDir().GetOSDir().NormalizePath();
         psi.UseShellExecute = !CentralStore.Settings.NoConsole;
         psi.CreateNoWindow = CentralStore.Settings.NoConsole;
 
@@ -810,11 +810,37 @@ public class ProjectsPanel : Panel
         }
     }
 
-	private void ExecuteEditorProject(string godotVersion, string location)
+	private async void ExecuteEditorProject(ProjectFile pf)
 	{
-		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
-		if (gv == null)
-			return;
+        GodotVersion gv = CentralStore.Instance.FindVersion(pf.GodotVersion);
+        if (gv == null)
+        {
+            var ynd = AppDialogs.YesNoDialog;
+            var res = await ynd.ShowDialog("Missing Godot Version",
+                string.Format(
+                    Tr("Godot Version was not found for project {0}, do you wish to use the default engine {1}?"),
+                    pf.Name,
+                    CentralStore.Instance.FindVersion(CentralStore.Settings.DefaultEngine).Tag
+                    )
+            );
+            if (res)
+            {
+                pf.GodotVersion = CentralStore.Settings.DefaultEngine;
+                gv = CentralStore.Instance.FindVersion(CentralStore.Settings.DefaultEngine);
+                CentralStore.Instance.SaveDatabase();
+                if (gv == null)
+                {
+                    var ld = AppDialogs.MessageDialog;
+                    ld.ShowMessage("Failed to Launch Project", "Default Godot Version cannot be found, please select a default version of Godot to use.");
+                }
+            }
+            else
+            {
+                var md = AppDialogs.MessageDialog;
+                md.ShowMessage("Failed to Launch Project", "Godot Version for Project does not exist, cannot open project in Editor!");
+                return;
+            }
+        }
 
         if (!SFile.Exists(gv.GetExecutablePath().GetOSDir()))
         {
@@ -824,11 +850,12 @@ public class ProjectsPanel : Panel
         
         ProcessStartInfo psi = new ProcessStartInfo();
         psi.FileName = gv.GetExecutablePath().GetOSDir();
-        psi.Arguments = $"--path \"{location}\" -e";
-        psi.WorkingDirectory = location.GetOSDir().NormalizePath();
+        psi.Arguments = $"--path \"{pf.Location.GetBaseDir()}\" -e";
+        psi.WorkingDirectory = pf.Location.GetBaseDir().GetOSDir().NormalizePath();
         psi.UseShellExecute = !CentralStore.Settings.NoConsole;
         psi.CreateNoWindow = CentralStore.Settings.NoConsole;
 
+        //Process proc = Process.Start(psi);
         Process proc = Process.Start(psi);
         if (CentralStore.Settings.CloseManagerOnEdit) {
             GetTree().Quit(0);
