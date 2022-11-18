@@ -3,6 +3,7 @@ using System.Text;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using Directory = System.IO.Directory;
 using File = Godot.File;
 
 [SuppressMessage("ReSharper", "CheckNamespace")]
@@ -110,16 +111,35 @@ StartupNotify=true
         GlobalShortcut.Disabled = !toggled;
     }
 
+    string GetEngineDefaultPath() => "user://versions/".GetOSDir().NormalizePath();
+    string GetCacheDefaultPath() => "user://cache/".GetOSDir().NormalizePath();
+
+    string GetProjectDefaultPath() => OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects", "").NormalizePath();
+
     // Default Buttons Handlers
     [SignalHandler("pressed", nameof(EngineDefault))]
-    void OnPressed_EngineDefault() => EngineLoc.Text = "user://versions/".GetOSDir().NormalizePath();
+    void OnPressed_EngineDefault()
+    {
+        OriginalSettings[0] = EngineLoc.Text;
+        EngineLoc.Text = GetEngineDefaultPath();
+        CentralStore.Settings.EnginePath = GetEngineDefaultPath();
+    }
 
     [SignalHandler("pressed", nameof(CacheDefault))]
-    void OnPressed_CacheDefault() => CacheLoc.Text = "user://cache/".GetOSDir().NormalizePath();
+    void OnPressed_CacheDefault()
+    {
+        OriginalSettings[1] = CacheLoc.Text;
+        CacheLoc.Text = GetCacheDefaultPath();
+        CentralStore.Settings.CachePath = CacheLoc.Text;
+    }
 
     [SignalHandler("pressed", nameof(ProjectDefault))]
-    void OnPressed_ProjectDefault() =>
-        ProjectLoc.Text = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects", "").NormalizePath();
+    void OnPressed_ProjectDefault()
+    {
+        OriginalSettings[2] = ProjectLoc.Text;
+        ProjectLoc.Text = GetProjectDefaultPath();
+        CentralStore.Settings.ProjectPath = ProjectLoc.Text;
+    }
 
     // Browse Buttons Handlers
     [SignalHandler("pressed", nameof(EngineBrowse))]
@@ -169,14 +189,33 @@ StartupNotify=true
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
+    
 
     // File Dialog Handlers
-    void OnDirSelected_EngineBrowse(string dir) => EngineLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+    void OnDirSelected_EngineBrowse(string dir)
+    {
+        OriginalSettings[0] = EngineLoc.Text;
+        EngineLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+        CentralStore.Settings.EnginePath = EngineLoc.Text;
+        EnsureDirectoryExists(EngineLoc.Text);
+    }
 
 
-    void OnDirSelected_CacheBrowse(string dir) => CacheLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+    void OnDirSelected_CacheBrowse(string dir)
+    {
+        OriginalSettings[1] = CacheLoc.Text;
+        CacheLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+        CentralStore.Settings.CachePath = CacheLoc.Text;
+        EnsureDirectoryExists(EngineLoc.Text);
+    }
 
-    void OnDirSelected_ProjectBrowse(string dir) => ProjectLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+    void OnDirSelected_ProjectBrowse(string dir)
+    {
+        OriginalSettings[2] = ProjectLoc.Text;
+        ProjectLoc.Text = dir.GetOSDir().Join("").NormalizePath();
+        CentralStore.Settings.ProjectPath = ProjectLoc.Text;
+        EnsureDirectoryExists(EngineLoc.Text);
+    }
 
     void OnPopupHide_EngineBrowse()
     {
@@ -260,14 +299,17 @@ StartupNotify=true
     // Save our Settings:
     private void UpdateSettings(bool finished = false)
     {
-        CentralStore.Settings.CachePath = CacheLoc.Text;
-        CentralStore.Settings.EnginePath = EngineLoc.Text;
-        CentralStore.Settings.ProjectPath = ProjectLoc.Text;
         CentralStore.Settings.ScanDirs = new Array<string>() { ProjectLoc.Text };
 #if GODOT_X11 || GODOT_LINUXBSD
         if (finished && CreateShortcut.Pressed) CreateShortcuts();
 #endif
         CentralStore.Instance.SaveDatabase();
+    }
+
+    void EnsureDirectoryExists(string path)
+    {
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
     }
 
 #if GODOT_X11 || GODOT_LINUXBSD
