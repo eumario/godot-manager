@@ -55,12 +55,18 @@ public class CentralStore {
 
 	public void SaveDatabase() {
 		File db = new File();
+		SortGodotVersions();
 		if (db.Open("user://central_store.json", File.ModeFlags.Write) == Error.Ok) {
 			var data = JsonConvert.SerializeObject(_data);
 			db.StoreString(data);
 			db.Close();
 			return;
 		}
+	}
+
+	void SortGodotVersions()
+	{
+		_data.Versions = new Array<GodotVersion>(_data.Versions.OrderByDescending(x => x.Tag).ToArray());
 	}
 
 	public bool HasProject(string name) {
