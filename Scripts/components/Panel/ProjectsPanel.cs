@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Dir = System.IO.Directory;
+using SFile = System.IO.File;
 using SearchOption = System.IO.SearchOption;
 using DateTime = System.DateTime;
 
@@ -814,6 +815,12 @@ public class ProjectsPanel : Panel
 		GodotVersion gv = CentralStore.Instance.FindVersion(godotVersion);
 		if (gv == null)
 			return;
+
+        if (!SFile.Exists(gv.GetExecutablePath().GetOSDir()))
+        {
+            OS.Alert(string.Format(Tr("Executable path does not exist!  Please check the Versions folder at: {0} for {1}."),gv.Location, gv.Tag), "Execution Error");
+            return;
+        }
         
         ProcessStartInfo psi = new ProcessStartInfo();
         psi.FileName = gv.GetExecutablePath().GetOSDir();
