@@ -27,33 +27,36 @@ public class AppDialogs : Control
     public FileConflictDialog FileConflictDialog_ = null;
     public AddonMirror AddonMirror_ = null;
     public ManageCustomDownloads ManageCustomDownloads_ = null;
+    public ListSelectDialog ListSelectDialog_ = null;
 #endregion
 
 #region Singleton Variables to access in program
-    public static FirstRunWizard FirstRunWizard { get => Instance.FirstRunWizard_; }
-    public static AddCustomGodot AddCustomGodot { get => Instance.AddCustomGodot_; }
-    public static BusyDialog BusyDialog { get => Instance.BusyDialog_; }
-    public static NewVersion NewVersion { get => Instance.NewVersion_; }
-    public static YesNoDialog YesNoDialog { get => Instance.YesNoDialog_; }
-    public static YesNoCancelDialog YesNoCancelDialog { get => Instance.YesNoCancelDialog_; }
-    public static ImportProject ImportProject { get => Instance.ImportProject_; }
-    public static MessageDialog MessageDialog { get => Instance.MessageDialog_; }
-    public static FileDialog ImageFileDialog { get => Instance.ImageFileDialog_; }
-    public static FileDialog ImportFileDialog { get => Instance.ImportFileDialog_; }
-    public static FileDialog BrowseFolderDialog { get => Instance.BrowseFolderDialog_; }
-    public static FileDialog BrowseGodotDialog { get => Instance.BrowseGodotDialog_; }
-    public static CreateProject CreateProject { get => Instance.CreateProject_; }
-    public static EditProject EditProject { get => Instance.EditProject_; }
-    public static CreateCategory CreateCategory { get => Instance.CreateCategory_; }
-    public static RemoveCategory RemoveCategory { get => Instance.RemoveCategory_; }
-    public static AssetLibPreview AssetLibPreview { get => Instance.AssetLibPreview_; }
-    public static DownloadAddon DownloadAddon { get => Instance.DownloadAddon_; }
-    public static DownloadGodotManager DownloadGodotManager { get => Instance.DownloadGodotManager_; }
-    public static AddonInstaller AddonInstaller { get => Instance.AddonInstaller_; }
-    public static FileConflictDialog FileConflictDialog { get => Instance.FileConflictDialog_; }
-    public static AddonMirror AddonMirror { get => Instance.AddonMirror_; }
-    public static ManageCustomDownloads ManageCustomDownloads { get => Instance.ManageCustomDownloads_; }
-#endregion
+    public static FirstRunWizard FirstRunWizard => Instance.FirstRunWizard_;
+    public static AddCustomGodot AddCustomGodot => Instance.AddCustomGodot_;
+    public static BusyDialog BusyDialog => Instance.BusyDialog_;
+    public static NewVersion NewVersion => Instance.NewVersion_;
+    public static YesNoDialog YesNoDialog => Instance.YesNoDialog_;
+    public static YesNoCancelDialog YesNoCancelDialog => Instance.YesNoCancelDialog_;
+    public static ImportProject ImportProject => Instance.ImportProject_;
+    public static MessageDialog MessageDialog => Instance.MessageDialog_;
+    public static FileDialog ImageFileDialog => Instance.ImageFileDialog_;
+    public static FileDialog ImportFileDialog => Instance.ImportFileDialog_;
+    public static FileDialog BrowseFolderDialog => Instance.BrowseFolderDialog_;
+    public static FileDialog BrowseGodotDialog => Instance.BrowseGodotDialog_;
+    public static CreateProject CreateProject => Instance.CreateProject_;
+    public static EditProject EditProject => Instance.EditProject_;
+    public static CreateCategory CreateCategory => Instance.CreateCategory_;
+    public static RemoveCategory RemoveCategory => Instance.RemoveCategory_;
+    public static AssetLibPreview AssetLibPreview => Instance.AssetLibPreview_;
+    public static DownloadAddon DownloadAddon => Instance.DownloadAddon_;
+    public static DownloadGodotManager DownloadGodotManager => Instance.DownloadGodotManager_;
+    public static AddonInstaller AddonInstaller => Instance.AddonInstaller_;
+    public static FileConflictDialog FileConflictDialog => Instance.FileConflictDialog_;
+    public static AddonMirror AddonMirror => Instance.AddonMirror_;
+    public static ManageCustomDownloads ManageCustomDownloads => Instance.ManageCustomDownloads_;
+    public static ListSelectDialog ListSelectDialog => Instance.ListSelectDialog_;
+
+    #endregion
 
     private static AppDialogs _instance = null;
 
@@ -90,6 +93,7 @@ public class AppDialogs : Control
         FileConflictDialog_ = GD.Load<PackedScene>("res://components/Dialogs/FileConflictDialog.tscn").Instance<FileConflictDialog>();
         AddonMirror_ = GD.Load<PackedScene>("res://components/Dialogs/AddonMirror.tscn").Instance<AddonMirror>();
         ManageCustomDownloads_ = GD.Load<PackedScene>("res://components/Dialogs/ManageCustomDownloads.tscn").Instance<ManageCustomDownloads>();
+        ListSelectDialog_ = GD.Load<PackedScene>("res://components/Dialogs/ListSelectDialog.tscn").Instance<ListSelectDialog>();
 
         ImageFileDialog_ = new FileDialog();
         ImageFileDialog_.Name = "ImageFileDialog";
@@ -146,6 +150,7 @@ public class AppDialogs : Control
             YesNoCancelDialog_,                 // Yes, No, Cancel Prompt
             BusyDialog_,                        // Busy Dialog
             MessageDialog_,                     // Message Dialog
+            ListSelectDialog_,                  // Dialog for Selecting a Specific Option from a List.
         };
 
         MouseFilter = Control.MouseFilterEnum.Ignore;
