@@ -47,8 +47,8 @@ public class Settings : Object {
 	public Settings() {
 		ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath();
 		DefaultEngine = Guid.Empty.ToString();
-		EnginePath = "user://versions";
-		CachePath = "user://cache";
+		EnginePath = Util.GetUserFolder("versions"); //"user://versions";
+		CachePath = Util.GetUserFolder("cache"); //"user://cache");
 		LastView = Tr("List View");
 		DefaultView = Tr("List View");
 		CheckForUpdates = true;

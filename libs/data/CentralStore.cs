@@ -2,7 +2,10 @@ using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
 using System.Linq;
+using Directory = System.IO.Directory;
 using Path = System.IO.Path;
+using SFile = System.IO.File;
+using Dir = System.IO.Directory;
 
 public class CentralStore {
 #region C# Pattern for Singleton
@@ -40,9 +43,10 @@ public class CentralStore {
 #endregion
 
 #region Instance Methods
-	public bool LoadDatabase() {
+	public bool LoadDatabase()
+	{
 		File db = new File();
-		if (db.Open("user://central_store.json", File.ModeFlags.Read) == Error.Ok) {
+		if (db.Open(Util.GetDatabaseFile(), File.ModeFlags.Read) == Error.Ok) {
 			var data = db.GetAsText();
 			db.Close();
 			_data = JsonConvert.DeserializeObject<CentralStoreData>(data);
@@ -56,7 +60,7 @@ public class CentralStore {
 	public void SaveDatabase() {
 		File db = new File();
 		SortGodotVersions();
-		if (db.Open("user://central_store.json", File.ModeFlags.Write) == Error.Ok) {
+		if (db.Open(Util.GetDatabaseFile(), File.ModeFlags.Write) == Error.Ok) {
 			var data = JsonConvert.SerializeObject(_data);
 			db.StoreString(data);
 			db.Close();

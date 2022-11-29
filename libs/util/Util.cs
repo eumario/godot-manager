@@ -70,6 +70,37 @@ public static class Util
 
 	public static bool IsDirEmpty(this string path) => !Dir.Exists(path) || !Dir.EnumerateFileSystemEntries(path).Any();
 
+	public static string GetUserFolder(params string[] parts)
+	{
+		var path = "user://";
+		if (OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
+		{
+			if (SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("._sc_")) ||
+			    SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("_sc_")))
+			{
+				path = OS.GetExecutablePath().GetBaseDir().Join("godot_data");
+			}
+		}
+
+		return parts.Length == 0 ? path : path.Join(parts);
+	}
+	
+	public static string GetDatabaseFile()
+	{
+		var path = GetUserFolder("central_store.json");
+		if (OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
+		{
+			if (SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("._sc_")) ||
+			    SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("_sc_")))
+			{
+				if (!Dir.Exists(path.GetBaseDir()))
+					Dir.CreateDirectory(path.GetBaseDir());
+			}
+		}
+
+		return path;
+	}
+
 	public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive = false) {
 		var dir = new DirectoryInfo(sourceDir);
 

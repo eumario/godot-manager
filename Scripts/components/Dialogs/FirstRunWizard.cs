@@ -111,8 +111,8 @@ StartupNotify=true
         GlobalShortcut.Disabled = !toggled;
     }
 
-    string GetEngineDefaultPath() => "user://versions/".GetOSDir().NormalizePath();
-    string GetCacheDefaultPath() => "user://cache/".GetOSDir().NormalizePath();
+    string GetEngineDefaultPath() => Util.GetUserFolder("versions").GetOSDir().NormalizePath();
+    string GetCacheDefaultPath() => Util.GetUserFolder("cache").GetOSDir().NormalizePath();
 
     string GetProjectDefaultPath() => OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects", "").NormalizePath();
 
