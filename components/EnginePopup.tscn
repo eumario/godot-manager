@@ -5,5 +5,5 @@
 [node name="EnginePopup" type="PopupMenu"]
 margin_right = 10.0
 margin_bottom = 10.0
-items = [ "Install/Uninstall", null, 0, false, false, 0, 0, null, "", false, "Make Default", null, 0, false, false, 1, 0, null, "", false, "Copy Engine Path", null, 0, false, false, 2, 0, null, "", false, "Open Engine Path", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "Install/Uninstall", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 1, 0, null, "", true, "Make Default", null, 0, false, false, 2, 0, null, "", false, "Share Settings", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, 4, 0, null, "", true, "Copy Engine Path", null, 0, false, false, 5, 0, null, "", false, "Open Engine Path", null, 0, false, false, 6, 0, null, "", false ]
 script = ExtResource( 1 )

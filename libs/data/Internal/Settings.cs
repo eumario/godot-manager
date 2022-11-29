@@ -31,6 +31,7 @@ public class Settings : Object {
 	[JsonProperty] public int ProxyPort;
 	[JsonProperty] public Array<string> ScanDirs;
 	[JsonProperty] public Array<Dictionary<string, string>> AssetMirrors;
+	[JsonProperty] public Array<string> SettingsShare;
 #if GODOT_X11 || GODOT_LINUXBSD
 	[JsonProperty] public bool ShortcutMade;
 	[JsonProperty] public bool ShortcutRoot;
@@ -73,6 +74,7 @@ public class Settings : Object {
 		CurrentAssetMirror = new Dictionary<string, string>();
 		LastEngineMirror = 0;
 		LocalAddonCount = 0;
+		SettingsShare = new Array<string>();
 	}
 
 	public void SetupDefaultValues() {

@@ -24,6 +24,12 @@ public class GodotLineEntry : HBoxContainer
     [Signal]
     public delegate void right_clicked(GodotLineEntry entry);
 
+    [Signal]
+    public delegate void settings_shared_clicked(GodotLineEntry entry);
+
+    [Signal]
+    public delegate void link_settings_clicked(GodotLineEntry entry);
+
 #region Private Node Variables
     [NodePath("vc/VersionTag")]
     private Label _label = null;
@@ -31,6 +37,10 @@ public class GodotLineEntry : HBoxContainer
     private Label _source = null;
     [NodePath("vc/hc/Filesize")]
     private Label _filesize = null;
+    [NodePath("SettingsShare")]
+    private TextureRect _settingsShare = null;
+    [NodePath("Linked")]
+    private TextureRect _linked = null;
     [NodePath("Download")]
     private TextureRect _download = null;
     [NodePath("Default")]
@@ -68,6 +78,8 @@ public class GodotLineEntry : HBoxContainer
     private string sFilesize = "Size: 32MB";
     private string sLocation = @"E:\Apps\GodotManager\versions\TestLocation";
     private bool bDownloaded = false;
+    private bool bSettingsShare = false;
+    private bool bSettingsLinked = false;
     private bool bDefault = false;
     private bool bMono = false;
     private GodotVersion gvGodotVersion = null;
@@ -82,9 +94,7 @@ public class GodotLineEntry : HBoxContainer
 
 #region Public Accessors
     public GodotVersion GodotVersion {
-        get {
-            return gvGodotVersion;
-        }
+        get => gvGodotVersion;
 
         set {
             gvGodotVersion = value;
@@ -106,9 +116,7 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public bool Mono {
-        get {
-            return bMono;
-        }
+        get => bMono;
 
         set {
             bMono = value;
@@ -118,9 +126,7 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public GithubVersion GithubVersion {
-        get {
-            return gvGithubVersion;
-        }
+        get => gvGithubVersion;
 
         set {
             gvGithubVersion = value;
@@ -188,9 +194,7 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public MirrorVersion MirrorVersion {
-        get {
-            return gvMirrorVersion;
-        }
+        get => gvMirrorVersion;
 
         set {
             gvMirrorVersion = value;
@@ -226,10 +230,7 @@ public class GodotLineEntry : HBoxContainer
 
     public CustomEngineDownload CustomEngine
     {
-        get
-        {
-            return gvCustomEngine;
-        }
+        get => gvCustomEngine;
         set
         {
             gvCustomEngine = value;
@@ -242,9 +243,7 @@ public class GodotLineEntry : HBoxContainer
     }
 
 	public string Label {
-        get {
-            return sLabel;
-        }
+        get => sLabel;
         set {
             sLabel = value + (Mono ? " - Mono" : "");
             if (_label != null)
@@ -253,9 +252,7 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public string Source {
-        get {
-            return sSource;
-        }
+        get => sSource;
 
         set {
             sSource = value;
@@ -265,9 +262,7 @@ public class GodotLineEntry : HBoxContainer
     }
 
     public string Filesize {
-        get {
-            return sFilesize;
-        }
+        get => sFilesize;
         set {
             sFilesize = value;
             if (_filesize != null)
@@ -277,10 +272,7 @@ public class GodotLineEntry : HBoxContainer
 
     public string Location
     {
-        get
-        {
-            return sLocation;
-        }
+        get => sLocation;
         set
         {
             sLocation = value;
@@ -293,9 +285,7 @@ public class GodotLineEntry : HBoxContainer
 
     [Export]
     public bool Downloaded {
-        get {
-            return bDownloaded;
-        }
+        get => bDownloaded;
 
         set {
             bDownloaded = value;
@@ -306,17 +296,31 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
-    public bool IsDownloaded {
-        get {
-            return bDownloaded;
+    public bool SettingsShared
+    {
+        get => bSettingsShare;
+        set
+        {
+            bSettingsShare = value;
+            if (_settingsShare == null) return;
+            _settingsShare.SelfModulate = value ? Colors.YellowGreen : new Color(0.54f,0.54f,0.54f);
         }
     }
 
-    public bool IsDefault {
-        get {
-            return bDefault;
+    public bool SettingsLinked
+    {
+        get => bSettingsLinked;
+        set
+        {
+            bSettingsLinked = value;
+            if (_linked == null) return;
+            _linked.SelfModulate = value ? Colors.Green : new Color(0.54f,0.54f,0.54f);
         }
     }
+
+    public bool IsDownloaded => bDownloaded;
+
+    public bool IsDefault => bDefault;
 
     public int TotalSize { get; set; }
 #endregion
@@ -330,6 +334,8 @@ public class GodotLineEntry : HBoxContainer
         MirrorVersion = gvMirrorVersion;
         CustomEngine = gvCustomEngine;
         GodotVersion = gvGodotVersion;
+        SettingsShared = bSettingsShare;
+        SettingsLinked = bSettingsLinked;
 
         downloadIcon = GD.Load<StreamTexture>("res://Assets/Icons/download.svg");
         uninstallIcon = GD.Load<StreamTexture>("res://Assets/Icons/uninstall.svg");
@@ -378,6 +384,26 @@ public class GodotLineEntry : HBoxContainer
         }
     }
 
+    public async void ToggleSettingsShared()
+    {
+        while (_settingsShare == null)
+        {
+            await this.IdleFrame();
+        }
+
+        _settingsShare.Visible = true;
+    }
+
+    public async void ToggleSettingsLinked()
+    {
+        while (_linked == null)
+        {
+            await this.IdleFrame();
+        }
+
+        _linked.Visible = true;
+    }
+
     [SignalHandler("gui_input")]
     void OnGuiInput(InputEvent inputEvent)
     {
@@ -403,6 +429,24 @@ public class GodotLineEntry : HBoxContainer
     void OnDefault_GuiInput(InputEvent inputEvent) {
         if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left) {
             EmitSignal("default_selected", this);
+        }
+    }
+
+    [SignalHandler("gui_input", nameof(_linked))]
+    void OnLinked_GuiInput(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
+        {
+            EmitSignal("link_settings_clicked", this);
+        }
+    }
+
+    [SignalHandler("gui_input", nameof(_settingsShare))]
+    void OnSettingsShare_GuiInput(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventMouseButton iemb && iemb.Pressed && (ButtonList)iemb.ButtonIndex == ButtonList.Left)
+        {
+            EmitSignal("settings_shared_clicked", this);
         }
     }
 

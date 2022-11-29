@@ -4,6 +4,7 @@ using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using FPath = System.IO.Path;
 using Dir = System.IO.Directory;
 using SFile = System.IO.File;
 using SearchOption = System.IO.SearchOption;
@@ -847,6 +848,33 @@ public class ProjectsPanel : Panel
             OS.Alert(string.Format(Tr("Executable path does not exist!  Please check the Versions folder at: {0} for {1}."),gv.Location, gv.Tag), "Execution Error");
             return;
         }
+
+        if (!string.IsNullOrEmpty(gv.SharedSettings))
+        {
+            var ssgv = CentralStore.Instance.FindVersion(gv.SharedSettings);
+            if (ssgv is null)
+            {
+                gv.SharedSettings = string.Empty;
+                var md = AppDialogs.MessageDialog;
+                md.ShowMessage("Shared Settings Invalid", "Instance of Shared Settings that was setup for this version of Godot, no longer exists, and has been removed.");
+                CentralStore.Instance.SaveDatabase();
+            }
+            else
+            {
+                var fromPath = ssgv.Location.Join("editor_data");
+                var toPath = gv.Location.Join("editor_data");
+                var copies = new Array<string>()
+                {
+                    fromPath.Join("feature_profiles"),
+                    fromPath.Join("script_templates"),
+                    fromPath.Join("text_editor_themes"),
+                    (gv.IsGodot4() && ssgv.IsGodot4()) ? fromPath.Join("editor_settings-4.tres") :
+                        fromPath.Join("editor_settings-3.tres")
+                };
+                foreach(var path in copies)
+                    CopyRecursive(path, toPath);
+            }
+        }
         
         ProcessStartInfo psi = new ProcessStartInfo();
         psi.FileName = gv.GetExecutablePath().GetOSDir();
@@ -861,6 +889,33 @@ public class ProjectsPanel : Panel
             GetTree().Quit(0);
         }
 	}
+
+    void CopyRecursive(string fromPath, string toPath)
+    {
+        if (!Dir.Exists(toPath))
+            Dir.CreateDirectory(toPath);
+
+        var files = new Array<string>();
+        if (Dir.Exists(fromPath))
+            files = GodotInstaller.RecurseDirectory(fromPath);
+        else
+            files.Add(fromPath);
+
+        foreach (var file in files)
+        {
+            var newFile = file.Replace(fromPath, toPath);
+            if (newFile == toPath)
+                newFile = toPath.Join(FPath.GetFileName(file));
+            if (Dir.Exists(file) && !Dir.Exists(newFile))
+                Dir.CreateDirectory(newFile);
+            else if (SFile.Exists(file))
+            {
+                if (SFile.Exists(newFile))
+                    SFile.Delete(newFile);
+                SFile.Copy(file, newFile);
+            }
+        }
+    }
 
     [SignalHandler("clicked", nameof(_actionButtons))]
 	async void OnActionButtons_Clicked(int index) {

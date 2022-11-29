@@ -5,6 +5,7 @@ using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using Uri = System.Uri;
 using Directory = System.IO.Directory;
 using Path = System.IO.Path;
@@ -511,6 +512,71 @@ public class GodotPanel : Panel
         }
     }
 
+    void OnSettingsSharedClicked(GodotLineEntry gle)
+    {
+        if (gle.SettingsShared)
+        {
+            CentralStore.Settings.SettingsShare.Remove(gle.GodotVersion.Id);
+        }
+        else
+        {
+            CentralStore.Settings.SettingsShare.Add(gle.GodotVersion.Id);
+        }
+
+        gle.SettingsShared = !gle.SettingsShared;
+    }
+
+    async void OnLinkSettingsClicked(GodotLineEntry gle)
+    {
+        if (gle.SettingsLinked)
+        {
+            var res = await AppDialogs.YesNoDialog.ShowDialog("Unlink Settings", "Do you want to unlink the settings for this version of Godot?");
+            if (res)
+            {
+                gle.GodotVersion.SharedSettings = string.Empty;
+                gle.SettingsLinked = false;
+            }
+
+            return;
+        }
+        var list = new Godot.Collections.Dictionary<string, string>();
+        if (gle.GodotVersion.IsGodot4())
+        {
+            foreach (var id in CentralStore.Settings.SettingsShare)
+            {
+                var gv = CentralStore.Instance.FindVersion(id);
+                if (!gv.IsGodot4()) continue;
+                list[gv.Tag] = id;
+            }
+        }
+        else
+        {
+            foreach (var id in CentralStore.Settings.SettingsShare)
+            {
+                var gv = CentralStore.Instance.FindVersion(id);
+                if (gv.IsGodot4()) continue;
+                list[gv.Tag] = id;
+            }
+        }
+
+        AppDialogs.ListSelectDialog.Connect("option_selected", this, "OnOptionSelected_LinkSettings", new Array() { gle });
+        AppDialogs.ListSelectDialog.Connect("option_cancelled", this, "OnOptionCancelled_LinkSettings");
+        AppDialogs.ListSelectDialog.ShowDialog("Link Settings","Select a Version of Godot to Link the settings to for this version:", list);
+    }
+
+    void OnOptionSelected_LinkSettings(string id, GodotLineEntry gle)
+    {
+        OnOptionCancelled_LinkSettings();
+        gle.GodotVersion.SharedSettings = id;
+        gle.SettingsLinked = true;
+    }
+
+    void OnOptionCancelled_LinkSettings()
+    {
+        AppDialogs.ListSelectDialog.Disconnect("option_selected", this, "OnOptionSelected_LinkSettings");
+        AppDialogs.ListSelectDialog.Disconnect("option_cancelled", this, "OnOptionCancelled_LinkSettings");
+    }
+
     public async Task PopulateList() {
         foreach (Node child in Installed.List.GetChildren())
             child.QueueFree();
@@ -527,10 +593,20 @@ public class GodotPanel : Panel
             gle.Mono = gdv.IsMono;
             gle.Downloaded = true;
             gle.ToggleDefault(CentralStore.Settings.DefaultEngine == gdv.Id);
+            if (CentralStore.Settings.SelfContainedEditors)
+            {
+                gle.ToggleSettingsShared();
+                gle.ToggleSettingsLinked();
+            }
+
+            gle.SettingsShared = CentralStore.Settings.SettingsShare.Contains(gdv.Id);
+            gle.SettingsLinked = CentralStore.Settings.SettingsShare.Contains(gdv.SharedSettings);
             Installed.List.AddChild(gle);
             gle.Connect("uninstall_clicked", this, "OnUninstallClicked");
             gle.Connect("default_selected", this, "OnDefaultSelected");
             gle.Connect("right_clicked", this, "OnRightClicked_Installed");
+            gle.Connect("settings_shared_clicked", this, "OnSettingsSharedClicked");
+            gle.Connect("link_settings_clicked", this, "OnLinkSettingsClicked");
         }
         
         // Handle CustomEngineDownload first, before official mirrors
@@ -572,9 +648,10 @@ public class GodotPanel : Panel
     {
         _enginePopup.GodotLineEntry = gle;
         _enginePopup.SetItemText(0,"Install");
-        _enginePopup.SetItemDisabled(1,true);
         _enginePopup.SetItemDisabled(2,true);
-        _enginePopup.SetItemDisabled(3, true);
+        _enginePopup.SetItemDisabled(3,true);
+        _enginePopup.SetItemDisabled(5, true);
+        _enginePopup.SetItemDisabled(6, true);
         _enginePopup.Popup_(new Rect2(GetGlobalMousePosition(), _enginePopup.RectSize));
     }
 
@@ -582,9 +659,10 @@ public class GodotPanel : Panel
     {
         _enginePopup.GodotLineEntry = gle;
         _enginePopup.SetItemText(0, "Uninstall");
-        _enginePopup.SetItemDisabled(1, false);
         _enginePopup.SetItemDisabled(2, false);
         _enginePopup.SetItemDisabled(3, false);
+        _enginePopup.SetItemDisabled(5, false);
+        _enginePopup.SetItemDisabled(6, false);
         _enginePopup.Popup_(new Rect2(GetGlobalMousePosition(), _enginePopup.RectSize));
     }
 
@@ -605,14 +683,17 @@ public class GodotPanel : Panel
                 }
 
                 break;
-            case 1:
+            case 2:
                 OnDefaultSelected(_enginePopup.GodotLineEntry);
                 break;
-            case 2:
+            case 3:
+                _enginePopup.GodotLineEntry.EmitSignal("settings_shared_clicked", _enginePopup.GodotLineEntry);
+                break;
+            case 5:
                 OS.Clipboard = _enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath();
                 OS.Alert(Tr("Location copied to Clipboard"), Tr("Copy Engine Location"));
                 break;
-            case 3:
+            case 6:
                 OS.ShellOpen("file://" + _enginePopup.GodotLineEntry.GodotVersion.GetExecutablePath().GetBaseDir());
                 break;
         }
