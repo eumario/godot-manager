@@ -12,7 +12,7 @@ public class SplashScreen : Control
     {
         this.OnReady();
         VersionInfo.Text = $"Version {VERSION.GodotManager}";
-        var timer = GetTree().CreateTimer(0.5f);
+        var timer = GetTree().CreateTimer(1.0f);
         timer.Connect("timeout", this, "OnTimeout_LoadResources");
     }
 
