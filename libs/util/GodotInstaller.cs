@@ -246,7 +246,7 @@ public class GodotInstaller : Object {
 		}
 	}
 
-	internal Array<string> RecurseDirectory(string path) {
+	public static Array<string> RecurseDirectory(string path) {
 		Array<string> files = new Array<string>();
 		foreach(string dir in SDirectory.EnumerateDirectories(path)) {
 			foreach(string file in RecurseDirectory(FPath.Combine(path,dir).NormalizePath())) {
