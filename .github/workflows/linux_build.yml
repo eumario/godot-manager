@@ -43,7 +43,7 @@ jobs:
         id: build
         env:
           EXPORT_PLATFORM: linux
-          VERISON: ${{ steps.get_version.outputs.version-without-v }}
+          VERSION: ${{ steps.get_version.outputs.version-without-v }}
         run: |
           buildPath="${GITHUB_WORKSPACE}/build/${EXPORT_PLATFORM}"
           filePath="${buildPath}/${EXPORT_NAME}.x86_64"
