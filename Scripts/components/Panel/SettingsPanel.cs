@@ -226,8 +226,10 @@ public class SettingsPanel : Panel
 		_cdeLabel.Visible = Platform.OperatingSystem == "Linux (or BSD)";
 		_createDesktopEntry.Visible = Platform.OperatingSystem == "Linux (or BSD)";
 		_removeDesktopEntry.Visible = Platform.OperatingSystem == "Linux (or BSD)";
+#if GODOT_X11 || GODOT_LINUXBSD
 		_createDesktopEntry.Disabled = CentralStore.Settings.ShortcutMade;
 		_removeDesktopEntry.Disabled = !CentralStore.Settings.ShortcutMade;
+#endif
 	}
 
 	void updateActionButtons() {

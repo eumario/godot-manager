@@ -69,8 +69,10 @@ public class Settings : Object {
 		ProxyHost = "localhost";
 		ProxyPort = 8000;
 		AssetMirrors = new Array<Dictionary<string, string>>();
+#if GODOT_X11 || GODOT_LINUXBSD
 		ShortcutMade = false;
 		ShortcutRoot = false;
+#endif
 		CurrentAssetMirror = new Dictionary<string, string>();
 		LastEngineMirror = 0;
 		LocalAddonCount = 0;
