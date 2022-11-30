@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Version 0.2.1
+ - Fixed bug with Case-Sensitive Directories on certain OSes, that could cause issues.  Windows is Case Insensitive, where as Linux is Case Sensitive, and Mac OS can be either or.  This fixes a bug that prevented a Project Data folder from being displayed. (#39)
+ - Cleaned up Signal Handling for specific events that were not properly being dis-connected when finished with a Dialog.  Clears any errors that may occur.
+ - Added Option to allow creation of Desktop Shortcuts on Linux in Settings panel for Godot Manager.  This allows users to be able to create the shortcut, even if they missed doing it in the First Time Setup wizard. (#40)
+ - Created new Splash Screen yet again.  Instead of using a Static Image, now using a Scene, to allow loading of Version information from the VERSION static class, making it easier to update.
+ - Updated New Project Dialog to properly Display GLES2/3 on Godot 3.x projects, and Forward+/Mobile for Godot 4.x projects. (#36)
+ - Possible fix to Standard Godot Engine not being properly extracted to their own folder, when installing, as well as it not properly being setup when a user changes the Location of where to install Godot engines during First Time Setup wizard.  (#37 & #38)
+ - Added crash prevention check, to check and see if the Godot Engine Executable actually exists, before actually executing the Project.  It will give an Error saying that it can't find the executable, and not just silently fail.  (#41)
+ - Modified the way ExecuteEditorProject() and ExecuteProject() handles execution.  Instead now uses the ProjectFile class, instead of just strings passed along.  This gives these functions a chance to check and see if the associated Engine is still installed, if not, it will ask the user to use the current default engine.  (#42)
+ - Added organization to the Godot Engine Listings in both the Godot Panel, and Drop Downs for selecting a Version of Godot.  It will now sort by Version, with Mono Editions appearing before Standard Editions, and x.x appearing, before x.x.x releases, making it easier to see which version is which.  (#43)
+ - Created a new Dialog to allow users to Select from a drop down to respond to a question, this will be used for feature suggestion (#45, #46)
+ - Made RecurseDirectory() an public static function to be reused in other parts of the project. Used for feature suggestion (#45, #46)
+ - Implemented the Ability to share settings between versions of Godot.  One install of Godot engine will be set to sharing their settings, while others can link to said install of godot for their settings.  Updates are one direction, updating from the Shared settings to the Linked install on each Editor launch, but will not be copied back to the master one. (#45, #46)
+ - Implemented Self-Contained mode in the same fashion that Godot Engine implements Self Contained mode.  Creating a File named "._sc_" or "_sc_" in the directory where the Godot Manager executable resides, will enable it to operate in Self-Contained mode.  This will help with the ability to Create Portable USB Environments for Godot Development.
+ - Due to recent changes (As of Nov 29, 2022), updates to the News Page has made the previous method for parsing the news on the Godot Website incompatible.  New parsing has been setup, and is now working with the new formatting.  (#49)
+
+
 ## Version 0.2.0
 - Added Channel to Godot Manager, now has Dev for Development version, and Release for Release Version.
 - Started work on Translation, now having strings properly translated throughout entire project.
