@@ -51,9 +51,10 @@ jobs:
           dotnet restore
           chmod a+x $GITHUB_WORKSPACE/deploy/generate_version
           $GITHUB_WORKSPACE/deploy/generate_version $VERSION $GITHUB_WORKSPACE/Godot-Manager.csproj $GITHUB_WORKSPACE/libs/Version.cs
+          dotnet build
           godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
-          echo "::set-output name=build_directory::${buildPath}"
-          echo "::set-output name=build_file::${filePath}"
+          echo "build_directory=${buildPath}" >> $GITHUB_OUTPUT
+          echo "build_file=${filePath}" >> $GITHUB_OUTPUT
         
       - name: 🎁 Package
         id: archive
@@ -69,8 +70,8 @@ jobs:
           filePath="${rootBuildPath}/${filename}"
           cd "${BUILD_DIRECTORY}"
           zip -r "${filePath}" *
-          echo "::set-output name=path::${filePath}"
-          echo "::set-output name=filename::${filename}"
+          echo "path=${filePath}" >> $GITHUB_OUTPUT
+          echo "filename=${filename}" >> $GITHUB_OUTPUT
         
       - name: 📡 Upload Release Build
         id: upload-release-build
