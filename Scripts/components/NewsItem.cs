@@ -4,12 +4,14 @@ using Godot.Sharp.Extras;
 public class NewsItem : Panel
 {
     [NodePath("vb/Headline")] private Label _headline;
-    [NodePath("vb/Byline")] private Label _byline;
+    [NodePath("vb/hbby/Avatar")] private TextureRect _avatar;
+    [NodePath("vb/hbby/Byline")] private Label _byline;
 
     [NodePath("vb/hb/Image")] private TextureRect _image;
     [NodePath("vb/hb/Blerb")] private RichTextLabel _blerb;
 
     private string _sHeadline;
+    private string _sAvatar;
     private string _sByline;
     private string _sImage;
     private string _sBlerb;
@@ -25,6 +27,17 @@ public class NewsItem : Panel
         }
     }
 
+    public string Avatar
+    {
+        get => _sAvatar;
+        set
+        {
+            _sAvatar = value;
+            if (_avatar == null || value == null || value.Empty()) return;
+            var img = Util.LoadImage(_sAvatar);
+            _avatar.Texture = img;
+        }
+    }
     public string Byline
     {
         get => _sByline;
@@ -69,6 +82,7 @@ public class NewsItem : Panel
         Byline = _sByline;
         Image = _sImage;
         Blerb = _sBlerb;
+        Avatar = _sAvatar;
     }
 
     [SignalHandler("gui_input")]

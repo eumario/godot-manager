@@ -92,7 +92,7 @@ public class NewsPanel : Panel
         {
             var newsItem = NewsItem.Instance<NewsItem>();
             newsItem.Headline = "    " + item["title"];
-            newsItem.Byline = $"    {item["author"]} - {item["date"]}";
+            newsItem.Byline = $"    {item["author"]}{item["date"].Replace("&nbsp;", " ")}";
             newsItem.Url = item["link"];
             newsItem.Blerb = item["contents"];
             
@@ -109,6 +109,20 @@ public class NewsPanel : Panel
             else
             {
                 newsItem.Image = imgPath.GetOSDir().NormalizePath();
+            }
+
+            uri = new Uri(item["avatar"]);
+            imgPath = $"{CentralStore.Settings.CachePath}/images/news/{uri.AbsolutePath.GetFile()}";
+            if (!SFile.Exists(imgPath.GetOSDir().NormalizePath()))
+            {
+                ImageDownloader dld = new ImageDownloader(item["avatar"], imgPath);
+                _queue.Push(dld);
+                newsItem.SetMeta("avatarPath", imgPath);
+                newsItem.SetMeta("avatarDld", dld);
+            }
+            else
+            {
+                newsItem.Avatar = imgPath.GetOSDir().NormalizePath();
             }
             
             NewsList.AddChild(newsItem);
@@ -131,6 +145,25 @@ public class NewsPanel : Panel
                     if (SFile.Exists(imgPath.GetOSDir().NormalizePath()))
                     {
                         item.Image = imgPath.GetOSDir().NormalizePath();
+                    }
+                    else
+                    {
+                        // Need Generic Image to use instead.
+                    }
+
+                    break;
+                }
+            }
+
+            if (item.HasMeta("avatarDld"))
+            {
+                if ((item.GetMeta("avatarDld") as ImageDownloader) == dld)
+                {
+                    item.RemoveMeta("avatarDld");
+                    var avatarPath = item.GetMeta("avatarPath") as string;
+                    if (SFile.Exists(avatarPath.GetOSDir().NormalizePath()))
+                    {
+                        item.Avatar = avatarPath.GetOSDir().NormalizePath();
                     }
                     else
                     {
@@ -183,9 +216,7 @@ public class NewsPanel : Panel
                 break;
             }
 
-            if (xml.GetNodeType() != XMLParser.NodeType.Element || xml.GetNodeName() != "div") continue;
-            var class_attr = xml.GetNamedAttributeValueSafe("class");
-            if (!class_attr.Contains("news-item")) continue;
+            if (xml.GetNodeType() != XMLParser.NodeType.Element || xml.GetNodeName() != "article") continue;
             var tag_open_offset = xml.GetNodeOffset();
             xml.SkipSection();
             xml.Read();
@@ -216,7 +247,8 @@ public class NewsPanel : Panel
                 switch (xml.GetNodeName())
                 {
                     case "div":
-                        if (xml.GetNamedAttributeValueSafe("class").Contains("image"))
+                        // <div class="thumbnail" style="background-image: url('https://godotengine.org/storage/app/uploads/....');" href="https://godotengine.org/article/.....">
+                        if (xml.GetNamedAttributeValueSafe("class").Contains("thumbnail"))
                         {
                             var image_style = xml.GetNamedAttributeValueSafe("style");
                             var url_start = image_style.Find("'") + 1;
@@ -228,18 +260,24 @@ public class NewsPanel : Panel
                         }
 
                         break;
+                    
                     case "h3":
-                        if (xml.GetNamedAttributeValueSafe("class").Contains("title"))
-                        {
-                            xml.Read();
-                            parsed_item["title"] = xml.GetNodeType() == XMLParser.NodeType.Text
-                                ? xml.GetNodeData().StripEdges()
-                                : "";
-                        }
+                        // <h3>Article Title</h3>
+                        xml.Read();
+                        parsed_item["title"] = xml.GetNodeType() == XMLParser.NodeType.Text
+                            ? xml.GetNodeData().StripEdges()
+                            : "";
 
                         break;
-                    case "h4":
-                        if (xml.GetNamedAttributeValueSafe("class").Contains("author"))
+                    case "span":
+                        // <span class="date">&nbsp;-&nbsp;dd Month year</span>
+                        if (xml.GetNamedAttributeValueSafe("class").Contains("date"))
+                        {
+                            xml.Read();
+                            parsed_item["date"] = xml.GetNodeType() == XMLParser.NodeType.Text ? xml.GetNodeData() : "";
+                        }
+                        // <span class="by">Author Name</span>
+                        if (xml.GetNamedAttributeValue("class").Contains("by"))
                         {
                             xml.Read();
                             parsed_item["author"] = xml.GetNodeType() == XMLParser.NodeType.Text
@@ -248,17 +286,22 @@ public class NewsPanel : Panel
                         }
 
                         break;
-                    case "span":
-                        if (xml.GetNamedAttributeValueSafe("class").Contains("date"))
+                    case "p":
+                        // <p class="excerpt">An excerpt of the blog entry to be read in.</p>
+                        if (xml.GetNamedAttributeValue("class").Contains("excerpt"))
                         {
                             xml.Read();
-                            parsed_item["date"] = xml.GetNodeType() == XMLParser.NodeType.Text ? xml.GetNodeData() : "";
+                            parsed_item["contents"] =
+                                xml.GetNodeType() == XMLParser.NodeType.Text ? xml.GetNodeData() : "";
                         }
 
                         break;
-                    case "p":
-                        xml.Read();
-                        parsed_item["contents"] = xml.GetNodeType() == XMLParser.NodeType.Text ? xml.GetNodeData() : "";
+                    case "img":
+                        // <img class="avatar" width="25" height="25" src="https://godotengine.org/storage/app/uploads/public/....." alt="">
+                        if (xml.GetNamedAttributeValue("class").Contains("avatar"))
+                        {
+                            parsed_item["avatar"] = xml.GetNamedAttributeValue("src");
+                        }
                         break;
                 }
             }
