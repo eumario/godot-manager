@@ -51,7 +51,6 @@ jobs:
           dotnet restore
           chmod a+x $GITHUB_WORKSPACE/deploy/generate_version
           $GITHUB_WORKSPACE/deploy/generate_version $VERSION $GITHUB_WORKSPACE/Godot-Manager.csproj $GITHUB_WORKSPACE/libs/Version.cs
-          dotnet build
           godot -v --path "./$GAME_SUBDIRECTORY" --export "${EXPORT_PLATFORM}" "${filePath}"
           echo "build_directory=${buildPath}" >> $GITHUB_OUTPUT
           echo "build_file=${filePath}" >> $GITHUB_OUTPUT
