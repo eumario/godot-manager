@@ -28,6 +28,12 @@ You can grab the latest release from here on Github, or from Itch.io!
 
 [<img src="https://static.itch.io/images/badge-color.svg" width="250px">](https://eumario.itch.io/godot-manager)
 
+You can also install it from [Scoop](https://scoop.sh/):
+```powershell
+scoop bucket add extras # Ensure bucket is added first
+scoop install godot-manager
+```
+
 # Sponsors
 
 Currently, Godot manager has the following sponsors for the project.  Check them out!
