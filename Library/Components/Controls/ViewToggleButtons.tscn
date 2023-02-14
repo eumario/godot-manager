@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxn3f3e64i35x"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/ViewToggleButtons.cs" id="1_12x4q"]
+[ext_resource type="Texture2D" uid="uid://cd8b1oexfun0m" path="res://Assets/Icons/svg/list_view.svg" id="2_mkbdu"]
+[ext_resource type="Texture2D" uid="uid://dbcogc0wedb4e" path="res://Assets/Icons/svg/icon_view.svg" id="3_ae18m"]
+[ext_resource type="Texture2D" uid="uid://d364m7gler3h0" path="res://Assets/Icons/svg/category_view.svg" id="4_vks2u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l26hi"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.309804, 0.321569, 0.34902, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[node name="ViewToggleButtons" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_l26hi")
+script = ExtResource("1_12x4q")
+Icons = [ExtResource("2_mkbdu"), ExtResource("3_ae18m"), ExtResource("4_vks2u")]
+HelpText = ["List View", "Icon View", "Category View"]
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+offset_left = 5.0
+offset_right = 101.0
+offset_bottom = 40.0

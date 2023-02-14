@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://i3igc8pllt87"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/AddonInstaller.cs" id="1_b65mj"]
+
+[node name="AddonInstaller" type="AcceptDialog"]
+title = "Addon Installer - Setup"
+size = Vector2i(470, 450)
+visible = true
+script = ExtResource("1_b65mj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -562.0
+offset_bottom = -289.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DetailLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Contents of {Asset.Title}
+Select files to Install:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AddonTree" type="Tree" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

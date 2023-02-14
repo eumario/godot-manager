@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk0mp6wu6vqos"]
+
+[ext_resource type="Texture2D" uid="uid://tg2t70yyf3jt" path="res://Assets/Icons/svg/progress.svg" id="1_jl220"]
+[ext_resource type="Script" path="res://Library/Components/Controls/Spinner.cs" id="2_6vbv5"]
+
+[node name="Spinner" type="TextureRect"]
+offset_right = 96.0
+offset_bottom = 96.0
+rotation = 450.818
+pivot_offset = Vector2(48, 48)
+texture = ExtResource("1_jl220")
+script = ExtResource("2_6vbv5")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.15

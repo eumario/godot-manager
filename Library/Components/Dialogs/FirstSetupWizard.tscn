@@ -1,0 +1,201 @@
+[gd_scene load_steps=5 format=3 uid="uid://m6ku03uvlqr4"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/FirstSetupWizard.cs" id="1_8cm1s"]
+[ext_resource type="PackedScene" uid="uid://dmc6ugntigwro" path="res://Library/Components/Controls/BrowseLine.tscn" id="1_bcml7"]
+[ext_resource type="Texture2D" uid="uid://duk7k58ack4e2" path="res://Assets/UI/GodotIntegration.png" id="3_ekx62"]
+[ext_resource type="PackedScene" uid="uid://s13nyo7iitop" path="res://Library/Components/Panels/GodotPanel.tscn" id="4_snb84"]
+
+[node name="FirstSetupWizard" type="Window"]
+title = "First Setup Wizard"
+size = Vector2i(800, 650)
+unresizable = true
+script = ExtResource("1_8cm1s")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(800, 650)
+offset_right = 500.0
+offset_bottom = 400.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Wizard" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+tabs_visible = false
+
+[node name="Welcome" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
+visible = false
+layout_mode = 2
+
+[node name="WelcomeMessage" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/Welcome"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][font size=18][b]Welcome to Godot Manager[/b][/font][/center]
+
+We have detected that this is the first time you have run Godot Manager.  This wizard is designed to get you up and running as fast as possible, while assisting you with the installation of the Godot Engine.
+
+You can cancel this wizard at any time, and setup Godot Manager manually, but if this is your first time working with Godot Manager, it is suggested to continue with the Wizard.
+
+To begin, press Next below."
+
+[node name="DirectorySetup" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup"]
+layout_mode = 2
+
+[node name="Instructions" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font size=18][b]Setup Directories[/b][/font]
+
+In this step, you will setup the directoreies that you want to use for your default locations to store Godot Engine, Cached Images, and Downloaded Assets from the Asset Library, such as Plugins and Projects."
+fit_content_height = true
+scroll_active = false
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EngineLoc" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer" instance=ExtResource("1_bcml7")]
+unique_name_in_owner = true
+layout_mode = 2
+DisplayText = "Engine Location:"
+DefaultValue = "user://versions"
+LabelWidth = 150
+
+[node name="CacheLoc" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer" instance=ExtResource("1_bcml7")]
+unique_name_in_owner = true
+layout_mode = 2
+DisplayText = "Cache Location:"
+DefaultValue = "user://cache"
+LabelWidth = 150
+
+[node name="ProjectLoc" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer" instance=ExtResource("1_bcml7")]
+unique_name_in_owner = true
+layout_mode = 2
+DisplayText = "Project Location:"
+LabelWidth = 150
+
+[node name="LinuxShortcut" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut"]
+layout_mode = 2
+
+[node name="Instructions" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font size=18][b]Create Desktop Entry[/b][/font]
+
+We have detected that you are running a Linux based operating system, would you like to create a Shortcut for easy launch of Godot Manager?"
+fit_content_height = true
+scroll_active = false
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreateDesktop" type="CheckBox" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create Desktop Entry"
+flat = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="AllUsers" type="CheckBox" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "For All Users (requires root privileges)"
+flat = true
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("3_ekx62")
+
+[node name="DownloadGodot" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Wizard/DownloadGodot"]
+layout_mode = 2
+
+[node name="Instructions" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/DownloadGodot/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font size=18][b]Download & Install Godot[/b][/font]
+
+In this step, you will be given the option to download Godot From Github or Tuxfamily, you can press Next to skip this step, and add a custom Godot Version that you already have installed."
+fit_content_height = true
+scroll_active = false
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Wizard/DownloadGodot/VBoxContainer"]
+layout_mode = 2
+
+[node name="GodotPanel" parent="MarginContainer/VBoxContainer/Wizard/DownloadGodot/VBoxContainer" instance=ExtResource("4_snb84")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+Embedded = true
+
+[node name="Finished" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
+layout_mode = 2
+
+[node name="FinishedMessage" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/Finished"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][font size=18][b]Finished Setup[/b][/font][/center]
+
+We have finished gathering the information we need to complete setup.  Press Finish below to write the settings you have selected in the previous steps, and begin using Godot Manager."
+
+[node name="Navigation" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="Previous" type="Button" parent="MarginContainer/VBoxContainer/Navigation"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Previous"
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/Navigation"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cancel"
+
+[node name="Next" type="Button" parent="MarginContainer/VBoxContainer/Navigation"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Next"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Navigation"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2

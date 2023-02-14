@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://y7etu0muys3t"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/ActionButtons.cs" id="1_a7n7g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl7ev"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.309804, 0.321569, 0.34902, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[node name="ActionButtons" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_kl7ev")
+script = ExtResource("1_a7n7g")
+Icons = []
+HelpText = []
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2

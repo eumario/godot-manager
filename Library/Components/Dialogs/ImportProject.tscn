@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://bspsgibkxd6im"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/ImportProject.cs" id="1_bu3fa"]
+
+[node name="ImportProject" type="ConfirmationDialog"]
+title = "Import Project"
+size = Vector2i(320, 145)
+visible = true
+script = ExtResource("1_bu3fa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 312.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+offset_right = 304.0
+offset_bottom = 22.0
+text = "Location"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 26.0
+offset_right = 304.0
+offset_bottom = 47.0
+
+[node name="Location" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+offset_right = 249.0
+offset_bottom = 21.0
+size_flags_horizontal = 3
+
+[node name="Browse" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 253.0
+offset_right = 304.0
+offset_bottom = 21.0
+text = "Browse"
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+offset_top = 51.0
+offset_right = 304.0
+offset_bottom = 73.0
+text = "Godot Version"
+
+[node name="GodotVersion" type="OptionButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+offset_top = 77.0
+offset_right = 304.0
+offset_bottom = 98.0
+item_count = 2
+popup/item_0/text = "v4.0-Beta.1-mono0"
+popup/item_0/id = 0
+popup/item_1/text = "v3.5.1-mono"
+popup/item_1/id = 1

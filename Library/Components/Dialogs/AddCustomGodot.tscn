@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnboqatpammpt"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/AddCustomGodot.cs" id="1_pfffa"]
+
+[node name="AddCustomGodot" type="AcceptDialog"]
+title = "Add Custom Godot"
+size = Vector2i(320, 170)
+visible = true
+ok_button_text = "Add"
+script = ExtResource("1_pfffa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 312.0
+offset_bottom = 131.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Godot Engine Tag:"
+
+[node name="TagName" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hello World"
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Location:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Location" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BrowseLocation" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse"
+
+[node name="IsMono" type="CheckBox" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Is Mono/C# Enabled"
+flat = true

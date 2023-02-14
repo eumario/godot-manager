@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://oeaocesaan2w"]
+
+[ext_resource type="PackedScene" uid="uid://dlp2wjeq4wwdy" path="res://Library/Components/Controls/PaginationNav.tscn" id="1_sm3ly"]
+[ext_resource type="Script" path="res://Library/Components/Controls/PaginatedListing.cs" id="1_urxux"]
+
+[node name="PaginatedListing" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_urxux")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 1024.0
+offset_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1024.0
+
+[node name="TopPageCount" parent="VBoxContainer" instance=ExtResource("1_sm3ly")]
+anchors_preset = 0
+anchor_right = 0.0
+offset_top = 4.0
+offset_right = 1024.0
+offset_bottom = 25.0
+grow_horizontal = 1
+
+[node name="Control2" type="Control" parent="VBoxContainer"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 29.0
+offset_right = 1024.0
+offset_bottom = 29.0
+
+[node name="ItemList" type="GridContainer" parent="VBoxContainer"]
+offset_top = 33.0
+offset_right = 1024.0
+offset_bottom = 675.0
+size_flags_vertical = 3
+columns = 2
+
+[node name="BottomPageCount" parent="VBoxContainer" instance=ExtResource("1_sm3ly")]
+anchors_preset = 0
+anchor_right = 0.0
+offset_top = 679.0
+offset_right = 1024.0
+offset_bottom = 700.0
+grow_horizontal = 1

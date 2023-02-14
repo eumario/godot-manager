@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://fgibxnk1hpi0"]
+
+[ext_resource type="Texture2D" uid="uid://bakp8fwxuwxa2" path="res://Assets/Icons/svg/godot.svg" id="1_8q44n"]
+[ext_resource type="Script" path="res://Scenes/SplashScreen.cs" id="1_svmvy"]
+[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_j52yr"]
+[ext_resource type="FontFile" uid="uid://cw7gvxhpjkwf" path="res://Assets/Fonts/DroidSans.ttf" id="3_h1pjk"]
+
+[node name="SplashScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_svmvy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -205.0
+offset_right = 128.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_8q44n")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -238.5
+offset_top = 55.5
+offset_right = 238.5
+offset_bottom = 134.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_j52yr")
+theme_override_font_sizes/font_size = 64
+text = "Godot Manager"
+
+[node name="VersionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -238.5
+offset_top = 135.5
+offset_right = 238.5
+offset_bottom = 214.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_h1pjk")
+theme_override_font_sizes/font_size = 48
+text = "Version x.x.x"
+horizontal_alignment = 1
+vertical_alignment = 1

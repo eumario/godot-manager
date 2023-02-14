@@ -1,0 +1,220 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnopr3vbuk56j"]
+
+[ext_resource type="PackedScene" uid="uid://cp7ffpofhkvni" path="res://Library/Components/Controls/ItemListWithButtons.tscn" id="1_73l3n"]
+
+[node name="GeneralPanel" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Install Location:"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="GodotPath" type="LineEdit" parent="GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GodotBrowse" type="Button" parent="GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse"
+
+[node name="Label2" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Cache Location:"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="CachePath" type="LineEdit" parent="GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CacheBrowse" type="Button" parent="GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse"
+
+[node name="Label3" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Startup Project View:"
+horizontal_alignment = 2
+
+[node name="ProjectView" type="OptionButton" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Default Godot Engine:"
+horizontal_alignment = 2
+
+[node name="DefaultEngine" type="OptionButton" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Updates:"
+horizontal_alignment = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="CheckForUpdates" type="CheckBox" parent="GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Check for Updates"
+flat = true
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Check Interval:"
+
+[node name="CheckInterval" type="OptionButton" parent="GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 6
+selected = 0
+popup/item_0/text = "1 Hour"
+popup/item_0/id = 0
+popup/item_1/text = "12 Hours"
+popup/item_1/id = 1
+popup/item_2/text = "1 Day"
+popup/item_2/id = 2
+popup/item_3/text = "1 Week"
+popup/item_3/id = 3
+popup/item_4/text = "Bi-Weekly"
+popup/item_4/id = 4
+popup/item_5/text = "Monthly (Every 30 Days)"
+popup/item_5/id = 5
+
+[node name="UseProxy" type="CheckBox" parent="GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use Proxy"
+flat = true
+
+[node name="ProxyContainer" type="HBoxContainer" parent="GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer3/ProxyContainer"]
+layout_mode = 2
+text = "Host:"
+
+[node name="ProxyHost" type="LineEdit" parent="GridContainer/HBoxContainer3/ProxyContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="GridContainer/HBoxContainer3/ProxyContainer"]
+layout_mode = 2
+text = "Port:"
+
+[node name="ProxyPort" type="LineEdit" parent="GridContainer/HBoxContainer3/ProxyContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "System Integration:"
+horizontal_alignment = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="UseSystem" type="CheckBox" parent="GridContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use System Titlebar"
+flat = true
+
+[node name="Control" type="Control" parent="GridContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="DesktopEntry" type="HBoxContainer" parent="GridContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer4/DesktopEntry"]
+layout_mode = 2
+text = "Desktop Entry:"
+
+[node name="CreateEntry" type="Button" parent="GridContainer/HBoxContainer4/DesktopEntry"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="RemoveEntry" type="Button" parent="GridContainer/HBoxContainer4/DesktopEntry"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Remove"
+
+[node name="Label7" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Mirror Control:"
+horizontal_alignment = 2
+
+[node name="UseLastMirror" type="CheckBox" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use Last Mirror Selected"
+flat = true
+
+[node name="Label8" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Godot Launch Options:"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="NoConsole" type="CheckBox" parent="GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Launch Without Console"
+flat = true
+
+[node name="SelfContained" type="CheckBox" parent="GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Separate Editor Profiles"
+flat = true
+
+[node name="Label9" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Asset Library Mirrors:"
+horizontal_alignment = 2
+
+[node name="AssetMirrors" parent="GridContainer" instance=ExtResource("1_73l3n")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

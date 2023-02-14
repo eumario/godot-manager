@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc6xk8hp3xn0n"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/RemoveCategory.cs" id="1_1t815"]
+[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_wbxsd"]
+
+[node name="RemoveCategory" type="AcceptDialog"]
+title = "Remove Category"
+size = Vector2i(320, 320)
+visible = true
+ok_button_text = "Remove"
+script = ExtResource("1_1t815")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -712.0
+offset_bottom = -419.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wbxsd")
+theme_override_font_sizes/font_size = 18
+text = "Select Category to Remove:"
+
+[node name="CategoryList" type="ItemList" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3

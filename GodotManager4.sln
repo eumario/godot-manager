@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotManager4", "GodotManager4.csproj", "{4C954128-9D6A-40E9-99EF-C4503C98BFAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C954128-9D6A-40E9-99EF-C4503C98BFAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C954128-9D6A-40E9-99EF-C4503C98BFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C954128-9D6A-40E9-99EF-C4503C98BFAB}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{4C954128-9D6A-40E9-99EF-C4503C98BFAB}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{4C954128-9D6A-40E9-99EF-C4503C98BFAB}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{4C954128-9D6A-40E9-99EF-C4503C98BFAB}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal

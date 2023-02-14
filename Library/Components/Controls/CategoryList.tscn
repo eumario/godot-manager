@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://cclwviqdleeta"]
+
+[ext_resource type="Texture2D" uid="uid://d0kcp61ttywl" path="res://Assets/Icons/svg/pin.svg" id="1_jyvf0"]
+[ext_resource type="Script" path="res://Library/Components/Controls/CategoryList.cs" id="1_kku21"]
+[ext_resource type="Texture2D" uid="uid://b1wpo3fat0q1c" path="res://Assets/Icons/svg/drop_down1.svg" id="2_nwfk7"]
+
+[node name="CategoryList" type="VBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+script = ExtResource("1_kku21")
+Title = ""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Category Name"
+
+[node name="Pin" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+icon = ExtResource("1_jyvf0")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ExpandToggle" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+icon = ExtResource("2_nwfk7")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Spacer" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="List" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2

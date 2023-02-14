@@ -1,0 +1,109 @@
+[gd_scene load_steps=3 format=3 uid="uid://dc6gkklq3qeki"]
+
+[ext_resource type="PackedScene" uid="uid://cp7ffpofhkvni" path="res://Library/Components/Controls/ItemListWithButtons.tscn" id="1_4w0w7"]
+[ext_resource type="Script" path="res://Library/Components/Dialogs/ManageCustomDownloads.cs" id="1_p82ye"]
+
+[node name="ManageCustomDownloads" type="AcceptDialog"]
+title = "Manage Custom Versions"
+size = Vector2i(596, 400)
+visible = true
+script = ExtResource("1_p82ye")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(580, 330)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -436.0
+offset_bottom = -339.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CustomVersionList" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_4w0w7")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+Vertical = false
+FlatButtons = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="Name" type="LineEdit" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "URL: (Direct to Download file for OS)"
+
+[node name="Url" type="LineEdit" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Interval to Check for Updates:"
+
+[node name="Interval" type="OptionButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 5
+selected = 0
+popup/item_0/text = "Hourly"
+popup/item_0/id = 0
+popup/item_1/text = "Daily"
+popup/item_1/id = 1
+popup/item_2/text = "Weekly"
+popup/item_2/id = 2
+popup/item_3/text = "Bi-Weekly"
+popup/item_3/id = 3
+popup/item_4/text = "Monthly (30 Days)"
+popup/item_4/id = 4
+
+[node name="Control3" type="Control" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Tag Name:"
+
+[node name="TagName" type="LineEdit" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SaveUpdates" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Save Updates"

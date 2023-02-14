@@ -1,0 +1,167 @@
+[gd_scene load_steps=15 format=3 uid="uid://crq8ob43cwrdn"]
+
+[ext_resource type="Script" path="res://Library/Components/Panels/ProjectsPanel.cs" id="1_30f2n"]
+[ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="1_xm30d"]
+[ext_resource type="PackedScene" uid="uid://cxn3f3e64i35x" path="res://Library/Components/Controls/ViewToggleButtons.tscn" id="2_j5a34"]
+[ext_resource type="Texture2D" uid="uid://cmakrihn3db51" path="res://Assets/Icons/svg/icon_new.svg" id="3_7ix6d"]
+[ext_resource type="PackedScene" uid="uid://tq8iqlepexpy" path="res://Library/Components/Controls/HeaderButton.tscn" id="3_ejiyp"]
+[ext_resource type="Texture2D" uid="uid://713qs08alr84" path="res://Assets/Icons/svg/import.svg" id="4_de0q8"]
+[ext_resource type="Texture2D" uid="uid://5erspiknojjv" path="res://Assets/Icons/svg/scan.svg" id="5_m7a74"]
+[ext_resource type="Texture2D" uid="uid://e6mnlhuatrqk" path="res://Assets/Icons/svg/add_category.svg" id="6_4nbvs"]
+[ext_resource type="Texture2D" uid="uid://dt13x1rtsgarc" path="res://Assets/Icons/svg/rem_category.svg" id="7_bmjur"]
+[ext_resource type="Texture2D" uid="uid://da6c04s5d1i8b" path="res://Assets/Icons/svg/icon_remove.svg" id="8_nqds7"]
+[ext_resource type="Texture2D" uid="uid://bc5w3sr3bwlkn" path="res://Assets/Icons/svg/remove_missing.svg" id="9_y1bfu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s03ff"]
+bg_color = Color(0.137255, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uogbs"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04n1c"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.196078, 0.203922, 0.223529, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="ProjectsPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s03ff")
+script = ExtResource("1_30f2n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+offset_right = 1024.0
+offset_bottom = 30.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+offset_left = 5.0
+offset_right = 1019.0
+offset_bottom = 30.0
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(210, 30)
+offset_right = 210.0
+offset_bottom = 30.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_uogbs")
+text = "Projects"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 214.0
+offset_right = 454.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="ActionButtons" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("1_xm30d")]
+unique_name_in_owner = true
+offset_left = 458.0
+offset_right = 660.0
+offset_bottom = 30.0
+Icons = [ExtResource("3_7ix6d"), ExtResource("4_de0q8"), ExtResource("5_m7a74"), ExtResource("6_4nbvs"), ExtResource("7_bmjur"), ExtResource("8_nqds7"), ExtResource("9_y1bfu")]
+HelpText = ["New Project", "Import Project", "Scan Folders", "Add Category", "Remove Category", "Delete", "Remove Missing"]
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 664.0
+offset_right = 904.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="ViewToggleButtons" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_j5a34")]
+unique_name_in_owner = true
+offset_left = 908.0
+offset_right = 1014.0
+offset_bottom = 30.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+offset_top = 34.0
+offset_right = 1024.0
+offset_bottom = 68.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer2"]
+offset_left = 20.0
+offset_right = 1004.0
+offset_bottom = 34.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_04n1c")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 979.0
+offset_bottom = 29.0
+
+[node name="ProjectName" parent="VBoxContainer/MarginContainer2/PanelContainer/HBoxContainer" instance=ExtResource("3_ejiyp")]
+unique_name_in_owner = true
+offset_left = 122.0
+offset_right = 362.0
+offset_bottom = 24.0
+size_flags_horizontal = 6
+Title = "Project Name"
+
+[node name="GodotVersion" parent="VBoxContainer/MarginContainer2/PanelContainer/HBoxContainer" instance=ExtResource("3_ejiyp")]
+unique_name_in_owner = true
+offset_left = 611.0
+offset_right = 851.0
+offset_bottom = 24.0
+size_flags_horizontal = 6
+Title = "Godot Version"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+offset_top = 72.0
+offset_right = 1024.0
+offset_bottom = 700.0
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+offset_right = 1024.0
+offset_bottom = 628.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ProjectLists" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+offset_right = 1024.0
+offset_bottom = 628.0
+
+[node name="ListView" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/ProjectLists"]
+unique_name_in_owner = true
+offset_right = 1024.0
+offset_bottom = 628.0
+size_flags_vertical = 3
+
+[node name="GridView" type="GridContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/ProjectLists"]
+unique_name_in_owner = true
+visible = false
+size_flags_vertical = 3
+
+[node name="CategoryView" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/ProjectLists"]
+unique_name_in_owner = true
+visible = false
+size_flags_vertical = 3

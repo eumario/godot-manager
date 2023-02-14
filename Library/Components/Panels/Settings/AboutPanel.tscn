@@ -1,0 +1,182 @@
+[gd_scene load_steps=10 format=3 uid="uid://durhql7n7d175"]
+
+[ext_resource type="Texture2D" uid="uid://bakp8fwxuwxa2" path="res://Assets/Icons/svg/godot.svg" id="1_6bwkc"]
+[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_y4tpx"]
+[ext_resource type="Texture2D" uid="uid://cnkb32p3mfptt" path="res://Assets/Icons/png/buy-me.png" id="3_0ogi6"]
+[ext_resource type="Texture2D" uid="uid://c6h7m47x2qk2t" path="res://Assets/Icons/png/itchio.png" id="4_v4rr7"]
+[ext_resource type="Texture2D" uid="uid://bm82q47jr5cks" path="res://Assets/Icons/png/github.png" id="5_3mawr"]
+[ext_resource type="Texture2D" uid="uid://8araaugf6iia" path="res://Assets/Icons/png/discord.png" id="6_64bdo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_db5xf"]
+font = ExtResource("2_y4tpx")
+font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_tdeu0"]
+font = ExtResource("2_y4tpx")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mt50m"]
+font = ExtResource("2_y4tpx")
+font_size = 22
+
+[node name="AboutPanel" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 94)
+layout_mode = 2
+texture = ExtResource("1_6bwkc")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Godot Manager"
+label_settings = SubResource("LabelSettings_db5xf")
+
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Version 0.3.0"
+label_settings = SubResource("LabelSettings_tdeu0")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Created By: Mario Steele <[url=mailto:mario@ruby-im.net]mario@ruby-im.net[/url]>
+Website: [url=https://github.com/eumario/godot-manager]https://github.com/eumario/godot-manager[/url]
+                [url=https://eumario.itch.io/godot-manager]https://eumario.itch.io/godot-manager[/url]"
+fit_content_height = true
+
+[node name="Button" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Check for Updates"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Built With"
+label_settings = SubResource("LabelSettings_mt50m")
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[table=3][cell][color=green]Project Name[/color][/cell][cell][color=green]Version[/color]     [/cell][cell][color=green]Website[/color][/cell]
+[cell][color=aqua]Godot Engine (Mono Edition)      [/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://godotengine.org[/url][/color][/cell]
+[cell][color=aqua]GodotSharpExtras[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://github.com/eumario/GodotSharpExtras[/url][/color][/cell]
+[cell][color=aqua]NewtonSoft JSON[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://www.newtonsoft.com/json[/url][/color][/cell]
+[cell][color=aqua]SixLabors ImageSharp[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://sixlabors.com/products/imagesharp/[/url][/color][/cell]
+[cell][color=aqua]Octokit[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://github.com/octokit/octokit.net[/url][/color][/cell]
+[cell][color=aqua]LiteDB[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://litedb.org[/url][/color][/cell]
+[cell][color=aqua]SharpZipLib[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://github.com/icsharpcode/SharpZipLib[/url][/color][/cell][/table]"
+fit_content_height = true
+
+[node name="HSeparator2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 120
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Donations"
+label_settings = SubResource("LabelSettings_mt50m")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(210, 60)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("3_0ogi6")
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Itch Page"
+label_settings = SubResource("LabelSettings_mt50m")
+horizontal_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(210, 60)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("4_v4rr7")
+stretch_mode = 5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Github"
+label_settings = SubResource("LabelSettings_mt50m")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(210, 60)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("5_3mawr")
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Discord"
+label_settings = SubResource("LabelSettings_mt50m")
+horizontal_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="ScrollContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(210, 60)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("6_64bdo")
+stretch_mode = 5

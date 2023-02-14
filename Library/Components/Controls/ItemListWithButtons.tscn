@@ -1,0 +1,116 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp7ffpofhkvni"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/ItemListWithButtons.cs" id="1_xort6"]
+[ext_resource type="Texture2D" uid="uid://rsp5xwd5evdx" path="res://Assets/Icons/svg/icon_add.svg" id="1_y78nx"]
+[ext_resource type="Texture2D" uid="uid://krph46ayj1en" path="res://Assets/Icons/svg/icon_edit.svg" id="2_dhjcf"]
+[ext_resource type="Texture2D" uid="uid://brjatgabi1t48" path="res://Assets/Icons/svg/icon_remove.svg" id="3_fo56c"]
+
+[node name="ItemListWithButtons" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xort6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HorizontalButtons" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HSpacer1" type="Control" parent="VBoxContainer/HorizontalButtons"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HorizontalButtons"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/HorizontalButtons/HBoxContainer"]
+layout_mode = 2
+
+[node name="AddItemHorizontal" type="Button" parent="VBoxContainer/HorizontalButtons/HBoxContainer" groups=["ILWB_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+icon = ExtResource("1_y78nx")
+expand_icon = true
+
+[node name="EditItemHorizontal" type="Button" parent="VBoxContainer/HorizontalButtons/HBoxContainer" groups=["ILWB_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+icon = ExtResource("2_dhjcf")
+expand_icon = true
+
+[node name="RemoveItemHorizontal" type="Button" parent="VBoxContainer/HorizontalButtons/HBoxContainer" groups=["ILWB_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+icon = ExtResource("3_fo56c")
+expand_icon = true
+
+[node name="HSpacer2" type="Control" parent="VBoxContainer/HorizontalButtons"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VerticalButtons" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSpacer1" type="Control" parent="VBoxContainer/HBoxContainer/VerticalButtons"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VerticalButtons"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/VerticalButtons/VBoxContainer"]
+layout_mode = 2
+
+[node name="AddItemVertical" type="Button" parent="VBoxContainer/HBoxContainer/VerticalButtons/VBoxContainer" groups=["ILWB_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+icon = ExtResource("1_y78nx")
+expand_icon = true
+
+[node name="EditItemVertical" type="Button" parent="VBoxContainer/HBoxContainer/VerticalButtons/VBoxContainer" groups=["ILWB_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+icon = ExtResource("2_dhjcf")
+expand_icon = true
+
+[node name="RemoveItemVertical" type="Button" parent="VBoxContainer/HBoxContainer/VerticalButtons/VBoxContainer" groups=["ILWB_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+icon = ExtResource("3_fo56c")
+expand_icon = true
+
+[node name="HSpacer2" type="Control" parent="VBoxContainer/HBoxContainer/VerticalButtons"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ScrollContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_reselect = true

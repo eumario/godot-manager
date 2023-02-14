@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhw4etm5pvbli"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/DownloadDialog.cs" id="1_681xa"]
+[ext_resource type="LabelSettings" uid="uid://dc5d0ibuf2dx6" path="res://Resources/LabelHeader.tres" id="1_q5s4a"]
+
+[node name="DownloadDialog" type="AcceptDialog"]
+title = "Download File"
+size = Vector2i(320, 233)
+visible = true
+ok_button_text = "Cancel"
+script = ExtResource("1_681xa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -712.0
+offset_bottom = -516.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Download"
+label_settings = ExtResource("1_q5s4a")
+
+[node name="FileName" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = ExtResource("1_q5s4a")
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Server:"
+horizontal_alignment = 2
+
+[node name="Server" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "File Size:"
+horizontal_alignment = 2
+
+[node name="FileSize" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Speed:"
+horizontal_alignment = 2
+
+[node name="Speed" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "ETA:"
+horizontal_alignment = 2
+
+[node name="Eta" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DownloadProgress" type="ProgressBar" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2

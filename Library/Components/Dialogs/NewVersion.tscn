@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyuoa82smc1jb"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/NewVersion.cs" id="1_sm4jc"]
+
+[node name="NewVersion" type="AcceptDialog"]
+title = "New Release - Godot"
+size = Vector2i(320, 180)
+visible = true
+ok_button_text = "Download"
+script = ExtResource("1_sm4jc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -712.0
+offset_bottom = -559.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "There is a new version of Godot available."
+
+[node name="Version" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Version: {0}"
+
+[node name="Release" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Release: {0}"
+
+[node name="ReleasedBy" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Released by: {0}"
+
+[node name="DownloadMono" type="CheckBox" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Download Mono Edition"
+flat = true

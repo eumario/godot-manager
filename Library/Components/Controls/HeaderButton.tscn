@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://tq8iqlepexpy"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/HeaderButton.cs" id="1_d6517"]
+[ext_resource type="Texture2D" uid="uid://cvue5h0lc3ak" path="res://Assets/Icons/svg/minus.svg" id="1_wscse"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ysu4d"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.137255, 0.14902, 0.180392, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="HeaderButton" type="PanelContainer"]
+custom_minimum_size = Vector2(240, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysu4d")
+script = ExtResource("1_d6517")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+text = "Header"
+
+[node name="Spacer" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="DirIcon" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("1_wscse")
+ignore_texture_size = true

@@ -1,0 +1,207 @@
+[gd_scene load_steps=6 format=3 uid="uid://e283inkecncp"]
+
+[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_lbk6m"]
+[ext_resource type="Script" path="res://Library/Components/Dialogs/CreateProject.cs" id="1_nleuq"]
+[ext_resource type="Texture2D" uid="uid://45tj0lcusuhv" path="res://Assets/Icons/svg/icon_status_error.svg" id="2_q74yh"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_x83sb"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_u85bc"]
+
+[node name="CreateProject" type="AcceptDialog"]
+title = "Create Project"
+size = Vector2i(600, 470)
+visible = true
+ok_button_text = "Create & Edit"
+script = ExtResource("1_nleuq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -432.0
+offset_bottom = -269.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+layout_mode = 2
+tab_alignment = 1
+
+[node name="Details" type="PanelContainer" parent="MarginContainer/TabContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Details"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lbk6m")
+text = "Project Name:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Control" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Create Folder"
+
+[node name="Control2" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lbk6m")
+text = "Project Location:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Control" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+texture = ExtResource("2_q74yh")
+
+[node name="Button" type="Button" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Browse"
+
+[node name="Control2" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lbk6m")
+text = "Godot Version:"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+button_group = SubResource("ButtonGroup_x83sb")
+text = "Godot 3.x Tree"
+flat = true
+
+[node name="CheckBox2" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+button_group = SubResource("ButtonGroup_x83sb")
+text = "Godot 4.x Tree"
+flat = true
+
+[node name="Label4" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lbk6m")
+text = "Template Version:"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lbk6m")
+text = "Godot Version:"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lbk6m")
+text = "Renderer:"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="ForwardPlus" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+button_group = SubResource("ButtonGroup_u85bc")
+text = "Forward+"
+flat = true
+
+[node name="Mobile" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_group = SubResource("ButtonGroup_u85bc")
+text = "Mobile"
+flat = true
+
+[node name="Compatability" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_group = SubResource("ButtonGroup_u85bc")
+text = "Compatability"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="RenderingInfo" type="RichTextLabel" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+text = "•  Supports desktop platforms only.
+•  Advanced 3D graphics available.
+•  Can scale to large complex scenes.
+•  Uses RenderingDevice backend.
+•  Slower rendering of simple scenes."
+
+[node name="Plugins" type="PanelContainer" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2

@@ -1,0 +1,223 @@
+[gd_scene load_steps=8 format=3 uid="uid://bwgtudx6jupnf"]
+
+[ext_resource type="PackedScene" uid="uid://c61btlhlani3y" path="res://Library/Components/Controls/LineItem.tscn" id="1_f2o7s"]
+[ext_resource type="Texture2D" uid="uid://dnjqx5ofckxr5" path="res://Assets/Icons/png/link-24.png" id="2_1mvrp"]
+[ext_resource type="Script" path="res://Library/Components/Controls/GodotLineItem.cs" id="2_jnwaq"]
+[ext_resource type="Texture2D" uid="uid://c18o4wpimtqgr" path="res://Assets/Icons/svg/settings.svg" id="3_hdt0l"]
+[ext_resource type="Texture2D" uid="uid://777as7ew8jtq" path="res://Assets/Icons/svg/download.svg" id="4_tip3s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cd3ux"]
+bg_color = Color(0.262745, 0.278431, 0.321569, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mqbef"]
+bg_color = Color(0.423529, 0.427451, 0.431373, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="GodotLineItem" instance=ExtResource("1_f2o7s")]
+script = ExtResource("2_jnwaq")
+
+[node name="HBoxContainer" parent="." index="0"]
+layout_mode = 3
+
+[node name="Spacer" parent="HBoxContainer" index="0"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 10.0
+offset_bottom = 77.0
+
+[node name="Icon" parent="HBoxContainer" index="1"]
+layout_mode = 3
+offset_left = 14.0
+offset_right = 78.0
+offset_bottom = 77.0
+stretch_mode = 3
+
+[node name="MiddleSection" parent="HBoxContainer" index="2"]
+layout_mode = 3
+offset_left = 82.0
+offset_right = 902.0
+offset_bottom = 77.0
+
+[node name="VersionTag" type="RichTextLabel" parent="HBoxContainer/MiddleSection" index="0"]
+unique_name_in_owner = true
+offset_right = 820.0
+offset_bottom = 23.0
+bbcode_enabled = true
+text = "[b]Godot Version x.x.x (Stable)[/b]"
+fit_content_height = true
+
+[node name="Installed" type="VBoxContainer" parent="HBoxContainer/MiddleSection" index="1"]
+unique_name_in_owner = true
+offset_top = 27.0
+offset_right = 820.0
+offset_bottom = 77.0
+
+[node name="DLocFSize" type="HBoxContainer" parent="HBoxContainer/MiddleSection/Installed" index="0"]
+offset_right = 820.0
+offset_bottom = 23.0
+
+[node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="0"]
+offset_right = 51.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "Source:"
+
+[node name="DownloadUrl" type="Label" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+offset_left = 55.0
+offset_right = 375.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "TuxFamily.org"
+clip_text = true
+
+[node name="Control" type="Control" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 379.0
+offset_right = 399.0
+offset_bottom = 23.0
+
+[node name="DownloadFS" type="Label" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="3"]
+unique_name_in_owner = true
+offset_left = 403.0
+offset_right = 475.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "Size: 32MB"
+
+[node name="Loc" type="HBoxContainer" parent="HBoxContainer/MiddleSection/Installed" index="1"]
+offset_top = 27.0
+offset_right = 820.0
+offset_bottom = 50.0
+
+[node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Installed/Loc" index="0"]
+offset_right = 62.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "Location:"
+
+[node name="InstalledLoc" type="Label" parent="HBoxContainer/MiddleSection/Installed/Loc" index="1"]
+unique_name_in_owner = true
+offset_left = 66.0
+offset_right = 820.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "E:\\Apps\\GodotManager\\versions\\Godot vx.x.x-stable"
+clip_text = true
+
+[node name="Download" type="VBoxContainer" parent="HBoxContainer/MiddleSection" index="2"]
+unique_name_in_owner = true
+visible = false
+theme_override_constants/separation = 10
+
+[node name="DLocFSize" type="HBoxContainer" parent="HBoxContainer/MiddleSection/Download" index="0"]
+
+[node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Download/DLocFSize" index="0"]
+theme_override_font_sizes/font_size = 14
+text = "Source:"
+
+[node name="DownloadLoc" type="Label" parent="HBoxContainer/MiddleSection/Download/DLocFSize" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "TuxFamily.org"
+clip_text = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MiddleSection/Download" index="1"]
+theme_override_constants/separation = 10
+
+[node name="DownloadProgress" type="ProgressBar" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="0"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_cd3ux")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mqbef")
+value = 50.0
+
+[node name="DownloadSize" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="1"]
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 14
+text = "32MB / 32MB"
+
+[node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="2"]
+theme_override_font_sizes/font_size = 14
+text = "ETA:"
+
+[node name="DownloadETA" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="3"]
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 14
+text = "00:00:00"
+
+[node name="Label2" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="4"]
+theme_override_font_sizes/font_size = 14
+text = "Speed:"
+
+[node name="DownloadSpeed" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="5"]
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 14
+text = "0.00KB/s"
+
+[node name="EndSection" parent="HBoxContainer" index="3"]
+layout_mode = 3
+offset_left = 906.0
+offset_right = 1010.0
+offset_bottom = 77.0
+
+[node name="LinkSettings" type="Button" parent="HBoxContainer/EndSection" index="0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+offset_right = 32.0
+offset_bottom = 77.0
+icon = ExtResource("2_1mvrp")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ShareSettings" type="Button" parent="HBoxContainer/EndSection" index="1"]
+unique_name_in_owner = true
+modulate = Color(0.521569, 0.521569, 0.521569, 1)
+custom_minimum_size = Vector2(32, 32)
+offset_left = 36.0
+offset_right = 68.0
+offset_bottom = 77.0
+icon = ExtResource("3_hdt0l")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="InstallUninstall" type="Button" parent="HBoxContainer/EndSection" index="2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+offset_left = 72.0
+offset_right = 104.0
+offset_bottom = 77.0
+icon = ExtResource("4_tip3s")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Spacer2" parent="HBoxContainer" index="4"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1014.0
+offset_right = 1024.0
+offset_bottom = 77.0

@@ -1,184 +1,360 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=33 format=3 uid="uid://du2lveh7xn1eo"]
 
-[ext_resource path="res://components/ToggleButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://components/PageButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Icons/project.svg" type="Texture" id=3]
-[ext_resource path="res://components/SysButton.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Assets/Icons/book.svg" type="Texture" id=5]
-[ext_resource path="res://components/Panels/NewsPanel.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Assets/Icons/minus.svg" type="Texture" id=7]
-[ext_resource path="res://Assets/Icons/godot.svg" type="Texture" id=8]
-[ext_resource path="res://Assets/Icons/settings.svg" type="Texture" id=9]
-[ext_resource path="res://Scripts/components/Titlebar.cs" type="Script" id=10]
-[ext_resource path="res://components/Panels/ProjectsPanel.tscn" type="PackedScene" id=11]
-[ext_resource path="res://components/Panels/AssetLibPanel.tscn" type="PackedScene" id=12]
-[ext_resource path="res://components/Panels/GodotPanel.tscn" type="PackedScene" id=13]
-[ext_resource path="res://components/Panels/SettingsPanel.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Assets/Icons/news.svg" type="Texture" id=15]
-[ext_resource path="res://Scripts/Scenes/MainWindow.cs" type="Script" id=16]
-[ext_resource path="res://Resources/Fonts/droid-bold-22.tres" type="DynamicFont" id=18]
+[ext_resource type="Script" path="res://Scenes/MainWindow.cs" id="1_f3lvr"]
+[ext_resource type="Texture2D" uid="uid://dvw2qkuxct7c1" path="res://Assets/Icons/svg/menu.svg" id="2_m1x1r"]
+[ext_resource type="StyleBox" uid="uid://clq1c657anwu1" path="res://Resources/SidebarButtons/normal.tres" id="3_3twcc"]
+[ext_resource type="Texture2D" uid="uid://cf3o5lkgyeuuh" path="res://Assets/Icons/svg/project.svg" id="3_bek17"]
+[ext_resource type="Texture2D" uid="uid://cdbdurl6pdnf7" path="res://Assets/Icons/svg/book.svg" id="4_f4cwh"]
+[ext_resource type="StyleBox" uid="uid://bo1786pxjd6lt" path="res://Resources/SidebarButtons/hover.tres" id="4_u5g5v"]
+[ext_resource type="Texture2D" uid="uid://bf687eyf5bbbj" path="res://Assets/Icons/svg/godot.svg" id="5_0oncw"]
+[ext_resource type="StyleBox" uid="uid://dll4snhqa822q" path="res://Resources/SidebarButtons/pressed.tres" id="5_gvpxu"]
+[ext_resource type="Texture2D" uid="uid://b5jbpxmab5s0a" path="res://Assets/Icons/svg/news.svg" id="6_oo23j"]
+[ext_resource type="StyleBox" uid="uid://crkcyo7j1gtft" path="res://Resources/SidebarButtons/focus.tres" id="6_rgy2d"]
+[ext_resource type="Texture2D" uid="uid://c18o4wpimtqgr" path="res://Assets/Icons/svg/settings.svg" id="7_iohcc"]
+[ext_resource type="FontFile" uid="uid://b4c2vsgaqxx3i" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="12_73thx"]
+[ext_resource type="Texture2D" uid="uid://ckxs3f8n6h1t6" path="res://Assets/Icons/svg/minimize.svg" id="13_qlbbe"]
+[ext_resource type="Texture2D" uid="uid://c0nmvh8td7vd" path="res://Assets/Icons/svg/x.svg" id="14_epifn"]
+[ext_resource type="Texture2D" uid="uid://c5exymtwqrf17" path="res://Assets/Icons/svg/maximize.svg" id="14_uxrta"]
+[ext_resource type="Script" path="res://Library/Components/Controls/ResizeHandler.cs" id="16_pcqv0"]
+[ext_resource type="PackedScene" uid="uid://crq8ob43cwrdn" path="res://Library/Components/Panels/ProjectsPanel.tscn" id="16_wxve1"]
+[ext_resource type="Script" path="res://Library/Components/Controls/TitleGrip.cs" id="17_7gb72"]
+[ext_resource type="PackedScene" uid="uid://y7tugxb0ixfh" path="res://Library/Components/Panels/AssetPanel.tscn" id="17_jb0ek"]
+[ext_resource type="PackedScene" uid="uid://s13nyo7iitop" path="res://Library/Components/Panels/GodotPanel.tscn" id="18_816l3"]
+[ext_resource type="PackedScene" uid="uid://cn4dii4n5dfmh" path="res://Library/Components/Panels/NewsPanel.tscn" id="19_aq2oe"]
+[ext_resource type="PackedScene" uid="uid://bnebpy6ihlmdy" path="res://Library/Components/Panels/SettingsPanel.tscn" id="20_cl8ng"]
 
-[sub_resource type="Animation" id=3]
-resource_name = "sidebar_anim"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("bg/Shell/Sidebar:rect_min_size")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0998513 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 70, 0 ), Vector2( 160, 0 ) ]
-}
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6au41"]
+bg_color = Color(0.137255, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3cn6"]
+bg_color = Color(0.219608, 0.239216, 0.290196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gf54w"]
+content_margin_left = 20.0
+content_margin_top = 15.0
+content_margin_right = 10.0
+content_margin_bottom = 15.0
+bg_color = Color(0.164706, 0.180392, 0.215686, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgnvx"]
+bg_color = Color(0.137255, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38da1"]
+bg_color = Color(0.186438, 0.201068, 0.240066, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8wr3s"]
+bg_color = Color(0.160784, 0.176471, 0.211765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwd11"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3qpd"]
+bg_color = Color(1, 0.260006, 0.200836, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bf2rk"]
+bg_color = Color(0.137255, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3e1n0"]
+bg_color = Color(0.137255, 0.14902, 0.180392, 1)
 
 [node name="MainWindow" type="Control"]
+custom_minimum_size = Vector2(576, 324)
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 16 )
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f3lvr")
 
-[node name="bg" type="ColorRect" parent="."]
+[node name="Shell" type="PanelContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.137255, 0.14902, 0.180392, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6au41")
 
-[node name="Shell" type="HBoxContainer" parent="bg"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Dock" type="HBoxContainer" parent="Shell"]
+offset_right = 1024.0
+offset_bottom = 700.0
 
-[node name="Sidebar" type="ColorRect" parent="bg/Shell"]
-margin_right = 70.0
-margin_bottom = 700.0
-rect_min_size = Vector2( 70, 0 )
-rect_clip_content = true
-color = Color( 0.219608, 0.239216, 0.290196, 1 )
+[node name="Sidebar" type="PanelContainer" parent="Shell/Dock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+offset_right = 70.0
+offset_bottom = 700.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h3cn6")
 
-[node name="VC" type="VBoxContainer" parent="bg/Shell/Sidebar"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Shell/Dock/Sidebar"]
+offset_right = 70.0
+offset_bottom = 700.0
 
-[node name="ToggleButton" parent="bg/Shell/Sidebar/VC" instance=ExtResource( 1 )]
-hint_tooltip = "Show Sidebar"
+[node name="Menu" type="Button" parent="Shell/Dock/Sidebar/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_right = 70.0
+offset_bottom = 60.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gf54w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gf54w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gf54w")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gf54w")
+icon = ExtResource("2_m1x1r")
+clip_text = true
+expand_icon = true
 
-[node name="Projects" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
-margin_right = 70.0
-hint_tooltip = "Page: Projects"
-Label = "Projects"
-Icon = ExtResource( 3 )
-Active = true
+[node name="Projects" type="Button" parent="Shell/Dock/Sidebar/VBoxContainer" groups=["page_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_top = 64.0
+offset_right = 70.0
+offset_bottom = 124.0
+theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/hover = ExtResource("4_u5g5v")
+theme_override_styles/pressed = ExtResource("5_gvpxu")
+theme_override_styles/focus = ExtResource("6_rgy2d")
+toggle_mode = true
+text = "Projects"
+icon = ExtResource("3_bek17")
+clip_text = true
+expand_icon = true
 
-[node name="AssetLib" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
-margin_top = 108.0
-margin_right = 70.0
-margin_bottom = 158.0
-hint_tooltip = "Page: Asset Library"
-Label = "AssetLib"
-Icon = ExtResource( 5 )
+[node name="AssetLib" type="Button" parent="Shell/Dock/Sidebar/VBoxContainer" groups=["page_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_top = 128.0
+offset_right = 70.0
+offset_bottom = 188.0
+theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/hover = ExtResource("4_u5g5v")
+theme_override_styles/pressed = ExtResource("5_gvpxu")
+theme_override_styles/focus = ExtResource("6_rgy2d")
+toggle_mode = true
+text = "AssetLib"
+icon = ExtResource("4_f4cwh")
+clip_text = true
+expand_icon = true
 
-[node name="Godot" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
-margin_top = 162.0
-margin_right = 70.0
-margin_bottom = 212.0
-hint_tooltip = "Page: Godot Engines"
-Label = "Versions"
-Icon = ExtResource( 8 )
+[node name="GodotVersions" type="Button" parent="Shell/Dock/Sidebar/VBoxContainer" groups=["page_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_top = 192.0
+offset_right = 70.0
+offset_bottom = 252.0
+theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/hover = ExtResource("4_u5g5v")
+theme_override_styles/pressed = ExtResource("5_gvpxu")
+theme_override_styles/focus = ExtResource("6_rgy2d")
+toggle_mode = true
+text = "Versions"
+icon = ExtResource("5_0oncw")
+clip_text = true
+expand_icon = true
 
-[node name="News" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
-margin_top = 216.0
-margin_right = 70.0
-margin_bottom = 266.0
-hint_tooltip = "Page: Godot Engines"
-Label = "News"
-Icon = ExtResource( 15 )
+[node name="News" type="Button" parent="Shell/Dock/Sidebar/VBoxContainer" groups=["page_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_top = 256.0
+offset_right = 70.0
+offset_bottom = 316.0
+theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/hover = ExtResource("4_u5g5v")
+theme_override_styles/pressed = ExtResource("5_gvpxu")
+theme_override_styles/focus = ExtResource("6_rgy2d")
+toggle_mode = true
+text = "News"
+icon = ExtResource("6_oo23j")
+clip_text = true
+expand_icon = true
 
-[node name="Control" type="Control" parent="bg/Shell/Sidebar/VC"]
-margin_top = 270.0
-margin_right = 70.0
-margin_bottom = 646.0
+[node name="Control" type="Control" parent="Shell/Dock/Sidebar/VBoxContainer"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 320.0
+offset_right = 70.0
+offset_bottom = 636.0
 size_flags_vertical = 3
 
-[node name="Settings" parent="bg/Shell/Sidebar/VC" groups=["page_buttons"] instance=ExtResource( 2 )]
-margin_top = 650.0
-margin_right = 70.0
-margin_bottom = 700.0
-hint_tooltip = "Page: Settings"
-Label = "Settings"
-Icon = ExtResource( 9 )
+[node name="Settings" type="Button" parent="Shell/Dock/Sidebar/VBoxContainer" groups=["page_buttons"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_top = 640.0
+offset_right = 70.0
+offset_bottom = 700.0
+theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/hover = ExtResource("4_u5g5v")
+theme_override_styles/pressed = ExtResource("5_gvpxu")
+theme_override_styles/focus = ExtResource("6_rgy2d")
+toggle_mode = true
+text = "Settings"
+icon = ExtResource("7_iohcc")
+clip_text = true
+expand_icon = true
 
-[node name="VC" type="VBoxContainer" parent="bg/Shell"]
-margin_left = 74.0
-margin_right = 1024.0
-margin_bottom = 700.0
+[node name="Content" type="VBoxContainer" parent="Shell/Dock"]
+offset_left = 74.0
+offset_right = 1024.0
+offset_bottom = 700.0
 size_flags_horizontal = 3
 
-[node name="VisibleSpacer" type="Control" parent="bg/Shell/VC"]
-visible = false
-margin_right = 950.0
-margin_bottom = 5.0
-rect_min_size = Vector2( 0, 10 )
+[node name="TitleBar" type="HBoxContainer" parent="Shell/Dock/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+offset_right = 950.0
+offset_bottom = 60.0
 
-[node name="TitleBar" type="HBoxContainer" parent="bg/Shell/VC"]
-margin_right = 950.0
-margin_bottom = 50.0
-script = ExtResource( 10 )
+[node name="Spacer" type="Control" parent="Shell/Dock/Content/TitleBar"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 10.0
+offset_bottom = 60.0
 
-[node name="Spacer" type="Control" parent="bg/Shell/VC/TitleBar"]
-margin_right = 3.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 3, 0 )
-
-[node name="Label" type="Label" parent="bg/Shell/VC/TitleBar"]
-margin_left = 7.0
-margin_right = 842.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-mouse_filter = 1
+[node name="Title" type="Label" parent="Shell/Dock/Content/TitleBar"]
+offset_left = 14.0
+offset_right = 839.0
+offset_bottom = 60.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 18 )
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("12_73thx")
+theme_override_font_sizes/font_size = 20
 text = "Godot Manager"
-valign = 1
+vertical_alignment = 1
 
-[node name="minimize" parent="bg/Shell/VC/TitleBar" instance=ExtResource( 4 )]
-margin_left = 846.0
-margin_right = 896.0
-Icon = ExtResource( 7 )
-ButtonType = 2
-WindowMain = NodePath("../../../../..")
+[node name="Minimize" type="Button" parent="Shell/Dock/Content/TitleBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+offset_left = 843.0
+offset_top = 15.0
+offset_right = 873.0
+offset_bottom = 45.0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38da1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8wr3s")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/focus = SubResource("StyleBoxFlat_mgnvx")
+icon = ExtResource("13_qlbbe")
+icon_alignment = 1
+expand_icon = true
 
-[node name="close" parent="bg/Shell/VC/TitleBar" instance=ExtResource( 4 )]
-margin_left = 900.0
-margin_right = 950.0
-WindowMain = NodePath("../../../../..")
+[node name="RestMax" type="Button" parent="Shell/Dock/Content/TitleBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+offset_left = 877.0
+offset_top = 15.0
+offset_right = 907.0
+offset_bottom = 45.0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38da1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8wr3s")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/focus = SubResource("StyleBoxFlat_mgnvx")
+icon = ExtResource("14_uxrta")
+icon_alignment = 1
+expand_icon = true
 
-[node name="TabContainer" type="TabContainer" parent="bg/Shell/VC"]
-margin_top = 54.0
-margin_right = 950.0
-margin_bottom = 700.0
-size_flags_horizontal = 3
+[node name="Close" type="Button" parent="Shell/Dock/Content/TitleBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+offset_left = 911.0
+offset_top = 15.0
+offset_right = 941.0
+offset_bottom = 45.0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wwd11")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_r3qpd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bf2rk")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r3qpd")
+icon = ExtResource("14_epifn")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Spacer2" type="Control" parent="Shell/Dock/Content/TitleBar"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 945.0
+offset_right = 950.0
+offset_bottom = 60.0
+
+[node name="Panels" type="TabContainer" parent="Shell/Dock/Content"]
+unique_name_in_owner = true
+offset_top = 64.0
+offset_right = 950.0
+offset_bottom = 700.0
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_3e1n0")
 tabs_visible = false
 
-[node name="Projects" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 11 )]
+[node name="ProjectsPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("16_wxve1")]
+unique_name_in_owner = true
 
-[node name="AssetLib" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 12 )]
+[node name="AssetPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("17_jb0ek")]
+unique_name_in_owner = true
 visible = false
 
-[node name="Godot" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 13 )]
+[node name="GodotPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("18_816l3")]
+unique_name_in_owner = true
 visible = false
 
-[node name="NewsPanel" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 6 )]
+[node name="NewsPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("19_aq2oe")]
+unique_name_in_owner = true
 visible = false
 
-[node name="Settings" parent="bg/Shell/VC/TabContainer" instance=ExtResource( 14 )]
+[node name="SettingsPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("20_cl8ng")]
+unique_name_in_owner = true
 visible = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/sidebar_anim = SubResource( 3 )
+[node name="TitleGrip" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 70.0
+offset_right = 916.0
+offset_bottom = 30.0
+script = ExtResource("17_7gb72")
+
+[node name="TopBorder" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1024.0
+offset_bottom = 5.0
+mouse_default_cursor_shape = 9
+script = ExtResource("16_pcqv0")
+Top = true
+MinimumSize = Vector2i(576, 384)
+
+[node name="BottomBorder" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 695.0
+offset_right = 1024.0
+offset_bottom = 700.0
+mouse_default_cursor_shape = 9
+script = ExtResource("16_pcqv0")
+MinimumSize = Vector2i(576, 384)
+
+[node name="LeftBorder" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 5.0
+offset_bottom = 700.0
+mouse_default_cursor_shape = 10
+script = ExtResource("16_pcqv0")
+Left = true
+Vertical = false
+MinimumSize = Vector2i(576, 384)
+
+[node name="RightBorder" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1019.0
+offset_right = 1024.0
+offset_bottom = 700.0
+mouse_default_cursor_shape = 10
+script = ExtResource("16_pcqv0")
+Vertical = false
+MinimumSize = Vector2i(576, 384)

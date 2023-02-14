@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://cn4dii4n5dfmh"]
+
+[ext_resource type="Script" path="res://Library/Components/Panels/NewsPanel.cs" id="1_flq4m"]
+[ext_resource type="Texture2D" uid="uid://bbugssivc1yd4" path="res://Assets/Icons/png/check_for_updates.png" id="2_kmnna"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f13ay"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gh6xk"]
+
+[node name="NewsPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_flq4m")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(210, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f13ay")
+text = "News"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RefreshNews" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_gh6xk")
+icon = ExtResource("2_kmnna")
+flat = true
+expand_icon = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="NewsList" type="VBoxContainer" parent="VBoxContainer/MarginContainer2/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

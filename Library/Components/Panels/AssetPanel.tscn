@@ -1,0 +1,356 @@
+[gd_scene load_steps=8 format=3 uid="uid://y7tugxb0ixfh"]
+
+[ext_resource type="Script" path="res://Library/Components/Panels/AssetPanel.cs" id="1_tpgfo"]
+[ext_resource type="PackedScene" uid="uid://oeaocesaan2w" path="res://Library/Components/Controls/PaginatedListing.tscn" id="2_600qo"]
+[ext_resource type="Texture2D" uid="uid://dobqrdjvlrvyf" path="res://Assets/Icons/svg/search_small.svg" id="3_6m20q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3u0y"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_huofk"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.196078, 0.203922, 0.223529, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_dllii"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_sdgr6"]
+
+[node name="AssetPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tpgfo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(210, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_q3u0y")
+text = "Asset Library"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_huofk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Addons" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+button_pressed = true
+text = "Addons"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Templates" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+text = "Templates"
+flat = true
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Manage" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+text = "Manage"
+flat = true
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SearchLibrary" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SearchLibrary"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Spacer" type="Control" parent="VBoxContainer/SearchLibrary/HBoxContainer"]
+custom_minimum_size = Vector2(5, 21)
+layout_mode = 2
+
+[node name="SearchField" type="LineEdit" parent="VBoxContainer/SearchLibrary/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer3" type="Control" parent="VBoxContainer/SearchLibrary/HBoxContainer"]
+custom_minimum_size = Vector2(3, 21)
+layout_mode = 2
+
+[node name="Import" type="Button" parent="VBoxContainer/SearchLibrary/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Import"
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/SearchLibrary/HBoxContainer"]
+custom_minimum_size = Vector2(5, 21)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/SearchLibrary"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Spacer" type="Control" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+custom_minimum_size = Vector2(5, 21)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+text = "Sort:"
+
+[node name="SortBy" type="OptionButton" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 6
+selected = 0
+popup/item_0/text = "Recently Updated"
+popup/item_0/id = 0
+popup/item_1/text = "Least Recently Updated"
+popup/item_1/id = 1
+popup/item_2/text = "Name (A-Z)"
+popup/item_2/id = 2
+popup/item_3/text = "Name (Z-A)"
+popup/item_3/id = 3
+popup/item_4/text = "License (A-Z)"
+popup/item_4/id = 4
+popup/item_5/text = "License (Z-A)"
+popup/item_5/id = 5
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+text = "Category:"
+
+[node name="Category" type="OptionButton" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 1
+selected = 0
+popup/item_0/text = "All"
+popup/item_0/id = 0
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+text = "Godot Version:"
+
+[node name="GodotVersion" type="OptionButton" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 13
+selected = 0
+popup/item_0/text = "Any"
+popup/item_0/id = 0
+popup/item_1/text = "4.0"
+popup/item_1/id = 1
+popup/item_2/text = "3.5"
+popup/item_2/id = 2
+popup/item_3/text = "3.4"
+popup/item_3/id = 3
+popup/item_4/text = "3.3"
+popup/item_4/id = 4
+popup/item_5/text = "3.2"
+popup/item_5/id = 5
+popup/item_6/text = "3.1"
+popup/item_6/id = 6
+popup/item_7/text = "3.0.4"
+popup/item_7/id = 7
+popup/item_8/text = "3.0.2"
+popup/item_8/id = 8
+popup/item_9/text = "3.0"
+popup/item_9/id = 9
+popup/item_10/text = "2.1.4"
+popup/item_10/id = 10
+popup/item_11/text = "2.1.3"
+popup/item_11/id = 11
+popup/item_12/text = "2.1"
+popup/item_12/id = 12
+
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+text = "Site:"
+
+[node name="MirrorSite" type="OptionButton" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 2
+selected = 0
+fit_to_longest_item = false
+popup/item_0/text = "godotengine.org"
+popup/item_0/id = 0
+popup/item_1/text = "localhost"
+popup/item_1/id = 1
+
+[node name="VSeparator4" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Support" type="Button" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Support"
+
+[node name="SupportPopup" type="PopupMenu" parent="VBoxContainer/SearchLibrary/HBoxContainer2/Support"]
+unique_name_in_owner = true
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
+custom_minimum_size = Vector2(5, 21)
+layout_mode = 2
+
+[node name="PlAddons" parent="VBoxContainer/SearchLibrary" instance=ExtResource("2_600qo")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlTemplates" parent="VBoxContainer/SearchLibrary" instance=ExtResource("2_600qo")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ManageDownloaded" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ManageDownloaded"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/ManageDownloaded/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/ManageDownloaded/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_huofk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ManageDownloaded/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="InstalledAddons" type="Button" parent="VBoxContainer/ManageDownloaded/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_font_sizes/font_size = 16
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_dllii")
+text = "Installed Addons"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/ManageDownloaded/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="InstalledTemplates" type="Button" parent="VBoxContainer/ManageDownloaded/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_font_sizes/font_size = 16
+toggle_mode = true
+button_group = SubResource("ButtonGroup_sdgr6")
+text = "Installed Templates"
+flat = true
+
+[node name="Control2" type="Control" parent="VBoxContainer/ManageDownloaded/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/ManageDownloaded"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Control" type="Control" parent="VBoxContainer/ManageDownloaded/HBoxContainer2"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="SearchInstalled" type="LineEdit" parent="VBoxContainer/ManageDownloaded/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search Installed"
+right_icon = ExtResource("3_6m20q")
+
+[node name="Control2" type="Control" parent="VBoxContainer/ManageDownloaded/HBoxContainer2"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="PlmAddons" parent="VBoxContainer/ManageDownloaded" instance=ExtResource("2_600qo")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlmTemplates" parent="VBoxContainer/ManageDownloaded" instance=ExtResource("2_600qo")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2

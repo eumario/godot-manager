@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://du5p0e56tlyd7"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/ListSelectDialog.cs" id="1_8e6s8"]
+
+[node name="ListSelectDialog" type="AcceptDialog"]
+title = "Option Select"
+size = Vector2i(396, 237)
+visible = true
+script = ExtResource("1_8e6s8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(380, 190)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -636.0
+offset_bottom = -502.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Message" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="OptionList" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10

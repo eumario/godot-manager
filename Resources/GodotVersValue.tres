@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cv81bglvv56e3"]
+
+[ext_resource type="FontFile" uid="uid://cw7gvxhpjkwf" path="res://Assets/Fonts/DroidSans.ttf" id="1_ke52s"]
+
+[resource]
+font = ExtResource("1_ke52s")
+font_size = 14
+font_color = Color(0.266667, 1, 0, 1)

@@ -1,0 +1,145 @@
+[gd_scene load_steps=9 format=3 uid="uid://s13nyo7iitop"]
+
+[ext_resource type="Script" path="res://Library/Components/Panels/GodotPanel.cs" id="1_53eva"]
+[ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="2_nsxf8"]
+[ext_resource type="Texture2D" uid="uid://bvu3kq67n3iax" path="res://Assets/Icons/svg/import.svg" id="3_ov1pu"]
+[ext_resource type="Texture2D" uid="uid://cxd48sahrmtsx" path="res://Assets/Icons/svg/web.svg" id="4_o75qn"]
+[ext_resource type="Texture2D" uid="uid://bbugssivc1yd4" path="res://Assets/Icons/png/check_for_updates.png" id="5_4gap3"]
+[ext_resource type="PackedScene" uid="uid://cclwviqdleeta" path="res://Library/Components/Controls/CategoryList.tscn" id="6_0bv7o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ue3l"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fn2cs"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="GodotPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_53eva")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ue3l")
+text = "Godot Versions"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+
+[node name="Actions" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_nsxf8")]
+unique_name_in_owner = true
+layout_mode = 2
+Icons = [ExtResource("3_ov1pu"), ExtResource("4_o75qn"), ExtResource("5_4gap3")]
+HelpText = ["Add Custom Godot", "Download from Website", "Check for Updates"]
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fn2cs")
+
+[node name="TagSelection" type="MenuButton" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "Tags"
+item_count = 6
+popup/item_0/text = "Mono / C#"
+popup/item_0/checkable = 1
+popup/item_0/id = 0
+popup/item_1/text = "Release Type"
+popup/item_1/id = 1
+popup/item_1/separator = true
+popup/item_2/text = "Stable"
+popup/item_2/checkable = 2
+popup/item_2/id = 2
+popup/item_3/text = "Alpha"
+popup/item_3/checkable = 2
+popup/item_3/id = 3
+popup/item_4/text = "Beta"
+popup/item_4/checkable = 2
+popup/item_4/id = 4
+popup/item_5/text = "Release Candidate"
+popup/item_5/checkable = 2
+popup/item_5/id = 5
+
+[node name="Spacer3" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Mirrors:"
+
+[node name="DownloadSource" type="OptionButton" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Github"
+popup/item_0/id = 0
+popup/item_1/text = "Tuxfamily.org"
+popup/item_1/id = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Installed" parent="VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_0bv7o")]
+unique_name_in_owner = true
+layout_mode = 2
+Title = "Installed Versions"
+
+[node name="Downloading" parent="VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_0bv7o")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+Title = "Currently Downloading"
+
+[node name="Available" parent="VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_0bv7o")]
+unique_name_in_owner = true
+layout_mode = 2
+Title = "Available to Download"

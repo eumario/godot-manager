@@ -6,6 +6,9 @@
 export.cfg
 *.import
 
+# Godot 4 Directory
+.godot/
+
 # Excluded because it may contain sensitive information like keystore passwords
 # export_presets.cfg  # <-- Removed as we need it for Github CI.
 

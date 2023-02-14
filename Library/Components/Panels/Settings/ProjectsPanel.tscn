@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcojfyv2q2nel"]
+
+[ext_resource type="PackedScene" uid="uid://cp7ffpofhkvni" path="res://Library/Components/Controls/ItemListWithButtons.tscn" id="1_rca5f"]
+
+[node name="ProjectsPanel" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Default Project Location:"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="GridContainer/HBoxContainer"]
+layout_mode = 2
+text = "Browse"
+
+[node name="Label2" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Project Launch Options:"
+horizontal_alignment = 2
+
+[node name="CheckBox" type="CheckBox" parent="GridContainer"]
+layout_mode = 2
+text = "Exit Godot Manager"
+flat = true
+
+[node name="Label3" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Enable Auto Scan:"
+horizontal_alignment = 2
+
+[node name="CheckBox2" type="CheckBox" parent="GridContainer"]
+layout_mode = 2
+text = "Scan each time Godot Manager is Launched"
+flat = true
+
+[node name="Label4" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Directories to Scan:"
+horizontal_alignment = 2
+
+[node name="ItemListWithButtons" parent="GridContainer" instance=ExtResource("1_rca5f")]
+layout_mode = 2

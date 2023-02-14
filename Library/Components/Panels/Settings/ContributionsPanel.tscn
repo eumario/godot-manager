@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bvnwcg36y0tkj"]
+
+[node name="ContributionsPanel" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][code]Special Thanks[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=8]
+[cell][color=aqua]Lentsius[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/lentsius]Twitch[/url][/color]    [/cell]
+[cell][color=aqua]MartyPher[/color][/cell][cell]    [color=yellow][url=https://www.twitch.tv/martyrpher]Twitch[/url][/color]    [/cell]
+[cell][color=aqua]EroAxee[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/eroaxee]Twitch[/url][/color]    [/cell]
+[cell][color=aqua]MaritalStrafe[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/maritalstrafe]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]MightyMochiGames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/mightymochigames]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]velopman[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/velopman]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]Falinere[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/falinere]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]snopekgames[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/snopekgames]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]Stefan (GDC)[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/GameDevelopmentCenter]YouTube[/url]    [/color][/cell]
+[cell][color=aqua]Earend[/color][/cell][cell][color=yellow]    [url=https://www.twitch.tv/earend]Twitch[/url]    [/color][/cell]
+[cell][color=aqua]GDQuest[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/Gdquest]YouTube[/url]    [/color][/cell]
+[cell][color=aqua]HeartBeast[/color][/cell][cell][color=yellow]    [url=https://www.youtube.com/c/uheartbeast]YouTube[/url]    [/color][/cell]
+[/table]
+[/center]
+
+[center][code]Sponsors[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=1]
+[cell][url=https://quiver.dev][img=250x103]res://Assets/Icons/png/quiver-logo.png[/img][/url][/cell]
+[/table]
+[/center]
+
+[center][code]Source Contributors[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=6]
+[cell][color=lime][url=https://github.com/Mo8it]Mo8it[/url][/color][/cell][cell]|[/cell]
+[cell][color=lime][url=https://github.com/Salvakiya]Salvakiya[/url][/color][/cell][cell]|[/cell]
+[cell][color=lime][url=https://github.com/chriba]chriba[/url][/color][/cell][cell]|[/cell]
+[cell][color=lime][url=https://github.com/sitiom]Sitiom[/url][/color][/cell][cell]|[/cell]
+[cell][color=lime][url=https://github.com/Oliveoil1]Oliveoil1[/url][/color][/cell][cell]|[/cell]
+[cell][color=lime][url=https://github.com/GalaxyGamingBoy]GalaxyGamingBoy[/url][/color][/cell][cell]|[/cell]
+[/table]
+[/center]
+
+[center][code]Donations[/code]
+[img=864x5]res://Assets/UI/horizontal_rule.png[/img]
+[table=4]
+[cell][color=green]Bradley Elliot[/color] | [/cell]
+[cell][color=green]Nio Kasgami[/color] | [/cell]
+[cell][color=green]Gamma Games[/color] [/cell]
+[/table]
+[/center]"

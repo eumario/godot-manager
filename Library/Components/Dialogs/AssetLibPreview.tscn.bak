@@ -1,0 +1,202 @@
+[gd_scene load_steps=12 format=3 uid="uid://bp20pf5ai3kkg"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/AssetLibPreview.cs" id="1_7d0vo"]
+[ext_resource type="Texture2D" uid="uid://cqfpr6itfdbrl" path="res://Assets/Icons/png/default_project_icon.png" id="2_wq03w"]
+[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="3_nopf3"]
+[ext_resource type="LabelSettings" uid="uid://jawx7rbt4abe" path="res://Resources/FieldHeader.tres" id="4_kqwiy"]
+[ext_resource type="LabelSettings" uid="uid://cjfomfnbnyxyr" path="res://Resources/FieldValue.tres" id="5_ltne1"]
+[ext_resource type="LabelSettings" uid="uid://c5gbpe7pqypy3" path="res://Resources/AssetIDValue.tres" id="6_gvyt3"]
+[ext_resource type="LabelSettings" uid="uid://cv81bglvv56e3" path="res://Resources/GodotVersValue.tres" id="7_v0ryh"]
+[ext_resource type="Texture2D" uid="uid://cuxviaup34yyx" path="res://Assets/Icons/svg/icon_thumbnail_wait.svg" id="8_5u52x"]
+[ext_resource type="Texture2D" uid="uid://lly3um1ahdtc" path="res://Assets/Icons/svg/icon_play_overlay.svg" id="9_md4ss"]
+[ext_resource type="Texture2D" uid="uid://bf50daiqyhmx7" path="res://Assets/Icons/svg/missing_icon.svg" id="10_p84rd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_aocuv"]
+font = ExtResource("3_nopf3")
+font_size = 18
+
+[node name="AssetLibPreview" type="AcceptDialog"]
+title = "Plugin Name"
+size = Vector2i(800, 490)
+visible = true
+ok_button_text = "Download"
+script = ExtResource("1_7d0vo")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -232.0
+offset_bottom = -259.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InfoPanel" type="VBoxContainer" parent="HSplitContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/InfoPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Control" type="Control" parent="HSplitContainer/InfoPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="HSplitContainer/InfoPanel/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_wq03w")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/InfoPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Plugin Name"
+label_settings = SubResource("LabelSettings_aocuv")
+
+[node name="GridContainer" type="GridContainer" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Category:"
+label_settings = ExtResource("4_kqwiy")
+horizontal_alignment = 2
+
+[node name="Category" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Materials"
+label_settings = ExtResource("5_ltne1")
+
+[node name="Label3" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Author:"
+label_settings = ExtResource("4_kqwiy")
+horizontal_alignment = 2
+
+[node name="Author" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "KoBeWi"
+label_settings = ExtResource("5_ltne1")
+
+[node name="Label5" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "License:"
+label_settings = ExtResource("4_kqwiy")
+horizontal_alignment = 2
+
+[node name="License" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Unlicensed"
+label_settings = ExtResource("5_ltne1")
+
+[node name="Label6" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Version:"
+label_settings = ExtResource("4_kqwiy")
+horizontal_alignment = 2
+
+[node name="Version" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.1.0"
+label_settings = ExtResource("5_ltne1")
+
+[node name="Label7" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "ID:"
+label_settings = ExtResource("4_kqwiy")
+horizontal_alignment = 2
+
+[node name="AssetId" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "12345"
+label_settings = ExtResource("6_gvyt3")
+
+[node name="Label11" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Godot Version:"
+label_settings = ExtResource("4_kqwiy")
+horizontal_alignment = 2
+
+[node name="GodotVersion" type="Label" parent="HSplitContainer/InfoPanel/HBoxContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "12345"
+label_settings = ExtResource("7_v0ryh")
+
+[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/InfoPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Description" type="RichTextLabel" parent="HSplitContainer/InfoPanel/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Test"
+
+[node name="Screenshots" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="Preview" type="TextureRect" parent="HSplitContainer/Screenshots"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("8_5u52x")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="PlayButton" type="TextureRect" parent="HSplitContainer/Screenshots/Preview"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_md4ss")
+stretch_mode = 3
+
+[node name="MissingThumbnail" type="TextureRect" parent="HSplitContainer/Screenshots/Preview"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_p84rd")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/Screenshots"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Screenshots/PanelContainer"]
+layout_mode = 2
+
+[node name="Thumbnails" type="HBoxContainer" parent="HSplitContainer/Screenshots/PanelContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2

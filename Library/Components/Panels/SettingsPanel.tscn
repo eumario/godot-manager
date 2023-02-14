@@ -1,0 +1,192 @@
+[gd_scene load_steps=17 format=3 uid="uid://bnebpy6ihlmdy"]
+
+[ext_resource type="Script" path="res://Library/Components/Panels/SettingsPanel.cs" id="1_msfm8"]
+[ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="2_ukqdp"]
+[ext_resource type="Texture2D" uid="uid://j8t4a1xyu62s" path="res://Assets/Icons/svg/icon_save.svg" id="3_s4ddi"]
+[ext_resource type="Texture2D" uid="uid://bf3qctej6eo1" path="res://Assets/Icons/svg/icon_undo.svg" id="4_pm0nv"]
+[ext_resource type="PackedScene" uid="uid://cnopr3vbuk56j" path="res://Library/Components/Panels/Settings/GeneralPanel.tscn" id="5_w5umu"]
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/GeneralPanel.cs" id="6_vujlp"]
+[ext_resource type="PackedScene" uid="uid://bcojfyv2q2nel" path="res://Library/Components/Panels/Settings/ProjectsPanel.tscn" id="7_l6yjp"]
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/ProjectsPanel.cs" id="8_6asx8"]
+[ext_resource type="PackedScene" uid="uid://durhql7n7d175" path="res://Library/Components/Panels/Settings/AboutPanel.tscn" id="9_n13c2"]
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/AboutPanel.cs" id="10_7oyfb"]
+[ext_resource type="PackedScene" uid="uid://bvnwcg36y0tkj" path="res://Library/Components/Panels/Settings/ContributionsPanel.tscn" id="11_7ojbm"]
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/ContributionsPanel.cs" id="12_wp3y8"]
+[ext_resource type="PackedScene" uid="uid://c1hq816vfsuya" path="res://Library/Components/Panels/Settings/LicensesPanel.tscn" id="13_hj50p"]
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/LicensesPanel.cs" id="14_phil2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5y4l8"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ms8cb"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.196078, 0.203922, 0.223529, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[node name="SettingsPanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_msfm8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(210, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_5y4l8")
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ms8cb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="General" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+button_pressed = true
+text = "General"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Projects" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+text = "Projects"
+flat = true
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="About" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+text = "About
+"
+flat = true
+
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Contributions" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+text = "Contributions"
+flat = true
+
+[node name="VSeparator4" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Licenses" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
+theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+toggle_mode = true
+text = "Licenses
+"
+flat = true
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UndoSave" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_ukqdp")]
+layout_mode = 2
+Icons = [ExtResource("3_s4ddi"), ExtResource("4_pm0nv")]
+HelpText = ["Save Settings", "Undo Changes"]
+
+[node name="Spacer3" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="OptionPanels" type="TabContainer" parent="VBoxContainer/MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+tabs_visible = false
+
+[node name="GeneralPanel" parent="VBoxContainer/MarginContainer2/OptionPanels" instance=ExtResource("5_w5umu")]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("6_vujlp")
+
+[node name="ProjectsPanel" parent="VBoxContainer/MarginContainer2/OptionPanels" instance=ExtResource("7_l6yjp")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("8_6asx8")
+
+[node name="AboutPanel" parent="VBoxContainer/MarginContainer2/OptionPanels" instance=ExtResource("9_n13c2")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("10_7oyfb")
+
+[node name="ContributionsPanel" parent="VBoxContainer/MarginContainer2/OptionPanels" instance=ExtResource("11_7ojbm")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("12_wp3y8")
+
+[node name="LicensesPanel" parent="VBoxContainer/MarginContainer2/OptionPanels" instance=ExtResource("13_hj50p")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("14_phil2")

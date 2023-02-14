@@ -6,44 +6,49 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[  ]
-_global_script_class_icons={
-}
+config_version=5
 
 [application]
 
 config/name="Godot-Manager"
 config/description="A Complete solution for Godot, allowing you to manage Projects and versions of the Godot Engine on the fly."
-run/main_scene="res://components/Panels/SplashScreen.tscn"
-config/use_custom_user_dir=true
+run/main_scene="res://Scenes/SceneManager.tscn"
 config/custom_user_dir_name="Godot-Manager"
-run/low_processor_mode=true
+config/features=PackedStringArray("4.0")
+boot_splash/bg_color=Color(0.137255, 0.14902, 0.180392, 1)
 boot_splash/show_image=false
-boot_splash/fullsize=false
 config/icon="res://godot-manager.png"
+
+[autoload]
+
+Globals="*res://Library/Globals.cs"
 
 [display]
 
-window/size/height=700
-window/size/resizable=false
+window/size/viewport_width=1024
+window/size/viewport_height=700
 window/size/borderless=true
+window/subwindows/embed_subwindows=false
+
+[dotnet]
+
+project/assembly_name="GodotManager4"
+
+[editor]
+
+scene/scene_naming=1
 
 [gui]
 
-theme/custom="res://Resources/DefaultTheme.tres"
-theme/custom_font="res://Resources/Fonts/droid-regular-14.tres"
-
-[locale]
-
-translations=PoolStringArray( "res://locale/en_US.po" )
+theme/custom="res://Resources/default_theme.theme"
+theme/custom_font="res://Assets/Fonts/DroidSans.ttf"
 
 [mono]
 
-project/assembly_name="Godot-Manager"
-debugger_agent/wait_timeout=7000
+export/aot/enabled=true
+export/aot/full_aot=true
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

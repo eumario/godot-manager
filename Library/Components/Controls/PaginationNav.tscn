@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlp2wjeq4wwdy"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/PaginationNav.cs" id="1_g8p20"]
+
+[node name="PaginationNav" type="CenterContainer"]
+custom_minimum_size = Vector2(0, 20)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 21.0
+grow_horizontal = 2
+script = ExtResource("1_g8p20")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 418.0
+offset_right = 605.0
+offset_bottom = 21.0
+
+[node name="FirstPage" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+offset_right = 32.0
+offset_bottom = 21.0
+text = "First"
+flat = true
+
+[node name="PrevPage" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 36.0
+offset_right = 95.0
+offset_bottom = 21.0
+text = "Previous"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+offset_left = 99.0
+offset_right = 103.0
+offset_bottom = 21.0
+
+[node name="PageCount" type="HBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 107.0
+offset_right = 107.0
+offset_bottom = 21.0
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+offset_left = 111.0
+offset_right = 115.0
+offset_bottom = 21.0
+
+[node name="NextPage" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 119.0
+offset_right = 153.0
+offset_bottom = 21.0
+text = "Next"
+flat = true
+
+[node name="LastPage" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+offset_left = 157.0
+offset_right = 187.0
+offset_bottom = 21.0
+text = "Last"
+flat = true
