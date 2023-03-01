@@ -26,6 +26,8 @@ public partial class BrowseLine : Control
 	[NodePath] private LineEdit _input;
 	[NodePath] private Button _browse;
 	[NodePath] private Button _default;
+	[NodePath] private Control _spacer1;
+	[NodePath] private Control _spacer2;
 	#endregion
 	
 	#region Private Variables
@@ -33,6 +35,8 @@ public partial class BrowseLine : Control
 	private string _displayText;
 	private string _defaultValue;
 	private int _textWidth;
+	private bool _useDefault;
+	private bool _useLabel;
 	#endregion
 	
 	#region Public Variables
@@ -75,6 +79,34 @@ public partial class BrowseLine : Control
 		}
 	}
 
+	[Export]
+	public bool UseDefault
+	{
+		get => _useDefault;
+		set
+		{
+			_useDefault = value;
+			if (_default != null)
+				_default.Visible = value;
+		}
+	}
+
+	[Export]
+	public bool UseLabel
+	{
+		get => _useLabel;
+		set
+		{
+			_useLabel = value;
+			if (_textLabel != null)
+			{
+				_textLabel.Visible = value;
+				_spacer1.Visible = value;
+				_spacer2.Visible = value;
+			}
+		}
+	}
+
 	public string Result => _input.Text;
 	#endregion
 
@@ -87,11 +119,13 @@ public partial class BrowseLine : Control
 		DisplayText = _displayText;
 		DefaultValue = _defaultValue;
 		LabelWidth = _textWidth;
+		UseDefault = _useDefault;
+		UseLabel = _useLabel;
 
 		_browse.Pressed += () =>
 		{
 			var path = "";
-			var result = Nfd.PickFolder(out path);
+			var result = Nfd.PickFolder(out path, _input.Text);
 			if (result == NfdStatus.Ok)
 				_input.Text = path;
 		};
@@ -107,5 +141,6 @@ public partial class BrowseLine : Control
 	#endregion
 	
 	#region Public Support Functions
+	public string GetFolder() => _input.Text;
 	#endregion
 }

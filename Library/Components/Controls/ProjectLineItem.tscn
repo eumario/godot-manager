@@ -2,36 +2,29 @@
 
 [ext_resource type="PackedScene" uid="uid://c61btlhlani3y" path="res://Library/Components/Controls/LineItem.tscn" id="1_ysnpw"]
 [ext_resource type="Script" path="res://Library/Components/Controls/ProjectLineItem.cs" id="2_83qi3"]
-[ext_resource type="Texture2D" uid="uid://blgpf81o7fqq7" path="res://Assets/Icons/svg/icon_heart.svg" id="2_w8jwt"]
+[ext_resource type="Texture2D" uid="uid://br0jgs643s0ak" path="res://Assets/Icons/svg/icon_heart.svg" id="2_w8jwt"]
 
 [node name="ProjectLineItem" instance=ExtResource("1_ysnpw")]
 script = ExtResource("2_83qi3")
 
-[node name="HBoxContainer" parent="." index="0"]
-layout_mode = 1
-
 [node name="Spacer" parent="HBoxContainer" index="0"]
-layout_mode = 2
 mouse_filter = 1
 
 [node name="Icon" parent="HBoxContainer" index="1"]
 custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-ignore_texture_size = true
+expand_mode = 1
 stretch_mode = 5
 
-[node name="MiddleSection" parent="HBoxContainer" index="2"]
-layout_mode = 2
-
 [node name="ProjectName" type="RichTextLabel" parent="HBoxContainer/MiddleSection" index="0"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 bbcode_enabled = true
 text = "[b]Project Name[/b]"
-fit_content_height = true
 scroll_active = false
 
 [node name="ProjectDesc" type="Label" parent="HBoxContainer/MiddleSection" index="1"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 theme_override_font_sizes/font_size = 14
@@ -39,6 +32,7 @@ text = "Project Description"
 clip_text = true
 
 [node name="ProjectLoc" type="Label" parent="HBoxContainer/MiddleSection" index="2"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 theme_override_font_sizes/font_size = 14
@@ -46,6 +40,7 @@ text = "Location: /home/eumario/Projects/Godot/ProjectName"
 clip_text = true
 
 [node name="GodotVersionDisplay" type="Label" parent="HBoxContainer" index="3"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 mouse_filter = 1
@@ -53,10 +48,8 @@ theme_override_font_sizes/font_size = 14
 text = "Godot vx.x.x"
 horizontal_alignment = 1
 
-[node name="EndSection" parent="HBoxContainer" index="4"]
-layout_mode = 2
-
 [node name="Heart" type="Button" parent="HBoxContainer/EndSection" index="0"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("2_w8jwt")
@@ -64,5 +57,4 @@ flat = true
 expand_icon = true
 
 [node name="Spacer2" parent="HBoxContainer" index="5"]
-layout_mode = 2
 mouse_filter = 1

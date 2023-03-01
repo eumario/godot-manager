@@ -65,6 +65,9 @@ public partial class ProjectLineItem : Control
 		set
 		{
 			_projectFile = value;
+			
+			if (ProjectName is null) return;
+			
 			MissingProject = !File.Exists(value.Location);
 			ProjectName.Text = value.Name;
 			ProjectDesc.Text = value.Description;

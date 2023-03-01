@@ -20,7 +20,8 @@ anchor_right = 1.0
 grow_horizontal = 2
 theme_override_constants/separation = 10
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Spacer1" type="Control" parent="HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 
@@ -52,6 +53,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 text = "Use Default"
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
+[node name="Spacer2" type="Control" parent="HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2

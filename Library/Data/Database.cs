@@ -160,6 +160,8 @@ public class Database
         Instance._database.Checkpoint();
     }
 
+    public static ProjectFile[] AllProjects() =>
+        Instance._projects.Query().ToArray();
     #endregion
     
     #region Asset Plugin Functions

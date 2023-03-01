@@ -23,12 +23,5 @@
     <None Include="**/*.ico" />
     <None Include="**/*.ttf" />
     <None Include="**/*.cfg" />
-    <None Remove="script_templates\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="script_templates\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="script_templates\**" />
   </ItemGroup>
 </Project>

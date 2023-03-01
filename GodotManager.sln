@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotManager4", "GodotManager4.csproj", "{4C954128-9D6A-40E9-99EF-C4503C98BFAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GodotManager", "GodotManager.csproj", "{4C954128-9D6A-40E9-99EF-C4503C98BFAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

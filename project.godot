@@ -13,6 +13,7 @@ config_version=5
 config/name="Godot-Manager"
 config/description="A Complete solution for Godot, allowing you to manage Projects and versions of the Godot Engine on the fly."
 run/main_scene="res://Scenes/SceneManager.tscn"
+config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot-Manager"
 config/features=PackedStringArray("4.0")
 boot_splash/bg_color=Color(0.137255, 0.14902, 0.180392, 1)
@@ -32,7 +33,7 @@ window/subwindows/embed_subwindows=false
 
 [dotnet]
 
-project/assembly_name="GodotManager4"
+project/assembly_name="GodotManager"
 
 [editor]
 

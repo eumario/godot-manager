@@ -2,6 +2,7 @@ using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
+using GodotManager.Library.Data;
 using Octokit;
 
 // namespace
@@ -14,6 +15,9 @@ public partial class ProjectsPanel : Panel
 	
 	#region Node Paths
 	[NodePath] private ActionButtons _actionButtons;
+	[NodePath] private VBoxContainer _listView;
+	[NodePath] private GridContainer _gridView;
+	[NodePath] private VBoxContainer _categoryView;
 	#endregion
 	
 	#region Private Variables
@@ -28,6 +32,7 @@ public partial class ProjectsPanel : Panel
 		this.OnReady();
 		_actionButtons.ButtonClicked += OnButtonClicked_ActionButtons;
 		//_actionButtons.SetHidden(3,4,5,6);
+		PopulateLists();
 	}
 	#endregion
 
@@ -43,7 +48,11 @@ public partial class ProjectsPanel : Panel
 				break;
 			case 1: // Import Project
 				var dlg = ImportProject.FromScene();
-				dlg.ImportCompleted += () => { dlg.QueueFree(); };
+				dlg.ImportCompleted += () =>
+				{
+					PopulateLists();
+					dlg.QueueFree();
+				};
 				AddChild(dlg);
 				dlg.PopupCentered(new Vector2I(320,145));
 				break;
@@ -63,6 +72,18 @@ public partial class ProjectsPanel : Panel
 	#endregion
 	
 	#region Private Support Functions
+
+	void PopulateLists()
+	{
+		GD.Print("Loading Projects...");
+		foreach (var project in Database.AllProjects())
+		{
+			GD.Print($"Loading Project {project.Name}");
+			var pli = new ProjectLineItem();
+			pli.ProjectFile = project;
+			_listView.AddChild(pli);
+		}
+	}
 	#endregion
 	
 	#region Public Support Functions
