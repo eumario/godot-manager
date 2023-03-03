@@ -4,7 +4,6 @@
 
 .import/
 export.cfg
-*.import
 
 # Godot 4 Directory
 .godot/
