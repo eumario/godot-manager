@@ -65,6 +65,9 @@ public partial class MainWindow : Control
 			_restMax.Icon = icon;
 		};
 		_close.Pressed += () => GetTree().Quit();
+		
+		GetTree().SetGroup("window_management", "visible", !Database.Settings.UseSystemTitlebar);
+		GetWindow().Borderless = !Database.Settings.UseSystemTitlebar;
 	}
 
 	public bool IsSidebarExpanded() => _sidebar.CustomMinimumSize.X.Equals(200.0f);

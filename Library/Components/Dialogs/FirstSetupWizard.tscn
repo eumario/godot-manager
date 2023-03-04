@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Library/Components/Dialogs/FirstSetupWizard.cs" id="1_8cm1s"]
 [ext_resource type="PackedScene" uid="uid://dmc6ugntigwro" path="res://Library/Components/Controls/BrowseLine.tscn" id="1_bcml7"]
-[ext_resource type="Texture2D" uid="uid://duk7k58ack4e2" path="res://Assets/UI/GodotIntegration.png" id="3_ekx62"]
+[ext_resource type="Texture2D" uid="uid://btjv4o403nv4l" path="res://Assets/UI/GodotIntegration.png" id="3_ekx62"]
 [ext_resource type="PackedScene" uid="uid://s13nyo7iitop" path="res://Library/Components/Panels/GodotPanel.tscn" id="4_snb84"]
 
 [node name="FirstSetupWizard" type="Window"]
@@ -33,7 +33,6 @@ size_flags_vertical = 3
 tabs_visible = false
 
 [node name="Welcome" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
-visible = false
 layout_mode = 2
 
 [node name="WelcomeMessage" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/Welcome"]
@@ -60,7 +59,6 @@ bbcode_enabled = true
 text = "[font size=18][b]Setup Directories[/b][/font]
 
 In this step, you will setup the directoreies that you want to use for your default locations to store Godot Engine, Cached Images, and Downloaded Assets from the Asset Library, such as Plugins and Projects."
-fit_content_height = true
 scroll_active = false
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer"]
@@ -106,7 +104,6 @@ bbcode_enabled = true
 text = "[font size=18][b]Create Desktop Entry[/b][/font]
 
 We have detected that you are running a Linux based operating system, would you like to create a Shortcut for easy launch of Godot Manager?"
-fit_content_height = true
 scroll_active = false
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Wizard/LinuxShortcut/VBoxContainer"]
@@ -153,7 +150,6 @@ bbcode_enabled = true
 text = "[font size=18][b]Download & Install Godot[/b][/font]
 
 In this step, you will be given the option to download Godot From Github or Tuxfamily, you can press Next to skip this step, and add a custom Godot Version that you already have installed."
-fit_content_height = true
 scroll_active = false
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Wizard/DownloadGodot/VBoxContainer"]
@@ -166,6 +162,7 @@ size_flags_vertical = 3
 Embedded = true
 
 [node name="Finished" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
+visible = false
 layout_mode = 2
 
 [node name="FinishedMessage" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Wizard/Finished"]

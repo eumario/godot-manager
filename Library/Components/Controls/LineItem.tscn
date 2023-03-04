@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c61btlhlani3y"]
 
-[ext_resource type="Texture2D" uid="uid://us37nbhxqugq" path="res://Assets/Icons/png/default_project_icon.png" id="2_grqfx"]
+[ext_resource type="Texture2D" uid="uid://bsqyf68f2tedk" path="res://Assets/Icons/png/default_project_icon.png" id="2_grqfx"]
 
 [node name="LineItem" type="Control"]
 layout_mode = 3

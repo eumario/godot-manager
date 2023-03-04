@@ -8,18 +8,108 @@ namespace GodotManager.Library.Data.POCO.Internal;
 
 public class ProjectFile
 {
+    #region Notification Events
+
+    public delegate void FileChanged();
+
+    public event FileChanged ProjectChanged;
+    #endregion
+    #region Private Variables
+
+    private string _icon;
+    private string _name;
+    private string _description;
+    private string _location;
+    private GodotVersion _godotVersion;
+    private Category _category;
+    private bool _favorite;
+    private DateTime _lastAccessed;
+    #endregion
     [BsonId] public int Id { get; set; }
-    public string Icon { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string Location { get; set; }
+
+    public string Icon
+    {
+        get => _icon;
+        set
+        {
+            _icon = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            _name = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public string Description
+    {
+        get => _description;
+        set
+        {
+            _description = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public string Location
+    {
+        get => _location;
+        set
+        {
+            _location = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
     [BsonRef]
-    public GodotVersion GodotVersion { get; set; }
+    public GodotVersion GodotVersion
+    {
+        get => _godotVersion;
+        set
+        {
+            _godotVersion = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
     public bool IsGodot4 { get; set; }
+
     [BsonRef]
-    public Category Category { get; set; }
-    public bool Favorite { get; set; }
-    public DateTime LastAccessed { get; set; }
+    public Category Category
+    {
+        get => _category;
+        set
+        {
+            _category = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public bool Favorite
+    {
+        get => _favorite;
+        set
+        {
+            _favorite = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public DateTime LastAccessed
+    {
+        get => _lastAccessed;
+        set
+        {
+            _lastAccessed = value;
+            ProjectChanged?.Invoke();
+        }
+    }
     public List<string> Assets { get; set; }
 
     public static ProjectFile ReadFromFile(string filePath)
@@ -55,6 +145,19 @@ public class ProjectFile
     public static bool ProjectExists(string filePath) => File.Exists(filePath);
 
     public bool HasPlugin(string id) => Assets.Contains(id);
+
+    public void AddPlugin(string id)
+    {
+        Assets.Add(id);
+        ProjectChanged?.Invoke();
+    }
+
+    public void RemovePlugin(string id)
+    {
+        Assets.Remove(id);
+        ProjectChanged?.Invoke();
+    }
+
 
     public void UpdateData()
     {

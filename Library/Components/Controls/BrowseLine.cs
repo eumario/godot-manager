@@ -1,5 +1,7 @@
+using System;
 using Godot;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Utility;
 using NativeFileDialogs.Net;
 
 // namespace
@@ -48,8 +50,8 @@ public partial class BrowseLine : Control
 		set
 		{
 			_displayText = value;
-			if (_textLabel != null)
-				_textLabel.Text = value;
+			if (_textLabel == null) return;
+			_textLabel.Text = value;
 		}
 	}
 
@@ -62,8 +64,8 @@ public partial class BrowseLine : Control
 			_defaultValue = value;
 			if (_input != null)
 				_input.Text = value;
-			if (_default != null)
-				_default.Visible = !string.IsNullOrEmpty(value);
+			if (_default == null) return;
+			_default.Visible = !string.IsNullOrEmpty(value);
 		}
 	}
 
@@ -74,8 +76,8 @@ public partial class BrowseLine : Control
 		set
 		{
 			_textWidth = value;
-			if (_textLabel != null)
-				_textLabel.CustomMinimumSize = new Vector2I(value, 25);
+			if (_textLabel == null) return;
+			_textLabel.CustomMinimumSize = new Vector2I(value, 25);
 		}
 	}
 
@@ -86,8 +88,8 @@ public partial class BrowseLine : Control
 		set
 		{
 			_useDefault = value;
-			if (_default != null)
-				_default.Visible = value;
+			if (_default == null) return;
+			_default.Visible = value;
 		}
 	}
 
@@ -98,12 +100,10 @@ public partial class BrowseLine : Control
 		set
 		{
 			_useLabel = value;
-			if (_textLabel != null)
-			{
-				_textLabel.Visible = value;
-				_spacer1.Visible = value;
-				_spacer2.Visible = value;
-			}
+			if (_textLabel == null) return;
+			_textLabel.Visible = value;
+			_spacer1.Visible = value;
+			_spacer2.Visible = value;
 		}
 	}
 
@@ -114,7 +114,7 @@ public partial class BrowseLine : Control
 	public override void _Ready()
 	{
 		this.OnReady();
-		
+
 		// Rest of Initialization Functions
 		DisplayText = _displayText;
 		DefaultValue = _defaultValue;
@@ -122,14 +122,13 @@ public partial class BrowseLine : Control
 		UseDefault = _useDefault;
 		UseLabel = _useLabel;
 
-		_browse.Pressed += () =>
+		_browse.Pressed += async () =>
 		{
-			var path = "";
-			var result = Nfd.PickFolder(out path, _input.Text);
-			if (result == NfdStatus.Ok)
-				_input.Text = path;
+			var res = await UI.BrowseFolder("Locate Project Root Folder", UseDefault ? DefaultValue : "");
+			if (!string.IsNullOrEmpty(res))
+				_input.Text = res.Replace("/","\\");
 		};
-
+		
 		_default.Pressed += () => _input.Text = DefaultValue;
 	}
 	#endregion

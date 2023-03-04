@@ -7,7 +7,7 @@ using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
 
-public partial class ProjectLineItem : Control
+public partial class ProjectLineItem : Control, IProjectIcon
 {
 	#region Signals
 	[Signal] public delegate void FavoriteClickedEventHandler(ProjectLineItem pli, bool value);
@@ -20,17 +20,20 @@ public partial class ProjectLineItem : Control
 	#endregion
 	
 	#region Quick Create
-	private static readonly PackedScene Packed = GD.Load<PackedScene>("res://Library/Components/Controls/ProjectLineItem.tscn");
-	public static ProjectLineItem CreateControl() => Packed.Instantiate<ProjectLineItem>();
+	public static ProjectLineItem FromScene()
+	{
+		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/ProjectLineItem.tscn");
+		return scene.Instantiate<ProjectLineItem>();
+	}
 	#endregion
 	
 	#region Node Paths
-	[NodePath] private TextureRect Icon = null;
-	[NodePath] private RichTextLabel ProjectName = null;
-	[NodePath] private Label ProjectDesc = null;
-	[NodePath] private Label ProjectLoc = null;
-	[NodePath] private Label GodotVersionDisplay = null;
-	[NodePath] private Button Heart = null;
+	[NodePath] private TextureRect _projectIcon;
+	[NodePath] private RichTextLabel _projectName;
+	[NodePath] private Label _projectDesc;
+	[NodePath] private Label _projectLoc;
+	[NodePath] private Label _godotVersionDisplay;
+	[NodePath] private Button _heart;
 	#endregion
 	
 	#region Resources
@@ -41,6 +44,7 @@ public partial class ProjectLineItem : Control
 	#region Private Variables
 	private GodotVersion _godotVersion;
 	private ProjectFile _projectFile;
+	private ShaderMaterial _shader;
 	#endregion
 	
 	#region Public Properties
@@ -52,10 +56,8 @@ public partial class ProjectLineItem : Control
 		set
 		{
 			_godotVersion = value;
-			if (GodotVersionDisplay != null)
-			{
-				GodotVersionDisplay.Text = $"Godot {_godotVersion.Tag}";
-			}
+			if (_godotVersionDisplay == null) return;
+			_godotVersionDisplay.Text = value is null ? "Unknown" : $"Godot {_godotVersion.Tag}";
 		}
 	}
 
@@ -64,23 +66,16 @@ public partial class ProjectLineItem : Control
 		get => _projectFile;
 		set
 		{
+			if (_projectFile != null)
+				_projectFile.ProjectChanged -= UpdateUI;
+			
 			_projectFile = value;
-			
-			if (ProjectName is null) return;
-			
-			MissingProject = !File.Exists(value.Location);
-			ProjectName.Text = value.Name;
-			ProjectDesc.Text = value.Description;
-			ProjectLoc.Text = MissingProject ? "Unknown Location" : value.Location.GetBaseDir();
-			Heart.ButtonPressed = value.Favorite;
 
-			if (MissingProject)
-				Icon.Texture = _missingIcon;
-			else
-			{
-				var file = value.Location.GetResourceBase(value.Icon);
-				Icon.Texture = !File.Exists(file) ? _defaultProjectIcon : Util.LoadImage(file);
-			}
+			if (_projectName is null) return;
+
+			value.ProjectChanged += UpdateUI;
+			
+			UpdateUI();
 		}
 	}
 	#endregion
@@ -91,40 +86,49 @@ public partial class ProjectLineItem : Control
 		this.OnReady();
 		GodotVersion = _godotVersion;
 		ProjectFile = _projectFile;
-		Heart.Pressed += () => EmitSignal(nameof(FavoriteClicked), this);
+		_shader = (ShaderMaterial)_heart.Material.Duplicate();
+		_heart.Material = _shader;
+		_shader.SetShaderParameter("s", _projectFile.Favorite ? 1.0f : 0.0f);
+		_shader.SetShaderParameter("v", _projectFile.Favorite ? 1.0f : 0.5f);
+		_heart.Toggled += (toggle) =>
+		{
+			_shader.SetShaderParameter("s", toggle ? 1.0f : 0.0f);
+			_shader.SetShaderParameter("v", toggle ? 1.0f : 0.5f);
+			EmitSignal(ProjectLineItem.SignalName.FavoriteClicked, this, toggle);
+		};
 		GuiInput += HandleGuiInput;
 	}
 
-	public override bool _CanDropData(Vector2 atPosition, Variant data)
-	{
-		return GetParent().GetParent<CategoryList>()._CanDropData(atPosition, data);
-	}
-
-	public override void _DropData(Vector2 atPosition, Variant data)
-	{
-		GetParent().GetParent<CategoryList>()._DropData(atPosition, data);
-	}
-
-	public override Variant _GetDragData(Vector2 atPosition)
-	{
-		Dictionary<string, Node> data = new Dictionary<string, Node>();
-		
-		if (GetParent().GetParent() is not CategoryList)
-			return data;
-
-		data["source"] = this;
-		data["parent"] = GetParent().GetParent();
-		var preview = CreateControl();
-		preview.ProjectFile = ProjectFile;
-		preview.GodotVersion = GodotVersion;
-		var notifier = new VisibleOnScreenNotifier2D();
-		preview.AddChild(notifier);
-		notifier.ScreenEntered += () => EmitSignal(nameof(DragStarted), this);
-		notifier.ScreenExited += () => EmitSignal(nameof(DragEnded), this);
-		SetDragPreview(preview);
-		data["preview"] = preview;
-		return data;
-	}
+	// public override bool _CanDropData(Vector2 atPosition, Variant data)
+	// {
+	// 	return GetParent().GetParent<CategoryList>()._CanDropData(atPosition, data);
+	// }
+	//
+	// public override void _DropData(Vector2 atPosition, Variant data)
+	// {
+	// 	GetParent().GetParent<CategoryList>()._DropData(atPosition, data);
+	// }
+	//
+	// public override Variant _GetDragData(Vector2 atPosition)
+	// {
+	// 	Dictionary<string, Node> data = new Dictionary<string, Node>();
+	// 	
+	// 	if (GetParent().GetParent() is not CategoryList)
+	// 		return data;
+	//
+	// 	data["source"] = this;
+	// 	data["parent"] = GetParent().GetParent();
+	// 	var preview = FromScene();
+	// 	preview.ProjectFile = ProjectFile;
+	// 	preview.GodotVersion = GodotVersion;
+	// 	var notifier = new VisibleOnScreenNotifier2D();
+	// 	preview.AddChild(notifier);
+	// 	notifier.ScreenEntered += () => EmitSignal(nameof(DragStarted), this);
+	// 	notifier.ScreenExited += () => EmitSignal(nameof(DragEnded), this);
+	// 	SetDragPreview(preview);
+	// 	data["preview"] = preview;
+	// 	return data;
+	// }
 
 
 	#endregion
@@ -153,6 +157,29 @@ public partial class ProjectLineItem : Control
 				break;
 			default:
 				return;
+		}
+	}
+	#endregion
+	
+	#region Public Functions
+	#endregion
+	
+	#region Private Functions
+
+	private void UpdateUI()
+	{
+		MissingProject = !File.Exists(ProjectFile.Location);
+		_projectName.Text = ProjectFile.Name;
+		_projectDesc.Text = ProjectFile.Description;
+		_projectLoc.Text = MissingProject ? "Unknown Location" : ProjectFile.Location.GetBaseDir();
+		_heart.ButtonPressed = ProjectFile.Favorite;
+
+		if (MissingProject)
+			_projectIcon.Texture = _missingIcon;
+		else
+		{
+			var file = ProjectFile.Location.GetResourceBase(ProjectFile.Icon);
+			_projectIcon.Texture = !File.Exists(file) ? _defaultProjectIcon : Util.LoadImage(file);
 		}
 	}
 	#endregion

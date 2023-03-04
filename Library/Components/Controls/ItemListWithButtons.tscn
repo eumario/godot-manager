@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cp7ffpofhkvni"]
 
 [ext_resource type="Script" path="res://Library/Components/Controls/ItemListWithButtons.cs" id="1_xort6"]
-[ext_resource type="Texture2D" uid="uid://rsp5xwd5evdx" path="res://Assets/Icons/svg/icon_add.svg" id="1_y78nx"]
-[ext_resource type="Texture2D" uid="uid://krph46ayj1en" path="res://Assets/Icons/svg/icon_edit.svg" id="2_dhjcf"]
-[ext_resource type="Texture2D" uid="uid://brjatgabi1t48" path="res://Assets/Icons/svg/icon_remove.svg" id="3_fo56c"]
+[ext_resource type="Texture2D" uid="uid://dvinp45as4c74" path="res://Assets/Icons/svg/icon_add.svg" id="1_y78nx"]
+[ext_resource type="Texture2D" uid="uid://cwnknm8dbc2cn" path="res://Assets/Icons/svg/icon_edit.svg" id="2_dhjcf"]
+[ext_resource type="Texture2D" uid="uid://b7trxn1cmk486" path="res://Assets/Icons/svg/icon_remove.svg" id="3_fo56c"]
 
 [node name="ItemListWithButtons" type="PanelContainer"]
 anchors_preset = 15

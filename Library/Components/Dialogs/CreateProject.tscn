@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://e283inkecncp"]
 
-[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_lbk6m"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_lbk6m"]
 [ext_resource type="Script" path="res://Library/Components/Dialogs/CreateProject.cs" id="1_nleuq"]
-[ext_resource type="Texture2D" uid="uid://45tj0lcusuhv" path="res://Assets/Icons/svg/icon_status_error.svg" id="2_q74yh"]
+[ext_resource type="Texture2D" uid="uid://dwob6jdx5bkh1" path="res://Assets/Icons/svg/icon_status_error.svg" id="2_q74yh"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_x83sb"]
 
@@ -19,10 +19,10 @@ script = ExtResource("1_nleuq")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -432.0
-offset_bottom = -269.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8

@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://durhql7n7d175"]
 
-[ext_resource type="Texture2D" uid="uid://bakp8fwxuwxa2" path="res://Assets/Icons/svg/godot.svg" id="1_6bwkc"]
-[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_y4tpx"]
-[ext_resource type="Texture2D" uid="uid://cnkb32p3mfptt" path="res://Assets/Icons/png/buy-me.png" id="3_0ogi6"]
-[ext_resource type="Texture2D" uid="uid://c6h7m47x2qk2t" path="res://Assets/Icons/png/itchio.png" id="4_v4rr7"]
-[ext_resource type="Texture2D" uid="uid://bm82q47jr5cks" path="res://Assets/Icons/png/github.png" id="5_3mawr"]
-[ext_resource type="Texture2D" uid="uid://8araaugf6iia" path="res://Assets/Icons/png/discord.png" id="6_64bdo"]
+[ext_resource type="Texture2D" uid="uid://cxvm7nsusuj3x" path="res://Assets/Icons/svg/godot.svg" id="1_6bwkc"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_y4tpx"]
+[ext_resource type="Texture2D" uid="uid://ddtp86x2mnrv5" path="res://Assets/Icons/png/buy-me.png" id="3_0ogi6"]
+[ext_resource type="Texture2D" uid="uid://drcp28a3gyhpc" path="res://Assets/Icons/png/itchio.png" id="4_v4rr7"]
+[ext_resource type="Texture2D" uid="uid://wvcylsdo55jd" path="res://Assets/Icons/png/github.png" id="5_3mawr"]
+[ext_resource type="Texture2D" uid="uid://cpvhalwv50qck" path="res://Assets/Icons/png/discord.png" id="6_64bdo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_db5xf"]
 font = ExtResource("2_y4tpx")
@@ -75,7 +75,6 @@ bbcode_enabled = true
 text = "Created By: Mario Steele <[url=mailto:mario@ruby-im.net]mario@ruby-im.net[/url]>
 Website: [url=https://github.com/eumario/godot-manager]https://github.com/eumario/godot-manager[/url]
                 [url=https://eumario.itch.io/godot-manager]https://eumario.itch.io/godot-manager[/url]"
-fit_content_height = true
 
 [node name="Button" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -109,7 +108,6 @@ text = "[table=3][cell][color=green]Project Name[/color][/cell][cell][color=gree
 [cell][color=aqua]Octokit[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://github.com/octokit/octokit.net[/url][/color][/cell]
 [cell][color=aqua]LiteDB[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://litedb.org[/url][/color][/cell]
 [cell][color=aqua]SharpZipLib[/color][/cell][cell][color=white]v0.0.0[/color][/cell][cell][color=yellow][url]https://github.com/icsharpcode/SharpZipLib[/url][/color][/cell][/table]"
-fit_content_height = true
 
 [node name="HSeparator2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

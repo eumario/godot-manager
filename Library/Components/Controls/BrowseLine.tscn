@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dmc6ugntigwro"]
 
-[ext_resource type="Script" path="res://Library/Components/Controls/BrowseLine.cs" id="1_eb4d5"]
-[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_m2gkb"]
+[ext_resource type="Script" path="res://Library/Components/Controls/BrowseLine.cs" id="1_ivqk2"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_m2gkb"]
 
 [node name="BrowseLine" type="Control"]
 custom_minimum_size = Vector2(0, 25)
@@ -11,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_eb4d5")
+script = ExtResource("1_ivqk2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -22,11 +22,13 @@ theme_override_constants/separation = 10
 
 [node name="Spacer1" type="Control" parent="HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
 
 [node name="TextLabel" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_m2gkb")
@@ -55,5 +57,6 @@ text = "Use Default"
 
 [node name="Spacer2" type="Control" parent="HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2

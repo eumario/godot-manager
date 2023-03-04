@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Library/Components/Panels/SettingsPanel.cs" id="1_msfm8"]
 [ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="2_ukqdp"]
-[ext_resource type="Texture2D" uid="uid://j8t4a1xyu62s" path="res://Assets/Icons/svg/icon_save.svg" id="3_s4ddi"]
-[ext_resource type="Texture2D" uid="uid://bf3qctej6eo1" path="res://Assets/Icons/svg/icon_undo.svg" id="4_pm0nv"]
+[ext_resource type="Texture2D" uid="uid://bsqs5pherwq68" path="res://Assets/Icons/svg/icon_save.svg" id="3_s4ddi"]
+[ext_resource type="Texture2D" uid="uid://6tcbi7gsmqdo" path="res://Assets/Icons/svg/icon_undo.svg" id="4_pm0nv"]
 [ext_resource type="PackedScene" uid="uid://cnopr3vbuk56j" path="res://Library/Components/Panels/Settings/GeneralPanel.tscn" id="5_w5umu"]
 [ext_resource type="Script" path="res://Library/Components/Panels/Settings/GeneralPanel.cs" id="6_vujlp"]
 [ext_resource type="PackedScene" uid="uid://bcojfyv2q2nel" path="res://Library/Components/Panels/Settings/ProjectsPanel.tscn" id="7_l6yjp"]

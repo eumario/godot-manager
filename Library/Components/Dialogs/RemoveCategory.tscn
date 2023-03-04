@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bc6xk8hp3xn0n"]
 
 [ext_resource type="Script" path="res://Library/Components/Dialogs/RemoveCategory.cs" id="1_1t815"]
-[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_wbxsd"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_wbxsd"]
 
 [node name="RemoveCategory" type="AcceptDialog"]
 title = "Remove Category"
@@ -14,10 +14,10 @@ script = ExtResource("1_1t815")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -712.0
-offset_bottom = -419.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 2
 

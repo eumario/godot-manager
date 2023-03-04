@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://tq8iqlepexpy"]
 
 [ext_resource type="Script" path="res://Library/Components/Controls/HeaderButton.cs" id="1_d6517"]
-[ext_resource type="Texture2D" uid="uid://cvue5h0lc3ak" path="res://Assets/Icons/svg/minus.svg" id="1_wscse"]
+[ext_resource type="Texture2D" uid="uid://cs6ea4qmsgw22" path="res://Assets/Icons/svg/minus.svg" id="1_wscse"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ysu4d"]
 content_margin_left = 10.0
@@ -24,7 +24,6 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
-text = "Header"
 
 [node name="Spacer" type="Control" parent="HBoxContainer"]
 layout_mode = 2
@@ -36,4 +35,4 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("1_wscse")
-ignore_texture_size = true
+expand_mode = 1

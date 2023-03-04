@@ -150,6 +150,7 @@ layout_mode = 2
 [node name="UseSystem" type="CheckBox" parent="GridContainer/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
+disabled = true
 text = "Use System Titlebar"
 flat = true
 

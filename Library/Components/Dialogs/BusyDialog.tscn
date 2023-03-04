@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://80d8uaf11hkw"]
 
-[ext_resource type="FontFile" uid="uid://b4c2vsgaqxx3i" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_6c078"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_6c078"]
 [ext_resource type="Script" path="res://Library/Components/Dialogs/BusyDialog.cs" id="1_fwagr"]
 [ext_resource type="PackedScene" uid="uid://dk0mp6wu6vqos" path="res://Library/Components/Controls/Spinner.tscn" id="2_8bcyo"]
 

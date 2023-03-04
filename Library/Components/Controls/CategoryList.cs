@@ -31,6 +31,11 @@ public partial class CategoryList : VBoxContainer
 	[NodePath] private Button Pin = null;
 	[NodePath] private Button ExpandToggle = null;
 	[NodePath] private VBoxContainer List = null;
+	
+	[Resource("res://Assets/Icons/svg/drop_down1.svg")]
+	private Texture2D _expanded;
+	[Resource("res://Assets/Icons/svg/drop_down2.svg")]
+	private Texture2D _collapsed;
 	#endregion
 
 	#region Private Variables
@@ -81,7 +86,7 @@ public partial class CategoryList : VBoxContainer
 			if (ExpandToggle is null)
 				return;
 			ExpandToggle.ButtonPressed = value;
-			ExpandToggle.Rotation = value ? Mathf.DegToRad(180) : Mathf.DegToRad(0);
+			ExpandToggle.Icon = value ? _expanded : _collapsed;
 		}
 	}
 
@@ -146,12 +151,17 @@ public partial class CategoryList : VBoxContainer
 	public override void _Ready()
 	{
 		this.OnReady();
+
 		Category = _category;
 		Toggable = _toggable;
 		Pinnable = _pinnable;
 		if (_category is null)
 			Title = _title;
-		ExpandToggle.Pressed += () => Expanded = ExpandToggle.ButtonPressed;
+		ExpandToggle.Pressed += () =>
+		{
+			Expanded = ExpandToggle.ButtonPressed;
+			List.Visible = ExpandToggle.ButtonPressed;
+		};
 		Pin.Pressed += () => Pinned = Pin.ButtonPressed;
 	}
 

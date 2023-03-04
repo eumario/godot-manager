@@ -52,7 +52,7 @@ public partial class ImportProject : ConfirmationDialog
 		if (loc.StartsWith("/~"))
 			loc = Path.GetFullPath(loc.Replace("/~",
 				System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile)));
-
+		
 		if (!File.Exists(loc))
 		{
 			UI.MessageBox("Invalid Project", "The directory provided does not contain a valid Godot Project file!");
@@ -78,10 +78,10 @@ public partial class ImportProject : ConfirmationDialog
 					"Unable to import Project due to some error.  Please check the Godot Project file to ensure it is valid, before trying again.");
 				GD.PrintErr($"Failed to load project {loc}, Exception Occurred: {ex.GetType().Name}: {ex.Message}\nTraceback: {ex.StackTrace}");
 			}
-
+		
 			return;
 		}
-
+		
 		EmitSignal(nameof(ImportCompleted));
 	}
 }

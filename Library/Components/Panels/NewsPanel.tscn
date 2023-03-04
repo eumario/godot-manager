@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cn4dii4n5dfmh"]
 
 [ext_resource type="Script" path="res://Library/Components/Panels/NewsPanel.cs" id="1_flq4m"]
-[ext_resource type="Texture2D" uid="uid://bbugssivc1yd4" path="res://Assets/Icons/png/check_for_updates.png" id="2_kmnna"]
+[ext_resource type="Texture2D" uid="uid://boa2f1umebb1g" path="res://Assets/Icons/png/check_for_updates.png" id="2_kmnna"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f13ay"]
 bg_color = Color(0.294118, 0.317647, 0.388235, 1)

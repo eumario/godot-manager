@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Library/Components/Panels/AssetPanel.cs" id="1_tpgfo"]
 [ext_resource type="PackedScene" uid="uid://oeaocesaan2w" path="res://Library/Components/Controls/PaginatedListing.tscn" id="2_600qo"]
-[ext_resource type="Texture2D" uid="uid://dobqrdjvlrvyf" path="res://Assets/Icons/svg/search_small.svg" id="3_6m20q"]
+[ext_resource type="Texture2D" uid="uid://4gml8mgst2q2" path="res://Assets/Icons/svg/search_small.svg" id="3_6m20q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3u0y"]
 bg_color = Color(0.294118, 0.317647, 0.388235, 1)

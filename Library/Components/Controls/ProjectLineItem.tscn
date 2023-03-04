@@ -1,60 +1,88 @@
-[gd_scene load_steps=4 format=3 uid="uid://kn3ld28w6m5s"]
+[gd_scene load_steps=6 format=3 uid="uid://f7kqh8paskui"]
 
-[ext_resource type="PackedScene" uid="uid://c61btlhlani3y" path="res://Library/Components/Controls/LineItem.tscn" id="1_ysnpw"]
+[ext_resource type="Texture2D" uid="uid://bsqyf68f2tedk" path="res://Assets/Icons/png/default_project_icon.png" id="2_6b7ao"]
 [ext_resource type="Script" path="res://Library/Components/Controls/ProjectLineItem.cs" id="2_83qi3"]
-[ext_resource type="Texture2D" uid="uid://br0jgs643s0ak" path="res://Assets/Icons/svg/icon_heart.svg" id="2_w8jwt"]
+[ext_resource type="Texture2D" uid="uid://y0bj3hnmj4nc" path="res://Assets/Icons/svg/icon_heart.svg" id="2_w8jwt"]
+[ext_resource type="Shader" path="res://Shaders/hsv_value.gdshader" id="3_nlw1g"]
 
-[node name="ProjectLineItem" instance=ExtResource("1_ysnpw")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rb641"]
+shader = ExtResource("3_nlw1g")
+shader_parameter/h = 1.0
+shader_parameter/s = 1.0
+shader_parameter/v = 1.0
+
+[node name="ProjectLineItem" type="Control"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("2_83qi3")
 
-[node name="Spacer" parent="HBoxContainer" index="0"]
-mouse_filter = 1
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
 
-[node name="Icon" parent="HBoxContainer" index="1"]
-custom_minimum_size = Vector2(64, 64)
-expand_mode = 1
-stretch_mode = 5
+[node name="Spacer" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
 
-[node name="ProjectName" type="RichTextLabel" parent="HBoxContainer/MiddleSection" index="0"]
+[node name="ProjectIcon" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+texture = ExtResource("2_6b7ao")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProjectName" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 1
 bbcode_enabled = true
 text = "[b]Project Name[/b]"
-scroll_active = false
+fit_content = true
 
-[node name="ProjectDesc" type="Label" parent="HBoxContainer/MiddleSection" index="1"]
+[node name="ProjectDesc" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 14
 text = "Project Description"
-clip_text = true
+text_overrun_behavior = 4
 
-[node name="ProjectLoc" type="Label" parent="HBoxContainer/MiddleSection" index="2"]
+[node name="ProjectLoc" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 14
 text = "Location: /home/eumario/Projects/Godot/ProjectName"
-clip_text = true
+text_overrun_behavior = 3
 
-[node name="GodotVersionDisplay" type="Label" parent="HBoxContainer" index="3"]
+[node name="GodotVersionDisplay" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/font_size = 14
-text = "Godot vx.x.x"
+text = "Godot v0.0.0"
 horizontal_alignment = 1
 
-[node name="Heart" type="Button" parent="HBoxContainer/EndSection" index="0"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Heart" type="Button" parent="HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_rb641")
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 icon = ExtResource("2_w8jwt")
 flat = true
 expand_icon = true
 
-[node name="Spacer2" parent="HBoxContainer" index="5"]
-mouse_filter = 1
+[node name="Spacer2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2

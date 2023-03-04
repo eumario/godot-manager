@@ -123,7 +123,7 @@ public class Database
             LastMirrorCheck = DateTime.UtcNow.AddDays(-1),
             LastMirrorUpdateCheck = new(),
             UpdateCheckInterval = TimeSpan.FromDays(1),
-            UseSystemTitlebar = false,
+            UseSystemTitlebar = true,  // Current bug on Windows, in fact that using Maximize, and Window, will do fullscreen, and prevent resizing to normal.
             UseLastMirror = false,
             ScanDirs = new() { OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath() },
             UseProxy = false,
@@ -160,6 +160,12 @@ public class Database
         Instance._database.Checkpoint();
     }
 
+    public static void UpdateProject(ProjectFile projectFile)
+    {
+        Instance._projects.Update(projectFile);
+        Instance._database.Checkpoint();
+    }
+
     public static ProjectFile[] AllProjects() =>
         Instance._projects.Query().ToArray();
     #endregion
@@ -171,6 +177,23 @@ public class Database
     #endregion
 
     #region Category Functions
+
+    public static bool HasCategory(string name) =>
+        Instance._categories.Query().Where(cat => cat.Name == name).FirstOrDefault() != null;
+
+    public static Category GetCategory(string name) =>
+        Instance._categories.Query().Where(cat => cat.Name == name).First();
+
+    public static void AddCategory(string name)
+    {
+        Instance._categories.Insert(new Category()
+            { IsExpanded = false, IsPinned = false, LastAccessed = DateTime.UtcNow, Name = name });
+        Instance._database.Checkpoint();
+    }
+
+    public static Category[] AllCategories() =>
+        Instance._categories.Query().ToArray();
+
     #endregion
 
     #region GodotVersion Functions

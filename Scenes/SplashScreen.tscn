@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://fgibxnk1hpi0"]
 
-[ext_resource type="Texture2D" uid="uid://bakp8fwxuwxa2" path="res://Assets/Icons/svg/godot.svg" id="1_8q44n"]
+[ext_resource type="Texture2D" uid="uid://cxvm7nsusuj3x" path="res://Assets/Icons/svg/godot.svg" id="1_8q44n"]
 [ext_resource type="Script" path="res://Scenes/SplashScreen.cs" id="1_svmvy"]
-[ext_resource type="FontFile" uid="uid://b5ay6yy04663v" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_j52yr"]
-[ext_resource type="FontFile" uid="uid://cw7gvxhpjkwf" path="res://Assets/Fonts/DroidSans.ttf" id="3_h1pjk"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_j52yr"]
+[ext_resource type="FontFile" uid="uid://cvhh8phjvk77r" path="res://Assets/Fonts/DroidSans.ttf" id="3_h1pjk"]
 
 [node name="SplashScreen" type="Control"]
 layout_mode = 3

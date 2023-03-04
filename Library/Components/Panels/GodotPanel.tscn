@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Library/Components/Panels/GodotPanel.cs" id="1_53eva"]
 [ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="2_nsxf8"]
-[ext_resource type="Texture2D" uid="uid://bvu3kq67n3iax" path="res://Assets/Icons/svg/import.svg" id="3_ov1pu"]
-[ext_resource type="Texture2D" uid="uid://cxd48sahrmtsx" path="res://Assets/Icons/svg/web.svg" id="4_o75qn"]
-[ext_resource type="Texture2D" uid="uid://bbugssivc1yd4" path="res://Assets/Icons/png/check_for_updates.png" id="5_4gap3"]
+[ext_resource type="Texture2D" uid="uid://b1j5da7bble26" path="res://Assets/Icons/svg/import.svg" id="3_ov1pu"]
+[ext_resource type="Texture2D" uid="uid://b8q77us0asyny" path="res://Assets/Icons/svg/web.svg" id="4_o75qn"]
+[ext_resource type="Texture2D" uid="uid://boa2f1umebb1g" path="res://Assets/Icons/png/check_for_updates.png" id="5_4gap3"]
 [ext_resource type="PackedScene" uid="uid://cclwviqdleeta" path="res://Library/Components/Controls/CategoryList.tscn" id="6_0bv7o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ue3l"]
