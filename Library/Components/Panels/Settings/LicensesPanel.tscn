@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://c1hq816vfsuya"]
+[gd_scene load_steps=2 format=3 uid="uid://c1hq816vfsuya"]
+
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/LicensesPanel.cs" id="1_twnpm"]
 
 [node name="LicensesPanel" type="MarginContainer"]
 anchors_preset = 15
@@ -10,16 +12,18 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+script = ExtResource("1_twnpm")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
 tab_alignment = 1
 
-[node name="MIT License" type="RichTextLabel" parent="TabContainer"]
+[node name="MitLicense" type="RichTextLabel" parent="TabContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
 text = "[center][color=aqua]License Godot Manager:[/color]
-Copyright (c) 2021 Mario Steele
+Copyright (c) 2021-2023 Mario Steele
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
@@ -42,7 +46,7 @@ SOFTWARE.
 [img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 
 [color=aqua]License GodotSharpExtras:[/color]
-Copyright (c) 2021 Mario Steele
+Copyright (c) 2021-2023 Mario Steele
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
@@ -65,8 +69,8 @@ SOFTWARE.
 [img=864x5]res://Assets/UI/horizontal_rule.png[/img]
 
 [color=aqua]License Godot Engine[/color]
-Copyright (c) 2007-2022 Juan Linietsky, Ariel Manzur.
-Copyright (c) 2014-2022 Godot Engine contributors (cf. AUTHORS.md).
+Copyright (c) 2007-2023 Juan Linietsky, Ariel Manzur.
+Copyright (c) 2014-2023 Godot Engine contributors (cf. AUTHORS.md).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
@@ -97,7 +101,8 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 
-[node name="Apache License" type="RichTextLabel" parent="TabContainer"]
+[node name="ApacheLicense" type="RichTextLabel" parent="TabContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 bbcode_enabled = true

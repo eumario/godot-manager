@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Utility;
 
 // namespace
 
@@ -11,6 +12,9 @@ public partial class LicensesPanel : MarginContainer
 	#endregion
 	
 	#region Node Paths
+
+	[NodePath] private RichTextLabel _mitLicense;
+	[NodePath] private RichTextLabel _apacheLicense;
 	#endregion
 	
 	#region Private Variables
@@ -25,6 +29,11 @@ public partial class LicensesPanel : MarginContainer
 		this.OnReady();
 		
 		// Rest of Initialization Functions
+		_mitLicense.Name = "MIT License";
+		_apacheLicense.Name = "Apache License";
+
+		_mitLicense.MetaClicked += (meta) => Util.LaunchWeb(meta.ToString());
+		_apacheLicense.MetaClicked += (meta) => Util.LaunchWeb(meta.ToString());
 	}
 	#endregion
 	
