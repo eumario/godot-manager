@@ -32,6 +32,8 @@ public partial class Spinner : TextureRect
 		_timer.Timeout += () =>
 		{
 			RotationDegrees += 30;
+			if (RotationDegrees > 360)
+				RotationDegrees = 30;
 		};
 		_timer.Start();
 	}
