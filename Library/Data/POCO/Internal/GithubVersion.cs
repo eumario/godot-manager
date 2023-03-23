@@ -109,4 +109,8 @@ public class GithubVersion
         Release = release;
         GatherUrls();
     }
+
+    public GithubVersion()
+    {
+    }
 }
