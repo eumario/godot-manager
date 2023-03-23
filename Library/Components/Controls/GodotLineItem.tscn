@@ -29,6 +29,10 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [node name="GodotLineItem" instance=ExtResource("1_f2o7s")]
+custom_minimum_size = Vector2(0, 64)
+anchors_preset = 10
+anchor_bottom = 0.0
+grow_vertical = 1
 script = ExtResource("2_jnwaq")
 
 [node name="Icon" parent="HBoxContainer" index="1"]
@@ -39,6 +43,7 @@ unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
 text = "[b]Godot Version x.x.x (Stable)[/b]"
+fit_content = true
 
 [node name="Installed" type="VBoxContainer" parent="HBoxContainer/MiddleSection" index="1"]
 unique_name_in_owner = true
@@ -170,6 +175,7 @@ expand_icon = true
 
 [node name="InstallUninstall" type="Button" parent="HBoxContainer/EndSection" index="2"]
 unique_name_in_owner = true
+modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("4_tip3s")
