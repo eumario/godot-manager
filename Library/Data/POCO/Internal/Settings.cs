@@ -52,7 +52,8 @@ public class Settings
     public int ProxyPort { get; set; }
     
     // General Settings
-    [BsonRef] public GodotVersion DefaultEngine { get; set; }
+    [BsonRef] public GodotVersion DefaultEngine3 { get; set; }
+    [BsonRef] public GodotVersion DefaultEngine4 { get; set; }
     public bool SelfContainedEditors { get; set; }
     public List<string> ScanDirs { get; set; }
     public int LocalAddonCount { get; set; }
