@@ -107,16 +107,16 @@ public partial class ItemListWithButtons : PanelContainer
 		Disabled = _disabled;
 		Vertical = _vertical;
 		FlatButtons = _flatButtons;
-		_addItemHorizontal.Pressed += () => EmitSignal(nameof(ItemAdd));
-		_addItemVertical.Pressed += () => EmitSignal(nameof(ItemAdd));
+		_addItemHorizontal.Pressed += () => EmitSignal(SignalName.ItemAdd);
+		_addItemVertical.Pressed += () => EmitSignal(SignalName.ItemAdd);
 		
-		_editItemHorizontal.Pressed += () => EmitSignal(nameof(ItemEdit));
-		_editItemVertical.Pressed += () => EmitSignal(nameof(ItemEdit));
+		_editItemHorizontal.Pressed += () => EmitSignal(SignalName.ItemEdit);
+		_editItemVertical.Pressed += () => EmitSignal(SignalName.ItemEdit);
+
+		_removeItemHorizontal.Pressed += () => EmitSignal(SignalName.ItemRemove);
+		_removeItemVertical.Pressed += () => EmitSignal(SignalName.ItemRemove);
 		
-		_removeItemHorizontal.Pressed += () => EmitSignal(nameof(ItemRemove));
-		_removeItemVertical.Pressed += () => EmitSignal(nameof(ItemRemove));
-		
-		_itemList.ItemSelected += (i) => EmitSignal(nameof(ItemSelected), i);
+		_itemList.ItemSelected += (i) => EmitSignal(SignalName.ItemSelected, i);
 		// Rest of Initialization Functions
 	}
 	#endregion

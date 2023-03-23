@@ -80,11 +80,11 @@ public partial class HeaderButton : PanelContainer
 			if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Left, DoubleClick: true })
 			{
 				Direction = SortDirection.Indeterminate;
-				EmitSignal(nameof(DirectionChanged));
+				EmitSignal(SignalName.DirectionChanged);
 			} else if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Left })
 			{
 				Direction = Direction == SortDirection.Down ? SortDirection.Up : SortDirection.Down;
-				EmitSignal(nameof(DirectionChanged));
+				EmitSignal(SignalName.DirectionChanged);
 			}
 		};
 	}

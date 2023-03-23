@@ -65,7 +65,7 @@ public partial class ViewToggleButtons : PanelContainer
 			{
 				foreach (var groupButton in _buttonGroup.GetButtons())
 					groupButton.SelfModulate = groupButton.ButtonPressed ? Colors.Green : Colors.White;
-				EmitSignal(nameof(ViewChanged), index);
+				EmitSignal(SignalName.ViewChanged, index);
 			};
 		}
 

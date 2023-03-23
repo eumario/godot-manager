@@ -46,7 +46,7 @@ public partial class ActionButtons : PanelContainer
 			btn.AddThemeStyleboxOverride("focus", empty);
 			Buttons.AddChild(btn);
 			var index = i;
-			btn.Pressed += () => { EmitSignal(nameof(ButtonClicked), index); };
+			btn.Pressed += () => { EmitSignal(SignalName.ButtonClicked, index); };
 		}
 	}
 	#endregion

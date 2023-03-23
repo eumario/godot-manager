@@ -123,8 +123,8 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	// 	preview.GodotVersion = GodotVersion;
 	// 	var notifier = new VisibleOnScreenNotifier2D();
 	// 	preview.AddChild(notifier);
-	// 	notifier.ScreenEntered += () => EmitSignal(nameof(DragStarted), this);
-	// 	notifier.ScreenExited += () => EmitSignal(nameof(DragEnded), this);
+	// 	notifier.ScreenEntered += () => EmitSignal(SignalName.DragStarted, this);
+	// 	notifier.ScreenExited += () => EmitSignal(SignalName.DragEnded, this);
 	// 	SetDragPreview(preview);
 	// 	data["preview"] = preview;
 	// 	return data;
@@ -142,18 +142,18 @@ public partial class ProjectLineItem : Control, IProjectIcon
 		switch (inputEventMouseButton.ButtonIndex)
 		{
 			case MouseButton.Left when inputEventMouseButton.DoubleClick:
-				EmitSignal(nameof(DoubleClicked), this);
+				EmitSignal(SignalName.DoubleClicked, this);
 				break;
 			case MouseButton.Left:
 				SelfModulate = Colors.White;
-				EmitSignal(nameof(Clicked), this);
+				EmitSignal(SignalName.Clicked, this);
 				break;
 			case MouseButton.Right when inputEventMouseButton.DoubleClick:
-				EmitSignal(nameof(RightDoubleClicked), this);
+				EmitSignal(SignalName.RightDoubleClicked, this);
 				break;
 			case MouseButton.Right:
 				SelfModulate = Colors.White;
-				EmitSignal(nameof(RightClicked), this);
+				EmitSignal(SignalName.RightClicked, this);
 				break;
 			default:
 				return;

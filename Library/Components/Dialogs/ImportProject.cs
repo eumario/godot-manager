@@ -82,6 +82,6 @@ public partial class ImportProject : ConfirmationDialog
 			return;
 		}
 		
-		EmitSignal(nameof(ImportCompleted));
+		EmitSignal(SignalName.ImportCompleted);
 	}
 }

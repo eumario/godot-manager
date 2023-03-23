@@ -77,10 +77,10 @@ public partial class FileConflictDialog : Window
 		this.OnReady();
 		
 		// Rest of Initialization Functions
-		_yes.Pressed += () => EmitSignal(nameof(YesPressed));
-		_yesAll.Pressed += () => EmitSignal(nameof(YesAllPressed));
-		_no.Pressed += () => EmitSignal(nameof(NoPressed));
-		_abort.Pressed += () => EmitSignal(nameof(AbortPressed));
+		_yes.Pressed += () => EmitSignal(SignalName.YesPressed);
+		_yesAll.Pressed += () => EmitSignal(SignalName.YesAllPressed);
+		_no.Pressed += () => EmitSignal(SignalName.NoPressed);
+		_abort.Pressed += () => EmitSignal(SignalName.AbortPressed);
 	}
 	#endregion
 	

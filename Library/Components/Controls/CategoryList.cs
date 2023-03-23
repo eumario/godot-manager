@@ -184,7 +184,7 @@ public partial class CategoryList : VBoxContainer
 		parent.List.RemoveChild(pli);
 		List.AddChild(pli);
 		pli.ProjectFile.Category = Category;
-		EmitSignal(nameof(DragDropCompleted), parent, this, pli);
+		EmitSignal(SignalName.DragDropCompleted, parent, this, pli);
 		parent.SortListing();
 		SortListing();
 	}

@@ -41,7 +41,7 @@ public partial class AddonMirror : AcceptDialog
 		TreeExited += QueueFree;
 		Confirmed += () =>
 		{
-			EmitSignal(nameof(AddMirror), $"{_protocol.Text}://{_domain.Text}/{_path.Text}");
+			EmitSignal(SignalName.AddMirror, $"{_protocol.Text}://{_domain.Text}/{_path.Text}");
 		};
 	}
 	#endregion

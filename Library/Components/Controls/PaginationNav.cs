@@ -50,7 +50,7 @@ public partial class PaginationNav : CenterContainer
 			_currentPage += page;
 		_pageCount.GetChild<Button>(_currentPage).Disabled = true;
 		CheckPage();
-		EmitSignal(nameof(PageChanged), _currentPage);
+		EmitSignal(SignalName.PageChanged, _currentPage);
 	}
 
 	private void HandlePageChanged(int i)
@@ -63,7 +63,7 @@ public partial class PaginationNav : CenterContainer
 		if (childCount > 0 && childCount > _currentPage)
 			_pageCount.GetChild<Button>(_currentPage).Disabled = true;
 		CheckPage();
-		EmitSignal(nameof(PageChanged), i);
+		EmitSignal(SignalName.PageChanged, i);
 	}
 	#endregion
 	

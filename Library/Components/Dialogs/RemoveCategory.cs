@@ -62,7 +62,7 @@ public partial class RemoveCategory : AcceptDialog
 			var indx = _categoryList.GetSelectedItems();
 			if (indx.Length == 0)
 				return;
-			EmitSignal(nameof(CategorySelected), _categoryList.GetItemText(indx[0]));
+			EmitSignal(SignalName.CategorySelected, _categoryList.GetItemText(indx[0]));
 			Hide();
 			QueueFree();
 		};

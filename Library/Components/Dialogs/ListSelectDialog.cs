@@ -77,7 +77,7 @@ public partial class ListSelectDialog : AcceptDialog
 		AddCancelButton("Cancel");
 		Confirmed += () =>
 		{
-			EmitSignal(nameof(OptionSelected), _optionList.Selected);
+			EmitSignal(SignalName.OptionSelected, _optionList.Selected);
 		};
 	}
 	#endregion

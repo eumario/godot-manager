@@ -37,7 +37,7 @@ public partial class CreateCategory : AcceptDialog
 
 		AddCancelButton("Cancel");
 		Canceled += QueueFree;
-		Confirmed += () => EmitSignal(nameof(CategoryAnswer), _categoryName.Text);
+		Confirmed += () => EmitSignal(SignalName.CategoryAnswer, _categoryName.Text);
 	}
 	#endregion
 	
