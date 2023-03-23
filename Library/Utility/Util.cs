@@ -71,4 +71,9 @@ public static class Util
         var v = vector.Floor();
         return new Vector2I((int)v.X, (int)v.Y);
     }
+    
+    public static void LaunchWeb(string url)
+    {
+        OS.ShellOpen($"\"{url}\"");
+    }
 }
