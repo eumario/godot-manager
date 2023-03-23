@@ -23,6 +23,7 @@ config/icon="res://godot-manager.png"
 [autoload]
 
 Globals="*res://Library/Globals.cs"
+SignalBus="*res://Library/Managers/SignalBus.cs"
 
 [display]
 
