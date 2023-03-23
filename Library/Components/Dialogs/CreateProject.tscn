@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://e283inkecncp"]
+[gd_scene load_steps=7 format=3 uid="uid://e283inkecncp"]
 
 [ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_lbk6m"]
 [ext_resource type="Script" path="res://Library/Components/Dialogs/CreateProject.cs" id="1_nleuq"]
@@ -6,11 +6,13 @@
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_x83sb"]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_03k6n"]
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_u85bc"]
 
 [node name="CreateProject" type="AcceptDialog"]
 title = "Create Project"
-size = Vector2i(600, 470)
+size = Vector2i(600, 498)
 visible = true
 ok_button_text = "Create & Edit"
 script = ExtResource("1_nleuq")
@@ -21,8 +23,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
 offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -41.0
+offset_right = 590.0
+offset_bottom = 457.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
@@ -52,11 +54,13 @@ theme_override_constants/separation = 10
 [node name="Control" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+[node name="ProjectName" type="LineEdit" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+[node name="CreateFolder" type="Button" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Create Folder"
 
@@ -75,16 +79,20 @@ theme_override_constants/separation = 10
 [node name="Control" type="Control" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+[node name="ProjectLocation" type="LineEdit" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+[node name="ValidIcon" type="TextureRect" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 texture = ExtResource("2_q74yh")
+expand_mode = 1
 
-[node name="Button" type="Button" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+[node name="BrowseLocation" type="Button" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Browse"
 
@@ -101,13 +109,16 @@ layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer3"]
+[node name="Godot3Version" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 button_group = SubResource("ButtonGroup_x83sb")
 text = "Godot 3.x Tree"
 flat = true
 
-[node name="CheckBox2" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer3"]
+[node name="Godot4Version" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
 button_group = SubResource("ButtonGroup_x83sb")
 text = "Godot 4.x Tree"
@@ -125,7 +136,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer5"]
+[node name="TemplateSelection" type="OptionButton" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer5"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -145,7 +157,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer6"]
+[node name="GodotVersionSelection" type="OptionButton" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer6"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -158,14 +171,60 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_lbk6m")
 text = "Renderer:"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+[node name="Godot3Rendering" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GLES3" type="VBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GLES3" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering/GLES3"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+button_group = SubResource("ButtonGroup_03k6n")
+text = "OpenGL ES 3.0"
+flat = true
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering/GLES3"]
+layout_mode = 2
+text = "Higher Visual Quality
+All Features available
+Incompatible with older hardware
+Not recommended for web games"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering"]
+layout_mode = 2
+
+[node name="GLES2" type="VBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GLES2" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering/GLES2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_group = SubResource("ButtonGroup_03k6n")
+text = "OpenGL ES 2.0"
+flat = true
+
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot3Rendering/GLES2"]
+layout_mode = 2
+text = "Lower Visual Quality
+Some Features not available
+Works on most hardware
+Recommended for web games"
+
+[node name="Godot4Rendering" type="HBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot4Rendering"]
 layout_mode = 2
 
-[node name="ForwardPlus" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4/VBoxContainer"]
+[node name="ForwardPlus" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot4Rendering/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
@@ -173,24 +232,24 @@ button_group = SubResource("ButtonGroup_u85bc")
 text = "Forward+"
 flat = true
 
-[node name="Mobile" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4/VBoxContainer"]
+[node name="Mobile" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot4Rendering/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_group = SubResource("ButtonGroup_u85bc")
 text = "Mobile"
 flat = true
 
-[node name="Compatability" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4/VBoxContainer"]
+[node name="Compatability" type="CheckBox" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot4Rendering/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_group = SubResource("ButtonGroup_u85bc")
 text = "Compatability"
 flat = true
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot4Rendering"]
 layout_mode = 2
 
-[node name="RenderingInfo" type="RichTextLabel" parent="MarginContainer/TabContainer/Details/VBoxContainer/HBoxContainer4"]
+[node name="RenderingInfo" type="RichTextLabel" parent="MarginContainer/TabContainer/Details/VBoxContainer/Godot4Rendering"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
