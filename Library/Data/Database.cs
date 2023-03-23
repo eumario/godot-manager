@@ -8,6 +8,7 @@ using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Data.POCO.MirrorManager;
 using GodotManager.Library.Utility;
 using LiteDB;
+using Octokit;
 
 namespace GodotManager.Library.Data;
 
@@ -110,7 +111,8 @@ public class Database
         {
             //Id = Guid.NewGuid(),
             FirstTimeRun = true,
-            DefaultEngine = null,
+            DefaultEngine3 = null,
+            DefaultEngine4 = null,
             ProjectPath = OS.GetSystemDir(OS.SystemDir.Documents).Join("Projects").NormalizePath(),
             EnginePath = FileUtil.GetUserFolder("versions"),
             CachePath = FileUtil.GetUserFolder("cache"),
@@ -140,6 +142,8 @@ public class Database
         _database.Checkpoint();
         _settingsInstance = settings;
     }
+
+    public static void FlushDatabase() => Instance._database.Checkpoint();
 
     #region Project Functions
     public static bool HasProject(string name) =>
@@ -208,5 +212,27 @@ public class Database
 
     public static List<GodotVersion> AllVersions() =>
         Instance._versions.Query().ToList();
+    #endregion
+    
+    #region GithubVersion Functions
+
+    public static bool HasGithubVersion(Release release) =>
+        Instance._githubVersions.Query().Where(rl => rl.Release.Id == release.Id).FirstOrDefault() != null;
+
+    public static void AddGithubVersion(GithubVersion version)
+    {
+        Instance._githubVersions.Insert(version);
+        Instance._database.Checkpoint();
+    }
+
+    public static GithubVersion GetGithubVersion(int id) =>
+        Instance._githubVersions.Query().Where(rl => rl.Release.Id == id).FirstOrDefault();
+
+    public static GithubVersion GetGithubVersion(string tag) =>
+        Instance._githubVersions.Query().Where(rl => rl.Release.TagName == tag).FirstOrDefault();
+
+    public static GithubVersion[] AllGithubVersions() =>
+        Instance._githubVersions.Query().ToArray();
+
     #endregion
 }
