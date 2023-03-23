@@ -1,5 +1,9 @@
+using System;
 using Godot;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Data.POCO.Internal;
+using GodotManager.Library.Data.POCO.MirrorManager;
+using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
 
@@ -14,40 +18,75 @@ public partial class GodotLineItem : Control
 	#endregion
 	
 	#region Quick Create
-	private static readonly PackedScene Packed = GD.Load<PackedScene>("res://Library/Components/Controls/GodotLineItem.tscn");
-	public static GodotLineItem CreateControl() => Packed.Instantiate<GodotLineItem>();
+
+	public static GodotLineItem FromScene()
+	{
+		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/GodotLineItem.tscn");
+		return scene.Instantiate<GodotLineItem>();
+	}
 	#endregion
 
 	#region Node Paths
-	[NodePath] private RichTextLabel VersionTag = null;
+	[NodePath] private RichTextLabel _versionTag = null;
 	
-	[NodePath] private VBoxContainer Installed = null;
-	[NodePath] private Label DownloadUrl = null;
-	[NodePath] private Label DownloadFS = null;
-	[NodePath] private Label InstalledLoc = null;
+	[NodePath] private VBoxContainer _installed = null;
+	[NodePath] private Label _downloadUrl = null;
+	[NodePath] private Label _downloadFS = null;
+	[NodePath] private Label _installedLoc = null;
 
-	[NodePath] private VBoxContainer Download = null;
-	[NodePath] private Label DownloadLoc = null;
-	[NodePath] private ProgressBar DownloadProgress = null;
-	[NodePath] private Label DownloadSize = null;
-	[NodePath] private Label DownloadETA = null;
-	[NodePath] private Label DownloadSpeed = null;
+	[NodePath] private VBoxContainer _download = null;
+	[NodePath] private Label _downloadLoc = null;
+	[NodePath] private ProgressBar _downloadProgress = null;
+	[NodePath] private Label _downloadSize = null;
+	[NodePath] private Label _downloadETA = null;
+	[NodePath] private Label _downloadSpeed = null;
 
-	[NodePath] private Button LinkSettings = null;
-	[NodePath] private Button ShareSettings = null;
-	[NodePath] private Button InstallUninstall = null;
+	[NodePath] private Button _linkSettings = null;
+	[NodePath] private Button _shareSettings = null;
+	[NodePath] private Button _installUninstall = null;
 	#endregion
 	
 	#region Private Variables
+
+	private GithubVersion _githubVersion;
+	private MirrorVersion _mirrorVersion;
+	private CustomEngineDownload _customEngineDownload;
 	#endregion
 	
 	#region Public Properties
+
+	public bool ShowMono = false;
+	public GithubVersion GithubVersion
+	{
+		get => _githubVersion;
+		set
+		{
+			_githubVersion = value;
+			if (_versionTag is null) return;
+			
+			_download.Visible = false;
+			_versionTag.Text = $"Godot v{_githubVersion.Release.TagName}";
+			//_installed.Visible = false;
+
+			if (ShowMono)
+			{
+				_downloadUrl.Text = $"Source: {_githubVersion.CSharpDownloadUrl}";
+				_downloadFS.Text = Util.FormatSize(_githubVersion.CSharpArchiveSize);
+			}
+			else
+			{
+				_downloadUrl.Text = $"Source: {_githubVersion.StandardDownloadUrl}";
+				_downloadFS.Text = Util.FormatSize(_githubVersion.StandardArchiveSize);
+			}
+		}
+	}
 	#endregion
 
 	#region Godot Overrides
 	public override void _Ready()
 	{
 		this.OnReady();
+		GithubVersion = _githubVersion;
 	}
 	#endregion
 	
