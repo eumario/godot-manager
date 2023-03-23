@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Utility;
 
 // namespace
 
@@ -11,6 +12,8 @@ public partial class ContributionsPanel : MarginContainer
 	#endregion
 	
 	#region Node Paths
+
+	[NodePath] private RichTextLabel _links;
 	#endregion
 	
 	#region Private Variables
@@ -25,6 +28,7 @@ public partial class ContributionsPanel : MarginContainer
 		this.OnReady();
 		
 		// Rest of Initialization Functions
+		_links.MetaClicked += (meta) => Util.LaunchWeb(meta.AsString());
 	}
 	#endregion
 	
