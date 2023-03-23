@@ -15,6 +15,8 @@ public static class FileUtil
 
     public static string GetOsDir(this string path) => ProjectSettings.GlobalizePath(path).NormalizePath();
 
+    public static string PathSeparator => Platform.Get() == PlatformType.Windows ? @"\" : "/";
+
     public static string GetExtension(this string path) => Path.GetExtension(path);
     public static string GetFilename(this string path) => Path.GetFileName(path);
     public static string GetBaseName(this string path) => Path.GetFileNameWithoutExtension(path);
@@ -26,12 +28,19 @@ public static class FileUtil
         return Path.Combine(paths.ToArray());
     }
 
-    public static string NormalizePath(this string path) =>
-        path.StartsWith("user://")
-            ? Path.GetFullPath(ProjectSettings.GlobalizePath(path))
-            : (path.StartsWith("res://") 
-                ? string.Empty
-                : Path.GetFullPath(path));
+    public static string NormalizePath(this string path)
+    {
+        var newPath = path.Clone() as string;
+        if (path.StartsWith("user://"))
+            newPath = ProjectSettings.GlobalizePath(newPath);
+        if (path.StartsWith("res://"))
+            return path;
+        newPath = Path.GetFullPath(newPath);
+        newPath = Platform.Get() == PlatformType.Windows ?
+            newPath.Replace("/", @"\") 
+            : newPath.Replace(@"\", "/");
+        return newPath;
+    }
 
     public static string GetParentFolder(this string path) => path.GetBaseDir().GetBaseDir();
 
