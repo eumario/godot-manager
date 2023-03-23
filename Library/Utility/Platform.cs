@@ -25,5 +25,10 @@ public static class Platform
         }
     }
 
+    public static string GetName()
+    {
+        return OS.GetName();
+    }
+
     public static bool Is64Bit => Environment.Is64BitOperatingSystem;
 }
