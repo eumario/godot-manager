@@ -14,6 +14,18 @@ public class VersionUrls
     public VersionUrl Headless { get; set; }
     public VersionUrl Server { get; set; }
 
+    public VersionUrls()
+    {
+        Win32 = new VersionUrl();
+        Win64 = new VersionUrl();
+        Linux32 = new VersionUrl();
+        Linux64 = new VersionUrl();
+        OSX = new VersionUrl();
+        Templates = new VersionUrl();
+        Headless = new VersionUrl();
+        Server = new VersionUrl();
+    }
+
     public VersionUrl this[string key] =>  key switch
     {
         "Win32" => Win32,
