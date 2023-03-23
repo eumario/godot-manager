@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnopr3vbuk56j"]
+[gd_scene load_steps=4 format=3 uid="uid://cnopr3vbuk56j"]
 
 [ext_resource type="PackedScene" uid="uid://cp7ffpofhkvni" path="res://Library/Components/Controls/ItemListWithButtons.tscn" id="1_73l3n"]
+[ext_resource type="Script" path="res://Library/Components/Panels/Settings/GeneralPanel.cs" id="1_h1byj"]
+[ext_resource type="PackedScene" uid="uid://plq5okh5tg1a" path="res://Library/Components/Controls/LineEditTimeout.tscn" id="2_6fljq"]
 
 [node name="GeneralPanel" type="MarginContainer"]
 anchors_preset = 15
@@ -12,6 +14,7 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+script = ExtResource("1_h1byj")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
@@ -27,10 +30,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 
-[node name="GodotPath" type="LineEdit" parent="GridContainer/HBoxContainer"]
+[node name="GodotPath" parent="GridContainer/HBoxContainer" instance=ExtResource("2_6fljq")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="GodotBrowse" type="Button" parent="GridContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -47,10 +49,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 
-[node name="CachePath" type="LineEdit" parent="GridContainer/HBoxContainer2"]
+[node name="CachePath" parent="GridContainer/HBoxContainer2" instance=ExtResource("2_6fljq")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="CacheBrowse" type="Button" parent="GridContainer/HBoxContainer2"]
 unique_name_in_owner = true
@@ -65,13 +66,31 @@ horizontal_alignment = 2
 [node name="ProjectView" type="OptionButton" parent="GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+item_count = 4
+popup/item_0/text = "List View"
+popup/item_0/id = 0
+popup/item_1/text = "Icon View"
+popup/item_1/id = 1
+popup/item_2/text = "Category View"
+popup/item_2/id = 2
+popup/item_3/text = "Last View Used"
+popup/item_3/id = 3
 
 [node name="Label4" type="Label" parent="GridContainer"]
 layout_mode = 2
-text = "Default Godot Engine:"
+text = "Default Godot Engine (3.x) :"
 horizontal_alignment = 2
 
-[node name="DefaultEngine" type="OptionButton" parent="GridContainer"]
+[node name="DefaultEngine3" type="OptionButton" parent="GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label10" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Default Godot Engine (4.x) :"
+horizontal_alignment = 2
+
+[node name="DefaultEngine4" type="OptionButton" parent="GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -126,16 +145,15 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "Host:"
 
-[node name="ProxyHost" type="LineEdit" parent="GridContainer/HBoxContainer3/ProxyContainer"]
+[node name="ProxyHost" parent="GridContainer/HBoxContainer3/ProxyContainer" instance=ExtResource("2_6fljq")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="GridContainer/HBoxContainer3/ProxyContainer"]
 layout_mode = 2
 text = "Port:"
 
-[node name="ProxyPort" type="LineEdit" parent="GridContainer/HBoxContainer3/ProxyContainer"]
+[node name="ProxyPort" parent="GridContainer/HBoxContainer3/ProxyContainer" instance=ExtResource("2_6fljq")]
 unique_name_in_owner = true
 layout_mode = 2
 
