@@ -41,13 +41,14 @@ public static class UI
 
     public static async Task<string> BrowseFolder(string title, string startPath)
     {
+        if (!startPath.EndsWith(FileUtil.PathSeparator)) startPath += FileUtil.PathSeparator;
         var dlg = new FileDialog();
         dlg.FileMode = FileDialog.FileModeEnum.OpenDir;
         dlg.Access = FileDialog.AccessEnum.Filesystem;
         dlg.Title = title;
         dlg.CurrentDir = startPath;
+        dlg.CurrentPath = startPath;
         var dir = "";
-        ((SceneTree)Engine.GetMainLoop()).Root.AddChild(dlg);
         dlg.DirSelected += (value) => dir = value;
         dlg.Canceled += () => dlg.Hide();
         dlg.VisibilityChanged += () =>
@@ -55,6 +56,7 @@ public static class UI
             if (!dlg.Visible)
                 dlg.QueueFree();
         };
+        ((SceneTree)Engine.GetMainLoop()).Root.AddChild(dlg);
         dlg.PopupCentered(new Vector2I(500,400));
         await dlg.ToSignal(dlg, FileDialog.SignalName.VisibilityChanged);
         return dir;
