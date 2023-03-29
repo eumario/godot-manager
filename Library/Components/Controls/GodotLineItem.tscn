@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwgtudx6jupnf"]
+[gd_scene load_steps=23 format=3 uid="uid://bwgtudx6jupnf"]
 
 [ext_resource type="PackedScene" uid="uid://c61btlhlani3y" path="res://Library/Components/Controls/LineItem.tscn" id="1_f2o7s"]
 [ext_resource type="Texture2D" uid="uid://c1uu4bwvjvdku" path="res://Assets/Icons/png/link-24.png" id="2_1mvrp"]
@@ -28,12 +28,63 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cseg7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xayrb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_07tux"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1n42"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_td8eu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_svdlw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3s6ij"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ipiyl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gtxrj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t26av"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hjncy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lgubc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tib6j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pit2f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mfsmi"]
+
 [node name="GodotLineItem" instance=ExtResource("1_f2o7s")]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 75)
 anchors_preset = 10
 anchor_bottom = 0.0
+offset_bottom = 75.0
 grow_vertical = 1
 script = ExtResource("2_jnwaq")
+
+[node name="Hover" type="ColorRect" parent="." index="0"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.384314, 0.384314, 0.384314, 1)
+
+[node name="HBoxContainer" parent="." index="1"]
+anchors_preset = 15
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="Spacer" parent="HBoxContainer" index="0"]
+mouse_filter = 1
 
 [node name="Icon" parent="HBoxContainer" index="1"]
 stretch_mode = 3
@@ -41,6 +92,7 @@ stretch_mode = 3
 [node name="VersionTag" type="RichTextLabel" parent="HBoxContainer/MiddleSection" index="0"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 bbcode_enabled = true
 text = "[b]Godot Version x.x.x (Stable)[/b]"
 fit_content = true
@@ -54,6 +106,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="0"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "Source:"
 
@@ -61,6 +114,7 @@ text = "Source:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "TuxFamily.org"
 clip_text = true
@@ -68,18 +122,22 @@ clip_text = true
 [node name="Control" type="Control" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="2"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
+mouse_filter = 1
 
 [node name="DownloadFS" type="Label" parent="HBoxContainer/MiddleSection/Installed/DLocFSize" index="3"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "Size: 32MB"
 
 [node name="Loc" type="HBoxContainer" parent="HBoxContainer/MiddleSection/Installed" index="1"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Installed/Loc" index="0"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "Location:"
 
@@ -87,6 +145,7 @@ text = "Location:"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "E:\\Apps\\GodotManager\\versions\\Godot vx.x.x-stable"
 clip_text = true
@@ -102,6 +161,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Download/DLocFSize" index="0"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "Source:"
 
@@ -110,6 +170,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "TuxFamily.org"
 clip_text = true
@@ -122,6 +183,7 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_cd3ux")
 theme_override_styles/fill = SubResource("StyleBoxFlat_mqbef")
 value = 50.0
@@ -129,28 +191,33 @@ value = 50.0
 [node name="DownloadSize" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "32MB / 32MB"
 
 [node name="Label" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="2"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "ETA:"
 
 [node name="DownloadETA" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="3"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "00:00:00"
 
 [node name="Label2" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="4"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "Speed:"
 
 [node name="DownloadSpeed" type="Label" parent="HBoxContainer/MiddleSection/Download/HBoxContainer" index="5"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme_override_font_sizes/font_size = 14
 text = "0.00KB/s"
 
@@ -158,16 +225,42 @@ text = "0.00KB/s"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_cseg7")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xayrb")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_07tux")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1n42")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_td8eu")
 icon = ExtResource("2_1mvrp")
 flat = true
 icon_alignment = 1
 expand_icon = true
+
+[node name="GodotTree" type="Label" parent="HBoxContainer/EndSection/LinkSettings" index="0"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -22.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "4.x"
 
 [node name="ShareSettings" type="Button" parent="HBoxContainer/EndSection" index="1"]
 unique_name_in_owner = true
 modulate = Color(0.521569, 0.521569, 0.521569, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_svdlw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3s6ij")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ipiyl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_gtxrj")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t26av")
 icon = ExtResource("3_hdt0l")
 flat = true
 icon_alignment = 1
@@ -178,6 +271,12 @@ unique_name_in_owner = true
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hjncy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_lgubc")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tib6j")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pit2f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mfsmi")
 icon = ExtResource("4_tip3s")
 flat = true
 icon_alignment = 1

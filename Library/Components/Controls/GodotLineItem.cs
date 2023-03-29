@@ -27,11 +27,14 @@ public partial class GodotLineItem : Control
 	#endregion
 
 	#region Node Paths
+
+	[NodePath] private ColorRect _hover = null;
 	[NodePath] private RichTextLabel _versionTag = null;
 	
 	[NodePath] private VBoxContainer _installed = null;
 	[NodePath] private Label _downloadUrl = null;
 	[NodePath] private Label _downloadFS = null;
+	[NodePath] private HBoxContainer _loc = null;
 	[NodePath] private Label _installedLoc = null;
 
 	[NodePath] private VBoxContainer _download = null;
@@ -42,12 +45,14 @@ public partial class GodotLineItem : Control
 	[NodePath] private Label _downloadSpeed = null;
 
 	[NodePath] private Button _linkSettings = null;
+	[NodePath] private Label _godotTree = null;
 	[NodePath] private Button _shareSettings = null;
 	[NodePath] private Button _installUninstall = null;
 	#endregion
 	
 	#region Private Variables
 
+	private GodotVersion _godotVersion;
 	private GithubVersion _githubVersion;
 	private MirrorVersion _mirrorVersion;
 	private CustomEngineDownload _customEngineDownload;
@@ -65,8 +70,10 @@ public partial class GodotLineItem : Control
 			if (_versionTag is null) return;
 			
 			_download.Visible = false;
+			_installed.Visible = true;
+			_loc.Visible = false;
 			_versionTag.Text = $"Godot v{_githubVersion.Release.TagName}";
-			//_installed.Visible = false;
+			_godotTree.Text = _githubVersion.Release.TagName.Contains("3.") ? "3.x" : "4.x";
 
 			if (ShowMono)
 			{
@@ -87,7 +94,10 @@ public partial class GodotLineItem : Control
 	{
 		this.OnReady();
 		GithubVersion = _githubVersion;
+		MouseEntered += () => _hover.Visible = true;
+		MouseExited += () => _hover.Visible = false;
 	}
+
 	#endregion
 	
 	#region Godot Event Handlers
