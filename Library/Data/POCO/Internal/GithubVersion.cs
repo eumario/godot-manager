@@ -18,7 +18,11 @@ public class GithubVersion
     
     public string Sha512Sums { get; set; }
     public int Sha512Size { get; set; }
-    
+
+    private SemanticVersion _semVersion = null;
+    [BsonIgnore]
+    public SemanticVersion SemVersion => _semVersion ??= SemanticVersion.Parse(Release.TagName);
+
     private readonly string[] fields = new string[]
     {
         "Win32", "Win64", "Linux32", "Linux32", "Linux64", "Linux64", "OSX", "OSX", "Templates", "Headless", "Server"
@@ -80,9 +84,7 @@ public class GithubVersion
     void GatherUrls(Release release = null)
     {
         release ??= Release;
-        
-        GD.Print($"Release: {release.TagName}");
-        
+
         VersionUrls standard = new();
         VersionUrls csharp = new();
         for (var i = 0; i < standard_match.Length; i++)

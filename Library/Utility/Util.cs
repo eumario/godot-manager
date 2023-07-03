@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using Godot;
 using Godot.Collections;
-using Semver;
 
 namespace GodotManager.Library.Utility;
 
@@ -57,13 +56,9 @@ public static class Util
         }
     }
 
-    public static SemVersion GetVersion(Type type)
+    public static SemanticVersion GetVersion(Type type)
     {
-        Version assVersion = Assembly.GetAssembly(type).GetName().Version;
-        if (assVersion.Revision > 0)
-            return SemVersion.ParsedFrom(assVersion.Major, assVersion.Minor, assVersion.Build, assVersion.Revision.ToString());
-        else
-            return SemVersion.FromVersion(assVersion);
+        return new SemanticVersion(Assembly.GetAssembly(type)?.GetName().Version ?? new Version(0,0,0,0));
     }
 
     public static Vector2I ToVector2I(this Vector2 vector)
