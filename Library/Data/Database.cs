@@ -5,7 +5,6 @@ using System.IO;
 using Godot;
 using GodotManager.Library.Data.POCO.AssetLib;
 using GodotManager.Library.Data.POCO.Internal;
-using GodotManager.Library.Data.POCO.MirrorManager;
 using GodotManager.Library.Utility;
 using LiteDB;
 using Octokit;
@@ -51,12 +50,10 @@ public class Database
     
     private ILiteCollection<AssetPlugin> _plugins;
     private ILiteCollection<AssetProject> _templates;
-
-    private ILiteCollection<MirrorSite> _mirrors;
+    
     private ILiteCollection<AssetMirror> _assetMirrors;
 
     private ILiteCollection<GithubVersion> _githubVersions;
-    private ILiteCollection<MirrorVersion> _mirrorVersions;
     private ILiteCollection<CustomEngineDownload> _customEngines;
 
     private ILiteCollection<Category> _categories;
@@ -88,10 +85,8 @@ public class Database
         _versions = _database.GetCollection<GodotVersion>("versions");
         _plugins = _database.GetCollection<AssetPlugin>("plugins");
         _templates = _database.GetCollection<AssetProject>("templates");
-        _mirrors = _database.GetCollection<MirrorSite>("mirrors");
         _assetMirrors = _database.GetCollection<AssetMirror>("asset_mirrors");
         _githubVersions = _database.GetCollection<GithubVersion>("github_versions");
-        _mirrorVersions = _database.GetCollection<MirrorVersion>("mirror_versions");
         _customEngines = _database.GetCollection<CustomEngineDownload>("custom_engines");
         _categories = _database.GetCollection<Category>("categories");
 

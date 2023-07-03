@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using GodotManager.Library.Data.POCO.MirrorManager;
 using LiteDB;
 
 namespace GodotManager.Library.Data.POCO.Internal;
@@ -18,7 +17,6 @@ public class GodotVersion
     public DateTime DownloadDate { get; set; }
     public bool HideConsole { get; set; }
     [BsonRef] public GithubVersion GithubVersion { get; set; }
-    [BsonRef] public MirrorVersion MirrorVersion { get; set; }
     [BsonRef] public CustomEngineDownload CustomEngine { get; set; }
 
     public string GetDisplayName() => $"Godot {Tag + (IsMono ? " - Mono" : "")}";

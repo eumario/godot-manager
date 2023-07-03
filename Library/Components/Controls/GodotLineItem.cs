@@ -2,7 +2,6 @@ using System;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Data.POCO.Internal;
-using GodotManager.Library.Data.POCO.MirrorManager;
 using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
@@ -51,10 +50,9 @@ public partial class GodotLineItem : Control
 	#endregion
 	
 	#region Private Variables
-
+	// Backer Variables for Public Properties (That Automate the UI)
 	private GodotVersion _godotVersion;
 	private GithubVersion _githubVersion;
-	private MirrorVersion _mirrorVersion;
 	private CustomEngineDownload _customEngineDownload;
 	#endregion
 	

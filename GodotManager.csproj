@@ -26,6 +26,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Library\Managers\Custom" />
-    <Folder Include="Library\Managers\Mirror" />
   </ItemGroup>
 </Project>
