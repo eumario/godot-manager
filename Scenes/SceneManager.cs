@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Godot.Sharp.Extras;
+using GodotManager.Library;
 
 namespace GodotManager.Scenes;
 
@@ -14,9 +15,9 @@ public partial class SceneManager : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("Starting C# Code");
+		if (Versions.GodotManager.SpecialVersion == "dev")
+			ProjectSettings.SetSetting("application/config/custom_user_dir_name", "Godot-Manager-dev");
 		this.OnReady();
-		GD.Print("Initialized OnReady");
 		string[] args = OS.GetCmdlineArgs();
 		if (args.Length > 0 && (args[0] == "--update" || args[0] == "--update-complete"))
 		{
@@ -24,7 +25,6 @@ public partial class SceneManager : Control
 		}
 		else
 		{
-			GD.Print("Showing Splash Screen.");
 			// Start Godot Manager normally
 			var splash = _splashScreen.Instantiate<SplashScreen>();
 			AddChild(splash);
@@ -34,7 +34,6 @@ public partial class SceneManager : Control
 
 	void OnTimeout_Splash()
 	{
-		GD.Print("Showing Main Window...");
 		var main = _mainWindow.Instantiate<MainWindow>();
 		this.QueueFreeChildren();
 		AddChild(main);

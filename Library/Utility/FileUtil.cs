@@ -52,9 +52,11 @@ public static class FileUtil
         || File.Exists(OS.GetExecutablePath().GetBaseDir().Join("_sc_"));
 
     public static string GetUserFolder(params string[] parts) =>
-        IsSelfContained()
-            ? OS.GetExecutablePath().GetBaseDir().Join("godot_data").Join(parts)
-            : "user://".NormalizePath().Join(parts);
+        Versions.GodotManager.SpecialVersion == "dev"
+            ? "user://".NormalizePath().Join(parts)
+            : IsSelfContained()
+                ? OS.GetExecutablePath().GetBaseDir().Join("godot_data").Join(parts)
+                : "user://".NormalizePath().Join(parts);
 
     public static string GetUpdateFolder()
     {
