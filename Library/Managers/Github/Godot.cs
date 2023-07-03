@@ -38,7 +38,13 @@ public class Godot : ISiteManager<Release>
 
         return new GitHubClient(conn);
     }
-    
+
+    public async Task<bool> NewReleaseAvailable()
+    {
+        var conn = CreateConnection();
+        var res = await conn.Repository.Release.GetLatest("godotengine", "godot");
+        return !Database.HasGithubVersion(res);
+    }
     
     public async Task<Release> GetLatestRelease()
     {
@@ -47,7 +53,6 @@ public class Godot : ISiteManager<Release>
         return res;
     }
 
-    
     public async Task<IReadOnlyList<Release>> GetReleases()
     {
         var conn = CreateConnection();
