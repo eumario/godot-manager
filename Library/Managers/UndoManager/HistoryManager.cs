@@ -13,9 +13,7 @@ public class HistoryManager
     {
         ((SceneTree)Engine.GetMainLoop()).Root.GetNode<SignalBus>("/root/SignalBus")
             .EmitSignal(SignalBus.SignalName.SettingsChanged);
-        GD.Print($"Queue Count Before: {Count}");
         _queue.Enqueue(item);
-        GD.Print($"Queue Count After: {Count}");
     }
 
     public static IUndoItem Pop() => _queue.Dequeue();

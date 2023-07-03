@@ -82,7 +82,6 @@ public class Database
     {
         if (!Directory.Exists(FileUtil.GetUserFolder()))
             Directory.CreateDirectory(FileUtil.GetUserFolder());
-        GD.Print(Util.GetDatabaseConnection());
         _database = new LiteDatabase(Util.GetDatabaseConnection());
         _settings = _database.GetCollection<Settings>("settings");
         _projects = _database.GetCollection<ProjectFile>("projects");
