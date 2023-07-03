@@ -17,6 +17,7 @@ public class GodotVersion
     public DateTime DownloadDate { get; set; }
     public bool HideConsole { get; set; }
     [BsonRef] public GithubVersion GithubVersion { get; set; }
+    [BsonRef] public TuxfamilyVersion TuxfamilyVersion { get; set; }
     [BsonRef] public CustomEngineDownload CustomEngine { get; set; }
 
     public string GetDisplayName() => $"Godot {Tag + (IsMono ? " - Mono" : "")}";

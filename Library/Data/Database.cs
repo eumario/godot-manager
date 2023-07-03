@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -54,7 +55,10 @@ public class Database
     private ILiteCollection<AssetMirror> _assetMirrors;
 
     private ILiteCollection<GithubVersion> _githubVersions;
+    private ILiteCollection<TuxfamilyVersion> _tuxfamilyVersions;
     private ILiteCollection<CustomEngineDownload> _customEngines;
+
+    private ILiteCollection<LatestRelease> _latestReleases;
 
     private ILiteCollection<Category> _categories;
     
@@ -87,7 +91,9 @@ public class Database
         _templates = _database.GetCollection<AssetProject>("templates");
         _assetMirrors = _database.GetCollection<AssetMirror>("asset_mirrors");
         _githubVersions = _database.GetCollection<GithubVersion>("github_versions");
+        _tuxfamilyVersions = _database.GetCollection<TuxfamilyVersion>("tuxfamily_versions");
         _customEngines = _database.GetCollection<CustomEngineDownload>("custom_engines");
+        _latestReleases = _database.GetCollection<LatestRelease>("latest_releases");
         _categories = _database.GetCollection<Category>("categories");
 
         if (_settings.Count() == 0)
@@ -228,6 +234,57 @@ public class Database
 
     public static GithubVersion[] AllGithubVersions() =>
         Instance._githubVersions.Query().ToArray();
+
+    #endregion
+
+    #region TuxfamilyVersion Functions
+
+    public static bool HasTuxfamilyVersion(string id) =>
+        id.Length == 36
+            ? HasTuxfamilyVersion(Guid.Parse(id))
+            : Instance._tuxfamilyVersions.Query().Where(rl => rl.TagName == id).FirstOrDefault() != null;
+    
+    public static bool HasTuxfamilyVersion(Guid id) =>
+        Instance._tuxfamilyVersions.Query().Where(rl => rl.Id == id).FirstOrDefault() != null;
+    
+    public static void AddTuxfamilyVersion(TuxfamilyVersion version)
+    {
+        Instance._tuxfamilyVersions.Insert(version);
+        Instance._database.Checkpoint();
+    }
+
+    public static TuxfamilyVersion GetTuxfamilyVersion(string id) =>
+        id.Length == 24
+            ? GetTuxfamilyVersion(Guid.Parse(id))
+            : Instance._tuxfamilyVersions.Query().Where(rl => rl.TagName == id).FirstOrDefault();
+    
+    public static TuxfamilyVersion GetTuxfamilyVersion(Guid id) =>
+        Instance._tuxfamilyVersions.Query().Where(rl => rl.Id == id).FirstOrDefault();
+
+    public static TuxfamilyVersion[] AllTuxfamilyVersions() =>
+        Instance._tuxfamilyVersions.Query().ToArray();
+
+    #region LatestReleases Functions
+
+    public static LatestRelease[] GetAllLatest() =>
+        Instance._latestReleases.Query().ToArray();
+
+    public static LatestRelease GetLatest(int major) =>
+        Instance._latestReleases.Query().Where(rel => rel.Major == major).FirstOrDefault();
+
+    public static bool HasLatestRelease(int major) =>
+        Instance._latestReleases.Query().Where(rel => rel.Major == major).FirstOrDefault() != null;
+
+    public static bool AddLatestRelease(LatestRelease release) =>
+        Instance._latestReleases.Insert(release);
+
+    public static void UpdateLatestRelease(LatestRelease release)
+    {
+        Instance._latestReleases.Update(release);
+        Instance._database.Checkpoint();
+    }
+
+    #endregion
 
     #endregion
 }
