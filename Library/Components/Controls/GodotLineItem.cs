@@ -1,6 +1,6 @@
-using System;
 using Godot;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Data;
 using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Utility;
 
@@ -14,6 +14,7 @@ public partial class GodotLineItem : Control
 	[Signal] public delegate void LinkedSettingsEventHandler(GodotLineItem gli, bool value);
 	[Signal] public delegate void SharedSettingsEventHandler(GodotLineItem gli, bool value);
 	[Signal] public delegate void RightClickEventHandler(GodotLineItem gli);
+	[Signal] public delegate void ExecuteClickEventHandler(GodotLineItem gli);
 	#endregion
 	
 	#region Quick Create
@@ -49,16 +50,128 @@ public partial class GodotLineItem : Control
 	[NodePath] private Button _installUninstall = null;
 	#endregion
 	
+	#region Resources
+	[Resource("res://Assets/Icons/svg/uninstall.svg")] private Texture2D _uninstall;
+	#endregion
+	
 	#region Private Variables
 	// Backer Variables for Public Properties (That Automate the UI)
 	private GodotVersion _godotVersion;
 	private GithubVersion _githubVersion;
+	private TuxfamilyVersion _tuxfamilyVersion;
 	private CustomEngineDownload _customEngineDownload;
+
+	// Internal Settings that handle both Property Automation with UI, and internal functions
+	private bool _settingsShare = false;
+	private bool _settingsLinked = false;
+	private bool _showMono = false;
 	#endregion
 	
 	#region Public Properties
 
-	public bool ShowMono = false;
+	public bool ShowMono
+	{
+		get => _showMono;
+		set
+		{
+			_showMono = value;
+			if (_versionTag is null) return;			// Is the UI Controls loaded?
+			if (_godotVersion is not null)
+			{
+				GodotVersion = _godotVersion;
+				return;
+			}
+
+			if (_githubVersion is not null)
+			{
+				GithubVersion = _githubVersion;
+				return;
+			}
+
+			TuxfamilyVersion = _tuxfamilyVersion;
+		}
+	}
+
+	// Read-Only variable to check _showMono for true/false, if true, is Mono Edition, else Standard Edition.
+	public bool IsMono => _showMono;
+	
+	// Are we downloading this version of Godot?
+	public bool Downloading = false;
+	
+	// If _godotVersion is not null, then it is installed, otherwise it is not.
+	public bool IsInstalled => _godotVersion is not null;
+	
+	// Checks to see  if this version is the default version for Godot 3, or Godot 4.
+	public bool IsDefault => IsInstalled && (_godotVersion == Database.Settings.DefaultEngine3 ||
+	                                         _godotVersion == Database.Settings.DefaultEngine4);
+
+	// Holds the Godot Version information, including where it was downloaded from.
+	public GodotVersion GodotVersion
+	{
+		get => _godotVersion;
+		set
+		{
+			_godotVersion = value;
+			if (_versionTag is null) return;
+			if (_godotVersion is null) return;
+			
+			_githubVersion = _godotVersion.GithubVersion;
+			// _mirrorVersion = _godotVersion.MirrorVersion;
+			_customEngineDownload = _godotVersion.CustomEngine;
+			_installUninstall.Icon = _uninstall;
+			_installUninstall.SelfModulate = Colors.Red;
+			_linkSettings.Visible = IsInstalled;
+			_shareSettings.Visible = IsInstalled;
+		}
+	}
+
+	public TuxfamilyVersion TuxfamilyVersion
+	{
+		get => _tuxfamilyVersion;
+		set
+		{
+			_tuxfamilyVersion = value;
+			if (_versionTag is null) return;
+			if (_tuxfamilyVersion is null) return;
+			
+			_download.Visible = Downloading;
+			_installed.Visible = true;
+			_linkSettings.Visible = IsInstalled;
+			_shareSettings.Visible = IsInstalled;
+			_loc.Visible = IsInstalled;
+			var mono = _tuxfamilyVersion.SemVersion.Version.Major >= 4 && _showMono ? " Dotnet" : _showMono ? " Mono" : "";
+			_versionTag.Text = $"Godot v{_tuxfamilyVersion.SemVersion.ToNormalizedString()} ({_tuxfamilyVersion.ReleaseStage}{mono})";
+			_godotTree.Text = $"{_tuxfamilyVersion.SemVersion.Version.Major}.x";
+
+			_downloadUrl.Text = _showMono ? _tuxfamilyVersion.CSharpDownloadUrl : _tuxfamilyVersion.StandardDownloadUrl;
+			_downloadFS.Text = Util.FormatSize(_showMono ? _tuxfamilyVersion.CSharpDownloadSize : _tuxfamilyVersion.StandardDownloadSize);
+			if (_showMono)
+			{
+				Visible = _tuxfamilyVersion.CSharpDownloadSize > 0;
+			}
+			else
+			{
+				Visible = _tuxfamilyVersion.StandardDownloadSize > 0;
+			}
+		}
+	}
+
+	// Holds the Custom Engine Download information, which is user provided.
+	public CustomEngineDownload CustomEngine
+	{
+		get => _customEngineDownload;
+		set
+		{
+			_customEngineDownload = value;
+			if (_versionTag is null) return;
+			if (_customEngineDownload is null) return;
+
+			_linkSettings.Visible = IsInstalled;
+			_shareSettings.Visible = IsInstalled;
+		}
+	}
+	
+	// Holds the GitHub version information, from the Github Repository.
 	public GithubVersion GithubVersion
 	{
 		get => _githubVersion;
@@ -66,34 +179,109 @@ public partial class GodotLineItem : Control
 		{
 			_githubVersion = value;
 			if (_versionTag is null) return;
+			if (_githubVersion is null) return;
 			
-			_download.Visible = false;
+			_download.Visible = Downloading;
 			_installed.Visible = true;
-			_loc.Visible = false;
-			_versionTag.Text = $"Godot v{_githubVersion.Release.TagName}";
-			_godotTree.Text = _githubVersion.Release.TagName.Contains("3.") ? "3.x" : "4.x";
+			_linkSettings.Visible = IsInstalled;
+			_shareSettings.Visible = IsInstalled;
+			_loc.Visible = IsInstalled;
+			var mono = ShowMono ? (_githubVersion.SemVersion.Version.Major == 4 ? " Dotnet" : " Mono") : string.Empty;
+			_versionTag.Text = $"Godot v{_githubVersion.SemVersion.ToNormalizedStringNoSpecial()} (Stable{mono})";
+			_godotTree.Text = $"{_githubVersion.SemVersion.Version.Major}.x";
 
-			if (ShowMono)
-			{
-				_downloadUrl.Text = $"Source: {_githubVersion.CSharpDownloadUrl}";
-				_downloadFS.Text = Util.FormatSize(_githubVersion.CSharpArchiveSize);
-			}
-			else
-			{
-				_downloadUrl.Text = $"Source: {_githubVersion.StandardDownloadUrl}";
-				_downloadFS.Text = Util.FormatSize(_githubVersion.StandardArchiveSize);
-			}
+			_downloadUrl.Text = IsInstalled
+				? "github.com/godotengine/godot"
+				: ShowMono
+					? $"{_githubVersion.CSharpDownloadUrl}"
+					: !string.IsNullOrEmpty(_githubVersion.StandardDownloadUrl) 
+						? $"{_githubVersion.StandardDownloadUrl}"
+						: $"{_githubVersion.Release.TarballUrl}";
+			
+			_downloadFS.Text = "Size: " + Util.FormatSize(ShowMono
+				? _githubVersion.CSharpArchiveSize
+				: !string.IsNullOrEmpty(_githubVersion.StandardDownloadUrl)
+					? _githubVersion.StandardArchiveSize
+					: 0);
+		}
+	}
+
+	// Toggles if Settings are Shared with Other versions of Godot. (Based on 3.x/4.x)
+	public bool SettingsShare
+	{
+		get => _settingsShare;
+		set
+		{
+			_settingsShare = value;
+			if (_shareSettings is null) return;
+			_shareSettings.SelfModulate = _settingsShare ? Colors.YellowGreen : Colors.SlateGray;
+		}
+	}
+
+	// Toggles if Settings are Linked with Other versions of Godot. (Based on 3.x/4.x)
+	public bool SettingsLinked
+	{
+		get => _settingsLinked;
+		set
+		{
+			_settingsLinked = value;
+			if (_linkSettings is null) return;
+			_linkSettings.SelfModulate = _settingsLinked ? Colors.Green : Colors.SlateGray;
 		}
 	}
 	#endregion
 
 	#region Godot Overrides
+	// Handle setting up the UI event signals, and handling the function calls.
 	public override void _Ready()
 	{
+		// Load Nodes
 		this.OnReady();
-		GithubVersion = _githubVersion;
+		
+		// Check if we are installed Godot version, or not.
+		if (_godotVersion != null)
+			GodotVersion = _godotVersion;	// Update UI, based upon Installed Information
+		else
+		{
+			GithubVersion = _githubVersion;			// Update UI based upon Github Information
+			TuxfamilyVersion = _tuxfamilyVersion;   // Update UI based upon Tuxfamily Information
+			CustomEngine = _customEngineDownload;	// Update UI based upon Custom URL Information.
+		}
+
+		// Handle Highlighting a line when mouse is over a version line.
 		MouseEntered += () => _hover.Visible = true;
 		MouseExited += () => _hover.Visible = false;
+		
+		// Handle Install/Uninstall Signals when clicking on the icon to install/uninstall.
+		_installUninstall.Pressed += () =>
+			EmitSignal(IsInstalled ? SignalName.UninstallClicked : SignalName.InstallClicked, this);
+		
+		// Handle Toggle of SettingsLinked, and Emit the LinkedSettings signal.
+		_linkSettings.Pressed += () =>
+		{
+			SettingsLinked = !SettingsLinked;
+			EmitSignal(SignalName.LinkedSettings, SettingsLinked);
+		};
+		
+		// Handle Toggle of SettingsShare, and Emit the SharedSettings signal.
+		_shareSettings.Pressed += () =>
+		{
+			SettingsShare = !SettingsShare;
+			EmitSignal(SignalName.SharedSettings, SettingsShare);
+		};
+	}
+
+	// Handle Mouse Events
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is not InputEventMouseButton iemb) return;
+		// If MouseButton Right is pressed, Emit RightClick signal, to allow Context Menu to be shown.
+		if (iemb.Pressed && iemb.ButtonIndex == MouseButton.Right)
+			EmitSignal(SignalName.RightClick, this);
+		
+		// If MouseButton Left is double clicked, Emit ExecuteClick signal, to allow launching of a project.
+		if (iemb.DoubleClick && iemb.ButtonIndex == MouseButton.Left)
+			EmitSignal(SignalName.ExecuteClick, this);
 	}
 
 	#endregion

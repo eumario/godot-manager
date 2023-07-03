@@ -223,6 +223,7 @@ text = "0.00KB/s"
 
 [node name="LinkSettings" type="Button" parent="HBoxContainer/EndSection" index="0"]
 unique_name_in_owner = true
+self_modulate = Color(0.439216, 0.501961, 0.560784, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 mouse_filter = 1
@@ -252,7 +253,7 @@ text = "4.x"
 
 [node name="ShareSettings" type="Button" parent="HBoxContainer/EndSection" index="1"]
 unique_name_in_owner = true
-modulate = Color(0.521569, 0.521569, 0.521569, 1)
+self_modulate = Color(0.44, 0.5, 0.56, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 mouse_filter = 1
@@ -268,7 +269,7 @@ expand_icon = true
 
 [node name="InstallUninstall" type="Button" parent="HBoxContainer/EndSection" index="2"]
 unique_name_in_owner = true
-modulate = Color(0, 1, 0, 1)
+self_modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 mouse_filter = 1
