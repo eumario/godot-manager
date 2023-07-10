@@ -6,6 +6,7 @@ using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
+using GodotManager.Library.Utility;
 
 // namespace
 namespace GodotManager.Library.Components.Panels;
@@ -217,7 +218,8 @@ public partial class GodotPanel : Panel
 
 	private void PopulateTuxfamily()
 	{
-		foreach (var version in Database.AllTuxfamilyVersions().OrderByDescending(ver => ver.TagName))
+		foreach (var version in Database.AllTuxfamilyVersions().Where(x => x.ReleaseStage.Contains(_currentTag))
+			         .OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
 		{
 			switch (_showMono)
 			{
