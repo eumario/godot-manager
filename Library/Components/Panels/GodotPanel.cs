@@ -84,6 +84,7 @@ public partial class GodotPanel : Panel
 			_dialog.BylineText = $"Processing {current} of {max} releases...";
 		};
 
+		_tagSelection.GetPopup().SetItemChecked(2,true);
 		SetOptionsDisabled();
 
 		_tagSelection.GetPopup().IndexPressed += (index) =>
@@ -114,9 +115,11 @@ public partial class GodotPanel : Panel
 			switch (index)
 			{
 				case 0:
+					SetOptionsDisabled();
 					PopulateGithub();
 					break;
 				case 1:
+					SetOptionsDisabled(false);
 					PopulateTuxfamily();
 					break;
 			}
@@ -131,6 +134,7 @@ public partial class GodotPanel : Panel
 		for (var i = 2; i < 7; i++)
 			_tagSelection.GetPopup().SetItemDisabled(i, enabled);
 	}
+	
 	private async void HandleActions(int index)
 	{
 		switch (index)
@@ -254,6 +258,10 @@ public partial class GodotPanel : Panel
 		var tag = _tags[id];
 		var stag = _tagsShort[id];
 		_currentTag = stag;
+		for (var i = 2; i < 7; i++)
+			_tagSelection.GetPopup().SetItemChecked(i, i == id+2);
+		ClearAllCategories();
+		PopulateTuxfamily();
 	}
 
 	private void UpdateAvailable()
