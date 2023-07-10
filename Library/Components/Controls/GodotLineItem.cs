@@ -140,11 +140,11 @@ public partial class GodotLineItem : Control
 			_shareSettings.Visible = IsInstalled;
 			_loc.Visible = IsInstalled;
 			var mono = _tuxfamilyVersion.SemVersion.Version.Major >= 4 && _showMono ? " Dotnet" : _showMono ? " Mono" : "";
-			_versionTag.Text = $"Godot v{_tuxfamilyVersion.SemVersion.ToNormalizedString()} ({_tuxfamilyVersion.ReleaseStage}{mono})";
+			_versionTag.Text = $"Godot v{_tuxfamilyVersion.SemVersion.ToNormalizedStringNoSpecial()} ({_tuxfamilyVersion.ReleaseStage}{mono})";
 			_godotTree.Text = $"{_tuxfamilyVersion.SemVersion.Version.Major}.x";
 
 			_downloadUrl.Text = _showMono ? _tuxfamilyVersion.CSharpDownloadUrl : _tuxfamilyVersion.StandardDownloadUrl;
-			_downloadFS.Text = Util.FormatSize(_showMono ? _tuxfamilyVersion.CSharpDownloadSize : _tuxfamilyVersion.StandardDownloadSize);
+			_downloadFS.Text = "Size: " + Util.FormatSize(_showMono ? _tuxfamilyVersion.CSharpDownloadSize : _tuxfamilyVersion.StandardDownloadSize);
 			if (_showMono)
 			{
 				Visible = _tuxfamilyVersion.CSharpDownloadSize > 0;
