@@ -28,6 +28,8 @@ public partial class ImportProject : ConfirmationDialog
 	{
 		this.OnReady();
 		PopulateGodotVersions();
+		_location.DefaultValue = Database.Settings.ProjectPath;
+		_location.UseDefault = true;
 		Canceled += QueueFree;
 		Confirmed += OnConfirmed_ImportProject;
 	}
@@ -52,6 +54,8 @@ public partial class ImportProject : ConfirmationDialog
 		if (loc.StartsWith("/~"))
 			loc = Path.GetFullPath(loc.Replace("/~",
 				System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile)));
+		
+		loc = loc.NormalizePath();
 		
 		if (!File.Exists(loc))
 		{
