@@ -115,7 +115,7 @@ public class ProjectFile
     public static ProjectFile ReadFromFile(string filePath)
     {
         ProjectFile projectFile = null;
-        ProjectConfig project = new ProjectConfig();
+        var project = new ProjectConfig();
         project.Load(filePath);
 
         if (!project.HasSectionKey("header", "config_version")) return null;
@@ -124,11 +124,11 @@ public class ProjectFile
         if (ValidVersion(project))
         {
             projectFile = new();
-            projectFile.Name = project.GetValue("application", "config/name");
-            projectFile.Description = project.GetValue("application", "config/description", "No Description");
+            projectFile.Name = project.GetValue("application/config/name");
+            projectFile.Description = project.GetValue("application/config/description", "No Description");
             projectFile.Location = filePath;
-            projectFile.Icon = project.GetValue("application", "config/icon", "res://icon.png");
-            projectFile.IsGodot4 = project.GetValue("header", "config_version") == "5";
+            projectFile.Icon = project.GetValue("application/config/icon", "res://icon.png");
+            projectFile.IsGodot4 = project.GetValue("header/config_version") == "5";
         }
         else
         {
@@ -139,8 +139,8 @@ public class ProjectFile
     }
 
     public static bool ValidVersion(ProjectConfig projectConfig) =>
-        projectConfig.GetValue("header", "config_version") == "4" ||
-        projectConfig.GetValue("header", "config_version") == "5";
+        projectConfig.GetValue("header/config_version") == "4" ||
+        projectConfig.GetValue("header/config_version") == "5";
 
     public static bool ProjectExists(string filePath) => File.Exists(filePath);
 
@@ -165,9 +165,9 @@ public class ProjectFile
         pf.Load(Location);
         if (ValidVersion(pf))
         {
-            Name = pf.GetValue("application", "config/name");
-            Description = pf.GetValue("application", "config/description", "No Description");
-            Icon = pf.GetValue("application", "config/icon", "res://icon.png");
+            Name = pf.GetValue("application/config/name", "No Name");
+            Description = pf.GetValue("application/config/description", "No Description");
+            Icon = pf.GetValue("application/config/icon", "res://icon.png");
         }
         else
         {
@@ -181,9 +181,9 @@ public class ProjectFile
         pf.Load(Location);
         if (ValidVersion(pf))
         {
-            pf.SetValue("application", "config/name", $"\"{Name}\"");
-            pf.SetValue("application","config/description", $"\"{Description}\"");
-            pf.SetValue("application","config/icon", $"\"{Icon}\"");
+            pf.SetValue("application/config/name", $"{Name}");
+            pf.SetValue("application/config/description", $"{Description}");
+            pf.SetValue("application/config/icon", $"{Icon}");
             pf.Save();
         }
         else
