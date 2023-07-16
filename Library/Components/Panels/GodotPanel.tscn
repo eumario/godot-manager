@@ -90,6 +90,7 @@ popup/item_1/id = 1
 popup/item_1/separator = true
 popup/item_2/text = "Stable"
 popup/item_2/checkable = 2
+popup/item_2/checked = true
 popup/item_2/id = 2
 popup/item_2/disabled = true
 popup/item_3/text = "Developer Preview"
@@ -107,6 +108,7 @@ popup/item_5/disabled = true
 popup/item_6/text = "Release Candiate"
 popup/item_6/checkable = 2
 popup/item_6/id = 6
+popup/item_6/disabled = true
 
 [node name="Spacer3" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(60, 0)
