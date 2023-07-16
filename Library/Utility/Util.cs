@@ -71,4 +71,9 @@ public static class Util
     {
         OS.ShellOpen($"\"{url}\"");
     }
+
+    public static void RunInMainThread(Action action)
+    {
+        Callable.From(action).CallDeferred();
+    }
 }

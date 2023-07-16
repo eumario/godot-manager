@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using Godot;
 using GodotManager.Library.Utility;
 using LiteDB;
@@ -80,6 +81,20 @@ public class GithubVersion
         PlatformType.MacOS => CSharp.OSX.Size,
         _ => -1
     };
+
+    public string GetDownloadUrl(bool isMono) => isMono ? CSharpDownloadUrl : StandardDownloadUrl;
+    public int GetDownloadSize(bool isMono) => isMono ? CSharpArchiveSize : StandardArchiveSize;
+
+    public string GetTagName(bool isMono)
+    {
+        var tagBuilder = new StringBuilder();
+        var csharpTag = SemVersion.Version.Major < 4 ? "mono" : "dotnet";
+        tagBuilder.Append($"Godot-{SemVersion.Version.Major}.{SemVersion.Version.Minor}.{SemVersion.Version.Build}");
+        if (SemVersion.Version.Revision > 0) tagBuilder.Append($".{SemVersion.Version.Revision}");
+        tagBuilder.Append("-{SemVersion.SpecialVersion}");
+        if (isMono) tagBuilder.Append($"-{csharpTag}");
+        return tagBuilder.ToString();
+    }
 
     void GatherUrls(Release release = null)
     {

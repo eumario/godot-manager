@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Data;
@@ -65,6 +68,8 @@ public partial class GodotLineItem : Control
 	private bool _settingsShare = false;
 	private bool _settingsLinked = false;
 	private bool _showMono = false;
+	private bool _downloading = false;
+	private List<long> _speedMarks = new List<long>();
 	#endregion
 	
 	#region Public Properties
@@ -96,7 +101,16 @@ public partial class GodotLineItem : Control
 	public bool IsMono => _showMono;
 	
 	// Are we downloading this version of Godot?
-	public bool Downloading = false;
+	public bool Downloading
+	{
+		get => _downloading;
+		set
+		{
+			_downloading = value;
+			_download.Visible = value;
+			_installed.Visible = !value;
+		}
+	}
 	
 	// If _godotVersion is not null, then it is installed, otherwise it is not.
 	public bool IsInstalled => _godotVersion is not null;
@@ -134,7 +148,6 @@ public partial class GodotLineItem : Control
 			if (_versionTag is null) return;
 			if (_tuxfamilyVersion is null) return;
 			
-			_download.Visible = Downloading;
 			_installed.Visible = true;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
@@ -181,7 +194,6 @@ public partial class GodotLineItem : Control
 			if (_versionTag is null) return;
 			if (_githubVersion is null) return;
 			
-			_download.Visible = Downloading;
 			_installed.Visible = true;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
@@ -290,8 +302,18 @@ public partial class GodotLineItem : Control
 	#endregion
 	
 	#region Public Functions
+
+	public void SetupDownloadProgress()
+	}
+	public void UpdateSpeed(DateTime start, long transferred, long downloaded)
+	{
+	}
+	public void UpdateProgress(long totalDownloaded)
+	{
+	}
 	#endregion
-	
+
 	#region Private Functions
+
 	#endregion
 }

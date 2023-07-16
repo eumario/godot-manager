@@ -204,6 +204,12 @@ public class Database
     public static GodotVersion FindVersion(int id) =>
         Instance._versions.Query().Where(gv => gv.Id == id).FirstOrDefault();
 
+    public static void AddVersion(GodotVersion version)
+    {
+        Instance._versions.Insert(version);
+        Instance._database.Checkpoint();
+    }
+
     public static GodotVersion GetVersion(int id) =>
         Instance._versions.Query().Where(gv => gv.Id == id).First();
 

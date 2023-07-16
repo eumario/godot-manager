@@ -6,6 +6,8 @@ using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
+using GodotManager.Library.Data.POCO.Internal;
+using GodotManager.Library.Managers;
 using GodotManager.Library.Utility;
 
 // namespace
@@ -29,11 +31,9 @@ public partial class GodotPanel : Panel
 	#endregion
 	
 	#region Private Variables
-
 	private bool _embedded = false;
-	private Managers.Github.Godot _githubGodot = null;
-	private Managers.Github.GodotManager _godotManager = null;
-	private Managers.Tuxfamily.Godot _tuxfamilyGodot = null;
+	private Managers.Github.Godot _githubGodot;
+	private Managers.Tuxfamily.Godot _tuxfamilyGodot;
 	private BusyDialog _dialog;
 	private bool _showMono = false;
 	private string[] _tags = {"Stable", "Developer Preview", "Alpha", "Beta", "Release Candidate"};
@@ -42,7 +42,6 @@ public partial class GodotPanel : Panel
 	#endregion
 	
 	#region Public Variables
-
 	[Export]
 	public bool Embedded
 	{
@@ -92,7 +91,7 @@ public partial class GodotPanel : Panel
 		{
 			switch (index)
 			{
-				case 0: // Mono/C# Vieweing
+				case 0: // Mono/C# Viewing
 					ToggleMono();
 					break;
 				case 2:
@@ -129,13 +128,6 @@ public partial class GodotPanel : Panel
 	#endregion
 	
 	#region Event Handlers
-
-	private void SetOptionsDisabled(bool enabled = true)
-	{
-		for (var i = 2; i < 7; i++)
-			_tagSelection.GetPopup().SetItemDisabled(i, enabled);
-	}
-	
 	private async void HandleActions(int index)
 	{
 		switch (index)
@@ -197,6 +189,18 @@ public partial class GodotPanel : Panel
 		SortChildren();
 	}
 
+	private void HandleInstallCompleted(GodotLineItem item, GodotVersion version)
+	}
+	private void HandleDownloadCancelled(GodotLineItem item)
+	}
+	#endregion
+	#region Private Support Functions
+	private void SetOptionsDisabled(bool enabled = true)
+	{
+		for (var i = 2; i < 7; i++)
+			_tagSelection.GetPopup().SetItemDisabled(i, enabled);
+	}
+	
 	private void PopulateGithub()
 	{
 		foreach (var version in Database.AllGithubVersions().OrderByDescending(ver => ver.Release.TagName))
@@ -215,7 +219,7 @@ public partial class GodotPanel : Panel
 			_available.ItemList.AddChild(item);
 		}
 	}
-
+	
 	private void PopulateTuxfamily()
 	{
 		foreach (var version in Database.AllTuxfamilyVersions().Where(x => x.ReleaseStage.Contains(_currentTag))
@@ -243,10 +247,6 @@ public partial class GodotPanel : Panel
 			_available.ItemList.AddChild(item);
 		}
 	}
-
-	#endregion
-	
-	#region Private Support Functions
 
 	private void ToggleMono()
 	{
@@ -298,7 +298,29 @@ public partial class GodotPanel : Panel
 
 	private void SetupGLIEvents(GodotLineItem item)
 	{
-		
+		item.InstallClicked += (gli) =>
+		{
+		};
+		item.UninstallClicked += (gli) =>
+		{
+
+		};
+		item.LinkedSettings += (gli, toggle) =>
+		{
+
+		};
+		item.SharedSettings += (gli, toggle) =>
+		{
+
+		};
+		item.RightClick += (gli) =>
+		{
+
+		};
+		item.ExecuteClick += (gli) =>
+		{
+
+		};
 	}
 	
 	private void ClearAllCategories()
@@ -310,7 +332,22 @@ public partial class GodotPanel : Panel
 	}
 	private void SortChildren()
 	{
-		
+		var ordered = _available.ItemList.GetChildren<GodotLineItem>().OrderByDescending(
+			i => i.GithubVersion?.SemVersion ?? i.TuxfamilyVersion.SemVersion, SemVersionCompare.Instance);
+		foreach (var item in ordered)
+		{
+			_available.ItemList.RemoveChild(item);
+			_available.ItemList.AddChild(item);
+		}
+
+		ordered = _installed.ItemList.GetChildren<GodotLineItem>().OrderByDescending(
+			i => i.GodotVersion.GithubVersion?.SemVersion ?? i.GodotVersion.TuxfamilyVersion.SemVersion,
+			SemVersionCompare.Instance);
+		foreach (var item in ordered)
+		{
+			_installed.ItemList.RemoveChild(item);
+			_installed.ItemList.AddChild(item);
+		}
 	}
 	#endregion
 	
