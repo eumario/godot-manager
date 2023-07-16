@@ -62,6 +62,8 @@ public partial class GodotPanel : Panel
 	{
 		this.OnReady();
 
+		DownloadManager.Instance.Cancelled += HandleDownloadCancelled;
+
 		_githubGodot = new Managers.Github.Godot();
 		_githubGodot.ReleaseCount += (count) =>
 		{
@@ -191,9 +193,17 @@ public partial class GodotPanel : Panel
 
 	private void HandleInstallCompleted(GodotLineItem item, GodotVersion version)
 	}
+
 	private void HandleDownloadCancelled(GodotLineItem item)
+	{
+		_downloading.ItemList.RemoveChild(item);
+		_available.ItemList.AddChild(item);
+		if (_downloading.ItemList.GetChildCount() == 0) _downloading.Visible = false;
+		SortChildren();
 	}
+
 	#endregion
+	
 	#region Private Support Functions
 	private void SetOptionsDisabled(bool enabled = true)
 	{
@@ -300,6 +310,11 @@ public partial class GodotPanel : Panel
 	{
 		item.InstallClicked += (gli) =>
 		{
+			if (gli.Downloading) return;
+			_available.ItemList.RemoveChild(gli);
+			_downloading.Visible = true;
+			_downloading.ItemList.AddChild(gli);
+			DownloadManager.Instance.StartDownload(gli);
 		};
 		item.UninstallClicked += (gli) =>
 		{

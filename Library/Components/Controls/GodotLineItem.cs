@@ -304,13 +304,54 @@ public partial class GodotLineItem : Control
 	#region Public Functions
 
 	public void SetupDownloadProgress()
+	{
+		var size = _githubVersion?.GetDownloadSize(IsMono) ?? _tuxfamilyVersion.GetDownloadSize(IsMono);
+		_downloadProgress.MinValue = 0;
+		_downloadProgress.MaxValue = size;
+		_downloadProgress.Value = 0;
+		_downloadUrl.Text = _githubVersion?.GetDownloadUrl(IsMono) ?? _tuxfamilyVersion.GetDownloadUrl(IsMono);
+		_downloadETA.Text = "??:??";
+		_downloadSize.Text = $"{Util.FormatSize(0)}/{Util.FormatSize(size)}";
+		_downloadSpeed.Text = $"{Util.FormatSize(0)}/s";
+		Downloading = true;
 	}
+
 	public void UpdateSpeed(DateTime start, long transferred, long downloaded)
 	{
+		Util.RunInMainThread(() =>
+		{
+			if (_downloadProgress.Value > downloaded)
+			{
+				GD.Print("Got event after Download completed.");
+				return;
+			}
+			_downloadSize.Text = $"{Util.FormatSize(downloaded)}/{Util.FormatSize(_githubVersion?.GetDownloadSize(IsMono) ?? _tuxfamilyVersion.GetDownloadSize(IsMono))}";
+			_speedMarks.Add(transferred);
+			while (_speedMarks.Count > 10)
+				_speedMarks.RemoveAt(0);
+			
+			var avg = _speedMarks.Sum() / _speedMarks.Count;
+			_downloadSpeed.Text = $"Speed: {Util.FormatSize(avg)}/s";
+			if (downloaded == 0) return;
+		
+			var elapsedTime = DateTime.Now - start;
+			var estTime =
+				TimeSpan.FromSeconds(
+					((_githubVersion?.GetDownloadSize(IsMono) ?? _tuxfamilyVersion.GetDownloadSize(IsMono)) - downloaded) /
+					(downloaded / elapsedTime.TotalSeconds));
+			_downloadETA.Text = $"ETA: {estTime:hh':'mm':'ss}";
+		});
 	}
+
 	public void UpdateProgress(long totalDownloaded)
 	{
+		Util.RunInMainThread(() =>
+		{
+			if (_downloadProgress.Value > totalDownloaded) return;
+			_downloadProgress.Value = totalDownloaded;
+		});
 	}
+
 	#endregion
 
 	#region Private Functions
