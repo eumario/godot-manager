@@ -52,6 +52,8 @@ public partial class GodotLineItem : Control
 	[NodePath] private Label _godotTree = null;
 	[NodePath] private Button _shareSettings = null;
 	[NodePath] private Button _installUninstall = null;
+	[NodePath] private Button _useDefault = null;
+	[NodePath] private Label _godotTree2 = null;
 	#endregion
 	
 	#region Resources
@@ -140,7 +142,9 @@ public partial class GodotLineItem : Control
 			_installUninstall.SelfModulate = Colors.Red;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
+			_useDefault.Visible = IsInstalled;
 			_godotTree.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
+			_godotTree2.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
 		}
 	}
 
@@ -156,6 +160,7 @@ public partial class GodotLineItem : Control
 			_installed.Visible = true;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
+			_useDefault.Visible = IsInstalled;
 			_loc.Visible = IsInstalled;
 			var mono = _tuxfamilyVersion.SemVersion.Version.Major >= 4 && _showMono ? " Dotnet" : _showMono ? " Mono" : "";
 			_versionTag.Text = $"Godot v{_tuxfamilyVersion.SemVersion.ToNormalizedStringNoSpecial()} ({_tuxfamilyVersion.ReleaseStage}{mono})";
@@ -201,6 +206,7 @@ public partial class GodotLineItem : Control
 			_installed.Visible = true;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
+			_useDefault.Visible = IsInstalled;
 			_loc.Visible = IsInstalled;
 			var mono = ShowMono ? (_githubVersion.SemVersion.Version.Major == 4 ? " Dotnet" : " Mono") : string.Empty;
 			_versionTag.Text = $"Godot v{_githubVersion.SemVersion.ToNormalizedStringNoSpecial()} (Stable{mono})";

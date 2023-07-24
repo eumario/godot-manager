@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://bwgtudx6jupnf"]
+[gd_scene load_steps=24 format=3 uid="uid://bwgtudx6jupnf"]
 
 [ext_resource type="PackedScene" uid="uid://c61btlhlani3y" path="res://Library/Components/Controls/LineItem.tscn" id="1_f2o7s"]
 [ext_resource type="Texture2D" uid="uid://c1uu4bwvjvdku" path="res://Assets/Icons/png/link-24.png" id="2_1mvrp"]
 [ext_resource type="Script" path="res://Library/Components/Controls/GodotLineItem.cs" id="2_jnwaq"]
 [ext_resource type="Texture2D" uid="uid://vuxd64snsi6y" path="res://Assets/Icons/svg/settings.svg" id="3_hdt0l"]
 [ext_resource type="Texture2D" uid="uid://btkk7yo322jvw" path="res://Assets/Icons/svg/download.svg" id="4_tip3s"]
+[ext_resource type="Texture2D" uid="uid://blr42hfiih5xh" path="res://Assets/Icons/svg/default.svg" id="6_1w54o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cd3ux"]
 bg_color = Color(0.262745, 0.278431, 0.321569, 1)
@@ -253,7 +254,7 @@ text = "4.x"
 
 [node name="ShareSettings" type="Button" parent="HBoxContainer/EndSection" index="1"]
 unique_name_in_owner = true
-self_modulate = Color(0.44, 0.5, 0.56, 1)
+self_modulate = Color(0.439216, 0.501961, 0.560784, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 mouse_filter = 1
@@ -282,3 +283,34 @@ icon = ExtResource("4_tip3s")
 flat = true
 icon_alignment = 1
 expand_icon = true
+
+[node name="UseDefault" type="Button" parent="HBoxContainer/EndSection" index="3"]
+unique_name_in_owner = true
+self_modulate = Color(0.439216, 0.501961, 0.560784, 1)
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hjncy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_lgubc")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_tib6j")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pit2f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mfsmi")
+icon = ExtResource("6_1w54o")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="GodotTree2" type="Label" parent="HBoxContainer/EndSection/UseDefault" index="0"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -19.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "4.x"
+horizontal_alignment = 2
