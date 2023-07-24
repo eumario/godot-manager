@@ -20,21 +20,15 @@ public static class UI
         dlg.PopupCentered();
     }
 
-    public static async Task<bool> YesNoBox(string title, string message)
+    public static async Task<bool> YesNoBox(string title, string message, Vector2I size = default)
     {
-        var accepted = false;
-        var dlg = new AcceptDialog();
-        dlg.Title = title;
-        dlg.DialogText = message;
-        dlg.DialogAutowrap = true;
-        dlg.AddCancelButton("No");
-        dlg.OkButtonText = "Yes";
-        dlg.DialogHideOnOk = true;
+        var dlg = new InputDialog();
+        dlg.SetupYesNo(title, message, "Yes", "No");
+        dlg.Size = size == default ? new Vector2I(320, 240) : size;
         ((SceneTree)Engine.GetMainLoop()).Root.AddChild(dlg);
-        dlg.Confirmed += () => accepted = true;
-        dlg.Canceled += () => accepted = false;
         dlg.PopupCentered();
-        await dlg.ToSignal(dlg, AcceptDialog.SignalName.VisibilityChanged);
+        await dlg.ToSignal(dlg, InputDialog.SignalName.Closed);
+        var accepted = dlg.BoolResult;
         dlg.QueueFree();
         return accepted;
     }
