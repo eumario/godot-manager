@@ -398,6 +398,8 @@ public partial class GodotPanel : Panel
 	private void SortChildren()
 	{
 		var ordered = _available.ItemList.GetChildren<GodotLineItem>();
+		if (ordered.Count == 0)
+			return; // Safety just in case we have no version information downloaded.
 		if (ordered[0].TuxfamilyVersion != null)
 		{
 			ordered = new Array<GodotLineItem>(ordered.OrderByDescending(i => i.TuxfamilyVersion.SemVersion,
