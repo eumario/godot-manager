@@ -98,7 +98,9 @@ public class Database
         if (_settings.Count() == 0)
             SetupDefaultSettings();
         else
-            _settingsInstance = _settings.Query().First();
+            _settingsInstance = _settings.Query()
+                .Include(x => x.DefaultEngine3)
+                .Include(x => x.DefaultEngine4).First();
     }
 
     private void SetupDefaultSettings()
