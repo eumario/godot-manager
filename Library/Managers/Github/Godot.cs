@@ -68,11 +68,11 @@ public class Godot : ISiteManager<Release>
         ReleaseCount?.Invoke(releases.Count);
         foreach (var release in releases)
         {
-            if (Database.HasGithubVersion(release))
-                continue;
             curr++;
             ReleaseProgress?.Invoke(curr, count);
-            Database.AddGithubVersion(new GithubVersion(release));
+            if (Database.HasGithubVersion(release))
+                continue;
+            Database.AddGithubVersion(GithubVersion.FromRelease(release));
         }
     }
 }
