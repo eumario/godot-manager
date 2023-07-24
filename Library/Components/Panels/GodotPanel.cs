@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using Godot.Collections;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
@@ -62,6 +63,7 @@ public partial class GodotPanel : Panel
 	{
 		this.OnReady();
 
+		InstallManager.Instance.InstallCompleted += HandleInstallCompleted;
 		DownloadManager.Instance.Cancelled += HandleDownloadCancelled;
 
 		_githubGodot = new Managers.Github.Godot();
@@ -114,6 +116,7 @@ public partial class GodotPanel : Panel
 		_downloadSource.ItemSelected += index =>
 		{
 			ClearAllCategories();
+			PopulateInstalled();
 			switch (index)
 			{
 				case 0:
@@ -147,6 +150,8 @@ public partial class GodotPanel : Panel
 				await CheckForUpdates();
 				ClearAllCategories();
 				
+				PopulateInstalled();
+
 				if (_downloadSource.Selected == 0)
 					PopulateGithub();
 				else
@@ -182,16 +187,26 @@ public partial class GodotPanel : Panel
 			await CheckForUpdates();
 		
 		ClearAllCategories();
-
-		if (_downloadSource.Selected == 0)
-			PopulateGithub();
-		else
-			PopulateTuxfamily();
+		
+		PopulateInstalled();
+		
+		PopulateAvailable();
 
 		SortChildren();
 	}
 
 	private void HandleInstallCompleted(GodotLineItem item, GodotVersion version)
+	{
+		_downloading.ItemList.RemoveChild(item);
+		item.QueueFree();
+		item = GodotLineItem.FromScene();
+		item.GodotVersion = version;
+		_installed.ItemList.AddChild(item);
+		if (_downloading.ItemList.GetChildCount() == 0) _downloading.Visible = false;
+		
+		Database.AddVersion(version);
+
+		SortChildren();
 	}
 
 	private void HandleDownloadCancelled(GodotLineItem item)
@@ -213,6 +228,7 @@ public partial class GodotPanel : Panel
 	
 	private void PopulateGithub()
 	{
+		var installed = Database.AllVersions().ToArray();
 		foreach (var version in Database.AllGithubVersions().OrderByDescending(ver => ver.Release.TagName))
 		{
 			switch (_showMono)
@@ -221,17 +237,21 @@ public partial class GodotPanel : Panel
 				case false when version.StandardArchiveSize == 0:
 					continue;
 			}
+			
+			var res = installed.FirstOrDefault(x => x.SemVersion == version.SemVersion && x.IsMono == _showMono);
 
 			var item = GodotLineItem.FromScene();
 			item.GithubVersion = version;
 			item.ShowMono = _showMono;
 			SetupGLIEvents(item);
 			_available.ItemList.AddChild(item);
+			item.Visible = (res == null);
 		}
 	}
 	
 	private void PopulateTuxfamily()
 	{
+		var installed = Database.AllVersions().ToArray();
 		foreach (var version in Database.AllTuxfamilyVersions().Where(x => x.ReleaseStage.Contains(_currentTag))
 			         .OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
 		{
@@ -243,18 +263,15 @@ public partial class GodotPanel : Panel
 			}
 
 			if (!version.ReleaseStage.Contains(_currentTag)) continue;
-
-			var installed = Database.AllVersions().Where(t => t.IsMono == _showMono).ToArray();
-			if (installed.FirstOrDefault(x => x.TuxfamilyVersion == version) != null ||
-			    (installed.FirstOrDefault(x => x.GithubVersion.Release.TagName == version.TagName) != null &&
-			     version.ReleaseStage == "Stable"))
-				continue;
+			
+			var res = installed.FirstOrDefault(x => x.SemVersion == version.SemVersion && x.IsMono == _showMono);
 
 			var item = GodotLineItem.FromScene();
 			item.ShowMono = _showMono;
 			item.TuxfamilyVersion = version;
 			SetupGLIEvents(item);
 			_available.ItemList.AddChild(item);
+			item.Visible = (res == null);
 		}
 	}
 
@@ -273,13 +290,29 @@ public partial class GodotPanel : Panel
 		for (var i = 2; i < 7; i++)
 			_tagSelection.GetPopup().SetItemChecked(i, i == id+2);
 		ClearAllCategories();
+		PopulateInstalled();
 		PopulateTuxfamily();
 	}
 
 	private void UpdateAvailable()
 	{
+		var installed = Database.AllVersions().ToArray();
 		foreach (var child in _available.ItemList.GetChildren<GodotLineItem>())
+		{
 			child.ShowMono = _showMono;
+			if (child.GithubVersion != null)
+			{
+				var res = installed.FirstOrDefault(x =>
+					x.SemVersion == child.GithubVersion.SemVersion && x.IsMono == _showMono);
+				child.Visible = (res == null);
+			}
+			else
+			{
+				var res = installed.FirstOrDefault(x =>
+					x.SemVersion == child.TuxfamilyVersion.SemVersion && x.IsMono == _showMono);
+				child.Visible = (res == null);
+			}
+		}
 	}
 
 	private void PopulateInstalled()
@@ -347,17 +380,26 @@ public partial class GodotPanel : Panel
 	}
 	private void SortChildren()
 	{
-		var ordered = _available.ItemList.GetChildren<GodotLineItem>().OrderByDescending(
-			i => i.GithubVersion?.SemVersion ?? i.TuxfamilyVersion.SemVersion, SemVersionCompare.Instance);
+		var ordered = _available.ItemList.GetChildren<GodotLineItem>();
+		if (ordered[0].TuxfamilyVersion != null)
+		{
+			ordered = new Array<GodotLineItem>(ordered.OrderByDescending(i => i.TuxfamilyVersion.SemVersion,
+				SemVersionCompare.Instance));
+		}
+		else
+		{
+			ordered = new Array<GodotLineItem>(ordered.OrderByDescending(i => i.GithubVersion.SemVersion,
+				SemVersionCompare.Instance));
+		}
 		foreach (var item in ordered)
 		{
 			_available.ItemList.RemoveChild(item);
 			_available.ItemList.AddChild(item);
 		}
 
-		ordered = _installed.ItemList.GetChildren<GodotLineItem>().OrderByDescending(
-			i => i.GodotVersion.GithubVersion?.SemVersion ?? i.GodotVersion.TuxfamilyVersion.SemVersion,
-			SemVersionCompare.Instance);
+		ordered = _installed.ItemList.GetChildren<GodotLineItem>();
+		ordered = new Array<GodotLineItem>(ordered.OrderByDescending(i => i.GodotVersion.SemVersion,
+			SemVersionCompare.Instance));
 		foreach (var item in ordered)
 		{
 			_installed.ItemList.RemoveChild(item);
