@@ -25,7 +25,7 @@ public static class Util
 
     public static string Join(this string[] parts, string sep) => string.Join(sep, parts);
     
-    public static string GetDatabaseConnection() => $"Filename={FileUtil.GetUserFolder("godot_manager.dat")}";
+    public static string GetDatabaseConnection() => $"Filename={FileUtil.GetUserFolder("godot_manager.dat")};Connection=shared";
 
     public static Texture2D LoadImage(string path)
     {
