@@ -91,14 +91,15 @@ public class GithubVersion
         var csharpTag = SemVersion.Version.Major < 4 ? "mono" : "dotnet";
         tagBuilder.Append($"Godot-{SemVersion.Version.Major}.{SemVersion.Version.Minor}.{SemVersion.Version.Build}");
         if (SemVersion.Version.Revision > 0) tagBuilder.Append($".{SemVersion.Version.Revision}");
-        tagBuilder.Append("-{SemVersion.SpecialVersion}");
+        tagBuilder.Append($"-{SemVersion.SpecialVersion}");
         if (isMono) tagBuilder.Append($"-{csharpTag}");
         return tagBuilder.ToString();
     }
 
-    void GatherUrls(Release release = null)
+    public void GatherUrls(Release release = null)
     {
         release ??= Release;
+        Release = release;
 
         VersionUrls standard = new();
         VersionUrls csharp = new();
@@ -142,13 +143,10 @@ public class GithubVersion
         }
     }
 
-    public GithubVersion(Release release)
+    public static GithubVersion FromRelease(Release release)
     {
-        Release = release;
-        GatherUrls();
-    }
-
-    public GithubVersion()
-    {
+        var version = new GithubVersion();
+        version.GatherUrls(release);
+        return version;
     }
 }
