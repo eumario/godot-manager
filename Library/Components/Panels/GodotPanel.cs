@@ -201,6 +201,7 @@ public partial class GodotPanel : Panel
 		item.QueueFree();
 		item = GodotLineItem.FromScene();
 		item.GodotVersion = version;
+		SetupGLIEvents(item);
 		_installed.ItemList.AddChild(item);
 		if (_downloading.ItemList.GetChildCount() == 0) _downloading.Visible = false;
 		
