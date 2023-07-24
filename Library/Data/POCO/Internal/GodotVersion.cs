@@ -26,6 +26,9 @@ public class GodotVersion
 
     public string GetDisplayName() => $"Godot {Tag + (IsMono ? " - Mono" : "")}";
 
+    public string GetHumanReadableVersion() => GithubVersion != null ? GithubVersion.GetHumanReadableVersion(IsMono) :
+        TuxfamilyVersion != null ? TuxfamilyVersion.GetHumanReadableVersion(IsMono) : "Unknown";
+
     [BsonIgnore]
     public SemanticVersion SemVersion => GithubVersion != null ? GithubVersion.SemVersion : TuxfamilyVersion?.SemVersion;
 

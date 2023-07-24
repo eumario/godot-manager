@@ -90,4 +90,16 @@ public class TuxfamilyVersion
         if (isMono) tagBuilder.Append($"-{csharpTag}");
         return tagBuilder.ToString();
     }
+    
+    public string GetHumanReadableVersion(bool showMono)
+    {
+        var tagBuilder = new StringBuilder();
+        tagBuilder.Append("Godot v");
+        tagBuilder.Append(SemVersion.ToNormalizedStringNoSpecial());
+        tagBuilder.Append(" (");
+        tagBuilder.Append(ReleaseStage);
+        tagBuilder.Append(showMono ? (SemVersion.Version.Major == 4 ? " Dotnet" : " Mono") : string.Empty);
+        tagBuilder.Append(")");
+        return tagBuilder.ToString();
+    }
 }
