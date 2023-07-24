@@ -76,6 +76,8 @@ public partial class GeneralPanel : MarginContainer
 	{
 		this.OnReady();
 
+		if (Platform.Get() != PlatformType.LinuxBSD)
+			_desktopEntry.Visible = false;
 		// Rest of Initialization Functions
 		LoadSettings();
 		SetupEventHandlers();
