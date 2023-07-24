@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.IO;
 using LiteDB;
 
@@ -16,19 +17,24 @@ public class GodotVersion
     public string Url { get; set; }
     public DateTime DownloadDate { get; set; }
     public bool HideConsole { get; set; }
-    [BsonRef] public GithubVersion GithubVersion { get; set; }
-    [BsonRef] public TuxfamilyVersion TuxfamilyVersion { get; set; }
+
+    [BsonRef("github_versions")]
+    public GithubVersion GithubVersion { get; set; }
+    [BsonRef("tuxfamily_versions")]
+    public TuxfamilyVersion TuxfamilyVersion { get; set; }
     [BsonRef] public CustomEngineDownload CustomEngine { get; set; }
 
     public string GetDisplayName() => $"Godot {Tag + (IsMono ? " - Mono" : "")}";
 
+    [BsonIgnore]
+    public SemanticVersion SemVersion => GithubVersion != null ? GithubVersion.SemVersion : TuxfamilyVersion?.SemVersion;
+
     public string GetExecutablePath()
     {
-        string exePath = "";
         #if GODOT_MACOS || GODOT_OSX
-        exePath = Path.Combine(Location, (IsMono ? "Godot_mono.app" : "Godot.app"), "Contents", "MacOS", ExecutableName);
+        var exePath = Path.Combine(Location, (IsMono ? "Godot_mono.app" : "Godot.app"), "Contents", "MacOS", ExecutableName);
         #else
-        exePath = Path.Combine(Location, ExecutableName);
+        var exePath = Path.Combine(Location, ExecutableName);
         #endif
         return exePath;
     }
