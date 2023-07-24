@@ -77,6 +77,7 @@ public class DownloadManager
         item.UpdateProgress(buffer.Length);
         item.InstallClicked -= HandleDownloadCancelled;
         _timestamps.Remove(item);
+        InstallManager.Instance.InstallVersion(item, buffer);
     }
 
     private void HandleDownloadCancelled(GodotLineItem item)
