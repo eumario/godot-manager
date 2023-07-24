@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Godot;
 using Godot.Sharp.Extras;
@@ -126,12 +127,15 @@ public partial class GodotLineItem : Control
 		set
 		{
 			_godotVersion = value;
+			if (value is null) return;
 			if (_versionTag is null) return;
-			if (_godotVersion is null) return;
-			
-			_githubVersion = _godotVersion.GithubVersion;
-			// _mirrorVersion = _godotVersion.MirrorVersion;
-			_customEngineDownload = _godotVersion.CustomEngine;
+
+			var tag = _godotVersion.GithubVersion != null ? "Stable" : _godotVersion.TuxfamilyVersion.ReleaseStage;
+			var mono = _godotVersion.SemVersion.Version.Major >= 4 && _godotVersion.IsMono ? " Dotnet" : _showMono ? " Mono" : "";
+			_versionTag.Text = $"Godot v{_godotVersion.SemVersion.ToNormalizedStringNoSpecial()} ({tag}{mono})";
+			_downloadUrl.Text = _godotVersion.Url;
+			_downloadFS.Text = "Size On Disk: " + Util.FormatSize(DirSize(_godotVersion.Location));
+			_installedLoc.Text = _godotVersion.Location;
 			_installUninstall.Icon = _uninstall;
 			_installUninstall.SelfModulate = Colors.Red;
 			_linkSettings.Visible = IsInstalled;
@@ -145,9 +149,9 @@ public partial class GodotLineItem : Control
 		set
 		{
 			_tuxfamilyVersion = value;
+			if (value is null) return;
 			if (_versionTag is null) return;
-			if (_tuxfamilyVersion is null) return;
-			
+
 			_installed.Visible = true;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
@@ -157,7 +161,7 @@ public partial class GodotLineItem : Control
 			_godotTree.Text = $"{_tuxfamilyVersion.SemVersion.Version.Major}.x";
 
 			_downloadUrl.Text = _showMono ? _tuxfamilyVersion.CSharpDownloadUrl : _tuxfamilyVersion.StandardDownloadUrl;
-			_downloadFS.Text = "Size: " + Util.FormatSize(_showMono ? _tuxfamilyVersion.CSharpDownloadSize : _tuxfamilyVersion.StandardDownloadSize);
+			_downloadFS.Text = "Archive Size: " + Util.FormatSize(_showMono ? _tuxfamilyVersion.CSharpDownloadSize : _tuxfamilyVersion.StandardDownloadSize);
 			if (_showMono)
 			{
 				Visible = _tuxfamilyVersion.CSharpDownloadSize > 0;
@@ -191,9 +195,9 @@ public partial class GodotLineItem : Control
 		set
 		{
 			_githubVersion = value;
+			if (value is null) return;
 			if (_versionTag is null) return;
-			if (_githubVersion is null) return;
-			
+
 			_installed.Visible = true;
 			_linkSettings.Visible = IsInstalled;
 			_shareSettings.Visible = IsInstalled;
@@ -210,7 +214,7 @@ public partial class GodotLineItem : Control
 						? $"{_githubVersion.StandardDownloadUrl}"
 						: $"{_githubVersion.Release.TarballUrl}";
 			
-			_downloadFS.Text = "Size: " + Util.FormatSize(ShowMono
+			_downloadFS.Text = "Archive Size: " + Util.FormatSize(ShowMono
 				? _githubVersion.CSharpArchiveSize
 				: !string.IsNullOrEmpty(_githubVersion.StandardDownloadUrl)
 					? _githubVersion.StandardArchiveSize
@@ -356,5 +360,16 @@ public partial class GodotLineItem : Control
 
 	#region Private Functions
 
+	private long DirSize(string dir)
+	{
+		var d = new DirectoryInfo(dir);
+		var fis = d.GetFiles();
+		var size = fis.Aggregate(0L, (current, file) => current + file.Length);
+
+		var dis = d.GetDirectories();
+		size += dis.Sum(di => DirSize(di.ToString()));
+
+		return size;
+	}
 	#endregion
 }
