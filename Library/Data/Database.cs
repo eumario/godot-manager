@@ -202,7 +202,10 @@ public class Database
 
     #region GodotVersion Functions
     public static GodotVersion FindVersion(int id) =>
-        Instance._versions.Query().Where(gv => gv.Id == id).FirstOrDefault();
+        Instance._versions.Query().Where(gv => gv.Id == id)
+            .Include(x => x.GithubVersion)
+            .Include(x => x.TuxfamilyVersion)
+            .FirstOrDefault();
 
     public static void AddVersion(GodotVersion version)
     {
@@ -211,13 +214,21 @@ public class Database
     }
 
     public static GodotVersion GetVersion(int id) =>
-        Instance._versions.Query().Where(gv => gv.Id == id).First();
+        Instance._versions.Query()
+            .Include(x => x.GithubVersion)
+            .Include(x => x.TuxfamilyVersion)
+            .Include(x => x.CustomEngine)
+            .Where(gv => gv.Id == id).First();
 
     public static bool HasVersion(string tag) =>
         Instance._versions.Query().Where(gv => gv.Tag == tag).FirstOrDefault() != null;
 
     public static List<GodotVersion> AllVersions() =>
-        Instance._versions.Query().ToList();
+        Instance._versions.Query()
+            .Include(x => x.GithubVersion)
+            .Include(x => x.TuxfamilyVersion)
+            .Include(x => x.CustomEngine)
+            .ToList();
     #endregion
     
     #region GithubVersion Functions
