@@ -23,7 +23,7 @@ public class TuxfamilyVersion
 
     [BsonIgnore]
     public SemanticVersion SemVersion => _semVersion ??=
-        SemanticVersion.Parse(ReleaseStage == "Stable" ? TagName : $"{TagName}-{ReleaseStage}");
+        SemanticVersion.Parse($"{TagName}-{ReleaseStage}");
 
     public VersionUrl? this[string key] => key switch
     {
@@ -86,7 +86,7 @@ public class TuxfamilyVersion
         var csharpTag = SemVersion.Version.Major < 4 ? "mono" : "dotnet";
         tagBuilder.Append($"Godot-{SemVersion.Version.Major}.{SemVersion.Version.Minor}.{SemVersion.Version.Build}");
         if (SemVersion.Version.Revision > 0) tagBuilder.Append($".{SemVersion.Version.Revision}");
-        tagBuilder.Append("-{SemVersion.SpecialVersion}");
+        tagBuilder.Append($"-{SemVersion.SpecialVersion}");
         if (isMono) tagBuilder.Append($"-{csharpTag}");
         return tagBuilder.ToString();
     }
