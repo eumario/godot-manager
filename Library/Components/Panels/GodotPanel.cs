@@ -64,6 +64,7 @@ public partial class GodotPanel : Panel
 		this.OnReady();
 
 		InstallManager.Instance.InstallCompleted += HandleInstallCompleted;
+		InstallManager.Instance.UninstallCompleted += HandleUninstallCompleted;
 		DownloadManager.Instance.Cancelled += HandleDownloadCancelled;
 
 		_githubGodot = new Managers.Github.Godot();
@@ -210,6 +211,17 @@ public partial class GodotPanel : Panel
 		SortChildren();
 	}
 
+	private void HandleUninstallCompleted(GodotLineItem item)
+	{
+		_installed.ItemList.RemoveChild(item);
+		Database.RemoveVersion(item.GodotVersion);
+		item.QueueFree();
+		ClearAllCategories();
+		PopulateInstalled();
+		PopulateAvailable();
+		SortChildren();
+	}
+
 	private void HandleDownloadCancelled(GodotLineItem item)
 	{
 		_downloading.ItemList.RemoveChild(item);
@@ -350,9 +362,13 @@ public partial class GodotPanel : Panel
 			_downloading.ItemList.AddChild(gli);
 			DownloadManager.Instance.StartDownload(gli);
 		};
-		item.UninstallClicked += (gli) =>
+		item.UninstallClicked += async (gli) =>
 		{
-
+			var res = await UI.YesNoBox($"Uninstall {gli.GodotVersion.SemVersion}",
+				"Are you sure you want to remove this version of Godot?", new Vector2I(320, 120));
+			if (!res) return;
+			GD.Print($"Removing Version {gli.GodotVersion.SemVersion}");
+			InstallManager.Instance.UninstallVersion(gli);
 		};
 		item.LinkedSettings += (gli, toggle) =>
 		{
