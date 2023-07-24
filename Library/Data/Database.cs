@@ -223,6 +223,9 @@ public class Database
     public static bool HasVersion(string tag) =>
         Instance._versions.Query().Where(gv => gv.Tag == tag).FirstOrDefault() != null;
 
+    public static bool RemoveVersion(GodotVersion version) =>
+        Instance._versions.Delete(version.Id);
+
     public static List<GodotVersion> AllVersions() =>
         Instance._versions.Query()
             .Include(x => x.GithubVersion)
