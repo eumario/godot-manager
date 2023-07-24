@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using Godot;
 using Godot.Sharp.Extras;
@@ -141,7 +142,7 @@ public partial class GeneralPanel : MarginContainer
 		_defaultEngine3.ItemSelected += index =>
 		{
 			var oldValue = Database.Settings.DefaultEngine3;
-			var newValue = Database.GetVersion(_defaultEngine3.GetItemId((int)index));
+			var newValue = Database.GetVersion(_defaultEngine3.GetItemMetadata((int)index).AsInt32());
 			HistoryManager.Push(new UndoItem<GodotVersion>(
 					oldValue,
 					newValue,
@@ -151,7 +152,7 @@ public partial class GeneralPanel : MarginContainer
 						Database.Settings.DefaultEngine3 = oldVal;
 						for (var i = 0; i < _defaultEngine3.ItemCount; i++)
 						{
-							if (oldVal.Id != _defaultEngine3.GetItemId(i)) continue;
+							if (oldVal.Id != _defaultEngine3.GetItemMetadata(i).AsInt32()) continue;
 							_defaultEngine3.Selected = i;
 							break;
 						}
@@ -163,7 +164,7 @@ public partial class GeneralPanel : MarginContainer
 		_defaultEngine4.ItemSelected += index =>
 		{
 			var oldValue = Database.Settings.DefaultEngine4;
-			var newValue = Database.GetVersion(_defaultEngine4.GetItemId((int)index));
+			var newValue = Database.GetVersion(_defaultEngine4.GetItemMetadata((int)index).AsInt32());
 			HistoryManager.Push(new UndoItem<GodotVersion>(
 					oldValue,
 					newValue,
@@ -173,7 +174,7 @@ public partial class GeneralPanel : MarginContainer
 						Database.Settings.DefaultEngine4 = oldVal;
 						for (var i = 0; i < _defaultEngine4.ItemCount; i++)
 						{
-							if (oldVal.Id != _defaultEngine4.GetItemId(i)) continue;
+							if (oldVal.Id != _defaultEngine4.GetItemMetadata(i).AsInt32()) continue;
 							_defaultEngine4.Selected = i;
 							break;
 						}
@@ -364,7 +365,57 @@ public partial class GeneralPanel : MarginContainer
 		_noConsole.ButtonPressed = Database.Settings.NoConsole;
 		_selfContained.ButtonPressed = Database.Settings.SelfContainedEditors;
 		
+		PopulateInstalled();
+
+		var defEng3 = Database.Settings.DefaultEngine3;
+		var defEng4 = Database.Settings.DefaultEngine4;
+
+		if (defEng3 == null)
+			_defaultEngine3.Selected = 0;
+		else
+		{
+			for (var i = 0; i < _defaultEngine3.ItemCount; i++)
+			{
+				if (defEng3.Id == _defaultEngine3.GetItemMetadata(i).AsInt32())
+					_defaultEngine3.Selected = i;
+			}
+		}
+
+		if (defEng4 == null)
+			_defaultEngine4.Selected = 0;
+		else
+		{
+			for (var i = 0; i < _defaultEngine4.ItemCount; i++)
+			{
+				if (defEng4.Id == _defaultEngine4.GetItemMetadata(i).AsInt32())
+					_defaultEngine4.Selected = i;
+			}
+		}
 		_setup = false;
+	}
+
+	private void PopulateInstalled()
+	{
+		_defaultEngine3.Clear();
+		_defaultEngine4.Clear();
+		
+		_defaultEngine3.AddItem("None Selected");
+		_defaultEngine3.SetItemMetadata(0, "-1");
+		foreach (var version in Database.AllVersions().Where(x => x.SemVersion.Version.Major == 3)
+			         .OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
+		{
+			_defaultEngine3.AddItem(version.GetHumanReadableVersion());
+			_defaultEngine3.SetItemMetadata(_defaultEngine3.ItemCount - 1, version.Id);
+		}
+
+		_defaultEngine4.AddItem("None Selected");
+		_defaultEngine4.SetItemMetadata(0, "-1");
+		foreach (var version in Database.AllVersions().Where(x => x.SemVersion.Version.Major == 4)
+			         .OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
+		{
+			_defaultEngine4.AddItem(version.GetHumanReadableVersion());
+			_defaultEngine4.SetItemMetadata(_defaultEngine4.ItemCount - 1, version.Id);
+		}
 	}
 	#endregion
 
