@@ -15,7 +15,20 @@ public class InstallManager
     public static InstallManager Instance => _instance ??= new InstallManager();
     public delegate void InstallCompletedEventHandler(GodotLineItem item, GodotVersion gve);
 
+    public delegate void UninstallCompletedEventHandler(GodotLineItem item);
+
     public event InstallCompletedEventHandler InstallCompleted;
+    public event UninstallCompletedEventHandler UninstallCompleted;
+    
+    public void UninstallVersion(GodotLineItem item)
+    {
+        var path = item.GodotVersion.GetExecutablePath().GetBaseDir();
+        // Delete Install Directory
+        Directory.Delete(path, true);
+        // Delete Cached Archive
+        File.Delete(item.GodotVersion.CacheLocation);
+        Util.RunInMainThread(() => UninstallCompleted?.Invoke(item));
+    }
 
     public void InstallVersion(GodotLineItem item, byte[] buffer)
     {
