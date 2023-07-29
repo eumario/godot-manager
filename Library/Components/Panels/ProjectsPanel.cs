@@ -241,8 +241,8 @@ public partial class ProjectsPanel : Panel
 			}
 			else
 			{
-				if (_categories.ContainsKey(pli.ProjectFile.Category.Id))
-					_categories[pli.ProjectFile.Category.Id].ItemList.AddChild(pli);
+				if (_categories.TryGetValue(pli.ProjectFile.Category.Id, out var category))
+					category.ItemList.AddChild(pli);
 			}
 		}
 
