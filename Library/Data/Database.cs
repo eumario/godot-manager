@@ -151,8 +151,25 @@ public class Database
     public static bool HasProject(string name) =>
         Instance._projects.Query().Where(pf => pf.Location == name).FirstOrDefault() != null;
 
-    public static ProjectFile GetProject(string name) =>
-        Instance._projects.Query().Where(pf => pf.Location == name).First();
+    public static ProjectFile GetProject(string name)
+    {
+        var pf = Instance._projects.Query().Where(pf => pf.Location == name)
+            .Include(x => x.Category).First();
+        if (pf == null) return null;
+        if (pf.GodotVersion != null)
+            pf.GodotVersion = GetVersion(pf.GodotVersion.Id);
+        return pf;
+    }
+
+    public static ProjectFile GetProject(int id)
+    {
+        var pf = Instance._projects.Query().Where(pf => pf.Id == id)
+            .Include(x => x.Category).First();
+        if (pf == null) return null;
+        if (pf.GodotVersion is { GithubVersion: null } or { TuxfamilyVersion: null })
+            pf.GodotVersion = GetVersion(pf.GodotVersion.Id);
+        return pf;
+    }
 
     public static void AddProject(ProjectFile projectFile)
     {
@@ -172,8 +189,19 @@ public class Database
         Instance._database.Checkpoint();
     }
 
-    public static ProjectFile[] AllProjects() =>
-        Instance._projects.Query().ToArray();
+    public static ProjectFile[] AllProjects()
+    {
+        var pfs = Instance._projects.Query().Where(x => true)
+            .Include(x => x.Category)
+            .Include(x => x.GodotVersion).ToArray();
+        foreach (var pf in pfs)
+        {
+            if (pf?.GodotVersion is { GithubVersion: null } or { TuxfamilyVersion: null })
+                pf.GodotVersion = GetVersion(pf.GodotVersion.Id);
+        }
+
+        return pfs;
+    }
     #endregion
     
     #region Asset Plugin Functions
