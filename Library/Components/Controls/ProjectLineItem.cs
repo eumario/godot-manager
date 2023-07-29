@@ -71,6 +71,8 @@ public partial class ProjectLineItem : Control, IProjectIcon
 			
 			_projectFile = value;
 
+			GodotVersion = _projectFile.GodotVersion;
+
 			if (_projectName is null) return;
 
 			value.ProjectChanged += UpdateUI;

@@ -69,6 +69,10 @@ layout_mode = 2
 text = "Godot v0.0.0"
 horizontal_alignment = 1
 
+[node name="Spacer3" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
