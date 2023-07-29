@@ -41,7 +41,7 @@ public partial class ImportProject : ConfirmationDialog
 		foreach (var version in Database.AllVersions().OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
 		{
 			_godotVersion.AddItem(version.GetHumanReadableVersion());
-			_godotVersion.SetItemMetadata(_godotVersion.ItemCount - 1, version.Id.ToString());
+			_godotVersion.SetItemMetadata(_godotVersion.ItemCount - 1, version.Id);
 		}
 	}
 
