@@ -67,7 +67,7 @@ public class ProjectFile
         }
     }
 
-    [BsonRef]
+    [BsonRef("versions")]
     public GodotVersion GodotVersion
     {
         get => _godotVersion;
