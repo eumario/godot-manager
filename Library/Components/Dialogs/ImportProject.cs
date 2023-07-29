@@ -45,7 +45,7 @@ public partial class ImportProject : ConfirmationDialog
 		}
 	}
 
-	private void OnConfirmed_ImportProject()
+	private async void OnConfirmed_ImportProject()
 	{
 		var loc = _location.GetFolder();
 		if (!loc.EndsWith("project.godot"))
@@ -68,6 +68,22 @@ public partial class ImportProject : ConfirmationDialog
 		try
 		{
 			var projectFile = ProjectFile.ReadFromFile(loc);
+			var godot = Database.GetVersion(_godotVersion.GetItemMetadata(_godotVersion.Selected).AsInt32());
+			if (godot is null)
+			{
+				UI.MessageBox("Godot Version Failure", "Failed to get the proper version of Godot Engine to use with this project.");
+				return;
+			}
+
+			if (godot.SemVersion.Version.Major == 4 && !projectFile.IsGodot4)
+			{
+				var res = await UI.YesNoBox("Older Version Project",
+					"This project file is Godot 3.x project, are you sure you want to use Godot 4 with this project?");
+				if (!res)
+					return;
+			}
+
+			projectFile.GodotVersion = godot;
 			Database.AddProject(projectFile);
 		}
 		catch (Exception ex)
