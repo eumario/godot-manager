@@ -177,16 +177,18 @@ public class Database
         FlushDatabase();
     }
 
-    public static void RemoveProject(ProjectFile projectFile)
+    public static bool RemoveProject(ProjectFile projectFile)
     {
-        Instance._projects.Delete(projectFile.Id);
+        var res = Instance._projects.Delete(projectFile.Id);
         FlushDatabase();
+        return res;
     }
 
-    public static void UpdateProject(ProjectFile projectFile)
+    public static bool UpdateProject(ProjectFile projectFile)
     {
-        Instance._projects.Update(projectFile);
+        var res = Instance._projects.Update(projectFile);
         FlushDatabase();
+        return res;
     }
 
     public static ProjectFile[] AllProjects()
