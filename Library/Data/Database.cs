@@ -207,23 +207,23 @@ public class Database
     #endregion
     
     #region Asset Plugin Functions
-    public AssetPlugin[] AllPlugins() => _plugins.Query().ToArray();
+    public static AssetPlugin[] AllPlugins() => Instance._plugins.Query().ToArray();
 
-    public AssetPlugin GetPlugin(int id) => _plugins.Query().Where(x => x.Id == id).FirstOrDefault();
-    public AssetPlugin GetPluginById(string id) => _plugins.Query().Where(x => x.Asset.AssetId == id).FirstOrDefault();
+    public static AssetPlugin GetPlugin(int id) => Instance._plugins.Query().Where(x => x.Id == id).FirstOrDefault();
+    public static AssetPlugin GetPluginById(string id) => Instance._plugins.Query().Where(x => x.Asset.AssetId == id).FirstOrDefault();
 
-    public AssetPlugin GetPluginByName(string name) =>
-        _plugins.Query().Where(x => x.Asset.Title == name).FirstOrDefault();
+    public static AssetPlugin GetPluginByName(string name) =>
+        Instance._plugins.Query().Where(x => x.Asset.Title == name).FirstOrDefault();
 
-    public void AddPlugin(AssetPlugin plgn)
+    public static void AddPlugin(AssetPlugin plgn)
     {
-        _plugins.Insert(plgn);
+        Instance._plugins.Insert(plgn);
         FlushDatabase();
     }
 
-    public void RemovePlugin(AssetPlugin plgn)
+    public static void RemovePlugin(AssetPlugin plgn)
     {
-        _plugins.Delete(plgn.Id);
+        Instance._plugins.Delete(plgn.Id);
         FlushDatabase();
     }
     #endregion
