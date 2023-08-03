@@ -333,6 +333,19 @@ public class SemanticVersion : IComparable, IComparable<SemanticVersion>, IEquat
         return _normalizedVersionNoSpecialString;
     }
 
+    public string ToShortString()
+    {
+        var builder = new StringBuilder();
+        builder.Append(Version.Major)
+            .Append('.')
+            .Append(Version.Minor)
+            .Append('.')
+            .Append(Version.Build)
+            .Append('-')
+            .Append(SpecialVersion.Replace(' ', '_').ToLowerInvariant());
+        return builder.ToString();
+    }
+
     public bool Equals(SemanticVersion other)
     {
         return !ReferenceEquals(null, other) &&
