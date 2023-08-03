@@ -174,19 +174,19 @@ public class Database
     public static void AddProject(ProjectFile projectFile)
     {
         Instance._projects.Insert(projectFile);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static void RemoveProject(ProjectFile projectFile)
     {
         Instance._projects.Delete(projectFile.Id);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static void UpdateProject(ProjectFile projectFile)
     {
         Instance._projects.Update(projectFile);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static ProjectFile[] AllProjects()
@@ -222,7 +222,7 @@ public class Database
     {
         Instance._categories.Insert(new Category()
             { IsExpanded = false, IsPinned = false, LastAccessed = DateTime.UtcNow, Name = name });
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static Category[] AllCategories() =>
@@ -240,7 +240,7 @@ public class Database
     public static void AddVersion(GodotVersion version)
     {
         Instance._versions.Insert(version);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static GodotVersion GetVersion(int id) =>
@@ -272,7 +272,7 @@ public class Database
     public static void AddGithubVersion(GithubVersion version)
     {
         Instance._githubVersions.Insert(version);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static GithubVersion GetGithubVersion(int id) =>
@@ -299,7 +299,7 @@ public class Database
     public static void AddTuxfamilyVersion(TuxfamilyVersion version)
     {
         Instance._tuxfamilyVersions.Insert(version);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     public static TuxfamilyVersion GetTuxfamilyVersion(string id) =>
@@ -330,7 +330,7 @@ public class Database
     public static void UpdateLatestRelease(LatestRelease release)
     {
         Instance._latestReleases.Update(release);
-        Instance._database.Checkpoint();
+        FlushDatabase();
     }
 
     #endregion
