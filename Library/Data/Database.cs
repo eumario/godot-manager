@@ -207,6 +207,25 @@ public class Database
     #endregion
     
     #region Asset Plugin Functions
+    public AssetPlugin[] AllPlugins() => _plugins.Query().ToArray();
+
+    public AssetPlugin GetPlugin(int id) => _plugins.Query().Where(x => x.Id == id).FirstOrDefault();
+    public AssetPlugin GetPluginById(string id) => _plugins.Query().Where(x => x.Asset.AssetId == id).FirstOrDefault();
+
+    public AssetPlugin GetPluginByName(string name) =>
+        _plugins.Query().Where(x => x.Asset.Title == name).FirstOrDefault();
+
+    public void AddPlugin(AssetPlugin plgn)
+    {
+        _plugins.Insert(plgn);
+        FlushDatabase();
+    }
+
+    public void RemovePlugin(AssetPlugin plgn)
+    {
+        _plugins.Delete(plgn.Id);
+        FlushDatabase();
+    }
     #endregion
     
     #region Asset Template Functions
