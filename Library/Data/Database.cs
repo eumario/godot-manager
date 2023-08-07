@@ -271,8 +271,18 @@ public class Database
             .Include(x => x.CustomEngine)
             .Where(gv => gv.Id == id).First();
 
+    public static GodotVersion GetVersion(SemanticVersion version, bool isMono = false) =>
+        Instance._versions.Query()
+            .Include(x => x.GithubVersion)
+            .Include(x => x.TuxfamilyVersion)
+            .Include(x => x.CustomEngine)
+            .Where(gv => gv.SemVersion == version && gv.IsMono == isMono).First();
+
     public static bool HasVersion(string tag) =>
         Instance._versions.Query().Where(gv => gv.Tag == tag).FirstOrDefault() != null;
+
+    public static bool HasVersion(SemanticVersion version, bool isMono = false) =>
+        Instance._versions.Query().Where(gv => gv.SemVersion == version && gv.IsMono == isMono).FirstOrDefault() != null;
 
     public static bool RemoveVersion(GodotVersion version)
     {
