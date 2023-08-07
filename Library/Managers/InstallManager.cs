@@ -87,12 +87,12 @@ public class InstallManager
                 {
                     if ((entry.Name.EndsWith(".64") || entry.Name.EndsWith("x86_64")) && entry.Name.StartsWith("Godot"))
                     {
-                        gdVers.ExecutableName = entry.Name;
+                        gdVers.ExecutableName = $"/{entry.Name}".GetFilename();
                         break;
                     }
 
                     if (!entry.Name.EndsWith(".32") || !entry.Name.StartsWith("Godot")) continue;
-                    gdVers.ExecutableName = entry.Name;
+                    gdVers.ExecutableName = $"{entry.Name}".GetFilename();
                     break;
                 }
                 break;
