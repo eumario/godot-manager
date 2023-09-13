@@ -194,7 +194,7 @@ public class GodotInstaller : Object {
 		if (_version.IsMono)
 			instDir = instDir.GetBaseDir();
 #endif
-		ZipFile.ExtractToDirectory(_version.CacheLocation,instDir);
+		ZipFile.ExtractToDirectory(_version.CacheLocation, ProjectSettings.GlobalizePath(instDir));
 
 		Array<string> fileList = new Array<string>();
 		using (ZipArchive za = ZipFile.OpenRead(_version.CacheLocation.GetOSDir().NormalizePath())) {
