@@ -224,7 +224,7 @@ margin_left = 594.0
 margin_top = 41.0
 margin_right = 673.0
 margin_bottom = 62.0
-text = "Use Deafult"
+text = "Use Default"
 
 [node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/Wizard/Page2/VBoxContainer/Grid"]
 margin_top = 83.0
