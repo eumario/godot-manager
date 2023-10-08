@@ -110,6 +110,8 @@ public class ProjectsPanel : Panel
         AppDialogs.EditProject.Connect("project_updated", this, "PopulateListing");
         AppDialogs.CreateProject.Connect("project_created", this, "OnProjectCreated");
 
+        GetTree().Connect("files_dropped", this, "OnFilesDropped");
+
         _actionButtons.SetHidden(3);
         _actionButtons.SetHidden(4);
         _categoryList = new Dictionary<int, CategoryList>();
@@ -165,6 +167,13 @@ public class ProjectsPanel : Panel
                 _scrollSpeed = 0;
             }
         }
+    }
+
+    public void OnFilesDropped(string[] files, int screen)
+    {
+        var file = new System.IO.FileInfo(files[0]);
+        if (file.Exists && file.Name.Equals("project.godot"))
+            AppDialogs.ImportProject.ShowDialog(files[0]);
     }
 
     [SignalHandler("direction_changed", nameof(_projectName))]
