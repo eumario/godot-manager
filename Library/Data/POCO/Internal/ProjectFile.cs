@@ -120,11 +120,10 @@ public class ProjectFile
 
         if (!project.HasSectionKey("header", "config_version")) return null;
         if (!project.HasSection("application")) return null;
-        if (!project.HasSectionKey("application", "config/name")) return null;
         if (ValidVersion(project))
         {
             projectFile = new();
-            projectFile.Name = project.GetValue("application/config/name");
+            projectFile.Name = project.GetValue("application/config/name", "Unnamed");
             projectFile.Description = project.GetValue("application/config/description", "No Description");
             projectFile.Location = filePath;
             projectFile.Icon = project.GetValue("application/config/icon", "res://icon.png");
