@@ -52,6 +52,7 @@ public partial class ProjectsPanel : Panel
 		_categories = new Dictionary<int, CategoryList>();
 		_actionButtons.SetHidden(3,4,5,6);
 		PopulateLists();
+		GetWindow().FilesDropped += OnFilesDropped;
 	}
 	#endregion
 
@@ -66,14 +67,7 @@ public partial class ProjectsPanel : Panel
 				np.PopupCentered(new Vector2I(600,470));
 				break;
 			case 1: // Import Project
-				var dlg = ImportProject.FromScene();
-				dlg.ImportCompleted += () =>
-				{
-					PopulateLists();
-					dlg.QueueFree();
-				};
-				AddChild(dlg);
-				dlg.PopupCentered(new Vector2I(320,145));
+				OnImport();
 				break;
 			case 2: // Scan Folders
 				break;
@@ -86,6 +80,24 @@ public partial class ProjectsPanel : Panel
 			case 6: // Remove Missing
 				break;
 		}
+	}
+
+	void OnFilesDropped(string[] files)
+	{
+		OnImport(files[0]);
+	}
+
+	void OnImport(string path = null)
+	{
+		var dlg = ImportProject.FromScene();
+		dlg.ImportCompleted += () =>
+		{
+			PopulateLists();
+			dlg.QueueFree();
+		};
+		AddChild(dlg);
+		if (path != null) dlg.SetLocation(path);
+		dlg.PopupCentered(new Vector2I(320,145));
 	}
 
 	void OnViewChanged_ViewToggleButtons(int index)
