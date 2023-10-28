@@ -35,6 +35,11 @@ public partial class ImportProject : ConfirmationDialog
 		Confirmed += OnConfirmed_ImportProject;
 	}
 
+	public void SetLocation(string path)
+	{
+		_location.Text = path;
+	}
+
 	private void PopulateGodotVersions()
 	{
 		_godotVersion.Clear();

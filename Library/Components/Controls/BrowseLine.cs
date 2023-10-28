@@ -69,6 +69,15 @@ public partial class BrowseLine : Control
 		}
 	}
 
+	public string Text
+	{
+		get => _input.Text;
+		set
+		{
+			_input.Text = value;
+		}
+	}
+
 	[Export]
 	public int LabelWidth
 	{
