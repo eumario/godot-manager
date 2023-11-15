@@ -14,7 +14,8 @@ public class NewsPanel : Panel
 
     [Resource("res://components/NewsItem.tscn")] private PackedScene NewsItem = null;
 
-    private readonly Uri NEWS_URI = new Uri("https://godotengine.org/news/");
+    private readonly Uri NEWS_URI = new Uri("https://godotengine.org/blog/");
+    private readonly Uri BASE_URI = new Uri("https://godotengine.org/");
     private GDCSHTTPClient _client = null;
     private DownloadQueue _queue = null;
     
@@ -247,13 +248,14 @@ public class NewsPanel : Panel
                 switch (xml.GetNodeName())
                 {
                     case "div":
-                        // <div class="thumbnail" style="background-image: url('https://godotengine.org/storage/app/uploads/....');" href="https://godotengine.org/article/.....">
+                        // <div class="thumbnail" style="background-image: url('https://godotengine.org/storage/app/uploads/....');" href="https://godotengine.org/article/....."> // Old Link
+                        // <div class="thumbnail" style="background-image: url('/storage/blog/covers/dev/....');" href="/articles/......"> // New Link
                         if (xml.GetNamedAttributeValueSafe("class").Contains("thumbnail"))
                         {
                             var image_style = xml.GetNamedAttributeValueSafe("style");
                             var url_start = image_style.Find("'") + 1;
                             var url_end = image_style.FindLast("'");
-                            var image_url = image_style.Substr(url_start, url_end - url_start);
+                            var image_url = BASE_URI.AbsoluteUri + image_style.Substr(url_start, url_end - url_start);
 
                             parsed_item["image"] = image_url;
                             parsed_item["link"] = xml.GetNamedAttributeValueSafe("href");
