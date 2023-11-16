@@ -80,6 +80,12 @@ public class ManageCustomDownloads : ReferenceRect
         }
 
         var items = CustomVersionList.GetSelectedItems();
+        if (items.Length <= 0)
+        {
+            AppDialogs.MessageDialog.ShowMessage("Edit Custom Download",
+                "You need to select a Download entry to edit it.");
+            return;
+        }
         var ced = CustomVersionList.GetItemMetadata(items[0]);
         _currentCed = ced as CustomEngineDownload;
         DisplayStruct();
@@ -88,7 +94,14 @@ public class ManageCustomDownloads : ReferenceRect
     [SignalHandler("pressed", nameof(RemoveCustomVersion))]
     async Task OnPressed_RemoveCustomVersion()
     {
-        var delCed = CustomVersionList.GetItemMetadata(CustomVersionList.GetSelectedItems()[0]) as CustomEngineDownload;
+        var items = CustomVersionList.GetSelectedItems();
+        if (items.Length <= 0)
+        {
+            AppDialogs.MessageDialog.ShowMessage("Remove Custom Download",
+                "You must select a Download entry to remove it.");
+            return;
+        }
+        var delCed = CustomVersionList.GetItemMetadata(items[0]) as CustomEngineDownload;
         bool installed = false;
         GodotVersion installedGv = null;
         foreach (GodotVersion gv in CentralStore.Versions)
