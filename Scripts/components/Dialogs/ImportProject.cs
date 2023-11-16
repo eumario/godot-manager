@@ -79,7 +79,15 @@ public class ImportProject : ReferenceRect
         }
         int id = _godotVersions.GetItemId(_godotVersions.Selected);
         GodotVersion gdVers = CentralStore.Instance.FindVersion(_godotVersions.GetItemMetadata(id) as string);
-        ProjectFile pf = ProjectFile.ReadFromFile(_locationValue.Text);
+        var file = _locationValue.Text;
+        if (!file.EndsWith("project.godot"))
+            file = file.Join("project.godot");
+        if (!System.IO.File.Exists(file))
+        {
+            AppDialogs.MessageDialog.ShowMessage("Failed to load Project", "Location provided does not have a project.godot file in the folder.  Please check this and try again.");
+            return;
+        }
+        ProjectFile pf = ProjectFile.ReadFromFile(file);
         if (gdVers != null)
             pf.GodotVersion = gdVers.Id;
         CentralStore.Projects.Add(pf);
