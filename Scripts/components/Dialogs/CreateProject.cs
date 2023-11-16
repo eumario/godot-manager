@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
@@ -258,12 +259,18 @@ Faster rendering of simple scenes.");
     private void PopulateEngines(bool updateUse = false)
     {
         int defaultGodot = -1;
-        var defaultEngine = CentralStore.Instance.GetVersion(CentralStore.Settings.DefaultEngine);
-        if (updateUse)
+        if (CentralStore.Settings.DefaultEngine != Guid.Empty.ToString())
         {
-            if (defaultEngine.IsGodot4())
+            var defaultEngine = CentralStore.Instance.GetVersion(CentralStore.Settings.DefaultEngine);
+            if (defaultEngine != null)
             {
-                _useGodot4.Pressed = true;
+                if (updateUse)
+                {
+                    if (defaultEngine.IsGodot4())
+                    {
+                        _useGodot4.Pressed = true;
+                    }
+                }
             }
         }
 

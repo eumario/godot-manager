@@ -143,7 +143,9 @@ public class CentralStore {
 		return query.FirstOrDefault<GodotVersion>();
 	}
 
-	public GodotVersion GetVersion(string id) {
+	public GodotVersion GetVersion(string id)
+	{
+		if (Versions.Count <= 0) return null;
 		var query = from gv in Versions
 					where gv.Id == id
 					select gv;
