@@ -15,7 +15,7 @@ public class NewsPanel : Panel
     [Resource("res://components/NewsItem.tscn")] private PackedScene NewsItem = null;
 
     private readonly Uri NEWS_URI = new Uri("https://godotengine.org/blog/");
-    private readonly Uri BASE_URI = new Uri("https://godotengine.org/");
+    private readonly Uri BASE_URI = new Uri("https://godotengine.org");
     private GDCSHTTPClient _client = null;
     private DownloadQueue _queue = null;
     
@@ -84,6 +84,8 @@ public class NewsPanel : Panel
         if (result.ResponseCode != 200)
         {
             CleanupClient();
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Fetch News Error", $"Failed to fetch news entries from website.  (Error Code: {result.ResponseCode}");
             return;
         }
 
@@ -255,7 +257,7 @@ public class NewsPanel : Panel
                             var image_style = xml.GetNamedAttributeValueSafe("style");
                             var url_start = image_style.Find("'") + 1;
                             var url_end = image_style.FindLast("'");
-                            var image_url = BASE_URI.AbsoluteUri + image_style.Substr(url_start, url_end - url_start);
+                            var image_url = BASE_URI.AbsoluteUri + image_style.Substr(url_start+1, url_end - url_start - 1);
 
                             parsed_item["image"] = image_url;
                             parsed_item["link"] = xml.GetNamedAttributeValueSafe("href");
@@ -302,7 +304,8 @@ public class NewsPanel : Panel
                         // <img class="avatar" width="25" height="25" src="https://godotengine.org/storage/app/uploads/public/....." alt="">
                         if (xml.GetNamedAttributeValue("class").Contains("avatar"))
                         {
-                            parsed_item["avatar"] = xml.GetNamedAttributeValue("src");
+                            var part = xml.GetNamedAttributeValue("src");
+                            parsed_item["avatar"] = BASE_URI.AbsoluteUri + part.Substr(1, part.Length - 1);
                         }
                         break;
                 }
