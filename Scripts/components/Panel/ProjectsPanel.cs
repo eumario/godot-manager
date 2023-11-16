@@ -260,16 +260,43 @@ public class ProjectsPanel : Panel
         }
     }
 
+    Array<string> RecursiveScan(string path, string file)
+    {
+        var files = new Array<string>();
+        var dirHandle = new Directory();
+        if (dirHandle.Open(path) == Error.Ok)
+        {
+            dirHandle.ListDirBegin(true);
+            var newPath = dirHandle.GetNext();
+            while (!string.IsNullOrEmpty(newPath))
+            {
+                if (dirHandle.DirExists(newPath))
+                {
+                    var newFiles = RecursiveScan(newPath, file);
+                    foreach (var x in newFiles) files.Add(x);
+                }
+                if (dirHandle.FileExists(newPath.Join(file)))
+                    files.Add(path.Join(newPath,file));
+                newPath = dirHandle.GetNext();
+            }
+            dirHandle.ListDirEnd();
+        }
+
+        dirHandle.Dispose();
+        return files;
+    }
+
     async Task<Array<string>> ScanDirectories(Array<string> scanDirs) {
 		Array<string> projects = new Array<string>();
 
 		await this.IdleFrame();
-
-		foreach(string dir in scanDirs) {
-            var projs = Dir.EnumerateFiles(dir, "project.godot", SearchOption.AllDirectories);
-            foreach(string proj in projs)
+        
+		foreach(string dir in scanDirs)
+        {
+            var projs = RecursiveScan(dir, "project.godot");
+            foreach (var proj in projs)
                 projects.Add(proj);
-		}
+        }
 		return projects;
 	}
 
@@ -283,8 +310,18 @@ public class ProjectsPanel : Panel
 			if (CentralStore.Instance.HasProject(proj.NormalizePath()))
             {
                 await this.IdleFrame();
-            } else {
-				ProjectFile pf = ProjectFile.ReadFromFile(proj.NormalizePath());
+            } else
+            {
+                ProjectFile pf;
+                try
+                {
+                    pf = ProjectFile.ReadFromFile(proj.NormalizePath());
+                }
+                catch
+                {
+                    pf = null;
+                }
+
                 if (pf == null) continue;
                 pf.GodotVersion = CentralStore.Settings.DefaultEngine;
                 CentralStore.Projects.Add(pf);
