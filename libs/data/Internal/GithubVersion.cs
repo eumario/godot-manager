@@ -1,7 +1,9 @@
+using System;
 using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
 using System.Linq;
+using Object = Godot.Object;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class GithubVersion : Object
@@ -82,21 +84,22 @@ public class GithubVersion : Object
 
 	void GatherUrls(Github.Release release) {
 		string[] fields = new string[] {
-			"Win32", "Win64", "Linux32", "Linux64", "OSX",
+			"Win32", "Win64", "Linux32", "Linux32", "Linux64", "Linux64", "OSX", "OSX",
 			"Templates", "Headless", "Server"
 		};
 		//Godot_v3.4-stable_x11.32.zip, Godot_v3.4-stable_x11.64.zip
 		string[] standard_match = new string[] {
-			"win32", "win64", "x11.32", "x11.64", "osx", 
+			"win32", "win64", "linux.x86_32", "x11.32", "linux.x86_64", "x11.64", "osx", "macos.universal", 
 			"export_templates.tpz", "linux_headless.64", "linux_server.64"
 		};
 		string[] standard_not_match = new string[] {
-			"mono_win32", "mono_win64", "JavaDaHutForYou", "JavaDaHutForYou", "mono_osx",
-			"mono_export_templates.tpz", "JavaDaHutForYou", "JavaDaHutForYou"
+			"mono_win32", "mono_win64", "mono_linux_x86_32", "mono_x11_32", "mono_linux_x86_64", "mono_x11_64",
+			"IgnoredString", "IgnoredString", "mono_osx", "mono_macos.universal", "mono_export_templates.tpz",
+			"IgnoredString", "IgnoredString"
 		};
 		string[] mono_match = new string[] {
-			"mono_win32", "mono_win64", "mono_x11_32", "mono_x11_64", "mono_osx",
-			"mono_export_templates.tpz", "mono_linux_headless_64", "mono_linux_server_64"
+			"mono_win32", "mono_win64", "mono_linux_x86_32", "mono_x11_32", "mono_linux_x86_64", "mono_x11_64", "mono_osx",
+			"mono_macos.universal", "mono_export_templates.tpz", "mono_linux_headless_64", "mono_linux_server_64"
 		};
 
 		VersionUrls standard = new VersionUrls();
@@ -124,7 +127,7 @@ public class GithubVersion : Object
 
 	public static GithubVersion FromAPI(Github.Release release) {
 		GithubVersion api = new GithubVersion();
-		api.Name = release.Name;
+		api.Name = string.IsNullOrEmpty(release.Name) ? release.HtmlUrl.GetFile() : release.Name;
 		api.Page = release.HtmlUrl;
 		api.Notes = release.Body;
 		api.Author = release.Author.Login;

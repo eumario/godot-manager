@@ -77,8 +77,11 @@ public class SettingsPanel : Panel
 	[NodePath("VB/MC/TC/General/GC/SIContainer/RemoveDesktopEntry")]
 	private Button _removeDesktopEntry = null;
 
-	[NodePath("VB/MC/TC/General/GC/UseLastMirror")]
+	[NodePath("VB/MC/TC/General/GC/MCContainer/UseLastMirror")]
 	CheckBox _useLastMirror = null;
+
+	[NodePath("VB/MC/TC/General/GC/MCContainer/ForceCleanGithub")]
+	private Button _forceCleanGithub = null;
 
 	[NodePath("VB/MC/TC/General/GC/HBCI/CheckBox")]
 	CheckBox _useProxy = null;
@@ -790,6 +793,17 @@ public class SettingsPanel : Panel
 		}
 	}
 	#endif
+
+	[SignalHandler("pressed", nameof(_forceCleanGithub))]
+	async void OnPressed_ForceCleanGithub()
+	{
+		var res = await AppDialogs.YesNoDialog.ShowDialog("Force Clean Github",
+			"This will force clean local cache of Github Entries, continue?");
+		if (!res) return;
+		CentralStore.GHVersions.Clear();
+		CentralStore.Settings.LastCheck = System.DateTime.Now - System.TimeSpan.FromDays(30);
+		CentralStore.Instance.SaveDatabase();
+	}
 
 	[SignalHandler("toggled", nameof(_noConsole))]
 	void OnNoConsole(bool toggle) {
