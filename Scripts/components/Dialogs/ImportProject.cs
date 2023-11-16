@@ -82,6 +82,21 @@ public class ImportProject : ReferenceRect
         var file = _locationValue.Text;
         if (!file.EndsWith("project.godot"))
             file = file.Join("project.godot");
+
+        if (file.StartsWith("~"))
+        {
+            var homePath = "";
+            if (OS.HasEnvironment("HOME"))
+            {
+                homePath = OS.GetEnvironment("HOME");
+            }
+            else
+            {
+                homePath = OS.GetSystemDir(OS.SystemDir.Documents);
+            }
+
+            file = file.Replace("~", homePath).NormalizePath();
+        }
         if (!System.IO.File.Exists(file))
         {
             AppDialogs.MessageDialog.ShowMessage("Failed to load Project", "Location provided does not have a project.godot file in the folder.  Please check this and try again.");
