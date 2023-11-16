@@ -7,7 +7,6 @@ using System.Diagnostics;
 using FPath = System.IO.Path;
 using Dir = System.IO.Directory;
 using SFile = System.IO.File;
-using SearchOption = System.IO.SearchOption;
 using DateTime = System.DateTime;
 
 public class ProjectsPanel : Panel
@@ -130,7 +129,7 @@ public class ProjectsPanel : Panel
         }
 
         if (CentralStore.Settings.EnableAutoScan) {
-            ScanForProjects();
+            WaitForReady(ScanForProjects);
         }
 
         _topBorder = _scrollContainer.RectGlobalPosition.y + _borderSize;
@@ -144,6 +143,16 @@ public class ProjectsPanel : Panel
         AddChild(_scrollTween);
 
         PopulateListing();
+    }
+
+    private async void WaitForReady(System.Action runProc)
+    {
+        while (AppDialogs.BusyDialog.Header == null)
+        {
+            await this.IdleFrame();
+        }
+
+        runProc.Invoke();
     }
 
     public override void _Input(InputEvent inputEvent) {
@@ -359,7 +368,7 @@ public class ProjectsPanel : Panel
             } else
                 return;
         }
-
+        
 		AppDialogs.BusyDialog.UpdateHeader(Tr("Scanning for Projects..."));
 		AppDialogs.BusyDialog.UpdateByline(Tr("Scanning for Project files...."));
 		AppDialogs.BusyDialog.ShowDialog();
