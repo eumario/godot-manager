@@ -95,7 +95,7 @@ Icon = ExtResource( 8 )
 margin_top = 216.0
 margin_right = 70.0
 margin_bottom = 266.0
-hint_tooltip = "Page: Godot Engines"
+hint_tooltip = "Page: News"
 Label = "News"
 Icon = ExtResource( 15 )
 
