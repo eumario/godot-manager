@@ -32,14 +32,14 @@ public class InstallManager
 
     public void InstallVersion(GodotLineItem item, byte[] buffer)
     {
-        var url = item.GithubVersion?.GetDownloadUrl(item.IsMono) ?? item.TuxfamilyVersion.GetDownloadUrl(item.IsMono);
+        var url = item.GithubVersion?.GetDownloadUrl(item.IsMono);
         var fname = Path.GetFileName(url);
         var cacheFolder = Database.Settings.CachePath.Join("godot", fname);
         
         if (!Directory.Exists(Database.Settings.CachePath.Join("godot")))
             Directory.CreateDirectory(Database.Settings.CachePath.Join("godot"));
         
-        var tag = item.GithubVersion?.GetTagName(item.IsMono) ?? item.TuxfamilyVersion.GetTagName(item.IsMono);
+        var tag = item.GithubVersion?.GetTagName(item.IsMono);
         var installFolder = Database.Settings.EnginePath.Join(tag);
         
         if (!Directory.Exists(Database.Settings.EnginePath))
@@ -64,7 +64,6 @@ public class InstallManager
         {
             Location = installFolder,
             GithubVersion = item.GithubVersion,
-            TuxfamilyVersion = item.TuxfamilyVersion,
             CacheLocation = cacheFolder,
             DownloadDate = DateTime.Now,
             Tag = tag,

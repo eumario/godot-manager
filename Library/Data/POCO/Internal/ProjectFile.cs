@@ -20,6 +20,7 @@ public class ProjectFile
     private string _name;
     private string _description;
     private string _location;
+    private string _renderer;
     private GodotVersion _godotVersion;
     private Category _category;
     private bool _favorite;
@@ -63,6 +64,16 @@ public class ProjectFile
         set
         {
             _location = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public string Renderer
+    {
+        get => _renderer;
+        set
+        {
+            _renderer = value;
             ProjectChanged?.Invoke();
         }
     }
@@ -128,6 +139,9 @@ public class ProjectFile
             projectFile.Location = filePath;
             projectFile.Icon = project.GetValue("application/config/icon", "res://icon.png");
             projectFile.IsGodot4 = project.GetValue("header/config_version") == "5";
+            projectFile.Renderer = projectFile.IsGodot4
+                ? project.GetValue("rendering/renderer/rendering_method", "forward_plus")
+                : project.GetValue("rendering/quality/driver/driver_name", "GLES3");
         }
         else
         {
@@ -167,6 +181,9 @@ public class ProjectFile
             Name = pf.GetValue("application/config/name", "No Name");
             Description = pf.GetValue("application/config/description", "No Description");
             Icon = pf.GetValue("application/config/icon", "res://icon.png");
+            Renderer = IsGodot4
+                ? pf.GetValue("rendering/renderer/rendering_method", "forward_plus")
+                : pf.GetValue("rendering/quality/driver/driver_name", "GLES3");
         }
         else
         {
@@ -183,6 +200,10 @@ public class ProjectFile
             pf.SetValue("application/config/name", $"{Name}");
             pf.SetValue("application/config/description", $"{Description}");
             pf.SetValue("application/config/icon", $"{Icon}");
+            pf.SetValue(IsGodot4
+                ? "rendering/renderer/rendering_method"
+                : "rendering/quality/driver/driver_name",
+                Renderer);
             pf.Save();
         }
         else

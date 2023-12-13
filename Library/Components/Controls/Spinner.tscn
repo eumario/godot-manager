@@ -6,7 +6,7 @@
 [node name="Spinner" type="TextureRect"]
 offset_right = 96.0
 offset_bottom = 96.0
-rotation = 3.14159
+rotation = 5.75959
 pivot_offset = Vector2(48, 48)
 texture = ExtResource("1_jl220")
 script = ExtResource("2_6vbv5")

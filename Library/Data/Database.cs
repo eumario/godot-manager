@@ -55,7 +55,6 @@ public class Database
     private ILiteCollection<AssetMirror> _assetMirrors;
 
     private ILiteCollection<GithubVersion> _githubVersions;
-    private ILiteCollection<TuxfamilyVersion> _tuxfamilyVersions;
     private ILiteCollection<CustomEngineDownload> _customEngines;
 
     private ILiteCollection<LatestRelease> _latestReleases;
@@ -90,7 +89,6 @@ public class Database
         _templates = _database.GetCollection<AssetProject>("templates");
         _assetMirrors = _database.GetCollection<AssetMirror>("asset_mirrors");
         _githubVersions = _database.GetCollection<GithubVersion>("github_versions");
-        _tuxfamilyVersions = _database.GetCollection<TuxfamilyVersion>("tuxfamily_versions");
         _customEngines = _database.GetCollection<CustomEngineDownload>("custom_engines");
         _latestReleases = _database.GetCollection<LatestRelease>("latest_releases");
         _categories = _database.GetCollection<Category>("categories");
@@ -166,7 +164,7 @@ public class Database
         var pf = Instance._projects.Query().Where(pf => pf.Id == id)
             .Include(x => x.Category).First();
         if (pf == null) return null;
-        if (pf.GodotVersion is { GithubVersion: null } or { TuxfamilyVersion: null })
+        if (pf.GodotVersion is { GithubVersion: null })
             pf.GodotVersion = GetVersion(pf.GodotVersion.Id);
         return pf;
     }
@@ -198,7 +196,7 @@ public class Database
             .Include(x => x.GodotVersion).ToArray();
         foreach (var pf in pfs)
         {
-            if (pf?.GodotVersion is { GithubVersion: null } or { TuxfamilyVersion: null })
+            if (pf?.GodotVersion is { GithubVersion: null })
                 pf.GodotVersion = GetVersion(pf.GodotVersion.Id);
         }
 
@@ -255,7 +253,6 @@ public class Database
     public static GodotVersion FindVersion(int id) =>
         Instance._versions.Query().Where(gv => gv.Id == id)
             .Include(x => x.GithubVersion)
-            .Include(x => x.TuxfamilyVersion)
             .FirstOrDefault();
 
     public static void AddVersion(GodotVersion version)
@@ -267,14 +264,12 @@ public class Database
     public static GodotVersion GetVersion(int id) =>
         Instance._versions.Query()
             .Include(x => x.GithubVersion)
-            .Include(x => x.TuxfamilyVersion)
             .Include(x => x.CustomEngine)
             .Where(gv => gv.Id == id).First();
 
     public static GodotVersion GetVersion(SemanticVersion version, bool isMono = false) =>
         Instance._versions.Query()
             .Include(x => x.GithubVersion)
-            .Include(x => x.TuxfamilyVersion)
             .Include(x => x.CustomEngine)
             .Where(gv => gv.SemVersion == version && gv.IsMono == isMono).First();
 
@@ -294,7 +289,6 @@ public class Database
     public static List<GodotVersion> AllVersions() =>
         Instance._versions.Query()
             .Include(x => x.GithubVersion)
-            .Include(x => x.TuxfamilyVersion)
             .Include(x => x.CustomEngine)
             .ToList();
     #endregion
@@ -321,32 +315,6 @@ public class Database
 
     #endregion
 
-    #region TuxfamilyVersion Functions
-
-    public static bool HasTuxfamilyVersion(string id) =>
-        id.Length == 36
-            ? HasTuxfamilyVersion(Guid.Parse(id))
-            : Instance._tuxfamilyVersions.Query().Where(rl => rl.TagName == id).FirstOrDefault() != null;
-    
-    public static bool HasTuxfamilyVersion(Guid id) =>
-        Instance._tuxfamilyVersions.Query().Where(rl => rl.Id == id).FirstOrDefault() != null;
-    
-    public static void AddTuxfamilyVersion(TuxfamilyVersion version)
-    {
-        Instance._tuxfamilyVersions.Insert(version);
-        FlushDatabase();
-    }
-
-    public static TuxfamilyVersion GetTuxfamilyVersion(string id) =>
-        id.Length == 24
-            ? GetTuxfamilyVersion(Guid.Parse(id))
-            : Instance._tuxfamilyVersions.Query().Where(rl => rl.TagName == id).FirstOrDefault();
-    
-    public static TuxfamilyVersion GetTuxfamilyVersion(Guid id) =>
-        Instance._tuxfamilyVersions.Query().Where(rl => rl.Id == id).FirstOrDefault();
-
-    public static TuxfamilyVersion[] AllTuxfamilyVersions() =>
-        Instance._tuxfamilyVersions.Query().ToArray();
 
     #region LatestReleases Functions
 
@@ -367,8 +335,6 @@ public class Database
         Instance._latestReleases.Update(release);
         FlushDatabase();
     }
-
-    #endregion
 
     #endregion
 }

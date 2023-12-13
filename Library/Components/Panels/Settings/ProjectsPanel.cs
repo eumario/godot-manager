@@ -4,6 +4,7 @@ using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Data;
 using GodotManager.Library.Managers.UndoManager;
 using GodotManager.Library.Utility;
+using GodotManager.Scenes;
 
 // namespace
 
@@ -59,10 +60,9 @@ public partial class ProjectsPanel : MarginContainer
 		);
 		_browseProject.Pressed += async () =>
 		{
-			var path = await UI.BrowseFolder("Default Project Path", _projectPath.Text.NormalizePath());
-			if (path == "") return;
-			_projectPath.Text = path.NormalizePath();
-			_projectPath.EmitSignal(LineEditTimeout.SignalName.TextUpdated, path.NormalizePath());
+			MainWindow.BrowseFolderDialog("Default Project Path", _projectPath.Text, _projectPath.Text, true,
+				DisplayServer.FileDialogMode.OpenDir, new string[] { },
+				Callable.From<bool, string[], int>(HandleBrowseDialog));
 		};
 
 		_exitOnLaunch.Toggled += (toggle) => HistoryManager.Push(new UndoItem<bool>(
@@ -97,6 +97,14 @@ public partial class ProjectsPanel : MarginContainer
 	
 	#region Private Support Functions
 
+	private void HandleBrowseDialog(bool status, string[] selectedPaths, int filterIndex)
+	{
+		if (selectedPaths.Length <= 0) return;
+		
+		_projectPath.Text = selectedPaths[0].NormalizePath();
+		_projectPath.EmitSignal(LineEditTimeout.SignalName.TextUpdated, selectedPaths[0].NormalizePath());
+	}
+	
 	private void LoadSettings()
 	{
 		_setup = true;

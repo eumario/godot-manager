@@ -20,17 +20,14 @@ public class GodotVersion
 
     [BsonRef("github_versions")]
     public GithubVersion GithubVersion { get; set; }
-    [BsonRef("tuxfamily_versions")]
-    public TuxfamilyVersion TuxfamilyVersion { get; set; }
     [BsonRef] public CustomEngineDownload CustomEngine { get; set; }
 
     public string GetDisplayName() => $"Godot {Tag + (IsMono ? " - Mono" : "")}";
 
-    public string GetHumanReadableVersion() => GithubVersion != null ? GithubVersion.GetHumanReadableVersion(IsMono) :
-        TuxfamilyVersion != null ? TuxfamilyVersion.GetHumanReadableVersion(IsMono) : "Unknown";
+    public string GetHumanReadableVersion() => GithubVersion != null ? GithubVersion.GetHumanReadableVersion(IsMono) : 
+        "Unknown";
 
-    [BsonIgnore]
-    public SemanticVersion SemVersion => GithubVersion != null ? GithubVersion.SemVersion : TuxfamilyVersion?.SemVersion;
+    [BsonIgnore] public SemanticVersion? SemVersion => GithubVersion != null ? GithubVersion.SemVersion : null;
 
     public string GetExecutablePath()
     {

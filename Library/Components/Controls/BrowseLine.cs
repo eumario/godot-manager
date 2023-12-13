@@ -2,7 +2,7 @@ using System;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Utility;
-using NativeFileDialogSharp;
+using GodotManager.Scenes;
 
 // namespace
 
@@ -133,12 +133,8 @@ public partial class BrowseLine : Control
 
 		_browse.Pressed += async () =>
 		{
-			// var res = await UI.BrowseFolder("Locate Project Root Folder", UseDefault ? DefaultValue : "");
-			// if (!string.IsNullOrEmpty(res))
-			// 	_input.Text = res.Replace("/","\\");
-			var res = Dialog.FolderPicker(UseDefault ? DefaultValue : null);
-			if (res.IsCancelled) return;
-			_input.Text = OperatingSystem.IsWindows() ? res.Path.Replace("/", "\\") : res.Path.Replace("\\", "/");
+			MainWindow.BrowseFolderDialog("Locate Project Root Folder", UseDefault ? DefaultValue : "", "", true,
+				DisplayServer.FileDialogMode.OpenDir, new string[] {}, Callable.From<bool, string[], int>(HandleBrowseDialog));
 		};
 		
 		_default.Pressed += () => _input.Text = DefaultValue;
@@ -146,6 +142,12 @@ public partial class BrowseLine : Control
 	#endregion
 	
 	#region Event Handlers
+
+	private void HandleBrowseDialog(bool status, string[] selectedPaths, int filterIndex)
+	{
+		if (selectedPaths.Length >= 1)
+			_input.Text = selectedPaths[0];
+	}
 	#endregion
 	
 	#region Private Support Functions

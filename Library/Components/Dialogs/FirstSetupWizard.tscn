@@ -74,22 +74,14 @@ layout_mode = 2
 [node name="EngineLoc" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer" instance=ExtResource("1_bcml7")]
 unique_name_in_owner = true
 layout_mode = 2
-DisplayText = "Engine Location:"
-DefaultValue = "user://versions"
-LabelWidth = 150
 
 [node name="CacheLoc" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer" instance=ExtResource("1_bcml7")]
 unique_name_in_owner = true
 layout_mode = 2
-DisplayText = "Cache Location:"
-DefaultValue = "user://cache"
-LabelWidth = 150
 
 [node name="ProjectLoc" parent="MarginContainer/VBoxContainer/Wizard/DirectorySetup/VBoxContainer/VBoxContainer" instance=ExtResource("1_bcml7")]
 unique_name_in_owner = true
 layout_mode = 2
-DisplayText = "Project Location:"
-LabelWidth = 150
 
 [node name="LinuxShortcut" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
 visible = false
@@ -159,7 +151,6 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-Embedded = true
 
 [node name="Finished" type="PanelContainer" parent="MarginContainer/VBoxContainer/Wizard"]
 visible = false

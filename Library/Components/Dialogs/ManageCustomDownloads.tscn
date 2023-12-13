@@ -14,10 +14,10 @@ custom_minimum_size = Vector2(580, 330)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -41.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 5
@@ -32,8 +32,6 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
-Vertical = false
-FlatButtons = true
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

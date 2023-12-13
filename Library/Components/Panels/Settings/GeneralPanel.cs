@@ -10,6 +10,7 @@ using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Managers;
 using GodotManager.Library.Managers.UndoManager;
 using GodotManager.Library.Utility;
+using GodotManager.Scenes;
 
 // namespace
 
@@ -104,10 +105,9 @@ public partial class GeneralPanel : MarginContainer
 
 		_godotBrowse.Pressed += async () =>
 		{
-			var path = await UI.BrowseFolder("Godot Install Directory", _godotPath.Text.NormalizePath());
-			if (path == "") return;
-			_godotPath.Text = path.NormalizePath();
-			_godotPath.EmitSignal(LineEditTimeout.SignalName.TextUpdated, path.NormalizePath());
+			MainWindow.BrowseFolderDialog("Godot Install Directory", _godotPath.Text.NormalizePath(), _godotPath.Text.NormalizePath(), true,
+				DisplayServer.FileDialogMode.OpenDir, new string[] { },
+				Callable.From<bool, string[], int>((b, strings, i) => HandleBrowseDialog(b, strings, i, _godotPath)));
 		};
 
 		_cachePath.TextUpdated += (text) => HistoryManager.Push(new UndoItem<string>(
@@ -123,10 +123,9 @@ public partial class GeneralPanel : MarginContainer
 
 		_cacheBrowse.Pressed += async () =>
 		{
-			var path = await UI.BrowseFolder("Download Cache Directory", _cachePath.Text.NormalizePath());
-			if (path == "") return;
-			_cachePath.Text = path.NormalizePath();
-			_cachePath.EmitSignal(LineEditTimeout.SignalName.TextUpdated, path.NormalizePath());
+			MainWindow.BrowseFolderDialog("Godot Install Directory", _cachePath.Text.NormalizePath(), _cachePath.Text.NormalizePath(), true,
+				DisplayServer.FileDialogMode.OpenDir, new string[] { },
+				Callable.From<bool, string[], int>((b, strings, i) => HandleBrowseDialog(b, strings, i, _cachePath)));
 		};
 
 		_projectView.ItemSelected += index => HistoryManager.Push(new UndoItem<string>(
@@ -336,6 +335,14 @@ public partial class GeneralPanel : MarginContainer
 				})
 			);
 		};
+	}
+	
+	private void HandleBrowseDialog(bool status, string[] selectedPaths, int filterIndex, LineEditTimeout updateNode)
+	{
+		if (selectedPaths.Length <= 0) return;
+		
+		updateNode.Text = selectedPaths[0].NormalizePath();
+		updateNode.EmitSignal(LineEditTimeout.SignalName.TextUpdated, selectedPaths[0].NormalizePath());
 	}
 	#endregion
 	

@@ -31,10 +31,9 @@ public class DownloadManager
     public void StartDownload(GodotLineItem item)
     {
         var githubVersion = item.GithubVersion;
-        var tuxfamilyVersion = item.TuxfamilyVersion;
 
-        var url = githubVersion?.GetDownloadUrl(item.IsMono) ?? tuxfamilyVersion.GetDownloadUrl(item.IsMono);
-        var size = githubVersion?.GetDownloadSize(item.IsMono) ?? tuxfamilyVersion.GetDownloadSize(item.IsMono);
+        var url = githubVersion?.GetDownloadUrl(item.IsMono);
+        var size = githubVersion?.GetDownloadSize(item.IsMono);
 
         var downloader = new DownloadInstance(url);
         downloader.Completed += (data) => DownloadCompleted(item, data);
@@ -50,7 +49,7 @@ public class DownloadManager
 
     private void DownloadFailed(GodotLineItem item)
     {
-        GD.Print($"Failed to download {item.GithubVersion?.Release.TagName ?? item.TuxfamilyVersion.TagName}");
+        GD.Print($"Failed to download {item.GithubVersion?.Release.TagName}");
         item.InstallClicked -= HandleDownloadCancelled;
         _timestamps.Remove(item);
     }

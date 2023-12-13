@@ -7,6 +7,7 @@ namespace GodotManager.Scenes;
 
 public partial class MainWindow : Control
 {
+	private static MainWindow _instance;
 	private List<Button> _pageButtons;
 	[NodePath] private PanelContainer _sidebar;
 	[NodePath] private Button _menu;
@@ -24,6 +25,7 @@ public partial class MainWindow : Control
 	public override void _Ready()
 	{
 		this.OnReady();
+		_instance = this;
 		if (Database.Settings.FirstTimeRun)
 		{
 			// Launch First Time Wizard
@@ -89,4 +91,12 @@ public partial class MainWindow : Control
 		button.ButtonPressed = true;
 		_panels.CurrentTab = index;
 	}
+
+	public static void BrowseFolderDialog(string title, string path, string file, bool showHidden,
+		DisplayServer.FileDialogMode mode, string[] filters, Callable callback) =>
+		_instance.ShowBrowseFolderDialog(title, path, file, showHidden, mode, filters, callback);
+
+	private void ShowBrowseFolderDialog(string title, string path, string file, bool showHidden,
+		DisplayServer.FileDialogMode mode, string[] filters, Callable callback) =>
+		DisplayServer.FileDialogShow(title, path, file, showHidden, mode, filters, callback);
 }

@@ -64,7 +64,6 @@ public partial class GodotLineItem : Control
 	// Backer Variables for Public Properties (That Automate the UI)
 	private GodotVersion _godotVersion;
 	private GithubVersion _githubVersion;
-	private TuxfamilyVersion _tuxfamilyVersion;
 	private CustomEngineDownload _customEngineDownload;
 
 	// Internal Settings that handle both Property Automation with UI, and internal functions
@@ -95,8 +94,6 @@ public partial class GodotLineItem : Control
 				GithubVersion = _githubVersion;
 				return;
 			}
-
-			TuxfamilyVersion = _tuxfamilyVersion;
 		}
 	}
 
@@ -131,8 +128,8 @@ public partial class GodotLineItem : Control
 			_godotVersion = value;
 			if (value is null) return;
 			if (_versionTag is null) return;
-
-			var tag = _godotVersion.GithubVersion != null ? "Stable" : _godotVersion.TuxfamilyVersion.ReleaseStage;
+			
+			var tag = _godotVersion.GithubVersion.SemVersion.SpecialVersion ?? "Stable";
 			var mono = _godotVersion.SemVersion.Version.Major >= 4 && _godotVersion.IsMono ? " Dotnet" : _showMono ? " Mono" : "";
 			_versionTag.Text = $"Godot v{_godotVersion.SemVersion.ToNormalizedStringNoSpecial()} ({tag}{mono})";
 			_downloadUrl.Text = _godotVersion.Url;
@@ -145,36 +142,6 @@ public partial class GodotLineItem : Control
 			_useDefault.Visible = IsInstalled;
 			_godotTree.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
 			_godotTree2.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
-		}
-	}
-
-	public TuxfamilyVersion TuxfamilyVersion
-	{
-		get => _tuxfamilyVersion;
-		set
-		{
-			_tuxfamilyVersion = value;
-			if (value is null) return;
-			if (_versionTag is null) return;
-
-			_installed.Visible = true;
-			_linkSettings.Visible = IsInstalled;
-			_shareSettings.Visible = IsInstalled;
-			_useDefault.Visible = IsInstalled;
-			_loc.Visible = IsInstalled;
-			var mono = _tuxfamilyVersion.SemVersion.Version.Major >= 4 && _showMono ? " Dotnet" : _showMono ? " Mono" : "";
-			_versionTag.Text = $"Godot v{_tuxfamilyVersion.SemVersion.ToNormalizedStringNoSpecial()} ({_tuxfamilyVersion.ReleaseStage}{mono})";
-
-			_downloadUrl.Text = _showMono ? _tuxfamilyVersion.CSharpDownloadUrl : _tuxfamilyVersion.StandardDownloadUrl;
-			_downloadFS.Text = "Archive Size: " + Util.FormatSize(_showMono ? _tuxfamilyVersion.CSharpDownloadSize : _tuxfamilyVersion.StandardDownloadSize);
-			if (_showMono)
-			{
-				Visible = _tuxfamilyVersion.CSharpDownloadSize > 0;
-			}
-			else
-			{
-				Visible = _tuxfamilyVersion.StandardDownloadSize > 0;
-			}
 		}
 	}
 
@@ -266,7 +233,6 @@ public partial class GodotLineItem : Control
 		else
 		{
 			GithubVersion = _githubVersion;			// Update UI based upon Github Information
-			TuxfamilyVersion = _tuxfamilyVersion;   // Update UI based upon Tuxfamily Information
 			CustomEngine = _customEngineDownload;	// Update UI based upon Custom URL Information.
 		}
 
@@ -315,11 +281,11 @@ public partial class GodotLineItem : Control
 
 	public void SetupDownloadProgress()
 	{
-		var size = _githubVersion?.GetDownloadSize(IsMono) ?? _tuxfamilyVersion.GetDownloadSize(IsMono);
+		var size = _githubVersion.GetDownloadSize(IsMono);
 		_downloadProgress.MinValue = 0;
 		_downloadProgress.MaxValue = size;
 		_downloadProgress.Value = 0;
-		_downloadUrl.Text = _githubVersion?.GetDownloadUrl(IsMono) ?? _tuxfamilyVersion.GetDownloadUrl(IsMono);
+		_downloadUrl.Text = _githubVersion.GetDownloadUrl(IsMono);
 		_downloadETA.Text = "??:??";
 		_downloadSize.Text = $"{Util.FormatSize(0)}/{Util.FormatSize(size)}";
 		_downloadSpeed.Text = $"{Util.FormatSize(0)}/s";
@@ -335,7 +301,8 @@ public partial class GodotLineItem : Control
 				GD.Print("Got event after Download completed.");
 				return;
 			}
-			_downloadSize.Text = $"{Util.FormatSize(downloaded)}/{Util.FormatSize(_githubVersion?.GetDownloadSize(IsMono) ?? _tuxfamilyVersion.GetDownloadSize(IsMono))}";
+			_downloadSize.Text =
+				$"{Util.FormatSize(downloaded)}/{Util.FormatSize(_githubVersion.GetDownloadSize(IsMono))}";
 			_speedMarks.Add(transferred);
 			while (_speedMarks.Count > 10)
 				_speedMarks.RemoveAt(0);
@@ -346,9 +313,8 @@ public partial class GodotLineItem : Control
 		
 			var elapsedTime = DateTime.Now - start;
 			var estTime =
-				TimeSpan.FromSeconds(
-					((_githubVersion?.GetDownloadSize(IsMono) ?? _tuxfamilyVersion.GetDownloadSize(IsMono)) - downloaded) /
-					(downloaded / elapsedTime.TotalSeconds));
+				TimeSpan.FromSeconds((_githubVersion.GetDownloadSize(IsMono) - downloaded) /
+				                     (downloaded / elapsedTime.TotalSeconds));
 			_downloadETA.Text = $"ETA: {estTime:hh':'mm':'ss}";
 		});
 	}
