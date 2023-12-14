@@ -34,11 +34,12 @@ public partial class GodotPanel : Panel
 	#region Private Variables
 	private bool _embedded = false;
 	private Managers.Github.Godot _githubGodot;
+	private Managers.Github.GodotBuilds _godotBuilds;
 	private BusyDialog _dialog;
 	private bool _showMono = false;
-	private string[] _tags = {"Stable", "Developer Preview", "Alpha", "Beta", "Release Candidate"};
-	private string[] _tagsShort = { "Stable", "Dev", "Alpha", "Beta", "RC" };
-	private string _currentTag = "Stable";
+	private string[] _tags = {"Developer Preview", "Alpha", "Beta", "Release Candidate"};
+	private string[] _tagsShort = {"dev", "alpha", "beta", "rc" };
+	private string _currentTag = "dev";
 	#endregion
 	
 	#region Public Variables
@@ -67,15 +68,12 @@ public partial class GodotPanel : Panel
 		DownloadManager.Instance.Cancelled += HandleDownloadCancelled;
 
 		_githubGodot = new Managers.Github.Godot();
-		_githubGodot.ReleaseCount += (count) =>
-		{
-			_dialog.BylineText = $"Processing 0 of {count} releases...";
-		};
+		_githubGodot.ReleaseCount += (count) => _dialog.BylineText = $"Processing 0 of {count} releases...";
+		_githubGodot.ReleaseProgress += (current, max) => _dialog.BylineText = $"Processing {current} of {max} releases...";
 
-		_githubGodot.ReleaseProgress += (current, max) =>
-		{
-			_dialog.BylineText = $"Processing {current} of {max} releases...";
-		};
+		_godotBuilds = new Managers.Github.GodotBuilds();
+		_godotBuilds.ReleaseCount += (count) => _dialog.BylineText = $"Processing 0 of {count} releases...";
+		_godotBuilds.ReleaseProgress += (current, max) => _dialog.BylineText = $"Processing {current} of {max} releases...";
 
 		_tagSelection.GetPopup().SetItemChecked(2,true);
 		SetOptionsDisabled();
@@ -92,7 +90,6 @@ public partial class GodotPanel : Panel
 				case 4:
 				case 5:
 				case 6:
-				case 7:
 					ToggleTag((int)index - 2);
 					break;
 			}
@@ -110,9 +107,12 @@ public partial class GodotPanel : Panel
 			{
 				case 0:
 					SetOptionsDisabled();
-					PopulateGithub();
+					PopulateGithub("godot");
 					break;
 				case 1:
+					UpdateCurrentTag();
+					SetOptionsDisabled(false);
+					PopulateGithub("godot-builds");
 					break;
 			}
 		};
@@ -139,7 +139,7 @@ public partial class GodotPanel : Panel
 				
 				PopulateInstalled();
 				
-				PopulateGithub();
+				PopulateAvailable();
 				
 				SortChildren();
 				break;
@@ -155,7 +155,8 @@ public partial class GodotPanel : Panel
 		await _githubGodot.UpdateDatabase();
 		Database.Settings.LastCheck = DateTime.UtcNow;
 		Database.FlushDatabase();
-		
+
+		await _godotBuilds.UpdateDatabase();
 		Database.Settings.LastMirrorCheck = DateTime.UtcNow;
 		Database.FlushDatabase();
 		_dialog.QueueFree();
@@ -216,14 +217,24 @@ public partial class GodotPanel : Panel
 	#region Private Support Functions
 	private void SetOptionsDisabled(bool enabled = true)
 	{
-		for (var i = 2; i < 7; i++)
+		for (var i = 2; i < 6; i++)
 			_tagSelection.GetPopup().SetItemDisabled(i, enabled);
 	}
+
+	private void UpdateCurrentTag()
+	{
+		for (var i = 2; i < 6; i++)
+		{
+			if (_tagSelection.GetPopup().IsItemChecked(i))
+				_currentTag = _tagsShort[i-2];
+		}
+	}
 	
-	private void PopulateGithub()
+	private void PopulateGithub(string repo)
 	{
 		var installed = Database.AllVersions().ToArray();
-		foreach (var version in Database.AllGithubVersions().OrderByDescending(ver => ver.Release.TagName))
+		var tag = repo == "godot" ? "stable" : _currentTag;
+		foreach (var version in Database.AllGithubVersions(repo).OrderByDescending(ver => ver.SemVersion, SemVersionCompare.Instance).Where(x => x.SemVersion.SpecialVersion.Contains(tag)))
 		{
 			switch (_showMono)
 			{
@@ -255,10 +266,11 @@ public partial class GodotPanel : Panel
 		var tag = _tags[id];
 		var stag = _tagsShort[id];
 		_currentTag = stag;
-		for (var i = 2; i < 7; i++)
+		for (var i = 2; i < 6; i++)
 			_tagSelection.GetPopup().SetItemChecked(i, i == id+2);
 		ClearAllCategories();
 		PopulateInstalled();
+		PopulateGithub("godot-builds");
 	}
 
 	private void UpdateAvailable()
@@ -291,8 +303,11 @@ public partial class GodotPanel : Panel
 	{
 		switch(_downloadSource.Selected)
 		{
-			case 0: // Github
-				PopulateGithub();
+			case 0: // Release
+				PopulateGithub("godot");
+				break;
+			case 1: // Godot Builds
+				PopulateGithub("godot-builds");
 				break;
 		}
 	}
