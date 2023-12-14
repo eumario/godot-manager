@@ -176,7 +176,7 @@ public partial class GodotLineItem : Control
 			_useDefault.Visible = IsInstalled;
 			_loc.Visible = IsInstalled;
 			var mono = ShowMono ? (_githubVersion.SemVersion.Version.Major == 4 ? " Dotnet" : " Mono") : string.Empty;
-			_versionTag.Text = $"Godot v{_githubVersion.SemVersion.ToNormalizedStringNoSpecial()} (Stable{mono})";
+			_versionTag.Text = $"Godot v{_githubVersion.SemVersion.ToNormalizedStringNoSpecial()} ({_githubVersion.SemVersion.SpecialVersion}{mono})";
 			_godotTree.Text = $"{_githubVersion.SemVersion.Version.Major}.x";
 
 			_downloadUrl.Text = IsInstalled
