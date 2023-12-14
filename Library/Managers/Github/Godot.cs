@@ -72,7 +72,7 @@ public class Godot : ISiteManager<Release>
             ReleaseProgress?.Invoke(curr, count);
             if (Database.HasGithubVersion(release))
                 continue;
-            Database.AddGithubVersion(GithubVersion.FromRelease(release));
+            Database.AddGithubVersion(GithubVersion.FromRelease(release, "godot"));
         }
     }
 }
