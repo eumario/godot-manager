@@ -310,8 +310,8 @@ public class Database
     public static GithubVersion GetGithubVersion(string tag) =>
         Instance._githubVersions.Query().Where(rl => rl.Release.TagName == tag).FirstOrDefault();
 
-    public static GithubVersion[] AllGithubVersions() =>
-        Instance._githubVersions.Query().ToArray();
+    public static GithubVersion[] AllGithubVersions(string repo) =>
+        Instance._githubVersions.Query().Where(x => x.Repo == repo).ToArray();
 
     #endregion
 
