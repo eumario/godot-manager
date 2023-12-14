@@ -13,6 +13,7 @@ public class GithubVersion
 {
     [BsonId]
     public int Id { get; set; }
+    public string Repo { get; set; }
     public Release Release { get; set; }
     public VersionUrls Standard { get; set; }
     public VersionUrls CSharp { get; set; }
@@ -154,10 +155,11 @@ public class GithubVersion
         }
     }
 
-    public static GithubVersion FromRelease(Release release)
+    public static GithubVersion FromRelease(Release release, string repo)
     {
         var version = new GithubVersion();
         version.GatherUrls(release);
+        version.Repo = repo;
         return version;
     }
 }
