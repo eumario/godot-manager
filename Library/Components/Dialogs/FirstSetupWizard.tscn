@@ -7,6 +7,7 @@
 
 [node name="FirstSetupWizard" type="Window"]
 title = "First Setup Wizard"
+initial_position = 2
 size = Vector2i(800, 650)
 unresizable = true
 script = ExtResource("1_8cm1s")

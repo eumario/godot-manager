@@ -4,16 +4,17 @@
 
 [node name="CreateCategory" type="AcceptDialog"]
 title = "Create Category"
+initial_position = 2
 size = Vector2i(320, 118)
 visible = true
 ok_button_text = "Create"
 script = ExtResource("1_20eq8")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 312.0
-offset_bottom = 69.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 310.0
+offset_bottom = 77.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2

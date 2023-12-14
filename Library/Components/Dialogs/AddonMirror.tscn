@@ -4,6 +4,7 @@
 
 [node name="AddonMirror" type="AcceptDialog"]
 title = "Add Addon Mirror"
+initial_position = 2
 size = Vector2i(352, 239)
 visible = true
 ok_button_text = "Add"
@@ -13,10 +14,10 @@ script = ExtResource("1_ayfwh")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 2
 

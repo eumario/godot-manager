@@ -4,16 +4,17 @@
 
 [node name="AddCustomGodot" type="AcceptDialog"]
 title = "Add Custom Godot"
+initial_position = 2
 size = Vector2i(320, 212)
 visible = true
 ok_button_text = "Add"
 script = ExtResource("1_pfffa")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 312.0
-offset_bottom = 163.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 310.0
+offset_bottom = 171.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2

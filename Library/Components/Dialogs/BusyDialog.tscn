@@ -9,6 +9,7 @@ font = ExtResource("1_6c078")
 font_size = 18
 
 [node name="BusyDialog" type="Window"]
+initial_position = 2
 size = Vector2i(352, 150)
 transient = true
 unresizable = true
