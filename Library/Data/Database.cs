@@ -152,6 +152,8 @@ public class Database
     public static ProjectFile GetProject(string name)
     {
         var pf = Instance._projects.Query().Where(pf => pf.Location == name)
+            .Include(x => x.GodotVersion)
+            .Include(x => x.GodotVersion.GithubVersion)
             .Include(x => x.Category).First();
         if (pf == null) return null;
         if (pf.GodotVersion != null)
@@ -162,6 +164,8 @@ public class Database
     public static ProjectFile GetProject(int id)
     {
         var pf = Instance._projects.Query().Where(pf => pf.Id == id)
+            .Include(x => x.GodotVersion)
+            .Include(x => x.GodotVersion.GithubVersion)
             .Include(x => x.Category).First();
         if (pf == null) return null;
         if (pf.GodotVersion is { GithubVersion: null })
@@ -193,12 +197,9 @@ public class Database
     {
         var pfs = Instance._projects.Query().Where(x => true)
             .Include(x => x.Category)
-            .Include(x => x.GodotVersion).ToArray();
-        foreach (var pf in pfs)
-        {
-            if (pf?.GodotVersion is { GithubVersion: null })
-                pf.GodotVersion = GetVersion(pf.GodotVersion.Id);
-        }
+            .Include(x => x.GodotVersion)
+            .Include(x => x.GodotVersion.GithubVersion).ToArray();
+
 
         return pfs;
     }
