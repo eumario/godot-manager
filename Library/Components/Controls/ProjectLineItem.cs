@@ -57,7 +57,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 		{
 			_godotVersion = value;
 			if (_godotVersionDisplay == null) return;
-			_godotVersionDisplay.Text = value is null ? "Unknown" : $"Godot {_godotVersion.Tag}";
+			_godotVersionDisplay.Text = value is null ? "Unknown" : $"{_godotVersion.GetHumanReadableVersion()}";
 		}
 	}
 
