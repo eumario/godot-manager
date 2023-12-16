@@ -1,0 +1,102 @@
+[gd_scene load_steps=8 format=3 uid="uid://di01qxguu5opi"]
+
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="1_cj8yv"]
+[ext_resource type="Script" path="res://Library/Components/Controls/NewsItem.cs" id="1_v6h36"]
+[ext_resource type="Shader" path="res://Shaders/mask_texture.gdshader" id="3_5fvek"]
+[ext_resource type="Texture2D" uid="uid://chxm6m2c0hsm6" path="res://Assets/Icons/svg/icon_thumbnail_wait.svg" id="3_53jsr"]
+[ext_resource type="Texture2D" uid="uid://xvfrfb0nrb0t" path="res://Assets/Icons/png/circle_mask.png" id="4_iwvdv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vg0sm"]
+bg_color = Color(0.294118, 0.317647, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_351mf"]
+shader = ExtResource("3_5fvek")
+shader_parameter/mask = ExtResource("4_iwvdv")
+
+[node name="NewsItem" type="Control"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v6h36")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeadlineInfo" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vg0sm")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HeadlineInfo"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 5
+
+[node name="NewsHeadline" type="Button" parent="VBoxContainer/HeadlineInfo/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_cj8yv")
+theme_override_font_sizes/font_size = 16
+text = "Test"
+flat = true
+alignment = 0
+
+[node name="ArticleInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="AuthorAvatar" type="TextureRect" parent="VBoxContainer/ArticleInfo"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_351mf")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_53jsr")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/ArticleInfo"]
+layout_mode = 2
+
+[node name="Author" type="Label" parent="VBoxContainer/ArticleInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test User"
+
+[node name="PublishDate" type="Label" parent="VBoxContainer/ArticleInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "- 12 December 2023"
+
+[node name="Article" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ArticleImage" type="TextureRect" parent="VBoxContainer/Article"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 146)
+layout_mode = 2
+texture = ExtResource("3_53jsr")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="ArticleBlerb" type="RichTextLabel" parent="VBoxContainer/Article"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "News Article here."
+scroll_active = false
