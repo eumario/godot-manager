@@ -102,7 +102,7 @@ public class GithubVersion
         var tagBuilder = new StringBuilder();
         tagBuilder.Append("Godot v");
         tagBuilder.Append(SemVersion.ToNormalizedStringNoSpecial());
-        tagBuilder.Append(" (Stable");
+        tagBuilder.Append($" ({SemVersion.SpecialVersion}");
         tagBuilder.Append(showMono ? (SemVersion.Version.Major == 4 ? " Dotnet" : " Mono") : string.Empty);
         tagBuilder.Append(")");
         return tagBuilder.ToString();
