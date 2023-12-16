@@ -10,11 +10,13 @@ font_size = 18
 
 [node name="BusyDialog" type="Window"]
 initial_position = 2
-size = Vector2i(352, 150)
+size = Vector2i(352, 190)
 transient = true
 unresizable = true
 borderless = true
+always_on_top = true
 popup_window = true
+min_size = Vector2i(352, 190)
 script = ExtResource("1_fwagr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -27,10 +29,12 @@ grow_vertical = 2
 
 [node name="Header" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(352, 52)
 layout_mode = 2
 text = "Fetching Information from Github."
 label_settings = SubResource("LabelSettings_ctvxc")
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Spinner" parent="VBoxContainer" instance=ExtResource("2_8bcyo")]
 layout_mode = 2
