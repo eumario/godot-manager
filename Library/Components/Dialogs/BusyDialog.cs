@@ -71,5 +71,9 @@ public partial class BusyDialog : Window
 	#endregion
 	
 	#region Public Support Functions
+
+	public void UpdateHeader(string msg) => HeaderText = msg;
+	public void UpdateByline(string msg) => BylineText = msg;
+
 	#endregion
 }
