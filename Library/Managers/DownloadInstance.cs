@@ -32,7 +32,7 @@ public class DownloadInstance
     public event DownloadFailed Failed;
     public event DownloadCancelled Cancelled;
 
-    public DownloadInstance(string url)
+    public DownloadInstance(Uri uri)
     {
         if (Database.Settings.UseProxy)
         {
@@ -49,9 +49,11 @@ public class DownloadInstance
         var comment = new ProductInfoHeaderValue($"(Platform: {Platform.GetName()})");
         _client.DefaultRequestHeaders.UserAgent.Add(product);
         _client.DefaultRequestHeaders.UserAgent.Add(comment);
-        _address = new Uri(url);
+        _address = uri;
         _cancel = new CancellationTokenSource();
     }
+
+    public DownloadInstance(string url) : this(new Uri(url)) { }
 
     public void StartDownload()
     {
