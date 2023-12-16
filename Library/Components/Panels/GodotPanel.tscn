@@ -90,6 +90,7 @@ popup/item_1/id = 1
 popup/item_1/separator = true
 popup/item_2/text = "Developer Preview"
 popup/item_2/checkable = 2
+popup/item_2/checked = true
 popup/item_2/id = 3
 popup/item_2/disabled = true
 popup/item_3/text = "Alpha"
