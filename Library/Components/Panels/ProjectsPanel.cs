@@ -8,6 +8,7 @@ using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
 using GodotManager.Library.Data.POCO.Internal;
+using GodotManager.Library.Managers;
 using Octokit;
 
 // namespace
@@ -29,7 +30,25 @@ public partial class ProjectsPanel : Panel
 	[NodePath] private VBoxContainer _listView;
 	[NodePath] private GridContainer _gridView;
 	[NodePath] private VBoxContainer _categoryView;
+	#endregion
 	
+	#region Enumerations
+	public enum ProjectActions
+	{
+		NewProject = 0,
+		ImportProject = 1,
+		ScanFolders = 2,
+		AddCategory = 3,
+		RemoveCategory = 4,
+		DeleteProject = 5,
+		RemoveMissing = 6
+	}
+	public enum ViewToggle
+	{
+		ListView = 0,
+		GridView = 1,
+		CategoryView = 2
+	}
 	#endregion
 	
 	#region Private Variables
@@ -59,25 +78,25 @@ public partial class ProjectsPanel : Panel
 	#region Event Handlers
 	private void OnButtonClicked_ActionButtons(int index)
 	{
-		switch (index)
+		switch ((ProjectActions)index)
 		{
-			case 0: // New Project
+			case ProjectActions.NewProject:
 				var np = CreateProject.FromScene();
 				AddChild(np);
 				np.PopupCentered(new Vector2I(600,470));
 				break;
-			case 1: // Import Project
+			case ProjectActions.ImportProject:
 				OnImport();
 				break;
-			case 2: // Scan Folders
+			case ProjectActions.ScanFolders:
 				break;
-			case 3: // Add Category
+			case ProjectActions.AddCategory:
 				break;
-			case 4: // Remove Category
+			case ProjectActions.RemoveCategory:
 				break;
-			case 5: // Delete
+			case ProjectActions.DeleteProject:
 				break;
-			case 6: // Remove Missing
+			case ProjectActions.RemoveMissing:
 				break;
 		}
 	}
@@ -104,15 +123,15 @@ public partial class ProjectsPanel : Panel
 	{
 		_sorter.Visible = index == 0;
 		GetTree().SetGroup("views", "visible", false);
-		switch (index)
+		switch ((ViewToggle)index)
 		{
-			case 0: // ListView
+			case ViewToggle.ListView:
 				_listView.Visible = true;
 				break;
-			case 1: // GridView
+			case ViewToggle.GridView:
 				_gridView.Visible = true;
 				break;
-			case 2: // CategoryView
+			case ViewToggle.CategoryView:
 				_categoryView.Visible = true;
 				break;
 		}
@@ -168,6 +187,14 @@ public partial class ProjectsPanel : Panel
 		_categoryView.AddChild(_categories[Uncategorized]);
 	}
 
+	private void SetupPliEvents(ProjectLineItem pli)
+	{
+		pli.FavoriteClicked += OnFavClicked_ProjectLineItem;
+		pli.RightClicked += item => item.ShowContextMenu();
+		pli.DoubleClicked += item => GodotRunner.EditProject(item.GodotVersion, item.ProjectFile);
+		pli.ContextMenuClick += PliOnContextMenuClick;
+	}
+
 	private void PopulateLists()
 	{
 		if (_categoryView.GetChildCount() == 0)
@@ -177,11 +204,11 @@ public partial class ProjectsPanel : Panel
 		{
 			var pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
-			pli.FavoriteClicked += OnFavClicked_ProjectLineItem;
+			SetupPliEvents(pli);
 			_listView.AddChild(pli);
 			pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
-			pli.FavoriteClicked += OnFavClicked_ProjectLineItem;
+			SetupPliEvents(pli);
 			if (project.Category is null)
 			{
 				// Add to Uncategorized / Favorites
@@ -195,6 +222,27 @@ public partial class ProjectsPanel : Panel
 				// Add to Category
 				_categories[project.Category.Id].ItemList.AddChild(pli);
 			}
+		}
+	}
+
+	private void PliOnContextMenuClick(ProjectLineItem pli, ProjectLineItem.ContextMenuItem id)
+	{
+		switch (id)
+		{
+			case ProjectLineItem.ContextMenuItem.Open:
+				GodotRunner.EditProject(pli.GodotVersion, pli.ProjectFile);
+				break;
+			case ProjectLineItem.ContextMenuItem.Run:
+				GodotRunner.RunProject(pli.GodotVersion, pli.ProjectFile);
+				break;
+			case ProjectLineItem.ContextMenuItem.DataFolder:
+				break;
+			case ProjectLineItem.ContextMenuItem.EditProject:
+				break;
+			case ProjectLineItem.ContextMenuItem.ProjectFiles:
+				break;
+			case ProjectLineItem.ContextMenuItem.RemoveProject:
+				break;
 		}
 	}
 
