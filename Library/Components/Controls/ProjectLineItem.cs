@@ -17,6 +17,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	[Signal] public delegate void RightDoubleClickedEventHandler(ProjectLineItem pli);
 	[Signal] public delegate void DragStartedEventHandler(ProjectLineItem pli);
 	[Signal] public delegate void DragEndedEventHandler(ProjectLineItem pli);
+	[Signal] public delegate void ContextMenuClickEventHandler(ProjectLineItem pli, ContextMenuItem id);
 	#endregion
 	
 	#region Quick Create
@@ -28,12 +29,14 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	#endregion
 	
 	#region Node Paths
+	[NodePath] private ColorRect _hover;
 	[NodePath] private TextureRect _projectIcon;
 	[NodePath] private RichTextLabel _projectName;
 	[NodePath] private Label _projectDesc;
 	[NodePath] private Label _projectLoc;
 	[NodePath] private Label _godotVersionDisplay;
 	[NodePath] private Button _heart;
+	[NodePath] private PopupMenu _contextMenu;
 	#endregion
 	
 	#region Resources
@@ -49,6 +52,16 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	
 	#region Public Properties
 	public bool MissingProject { get; set; } = false;
+
+	public enum ContextMenuItem : long
+	{
+		Open = 0L,
+		Run = 1L,
+		ProjectFiles = 3L,
+		DataFolder = 4L,
+		EditProject = 6L,
+		RemoveProject = 7L
+	}
 
 	public GodotVersion GodotVersion
 	{
@@ -98,7 +111,13 @@ public partial class ProjectLineItem : Control, IProjectIcon
 			_shader.SetShaderParameter("v", toggle ? 1.0f : 0.5f);
 			EmitSignal(ProjectLineItem.SignalName.FavoriteClicked, this, toggle);
 		};
+		MouseEntered += () => _hover.Visible = true;
+		MouseExited += () => _hover.Visible = false;
 		GuiInput += HandleGuiInput;
+		_contextMenu.IdPressed += id =>
+		{
+			EmitSignal(SignalName.ContextMenuClick, this, id);
+		};
 	}
 
 	// public override bool _CanDropData(Vector2 atPosition, Variant data)
@@ -147,14 +166,12 @@ public partial class ProjectLineItem : Control, IProjectIcon
 				EmitSignal(SignalName.DoubleClicked, this);
 				break;
 			case MouseButton.Left:
-				SelfModulate = Colors.White;
 				EmitSignal(SignalName.Clicked, this);
 				break;
 			case MouseButton.Right when inputEventMouseButton.DoubleClick:
 				EmitSignal(SignalName.RightDoubleClicked, this);
 				break;
 			case MouseButton.Right:
-				SelfModulate = Colors.White;
 				EmitSignal(SignalName.RightClicked, this);
 				break;
 			default:
@@ -164,6 +181,11 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	#endregion
 	
 	#region Public Functions
+
+	public void ShowContextMenu()
+	{
+		_contextMenu.Popup(new Rect2I((GetScreenPosition() + GetLocalMousePosition()).ToVector2I(), Vector2I.Zero));
+	}
 	#endregion
 	
 	#region Private Functions
