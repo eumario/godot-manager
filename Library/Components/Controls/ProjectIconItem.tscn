@@ -8,13 +8,22 @@
 font = ExtResource("2_eexis")
 
 [node name="ProjectIconItem" type="Control"]
+custom_minimum_size = Vector2(280, 180)
 layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_uvebc")
+
+[node name="Hover" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_uvebc")
+mouse_filter = 1
+color = Color(0.384314, 0.384314, 0.384314, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -32,7 +41,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 texture = ExtResource("1_5rdah")
-expand_mode = 3
+expand_mode = 1
 stretch_mode = 5
 
 [node name="ProjectName" type="Label" parent="CenterContainer/VBoxContainer"]
@@ -58,3 +67,26 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Godot vX.X.X"
 horizontal_alignment = 1
+
+[node name="ContextMenu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+size = Vector2i(140, 144)
+item_count = 8
+item_0/text = "Open"
+item_0/id = 0
+item_1/text = "Run"
+item_1/id = 1
+item_2/text = ""
+item_2/id = 2
+item_2/separator = true
+item_3/text = "Show Project Files"
+item_3/id = 3
+item_4/text = "Show Data Folder"
+item_4/id = 4
+item_5/text = ""
+item_5/id = 5
+item_5/separator = true
+item_6/text = "Edit Project File"
+item_6/id = 6
+item_7/text = "Remove Project"
+item_7/id = 7
