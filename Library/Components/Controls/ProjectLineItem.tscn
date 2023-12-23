@@ -14,12 +14,22 @@ shader_parameter/v = 1.0
 [node name="ProjectLineItem" type="Control"]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+script = ExtResource("2_83qi3")
+
+[node name="Hover" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_83qi3")
+mouse_filter = 1
+color = Color(0.384314, 0.384314, 0.384314, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -31,13 +41,17 @@ grow_horizontal = 2
 [node name="Spacer" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
+mouse_filter = 1
 
 [node name="ProjectIcon" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("2_6b7ao")
-expand_mode = 3
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -46,6 +60,7 @@ size_flags_horizontal = 3
 [node name="ProjectName" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 bbcode_enabled = true
 text = "[b]Project Name[/b]"
 fit_content = true
@@ -53,12 +68,14 @@ fit_content = true
 [node name="ProjectDesc" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 text = "Project Description"
 text_overrun_behavior = 4
 
 [node name="ProjectLoc" type="Label" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 text = "Location: /home/eumario/Projects/Godot/ProjectName"
 text_overrun_behavior = 3
 
@@ -66,12 +83,14 @@ text_overrun_behavior = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+mouse_filter = 1
 text = "Godot v0.0.0"
 horizontal_alignment = 1
 
 [node name="Spacer3" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
+mouse_filter = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -90,3 +109,27 @@ expand_icon = true
 [node name="Spacer2" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
+mouse_filter = 1
+
+[node name="ContextMenu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+size = Vector2i(140, 144)
+item_count = 8
+item_0/text = "Open"
+item_0/id = 0
+item_1/text = "Run"
+item_1/id = 1
+item_2/text = ""
+item_2/id = 2
+item_2/separator = true
+item_3/text = "Show Project Files"
+item_3/id = 3
+item_4/text = "Show Data Folder"
+item_4/id = 4
+item_5/text = ""
+item_5/id = 5
+item_5/separator = true
+item_6/text = "Edit Project File"
+item_6/id = 6
+item_7/text = "Remove Project"
+item_7/id = 7
