@@ -88,7 +88,9 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="Icon" parent="HBoxContainer" index="1"]
-stretch_mode = 3
+custom_minimum_size = Vector2(72, 72)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VersionTag" type="RichTextLabel" parent="HBoxContainer/MiddleSection" index="0"]
 unique_name_in_owner = true
