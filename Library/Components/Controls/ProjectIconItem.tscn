@@ -64,7 +64,7 @@ horizontal_alignment = 1
 clip_text = true
 text_overrun_behavior = 4
 
-[node name="GodotVersion" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="GodotVersionDisplay" type="Label" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
