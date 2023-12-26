@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
 using GodotManager.Library.Data.POCO.Internal;
+using GodotManager.Library.Enumerations;
 using GodotManager.Library.Managers;
-using Octokit;
 
 // namespace
 namespace GodotManager.Library.Components.Panels;
@@ -28,27 +27,8 @@ public partial class ProjectsPanel : Panel
 	[NodePath] private HeaderButton _godotVersion;
 	
 	[NodePath] private VBoxContainer _listView;
-	[NodePath] private GridContainer _gridView;
+	[NodePath] private HFlowContainer _gridView;
 	[NodePath] private VBoxContainer _categoryView;
-	#endregion
-	
-	#region Enumerations
-	public enum ProjectActions
-	{
-		NewProject = 0,
-		ImportProject = 1,
-		ScanFolders = 2,
-		AddCategory = 3,
-		RemoveCategory = 4,
-		DeleteProject = 5,
-		RemoveMissing = 6
-	}
-	public enum ViewToggle
-	{
-		ListView = 0,
-		GridView = 1,
-		CategoryView = 2
-	}
 	#endregion
 	
 	#region Private Variables
@@ -70,7 +50,7 @@ public partial class ProjectsPanel : Panel
 
 		_categories = new Dictionary<int, CategoryList>();
 		_actionButtons.SetHidden(3,4,5,6);
-		PopulateLists();
+		PopulateViews();
 		GetWindow().FilesDropped += OnFilesDropped;
 	}
 	#endregion
@@ -111,7 +91,7 @@ public partial class ProjectsPanel : Panel
 		var dlg = ImportProject.FromScene();
 		dlg.ImportCompleted += () =>
 		{
-			PopulateLists();
+			PopulateViews();
 			dlg.QueueFree();
 		};
 		AddChild(dlg);
@@ -198,17 +178,31 @@ public partial class ProjectsPanel : Panel
 		pli.ContextMenuClick += PliOnContextMenuClick;
 	}
 
-	private void PopulateLists()
+	private void SetupPiiEvents(ProjectIconItem pii)
+	{
+		//pii.FavoriteClicked += OnFavClicked_ProjectIconItem;
+		pii.RightClicked += item => item.ShowContextMenu();
+		pii.DoubleClicked += item => GodotRunner.EditProject(item.GodotVersion, item.ProjectFile);
+		pii.ContextMenuClick += PiiOnContextMenuClick;
+	}
+
+	private void PopulateViews()
 	{
 		if (_categoryView.GetChildCount() == 0)
 			SetupCategoryView();
 		
 		foreach (var project in Database.AllProjects())
 		{
+			var pii = ProjectIconItem.FromScene();
+			pii.ProjectFile = project;
+			SetupPiiEvents(pii);
+			_gridView.AddChild(pii);
+			
 			var pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
 			SetupPliEvents(pli);
 			_listView.AddChild(pli);
+			
 			pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
 			SetupPliEvents(pli);
@@ -228,23 +222,44 @@ public partial class ProjectsPanel : Panel
 		}
 	}
 
-	private void PliOnContextMenuClick(ProjectLineItem pli, ProjectLineItem.ContextMenuItem id)
+	private void PiiOnContextMenuClick(ProjectIconItem pii, ContextMenuItem id)
 	{
 		switch (id)
 		{
-			case ProjectLineItem.ContextMenuItem.Open:
+			case ContextMenuItem.Open:
+				GodotRunner.EditProject(pii.GodotVersion, pii.ProjectFile);
+				break;
+			case ContextMenuItem.Run:
+				GodotRunner.RunProject(pii.GodotVersion, pii.ProjectFile);
+				break;
+			case ContextMenuItem.DataFolder:
+				break;
+			case ContextMenuItem.EditProject:
+				break;
+			case ContextMenuItem.ProjectFiles:
+				break;
+			case ContextMenuItem.RemoveProject:
+				break;
+		}
+	}
+
+	private void PliOnContextMenuClick(ProjectLineItem pli, ContextMenuItem id)
+	{
+		switch (id)
+		{
+			case ContextMenuItem.Open:
 				GodotRunner.EditProject(pli.GodotVersion, pli.ProjectFile);
 				break;
-			case ProjectLineItem.ContextMenuItem.Run:
+			case ContextMenuItem.Run:
 				GodotRunner.RunProject(pli.GodotVersion, pli.ProjectFile);
 				break;
-			case ProjectLineItem.ContextMenuItem.DataFolder:
+			case ContextMenuItem.DataFolder:
 				break;
-			case ProjectLineItem.ContextMenuItem.EditProject:
+			case ContextMenuItem.EditProject:
 				break;
-			case ProjectLineItem.ContextMenuItem.ProjectFiles:
+			case ContextMenuItem.ProjectFiles:
 				break;
-			case ProjectLineItem.ContextMenuItem.RemoveProject:
+			case ContextMenuItem.RemoveProject:
 				break;
 		}
 	}

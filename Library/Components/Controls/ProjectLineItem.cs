@@ -1,9 +1,9 @@
-using System;
 using System.IO;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Data.POCO.Internal;
+using GodotManager.Library.Enumerations;
 using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
@@ -56,16 +56,6 @@ public partial class ProjectLineItem : Control, IProjectIcon
 
 	public bool IsPreview { get; set; } = false;
 
-	public enum ContextMenuItem : long
-	{
-		Open = 0L,
-		Run = 1L,
-		ProjectFiles = 3L,
-		DataFolder = 4L,
-		EditProject = 6L,
-		RemoveProject = 7L
-	}
-
 	public GodotVersion GodotVersion
 	{
 		get => _godotVersion;
@@ -112,7 +102,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 		{
 			_shader.SetShaderParameter("s", toggle ? 1.0f : 0.0f);
 			_shader.SetShaderParameter("v", toggle ? 1.0f : 0.5f);
-			EmitSignal(ProjectLineItem.SignalName.FavoriteClicked, this, toggle);
+			EmitSignal(SignalName.FavoriteClicked, this, toggle);
 		};
 		MouseEntered += () => _hover.Visible = true;
 		MouseExited += () => _hover.Visible = false;
@@ -187,10 +177,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	
 	#region Public Functions
 
-	public void ShowContextMenu()
-	{
-		_contextMenu.Popup(new Rect2I((GetScreenPosition() + GetLocalMousePosition()).ToVector2I(), Vector2I.Zero));
-	}
+	public void ShowContextMenu() => _contextMenu.Popup(new Rect2I((GetScreenPosition() + GetLocalMousePosition()).ToVector2I(), Vector2I.Zero));
 	#endregion
 	
 	#region Private Functions
