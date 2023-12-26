@@ -47,6 +47,7 @@ stretch_mode = 5
 [node name="ProjectName" type="Label" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 text = "Project Name"
 label_settings = SubResource("LabelSettings_g1pvw")
 horizontal_alignment = 1
@@ -57,14 +58,16 @@ text_overrun_behavior = 4
 unique_name_in_owner = true
 custom_minimum_size = Vector2(280, 0)
 layout_mode = 2
+mouse_filter = 1
 text = "/home/eumario/Projects/Godot/ProjectName"
 horizontal_alignment = 1
 clip_text = true
-text_overrun_behavior = 3
+text_overrun_behavior = 4
 
 [node name="GodotVersion" type="Label" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 text = "Godot vX.X.X"
 horizontal_alignment = 1
 

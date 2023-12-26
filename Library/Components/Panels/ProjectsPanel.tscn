@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://crq8ob43cwrdn"]
+[gd_scene load_steps=18 format=3 uid="uid://crq8ob43cwrdn"]
 
 [ext_resource type="Script" path="res://Library/Components/Panels/ProjectsPanel.cs" id="1_30f2n"]
 [ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="1_xm30d"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://1dd22xcsvqrp" path="res://Assets/Icons/svg/rem_category.svg" id="7_bmjur"]
 [ext_resource type="Texture2D" uid="uid://b7trxn1cmk486" path="res://Assets/Icons/svg/icon_remove.svg" id="8_nqds7"]
 [ext_resource type="Texture2D" uid="uid://cs6l7ubtesqxd" path="res://Assets/Icons/svg/remove_missing.svg" id="9_y1bfu"]
+[ext_resource type="Texture2D" uid="uid://36raf36ysdw7" path="res://Assets/Icons/svg/drop_down1.svg" id="12_3dcg8"]
+[ext_resource type="Texture2D" uid="uid://cs6ea4qmsgw22" path="res://Assets/Icons/svg/minus.svg" id="13_xd7xi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s03ff"]
 bg_color = Color(0.137255, 0.14902, 0.180392, 1)
@@ -21,6 +23,8 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_3lbqg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04n1c"]
 content_margin_left = 5.0
@@ -75,6 +79,8 @@ unique_name_in_owner = true
 layout_mode = 2
 Icons = [ExtResource("3_7ix6d"), ExtResource("4_de0q8"), ExtResource("5_m7a74"), ExtResource("6_4nbvs"), ExtResource("7_bmjur"), ExtResource("8_nqds7"), ExtResource("9_y1bfu")]
 HelpText = ["New Project", "Import Project", "Scan Folders", "Add Category", "Remove Category", "Delete", "Remove Missing"]
+Buttons = Object(HBoxContainer,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","alignment":0,"script":null)
+
 
 [node name="Spacer2" type="Control" parent="VBoxContainer/Header/HBoxContainer"]
 layout_mode = 2
@@ -83,6 +89,9 @@ size_flags_horizontal = 3
 [node name="ViewToggleButtons" parent="VBoxContainer/Header/HBoxContainer" instance=ExtResource("2_j5a34")]
 unique_name_in_owner = true
 layout_mode = 2
+Buttons = Object(HBoxContainer,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","alignment":0,"script":null)
+
+_buttonGroup = SubResource("ButtonGroup_3lbqg")
 
 [node name="Sorter" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -102,12 +111,28 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 Title = "Project Name"
+Header = Object(Label,"_import_path":NodePath(""),"unique_name_in_owner":true,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":4,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","text":"Project Name","label_settings":null,"horizontal_alignment":0,"vertical_alignment":0,"autowrap_mode":0,"justification_flags":163,"clip_text":false,"text_overrun_behavior":0,"uppercase":false,"tab_stops":PackedFloat32Array(),"lines_skipped":0,"max_lines_visible":-1,"visible_characters":-1,"visible_characters_behavior":0,"visible_ratio":1.0,"text_direction":0,"language":"","structured_text_bidi_override":0,"structured_text_bidi_override_options":[],"script":null)
+
+DirIcon = Object(TextureRect,"_import_path":NodePath(""),"unique_name_in_owner":true,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(24, 24),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","texture":ExtResource("13_xd7xi"),"expand_mode":1,"stretch_mode":0,"flip_h":false,"flip_v":false,"script":null)
+
+Arrow = ExtResource("12_3dcg8")
+Minus = ExtResource("13_xd7xi")
+_title = "Project Name"
+_direction = 0
 
 [node name="GodotVersion" parent="VBoxContainer/Sorter/PanelContainer/HBoxContainer" instance=ExtResource("3_ejiyp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 Title = "Godot Version"
+Header = Object(Label,"_import_path":NodePath(""),"unique_name_in_owner":true,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":4,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","text":"Godot Version","label_settings":null,"horizontal_alignment":0,"vertical_alignment":0,"autowrap_mode":0,"justification_flags":163,"clip_text":false,"text_overrun_behavior":0,"uppercase":false,"tab_stops":PackedFloat32Array(),"lines_skipped":0,"max_lines_visible":-1,"visible_characters":-1,"visible_characters_behavior":0,"visible_ratio":1.0,"text_direction":0,"language":"","structured_text_bidi_override":0,"structured_text_bidi_override_options":[],"script":null)
+
+DirIcon = Object(TextureRect,"_import_path":NodePath(""),"unique_name_in_owner":true,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(24, 24),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":1,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","texture":ExtResource("13_xd7xi"),"expand_mode":1,"stretch_mode":0,"flip_h":false,"flip_v":false,"script":null)
+
+Arrow = ExtResource("12_3dcg8")
+Minus = ExtResource("13_xd7xi")
+_title = "Godot Version"
+_direction = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 layout_mode = 2
