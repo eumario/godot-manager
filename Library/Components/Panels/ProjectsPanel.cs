@@ -126,13 +126,16 @@ public partial class ProjectsPanel : Panel
 		switch ((ViewToggle)index)
 		{
 			case ViewToggle.ListView:
+				_actionButtons.SetHidden(3,4,5);
 				_listView.Visible = true;
 				break;
 			case ViewToggle.GridView:
+				_actionButtons.SetHidden(3,4,5);
 				_gridView.Visible = true;
 				break;
 			case ViewToggle.CategoryView:
 				_categoryView.Visible = true;
+				_actionButtons.SetVisible(3,4,5);
 				break;
 		}
 	}
