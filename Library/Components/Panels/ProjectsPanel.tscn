@@ -151,11 +151,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="GridView" type="GridContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/ProjectLists" groups=["views"]]
+[node name="GridView" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/ProjectLists" groups=["views"]]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="CategoryView" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/ProjectLists" groups=["views"]]
 unique_name_in_owner = true
