@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Godot;
 using Godot.Collections;
@@ -52,6 +53,8 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	
 	#region Public Properties
 	public bool MissingProject { get; set; } = false;
+
+	public bool IsPreview { get; set; } = false;
 
 	public enum ContextMenuItem : long
 	{
@@ -120,36 +123,38 @@ public partial class ProjectLineItem : Control, IProjectIcon
 		};
 	}
 
-	// public override bool _CanDropData(Vector2 atPosition, Variant data)
-	// {
-	// 	return GetParent().GetParent<CategoryList>()._CanDropData(atPosition, data);
-	// }
-	//
-	// public override void _DropData(Vector2 atPosition, Variant data)
-	// {
-	// 	GetParent().GetParent<CategoryList>()._DropData(atPosition, data);
-	// }
-	//
-	// public override Variant _GetDragData(Vector2 atPosition)
-	// {
-	// 	Dictionary<string, Node> data = new Dictionary<string, Node>();
-	// 	
-	// 	if (GetParent().GetParent() is not CategoryList)
-	// 		return data;
-	//
-	// 	data["source"] = this;
-	// 	data["parent"] = GetParent().GetParent();
-	// 	var preview = FromScene();
-	// 	preview.ProjectFile = ProjectFile;
-	// 	preview.GodotVersion = GodotVersion;
-	// 	var notifier = new VisibleOnScreenNotifier2D();
-	// 	preview.AddChild(notifier);
-	// 	notifier.ScreenEntered += () => EmitSignal(SignalName.DragStarted, this);
-	// 	notifier.ScreenExited += () => EmitSignal(SignalName.DragEnded, this);
-	// 	SetDragPreview(preview);
-	// 	data["preview"] = preview;
-	// 	return data;
-	// }
+	public override bool _CanDropData(Vector2 atPosition, Variant data)
+	{
+		if (GetParent().Name != "List" && GetParent().Name == "ListView") return false;
+		return GetParent().GetParent<CategoryList>()._CanDropData(atPosition, data);
+	}
+	
+	public override void _DropData(Vector2 atPosition, Variant data)
+	{
+		GetParent().GetParent<CategoryList>()._DropData(atPosition, data);
+	}
+	
+	public override Variant _GetDragData(Vector2 atPosition)
+	{
+		Dictionary<string, Node> data = new Dictionary<string, Node>();
+		
+		if (GetParent().GetParent() is not CategoryList)
+			return data;
+	
+		data["source"] = this;
+		data["parent"] = GetParent().GetParent<CategoryList>();
+		var preview = FromScene();
+		preview.ProjectFile = ProjectFile;
+		preview.GodotVersion = GodotVersion;
+		var notifier = new VisibleOnScreenNotifier2D();
+		preview.AddChild(notifier);
+		notifier.ScreenEntered += () => EmitSignal(SignalName.DragStarted, this);
+		notifier.ScreenExited += () => EmitSignal(SignalName.DragEnded, this);
+		SetDragPreview(preview);
+		preview.IsPreview = true;
+		data["preview"] = preview;
+		return data;
+	}
 
 
 	#endregion
@@ -192,6 +197,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 
 	private void UpdateUI()
 	{
+		if (IsPreview) return;
 		MissingProject = !File.Exists(ProjectFile.Location);
 		_projectName.Text = ProjectFile.Name;
 		_projectDesc.Text = ProjectFile.Description;
