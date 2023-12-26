@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://crq8ob43cwrdn"]
+[gd_scene load_steps=15 format=3 uid="uid://crq8ob43cwrdn"]
 
 [ext_resource type="Script" path="res://Library/Components/Panels/ProjectsPanel.cs" id="1_30f2n"]
 [ext_resource type="PackedScene" uid="uid://y7etu0muys3t" path="res://Library/Components/Controls/ActionButtons.tscn" id="1_xm30d"]
@@ -11,8 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://1dd22xcsvqrp" path="res://Assets/Icons/svg/rem_category.svg" id="7_bmjur"]
 [ext_resource type="Texture2D" uid="uid://b7trxn1cmk486" path="res://Assets/Icons/svg/icon_remove.svg" id="8_nqds7"]
 [ext_resource type="Texture2D" uid="uid://cs6l7ubtesqxd" path="res://Assets/Icons/svg/remove_missing.svg" id="9_y1bfu"]
-[ext_resource type="Texture2D" uid="uid://36raf36ysdw7" path="res://Assets/Icons/svg/drop_down1.svg" id="12_7yh67"]
-[ext_resource type="Texture2D" uid="uid://cs6ea4qmsgw22" path="res://Assets/Icons/svg/minus.svg" id="13_opv4v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s03ff"]
 bg_color = Color(0.137255, 0.14902, 0.180392, 1)
@@ -23,8 +21,6 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-
-[sub_resource type="ButtonGroup" id="ButtonGroup_5v2kj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04n1c"]
 content_margin_left = 5.0
@@ -79,7 +75,6 @@ unique_name_in_owner = true
 layout_mode = 2
 Icons = [ExtResource("3_7ix6d"), ExtResource("4_de0q8"), ExtResource("5_m7a74"), ExtResource("6_4nbvs"), ExtResource("7_bmjur"), ExtResource("8_nqds7"), ExtResource("9_y1bfu")]
 HelpText = ["New Project", "Import Project", "Scan Folders", "Add Category", "Remove Category", "Delete", "Remove Missing"]
-Buttons = null
 
 [node name="Spacer2" type="Control" parent="VBoxContainer/Header/HBoxContainer"]
 layout_mode = 2
@@ -88,8 +83,6 @@ size_flags_horizontal = 3
 [node name="ViewToggleButtons" parent="VBoxContainer/Header/HBoxContainer" instance=ExtResource("2_j5a34")]
 unique_name_in_owner = true
 layout_mode = 2
-Buttons = null
-_buttonGroup = SubResource("ButtonGroup_5v2kj")
 
 [node name="Sorter" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -109,24 +102,12 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 Title = "Project Name"
-Header = null
-DirIcon = null
-Arrow = ExtResource("12_7yh67")
-Minus = ExtResource("13_opv4v")
-_title = "Project Name"
-_direction = 0
 
 [node name="GodotVersion" parent="VBoxContainer/Sorter/PanelContainer/HBoxContainer" instance=ExtResource("3_ejiyp")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 Title = "Godot Version"
-Header = null
-DirIcon = null
-Arrow = ExtResource("12_7yh67")
-Minus = ExtResource("13_opv4v")
-_title = "Godot Version"
-_direction = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 layout_mode = 2
