@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Godot;
 using Godot.Sharp.Extras;
@@ -7,8 +8,10 @@ using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
 using GodotManager.Library.Data.POCO.Internal;
+using GodotManager.Library.Data.UI;
 using GodotManager.Library.Enumerations;
 using GodotManager.Library.Managers;
+using GodotManager.Library.Utility;
 
 // namespace
 namespace GodotManager.Library.Components.Panels;
@@ -34,6 +37,7 @@ public partial class ProjectsPanel : Panel
 	#region Private Variables
 
 	private Dictionary<int, CategoryList> _categories;
+	private Dictionary<ProjectFile, ProjectNodeCache> _projectCache;
 	private const int Favorites = -2;
 	private const int Uncategorized = -1;
 	#endregion
@@ -50,6 +54,9 @@ public partial class ProjectsPanel : Panel
 
 		_categories = new Dictionary<int, CategoryList>();
 		_actionButtons.SetHidden(3,4,5,6);
+
+		_projectCache = new();
+		
 		PopulateViews();
 		GetWindow().FilesDropped += OnFilesDropped;
 	}
@@ -190,18 +197,26 @@ public partial class ProjectsPanel : Panel
 	{
 		if (_categoryView.GetChildCount() == 0)
 			SetupCategoryView();
-		
+
+		ClearAllViews();
+
 		foreach (var project in Database.AllProjects())
 		{
+			var cache = new ProjectNodeCache
+			{
+				ProjectFile = project
+			};
 			var pii = ProjectIconItem.FromScene();
 			pii.ProjectFile = project;
 			SetupPiiEvents(pii);
 			_gridView.AddChild(pii);
+			cache.GridView = pii;
 			
 			var pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
 			SetupPliEvents(pli);
 			_listView.AddChild(pli);
+			cache.ListView = pli;
 			
 			pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
@@ -210,19 +225,36 @@ public partial class ProjectsPanel : Panel
 			{
 				// Add to Uncategorized / Favorites
 				if (project.Favorite)
-					_categories[Favorites].ItemList.AddChild(pli);
+					_categories[Favorites].AddLineItem(pli);
 				else
-					_categories[Uncategorized].ItemList.AddChild(pli);
+					_categories[Uncategorized].AddLineItem(pli);
 			}
 			else
 			{
 				// Add to Category
-				_categories[project.Category.Id].ItemList.AddChild(pli);
+				_categories[project.Category.Id].AddLineItem(pli);
 			}
+
+			cache.CategoryView = pli;
+			_projectCache[project] = cache;
 		}
 	}
 
-	private void PiiOnContextMenuClick(ProjectIconItem pii, ContextMenuItem id)
+	private void ClearAllViews()
+	{
+		foreach (var category in _categoryView.GetChildren<CategoryList>())
+			category.ClearFree();
+
+		foreach (var pii in _gridView.GetChildren())
+			pii.QueueFree();
+
+		foreach (var pli in _listView.GetChildren())
+			pli.QueueFree();
+
+		_projectCache.Clear();
+	}
+
+	private async void PiiOnContextMenuClick(ProjectIconItem pii, ContextMenuItem id)
 	{
 		switch (id)
 		{
@@ -232,18 +264,33 @@ public partial class ProjectsPanel : Panel
 			case ContextMenuItem.Run:
 				GodotRunner.RunProject(pii.GodotVersion, pii.ProjectFile);
 				break;
+			case ContextMenuItem.ProjectFiles:
+				OS.ShellOpen(pii.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath());
+				break;
 			case ContextMenuItem.DataFolder:
 				break;
 			case ContextMenuItem.EditProject:
 				break;
-			case ContextMenuItem.ProjectFiles:
-				break;
 			case ContextMenuItem.RemoveProject:
+				var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pii.ProjectFile.Name}?");
+				if (!res) return;
+				res = await UI.YesNoBox("Remove Project", $"Do you want to delete the files from disk as well?");
+				if (res)
+				{
+					Directory.Delete(pii.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath(), true);
+				}
+
+				Database.RemoveProject(pii.ProjectFile);
+				Database.FlushDatabase();
+
+				var cache = _projectCache[pii.ProjectFile];
+				_projectCache.Remove(pii.ProjectFile);
+				cache.QueueFree();
 				break;
 		}
 	}
 
-	private void PliOnContextMenuClick(ProjectLineItem pli, ContextMenuItem id)
+	private async void PliOnContextMenuClick(ProjectLineItem pli, ContextMenuItem id)
 	{
 		switch (id)
 		{
@@ -253,13 +300,28 @@ public partial class ProjectsPanel : Panel
 			case ContextMenuItem.Run:
 				GodotRunner.RunProject(pli.GodotVersion, pli.ProjectFile);
 				break;
+			case ContextMenuItem.ProjectFiles:
+				OS.ShellOpen(pli.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath());
+				break;
 			case ContextMenuItem.DataFolder:
 				break;
 			case ContextMenuItem.EditProject:
 				break;
-			case ContextMenuItem.ProjectFiles:
-				break;
 			case ContextMenuItem.RemoveProject:
+				var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pli.ProjectFile.Name}?");
+				if (!res) return;
+				res = await UI.YesNoBox("Remove Project", $"Do you want to delete the files from disk as well?");
+				if (res)
+				{
+					Directory.Delete(pli.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath(), true);
+				}
+
+				Database.RemoveProject(pli.ProjectFile);
+				Database.FlushDatabase();
+
+				var cache = _projectCache[pli.ProjectFile];
+				_projectCache.Remove(pli.ProjectFile);
+				cache.QueueFree();
 				break;
 		}
 	}
@@ -300,11 +362,10 @@ public partial class ProjectsPanel : Panel
 		var items = new List<ProjectLineItem>();
 		foreach (var category in _categories.Keys)
 		{
-			foreach (var item in _categories[category].ItemList.GetChildren())
+			foreach (var item in _categories[category].GetProjectLineItems())
 			{
-				if (item is not ProjectLineItem pli) continue;
-				_categories[category].ItemList.RemoveChild(pli);
-				items.Add(pli);
+				_categories[category].RemoveLineItem(item);
+				items.Add(item);
 			}
 		}
 
@@ -313,14 +374,14 @@ public partial class ProjectsPanel : Panel
 			if (pli.ProjectFile.Category is null)
 			{
 				if (pli.ProjectFile.Favorite)
-					_categories[Favorites].ItemList.AddChild(pli);
+					_categories[Favorites].AddLineItem(pli);
 				else
-					_categories[Uncategorized].ItemList.AddChild(pli);
+					_categories[Uncategorized].AddLineItem(pli);
 			}
 			else
 			{
 				if (_categories.TryGetValue(pli.ProjectFile.Category.Id, out var category))
-					category.ItemList.AddChild(pli);
+					category.AddLineItem(pli);
 			}
 		}
 
