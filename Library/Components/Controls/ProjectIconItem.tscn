@@ -62,7 +62,7 @@ mouse_filter = 1
 text = "/home/eumario/Projects/Godot/ProjectName"
 horizontal_alignment = 1
 clip_text = true
-text_overrun_behavior = 4
+text_overrun_behavior = 3
 
 [node name="GodotVersionDisplay" type="Label" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
