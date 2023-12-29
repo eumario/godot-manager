@@ -185,8 +185,8 @@ public partial class GodotPanel : Panel
 		item = GodotLineItem.FromScene();
 		item.GodotVersion = version;
 		SetupGLIEvents(item);
-		_installed.ItemList.AddChild(item);
-		if (_downloading.ItemList.GetChildCount() == 0) _downloading.Visible = false;
+		_installed.AddLineItem(item);
+		if (_downloading.GetItemCount() == 0) _downloading.Visible = false;
 		
 		Database.AddVersion(version);
 
@@ -208,7 +208,7 @@ public partial class GodotPanel : Panel
 	{
 		_downloading.ItemList.RemoveChild(item);
 		_available.ItemList.AddChild(item);
-		if (_downloading.ItemList.GetChildCount() == 0) _downloading.Visible = false;
+		if (_downloading.GetItemCount() == 0) _downloading.Visible = false;
 		SortChildren();
 	}
 
@@ -249,7 +249,7 @@ public partial class GodotPanel : Panel
 			item.GithubVersion = version;
 			item.ShowMono = _showMono;
 			SetupGLIEvents(item);
-			_available.ItemList.AddChild(item);
+			_available.AddLineItem(item);
 			item.Visible = (res == null);
 		}
 	}
@@ -295,7 +295,7 @@ public partial class GodotPanel : Panel
 			var item = GodotLineItem.FromScene();
 			item.GodotVersion = version;
 			SetupGLIEvents(item);
-			_installed.ItemList.AddChild(item);
+			_installed.AddLineItem(item);
 		}
 	}
 
@@ -317,9 +317,9 @@ public partial class GodotPanel : Panel
 		item.InstallClicked += (gli) =>
 		{
 			if (gli.Downloading) return;
-			_available.ItemList.RemoveChild(gli);
+			_available.RemoveLineItem(gli);
 			_downloading.Visible = true;
-			_downloading.ItemList.AddChild(gli);
+			_downloading.AddLineItem(gli);
 			DownloadManager.Instance.StartDownload(gli);
 		};
 		item.UninstallClicked += async (gli) =>
@@ -350,31 +350,31 @@ public partial class GodotPanel : Panel
 	
 	private void ClearAllCategories()
 	{
-		foreach (var child in _installed.ItemList.GetChildren())
+		foreach (var child in _installed.GetGodotLineItems())
 			child.QueueFree();
-		foreach (var child in _available.ItemList.GetChildren())
+		foreach (var child in _available.GetGodotLineItems())
 			child.QueueFree();
 	}
 	private void SortChildren()
 	{
-		var ordered = _available.ItemList.GetChildren<GodotLineItem>();
+		var ordered = _available.GetGodotLineItems();
 		if (ordered.Count == 0)
 			return; // Safety just in case we have no version information downloaded.
 		ordered = new Array<GodotLineItem>(ordered.OrderByDescending(i => i.GithubVersion.SemVersion,
 			SemVersionCompare.Instance));
 		foreach (var item in ordered)
 		{
-			_available.ItemList.RemoveChild(item);
-			_available.ItemList.AddChild(item);
+			_available.RemoveLineItem(item);
+			_available.AddLineItem(item);
 		}
 
-		ordered = _installed.ItemList.GetChildren<GodotLineItem>();
+		ordered = _installed.GetGodotLineItems();
 		ordered = new Array<GodotLineItem>(ordered.OrderByDescending(i => i.GodotVersion.SemVersion,
 			SemVersionCompare.Instance));
 		foreach (var item in ordered)
 		{
-			_installed.ItemList.RemoveChild(item);
-			_installed.ItemList.AddChild(item);
+			_installed.RemoveLineItem(item);
+			_installed.AddLineItem(item);
 		}
 	}
 	#endregion
