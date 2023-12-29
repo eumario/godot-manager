@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Godot.Collections;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Data.POCO.Internal;
 using Octokit;
@@ -222,6 +223,26 @@ public partial class CategoryList : VBoxContainer
 				List.AddChild(pliCache[indx]);
 			}
 		}
+	}
+
+	public void AddLineItem(ProjectLineItem pli) => List.AddChild(pli);
+	public void AddLineItem(GodotLineItem gli) => List.AddChild(gli);
+	public void RemoveLineItem(ProjectLineItem pli) => List.RemoveChild(pli);
+	public void RemoveLineItem(GodotLineItem gli) => List.RemoveChild(gli);
+	public Array<GodotLineItem> GetGodotLineItems() => List.GetChildren<GodotLineItem>();
+	public Array<ProjectLineItem> GetProjectLineItems() => List.GetChildren<ProjectLineItem>();
+	public int GetItemCount() => List.GetChildCount();
+	
+	public void ClearFree()
+	{
+		foreach (var child in List.GetChildren())
+			child.QueueFree();
+	}
+
+	public void Clear()
+	{
+		foreach (var child in List.GetChildren())
+			List.RemoveChild(child);
 	}
 	#endregion
 	
