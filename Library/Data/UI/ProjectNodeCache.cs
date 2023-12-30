@@ -1,9 +1,10 @@
-﻿using GodotManager.Library.Components.Controls;
+﻿using Godot;
+using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Data.POCO.Internal;
 
 namespace GodotManager.Library.Data.UI;
 
-public class ProjectNodeCache
+public partial class ProjectNodeCache : RefCounted
 {
     public ProjectFile ProjectFile { get; set; }
     public ProjectLineItem ListView { get; set; }
