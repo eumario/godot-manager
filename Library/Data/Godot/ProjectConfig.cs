@@ -108,6 +108,7 @@ public class ProjectConfig
         var currentSection = "header";
         var lastKey = "";
         var inQuote = false;
+        var inParen = false;
 
         var token = new StringBuilder();
 
@@ -130,8 +131,23 @@ public class ProjectConfig
                         lastKey = "";
                     }
                     continue;
+                case '(':
+                    token.Append(ch);
+                    inParen = true;
+                    break;
+                case ')':
+                    token.Append(ch);
+                    inParen = false;
+                    if (lastKey != "")
+                    {
+                        _sections[currentSection][lastKey] = token.ToString();
+                        token.Clear();
+                        lastKey = "";
+                    }
+                    break;
                 case '"':
                     token.Append(ch);
+                    if (inParen) continue;
                     inQuote = !inQuote;
                     if (lastKey != "" && !inQuote)
                     {
