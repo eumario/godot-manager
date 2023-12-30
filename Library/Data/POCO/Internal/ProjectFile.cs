@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Godot;
 using GodotManager.Library.Data.Godot;
 using LiteDB;
 
@@ -21,6 +22,8 @@ public class ProjectFile
     private string _description;
     private string _location;
     private string _renderer;
+    private string _customUserDir;
+    private bool _useCustomUserDir;
     private GodotVersion _godotVersion;
     private Category _category;
     private bool _favorite;
@@ -78,6 +81,26 @@ public class ProjectFile
         }
     }
 
+    public string CustomUserDir
+    {
+        get => _customUserDir;
+        set
+        {
+            _customUserDir = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
+    public bool UseCustomUserDir
+    {
+        get => _useCustomUserDir;
+        set
+        {
+            _useCustomUserDir = value;
+            ProjectChanged?.Invoke();
+        }
+    }
+
     [BsonRef("versions")]
     public GodotVersion GodotVersion
     {
@@ -123,6 +146,12 @@ public class ProjectFile
     }
     public List<string> Assets { get; set; }
 
+    [BsonIgnore]
+    public string DataFolder =>
+        UseCustomUserDir
+            ? OS.GetDataDir().PathJoin(CustomUserDir)
+            : OS.GetDataDir().PathJoin("godot").PathJoin("app_userdata").PathJoin(Name);
+
     public static ProjectFile ReadFromFile(string filePath)
     {
         ProjectFile projectFile = null;
@@ -142,6 +171,8 @@ public class ProjectFile
             projectFile.Renderer = projectFile.IsGodot4
                 ? project.GetValue("rendering/renderer/rendering_method", "forward_plus")
                 : project.GetValue("rendering/quality/driver/driver_name", "GLES3");
+            projectFile.UseCustomUserDir = project.GetValue("application/config/use_custom_user_dir", "false") == "true";
+            projectFile.CustomUserDir = project.GetValue("application/config/custom_user_dir_name", "");
         }
         else
         {
@@ -181,6 +212,8 @@ public class ProjectFile
             Name = pf.GetValue("application/config/name", "No Name");
             Description = pf.GetValue("application/config/description", "No Description");
             Icon = pf.GetValue("application/config/icon", "res://icon.png");
+            UseCustomUserDir = pf.GetValue("application/config/use_custom_user_dir", "false") == "true";
+            CustomUserDir = pf.GetValue("application/config/custom_user_dir_name", "");
             Renderer = IsGodot4
                 ? pf.GetValue("rendering/renderer/rendering_method", "forward_plus")
                 : pf.GetValue("rendering/quality/driver/driver_name", "GLES3");
@@ -204,6 +237,8 @@ public class ProjectFile
                 ? "rendering/renderer/rendering_method"
                 : "rendering/quality/driver/driver_name",
                 Renderer);
+            pf.SetValue("application/config/use_custom_user_dir", UseCustomUserDir.ToString().ToLowerInvariant());
+            pf.SetValue("application/config/custom_user_dir_name", CustomUserDir);
             pf.Save();
         }
         else
