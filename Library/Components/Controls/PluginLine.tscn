@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://3xa1dakkwlxq"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/PluginLine.cs" id="1_h48qs"]
+[ext_resource type="Texture2D" uid="uid://bsqyf68f2tedk" path="res://Assets/Icons/png/default_project_icon.png" id="1_oaeaf"]
+[ext_resource type="LabelSettings" uid="uid://dc5d0ibuf2dx6" path="res://Resources/LabelHeader.tres" id="2_iuyvh"]
+[ext_resource type="LabelSettings" uid="uid://cjfomfnbnyxyr" path="res://Resources/FieldValue.tres" id="3_twmbf"]
+[ext_resource type="Texture2D" uid="uid://dvinp45as4c74" path="res://Assets/Icons/svg/icon_add.svg" id="4_xehpq"]
+[ext_resource type="Texture2D" uid="uid://b7trxn1cmk486" path="res://Assets/Icons/svg/icon_remove.svg" id="5_gsyea"]
+
+[node name="PluginLine" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h48qs")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="AddonIcon" type="TextureRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_oaeaf")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="AddonName" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Addon Name"
+label_settings = ExtResource("2_iuyvh")
+
+[node name="AddonVersion" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Version 0.0.0"
+label_settings = ExtResource("3_twmbf")
+
+[node name="InstallAddon" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0, 0.894118, 0, 1)
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+icon = ExtResource("4_xehpq")
+flat = true
+expand_icon = true
+
+[node name="RemoveAddon" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 0.443137, 0.376471, 1)
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+icon = ExtResource("5_gsyea")
+flat = true
+expand_icon = true

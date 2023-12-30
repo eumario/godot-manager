@@ -1,0 +1,134 @@
+[gd_scene load_steps=4 format=3 uid="uid://cti5w0rtpuvr7"]
+
+[ext_resource type="Script" path="res://Library/Components/Dialogs/EditProjectDialog.cs" id="1_xfyxo"]
+[ext_resource type="Texture2D" uid="uid://bsqyf68f2tedk" path="res://Assets/Icons/png/default_project_icon.png" id="2_qcqup"]
+[ext_resource type="LabelSettings" uid="uid://jawx7rbt4abe" path="res://Resources/FieldHeader.tres" id="3_4spe6"]
+
+[node name="EditProjectDialog" type="Window"]
+title = "Project Properties"
+initial_position = 2
+size = Vector2i(500, 500)
+script = ExtResource("1_xfyxo")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 1
+use_hidden_tabs_for_min_size = true
+
+[node name="General" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/General"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProjectIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_qcqup")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Project Name:"
+label_settings = ExtResource("3_4spe6")
+
+[node name="ProjectName" type="LineEdit" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Godot Version:"
+label_settings = ExtResource("3_4spe6")
+
+[node name="EngineVersion" type="OptionButton" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Render Engine:"
+label_settings = ExtResource("3_4spe6")
+
+[node name="Renderer" type="OptionButton" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Description:"
+label_settings = ExtResource("3_4spe6")
+
+[node name="ProjectDescription" type="TextEdit" parent="MarginContainer/VBoxContainer/TabContainer/General/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+wrap_mode = 1
+
+[node name="Addons" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/Addons"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/Addons/MarginContainer"]
+layout_mode = 2
+
+[node name="PluginList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/Addons/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveProject" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "Save"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="CancelDialog" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+text = "Cancel"
