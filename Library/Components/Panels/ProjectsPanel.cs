@@ -265,9 +265,10 @@ public partial class ProjectsPanel : Panel
 				GodotRunner.RunProject(pii.GodotVersion, pii.ProjectFile);
 				break;
 			case ContextMenuItem.ProjectFiles:
-				OS.ShellOpen(pii.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath());
+				OS.ShellOpen($"\"{pii.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath()}\"");
 				break;
 			case ContextMenuItem.DataFolder:
+				OS.ShellOpen($"\"{pii.ProjectFile.DataFolder.GetOsDir().NormalizePath()}\"");
 				break;
 			case ContextMenuItem.EditProject:
 				break;
@@ -301,9 +302,10 @@ public partial class ProjectsPanel : Panel
 				GodotRunner.RunProject(pli.GodotVersion, pli.ProjectFile);
 				break;
 			case ContextMenuItem.ProjectFiles:
-				OS.ShellOpen(pli.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath());
+				OS.ShellOpen($"\"{pli.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath()}\"");
 				break;
 			case ContextMenuItem.DataFolder:
+				OS.ShellOpen($"\"{pli.ProjectFile.DataFolder.GetOsDir().NormalizePath()}\"");
 				break;
 			case ContextMenuItem.EditProject:
 				break;
