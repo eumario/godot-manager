@@ -271,6 +271,17 @@ public partial class ProjectsPanel : Panel
 				OS.ShellOpen($"\"{pii.ProjectFile.DataFolder.GetOsDir().NormalizePath()}\"");
 				break;
 			case ContextMenuItem.EditProject:
+				var epd = EditProjectDialog.FromScene();
+				epd.ProjectCache = _projectCache[pii.ProjectFile];
+				GetTree().Root.AddChild(epd);
+				epd.SaveProject += (cache) =>
+				{
+					Database.UpdateProject(cache.ProjectFile);
+					cache.GridView.ProjectFile = cache.ProjectFile;
+					cache.ListView.ProjectFile = cache.ProjectFile;
+					cache.CategoryView.ProjectFile = cache.ProjectFile;
+				};
+				epd.PopupCentered();
 				break;
 			case ContextMenuItem.RemoveProject:
 				var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pii.ProjectFile.Name}?");
@@ -308,6 +319,17 @@ public partial class ProjectsPanel : Panel
 				OS.ShellOpen($"\"{pli.ProjectFile.DataFolder.GetOsDir().NormalizePath()}\"");
 				break;
 			case ContextMenuItem.EditProject:
+				var epd = EditProjectDialog.FromScene();
+				epd.ProjectCache = _projectCache[pli.ProjectFile];
+				GetTree().Root.AddChild(epd);
+				epd.PopupCentered();
+				epd.SaveProject += (cache) =>
+				{
+					Database.UpdateProject(cache.ProjectFile);
+					cache.GridView.ProjectFile = cache.ProjectFile;
+					cache.ListView.ProjectFile = cache.ProjectFile;
+					cache.CategoryView.ProjectFile = cache.ProjectFile;
+				};
 				break;
 			case ContextMenuItem.RemoveProject:
 				var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pli.ProjectFile.Name}?");
