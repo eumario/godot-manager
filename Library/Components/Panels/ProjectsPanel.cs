@@ -280,6 +280,7 @@ public partial class ProjectsPanel : Panel
 					cache.GridView.ProjectFile = cache.ProjectFile;
 					cache.ListView.ProjectFile = cache.ProjectFile;
 					cache.CategoryView.ProjectFile = cache.ProjectFile;
+					cache.ProjectFile.SaveUpdatedData();
 				};
 				epd.PopupCentered();
 				break;
@@ -329,6 +330,7 @@ public partial class ProjectsPanel : Panel
 					cache.GridView.ProjectFile = cache.ProjectFile;
 					cache.ListView.ProjectFile = cache.ProjectFile;
 					cache.CategoryView.ProjectFile = cache.ProjectFile;
+					cache.ProjectFile.SaveUpdatedData();
 				};
 				break;
 			case ContextMenuItem.RemoveProject:
