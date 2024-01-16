@@ -128,7 +128,7 @@ public partial class EditProjectDialog : Window
 				_renderer.Selected = 2;
 				break;
 			default:
-				_renderer.Selected = -1;
+				_renderer.Selected = 0;
 				break;
 		}
 
