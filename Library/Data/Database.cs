@@ -245,6 +245,21 @@ public class Database
         FlushDatabase();
     }
 
+    public static void RemoveCategory(string name)
+    {
+        Instance._categories.Delete(GetCategory(name).Id);
+    }
+
+    public static void RemoveCategory(Category category)
+    {
+        Instance._categories.Delete(category.Id);
+    }
+
+    public static void UpdateCategory(Category category)
+    {
+        Instance._categories.Update(category);
+    }
+
     public static Category[] AllCategories() =>
         Instance._categories.Query().ToArray();
 
