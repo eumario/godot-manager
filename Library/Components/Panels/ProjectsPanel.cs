@@ -40,6 +40,8 @@ public partial class ProjectsPanel : Panel
 	private Dictionary<ProjectFile, ProjectNodeCache> _projectCache;
 	private const int Favorites = -2;
 	private const int Uncategorized = -1;
+	private ProjectLineItem _selectedLineItem;
+	private ProjectIconItem _selectedIconItem;
 	#endregion
 	
 	#region Public Variables
@@ -78,8 +80,26 @@ public partial class ProjectsPanel : Panel
 			case ProjectActions.ScanFolders:
 				break;
 			case ProjectActions.AddCategory:
+				var ac = CreateCategory.FromScene();
+				ac.CategoryAnswer += (name) =>
+				{
+					Database.AddCategory(name);
+					UpdateCategoryView();
+				};
+				AddChild(ac);
+				ac.PopupCentered();
 				break;
 			case ProjectActions.RemoveCategory:
+				var rc = RemoveCategory.FromScene();
+				rc.Categories = Database.AllCategories().Select(x => x.Name).ToList();
+				rc.CategorySelected += (category) =>
+				{
+					var cat = Database.GetCategory(category);
+					Database.RemoveCategory(cat);
+					UpdateCategoryView();
+				};
+				AddChild(rc);
+				rc.PopupCentered();
 				break;
 			case ProjectActions.DeleteProject:
 				break;
@@ -115,14 +135,20 @@ public partial class ProjectsPanel : Panel
 			case ViewToggle.ListView:
 				_actionButtons.SetHidden(3,4,5);
 				_listView.Visible = true;
+				_selectedIconItem = null;
+				_selectedLineItem = null;
 				break;
 			case ViewToggle.GridView:
 				_actionButtons.SetHidden(3,4,5);
 				_gridView.Visible = true;
+				_selectedIconItem = null;
+				_selectedLineItem = null;
 				break;
 			case ViewToggle.CategoryView:
 				_categoryView.Visible = true;
 				_actionButtons.SetVisible(3,4,5);
+				_selectedIconItem = null;
+				_selectedLineItem = null;
 				break;
 		}
 	}
@@ -139,12 +165,65 @@ public partial class ProjectsPanel : Panel
 	#endregion
 	
 	#region Private Support Functions
+
+	private void UpdateCategoryView()
+	{
+		var found = new List<int>();
+		var notFound = new List<int>();
+		foreach (var category in Database.AllCategories())
+		{
+			if (_categories.ContainsKey(category.Id))
+			{
+				found.Add(category.Id);
+				continue;
+			}
+
+			var cl = CategoryList.FromScene();
+			category.IsExpanded = true;
+			category.IsPinned = false;
+			Database.UpdateCategory(category);
+			cl.Category = category;
+			cl.Toggable = true;
+			cl.Pinnable = true;
+			_categories[category.Id] = cl;
+			_categoryView.AddChild(cl);
+			_categoryView.MoveChild(cl, 0);
+			found.Add(category.Id);
+		}
+
+		foreach (var category in _categories.Keys)
+		{
+			if (found.Contains(category) || category == Favorites || category == Uncategorized)
+				continue;
+			
+			notFound.Add(category);
+
+			foreach (var project in _categories[category].GetProjectLineItems())
+			{
+				project.ProjectFile.Category = null;
+				Database.UpdateProject(project.ProjectFile);
+			}
+		}
+		
+		ResortCategoryView();
+
+		foreach (var nf in notFound)
+		{
+			_categories[nf].QueueFree();
+			_categories.Remove(nf);
+		}
+	}
+	
 	private void SetupCategoryView()
 	{
 		foreach (var category in Database.AllCategories())
 		{
 			var cl = CategoryList.FromScene();
 			cl.Category = category;
+			cl.Pinnable = true;
+			cl.Toggable = true;
+			cl.Pinned = category.IsPinned;
+			cl.Expanded = category.IsExpanded;
 			_categories[category.Id] = cl;
 		}
 		
@@ -183,6 +262,29 @@ public partial class ProjectsPanel : Panel
 		pli.RightClicked += item => item.ShowContextMenu();
 		pli.DoubleClicked += item => GodotRunner.EditProject(item.GodotVersion, item.ProjectFile);
 		pli.ContextMenuClick += PliOnContextMenuClick;
+		pli.Clicked += item =>
+		{
+			if (_selectedLineItem == item) return;
+			_selectedLineItem = item;
+			if (item.GetParent() != _listView)
+			{
+				foreach (var citem in from category in _categories.Values
+				         from citem in category.GetProjectLineItems()
+				         where citem != item
+				         select citem)
+				{
+					citem.Selected = false;
+				}
+			}
+			else
+			{
+				foreach (var citem in _listView.GetChildren<ProjectLineItem>())
+				{
+					if (citem != item)
+						citem.Selected = false;
+				}
+			}
+		};
 	}
 
 	private void SetupPiiEvents(ProjectIconItem pii)
@@ -191,6 +293,17 @@ public partial class ProjectsPanel : Panel
 		pii.RightClicked += item => item.ShowContextMenu();
 		pii.DoubleClicked += item => GodotRunner.EditProject(item.GodotVersion, item.ProjectFile);
 		pii.ContextMenuClick += PiiOnContextMenuClick;
+		pii.Clicked += item =>
+		{
+			if (_selectedIconItem == item) return;
+			_selectedIconItem = item;
+			foreach (var citem in _gridView.GetChildren<ProjectIconItem>())
+			{
+				if (citem == item) continue;
+				if (citem == null) continue;
+				citem.Selected = false;
+			}
+		};
 	}
 
 	private void PopulateViews()
@@ -221,8 +334,13 @@ public partial class ProjectsPanel : Panel
 			pli = ProjectLineItem.FromScene();
 			pli.ProjectFile = project;
 			SetupPliEvents(pli);
-			if (project.Category is null)
+			if (project.Category is null || !_categories.ContainsKey(project.Category.Id))
 			{
+				if (project.Category != null)
+				{
+					project.Category = null;
+					Database.UpdateProject(project);
+				}
 				// Add to Uncategorized / Favorites
 				if (project.Favorite)
 					_categories[Favorites].AddLineItem(pli);
