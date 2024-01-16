@@ -414,8 +414,7 @@ public partial class GeneralPanel : MarginContainer
 		
 		_defaultEngine3.AddItem("None Selected");
 		_defaultEngine3.SetItemMetadata(0, "-1");
-		foreach (var version in Database.AllVersions().Where(x => x.SemVersion.Version.Major == 3)
-			         .OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
+		foreach (var version in Database.AllVersion3())
 		{
 			_defaultEngine3.AddItem(version.GetHumanReadableVersion());
 			_defaultEngine3.SetItemMetadata(_defaultEngine3.ItemCount - 1, version.Id);
@@ -423,8 +422,7 @@ public partial class GeneralPanel : MarginContainer
 
 		_defaultEngine4.AddItem("None Selected");
 		_defaultEngine4.SetItemMetadata(0, "-1");
-		foreach (var version in Database.AllVersions().Where(x => x.SemVersion.Version.Major == 4)
-			         .OrderByDescending(x => x.SemVersion, SemVersionCompare.Instance))
+		foreach (var version in Database.AllVersion4())
 		{
 			_defaultEngine4.AddItem(version.GetHumanReadableVersion());
 			_defaultEngine4.SetItemMetadata(_defaultEngine4.ItemCount - 1, version.Id);
