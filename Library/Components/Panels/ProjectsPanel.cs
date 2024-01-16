@@ -59,6 +59,28 @@ public partial class ProjectsPanel : Panel
 		_actionButtons.SetHidden(3,4,5,6);
 
 		_projectCache = new();
+
+		switch (Database.Settings.DefaultView)
+		{
+			case "List View":
+				OnViewChanged_ViewToggleButtons(0);
+				_viewToggleButtons.SetView(0);
+				break;
+			case "Icon View":
+				OnViewChanged_ViewToggleButtons(1);
+				_viewToggleButtons.SetView(1);
+				break;
+			case "Category View":
+				OnViewChanged_ViewToggleButtons(2);
+				_viewToggleButtons.SetView(2);
+				break;
+			case "Last View Used":
+				var items = new List<string>() { "List View", "Icon View", "Category View" };
+				var i = items.IndexOf(Database.Settings.LastView);
+				OnViewChanged_ViewToggleButtons(i);
+				_viewToggleButtons.SetView(i);
+				break;
+		}
 		
 		PopulateViews();
 		GetWindow().FilesDropped += OnFilesDropped;
@@ -156,18 +178,23 @@ public partial class ProjectsPanel : Panel
 		switch ((ViewToggle)index)
 		{
 			case ViewToggle.ListView:
+				Database.Settings.LastView = "List View";
 				_actionButtons.SetHidden(3,4);
 				_listView.Visible = true;
 				break;
 			case ViewToggle.GridView:
+				Database.Settings.LastView = "Icon View";
 				_actionButtons.SetHidden(3,4);
 				_gridView.Visible = true;
 				break;
 			case ViewToggle.CategoryView:
+				Database.Settings.LastView = "Category View";
 				_categoryView.Visible = true;
 				_actionButtons.SetVisible(3,4);
 				break;
 		}
+		Database.SaveSettings();
+		Database.FlushDatabase();
 	}
 	
 	private void OnFavClicked_ProjectLineItem(ProjectLineItem item, bool value)
