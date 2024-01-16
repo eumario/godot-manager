@@ -309,6 +309,12 @@ public class Database
             .Include(x => x.GithubVersion)
             .Include(x => x.CustomEngine)
             .ToList();
+
+    public static List<GodotVersion> AllVersion3() =>
+        AllVersions().Where(x => x.SemVersion.Version.Major == 3).ToList();
+
+    public static List<GodotVersion> AllVersion4() =>
+        AllVersions().Where(x => x.SemVersion.Version.Major == 4).ToList();
     #endregion
     
     #region GithubVersion Functions
