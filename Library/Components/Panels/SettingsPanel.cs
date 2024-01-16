@@ -25,6 +25,11 @@ public partial class SettingsPanel : Panel
 	[NodePath] private Button _contributions;
 	[NodePath] private Button _licenses;
 	[NodePath] private TabContainer _optionPanels;
+	
+	#region General Tab
+	#endregion
+	
+	
 	#endregion
 	
 	#region Singleton
@@ -53,6 +58,7 @@ public partial class SettingsPanel : Panel
 			{
 				// Handle Saving
 				HistoryManager.Apply();
+				Database.SaveSettings();
 				Database.FlushDatabase();
 				_undoSave.Visible = false;
 			}
