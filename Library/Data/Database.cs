@@ -143,6 +143,8 @@ public class Database
         _settingsInstance = settings;
     }
 
+    public static void SaveSettings() => Instance._settings.Update(Instance._settingsInstance);
+
     public static void FlushDatabase() => Instance._database.Checkpoint();
 
     #region Project Functions
