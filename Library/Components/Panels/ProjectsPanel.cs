@@ -66,7 +66,7 @@ public partial class ProjectsPanel : Panel
 	#endregion
 
 	#region Event Handlers
-	private void OnButtonClicked_ActionButtons(int index)
+	private async void OnButtonClicked_ActionButtons(int index)
 	{
 		switch ((ProjectActions)index)
 		{
@@ -111,7 +111,13 @@ public partial class ProjectsPanel : Panel
 					pf = _selectedLineItem.ProjectFile;
 
 				if (pf == null) return;
-				
+
+				if (await RemoveProject(pf))
+				{
+					_selectedIconItem = null;
+					_selectedLineItem = null;
+					_actionButtons.SetHidden(5);
+				}
 				
 				break;
 			case ProjectActions.RemoveMissing:
@@ -432,10 +438,10 @@ public partial class ProjectsPanel : Panel
 		}
 	}
 
-	private async Task RemoveProject(ProjectFile pf)
+	private async Task<bool> RemoveProject(ProjectFile pf)
 	{
 		var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pf.Name}?");
-		if (!res) return;
+		if (!res) return false;
 		res = await UI.YesNoBox("Remove Project", $"Do you want to delete the files from disk as well?");
 		if (res)
 		{
@@ -448,6 +454,7 @@ public partial class ProjectsPanel : Panel
 		var cache = _projectCache[pf];
 		_projectCache.Remove(pf);
 		cache.QueueFree();
+		return true;
 	}
 
 	private async void PliOnContextMenuClick(ProjectLineItem pli, ContextMenuItem id)
