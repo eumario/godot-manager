@@ -57,6 +57,7 @@ public partial class RemoveCategory : AcceptDialog
 
 		DialogHideOnOk = false;
 		AddCancelButton("Cancel");
+		Categories = _categories;
 		Confirmed += () =>
 		{
 			var indx = _categoryList.GetSelectedItems();
