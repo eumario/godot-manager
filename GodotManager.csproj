@@ -1,9 +1,9 @@
 <Project Sdk="Godot.NET.Sdk/4.2.1">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>GodotManager</RootNamespace>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
