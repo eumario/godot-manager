@@ -49,12 +49,24 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	private GodotVersion _godotVersion;
 	private ProjectFile _projectFile;
 	private ShaderMaterial _shader;
+	private bool _selected = false;
 	#endregion
 	
 	#region Public Properties
 	public bool MissingProject { get; set; } = false;
 
 	public bool IsPreview { get; set; } = false;
+
+	public bool Selected
+	{
+		get => _selected;
+		set
+		{
+			_selected = value;
+			if (_hover != null)
+				_hover.Visible = _selected;
+		}
+	}
 
 	public GodotVersion GodotVersion
 	{
@@ -104,8 +116,16 @@ public partial class ProjectLineItem : Control, IProjectIcon
 			_shader.SetShaderParameter("v", toggle ? 1.0f : 0.5f);
 			EmitSignal(SignalName.FavoriteClicked, this, toggle);
 		};
-		MouseEntered += () => _hover.Visible = true;
-		MouseExited += () => _hover.Visible = false;
+		MouseEntered += () =>
+		{
+			if (Selected) return;
+			_hover.Visible = true;
+		};
+		MouseExited += () =>
+		{
+			if (Selected) return;
+			_hover.Visible = false;
+		};
 		GuiInput += HandleGuiInput;
 		_contextMenu.IdPressed += id =>
 		{
@@ -161,6 +181,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 				EmitSignal(SignalName.DoubleClicked, this);
 				break;
 			case MouseButton.Left:
+				Selected = true;
 				EmitSignal(SignalName.Clicked, this);
 				break;
 			case MouseButton.Right when inputEventMouseButton.DoubleClick:

@@ -49,6 +49,7 @@ public partial class ProjectIconItem : Control, IProjectIcon
     private GodotVersion _godotVersion;
     private ProjectFile _projectFile;
     private ShaderMaterial _shader;
+    private bool _selected = false;
     #endregion
     
     #region Public Properties
@@ -83,6 +84,17 @@ public partial class ProjectIconItem : Control, IProjectIcon
             UpdateUI();
         }
     }
+
+    public bool Selected
+    {
+        get => _selected;
+        set
+        {
+            _selected = value;
+            if (_hover != null)
+                _hover.Visible = _selected;
+        }
+    }
     #endregion
     
     #region Godot Overrides
@@ -100,8 +112,16 @@ public partial class ProjectIconItem : Control, IProjectIcon
         //     EmitSignal(SignalName.FavoriteClicked, this, toggle);
         // };
 
-        MouseEntered += () => _hover.Visible = true;
-        MouseExited += () => _hover.Visible = false;
+        MouseEntered += () =>
+        {
+            if (Selected) return;
+            _hover.Visible = true;
+        };
+        MouseExited += () =>
+        {
+            if (Selected) return;
+            _hover.Visible = false;
+        };
         GuiInput += HandleGuiInput;
         _contextMenu.IdPressed += id =>
         {
@@ -122,6 +142,7 @@ public partial class ProjectIconItem : Control, IProjectIcon
                 EmitSignal(SignalName.DoubleClicked, this);
                 break;
             case MouseButton.Left:
+                Selected = true;
                 EmitSignal(SignalName.Clicked, this);
                 break;
             case MouseButton.Right when inputEventMouseButton.DoubleClick:
