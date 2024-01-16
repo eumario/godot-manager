@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
@@ -102,6 +103,16 @@ public partial class ProjectsPanel : Panel
 				rc.PopupCentered();
 				break;
 			case ProjectActions.DeleteProject:
+				ProjectFile pf = null;
+				if (_selectedIconItem != null)
+					pf = _selectedIconItem.ProjectFile;
+
+				if (_selectedLineItem != null)
+					pf = _selectedLineItem.ProjectFile;
+
+				if (pf == null) return;
+				
+				
 				break;
 			case ProjectActions.RemoveMissing:
 				break;
@@ -130,25 +141,25 @@ public partial class ProjectsPanel : Panel
 	{
 		_sorter.Visible = index == 0;
 		GetTree().SetGroup("views", "visible", false);
+		_actionButtons.SetHidden(5);
+		_selectedIconItem = null;
+		_selectedLineItem = null;
+		UpdateCategoryLineItems();
+		UpdateListLineItems();
+		UpdateGridIconItems();
 		switch ((ViewToggle)index)
 		{
 			case ViewToggle.ListView:
-				_actionButtons.SetHidden(3,4,5);
+				_actionButtons.SetHidden(3,4);
 				_listView.Visible = true;
-				_selectedIconItem = null;
-				_selectedLineItem = null;
 				break;
 			case ViewToggle.GridView:
-				_actionButtons.SetHidden(3,4,5);
+				_actionButtons.SetHidden(3,4);
 				_gridView.Visible = true;
-				_selectedIconItem = null;
-				_selectedLineItem = null;
 				break;
 			case ViewToggle.CategoryView:
 				_categoryView.Visible = true;
-				_actionButtons.SetVisible(3,4,5);
-				_selectedIconItem = null;
-				_selectedLineItem = null;
+				_actionButtons.SetVisible(3,4);
 				break;
 		}
 	}
@@ -256,6 +267,26 @@ public partial class ProjectsPanel : Panel
 		_categoryView.AddChild(_categories[Uncategorized]);
 	}
 
+	private void UpdateCategoryLineItems(ProjectLineItem item = null)
+	{
+		foreach (var citem in from category in _categories.Values
+		         from citem in category.GetProjectLineItems()
+		         where citem != item
+		         select citem)
+		{
+			citem.Selected = false;
+		}
+	}
+
+	private void UpdateListLineItems(ProjectLineItem item = null)
+	{
+		foreach (var citem in _listView.GetChildren<ProjectLineItem>())
+		{
+			if (citem != item)
+				citem.Selected = false;
+		}
+	}
+
 	private void SetupPliEvents(ProjectLineItem pli)
 	{
 		pli.FavoriteClicked += OnFavClicked_ProjectLineItem;
@@ -265,26 +296,23 @@ public partial class ProjectsPanel : Panel
 		pli.Clicked += item =>
 		{
 			if (_selectedLineItem == item) return;
+			_actionButtons.SetVisible(5);
 			_selectedLineItem = item;
 			if (item.GetParent() != _listView)
-			{
-				foreach (var citem in from category in _categories.Values
-				         from citem in category.GetProjectLineItems()
-				         where citem != item
-				         select citem)
-				{
-					citem.Selected = false;
-				}
-			}
+				UpdateCategoryLineItems(item);
 			else
-			{
-				foreach (var citem in _listView.GetChildren<ProjectLineItem>())
-				{
-					if (citem != item)
-						citem.Selected = false;
-				}
-			}
+				UpdateListLineItems(item);
 		};
+	}
+
+	private void UpdateGridIconItems(ProjectIconItem item = null)
+	{
+		foreach (var citem in _gridView.GetChildren<ProjectIconItem>())
+		{
+			if (citem == item) continue;
+			if (citem == null) continue;
+			citem.Selected = false;
+		}
 	}
 
 	private void SetupPiiEvents(ProjectIconItem pii)
@@ -296,13 +324,9 @@ public partial class ProjectsPanel : Panel
 		pii.Clicked += item =>
 		{
 			if (_selectedIconItem == item) return;
+			_actionButtons.SetVisible(5);
 			_selectedIconItem = item;
-			foreach (var citem in _gridView.GetChildren<ProjectIconItem>())
-			{
-				if (citem == item) continue;
-				if (citem == null) continue;
-				citem.Selected = false;
-			}
+			UpdateGridIconItems(item);
 		};
 	}
 
@@ -403,22 +427,27 @@ public partial class ProjectsPanel : Panel
 				epd.PopupCentered();
 				break;
 			case ContextMenuItem.RemoveProject:
-				var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pii.ProjectFile.Name}?");
-				if (!res) return;
-				res = await UI.YesNoBox("Remove Project", $"Do you want to delete the files from disk as well?");
-				if (res)
-				{
-					Directory.Delete(pii.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath(), true);
-				}
-
-				Database.RemoveProject(pii.ProjectFile);
-				Database.FlushDatabase();
-
-				var cache = _projectCache[pii.ProjectFile];
-				_projectCache.Remove(pii.ProjectFile);
-				cache.QueueFree();
+				await RemoveProject(pii.ProjectFile);
 				break;
 		}
+	}
+
+	private async Task RemoveProject(ProjectFile pf)
+	{
+		var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pf.Name}?");
+		if (!res) return;
+		res = await UI.YesNoBox("Remove Project", $"Do you want to delete the files from disk as well?");
+		if (res)
+		{
+			Directory.Delete(pf.Location.GetBaseDir().GetOsDir().NormalizePath(), true);
+		}
+
+		Database.RemoveProject(pf);
+		Database.FlushDatabase();
+
+		var cache = _projectCache[pf];
+		_projectCache.Remove(pf);
+		cache.QueueFree();
 	}
 
 	private async void PliOnContextMenuClick(ProjectLineItem pli, ContextMenuItem id)
@@ -452,20 +481,7 @@ public partial class ProjectsPanel : Panel
 				};
 				break;
 			case ContextMenuItem.RemoveProject:
-				var res = await UI.YesNoBox("Remove Project", $"Are you sure you want to remove {pli.ProjectFile.Name}?");
-				if (!res) return;
-				res = await UI.YesNoBox("Remove Project", $"Do you want to delete the files from disk as well?");
-				if (res)
-				{
-					Directory.Delete(pli.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath(), true);
-				}
-
-				Database.RemoveProject(pli.ProjectFile);
-				Database.FlushDatabase();
-
-				var cache = _projectCache[pli.ProjectFile];
-				_projectCache.Remove(pli.ProjectFile);
-				cache.QueueFree();
+				RemoveProject(pli.ProjectFile);
 				break;
 		}
 	}
