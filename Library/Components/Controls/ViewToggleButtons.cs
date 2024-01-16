@@ -96,6 +96,8 @@ public partial class ViewToggleButtons : PanelContainer
 				btn.ButtonPressed = false;
 				btn.SelfModulate = Colors.White;
 			}
+
+			i++;
 		}
 	}
 	#endregion
