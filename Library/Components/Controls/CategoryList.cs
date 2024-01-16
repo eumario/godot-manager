@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Data;
 using GodotManager.Library.Data.POCO.Internal;
 using Octokit;
 using Label = Godot.Label;
@@ -158,10 +159,21 @@ public partial class CategoryList : VBoxContainer
 		Pinnable = _pinnable;
 		if (_category is null)
 			Title = _title;
+		else
+		{
+			Pin.ButtonPressed = _category.IsPinned;
+			Pin.SelfModulate = _category.IsPinned ? Colors.Green : Colors.White;
+			
+			ExpandToggle.ButtonPressed = _category.IsExpanded;
+			ExpandToggle.Icon = _category.IsExpanded ? _expanded : _collapsed;
+			List.Visible = _category.IsExpanded;
+		}
 		ExpandToggle.Pressed += () =>
 		{
 			Expanded = ExpandToggle.ButtonPressed;
 			List.Visible = ExpandToggle.ButtonPressed;
+			Category.IsExpanded = Expanded;
+			Database.UpdateCategory(Category);
 		};
 		Pin.Pressed += () => Pinned = Pin.ButtonPressed;
 	}
@@ -185,6 +197,7 @@ public partial class CategoryList : VBoxContainer
 		parent.List.RemoveChild(pli);
 		List.AddChild(pli);
 		pli.ProjectFile.Category = Category;
+		Database.UpdateProject(pli.ProjectFile);
 		EmitSignal(SignalName.DragDropCompleted, parent, this, pli);
 		parent.SortListing();
 		SortListing();
