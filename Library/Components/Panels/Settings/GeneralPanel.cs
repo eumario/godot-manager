@@ -128,17 +128,21 @@ public partial class GeneralPanel : MarginContainer
 				Callable.From<bool, string[], int>((b, strings, i) => HandleBrowseDialog(b, strings, i, _cachePath)));
 		};
 
-		_projectView.ItemSelected += index => HistoryManager.Push(new UndoItem<string>(
-				Database.Settings.LastView,
-				_projectView.GetItemText(_projectView.Selected),
-				(newVal) => Database.Settings.LastView = newVal,
-				(oldVal) =>
-				{
-					Database.Settings.LastView = oldVal;
-					_projectView.Selected = ProjectViewText.IndexOf(Database.Settings.LastView);
-				}
-			)
-		);
+		_projectView.ItemSelected += index =>
+		{
+			if (_setup) return;
+			HistoryManager.Push(new UndoItem<string>(
+					Database.Settings.DefaultView,
+					_projectView.GetItemText((int)index),
+					(newVal) => Database.Settings.DefaultView = newVal,
+					(oldVal) =>
+					{
+						Database.Settings.DefaultView = oldVal;
+						_projectView.Selected = ProjectViewText.IndexOf(Database.Settings.DefaultView);
+					}
+				)
+			);
+		};
 
 		_defaultEngine3.ItemSelected += index =>
 		{
@@ -350,7 +354,7 @@ public partial class GeneralPanel : MarginContainer
 
 	private void LoadSettings()
 	{
-		var ProjectViewText = new List<string>() { "List View", "Icon View", "Category View" };
+		var ProjectViewText = new List<string>() { "List View", "Icon View", "Category View", "Last View Used" };
 		var CheckIntervals = new List<double>() { 1, 12, 24, 168, 336, 720 };
 		_setup = true;
 		_godotPath.Text = Database.Settings.EnginePath.NormalizePath();
