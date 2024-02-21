@@ -70,7 +70,7 @@ public class CentralStore {
 
 	void SortGodotVersions()
 	{
-		_data.Versions = new Array<GodotVersion>(_data.Versions.OrderByDescending(x => x.Tag).ToArray());
+		_data.Versions = new Array<GodotVersion>(_data.Versions.OrderByDescending(x => x).ToArray());
 	}
 
 	public bool HasProject(string name) {
