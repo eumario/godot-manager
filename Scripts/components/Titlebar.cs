@@ -13,8 +13,7 @@ public class Titlebar : Control
 
     [SignalHandler("gui_input")]
     void OnTitlebar_GuiInput(InputEvent inputEvent) {
-        if (inputEvent is InputEventMouseButton) {
-            var iemb = inputEvent as InputEventMouseButton;
+        if (inputEvent is InputEventMouseButton iemb) {
             if (iemb.ButtonIndex == 1) {
                 following = !following;
                 start_pos = GetLocalMousePosition();
@@ -23,8 +22,10 @@ public class Titlebar : Control
         }
 
         if (following && !moving) {
+            var movement = GetLocalMousePosition() - start_pos;
+            if (movement == Vector2.Zero) return;
             moving = true;
-            OS.WindowPosition = OS.WindowPosition + GetLocalMousePosition() - start_pos;
+            OS.WindowPosition += movement;
             moving = false;
         }
     }
