@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
@@ -7,12 +8,12 @@ using Directory = System.IO.Directory;
 public class CreateProject : ReferenceRect
 {
 
-#region Signals
+    #region Signals
     [Signal]
     public delegate void project_created(ProjectFile projFile);
-#endregion
+    #endregion
 
-#region Node Paths
+    #region Node Paths
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer/ProjectName")]
     LineEdit _projectName = null;
 
@@ -45,13 +46,13 @@ public class CreateProject : ReferenceRect
 
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES3/GLES3")]
     CheckBox _gles3 = null;
-    
+
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES3/GLES3Desc")]
     Label _gles3Desc = null;
 
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES2/GLES2")]
     CheckBox _gles2 = null;
-    
+
     [NodePath("PC/CC/P/VB/MCContent/TabContainer/Project Settings/HBoxContainer3/GLES2/GLES2Desc")]
     Label _gles2Desc = null;
 
@@ -63,32 +64,35 @@ public class CreateProject : ReferenceRect
 
     [NodePath("PC/CC/P/VB/MCButtons/HB/CancelBtn")]
     Button _cancelBtn = null;
-#endregion
+    #endregion
 
-#region Resources
+    #region Resources
     Texture StatusError = GD.Load<Texture>("res://Assets/Icons/icon_status_error.svg");
     Texture StatusSuccess = GD.Load<Texture>("res://Assets/Icons/icon_status_success.svg");
     Texture StatusWarning = GD.Load<Texture>("res://Assets/Icons/icon_status_warning.svg");
-#endregion
+    #endregion
 
-#region Assets
+    #region Assets
     [Resource("res://components/AddonLineEntry.tscn")] private PackedScene ALineEntry = null;
     [Resource("res://Assets/Icons/default_project_icon.png")] private Texture DefaultIcon = null;
-#endregion
+    #endregion
 
-#region Variables
-#endregion
+    #region Variables
+    #endregion
 
-#region Helper Functions
-    public enum DirError {
+    #region Helper Functions
+    public enum DirError
+    {
         OK,
         ERROR,
         WARNING
     }
 
-    public void ShowMessage(string msg, DirError err) {
+    public void ShowMessage(string msg, DirError err)
+    {
         _errorText.Text = msg;
-        switch(err) {
+        switch (err)
+        {
             case DirError.OK:
                 _errorIcon.Texture = StatusSuccess;
                 _createBtn.Disabled = false;
@@ -103,30 +107,44 @@ public class CreateProject : ReferenceRect
                 break;
         }
     }
-#endregion
+    #endregion
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
-        ShowMessage("",DirError.OK);
+        ShowMessage("", DirError.OK);
     }
 
     [SignalHandler("pressed", nameof(_createBtn))]
-    void OnCreatePressed() {
-        NewProject prj = new NewProject {
+    void OnCreatePressed()
+    {
+        var id = _godotVersion.GetSelectedMetadata() as string;
+        var vers = CentralStore.Versions.FirstOrDefault(x => x.Id == id);
+        if (vers == null)
+        {
+            OS.Alert("You have selected an invalid Godot Version (No longer exists).", "Internal Error");
+            return;
+        }
+        NewProject prj = new NewProject
+        {
             ProjectName = _projectName.Text,
             ProjectLocation = _projectLocation.Text,
             GodotVersion = _godotVersion.GetSelectedMetadata() as string,
             Gles3 = _gles3.Pressed,
             Godot4 = _useGodot4.Pressed,
+            IsCSharp = vers.IsMono,
+            GodotMajor = vers.Tag.Split(".")[0].ToInt(),
+            GodotMinor = vers.Tag.Split(".")[1].ToInt(),
             Plugins = new Array<AssetPlugin>()
         };
         if (_projectTemplates.Selected > 0)
             prj.Template = _projectTemplates.GetSelectedMetadata() as AssetProject;
-        
-        foreach(AddonLineEntry ale in _pluginList.GetChildren()) {
-            if (ale.Installed) {
+
+        foreach (AddonLineEntry ale in _pluginList.GetChildren())
+        {
+            if (ale.Installed)
+            {
                 prj.Plugins.Add(ale.GetMeta("asset") as AssetPlugin);
             }
         }
@@ -135,10 +153,10 @@ public class CreateProject : ReferenceRect
         ProjectFile pf = ProjectFile.ReadFromFile(prj.ProjectLocation.PlusFile("project.godot").NormalizePath());
         pf.GodotVersion = prj.GodotVersion;
         pf.Assets = new Array<string>();
-        
-        foreach(AssetPlugin plugin in prj.Plugins)
+
+        foreach (AssetPlugin plugin in prj.Plugins)
             pf.Assets.Add(plugin.Asset.AssetId);
-        
+
         CentralStore.Projects.Add(pf);
         CentralStore.Instance.SaveDatabase();
         EmitSignal("project_created", pf);
@@ -146,7 +164,8 @@ public class CreateProject : ReferenceRect
     }
 
     [SignalHandler("pressed", nameof(_createFolder))]
-    void OnCreateFolderPressed() {
+    void OnCreateFolderPressed()
+    {
         string path = _projectLocation.Text;
         string newDir = path.Join(_projectName.Text).NormalizePath();
         Directory.CreateDirectory(newDir);
@@ -155,7 +174,8 @@ public class CreateProject : ReferenceRect
     }
 
     [SignalHandler("pressed", nameof(_browseLocation))]
-    void OnBrowseLocationPressed() {
+    void OnBrowseLocationPressed()
+    {
         AppDialogs.BrowseFolderDialog.CurrentFile = "";
         AppDialogs.BrowseFolderDialog.CurrentPath = (CentralStore.Settings.ProjectPath + "/").NormalizePath();
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
@@ -163,7 +183,8 @@ public class CreateProject : ReferenceRect
         AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, "OnDirSelected_PopupHidden", null, (int)ConnectFlags.Oneshot);
     }
 
-    void OnDirSelected(string bfdir) {
+    void OnDirSelected(string bfdir)
+    {
         bfdir = bfdir.NormalizePath();
         _projectLocation.Text = bfdir;
         AppDialogs.BrowseFolderDialog.Visible = false;
@@ -212,15 +233,17 @@ Faster rendering of simple scenes.");
     }
 
     [SignalHandler("pressed", nameof(_cancelBtn))]
-    void OnCancelPressed() {
+    void OnCancelPressed()
+    {
         Visible = false;
     }
 
-    public void ShowDialog() {
+    public void ShowDialog()
+    {
         _projectName.Text = "Untitled Project";
         _projectLocation.Text = CentralStore.Settings.ProjectPath;
         TestPath(CentralStore.Settings.ProjectPath);
-        
+
         PopulateEngines(true);
 
         _gles3.Pressed = true;
@@ -228,10 +251,11 @@ Faster rendering of simple scenes.");
 
         _projectTemplates.Clear();
         _projectTemplates.AddItem("None");
-        foreach(AssetProject tmpl in CentralStore.Templates) {
+        foreach (AssetProject tmpl in CentralStore.Templates)
+        {
             string gdName = tmpl.Asset.Title;
             _projectTemplates.AddItem(gdName);
-            _projectTemplates.SetItemMetadata(CentralStore.Templates.IndexOf(tmpl)+1, tmpl);
+            _projectTemplates.SetItemMetadata(CentralStore.Templates.IndexOf(tmpl) + 1, tmpl);
         }
 
         foreach (AddonLineEntry node in _pluginList.GetChildren()) node.QueueFree();
@@ -251,8 +275,8 @@ Faster rendering of simple scenes.");
             ale.SetMeta("asset", plgn);
             _pluginList.AddChild(ale);
         }
-        
-        
+
+
         Visible = true;
     }
 
@@ -298,20 +322,26 @@ Faster rendering of simple scenes.");
     }
 
     [SignalHandler("text_changed", nameof(_projectLocation))]
-    void OnProjectLocation_TextChanged(string new_text) {
+    void OnProjectLocation_TextChanged(string new_text)
+    {
         TestPath(new_text);
     }
 
-    private void TestPath(string path) {
-        if (!Directory.Exists(path)) {
+    private void TestPath(string path)
+    {
+        if (!Directory.Exists(path))
+        {
             ShowMessage(Tr("The path specified doesn't exist."), DirError.ERROR);
             return;
         }
-        
-        if (!path.IsDirEmpty()) {
+
+        if (!path.IsDirEmpty())
+        {
             ShowMessage(Tr("Please choose an empty folder."), DirError.ERROR);
-        } else {
-            ShowMessage("",DirError.OK);
+        }
+        else
+        {
+            ShowMessage("", DirError.OK);
         }
     }
 }
