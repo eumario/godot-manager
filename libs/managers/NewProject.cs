@@ -6,16 +6,21 @@ using SFile = System.IO.File;
 using StreamWriter = System.IO.StreamWriter;
 using BinaryWriter = System.IO.BinaryWriter;
 
-public class NewProject : Object {
+public class NewProject : Object
+{
 	public string ProjectName;
 	public string ProjectLocation;
 	public AssetProject Template;
 	public string GodotVersion;
 	public bool Gles3 = true;
 	public bool Godot4 = false;
+	public bool IsCSharp = false;
+	public int GodotMajor = 0;
+	public int GodotMinor = 0;
 	public Array<AssetPlugin> Plugins;
 
-	public bool CreateProject() {
+	public bool CreateProject()
+	{
 		if (Template == null)
 		{
 			// Need to create the Project File ourselves.
@@ -23,7 +28,9 @@ public class NewProject : Object {
 			CreateDefaultEnvironment();
 			CopyIcon();
 			ExtractPlugins();
-		} else {
+		}
+		else
+		{
 			// Project file should be provided in the Template.
 			ExtractTemplate();
 			ProjectConfig pf = new ProjectConfig();
@@ -37,20 +44,25 @@ public class NewProject : Object {
 			pf.Save(ProjectLocation.PlusFile("project.godot"));
 			ExtractPlugins();
 		}
-		
+
 		return true;
 	}
 
 	private void ExtractTemplate()
 	{
-		using (ZipArchive za = ZipFile.OpenRead(ProjectSettings.GlobalizePath(Template.Location))) {
-			foreach(ZipArchiveEntry zae in za.Entries) {
+		using (ZipArchive za = ZipFile.OpenRead(ProjectSettings.GlobalizePath(Template.Location)))
+		{
+			foreach (ZipArchiveEntry zae in za.Entries)
+			{
 				int pp = zae.FullName.Find("/") + 1;
 				string path = zae.FullName.Substr(pp, zae.FullName.Length);
-				if (zae.FullName.EndsWith("/")) {
+				if (zae.FullName.EndsWith("/"))
+				{
 					// Is folder, we need to ensure to make the folder in the Project Location.
 					Directory.CreateDirectory(ProjectLocation.PlusFile(path));
-				} else {
+				}
+				else
+				{
 					zae.ExtractToFile(ProjectLocation.PlusFile(path));
 				}
 			}
@@ -61,8 +73,9 @@ public class NewProject : Object {
 	{
 		if (!Directory.Exists(ProjectLocation.PlusFile("addons").NormalizePath()))
 			Directory.CreateDirectory(ProjectLocation.PlusFile("addons"));
-		
-		foreach(AssetPlugin plgn in Plugins) {
+
+		foreach (AssetPlugin plgn in Plugins)
+		{
 			PluginInstaller installer = new PluginInstaller(plgn);
 			installer.Install(ProjectLocation);
 		}
@@ -76,7 +89,8 @@ public class NewProject : Object {
 
 	private void CreateDefaultEnvironment()
 	{
-		using (StreamWriter writer = new StreamWriter(ProjectLocation.PlusFile("default_env.tres").NormalizePath())) {
+		using (StreamWriter writer = new StreamWriter(ProjectLocation.PlusFile("default_env.tres").NormalizePath()))
+		{
 			writer.WriteLine("[gd_resource type=\"Environment\" load_steps=2 format=2]");
 			writer.WriteLine("");
 			writer.WriteLine("[sub_resource type=\"ProceduralSky\" id=1]");
@@ -95,15 +109,27 @@ public class NewProject : Object {
 		pf.SetValue("application", "config/description", "\"Enter an interesting project description here!\"");
 		pf.SetValue("application", "config/icon", "\"res://icon.png\"");
 
-		if (Godot4) {
+		if (Godot4)
+		{
+			var features = new Array<string>();
+			features.Add($"\"{GodotMajor}.{GodotMinor}\"");
+			if (IsCSharp) features.Add("\"C#\"");
+			var strFeatures = "PackedStringArray(" + string.Join(", ", features) + ")";
 			pf.SetValue("header", "config_version", "5");
-			pf.SetValue("application", "config/features", "PackedStringArray(\"4.0\", \"Vulkan Clustered\")");
-		} else {
-			if (CentralStore.Instance.FindVersion(GodotVersion).IsMono)
+			pf.SetValue("application", "config/features", strFeatures);
+			if (Gles3)
+				pf.SetValue("rendering", "renderer/rendering_method", "forward_plus");
+			else
+				pf.SetValue("rendering", "renderer/rendering_method", "gl_compatability");
+		}
+		else
+		{
+			if (IsCSharp)
 			{
 				pf.SetValue("mono", "debugger_agent/wait_timeout", "7000");
 				pf.SetValue("rendering", "environment/default_environment", "\"res://default_env.tres\"");
 			}
+			pf.SetValue("rendering", "quality/driver/driver_name", Gles3 ? "GLES3" : "GLES2");
 		}
 
 		pf.Save(ProjectLocation.PlusFile("project.godot").NormalizePath());
