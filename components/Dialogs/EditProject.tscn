@@ -97,7 +97,7 @@ WindowMain = NodePath("../../../../../../../..")
 [node name="MCContent" type="MarginContainer" parent="PC/CC/P/VB"]
 margin_top = 30.0
 margin_right = 550.0
-margin_bottom = 380.0
+margin_bottom = 378.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 8
@@ -109,13 +109,15 @@ custom_constants/margin_bottom = 8
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 542.0
-margin_bottom = 342.0
+margin_bottom = 340.0
 
 [node name="General" type="MarginContainer" parent="PC/CC/P/VB/MCContent/TC"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 27.0
+margin_left = 4.0
+margin_top = 35.0
+margin_right = -4.0
+margin_bottom = -4.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_constants/margin_right = 5
@@ -126,12 +128,12 @@ custom_constants/margin_bottom = 5
 [node name="VC" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC/General"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 529.0
-margin_bottom = 302.0
+margin_right = 521.0
+margin_bottom = 288.0
 custom_constants/separation = 7
 
 [node name="HC" type="HBoxContainer" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
-margin_right = 524.0
+margin_right = 516.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 
@@ -145,7 +147,7 @@ stretch_mode = 6
 
 [node name="MC" type="MarginContainer" parent="PC/CC/P/VB/MCContent/TC/General/VC/HC"]
 margin_left = 68.0
-margin_right = 524.0
+margin_right = 516.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -157,49 +159,66 @@ custom_constants/margin_bottom = 5
 [node name="VC" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC/General/VC/HC/MC"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 451.0
+margin_right = 443.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="PC/CC/P/VB/MCContent/TC/General/VC/HC/MC/VC"]
-margin_right = 446.0
+margin_right = 438.0
 margin_bottom = 19.0
 custom_fonts/font = ExtResource( 2 )
 text = "Project Name:"
 
 [node name="ProjectName" type="LineEdit" parent="PC/CC/P/VB/MCContent/TC/General/VC/HC/MC/VC"]
 margin_top = 23.0
-margin_right = 446.0
-margin_bottom = 44.0
+margin_right = 438.0
+margin_bottom = 50.0
+hint_tooltip = "Name of the Project"
 
 [node name="Label2" type="Label" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
 margin_top = 71.0
-margin_right = 524.0
+margin_right = 516.0
 margin_bottom = 90.0
 custom_fonts/font = ExtResource( 2 )
 text = "Godot Version:"
 
 [node name="GodotVersion" type="OptionButton" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
 margin_top = 97.0
-margin_right = 524.0
-margin_bottom = 118.0
+margin_right = 516.0
+margin_bottom = 120.0
+hint_tooltip = "Set the Version of Godot Manager"
+
+[node name="Label4" type="Label" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
+margin_top = 127.0
+margin_right = 516.0
+margin_bottom = 146.0
+custom_fonts/font = ExtResource( 2 )
+text = "Rendering Engine:"
+
+[node name="RenderEngine" type="OptionButton" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
+margin_top = 153.0
+margin_right = 516.0
+margin_bottom = 176.0
+hint_tooltip = "Set the Rendering engine both for the Project, and the Editor"
 
 [node name="Label3" type="Label" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
-margin_top = 125.0
-margin_right = 524.0
-margin_bottom = 144.0
+margin_top = 183.0
+margin_right = 516.0
+margin_bottom = 202.0
 custom_fonts/font = ExtResource( 2 )
 text = "Description:"
 
 [node name="ProjectDescription" type="TextEdit" parent="PC/CC/P/VB/MCContent/TC/General/VC"]
-margin_top = 151.0
-margin_right = 524.0
-margin_bottom = 297.0
+margin_top = 209.0
+margin_right = 516.0
+margin_bottom = 283.0
+hint_tooltip = "Description of the Project"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Addons" type="VBoxContainer" parent="PC/CC/P/VB/MCContent/TC"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 27.0
@@ -235,41 +254,41 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MCButtons" type="MarginContainer" parent="PC/CC/P/VB"]
-margin_top = 384.0
+margin_top = 382.0
 margin_right = 550.0
 margin_bottom = 420.0
 custom_constants/margin_bottom = 15
 
 [node name="HB" type="HBoxContainer" parent="PC/CC/P/VB/MCButtons"]
 margin_right = 550.0
-margin_bottom = 21.0
+margin_bottom = 23.0
 
 [node name="Sep1" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_right = 152.0
-margin_bottom = 21.0
+margin_right = 146.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 
 [node name="SaveBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 156.0
-margin_right = 189.0
-margin_bottom = 21.0
+margin_left = 150.0
+margin_right = 191.0
+margin_bottom = 23.0
 disabled = true
 text = "Save"
 
 [node name="Sep2" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 193.0
-margin_right = 345.0
-margin_bottom = 21.0
+margin_left = 195.0
+margin_right = 342.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 
 [node name="CancelBtn" type="Button" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 349.0
-margin_right = 394.0
-margin_bottom = 21.0
+margin_left = 346.0
+margin_right = 399.0
+margin_bottom = 23.0
 text = "Cancel"
 
 [node name="Sep3" type="Control" parent="PC/CC/P/VB/MCButtons/HB"]
-margin_left = 398.0
+margin_left = 403.0
 margin_right = 550.0
-margin_bottom = 21.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
