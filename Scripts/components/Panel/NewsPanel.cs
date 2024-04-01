@@ -18,7 +18,7 @@ public class NewsPanel : Panel
     private readonly Uri BASE_URI = new Uri("https://godotengine.org");
     private GDCSHTTPClient _client = null;
     private DownloadQueue _queue = null;
-    
+
     public override void _Ready()
     {
         _queue = new DownloadQueue();
@@ -91,14 +91,14 @@ public class NewsPanel : Panel
 
         AppDialogs.BusyDialog.UpdateByline(Tr("Parsing news entries..."));
         var feed = ParseNews(result.Body);
-        foreach (Dictionary<string,string> item in feed)
+        foreach (Dictionary<string, string> item in feed)
         {
             var newsItem = NewsItem.Instance<NewsItem>();
             newsItem.Headline = "    " + item["title"];
             newsItem.Byline = $"    {item["author"]}{item["date"].Replace("&nbsp;", " ")}";
-            newsItem.Url = item["link"];
+            newsItem.Url = new Uri(NEWS_URI, item["link"]).ToString();
             newsItem.Blerb = item["contents"];
-            
+
             //newsItem.Image = item["image"];
             Uri uri = new Uri(item["image"]);
             string imgPath = $"{CentralStore.Settings.CachePath}/images/news/{uri.AbsolutePath.GetFile()}";
@@ -127,7 +127,7 @@ public class NewsPanel : Panel
             {
                 newsItem.Avatar = imgPath.GetOSDir().NormalizePath();
             }
-            
+
             NewsList.AddChild(newsItem);
         }
         _queue.StartDownload();
@@ -199,9 +199,9 @@ public class NewsPanel : Panel
         GD.Print($"Downloaded {size} bytes");
     }
 
-    private Array<Dictionary<string,string>> ParseNews(string buffer)
+    private Array<Dictionary<string, string>> ParseNews(string buffer)
     {
-        var parsed_news = new Array<Dictionary<string,string>>();
+        var parsed_news = new Array<Dictionary<string, string>>();
 
         var xml = new XMLParser();
         var error = xml.OpenBuffer(buffer.ToUTF8());
@@ -257,14 +257,14 @@ public class NewsPanel : Panel
                             var image_style = xml.GetNamedAttributeValueSafe("style");
                             var url_start = image_style.Find("'") + 1;
                             var url_end = image_style.FindLast("'");
-                            var image_url = BASE_URI.AbsoluteUri + image_style.Substr(url_start+1, url_end - url_start - 1);
+                            var image_url = BASE_URI.AbsoluteUri + image_style.Substr(url_start + 1, url_end - url_start - 1);
 
                             parsed_item["image"] = image_url;
                             parsed_item["link"] = xml.GetNamedAttributeValueSafe("href");
                         }
 
                         break;
-                    
+
                     case "h3":
                         // <h3>Article Title</h3>
                         xml.Read();
