@@ -332,7 +332,8 @@ public class GodotPanel : Panel
             CentralStore.Settings.LastUpdateMirrorCheck[site.Id].LastCheck = DateTime.UtcNow;
 
         AppDialogs.BusyDialog.HideDialog();
-        CentralStore.Instance.SaveDatabase();
+        if (!InWizard)
+            CentralStore.Instance.SaveDatabase();
     }
 
     private async Task CheckForMirror()
@@ -404,7 +405,8 @@ public class GodotPanel : Panel
             gle.ToggleDefault(true);
         }
 
-        CentralStore.Instance.SaveDatabase();
+        if (!InWizard)
+            CentralStore.Instance.SaveDatabase();
         gle.Downloaded = true;
         gle.ToggleDownloadProgress(false);
 
@@ -546,7 +548,8 @@ public class GodotPanel : Panel
                 }
             }
 
-            CentralStore.Instance.SaveDatabase();
+            if (!InWizard)
+                CentralStore.Instance.SaveDatabase();
 
             if (gle.GodotVersion.GithubVersion != null || gle.GodotVersion.MirrorVersion != null || gle.GodotVersion.CustomEngine != null)
                 installer.Uninstall();
@@ -569,7 +572,8 @@ public class GodotPanel : Panel
                     igle.ToggleDefault(false);
             }
             CentralStore.Settings.DefaultEngine = gle.GodotVersion.Id;
-            CentralStore.Instance.SaveDatabase();
+            if (!InWizard)
+                CentralStore.Instance.SaveDatabase();
             gle.ToggleDefault(true);
         }
     }
@@ -846,7 +850,8 @@ public class GodotPanel : Panel
             CentralStore.GHVersions.Add(gv);
             await this.IdleFrame();
         }
-        CentralStore.Instance.SaveDatabase();
+        if (!InWizard)
+            CentralStore.Instance.SaveDatabase();
 
         AppDialogs.BusyDialog.HideDialog();
     }
@@ -880,7 +885,8 @@ public class GodotPanel : Panel
             CentralStore.MRVersions[id].Add(version);
             await this.IdleFrame();
         }
-        CentralStore.Instance.SaveDatabase();
+        if (!InWizard)
+            CentralStore.Instance.SaveDatabase();
 
         AppDialogs.BusyDialog.HideDialog();
     }
