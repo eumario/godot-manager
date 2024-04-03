@@ -5,6 +5,7 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using Directory = System.IO.Directory;
 using File = Godot.File;
+using Path = System.IO.Path;
 
 [SuppressMessage("ReSharper", "CheckNamespace")]
 [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -192,7 +193,7 @@ StartupNotify=true
         AppDialogs.BrowseFolderDialog.PopupExclusive = true;
         AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
     }
-    
+
 
     // File Dialog Handlers
     void OnDirSelected_EngineBrowse(string dir)
@@ -225,13 +226,13 @@ StartupNotify=true
         if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_EngineBrowse)))
             AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, nameof(OnDirSelected_EngineBrowse));
     }
-    
+
     void OnPopupHide_CacheBrowse()
     {
         if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_CacheBrowse)))
             AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, nameof(OnDirSelected_CacheBrowse));
     }
-    
+
     void OnPopupHide_ProjectBrowse()
     {
         if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, nameof(OnDirSelected_ProjectBrowse)))
@@ -263,6 +264,20 @@ StartupNotify=true
             Wizard.CurrentTab++;
         if (Wizard.CurrentTab == Wizard.GetTabCount() - 1)
             NextStep.Text = "Finished";
+
+        if (Wizard.GetCurrentTabControl() == Page3 || Wizard.GetCurrentTabControl() == Page4)
+        {
+            var enginePath = EngineLoc.Text.NormalizePath();
+            var cachePath = CacheLoc.Text.NormalizePath();
+            CentralStore.Settings.EnginePath = enginePath;
+            CentralStore.Settings.CachePath = cachePath;
+
+            EnsureDirectoryExists(enginePath);
+            EnsureDirectoryExists(cachePath);
+            EnsureDirectoryExists(Path.Combine(cachePath, "AssetLib").NormalizePath());
+            EnsureDirectoryExists(Path.Combine(cachePath, "Godot").NormalizePath());
+            EnsureDirectoryExists(Path.Combine(cachePath, "images").NormalizePath());
+        }
 
         if (Wizard.GetCurrentTabControl() == Page4)
         {
@@ -380,5 +395,5 @@ StartupNotify=true
         CentralStore.Settings.ShortcutMade = true;
         CentralStore.Settings.ShortcutRoot = needRoot;
     }
-    #endif
+#endif
 }
