@@ -99,9 +99,6 @@ StartupNotify=true
         CacheLoc.Text = CentralStore.Settings.CachePath.GetOSDir().NormalizePath();
         ProjectLoc.Text = CentralStore.Settings.ProjectPath.GetOSDir().NormalizePath();
 
-        EnsureDirectoryExists(CentralStore.Settings.EnginePath.GetOSDir().NormalizePath());
-        EnsureDirectoryExists(CentralStore.Settings.CachePath.GetOSDir().NormalizePath());
-
         Wizard.CurrentTab = 0;
         PrevStep.Disabled = true;
     }
@@ -201,7 +198,6 @@ StartupNotify=true
         OriginalSettings[0] = EngineLoc.Text;
         EngineLoc.Text = dir.GetOSDir().Join("").NormalizePath();
         CentralStore.Settings.EnginePath = EngineLoc.Text;
-        EnsureDirectoryExists(EngineLoc.Text);
     }
 
 
@@ -210,7 +206,6 @@ StartupNotify=true
         OriginalSettings[1] = CacheLoc.Text;
         CacheLoc.Text = dir.GetOSDir().Join("").NormalizePath();
         CentralStore.Settings.CachePath = CacheLoc.Text;
-        EnsureDirectoryExists(EngineLoc.Text);
     }
 
     void OnDirSelected_ProjectBrowse(string dir)
@@ -218,7 +213,6 @@ StartupNotify=true
         OriginalSettings[2] = ProjectLoc.Text;
         ProjectLoc.Text = dir.GetOSDir().Join("").NormalizePath();
         CentralStore.Settings.ProjectPath = ProjectLoc.Text;
-        EnsureDirectoryExists(EngineLoc.Text);
     }
 
     void OnPopupHide_EngineBrowse()
@@ -267,8 +261,10 @@ StartupNotify=true
 
         if (Wizard.GetCurrentTabControl() == Page3 || Wizard.GetCurrentTabControl() == Page4)
         {
+            var projectsPath = ProjectLoc.Text.NormalizePath();
             var enginePath = EngineLoc.Text.NormalizePath();
             var cachePath = CacheLoc.Text.NormalizePath();
+            CentralStore.Settings.ProjectPath = projectsPath;
             CentralStore.Settings.EnginePath = enginePath;
             CentralStore.Settings.CachePath = cachePath;
 
@@ -277,6 +273,7 @@ StartupNotify=true
             EnsureDirectoryExists(Path.Combine(cachePath, "AssetLib").NormalizePath());
             EnsureDirectoryExists(Path.Combine(cachePath, "Godot").NormalizePath());
             EnsureDirectoryExists(Path.Combine(cachePath, "images").NormalizePath());
+            EnsureDirectoryExists(projectsPath);
         }
 
         if (Wizard.GetCurrentTabControl() == Page4)
@@ -286,7 +283,6 @@ StartupNotify=true
                 CentralStore.GHVersions.Clear();
                 foreach (int id in CentralStore.MRVersions.Keys)
                     CentralStore.MRVersions[id].Clear();
-                UpdateSettings();
                 await GodotPanel.GatherReleases();
                 await GodotPanel.PopulateList();
                 loaded_engines = true;
@@ -305,12 +301,14 @@ StartupNotify=true
         if (res)
         {
             // System.IO.Compression.FileSystem
-            CentralStore.Settings.EnginePath = OriginalSettings[0];
-            CentralStore.Settings.CachePath = OriginalSettings[1];
-            CentralStore.Settings.ProjectPath = OriginalSettings[2];
-            CentralStore.Settings.ScanDirs = new Array<string>() { OriginalSettings[2] };
-            CentralStore.Instance.SaveDatabase();
-            HideDialog();
+            if (Wizard.GetCurrentTabControl() == Page3 || Wizard.GetCurrentTabControl() == Page4)
+            {
+                if (Directory.Exists(CentralStore.Settings.EnginePath))
+                    Directory.Delete(CentralStore.Settings.EnginePath, true);
+                if (Directory.Exists(CentralStore.Settings.CachePath))
+                    Directory.Delete(CentralStore.Settings.CachePath, true);
+            }
+            GetTree().Quit();
         }
     }
 
