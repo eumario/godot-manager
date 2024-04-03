@@ -229,10 +229,15 @@ public class ProjectsPanel : Panel
         //_scrollContainer.ScrollVertical += (int)_scrollSpeed;
     }
 
-
     public ProjectLineEntry NewPLE(ProjectFile pf)
     {
         ProjectLineEntry ple = _ProjectLineEntry.Instance<ProjectLineEntry>();
+        UpdatePLE(ple, pf);
+        return ple;
+    }
+
+    private void UpdatePLE(ProjectLineEntry ple, ProjectFile pf)
+    {
         if (_missingProjects.Contains(pf))
             ple.MissingProject = true;
         else if (!ProjectFile.ProjectExists(pf.Location))
@@ -240,13 +245,34 @@ public class ProjectsPanel : Panel
             _missingProjects.Add(pf);
             ple.MissingProject = true;
         }
+        else
+        {
+            ple.MissingProject = false;
+        }
         ple.ProjectFile = pf;
-        return ple;
+    }
+
+    public void UpdatePLE(ProjectFile pf)
+    {
+        if (pleCache.ContainsKey(pf))
+            UpdatePLE(pleCache[pf], pf);
+
+        foreach (var cat in cpleCache.Keys)
+        {
+            if (cpleCache[cat].ContainsKey(pf))
+                UpdatePLE(cpleCache[cat][pf], pf);
+        }
     }
 
     public ProjectIconEntry NewPIE(ProjectFile pf)
     {
         ProjectIconEntry pie = _ProjectIconEntry.Instance<ProjectIconEntry>();
+        UpdatePIE(pie, pf);
+        return pie;
+    }
+
+    private void UpdatePIE(ProjectIconEntry pie, ProjectFile pf)
+    {
         if (_missingProjects.Contains(pf))
             pie.MissingProject = true;
         else if (!ProjectFile.ProjectExists(pf.Location))
@@ -254,8 +280,19 @@ public class ProjectsPanel : Panel
             _missingProjects.Add(pf);
             pie.MissingProject = true;
         }
+        else
+        {
+            pie.MissingProject = false;
+        }
         pie.ProjectFile = pf;
-        return pie;
+    }
+
+    public void UpdatePIE(ProjectFile pf)
+    {
+        if (pieCache.ContainsKey(pf))
+        {
+            UpdatePIE(pieCache[pf], pf);
+        }
     }
 
     public CategoryList NewCL(string name)
@@ -638,9 +675,15 @@ public class ProjectsPanel : Panel
         PopulateSort();
 
         if (_missingProjects.Count == 0)
+        {
             _actionButtons.SetHidden(6);
+            _actionButtons.SetHidden(7);
+        }
         else
+        {
             _actionButtons.SetVisible(6);
+            _actionButtons.SetVisible(7);
+        }
     }
 
     public async void OnDragDropCompleted(CategoryList source, CategoryList destination, ProjectLineEntry ple)
@@ -1107,6 +1150,15 @@ public class ProjectsPanel : Panel
                 await RemoveProject(pf);
                 break;
             case 6:
+                AppDialogs.BrowseFolderDialog.CurrentFile = "";
+                AppDialogs.BrowseFolderDialog.CurrentDir = CentralStore.Settings.ProjectPath;
+                AppDialogs.BrowseFolderDialog.CurrentPath = CentralStore.Settings.ProjectPath;
+                AppDialogs.BrowseFolderDialog.Connect("dir_selected", this, "OnSearchProjects_DirSelected", null, (int)ConnectFlags.Oneshot);
+                AppDialogs.BrowseFolderDialog.Connect("popup_hide", this, "OnSearchProjects_PopupHide", null, (int)ConnectFlags.Oneshot);
+                AppDialogs.BrowseFolderDialog.PopupCentered(new Vector2(510, 390));
+                // TODO: Implement Browse Folder to match missing projects.
+                break;
+            case 7:
                 var res = AppDialogs.YesNoDialog.ShowDialog(Tr("Remove Missing Projects..."),
                     Tr("Are you sure you want to remove any missing projects?"));
                 await res;
@@ -1114,6 +1166,66 @@ public class ProjectsPanel : Panel
                     RemoveMissingProjects();
                 break;
         }
+    }
+
+    private async void OnSearchProjects_DirSelected(string path)
+    {
+        _missingProjects.Clear();
+        foreach (var project in CentralStore.Projects)
+        {
+            if (!ProjectFile.ProjectExists(project.Location))
+                _missingProjects.Add(project);
+        }
+
+        if (_missingProjects.Count == 0) return;
+        var foundMissing = 0;
+        var foundProjects = new Array<ProjectFile>();
+        path = path.NormalizePath();
+
+        foreach (var project in _missingProjects)
+        {
+            var location = project.Location;
+            var found = false;
+            var parts = location.Split(System.IO.Path.DirectorySeparatorChar).Reverse().ToList();
+            var pathPart = "";
+            foreach (var part in parts)
+            {
+                pathPart = System.IO.Path.Combine(part, pathPart);
+                var testPath = System.IO.Path.Combine(path, pathPart).NormalizePath();
+                if (ProjectFile.ProjectExists(testPath))
+                {
+                    found = true;
+                    location = System.IO.Path.Combine(path, pathPart).NormalizePath();
+                    break;
+                }
+            }
+            if (found)
+            {
+                project.Location = location.NormalizePath();
+                foundProjects.Add(project);
+                foundMissing++;
+            }
+        }
+
+        foreach (var project in foundProjects)
+        {
+            _missingProjects.Remove(project);
+            UpdatePIE(project);
+            UpdatePLE(project);
+        }
+
+        if (foundMissing > 0)
+        {
+            CentralStore.Instance.SaveDatabase();
+            AppDialogs.MessageDialog.ShowMessage("Found Updated Location", $"Found {foundMissing} projects in {path}.");
+            PopulateListing();
+        }
+    }
+
+    private async void OnSearchProjects_PopupHide()
+    {
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, "OnSearchProjects_DirSelected"))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnSearchProjects_DirSelected");
     }
 
     private async Task RemoveProject(ProjectFile pf)
