@@ -388,7 +388,7 @@ public class EditProject : ReferenceRect
     }
 
     [SignalHandler("text_changed", nameof(_ProjectDescription))]
-    void OnProjectDescriptionTextChanged()
+    void OnProjectDescriptionTextChanged(string text)
     {
         Description = _ProjectDescription.Text;
         _isDirty = true;
