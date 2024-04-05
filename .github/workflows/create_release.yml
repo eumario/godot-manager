@@ -28,5 +28,5 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.version }}
           release_name: Release ${{ steps.get_version.outputs.version-without-v }}
           body: ""
-          draft: false
+          draft: true
           prerelease: false
