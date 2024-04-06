@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Version 0.2.4
+ - Updated First Run Wizard:
+    - Added Hook for first run wizard being completed.  Ensures that the directory structure is fully made once we have successfully completed the first run wizard.
+    - Updated Godot Panel reuse to ensure that if we are in First Run Wizard mode, that we aren't saving settings till we have finished the wizard.
+    - Ensure that all Paths are properly setup for Projects, Cache and Godot Versions when we transition from Page 2, to Page 3 or 4.
+    - Ensure that folders for Godot Versions and Cache Folder is at least setup by the time we go to download a Version of the Engine, so that they are properly existing to receive files.
+ - Fixed Text Changed Signal Event handler was not proper signature, so never properly connected the method to the signal handler.
+ - New Feature: Added ability to Scan for missing projects, where a user can select a folder, and it will scan for all missing projects, if found, will update the project with the new path, otherwise the project will remain in a Missing Project Status.
+ - Fixed bug on Mac OS, where moving the Godot Window, without Native Titlebars, cause Godot Manager to crash.  (Thanks to [@shiena](https://github.com/shiena))
+ - Added Version sorting to properly line up with Major, Minor and Patch level.  (Thanks to [@Cammymoop](https://github.com/Cammymoop))
+ - Fixed tooltip on News Page, to actually show News, instead of Godot Engines.  (Thanks to [@DarkDemiurg](https://github.com/DarkDemiurg))
+
+## Version 0.2.3
+ - Fixed naming convention on Github, when downloading Godot 4 from Github.
+ - Fixed bug that after First Run setup, no Godot Engine is set as default, added safety checks to ensure that we don't attmept to find a default engine, when none is selected.
+ - Added wait for Ready function to allow idle frames to complete, allowing all UI controls to be created, including Dialogs that were not created by the time we were trying to show them.
+ - Rewrote RecursiveScan to take into account running into an Exception when the user attempts to read from a folder they do not have permission to access.  Handle it through Godot's own Directory functionality, as it has a cleaner error reporting for when we are trying to scan through things.
+ - Added check to ensure validity of custom version information, before attempting to fetch any items.
+ - Checks to see if the ~ is being used in the path (Which can be done by manually entering the path), if so, expand ~ into the HOME folder. through fetching Environment Variable, or using OS.SystemDir.Documents.
+ - Added check to ensure that the path ends with project.godot in Import Dialog, and if not found, warns the user, and aborts adding it.
+ - Fixed BusyDialog to actually hide, when a connection failure occurs.
+ - Updated to 2.1.6 of ImageSharp, as it's the last supported version for .NET 4.7.2
+ - Updated News Panel to include Base URL, since HTML now only provides root path for links, instead of full url.
+ - Fix crash when project is missing a name for the Project. (Thanks to [@NathanWarden](https://github.com/NathanWarden))
+ - Added ability to accept Files that are dragged and dropped onto Godot Manager, to add them to the Project List. (Thanks to [@NathanWarden](https://github.com/NathanWarden))
+ - Corrected Typo in Use Default.  (Thanks to [@jnetti](https://github.com/jnetti))
+
+## Version 0.2.2
+ - Fixed crash on Windows 11 with GodotInstaller. Globalize Installation path in GodotInstaller. (Thanks to [@dogboydog](https://github.com/dogboydog))
+ - Added Instructions on how to install on Windows through Scoop. (Thanks to [@sitiom](https://github.com/sitiom))
+
 ## Version 0.2.1
  - Fixed bug with Case-Sensitive Directories on certain OSes, that could cause issues.  Windows is Case Insensitive, where as Linux is Case Sensitive, and Mac OS can be either or.  This fixes a bug that prevented a Project Data folder from being displayed. (#39)
  - Cleaned up Signal Handling for specific events that were not properly being dis-connected when finished with a Dialog.  Clears any errors that may occur.
