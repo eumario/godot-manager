@@ -27,6 +27,6 @@ jobs:
           generateReleaseNotes: false
           tag: ${{ steps.get_version.outputs.version }}
           allowUpdates: true
-          draft: true
+          draft: false
           name: Release ${{ steps.get_version.outputs.version-without-v }}
           omitBody: true
