@@ -36,11 +36,11 @@ public class ProjectFile : Godot.Object
 				projectFile.Location = filePath.NormalizePath();
 				projectFile.Icon = project.GetValue("application", "config/icon", "res://icon.png");
 				if (project.GetValue("header", "config_version") == "4")
-					projectFile.RenderingEngine = project.GetValue("rendering", "quality/driver/driver_name", "GLES3");
+					projectFile.RenderingEngine = project.GetValue("rendering", "quality/driver/driver_name", "\"GLES3\"");
 				else if (project.GetValue("header", "config_version") == "5")
-					projectFile.RenderingEngine = project.GetValue("rendering", "renderer/rendering_method", "forward_plus");
+					projectFile.RenderingEngine = project.GetValue("rendering", "renderer/rendering_method", "\"forward_plus\"");
 				else
-					projectFile.RenderingEngine = project.GetValue("rendering", "quality/driver/driver_name", "GLES3");
+					projectFile.RenderingEngine = project.GetValue("rendering", "quality/driver/driver_name", "\"GLES3\"");
 			}
 			else
 			{
@@ -98,11 +98,11 @@ public class ProjectFile : Godot.Object
 				Description = pf.GetValue("application", "config/description", Tr("No Description"));
 				Icon = pf.GetValue("application", "config/icon", "res://icon.png");
 				if (pf.GetValue("header", "config_version") == "4")
-					RenderingEngine = pf.GetValue("rendering", "quality/driver/driver_name", "GLES3");
+					RenderingEngine = pf.GetValue("rendering", "quality/driver/driver_name", "\"GLES3\"");
 				else if (pf.GetValue("header", "config_version") == "5")
-					RenderingEngine = pf.GetValue("rendering", "renderer/rendering_method", "forward_plus");
+					RenderingEngine = pf.GetValue("rendering", "renderer/rendering_method", "\"forward_plus\"");
 				else
-					RenderingEngine = pf.GetValue("rendering", "quality/driver/driver_name", "GLES3");
+					RenderingEngine = pf.GetValue("rendering", "quality/driver/driver_name", "\"GLES3\"");
 			}
 		}
 	}
@@ -117,11 +117,11 @@ public class ProjectFile : Godot.Object
 			pf.SetValue("application", "config/description", $"\"{Description}\"");
 			pf.SetValue("application", "config/icon", $"\"{Icon}\"");
 			if (pf.GetValue("header", "config_version") == "4")
-				pf.SetValue("rendering", "quality/driver/driver_name", RenderingEngine);
+				pf.SetValue("rendering", "quality/driver/driver_name", $"\"{RenderingEngine}\"");
 			else if (pf.GetValue("header", "config_version") == "5")
-				pf.SetValue("rendering", "renderer/rendering_method", RenderingEngine);
+				pf.SetValue("rendering", "renderer/rendering_method", $"\"{RenderingEngine}\"");
 			else
-				pf.GetValue("rendering", "quality/driver/driver_name", RenderingEngine);
+				pf.GetValue("rendering", "quality/driver/driver_name", $"\"{RenderingEngine}\"");
 			pf.Save(Location);
 		}
 	}
