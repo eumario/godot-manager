@@ -13,7 +13,7 @@ jobs:
       version: ${{ steps.get_version.outputs.version-without-v }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v4
         with:
           lfs: true
       - name: Get version name
@@ -21,12 +21,12 @@ jobs:
         uses: battila7/get-version-action@v2
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1.14.0
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: Release ${{ steps.get_version.outputs.version-without-v }}
-          body: ""
-          draft: true
-          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: false
+          tag: ${{ steps.get_version.outputs.version }}
+          allowUpdates: true
+          draft: false
+          name: Release ${{ steps.get_version.outputs.version-without-v }}
+          omitBody: true

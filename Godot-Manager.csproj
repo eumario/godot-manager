@@ -7,7 +7,7 @@
     <PackageReference Include="Godot.NET.Sdk" Version="3.3.0" />
     <PackageReference Include="GodotSharpExtras" Version="0.3.4" />
     <PackageReference Include="Newtonsoft.JSON" Version="13.0.1" />
-    <PackageReference Include="Sixlabors.ImageSharp" Version="2.1.6" />
+    <PackageReference Include="Sixlabors.ImageSharp" Version="2.1.7" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
   <PropertyGroup Condition="true">

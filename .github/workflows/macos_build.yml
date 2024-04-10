@@ -6,7 +6,7 @@ on:
 
 env:
   GAME_SUBDIRECTORY: "godot-manager"
-  GODOT_VERSION: "3.5.1"
+  GODOT_VERSION: "3.5.3"
   GODOT_VERSION_MODIFIER: "stable.mono"
   EXPORT_NAME: "GodotManager"
   CUSTOM_ICON: "true"
@@ -18,7 +18,7 @@ jobs:
     name: Create Build
     runs-on: ubuntu-latest
     container:
-      image: eumario/godot-mono-github-actions-ci:0.2.0
+      image: eumario/godot-mono-github-actions-ci:0.3.0
     steps:
       - name: 🔍 Get Release
         id: get_release

@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
  - Fixed bug on Mac OS, where moving the Godot Window, without Native Titlebars, cause Godot Manager to crash.  (Thanks to [@shiena](https://github.com/shiena))
  - Added Version sorting to properly line up with Major, Minor and Patch level.  (Thanks to [@Cammymoop](https://github.com/Cammymoop))
  - Fixed tooltip on News Page, to actually show News, instead of Godot Engines.  (Thanks to [@DarkDemiurg](https://github.com/DarkDemiurg))
+ - Updated SixLabors.ImageSharp to v2.1.7, as CVE-2024-27929 reported issue affected 2.1.6, which allowed for a specific PNG image would expose a security hole, that could leak personal information.
 
 ## Version 0.2.3
  - Fixed naming convention on Github, when downloading Godot 4 from Github.
