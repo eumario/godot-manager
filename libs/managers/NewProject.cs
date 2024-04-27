@@ -117,19 +117,19 @@ public class NewProject : Object
 			var strFeatures = "PackedStringArray(" + string.Join(", ", features) + ")";
 			pf.SetValue("header", "config_version", "5");
 			pf.SetValue("application", "config/features", strFeatures);
-			if (Gles3)
-				pf.SetValue("rendering", "renderer/rendering_method", "\"forward_plus\"");
-			else
-				pf.SetValue("rendering", "renderer/rendering_method", "\"gl_compatability\"");
+			pf.SetValue("rendering", "renderer/rendering_method", Gles3 ? "\"forward_plus\"" : "\"gl_compatability\"");
 		}
 		else
 		{
+			if (GodotMajor == 3 && GodotMinor == 0)
+				pf.SetValue("header", "config_version", "3");
+			
 			if (IsCSharp)
 			{
 				pf.SetValue("mono", "debugger_agent/wait_timeout", "7000");
 				pf.SetValue("rendering", "environment/default_environment", "\"res://default_env.tres\"");
 			}
-			pf.SetValue("rendering", "quality/driver/driver_name", "\"" + (Gles3 ? "GLES3" : "GLES2") + "\"");
+			pf.SetValue("rendering", "quality/driver/driver_name", Gles3 ? "\"GLES3\"" : "\"GLES2\"");
 		}
 
 		pf.Save(ProjectLocation.PlusFile("project.godot").NormalizePath());
