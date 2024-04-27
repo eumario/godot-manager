@@ -28,14 +28,14 @@ public class ProjectFile : Godot.Object
 				return projectFile;
 			if (!project.HasSection("application"))
 				return projectFile;
-			if (project.GetValue("header", "config_version") == "4" || project.GetValue("header", "config_version") == "5")
+			if (project.GetValue("header", "config_version") == "3" || project.GetValue("header", "config_version") == "4" || project.GetValue("header", "config_version") == "5")
 			{
 				projectFile = new ProjectFile();
 				projectFile.Name = project.GetValue("application", "config/name", "Unnamed");
 				projectFile.Description = project.GetValue("application", "config/description", projectFile.Tr("No Description"));
 				projectFile.Location = filePath.NormalizePath();
 				projectFile.Icon = project.GetValue("application", "config/icon", "res://icon.png");
-				if (project.GetValue("header", "config_version") == "4")
+				if (project.GetValue("header","config_version") == "3" || project.GetValue("header", "config_version") == "4")
 					projectFile.RenderingEngine = project.GetValue("rendering", "quality/driver/driver_name", "\"GLES3\"");
 				else if (project.GetValue("header", "config_version") == "5")
 					projectFile.RenderingEngine = project.GetValue("rendering", "renderer/rendering_method", "\"forward_plus\"");
@@ -44,7 +44,7 @@ public class ProjectFile : Godot.Object
 			}
 			else
 			{
-				GD.PrintErr($"{filePath}: Project Version does not match version 4 or 5.");
+				GD.PrintErr($"{filePath}: Project Version does not match version 3, 4 or 5.");
 			}
 		}
 		else
@@ -92,12 +92,12 @@ public class ProjectFile : Godot.Object
 		var ret = pf.Load(Location);
 		if (ret == Error.Ok)
 		{
-			if (pf.GetValue("header", "config_version") == "4" || pf.GetValue("header", "config_version") == "5")
+			if (pf.GetValue("header", "config_version") == "3" || pf.GetValue("header", "config_version") == "4" || pf.GetValue("header", "config_version") == "5")
 			{
 				Name = pf.GetValue("application", "config/name");
 				Description = pf.GetValue("application", "config/description", Tr("No Description"));
 				Icon = pf.GetValue("application", "config/icon", "res://icon.png");
-				if (pf.GetValue("header", "config_version") == "4")
+				if (pf.GetValue("header", "config_version") == "3" || pf.GetValue("header", "config_version") == "4")
 					RenderingEngine = pf.GetValue("rendering", "quality/driver/driver_name", "\"GLES3\"");
 				else if (pf.GetValue("header", "config_version") == "5")
 					RenderingEngine = pf.GetValue("rendering", "renderer/rendering_method", "\"forward_plus\"");
@@ -116,7 +116,7 @@ public class ProjectFile : Godot.Object
 			pf.SetValue("application", "config/name", $"\"{Name}\"");
 			pf.SetValue("application", "config/description", $"\"{Description}\"");
 			pf.SetValue("application", "config/icon", $"\"{Icon}\"");
-			if (pf.GetValue("header", "config_version") == "4")
+			if (pf.GetValue("header", "config_version") == "3" || pf.GetValue("header", "config_version") == "4")
 				pf.SetValue("rendering", "quality/driver/driver_name", $"\"{RenderingEngine}\"");
 			else if (pf.GetValue("header", "config_version") == "5")
 				pf.SetValue("rendering", "renderer/rendering_method", $"\"{RenderingEngine}\"");
