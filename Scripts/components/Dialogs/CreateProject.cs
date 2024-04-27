@@ -135,7 +135,7 @@ public class CreateProject : ReferenceRect
             Godot4 = _useGodot4.Pressed,
             IsCSharp = vers.IsMono,
             GodotMajor = vers.Tag.Split(".")[0].ToInt(),
-            GodotMinor = vers.Tag.Split(".")[1].ToInt(),
+            GodotMinor = vers.Tag.Split(".")[1].Split("-")[0].ToInt(),
             Plugins = new Array<AssetPlugin>()
         };
         if (_projectTemplates.Selected > 0)
@@ -188,7 +188,8 @@ public class CreateProject : ReferenceRect
         bfdir = bfdir.NormalizePath();
         _projectLocation.Text = bfdir;
         AppDialogs.BrowseFolderDialog.Visible = false;
-        AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnDirSelected");
+        if (AppDialogs.BrowseFolderDialog.IsConnected("dir_selected", this, "OnDirSelected"))
+            AppDialogs.BrowseFolderDialog.Disconnect("dir_selected", this, "OnDirSelected");
         TestPath(bfdir);
         if (bfdir.IsDirEmpty() && _projectName.Text == "Untitled Project")
             _projectName.Text = bfdir.GetFile().Capitalize();
