@@ -8,6 +8,8 @@ using FPath = System.IO.Path;
 using Dir = System.IO.Directory;
 using SFile = System.IO.File;
 using DateTime = System.DateTime;
+using Array = Godot.Collections.Array;
+using System;
 
 public class ProjectsPanel : Panel
 {
@@ -541,28 +543,9 @@ public class ProjectsPanel : Panel
             cpleCache[clUncategorized] = new Dictionary<ProjectFile, ProjectLineEntry>();
         }
 
-        var updatedNullVersions = false;
-
         // Create our Project Entries
         foreach (ProjectFile pf in CentralStore.Projects)
         {
-            if (string.IsNullOrEmpty(pf.GodotVersion))
-            {
-                if (string.IsNullOrEmpty(CentralStore.Settings.DefaultEngine))
-                {
-                    if (CentralStore.Versions.Count > 0)
-                    {
-                        var vers = CentralStore.Versions[0];
-                        pf.GodotVersion = vers.Id;
-                        updatedNullVersions = true;
-                    }
-                }
-                else
-                {
-                    pf.GodotVersion = CentralStore.Settings.DefaultEngine;
-                    updatedNullVersions = true;
-                }
-            }
             clt = null;
             if (!pleCache.ContainsKey(pf))
             {
@@ -596,9 +579,6 @@ public class ProjectsPanel : Panel
                 ConnectHandlers(ple, true);
             }
         }
-
-        if (updatedNullVersions)
-            CentralStore.Instance.SaveDatabase();
 
         // Clean up of Project Entries
         foreach (ProjectFile pf in pleCache.Keys)
@@ -1009,18 +989,32 @@ public class ProjectsPanel : Panel
         GodotVersion gv = CentralStore.Instance.FindVersion(pf.GodotVersion);
         if (gv == null)
         {
+            var nextEngine = CentralStore.Instance.FindVersion(CentralStore.Settings.DefaultEngine) ?? (CentralStore.Versions.Count > 0 ? CentralStore.Versions[0] : null);
+
+            if (nextEngine == null)
+            {
+                var mb = AppDialogs.MessageDialog;
+                mb.ShowMessage("Missing Godot Version",
+                    string.Format(
+                        Tr("Godot Version was not found for project {0}, and no other engine was found.  Please install an engine before continuing"),
+                        pf.Name
+                        )
+                );
+                return;
+            }
+
             var ynd = AppDialogs.YesNoDialog;
             var res = await ynd.ShowDialog("Missing Godot Version",
                 string.Format(
                     Tr("Godot Version was not found for project {0}, do you wish to use the default engine {1}?"),
                     pf.Name,
-                    CentralStore.Instance.FindVersion(CentralStore.Settings.DefaultEngine).Tag
+                    nextEngine.Tag
                     )
             );
             if (res)
             {
-                pf.GodotVersion = CentralStore.Settings.DefaultEngine;
-                gv = CentralStore.Instance.FindVersion(CentralStore.Settings.DefaultEngine);
+                pf.GodotVersion = nextEngine.Id;
+                gv = nextEngine;
                 CentralStore.Instance.SaveDatabase();
                 if (gv == null)
                 {

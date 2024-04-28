@@ -2,10 +2,10 @@ using Godot;
 using Godot.Sharp.Extras;
 using Godot.Collections;
 using System.Linq;
-using Directory = System.IO.Directory;
 using SFile = System.IO.File;
-using System.IO.Compression;
 using System.Text.RegularExpressions;
+using System;
+
 
 public class EditProject : ReferenceRect
 {
@@ -156,6 +156,14 @@ public class EditProject : ReferenceRect
     #region Private Functions
     void PopulateData()
     {
+        if (CentralStore.Instance.FindVersion(ProjectFile.GodotVersion) == null && CentralStore.Versions.Count == 0)
+        {
+            CallDeferred("set_visible", false);
+            AppDialogs.MessageDialog.ShowMessage("Godot Version Not Found",
+            "The version associated with this project, is no longer installed," +
+            " and there are no other versions found.  Please install a new version of Godot Engine.");
+            return;
+        }
         _Icon.Texture = Util.LoadImage(ProjectFile.Location.GetResourceBase(IconPath));
         _ProjectName.Text = ProjectName;
         _ProjectDescription.Text = Description;
@@ -174,13 +182,30 @@ public class EditProject : ReferenceRect
             }
         }
 
-        if (_gdVersion.IsGodot4())
+        if (_gdVersion != null) {
+            if (_gdVersion.IsGodot4())
+            {
+                _RenderEngine.Clear();
+                _RenderEngine.AddItem("Forward+");
+                _RenderEngine.AddItem("GL Compatibility");
+                if (ProjectFile.RenderingEngine == "forward_plus") _RenderEngine.Select(0);
+                else _RenderEngine.Select(1);
+            }
+            else
+            {
+                _RenderEngine.Clear();
+                _RenderEngine.AddItem("GLES3");
+                _RenderEngine.AddItem("GLES2");
+                if (ProjectFile.RenderingEngine == "GLES3") _RenderEngine.Select(0);
+                else _RenderEngine.Select(1);
+            }
+        } else if (CentralStore.Versions.Count == 0)
         {
-            _RenderEngine.Clear();
-            _RenderEngine.AddItem("Forward+");
-            _RenderEngine.AddItem("GL Compatibility");
-            if (ProjectFile.RenderingEngine == "forward_plus") _RenderEngine.Select(0);
-            else _RenderEngine.Select(1);
+            CallDeferred("set_visible", false);
+            AppDialogs.MessageDialog.ShowMessage("Godot Version Not Found",
+            "The version associated with this project, is no longer installed," +
+            " and there are no other versions found.  Please install a new version of Godot Engine.");
+            return;
         }
         else
         {
@@ -211,8 +236,14 @@ public class EditProject : ReferenceRect
             }
         }
 
-        _isDirty = false;
-        _SaveBtn.Disabled = true;
+        if (CentralStore.Versions.Count > 0 && ProjectFile.GodotVersion == Guid.Empty.ToString())
+        {
+            _isDirty = true;
+            _SaveBtn.Disabled = false;
+        } else {
+            _isDirty = false;
+            _SaveBtn.Disabled = true;
+        }
     }
 
     void UpdatePlugins()
