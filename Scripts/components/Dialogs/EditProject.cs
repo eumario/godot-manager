@@ -122,6 +122,7 @@ public class EditProject : ReferenceRect
     #region Public Functions
     public void ShowDialog(ProjectFile pf)
     {
+        _gdVersion = null;
         pf.UpdateData();
         foreach (AddonLineEntry node in _PluginList.GetChildren())
         {
@@ -156,6 +157,7 @@ public class EditProject : ReferenceRect
     #region Private Functions
     void PopulateData()
     {
+        var wasEmpty = false;
         if (CentralStore.Instance.FindVersion(ProjectFile.GodotVersion) == null && CentralStore.Versions.Count == 0)
         {
             CallDeferred("set_visible", false);
@@ -209,6 +211,13 @@ public class EditProject : ReferenceRect
         }
         else
         {
+            wasEmpty = true;
+            if (string.IsNullOrEmpty(CentralStore.Settings.DefaultEngine) || CentralStore.Settings.DefaultEngine == Guid.Empty.ToString())
+            {
+                _gdVersion = CentralStore.Versions[0];
+            } else {
+                _gdVersion = CentralStore.Instance.FindVersion(CentralStore.Settings.DefaultEngine);
+            }
             _RenderEngine.Clear();
             _RenderEngine.AddItem("GLES3");
             _RenderEngine.AddItem("GLES2");
@@ -236,8 +245,9 @@ public class EditProject : ReferenceRect
             }
         }
 
-        if (CentralStore.Versions.Count > 0 && ProjectFile.GodotVersion == Guid.Empty.ToString())
+        if (wasEmpty)
         {
+            GodotVersion = _gdVersion.Id;
             _isDirty = true;
             _SaveBtn.Disabled = false;
         } else {
