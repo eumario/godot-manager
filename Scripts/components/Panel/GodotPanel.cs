@@ -413,9 +413,9 @@ public class GodotPanel : Panel
         await PopulateList();
     }
 
-    void OnUpdateList()
+    async void OnUpdateList()
     {
-        PopulateList();
+        await PopulateList();
     }
 
     async void OnDownloadFailed(GodotInstaller installer, HTTPClient.Status status, GodotLineEntry gle)
@@ -555,6 +555,7 @@ public class GodotPanel : Panel
                 installer.Uninstall();
 
             await PopulateList();
+            GetTree().Root.GetNode("SignalBus").EmitSignal("update_projects");
         }
         else
             gle.ToggleDownloadUninstall(true);
