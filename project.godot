@@ -24,6 +24,10 @@ boot_splash/show_image=false
 boot_splash/fullsize=false
 config/icon="res://godot-manager.png"
 
+[autoload]
+
+SignalBus="*res://libs/managers/SignalBus.cs"
+
 [display]
 
 window/size/height=700
