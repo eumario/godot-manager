@@ -112,6 +112,8 @@ public class ProjectsPanel : Panel
         AppDialogs.EditProject.Connect("project_updated", this, "PopulateListing");
         AppDialogs.CreateProject.Connect("project_created", this, "OnProjectCreated");
 
+        GetTree().Root.GetNode("SignalBus").Connect("update_projects", this, "PopulateListing");
+
         GetTree().Connect("files_dropped", this, "OnFilesDropped");
 
         _actionButtons.SetHidden(3);
@@ -650,6 +652,20 @@ public class ProjectsPanel : Panel
             }
 
             cclt.SortListing();
+        }
+
+        foreach(var cple in pleCache) {
+            cple.Value.ProjectFile = cple.Key;
+        }
+        foreach(var cpie in pieCache) {
+            cpie.Value.ProjectFile = cpie.Key;
+        }
+        foreach(var cat in cpleCache.Keys)
+        {
+            foreach(var cple in cpleCache[cat])
+            {
+                cple.Value.ProjectFile = cple.Key;
+            }
         }
 
         PopulateSort();
