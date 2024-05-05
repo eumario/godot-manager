@@ -39,7 +39,7 @@ public class ImageDownloader : Object {
 		while (!cres.IsCompleted)
 			await this.IdleFrame();
 		
-		if (!client.SuccessConnect(cres.Result, false))
+		if (!client.SuccessConnect(cres.Result))
 			return false;
 		
 		var tresult = client.MakeRequest(uri.PathAndQuery);

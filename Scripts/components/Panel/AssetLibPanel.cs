@@ -544,6 +544,13 @@ public class AssetLibPanel : Panel
 
 		AssetLib.AssetLib.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
 
+        if (task.Result == null)
+        {
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to gather AssetLib Information.  Connection refused, or no results provided.");
+            return;
+        }
+
 		AppDialogs.BusyDialog.UpdateHeader(Tr("Processing Data from GodotEngine Assetlib..."));
 		AppDialogs.BusyDialog.UpdateByline(Tr("Processing..."));
 

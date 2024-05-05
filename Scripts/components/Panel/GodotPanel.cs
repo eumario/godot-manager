@@ -4,11 +4,7 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using System.Linq;
 using System.Threading.Tasks;
-using System.IO.Compression;
-using System.Runtime.CompilerServices;
 using Uri = System.Uri;
-using Directory = System.IO.Directory;
-using Path = System.IO.Path;
 using Guid = System.Guid;
 using DateTime = System.DateTime;
 using TimeSpan = System.TimeSpan;
@@ -92,6 +88,11 @@ public class GodotPanel : Panel
             var res = MirrorManager.Instance.GetMirrors();
             while (!res.IsCompleted)
                 await this.IdleFrame();
+            
+            if (res.Result.Count == 0)
+            {
+                return;
+            }
 
             foreach (MirrorSite site in res.Result)
             {
@@ -353,6 +354,13 @@ public class GodotPanel : Panel
         {
             await this.IdleFrame();
         }
+
+        if (tres.Result == null)
+        {
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to gather Godot Engine information.  Connection refused, or no results provided.");
+            return;
+        }
+        
         var gv = GithubVersion.FromAPI(tres.Result);
         var l = from version in CentralStore.GHVersions
                 where version.Name == gv.Name
@@ -742,7 +750,7 @@ public class GodotPanel : Panel
         _enginePopup.Popup_(new Rect2(GetGlobalMousePosition(), _enginePopup.RectSize));
     }
 
-    public void _IdPressed(int id)
+    public async void _IdPressed(int id)
     {
         switch (id)
         {
@@ -755,7 +763,7 @@ public class GodotPanel : Panel
                 else
                 {
                     // Install
-                    OnInstallClicked(_enginePopup.GodotLineEntry);
+                    await OnInstallClicked(_enginePopup.GodotLineEntry);
                 }
 
                 break;
@@ -840,6 +848,13 @@ public class GodotPanel : Panel
 
         Github.Github.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
 
+        if (task.Result.Count == 0)
+        {
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to gather Github Information.  Connection refused, or no results provided.");
+            return;
+        }
+
         AppDialogs.BusyDialog.UpdateHeader(Tr("Processing Release Information from Github..."));
         AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing {0}/{1}"), 0, task.Result.Count));
         int i = 0;
@@ -875,6 +890,13 @@ public class GodotPanel : Panel
             await this.IdleFrame();
 
         Mirrors.MirrorManager.Instance.Disconnect("chunk_received", this, "OnChunkReceived");
+
+        if (task.Result.Count == 0)
+        {
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to gather Mirror Information.  Connection refused, or no results provided.");
+            return;
+        }
 
         AppDialogs.BusyDialog.UpdateHeader(string.Format(Tr("Processing Release Information from {0}..."), mirror.Name));
         AppDialogs.BusyDialog.UpdateByline(string.Format(Tr("Processing {0}/{1}"), 0, task.Result.Count));

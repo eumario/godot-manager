@@ -71,6 +71,8 @@ public class NewsPanel : Panel
 
         if (!_client.SuccessConnect(cres.Result))
         {
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to fetch news entries from website.  Connection refused, or no results provided.");
             return;
         }
 

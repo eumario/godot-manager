@@ -127,7 +127,7 @@ public class DownloadGodotManager : ReferenceRect
 		while (!cres.IsCompleted)
 			await this.IdleFrame();
 		
-		if (!client.SuccessConnect(cres.Result))
+		if (!client.SuccessConnect(cres.Result, true))
 		{
 			Visible = false;
 			return false;
