@@ -749,7 +749,8 @@ public class SettingsPanel : Panel
 	[SignalHandler("pressed", nameof(_createDesktopEntry))]
 	async void OnPressed_CreateDesktopEntry()
 	{
-		string iconPath = OS.GetExecutablePath().GetBaseDir().Join("godot-manager.svg");
+		//string iconPath = OS.GetExecutablePath().GetBaseDir().Join("godot-manager.svg");
+		string iconPath = OS.GetUserDataDir().GetOSDir().Join("godot-manager.svg");
 		string executablePath = OS.GetExecutablePath();
 
 		var allUsers = await AppDialogs.YesNoCancelDialog.ShowDialog(Tr("Create Desktop Entry"),
@@ -761,7 +762,6 @@ public class SettingsPanel : Panel
 		else if (allUsers == YesNoCancelDialog.ActionResult.CancelAction)
 			return;
 
-		
 		using (var fh = new File())
 		{
 			var err = fh.Open("res://godot-manager.dat", File.ModeFlags.Read);
@@ -769,11 +769,6 @@ public class SettingsPanel : Panel
 			var svg = fh.GetBuffer((long)size);
 			fh.Close();
 			System.IO.File.WriteAllBytes(iconPath,svg);
-		}
-		
-		if (needRoot)
-		{
-			iconPath = "/opt/GodotManager/godot-manager.svg";
 		}
 		
 		System.IO.File.WriteAllText("/tmp/godot-manager.desktop", 
