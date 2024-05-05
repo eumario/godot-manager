@@ -88,6 +88,10 @@ public static class Util
 	public static string GetDatabaseFile()
 	{
 		var path = GetUserFolder("central_store.json");
+		if (!OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
+		{
+			path = GetUserFolder("central_store_devel.json");
+		}
 		if (OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
 		{
 			if (SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("._sc_")) ||
