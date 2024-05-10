@@ -331,9 +331,16 @@ StartupNotify=true
 #if GODOT_X11 || GODOT_LINUXBSD
     void CreateShortcuts()
     {
-        string iconPath = OS.GetExecutablePath().GetBaseDir().Join("godot-manager.svg");
+        string iconPath = OS.GetUserDataDir().GetOSDir().Join("godot-manager.svg");
         string executablePath = OS.GetExecutablePath();
 
+        bool needRoot = false;
+        if (GlobalShortcut.Pressed)
+        {
+            iconPath = "/opt/GodotManager/godot-manager.svg";
+            needRoot = true;
+        }
+        
         using (var fh = new File())
         {
             var err = fh.Open("res://godot-manager.dat", File.ModeFlags.Read);
@@ -341,13 +348,6 @@ StartupNotify=true
             var svg = fh.GetBuffer((long)size);
             fh.Close();
             System.IO.File.WriteAllBytes(iconPath, svg);
-        }
-        
-        bool needRoot = false;
-        if (GlobalShortcut.Pressed)
-        {
-            iconPath = "/opt/GodotManager/godot-manager.svg";
-            needRoot = true;
         }
         
         var body = string.Format(DESKTOP_ENTRY, iconPath, executablePath);
