@@ -17,6 +17,9 @@ namespace GodotManager.Library.Components.Panels;
 [Tool]
 public partial class GodotPanel : Panel
 {
+	#region Singleton
+	[Singleton] private Globals _globals;
+	#endregion
 	#region Signals
 	#endregion
 	
@@ -180,17 +183,25 @@ public partial class GodotPanel : Panel
 
 	private void HandleInstallCompleted(GodotLineItem item, GodotVersion version)
 	{
-		_downloading.ItemList.RemoveChild(item);
-		item.QueueFree();
-		item = GodotLineItem.FromScene();
-		item.GodotVersion = version;
-		SetupGLIEvents(item);
-		_installed.AddLineItem(item);
-		if (_downloading.GetItemCount() == 0) _downloading.Visible = false;
-		
-		Database.AddVersion(version);
+		_globals.RunOnMain(() =>
+		{
+			GD.Print($"Removing from Downloading, {item.GithubVersion.SemVersion}");
+			_downloading.RemoveLineItem(item);
+			GD.Print($"Adding back to Available, {item.GithubVersion.SemVersion}");
+			_available.AddLineItem(item);
+			item.Downloading = false;
+			item.Visible = false;
+			item = GodotLineItem.FromScene();
+			item.GodotVersion = version;
+			SetupGLIEvents(item);
+			GD.Print($"Adding to Installed, {item.GodotVersion.Tag}");
+			_installed.AddLineItem(item);
+			if (_downloading.GetItemCount() == 0) _downloading.Visible = false;
+			
+			Database.AddVersion(version);
 
-		SortChildren();
+			SortChildren();
+		});
 	}
 
 	private void HandleUninstallCompleted(GodotLineItem item)
