@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Version 0.2.5
+ - Fixed issue where NewProject Dialog was not properly stringifying Rendering Driver.
+ - Corrected getting minor version, to ensure it's numeric, instead of numeric-release
+ - Ensured that dir_selected signal is disconnected only if it is connected, on OK signal.
+ - Implemented using Config Version for 3.0 to 3.0.6.
+ - Fix attempting to launch a project that has no godot engine associated with it.  This can happen when the engine that a project was associated with, is removed.
+ - Fix for [#93](https://github.com/eumario/godot-manager/issues/93)
+   - Fixed crash when attempting to Edit a project that has no engine assoicated.
+   - When we have 1 version of engine installed, ensure that we mark the project as dirty, and allow the person to be able to save the project with the only engine installed.
+   - Added signal to ensure that Project is updated, when something has changed about the project.  Such as the engine associated with it, is uninstalled, this only Updates the UI for the projects.
+ - Ensure that cached Godot Version is cleared when opening the project, and before populating the Project Data information.  This ensures that an old version, that has been uninstalled, isn't cached when showing the dialog.
+ - Implemented proper catches for any Network Traffic, where a failure to connect is caught. (Fixes [#96](https://github.com/eumario/godot-manager/issues/96))
+ - Adds Development configuration, so that main CentralStore json isn't modified with new features, that would not be readable in older stable versions.
+ 
+ - [Changes between 0.2.4 and 0.2.5](https://github.com/eumario/godot-manager/compare/0b62b7b...73bc7b5)
+
 ## Version 0.2.4
  - Updated First Run Wizard:
     - Added Hook for first run wizard being completed.  Ensures that the directory structure is fully made once we have successfully completed the first run wizard.
