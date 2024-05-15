@@ -20,6 +20,10 @@ public partial class NewsPanel : Panel
 	#region Signals
 	#endregion
 	
+	#region Singleton
+	[Singleton] private Globals _globals;
+	#endregion
+	
 	#region Node Paths
 	[NodePath] private Button _refreshNews;
 	[NodePath] private VBoxContainer _newsList;
@@ -107,8 +111,11 @@ public partial class NewsPanel : Panel
 					newsItem.ImageDld = dld;
 					dld.DownloadCompleted += (sender, s) =>
 					{
-						newsItem.Image = Util.LoadImage(s.GetOsDir().NormalizePath());
-						UpdateQueue(dld, newsItem.ImageRect);
+						_globals.RunOnMain(() =>
+						{
+							newsItem.Image = Util.LoadImage(s.GetOsDir().NormalizePath());
+							UpdateQueue(dld, newsItem.ImageRect);
+						});
 					};
 					dld.DownloadCancelled += (sender, args) => UpdateQueue(dld, newsItem.ImageRect);
 					dld.DownloadFailed += (sender, args) => UpdateQueue(dld, newsItem.ImageRect);
@@ -125,8 +132,11 @@ public partial class NewsPanel : Panel
 					newsItem.AvatarDld = dld;
 					dld.DownloadCompleted += (sender, s) =>
 					{
-						newsItem.Avatar = Util.LoadImage(s.GetOsDir().NormalizePath());
-						UpdateQueue(dld, newsItem.AvatarRect);
+						_globals.RunOnMain(() =>
+						{
+							newsItem.Avatar = Util.LoadImage(s.GetOsDir().NormalizePath());
+							UpdateQueue(dld, newsItem.AvatarRect);
+						});
 					};
 					dld.DownloadCancelled += (sender, args) => UpdateQueue(dld, newsItem.AvatarRect);
                     dld.DownloadFailed += (sender, args) => UpdateQueue(dld, newsItem.AvatarRect);
