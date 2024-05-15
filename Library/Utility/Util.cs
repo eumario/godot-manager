@@ -38,9 +38,11 @@ public static class Util
         {
             if (!File.Exists(filePath))
                 return null;
-
-            if (SixLabors.ImageSharp.Image.DetectFormat(filePath) == null)
-                return null;
+            if (!filePath.EndsWith(".svg"))
+            {
+                if (SixLabors.ImageSharp.Image.DetectFormat(filePath) == null)
+                    return null;
+            }
 
             var image = Image.LoadFromFile(filePath);
             return ImageTexture.CreateFromImage(image);
