@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Godot;
@@ -71,7 +72,11 @@ public static class Util
     
     public static void LaunchWeb(string url)
     {
-        OS.ShellOpen($"\"{url}\"");
+        ProcessStartInfo psi = new ProcessStartInfo();
+        psi.FileName = url;
+        psi.UseShellExecute = true;
+        psi.WindowStyle = ProcessWindowStyle.Normal;
+        Process.Start(psi);
     }
 
     public static void RunInMainThread(Action action)
