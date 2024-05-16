@@ -1,0 +1,83 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Godot-Manager"
+config/description="A Complete solution for Godot, allowing you to manage Projects and versions of the Godot Engine on the fly."
+run/main_scene="res://Scenes/SceneManager.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Godot-Manager"
+config/features=PackedStringArray("4.2", "C#")
+boot_splash/bg_color=Color(0.137255, 0.14902, 0.180392, 1)
+boot_splash/show_image=false
+config/icon="res://godot-manager.png"
+
+[autoload]
+
+Globals="*res://Library/Globals.cs"
+SignalBus="*res://Library/Managers/SignalBus.cs"
+
+[display]
+
+window/size/viewport_width=1024
+window/size/viewport_height=700
+window/size/borderless=true
+window/subwindows/embed_subwindows=false
+
+[dotnet]
+
+project/assembly_name="GodotManager"
+
+[editor]
+
+naming/scene_name_casing=1
+scene/scene_naming=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Asset_Drawer/plugin.cfg")
+
+[gui]
+
+theme/custom="res://Resources/default_theme.theme"
+theme/custom_font="res://Assets/Fonts/DroidSans.ttf"
+
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 0,
+"compress/hdr_compression": 1,
+"compress/high_quality": false,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d/compress_to": 0,
+"mipmaps/generate": false,
+"mipmaps/limit": -1,
+"process/fix_alpha_border": true,
+"process/hdr_as_srgb": false,
+"process/hdr_clamp_exposure": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"process/size_limit": 0,
+"roughness/mode": 0,
+"roughness/src_normal": ""
+}
+
+[mono]
+
+export/aot/enabled=true
+export/aot/full_aot=true
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

@@ -23,4 +23,10 @@
     <None Include="**/*.ttf" />
     <None Include="**/*.cfg" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tests\data\godot_3_project.godot" />
+    <Content Include="Tests\data\godot_4_project.godot" />
+    <Content Include="Tests\out\godot_3_project.godot" />
+    <Content Include="Tests\out\godot_4_project.godot" />
+  </ItemGroup>
 </Project>

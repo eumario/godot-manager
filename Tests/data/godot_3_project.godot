@@ -1,0 +1,53 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+}
+
+[application]
+
+config/name="Godot-Manager"
+config/description="A Complete solution for Godot, allowing you to manage Projects and versions of the Godot Engine on the fly."
+run/main_scene="res://components/Panels/SplashScreen.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Godot-Manager"
+run/low_processor_mode=true
+boot_splash/show_image=false
+boot_splash/fullsize=false
+config/icon="res://godot-manager.png"
+
+[autoload]
+
+SignalBus="*res://libs/managers/SignalBus.cs"
+
+[display]
+
+window/size/height=700
+window/size/resizable=false
+window/size/borderless=true
+
+[gui]
+
+theme/custom="res://Resources/DefaultTheme.tres"
+theme/custom_font="res://Resources/Fonts/droid-regular-14.tres"
+
+[locale]
+
+translations=PoolStringArray( "res://locale/en_US.po" )
+
+[mono]
+
+project/assembly_name="Godot-Manager"
+debugger_agent/wait_timeout=7000
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
