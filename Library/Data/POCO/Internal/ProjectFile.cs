@@ -230,15 +230,15 @@ public class ProjectFile
         pf.Load(Location);
         if (ValidVersion(pf))
         {
-            pf.SetValue("application/config/name", $"{Name}");
-            pf.SetValue("application/config/description", $"{Description}");
-            pf.SetValue("application/config/icon", $"{Icon}");
+            pf.SetValue("application/config/name", $"{Name}", true);
+            pf.SetValue("application/config/description", $"{Description}", true);
+            pf.SetValue("application/config/icon", $"{Icon}", true);
             pf.SetValue(IsGodot4
                 ? "rendering/renderer/rendering_method"
                 : "rendering/quality/driver/driver_name",
-                Renderer);
+                Renderer, true);
             pf.SetValue("application/config/use_custom_user_dir", UseCustomUserDir.ToString().ToLowerInvariant());
-            pf.SetValue("application/config/custom_user_dir_name", CustomUserDir);
+            pf.SetValue("application/config/custom_user_dir_name", CustomUserDir, true);
             pf.Save();
         }
         else
