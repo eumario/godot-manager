@@ -92,6 +92,10 @@ public partial class EditProjectDialog : Window
 					break;
 			}
 		};
+		_projectDescription.TextChanged += () =>
+		{
+			ProjectFile.Description = _projectDescription.Text;
+		};
 		_saveProject.Pressed += () =>
 		{
 			EmitSignal(SignalName.SaveProject, _projectCache);
@@ -99,11 +103,6 @@ public partial class EditProjectDialog : Window
 		};
 		_cancelDialog.Pressed += QueueFree;
 		CloseRequested += QueueFree;
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
 	}
 	#endregion
 	
