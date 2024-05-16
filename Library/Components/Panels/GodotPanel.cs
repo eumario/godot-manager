@@ -185,16 +185,13 @@ public partial class GodotPanel : Panel
 	{
 		_globals.RunOnMain(() =>
 		{
-			GD.Print($"Removing from Downloading, {item.GithubVersion.SemVersion}");
 			_downloading.RemoveLineItem(item);
-			GD.Print($"Adding back to Available, {item.GithubVersion.SemVersion}");
 			_available.AddLineItem(item);
 			item.Downloading = false;
 			item.Visible = false;
 			item = GodotLineItem.FromScene();
 			item.GodotVersion = version;
 			SetupGLIEvents(item);
-			GD.Print($"Adding to Installed, {item.GodotVersion.Tag}");
 			_installed.AddLineItem(item);
 			if (_downloading.GetItemCount() == 0) _downloading.Visible = false;
 			
