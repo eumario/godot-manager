@@ -10,7 +10,7 @@ namespace GodotManager.Library.Data.Godot;
 
 public class ProjectConfig
 {
-    private const string Header = @"; Engine Configuration file.
+    private const string Header = @"; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
 ; since the parameters that go here are not all obvious.
 ;
@@ -33,13 +33,18 @@ public class ProjectConfig
         _stringValues = new Dictionary<string, bool>();
     }
 
-    public string this[string section, string key]
+    public string this[string section, string key, bool isString = false]
     {
         get => _sections[section][key];
-        set => _sections[section][key] = value;
+        set
+        {
+            _sections[section][key] = value;
+            if (isString)
+                _stringValues[$"{section}/{key}"] = isString;
+        }
     }
 
-    public string this[string path]
+    public string this[string path, bool isString = false]
     {
         get
         {
@@ -50,6 +55,8 @@ public class ProjectConfig
         {
             var sectionAndKey = path.Split("/", 2);
             _sections[sectionAndKey[0]][sectionAndKey[1]] = value;
+            if (isString)
+                _stringValues[path] = isString;
         }
     }
 
@@ -69,7 +76,7 @@ public class ProjectConfig
         if (!HasSection(sectionAndKey[0]))
             _sections[sectionAndKey[0]] = new Dictionary<string, string>();
         if (isStringValue) _stringValues[path] = true;
-        this[sectionAndKey[0], sectionAndKey[1]] = isStringValue ? $"\"{value}\"" : value;
+        this[sectionAndKey[0], sectionAndKey[1]] = value;
     }
 
     public bool HasSection(string section) => _sections.Keys.Contains(section);
@@ -83,6 +90,12 @@ public class ProjectConfig
             print($"DEBUG> [{section}]");
             foreach (string key in _sections[section].Keys)
                 print($"DEBUG> >>{key}={_sections[section][key]}");
+        }
+
+        print("\nDEBUG> <<< String Values >>>");
+        foreach (var strValue in _stringValues.Keys)
+        {
+            print($"DEBUG> {strValue}: {_stringValues[strValue]}");
         }
     }
 
@@ -109,6 +122,7 @@ public class ProjectConfig
         var lastKey = "";
         var inQuote = false;
         var inParen = false;
+        var inBracket = false;
 
         var token = new StringBuilder();
 
@@ -119,18 +133,32 @@ public class ProjectConfig
             switch (ch)
             {
                 case '\n':
-                    if (inQuote)
+                    if (inQuote || inBracket)
                     {
                         token.Append(ch);
                     }
 
-                    if (lastKey != "")
+                    if (lastKey != "" && !inBracket)
                     {
                         _sections[currentSection][lastKey] = token.ToString();
                         token.Clear();
                         lastKey = "";
                     }
                     continue;
+                case '{':
+                    token.Append(ch);
+                    inBracket = true;
+                    break;
+                case '}':
+                    token.Append(ch);
+                    inBracket = false;
+                    if (lastKey != "")
+                    {
+                        _sections[currentSection][lastKey] = token.ToString();
+                        token.Clear();
+                        lastKey = "";
+                    }
+                    break;
                 case '(':
                     token.Append(ch);
                     inParen = true;
@@ -146,8 +174,8 @@ public class ProjectConfig
                     }
                     break;
                 case '"':
-                    token.Append(ch);
-                    if (inParen) continue;
+                    if (inBracket || inParen) token.Append(ch);
+                    if (inParen || inBracket) continue;
                     inQuote = !inQuote;
                     if (lastKey != "" && !inQuote)
                     {
@@ -168,17 +196,33 @@ public class ProjectConfig
 
                     break;
                 case '[':
-                    token.Clear();
-                    ch = _fh.ReadChar();
-                    while (ch != ']')
+                    if (token.ToString().Trim() == ""  && lastKey != "")
                     {
-                        token.Append(ch);
                         ch = _fh.ReadChar();
-                    }
+                        while (ch != ']')
+                        {
+                            token.Append(ch);
+                            ch = _fh.ReadChar();
+                        }
 
-                    currentSection = token.ToString();
-                    _sections[currentSection] = new Dictionary<string, string>();
-                    token.Clear();
+                        _sections[currentSection][lastKey] = "[" + token.ToString() + "]";
+                        token.Clear();
+                        lastKey = "";
+                    }
+                    else
+                    {
+                        token.Clear();
+                        ch = _fh.ReadChar();
+                        while (ch != ']')
+                        {
+                            token.Append(ch);
+                            ch = _fh.ReadChar();
+                        }
+
+                        currentSection = token.ToString();
+                        _sections[currentSection] = new Dictionary<string, string>();
+                        token.Clear();
+                    }
                     break;
                 default:
                     if (ch == '=')
@@ -220,9 +264,13 @@ public class ProjectConfig
         {
             writer.WriteLine($"[{section}]");
             writer.WriteLine("");
-                
-            foreach(var key in _sections[section].Keys)
-                writer.WriteLine($"{key}={_sections[section][key]}");
+
+            foreach (var key in _sections[section].Keys)
+            {
+                writer.WriteLine(_stringValues.ContainsKey($"{section}/{key}")
+                    ? $"{key}=\"{_sections[section][key]}\""
+                    : $"{key}={_sections[section][key]}");
+            }
                 
             writer.WriteLine("");
         }
