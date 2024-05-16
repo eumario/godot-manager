@@ -35,6 +35,7 @@ public partial class EditProjectDialog : Window
 	
 	#region Private Variables
 	private ProjectNodeCache _projectCache;
+	private bool _isDirty;
 	#endregion
 	
 	#region Public Properties
@@ -49,6 +50,16 @@ public partial class EditProjectDialog : Window
 	}
 
 	public ProjectFile ProjectFile => _projectCache.ProjectFile;
+
+	public bool IsDirty
+	{
+		get => _isDirty;
+		set
+		{
+			_isDirty = value;
+			if (_saveProject != null) _saveProject.Disabled = !value;
+		}
+	}
 	#endregion
 	
 	#region FromScene()
@@ -76,6 +87,7 @@ public partial class EditProjectDialog : Window
 			}
 
 			ProjectFile.GodotVersion = gdVers;
+			IsDirty = true;
 		};
 		_renderer.ItemSelected += (itemIndex) =>
 		{
@@ -91,10 +103,13 @@ public partial class EditProjectDialog : Window
 					ProjectFile.Renderer = "gl_compatible";
 					break;
 			}
+
+			IsDirty = true;
 		};
 		_projectDescription.TextChanged += () =>
 		{
 			ProjectFile.Description = _projectDescription.Text;
+			IsDirty = true;
 		};
 		_saveProject.Pressed += () =>
 		{
@@ -113,6 +128,7 @@ public partial class EditProjectDialog : Window
 
 	private void UpdateInfo()
 	{
+		IsDirty = false;
 		if (_projectIcon == null) return;
 		ProjectFile.UpdateData();
 		Database.UpdateProject(ProjectFile);
@@ -169,7 +185,7 @@ public partial class EditProjectDialog : Window
 			}
 
 			ProjectFile.GodotVersion = gdVers;
-			_globals.RunOnMain(() => EmitSignal(SignalName.SaveProject, _projectCache));
+			IsDirty = true;
 		}
 		else
 		{
