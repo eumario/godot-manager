@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Godot.Sharp.Extras;
 using GodotManager.Library;
+using GodotManager.Tests;
 
 namespace GodotManager.Scenes;
 
@@ -22,6 +23,12 @@ public partial class SceneManager : Control
 		if (args.Length > 0 && (args[0] == "--update" || args[0] == "--update-complete"))
 		{
 			// Handle Update Window
+		}
+		else if (args.Length > 0 && (args[0] == "--run-test" || args[0] == "--test"))
+		{
+			var test = new TestMain();
+			test.RunTest();
+			GetTree().Quit();
 		}
 		else
 		{
