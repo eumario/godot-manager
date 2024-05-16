@@ -1,6 +1,7 @@
 using Godot;
 using System.Linq;
 using Godot.Sharp.Extras;
+using GodotManager.Library;
 using GodotManager.Library.Data;
 using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Data.UI;
@@ -8,6 +9,10 @@ using GodotManager.Library.Utility;
 
 public partial class EditProjectDialog : Window
 {
+	#region Singletons
+
+	[Singleton] private Globals _globals;
+	#endregion
 	#region Signals
 	[Signal] public delegate void SaveProjectEventHandler(ProjectNodeCache cache);
 	#endregion
@@ -60,6 +65,33 @@ public partial class EditProjectDialog : Window
 	{
 		this.OnReady();
 		UpdateInfo();
+		_engineVersion.ItemSelected += (itemIndex) =>
+		{
+			var itemId = _engineVersion.GetItemId((int)itemIndex);
+			var gdVers = Database.FindVersion(itemId);
+			if (gdVers == null)
+			{
+				OS.Alert("Failed to get engine from ID, please check for this error", "Godot Version not found");
+				return;
+			}
+
+			ProjectFile.GodotVersion = gdVers;
+		};
+		_renderer.ItemSelected += (itemIndex) =>
+		{
+			switch (itemIndex)
+			{
+				case 0L:
+					ProjectFile.Renderer = ProjectFile.IsGodot4 ? "forward_plus" : "GLES3";
+					break;
+				case 1L:
+					ProjectFile.Renderer = ProjectFile.IsGodot4 ? "mobile" : "GLES2";
+					break;
+				case 2L:
+					ProjectFile.Renderer = "gl_compatible";
+					break;
+			}
+		};
 		_saveProject.Pressed += () =>
 		{
 			EmitSignal(SignalName.SaveProject, _projectCache);
@@ -91,15 +123,69 @@ public partial class EditProjectDialog : Window
 		_projectIcon.Texture = Util.LoadImage(iconPath);
 		_projectName.Text = ProjectFile.Name;
 		var versions = ProjectFile.IsGodot4
-			? Database.AllVersions().Where(x => x.SemVersion.Version.Major == 4)
-			: Database.AllVersions().Where(x => x.SemVersion.Version.Major == 3);
+			? Database.AllVersions().Where(x => x.SemVersion.Version.Major == 4).ToList()
+			: Database.AllVersions().Where(x => x.SemVersion.Version.Major == 3).ToList();
 		_engineVersion.Clear();
 		foreach (var version in versions)
-		{
 			_engineVersion.AddItem(version.GetHumanReadableVersion(), version.Id);
+
+		if (ProjectFile.GodotVersion == null)
+		{
+			GodotVersion gdVers = null;
+			if (ProjectFile.IsGodot4) // Is Godot 4.x
+			{
+				if (Database.Settings.DefaultEngine4.Tag != null)
+				{
+					_engineVersion.Selected = _engineVersion.GetItemIndex(Database.Settings.DefaultEngine4.Id);
+					gdVers = Database.Settings.DefaultEngine4;
+				}
+				else if (versions.Count > 0)
+				{
+					_engineVersion.Selected = _engineVersion.GetItemIndex(versions[0].Id);
+					gdVers = versions[0];
+				}
+				else
+				{
+					OS.Alert("No version of Godot Engine for this project is available.  Please download a version of 4.x for this project.", "Godot Engine Not Found");
+					return;
+				}
+			}
+			else // Is Godot 3.x
+			{
+				if (Database.Settings.DefaultEngine3.Tag != null)
+				{
+					_engineVersion.Selected = _engineVersion.GetItemIndex(Database.Settings.DefaultEngine3.Id);
+					gdVers = Database.Settings.DefaultEngine3;
+				}
+				else if (versions.Count > 0)
+				{
+					_engineVersion.Selected = _engineVersion.GetItemIndex(versions[0].Id);
+					gdVers = versions[0];
+				}
+				else
+				{
+					OS.Alert("No version of Godot Engine for this project is available.  Please download a version of 3.x for this project.", "Godot Engine Not Found");
+					return;
+				}
+			}
+
+			ProjectFile.GodotVersion = gdVers;
+			_globals.RunOnMain(() => EmitSignal(SignalName.SaveProject, _projectCache));
+		}
+		else
+		{
+			_engineVersion.Selected = _engineVersion.GetItemIndex(ProjectFile.GodotVersion.Id);
 		}
 
-		_engineVersion.Selected = _engineVersion.GetItemIndex(ProjectFile.GodotVersion.Id);
+		if (_engineVersion.Selected == -1)
+		{
+			OS.Alert(
+				ProjectFile.IsGodot4
+					? "No version of Godot Engine for this project is available.  Please download a version of 4.x for this project."
+					: "No version of Godot Engine for this project is available.  Please download a version of 3.x for this project.",
+				"Godot Engine Not Found");
+			return;
+		}
 
 		_renderer.Clear();
 		if (ProjectFile.IsGodot4)
@@ -117,11 +203,11 @@ public partial class EditProjectDialog : Window
 		switch (ProjectFile.Renderer)
 		{
 			case "forward_plus":
-			case "gles3":
+			case "GLES3":
 				_renderer.Selected = 0;
 				break;
 			case "mobile":
-			case "gles2":
+			case "GLES2":
 				_renderer.Selected = 1;
 				break;
 			case "gl_compatibility":
