@@ -440,10 +440,11 @@ public partial class ProjectsPanel : Panel
 				GodotRunner.RunProject(pii.GodotVersion, pii.ProjectFile);
 				break;
 			case ContextMenuItem.ProjectFiles:
-				OS.ShellOpen($"\"{pii.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath()}\"");
+				Util.LaunchWeb(pii.ProjectFile.Location.GetOsDir().GetBaseDir().NormalizePath());
 				break;
 			case ContextMenuItem.DataFolder:
-				OS.ShellOpen($"\"{pii.ProjectFile.DataFolder.GetOsDir().NormalizePath()}\"");
+				Util.LaunchWeb(pii.ProjectFile.DataFolder.GetOsDir().NormalizePath());
+				break;
 				break;
 			case ContextMenuItem.EditProject:
 				var epd = EditProjectDialog.FromScene();
@@ -495,10 +496,10 @@ public partial class ProjectsPanel : Panel
 				GodotRunner.RunProject(pli.GodotVersion, pli.ProjectFile);
 				break;
 			case ContextMenuItem.ProjectFiles:
-				OS.ShellOpen($"\"{pli.ProjectFile.Location.GetBaseDir().GetOsDir().NormalizePath()}\"");
+				Util.LaunchWeb(pli.ProjectFile.Location.GetOsDir().GetBaseDir().NormalizePath());
 				break;
 			case ContextMenuItem.DataFolder:
-				OS.ShellOpen($"\"{pli.ProjectFile.DataFolder.GetOsDir().NormalizePath()}\"");
+				Util.LaunchWeb(pli.ProjectFile.DataFolder.GetOsDir().NormalizePath());
 				break;
 			case ContextMenuItem.EditProject:
 				var epd = EditProjectDialog.FromScene();
