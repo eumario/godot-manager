@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
@@ -29,6 +30,7 @@ public partial class GodotPanel : Panel
 	[NodePath] private CategoryList _installed;
 	[NodePath] private CategoryList _downloading;
 	[NodePath] private CategoryList _available;
+	[NodePath] private PopupMenu _enginePopup;
 	#endregion
 	
 	#region Private Variables
@@ -113,6 +115,41 @@ public partial class GodotPanel : Panel
 					UpdateCurrentTag();
 					SetOptionsDisabled(false);
 					PopulateGithub("godot-builds");
+					break;
+			}
+		};
+
+		_enginePopup.IndexPressed += (indx) =>
+		{
+			var gli = (GodotLineItem)_enginePopup.GetMeta("gli");
+			switch (indx)
+			{
+				case 0L: // Install/Uninstall
+					gli.EmitSignal(
+						gli.IsInstalled
+							? GodotLineItem.SignalName.UninstallClicked
+							: GodotLineItem.SignalName.InstallClicked, gli);
+					break;
+				case 2L: // Make Default
+					gli.EmitSignal(GodotLineItem.SignalName.MakeDefaultClick, gli);
+					break;
+				case 3L: // Share Settings
+					gli.SettingsShare = !gli.SettingsShare;
+					gli.EmitSignal(GodotLineItem.SignalName.SharedSettings, gli.SettingsShare);
+					break;
+				case 4L: // Link Settings
+					gli.SettingsLinked = !gli.SettingsLinked;
+					gli.EmitSignal(GodotLineItem.SignalName.LinkedSettings, gli.SettingsLinked);
+					break;
+				case 6L: // Copy Engine Path
+					DisplayServer.Singleton.ClipboardSet(gli.GodotVersion.Location);
+					OS.Alert($"Copied Path for {gli.GodotVersion.Tag} to clipboard.", "Copy Engine Path");
+					break;
+				case 7L: // Open Engine Path
+					Util.LaunchWeb(gli.GodotVersion.Location);
+					break;
+				case 8L: // Launch Engine
+					GodotRunner.RunEngine(gli.GodotVersion);
 					break;
 			}
 		};
@@ -345,11 +382,25 @@ public partial class GodotPanel : Panel
 		};
 		item.RightClick += (gli) =>
 		{
+			if (!gli.IsInstalled)
+			{
+				foreach(var indx in new List<int> {2, 3, 4, 6, 7, 8})
+					_enginePopup.SetItemDisabled(indx, true);
+				_enginePopup.SetItemText(0, "Install");
+			}
+			else
+			{
+				foreach (var indx in new List<int> { 2, 3, 4, 6, 7, 8 })
+					_enginePopup.SetItemDisabled(indx, false);
+				_enginePopup.SetItemText(0, "Uninstall");
+			}
 
+			_enginePopup.SetMeta("gli", gli);
+			_enginePopup.Popup(new Rect2I((GetScreenPosition() + GetLocalMousePosition()).ToVector2I(), Vector2I.Zero));
 		};
 		item.ExecuteClick += (gli) =>
 		{
-
+			GodotRunner.RunEngine(gli.GodotVersion);
 		};
 	}
 	
