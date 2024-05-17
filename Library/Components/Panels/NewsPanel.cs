@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using Godot;
-using Godot.Collections;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
@@ -42,6 +39,7 @@ public partial class NewsPanel : Panel
 		GetParent<TabContainer>().TabChanged += OnPageChanged;
 		_refreshNews.Pressed += RefreshNews;
 	}
+
 	#endregion
 	
 	#region Event Handlers
@@ -271,6 +269,8 @@ public partial class NewsPanel : Panel
 		{
 			GD.Print("Download failed or Cancelled.");
 		}
+		
+		dld.Dispose();
 		
 		foreach (var item in _downloads)
 		{
