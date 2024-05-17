@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
+using GodotManager.Library.Components.Panels.Settings;
 using GodotManager.Library.Data;
 using GodotManager.Library.Managers;
 using GodotManager.Library.Managers.UndoManager;
@@ -80,6 +80,16 @@ public partial class SettingsPanel : Panel
 		_about.Pressed += () => _optionPanels.CurrentTab = 2;
 		_contributions.Pressed += () => _optionPanels.CurrentTab = 3;
 		_licenses.Pressed += () => _optionPanels.CurrentTab = 4;
+
+		VisibilityChanged += () =>
+		{
+			if (!Visible) return;
+			var general = _optionPanels.GetTabControl(0) as GeneralPanel;
+			general.LoadSettings();
+			var projects = _optionPanels.GetTabControl(1) as Settings.ProjectsPanel;
+			projects.LoadSettings();
+
+		};
 	}
 	#endregion
 	

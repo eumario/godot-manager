@@ -105,7 +105,7 @@ public partial class ProjectsPanel : MarginContainer
 		_projectPath.EmitSignal(LineEditTimeout.SignalName.TextUpdated, selectedPaths[0].NormalizePath());
 	}
 	
-	private void LoadSettings()
+	public void LoadSettings()
 	{
 		_setup = true;
 		_projectPath.Text = Database.Settings.ProjectPath;

@@ -352,7 +352,7 @@ public partial class GeneralPanel : MarginContainer
 	
 	#region Private Support Functions
 
-	private void LoadSettings()
+	public void LoadSettings()
 	{
 		var ProjectViewText = new List<string>() { "List View", "Icon View", "Category View", "Last View Used" };
 		var CheckIntervals = new List<double>() { 1, 12, 24, 168, 336, 720 };
