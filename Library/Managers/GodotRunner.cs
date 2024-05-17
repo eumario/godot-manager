@@ -42,6 +42,36 @@ public static class GodotRunner
         if (Database.Settings.CloseManagerOnEdit)
             ((SceneTree)Engine.GetMainLoop()).Quit();
     }
+
+    public static async void RunEngine(GodotVersion version)
+    {
+        if (version == null)
+        {
+            var res = await UI.YesNoBox("Missing Godot Version",
+                "The Version of Godot that was associated with this project, is no longer available, change Versions?");
+            if (!res) return;
+            // Handle Missing Godot Version
+        }
+
+        if (!File.Exists(version.GetExecutablePath().GetOsDir()))
+        {
+            UI.MessageBox("Missing Executable",
+                $"Unable to find Godot Executable in {version.Location} for {version.Tag}");
+            return;
+        }
+        
+        // Handle Shared Settings
+        var psi = new ProcessStartInfo()
+        {
+            FileName = version.GetExecutablePath().GetOsDir(),
+            WorkingDirectory = version.GetExecutablePath().GetOsDir().GetBaseDir(),
+            Arguments = "",
+            UseShellExecute = !Database.Settings.NoConsole,
+            CreateNoWindow = Database.Settings.NoConsole
+        };
+
+        var proc = Process.Start(psi);
+    }
     
     public static async void RunProject(GodotVersion version, ProjectFile project)
     {
