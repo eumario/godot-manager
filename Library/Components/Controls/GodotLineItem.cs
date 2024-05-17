@@ -117,8 +117,8 @@ public partial class GodotLineItem : Control
 	public bool IsInstalled => _godotVersion is not null;
 	
 	// Checks to see  if this version is the default version for Godot 3, or Godot 4.
-	public bool IsDefault => IsInstalled && (_godotVersion == Database.Settings.DefaultEngine3 ||
-	                                         _godotVersion == Database.Settings.DefaultEngine4);
+	public bool IsDefault => IsInstalled && (_godotVersion.Id == Database.Settings.DefaultEngine3.Id ||
+	                                         _godotVersion.Id == Database.Settings.DefaultEngine4.Id);
 
 	// Holds the Godot Version information, including where it was downloaded from.
 	public GodotVersion GodotVersion
@@ -127,22 +127,7 @@ public partial class GodotLineItem : Control
 		set
 		{
 			_godotVersion = value;
-			if (value is null) return;
-			if (_versionTag is null) return;
-			
-			var tag = _godotVersion.GithubVersion.SemVersion.SpecialVersion ?? "Stable";
-			var mono = _godotVersion.SemVersion.Version.Major >= 4 && _godotVersion.IsMono ? " Dotnet" : _godotVersion.IsMono ? " Mono" : "";
-			_versionTag.Text = $"Godot v{_godotVersion.SemVersion.ToNormalizedStringNoSpecial()} ({tag}{mono})";
-			_downloadUrl.Text = _godotVersion.Url;
-			_downloadFS.Text = "Size On Disk: " + Util.FormatSize(DirSize(_godotVersion.Location));
-			_installedLoc.Text = _godotVersion.Location;
-			_installUninstall.Icon = _uninstall;
-			_installUninstall.SelfModulate = Colors.Red;
-			_linkSettings.Visible = IsInstalled;
-			_shareSettings.Visible = IsInstalled;
-			_useDefault.Visible = IsInstalled;
-			_godotTree.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
-			_godotTree2.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
+			Refresh();
 		}
 	}
 
@@ -329,6 +314,27 @@ public partial class GodotLineItem : Control
 			if (_downloadProgress.Value > totalDownloaded) return;
 			_downloadProgress.Value = totalDownloaded;
 		});
+	}
+
+	public void Refresh()
+	{
+		if (GodotVersion is null) return;
+		if (_versionTag is null) return;
+			
+		var tag = _godotVersion.GithubVersion.SemVersion.SpecialVersion ?? "Stable";
+		var mono = _godotVersion.SemVersion.Version.Major >= 4 && _godotVersion.IsMono ? " Dotnet" : _godotVersion.IsMono ? " Mono" : "";
+		_versionTag.Text = $"Godot v{_godotVersion.SemVersion.ToNormalizedStringNoSpecial()} ({tag}{mono})";
+		_downloadUrl.Text = _godotVersion.Url;
+		_downloadFS.Text = "Size On Disk: " + Util.FormatSize(DirSize(_godotVersion.Location));
+		_installedLoc.Text = _godotVersion.Location;
+		_installUninstall.Icon = _uninstall;
+		_installUninstall.SelfModulate = Colors.Red;
+		_linkSettings.Visible = IsInstalled;
+		_shareSettings.Visible = IsInstalled;
+		_useDefault.Visible = IsInstalled;
+		_useDefault.SelfModulate = IsDefault ? Colors.Gold : Color.FromHtml("#70808f");
+		_godotTree.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
+		_godotTree2.Text = $"{_godotVersion.SemVersion.Version.Major}.x";
 	}
 
 	#endregion
