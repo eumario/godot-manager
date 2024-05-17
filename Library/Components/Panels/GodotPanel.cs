@@ -372,6 +372,35 @@ public partial class GodotPanel : Panel
 			GD.Print($"Removing Version {gli.GodotVersion.SemVersion}");
 			InstallManager.Instance.UninstallVersion(gli);
 		};
+		item.MakeDefaultClick += gli =>
+		{
+			// Handle Setting up Godot Line Item as Default Engine for v3/v4 of Godot Engine.
+			if (gli.GodotVersion is null) return;
+			if (gli.IsDefault) return;
+			if (gli.GodotVersion.SemVersion is null) return;
+			switch (gli.GodotVersion.SemVersion.Version.Major)
+			{
+				case 4:
+					Database.Settings.DefaultEngine4 = gli.GodotVersion;
+					OS.Alert($"Updated Default engine for Godot 4.x to {gli.GodotVersion.Tag}", "Make Default Engine");
+					break;
+				case 3:
+					Database.Settings.DefaultEngine3 = gli.GodotVersion;
+					OS.Alert($"Updated Default engine for Godot 3.x to {gli.GodotVersion.Tag}", "Make Default Engine");
+					break;
+				default:
+					OS.Alert("You cannot set a version less then 3 as Default Engine.", "Make Default Engine");
+					break;
+			}
+			Database.FlushDatabase();
+
+			foreach (var node in _installed.ItemList.GetChildren())
+			{
+				if (node is not GodotLineItem gle) continue;
+				gle.Refresh();
+			}
+		};
+		
 		item.LinkedSettings += (gli, toggle) =>
 		{
 
