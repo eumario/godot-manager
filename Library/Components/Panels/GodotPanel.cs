@@ -17,9 +17,6 @@ namespace GodotManager.Library.Components.Panels;
 [Tool]
 public partial class GodotPanel : Panel
 {
-	#region Singleton
-	[Singleton] private Globals _globals;
-	#endregion
 	#region Signals
 	#endregion
 	
@@ -183,7 +180,7 @@ public partial class GodotPanel : Panel
 
 	private void HandleInstallCompleted(GodotLineItem item, GodotVersion version)
 	{
-		_globals.RunOnMain(() =>
+		Util.RunInMainThread(() => 
 		{
 			_downloading.RemoveLineItem(item);
 			_available.AddLineItem(item);

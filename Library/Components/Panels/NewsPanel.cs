@@ -20,10 +20,6 @@ public partial class NewsPanel : Panel
 	#region Signals
 	#endregion
 	
-	#region Singleton
-	[Singleton] private Globals _globals;
-	#endregion
-	
 	#region Node Paths
 	[NodePath] private Button _refreshNews;
 	[NodePath] private VBoxContainer _newsList;
@@ -111,7 +107,7 @@ public partial class NewsPanel : Panel
 					newsItem.ImageDld = dld;
 					dld.DownloadCompleted += (sender, s) =>
 					{
-						_globals.RunOnMain(() =>
+						Util.RunInMainThread(() => 
 						{
 							newsItem.Image = Util.LoadImage(s.GetOsDir().NormalizePath());
 							UpdateQueue(dld, newsItem.ImageRect);
@@ -132,7 +128,7 @@ public partial class NewsPanel : Panel
 					newsItem.AvatarDld = dld;
 					dld.DownloadCompleted += (sender, s) =>
 					{
-						_globals.RunOnMain(() =>
+						Util.RunInMainThread(() =>
 						{
 							newsItem.Avatar = Util.LoadImage(s.GetOsDir().NormalizePath());
 							UpdateQueue(dld, newsItem.AvatarRect);

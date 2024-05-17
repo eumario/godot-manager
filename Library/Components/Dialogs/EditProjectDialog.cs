@@ -10,8 +10,6 @@ using GodotManager.Library.Utility;
 public partial class EditProjectDialog : Window
 {
 	#region Singletons
-
-	[Singleton] private Globals _globals;
 	#endregion
 	#region Signals
 	[Signal] public delegate void SaveProjectEventHandler(ProjectNodeCache cache);
