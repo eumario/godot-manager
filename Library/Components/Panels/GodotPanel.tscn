@@ -145,3 +145,26 @@ layout_mode = 2
 [node name="Available" parent="VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_0bv7o")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="EnginePopup" type="PopupMenu" parent="."]
+item_count = 9
+item_0/text = "Install"
+item_0/id = 0
+item_1/text = ""
+item_1/id = 1
+item_1/separator = true
+item_2/text = "Make Default"
+item_2/id = 2
+item_3/text = "Share Settings"
+item_3/id = 3
+item_4/text = "Link Settings"
+item_4/id = 4
+item_5/text = ""
+item_5/id = 5
+item_5/separator = true
+item_6/text = "Copy Engine Path"
+item_6/id = 6
+item_7/text = "Open Engine Path"
+item_7/id = 7
+item_8/text = "Launch Engine"
+item_8/id = 8
