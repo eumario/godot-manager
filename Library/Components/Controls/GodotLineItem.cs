@@ -19,6 +19,7 @@ public partial class GodotLineItem : Control
 	[Signal] public delegate void SharedSettingsEventHandler(GodotLineItem gli, bool value);
 	[Signal] public delegate void RightClickEventHandler(GodotLineItem gli);
 	[Signal] public delegate void ExecuteClickEventHandler(GodotLineItem gli);
+	[Signal] public delegate void MakeDefaultClickEventHandler(GodotLineItem gli);
 	#endregion
 	
 	#region Quick Create
@@ -243,6 +244,8 @@ public partial class GodotLineItem : Control
 		// Handle Install/Uninstall Signals when clicking on the icon to install/uninstall.
 		_installUninstall.Pressed += () =>
 			EmitSignal(IsInstalled ? SignalName.UninstallClicked : SignalName.InstallClicked, this);
+		_useDefault.Pressed += () =>
+			EmitSignal(SignalName.MakeDefaultClick, this);
 		
 		// Handle Toggle of SettingsLinked, and Emit the LinkedSettings signal.
 		_linkSettings.Pressed += () =>
@@ -260,7 +263,7 @@ public partial class GodotLineItem : Control
 	}
 
 	// Handle Mouse Events
-	public override void _Input(InputEvent @event)
+	public override void _GuiInput(InputEvent @event)
 	{
 		if (@event is not InputEventMouseButton iemb) return;
 		// If MouseButton Right is pressed, Emit RightClick signal, to allow Context Menu to be shown.
