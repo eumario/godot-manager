@@ -131,7 +131,7 @@ public partial class GodotLineItem : Control
 			if (_versionTag is null) return;
 			
 			var tag = _godotVersion.GithubVersion.SemVersion.SpecialVersion ?? "Stable";
-			var mono = _godotVersion.SemVersion.Version.Major >= 4 && _godotVersion.IsMono ? " Dotnet" : _showMono ? " Mono" : "";
+			var mono = _godotVersion.SemVersion.Version.Major >= 4 && _godotVersion.IsMono ? " Dotnet" : _godotVersion.IsMono ? " Mono" : "";
 			_versionTag.Text = $"Godot v{_godotVersion.SemVersion.ToNormalizedStringNoSpecial()} ({tag}{mono})";
 			_downloadUrl.Text = _godotVersion.Url;
 			_downloadFS.Text = "Size On Disk: " + Util.FormatSize(DirSize(_godotVersion.Location));
