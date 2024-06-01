@@ -51,6 +51,8 @@ public class GodotPanel : Panel
 
     [Export] private bool InWizard = false;
 
+    public static bool RequestingMirrors = false;
+
     private List<string> NoHideWizard = new List<string>()
     {
         "Spacer2", "PC", "Spacer3", "Label2", "DownloadSource"
@@ -85,9 +87,14 @@ public class GodotPanel : Panel
 
         if (CentralStore.Mirrors.Count == 0 || CentralStore.Settings.LastMirrorCheck < (DateTime.UtcNow - CentralStore.Settings.CheckInterval))
         {
+            while(RequestingMirrors)
+                await this.IdleFrame();
+            
+            RequestingMirrors = true;
             var res = MirrorManager.Instance.GetMirrors();
             while (!res.IsCompleted)
                 await this.IdleFrame();
+            RequestingMirrors = false;
             
             if (res.Result.Count == 0)
             {
