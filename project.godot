@@ -48,6 +48,10 @@ translations=PoolStringArray( "res://locale/en_US.po" )
 project/assembly_name="Godot-Manager"
 debugger_agent/wait_timeout=7000
 
+[network]
+
+limits/debugger_stdout/max_chars_per_second=10000
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
