@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
@@ -12,29 +13,36 @@ public class ImageDownloader : Object {
 	private string sRedirected;
 	private string sOutPath;
 	private bool bIsRedirected;
+	private Uri uUri;
 
 	public string Url { get { return sUrl; }}
 
 	public ImageDownloader(string url, string outPath) {
 		sUrl = url;
+		uUri = new Uri(url);
+		sOutPath = outPath;
+		bIsRedirected = false;
+		client = new GDCSHTTPClient();
+	}
+
+	public ImageDownloader(Uri uri, string outPath) {
+		sUrl = uri.OriginalString;
+		uUri = uri;
 		sOutPath = outPath;
 		bIsRedirected = false;
 		client = new GDCSHTTPClient();
 	}
 
 	public async Task<bool> StartDownload() {
-		Uri uri;
 		if (bIsRedirected)
-			uri = new Uri(sRedirected);
-		else
-			uri = new Uri(sUrl);
+			uUri = new Uri(sRedirected);
 		
 		if (CentralStore.Settings.UseProxy)
-			client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uri.Scheme == "https");
+			client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, uUri.Scheme == "https");
 		else
 			client.ClearProxy();
 		
-		Task<HTTPClient.Status> cres = client.StartClient(uri.Host, uri.Port, (uri.Scheme == "https"));
+		Task<HTTPClient.Status> cres = client.StartClient(uUri.Host, uUri.Port, (uUri.Scheme == "https"));
 
 		while (!cres.IsCompleted)
 			await this.IdleFrame();
@@ -42,7 +50,7 @@ public class ImageDownloader : Object {
 		if (!client.SuccessConnect(cres.Result))
 			return false;
 		
-		var tresult = client.MakeRequest(uri.PathAndQuery);
+		var tresult = client.MakeRequest(uUri.PathAndQuery);
 		while (!tresult.IsCompleted)
 			await this.IdleFrame();
 		
@@ -52,7 +60,12 @@ public class ImageDownloader : Object {
 		
 		if (redirect_codes.IndexOf(result.ResponseCode) >= 0) {
 			bIsRedirected = true;
-			sRedirected = result.Headers["Location"] as string;
+			if (result.Headers.Contains("Location"))
+				sRedirected = result.Headers["Location"] as string;
+			else if (result.Headers.Contains("location"))
+				sRedirected = result.Headers["location"] as string;
+			else
+				GD.Print($"Fatal Error, Location header field not found.");
 			Task<bool> recurse = StartDownload();
 			while (!recurse.IsCompleted)
 				await this.IdleFrame();
