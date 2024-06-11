@@ -179,6 +179,7 @@ public class AssetLibPreview : ReferenceRect
             _Thumbnails.RemoveChild(rect);
             rect.QueueFree();
         }
+        dldPreviews.Clear();
 
         for (int i = 0; i < asset.Previews.Count; i++) {
             TextureRect preview = new TextureRect();
@@ -188,10 +189,21 @@ public class AssetLibPreview : ReferenceRect
             preview.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
             preview.Connect("gui_input", this, "OnGuiInput_Preview", new Array { preview });
             _Thumbnails.AddChild(preview);
-            Uri tnUri = new Uri(asset.Previews[i].Thumbnail);
+            Uri tnUri;
+            try {
+                tnUri = new Uri(asset.Previews[i].Thumbnail);
+            }
+            catch (System.UriFormatException) {
+                try {
+                    tnUri = new Uri(asset.Previews[i].Link);
+                }
+                catch {
+                    tnUri = new Uri("http://localhost/missing_icon.svg");
+                }
+            }
             string iconPath = $"user://cache/images/{asset.AssetId}-{i}-{asset.Previews[i].PreviewId}{tnUri.AbsolutePath.GetExtension()}";
             if (!File.Exists(iconPath.GetOSDir().NormalizePath())) {
-                ImageDownloader dld = new ImageDownloader(asset.Previews[i].Thumbnail, iconPath);
+                ImageDownloader dld = new ImageDownloader(tnUri, iconPath);
                 dldPreviews.Add(dld);
                 preview.SetMeta("iconPath", iconPath);
                 dlq.Push(dld);
@@ -339,6 +351,12 @@ public class AssetLibPreview : ReferenceRect
 				UpdatePreview(rect);
 			}
 		}
+    }
+
+    private void InvalidUri()
+    {
+        _MissingThumbnails.Visible = true;
+        _PlayButton.Visible = false;
     }
 
 	private void UpdatePreview(TextureRect rect)
