@@ -4,6 +4,7 @@ using Godot.Sharp.Extras;
 using Uri = System.Uri;
 using File = System.IO.File;
 using System.IO.Compression;
+using System.Collections.Generic;
 
 public class PaginatedListing : ScrollContainer
 {
@@ -181,7 +182,8 @@ public class PaginatedListing : ScrollContainer
         _topPageCount.SetPage(result.Page);
         _bottomPageCount.SetPage(result.Page);
         ScrollVertical = 0;
-        foreach(AssetLib.AssetResult asset in result.Result) {
+        foreach(AssetLib.AssetResult asset in result.Result)
+        {
             AssetLibEntry ale = tAssetLibEntry.Instance<AssetLibEntry>();
             ale.Title = asset.Title;
             ale.Category = asset.Category;
@@ -231,22 +233,19 @@ public class PaginatedListing : ScrollContainer
 
     [SignalHandler("download_completed", nameof(dlq))]
     void OnImageDownloaded(ImageDownloader dld) {
-        foreach(AssetLibEntry ale in _listing.GetChildren()) {
-            if (ale.HasMeta("dld")) {
-                if ((ale.GetMeta("dld") as ImageDownloader) == dld) {
-                    ale.RemoveMeta("dld");
-                    string iconPath = ale.GetMeta("iconPath") as string;
-                    if (File.Exists(iconPath.GetOSDir().NormalizePath())) {
-                        Texture icon = Util.LoadImage(iconPath);
-                        if (icon == null)
-                            icon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-                        ale.Icon = icon;
-                    } else {
-                        ale.Icon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
-                    }
-                    return;
-                }
+        foreach(AssetLibEntry ale in _listing.GetChildren())
+        {
+            if (!ale.HasMeta("dld")) continue;
+            if ((ale.GetMeta("dld") as ImageDownloader) != dld) continue;
+            ale.RemoveMeta("dld");
+            string iconPath = ale.GetMeta("iconPath") as string;
+            if (File.Exists(iconPath.GetOSDir().NormalizePath())) {
+                Texture icon = Util.LoadImage(iconPath) ?? GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
+                ale.Icon = icon;
+            } else {
+                ale.Icon = GD.Load<Texture>("res://Assets/Icons/missing_icon.svg");
             }
+            return;
         }
     }
 
