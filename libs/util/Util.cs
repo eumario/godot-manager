@@ -158,6 +158,7 @@ public static class Util
 
 	public static ImageTexture LoadImage(string path) {
 		var image = new Image();
+		path = path.GetOSDir().NormalizePath();
 		
 		if (path.StartsWith("res://"))
 		{
@@ -167,8 +168,28 @@ public static class Util
 			if (!SFile.Exists(path.GetOSDir().NormalizePath()))
 				return null;
 
-			if (SixLabors.ImageSharp.Image.DetectFormat(path.GetOSDir().NormalizePath()) == null)
+			var imageType = SixLabors.ImageSharp.Image.DetectFormat(path);
+			if (imageType == null && !path.GetOSDir().NormalizePath().EndsWith(".svg"))
 				return null;
+
+			if (imageType != null)
+			{
+				var exts = imageType.FileExtensions.ToList();
+				var found = exts.Any(ext => path.EndsWith(ext));
+
+				if (!found)
+				{
+					var npath = $"{path}.{exts.First()}";
+					if (!SFile.Exists(npath)) SFile.Copy(path, npath);
+					Error err1 = image.Load(npath);
+					if (err1 != Error.Ok)
+						return null;
+
+					var texture1 = new ImageTexture();
+					texture1.CreateFromImage(image);
+					return texture1;
+				}
+			}
 
 			Error err = image.Load(path);
 			if (err != Error.Ok)
