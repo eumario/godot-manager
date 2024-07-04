@@ -1,14 +1,13 @@
-name: Create Changelog
-  id: changelog
-  uses: actions/github-script/@v6.3.1
-  env:
-    COMMITS: ${{ toJSON(github.event.commits) }}
-  with:
-    result-encoding: string
-    script: |
-      const commits = JSON.parse(process.env.COMMITS);
-      var lines = "## What's Changed\n\n";
-      for (const commit of commits) {
-        lines += "- " + commit.message + " (" + commit.id + ") @" + commit.author.username + "\n"
-      }
-      return lines
+name: Changelog
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "✏️ Generate release changelog"
+        uses: heinrichreimer/action-github-changelog-generator@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} 
