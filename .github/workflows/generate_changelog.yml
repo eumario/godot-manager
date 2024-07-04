@@ -1,4 +1,4 @@
-- name: Create Changelog
+name: Create Changelog
   id: changelog
   uses: actions/github-script/@v6.3.1
   env:
