@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
+using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Managers;
 using GodotManager.Library.Utility;
 
@@ -23,7 +25,10 @@ public partial class NewsPanel : Panel
 	#endregion
 	
 	#region Private Variables
-	private readonly Uri _newsUri = new Uri("https://godotengine.org/blog");
+	private readonly Uri _newsUri = new Uri("https://godotengine.org/rss.json");
+
+	private readonly Uri _authorUri =
+		new Uri("https://raw.githubusercontent.com/godotengine/godot-website/master/_data/authors.yml");
 	private readonly Uri _baseUri = new Uri("https://godotengine.org");
 	private List<ImageDownloader> _downloads;
 	#endregion
@@ -59,11 +64,57 @@ public partial class NewsPanel : Panel
 			_newsList.QueueFreeChildren();
 
 		var dlg = BusyDialog.FromScene();
-		dlg.HeaderText = "Fetching News from Godot Project Website";
+		dlg.HeaderText = "Fetching author information from Godot Project Website";
 		dlg.BylineText = "Downloading...";
 		GetTree().Root.AddChild(dlg);
 		dlg.PopupCentered(new Vector2I(352, 150));
-		// Fetch and Process News
+
+		var authors = new DownloadInstance(_authorUri);
+		authors.Failed += async () =>
+		{
+			dlg.CallDeferred("UpdateByline", "Download failed.");
+			await Task.Delay(1500);
+			dlg.QueueFree();
+		};
+		authors.Cancelled += async () =>
+		{
+			dlg.CallDeferred("UpdateByline", "Fetching of News Cancelled.");
+			await Task.Delay(1500);
+			dlg.QueueFree();
+		};
+		authors.Progress += (size, total) =>
+		{
+			dlg.CallDeferred("UpdateByline", $"Fetched {size} of {total} bytes");
+		};
+		authors.Completed += (data) =>
+		{
+			var entries = data.GetStringFromUtf8().Split("\n");
+			var author = new AuthorEntry();
+			foreach (var (line, lineNo) in entries.WithIndex())
+			{
+				dlg.BylineText = $"Parsing {lineNo} of {entries.Length}";
+				if (line.StartsWith("- name: "))
+					author.Name = line.Replace("- name: ", "");
+
+				if (line.StartsWith("  image: "))
+					author.AvatarUrl = line.Replace("  image: ", "");
+
+				if (!author.HasAll()) continue;
+				if (!Database.HasAuthor(author.Name))
+					Database.AddAuthor(author);
+				author = new AuthorEntry();
+			}
+
+			FetchNews(dlg);
+		};
+		
+		authors.StartDownload();
+	}
+
+	private void FetchNews(BusyDialog dlg)
+	{
+		dlg.HeaderText = "Fetching news items from RSS Feed...";
+		dlg.BylineText = "Downloading...";
 
 		var news = new DownloadInstance(_newsUri);
 		news.Failed += async () =>
@@ -82,58 +133,74 @@ public partial class NewsPanel : Panel
 		{
 			dlg.CallDeferred("UpdateByline", $"Fetched {size} of {total} bytes");
 		};
-		news.Completed += (data) =>
+		news.Completed += async (bytes) =>
 		{
-			dlg.CallDeferred("UpdateByline", "Parsing news entries...");
-			var feed = ParseNews(data);
+			dlg.BylineText = "Parsing Entries...";
 
-			foreach (var item in feed)
+			var data = Json.ParseString(bytes.GetStringFromUtf8()).AsGodotDictionary();
+			if (!data.ContainsKey("title"))
 			{
-				var newsItem = NewsItem.FromScene();
-				newsItem.Headline = item["title"];
-				newsItem.AuthorName = item["author"];
-				newsItem.Date = item["date"].Replace("&nbsp;", " ");
-				newsItem.Url = _baseUri.AbsoluteUri + item["link"].Substr(1,item["link"].Length);
-				newsItem.Blerb = item["contents"];
+				dlg.BylineText = "Failed to parse RSS Stream...";
+				await Task.Delay(1500);
+				dlg.QueueFree();
+				return;
+			}
 
-				Uri uri = new Uri(item["image"]);
+			foreach (var item in data["items"].AsGodotArray())
+			{
+				var nitem = item.AsGodotDictionary();
+				var newsItem = NewsItem.FromScene();
+
+				newsItem.Headline = nitem["title"].AsString();
+				newsItem.AuthorName = nitem["dc:creator"].AsString();
+				newsItem.Date = nitem["pubDate"].AsString();
+				newsItem.Url = nitem["guid"].AsString();
+				newsItem.Blerb = nitem["description"].AsString();
+
+				Uri uri = new Uri(nitem["image"].AsString());
 				string imgPath = Database.Settings.CachePath.Join("images", "news", uri.AbsolutePath.GetFile());
 				if (!File.Exists(imgPath))
 				{
 					var dld = new ImageDownloader(uri);
 					_downloads.Add(dld);
 					newsItem.ImageDld = dld;
-					dld.DownloadCompleted += (sender, s) =>
+					dld.DownloadCompleted += (_, locPath) =>
 					{
-						Util.RunInMainThread(() => 
+						Util.RunInMainThread(() =>
 						{
-							newsItem.Image = Util.LoadImage(s.GetOsDir().NormalizePath());
+							newsItem.Image = Util.LoadImage(locPath.GetOsDir().NormalizePath());
 							UpdateQueue(dld, newsItem.ImageRect);
 						});
 					};
-					dld.DownloadCancelled += (sender, args) => UpdateQueue(dld, newsItem.ImageRect);
-					dld.DownloadFailed += (sender, args) => UpdateQueue(dld, newsItem.ImageRect);
+					dld.DownloadCancelled += (_, _) => UpdateQueue(dld, newsItem.ImageRect);
+					dld.DownloadFailed += (_, _) => UpdateQueue(dld, newsItem.ImageRect);
 				}
 				else
 					newsItem.Image = Util.LoadImage(imgPath.GetOsDir().NormalizePath());
 
-				uri = new Uri(item["avatar"]);
+				var avatarUrl = Database.GetAuthorI(newsItem.AuthorName);
+				if (avatarUrl is null) avatarUrl = Database.GetAuthorI($"\"{newsItem.AuthorName}\"");
+				if (avatarUrl is null) avatarUrl = Database.GetAuthor("default");
+				uri = new Uri(_baseUri, avatarUrl.AvatarUrl);
 				imgPath = Database.Settings.CachePath.Join("images", "news", uri.AbsolutePath.GetFile());
 				if (!File.Exists(imgPath))
 				{
-					var dld = new ImageDownloader(uri);
-					_downloads.Add(dld);
-					newsItem.AvatarDld = dld;
-					dld.DownloadCompleted += (sender, s) =>
+					if (_downloads.All(x => x.Tag != avatarUrl.Name))
 					{
-						Util.RunInMainThread(() =>
+						var dld = new ImageDownloader(uri, avatarUrl.Name);
+						_downloads.Add(dld);
+						newsItem.AvatarDld = dld;
+						dld.DownloadCompleted += (_, pathLoc) =>
 						{
-							newsItem.Avatar = Util.LoadImage(s.GetOsDir().NormalizePath());
-							UpdateQueue(dld, newsItem.AvatarRect);
-						});
-					};
-					dld.DownloadCancelled += (sender, args) => UpdateQueue(dld, newsItem.AvatarRect);
-                    dld.DownloadFailed += (sender, args) => UpdateQueue(dld, newsItem.AvatarRect);
+							Util.RunInMainThread(() =>
+							{
+								newsItem.Avatar = Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
+								UpdateQueue(dld, newsItem.AvatarRect);
+							});
+						};
+						dld.DownloadCancelled += (_, _) => UpdateQueue(dld, newsItem.AvatarRect);
+						dld.DownloadFailed += (_, _) => UpdateQueue(dld, newsItem.AvatarRect);	
+					}
 				}
 				else
 					newsItem.Avatar = Util.LoadImage(imgPath.GetOsDir().NormalizePath());
@@ -142,118 +209,10 @@ public partial class NewsPanel : Panel
 			}
 
 			CallDeferred("StartQueue");
-			
 			dlg.QueueFree();
 		};
 		
 		news.StartDownload();
-	}
-
-	private List<System.Collections.Generic.Dictionary<string, string>> ParseNews(byte[] data)
-	{
-		var items = new List<System.Collections.Generic.Dictionary<string, string>>();
-
-		var xml = new XmlParser();
-
-		var err = xml.OpenBuffer(data);
-		if (err != Error.Ok) return items;
-
-		while (true)
-		{
-			err = xml.Read();
-			if (err != Error.Ok)
-			{
-				if (err != Error.FileEof)
-					GD.PrintErr($"Error {err} reading XML");
-				break;
-			}
-
-			if (xml.GetNodeType() != XmlParser.NodeType.Element || xml.GetNodeName() != "article") continue;
-			var tag_open_offset = xml.GetNodeOffset();
-			xml.SkipSection();
-			xml.Read();
-			var tag_close_offset = xml.GetNodeOffset();
-			items.Add(ParseNewsItem(data, tag_open_offset, tag_close_offset));
-		}
-		
-		return items;
-	}
-
-	private System.Collections.Generic.Dictionary<string, string> ParseNewsItem(byte[] buffer, ulong start, ulong end)
-	{
-		var item = new System.Collections.Generic.Dictionary<string, string>();
-		var xml = new XmlParser();
-		var error = xml.OpenBuffer(buffer);
-		if (error != Error.Ok)
-		{
-			GD.PrintErr($"Error parsing news item. Error Code: {error}");
-			return null;
-		}
-
-		xml.Seek(start);
-
-		while (xml.GetNodeOffset() != end)
-		{
-			if (xml.GetNodeType() == XmlParser.NodeType.Element)
-			{
-				switch (xml.GetNodeName())
-				{
-					case "div":
-						if (xml.GetNamedAttributeValueSafe("class").Contains("thumbnail"))
-						{
-							var image_style = xml.GetNamedAttributeValueSafe("style");
-							var url_start = image_style.Find("'") + 1;
-							var url_end = image_style.RFind("'")-1;
-							var image_url = _baseUri.AbsoluteUri +
-							                image_style.Substr(url_start + 1, url_end - url_start);
-
-							item["image"] = image_url;
-							item["link"] = xml.GetNamedAttributeValueSafe("href");
-						}
-						break;
-					case "h3":
-						xml.Read();
-						item["title"] = xml.GetNodeType() == XmlParser.NodeType.Text
-							? xml.GetNodeData().StripEdges()
-							: "";
-						
-						break;
-					case "span":
-						if (xml.GetNamedAttributeValueSafe("class").Contains("date"))
-						{
-							xml.Read();
-							item["date"] = xml.GetNodeType() == XmlParser.NodeType.Text ? xml.GetNodeData() : "";
-						}
-
-						if (xml.GetNamedAttributeValueSafe("class").Contains("by"))
-						{
-							xml.Read();
-							item["author"] = xml.GetNodeType() == XmlParser.NodeType.Text
-								? xml.GetNodeData().StripEdges()
-								: "";
-						}
-						break;
-					case "p":
-						if (xml.GetNamedAttributeValueSafe("class").Contains("excerpt"))
-						{
-							xml.Read();
-							item["contents"] = xml.GetNodeType() == XmlParser.NodeType.Text ? xml.GetNodeData() : "";
-						}
-						break;
-					case "img":
-						if (xml.GetNamedAttributeValueSafe("class").Contains("avatar"))
-						{
-							var part = xml.GetNamedAttributeValueSafe("src");
-							item["avatar"] = _baseUri.AbsoluteUri + part.Substr(1, part.Length - 1);
-						}
-						break;
-				}
-			}
-
-			xml.Read();
-		}
-		
-		return item;
 	}
 
 	private void UpdateQueue(ImageDownloader dld, TextureRect rect)
@@ -287,11 +246,9 @@ public partial class NewsPanel : Panel
 		GD.Print($"Queue Size: {_downloads.Count}");
 		for (var i = 0; i < 3; i++)
 		{
-			if (i < _downloads.Count - 1)
-			{
-				_downloads[i].DownloadImage();
-				GD.Print($"Started {i} in queue");
-			}
+			if (i >= _downloads.Count - 1) continue;
+			_ = _downloads[i].DownloadImage();
+			GD.Print($"Started {i} in queue");
 		}
 	}
 	#endregion
