@@ -22,8 +22,9 @@ public class ImageDownloader : IDisposable
 
     public bool Started = false;
     public bool Finished = false;
+    public string Tag = string.Empty;
 
-    public ImageDownloader(Uri uri)
+    public ImageDownloader(Uri uri, string tag = "")
     {
         if (Database.Settings.UseProxy)
         {
@@ -43,6 +44,7 @@ public class ImageDownloader : IDisposable
         _httpClient.DefaultRequestHeaders.UserAgent.Add(comment);
         
         _uri = uri;
+        Tag = tag;
         _cancel = new CancellationTokenSource();
     }
 
