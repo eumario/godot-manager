@@ -8,6 +8,7 @@ public class ImageDownloader : Object {
 	GDCSHTTPClient client;
 
 	public Task ActiveTask { get; set; }
+	public string Tag { get; set; }
 
 	private string sUrl;
 	private string sRedirected;
@@ -17,12 +18,13 @@ public class ImageDownloader : Object {
 
 	public string Url { get { return sUrl; }}
 
-	public ImageDownloader(string url, string outPath) {
+	public ImageDownloader(string url, string outPath, string tag = "") {
 		sUrl = url;
 		uUri = new Uri(url);
 		sOutPath = outPath;
 		bIsRedirected = false;
 		client = new GDCSHTTPClient();
+		Tag = tag;
 	}
 
 	public ImageDownloader(Uri uri, string outPath) {
