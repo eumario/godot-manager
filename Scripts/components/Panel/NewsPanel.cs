@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
 using Uri = System.Uri;
 using SFile = System.IO.File;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using GodotManager.libs.data.Internal;
+using GodotManager.libs.util;
 using Array = Godot.Collections.Array;
 
 public class NewsPanel : Panel
@@ -14,7 +17,9 @@ public class NewsPanel : Panel
 
     [Resource("res://components/NewsItem.tscn")] private PackedScene NewsItem = null;
 
-    private readonly Uri NEWS_URI = new Uri("https://godotengine.org/blog/");
+    private readonly Uri NEWS_URI = new Uri("https://godotengine.org/rss.json");
+    private readonly Uri AUTHOR_URI =
+        new Uri("https://raw.githubusercontent.com/godotengine/godot-website/master/_data/authors.yml");
     private readonly Uri BASE_URI = new Uri("https://godotengine.org");
     private GDCSHTTPClient _client = null;
     private DownloadQueue _queue = null;
@@ -49,14 +54,10 @@ public class NewsPanel : Panel
     private async void RefreshNews()
     {
         if (NewsList.GetChildCount() != 0)
-        {
-            foreach (Node item in NewsList.GetChildren())
-            {
-                item.QueueFree();
-            }
-        }
-        AppDialogs.BusyDialog.UpdateHeader(Tr("Loading News..."));
-        AppDialogs.BusyDialog.UpdateByline(Tr("Fetching news from GodotEngine.org..."));
+            NewsList.QueueFreeChildren();
+        
+        AppDialogs.BusyDialog.UpdateHeader(Tr("Loading Authors..."));
+        AppDialogs.BusyDialog.UpdateByline(Tr("Fetching authors from GodotEngine.org..."));
         AppDialogs.BusyDialog.ShowDialog();
         InitClient();
         if (CentralStore.Settings.UseProxy)
@@ -64,7 +65,7 @@ public class NewsPanel : Panel
         else
             _client.ClearProxy();
 
-        Task<HTTPClient.Status> cres = _client.StartClient(NEWS_URI.Host, NEWS_URI.Port, true);
+        Task<HTTPClient.Status> cres = _client.StartClient(AUTHOR_URI.Host, AUTHOR_URI.Port, true);
 
         while (!cres.IsCompleted)
             await this.IdleFrame();
@@ -72,11 +73,11 @@ public class NewsPanel : Panel
         if (!_client.SuccessConnect(cres.Result))
         {
             AppDialogs.BusyDialog.HideDialog();
-            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to fetch news entries from website.  Connection refused, or no results provided.");
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to fetch news entries from website. Connection refused, or no results provided.");
             return;
         }
 
-        var tresult = _client.MakeRequest(NEWS_URI.PathAndQuery);
+        var tresult = _client.MakeRequest(AUTHOR_URI.PathAndQuery);
         while (!tresult.IsCompleted)
             await this.IdleFrame();
         _client.Close();
@@ -87,47 +88,134 @@ public class NewsPanel : Panel
         {
             CleanupClient();
             AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Fetch News Error", $"Failed to fetch news entries from website. (Error Code: {result.ResponseCode}");
+            return;
+        }
+        
+        AppDialogs.BusyDialog.UpdateByline(Tr("Parsing author information..."));
+        var authors = result.Body.Split("\n");
+        var currentAuthor = new AuthorEntry();
+
+        foreach (var (author, index) in authors.WithIndex())
+        {
+            AppDialogs.BusyDialog.UpdateByline($"Parsing {index} of {authors.Length} ");
+            if (author.BeginsWith("- name: "))
+                currentAuthor.Name = author.Replace("- name: ", "");
+
+            if (author.BeginsWith("  image: "))
+                currentAuthor.AvatarUrl = author.Replace("  image: ", "");
+
+            if (!currentAuthor.HasAll()) continue;
+            currentAuthor.Name = currentAuthor.Name.Replace("\"", "").Replace("'", "").StripEdges();
+            if (CentralStore.AuthorEntries.All(x => x.Name != currentAuthor.Name))
+            {
+                CentralStore.AuthorEntries.Add(currentAuthor);
+            }
+            currentAuthor = new AuthorEntry();
+        }
+
+        CentralStore.Instance.SaveDatabase();
+        CleanupClient();
+        FetchNews();
+    }
+
+    private async void FetchNews()
+    {
+        AppDialogs.BusyDialog.UpdateHeader(Tr("Loading News..."));
+        AppDialogs.BusyDialog.UpdateByline(Tr("Fetching news from GodotEngine.org..."));
+        InitClient();
+        if (CentralStore.Settings.UseProxy)
+            _client.SetProxy(CentralStore.Settings.ProxyHost, CentralStore.Settings.ProxyPort, true);
+        else
+            _client.ClearProxy();
+
+        Task<HTTPClient.Status> cres = _client.StartClient(NEWS_URI.Host, NEWS_URI.Port, true);
+        
+        while (!cres.IsCompleted)
+            await this.IdleFrame();
+
+        if (!_client.SuccessConnect(cres.Result))
+        {
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Connection Failed", "Unable to fetch news entries from website.  Connection refused, or no results provided.");
+            return;
+        }
+        
+        var tresult = _client.MakeRequest(NEWS_URI.PathAndQuery);
+        while (!tresult.IsCompleted)
+            await this.IdleFrame();
+        _client.Close();
+
+        var result = tresult.Result;
+        
+        if (result.ResponseCode != 200)
+        {
+            CleanupClient();
+            AppDialogs.BusyDialog.HideDialog();
             AppDialogs.MessageDialog.ShowMessage("Fetch News Error", $"Failed to fetch news entries from website.  (Error Code: {result.ResponseCode}");
             return;
         }
 
         AppDialogs.BusyDialog.UpdateByline(Tr("Parsing news entries..."));
-        var feed = ParseNews(result.Body);
-        foreach (Dictionary<string, string> item in feed)
-        {
-            var newsItem = NewsItem.Instance<NewsItem>();
-            newsItem.Headline = "    " + item["title"];
-            newsItem.Byline = $"    {item["author"]}{item["date"].Replace("&nbsp;", " ")}";
-            newsItem.Url = new Uri(NEWS_URI, item["link"]).ToString();
-            newsItem.Blerb = item["contents"];
 
-            //newsItem.Image = item["image"];
-            Uri uri = new Uri(item["image"]);
+        var jsonResponse = JSON.Parse(result.Body);
+
+        if (jsonResponse.Error != Error.Ok)
+        {
+            CleanupClient();
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Fetch News Error", $"Failed to parse news entries from website.  (Error Code: {jsonResponse.Error}");
+            return;
+        }
+
+        var entries = jsonResponse.Result as Dictionary;
+        if (entries is null || !entries.Contains("title"))
+        {
+            AppDialogs.BusyDialog.HideDialog();
+            AppDialogs.MessageDialog.ShowMessage("Parse News Error", $"Invalid data returned when attempting to fetch RSS Feed.");
+            return;
+        }
+
+        foreach (var item in (Array)entries["items"])
+        {
+            var nitem = (Dictionary)item;
+            var newsItem = NewsItem.Instance<NewsItem>();
+
+            newsItem.Headline = "    " + (string)nitem["title"];
+            newsItem.Byline = $"    {(string)nitem["dc:creator"]} - {((string)nitem["pubDate"]).Replace("&nbsp;", " ")}";
+            newsItem.Url = (string)nitem["guid"];
+            newsItem.Blerb = (string)nitem["description"];
+
+            Uri uri = new Uri((string)nitem["image"]);
             string imgPath = $"{CentralStore.Settings.CachePath}/images/news/{uri.AbsolutePath.GetFile()}";
             if (!SFile.Exists(imgPath.GetOSDir().NormalizePath()))
             {
-                ImageDownloader dld = new ImageDownloader(item["image"], imgPath);
+                ImageDownloader dld = new ImageDownloader((string)nitem["image"], imgPath);
                 _queue.Push(dld);
                 newsItem.SetMeta("imgPath", imgPath);
                 newsItem.SetMeta("dld", dld);
             }
             else
-            {
                 newsItem.Image = imgPath.GetOSDir().NormalizePath();
-            }
 
-            uri = new Uri(item["avatar"]);
-            imgPath = $"{CentralStore.Settings.CachePath}/images/news/{uri.AbsolutePath.GetFile()}";
-            if (!SFile.Exists(imgPath.GetOSDir().NormalizePath()))
+            var avatar = CentralStore.AuthorEntries.FirstOrDefault(x => x.Name == (string)nitem["dc:creator"]);
+            if (avatar is null) avatar = CentralStore.AuthorEntries.FirstOrDefault(x => x.Name == "default");
+            if (avatar != null)
             {
-                ImageDownloader dld = new ImageDownloader(item["avatar"], imgPath);
-                _queue.Push(dld);
-                newsItem.SetMeta("avatarPath", imgPath);
-                newsItem.SetMeta("avatarDld", dld);
-            }
-            else
-            {
-                newsItem.Avatar = imgPath.GetOSDir().NormalizePath();
+                uri = new Uri(BASE_URI, avatar.AvatarUrl);
+                imgPath = $"{CentralStore.Settings.CachePath}/images/news/{uri.AbsolutePath.GetFile()}";
+                if (!SFile.Exists(imgPath.GetOSDir().NormalizePath()))
+                {
+                    if (_queue.Queued.All(x => x.Tag != nitem["dc:creator"]))
+                    {
+                        ImageDownloader dld = new ImageDownloader(uri.ToString(), imgPath, (string)nitem["dc:creator"]);
+                        _queue.Push(dld);
+                        newsItem.SetMeta("avatarPath", imgPath);
+                        newsItem.SetMeta("avatarDld", dld);
+                    }
+                    else
+                        newsItem.Avatar = imgPath.GetOSDir().NormalizePath();
+                }
             }
 
             NewsList.AddChild(newsItem);
@@ -135,7 +223,7 @@ public class NewsPanel : Panel
         _queue.StartDownload();
         AppDialogs.BusyDialog.HideDialog();
     }
-
+    
     [SignalHandler("download_completed", nameof(_queue))]
     void OnImageDownloaded(ImageDownloader dld)
     {
@@ -199,123 +287,5 @@ public class NewsPanel : Panel
     private void OnChunkReceived(int size)
     {
         GD.Print($"Downloaded {size} bytes");
-    }
-
-    private Array<Dictionary<string, string>> ParseNews(string buffer)
-    {
-        var parsed_news = new Array<Dictionary<string, string>>();
-
-        var xml = new XMLParser();
-        var error = xml.OpenBuffer(buffer.ToUTF8());
-        if (error != Error.Ok) return parsed_news;
-        while (true)
-        {
-            var err = xml.Read();
-            if (err != Error.Ok)
-            {
-                if (err != Error.FileEof)
-                {
-                    GD.Print($"Error {err} reading XML");
-                }
-
-                break;
-            }
-
-            if (xml.GetNodeType() != XMLParser.NodeType.Element || xml.GetNodeName() != "article") continue;
-            var tag_open_offset = xml.GetNodeOffset();
-            xml.SkipSection();
-            xml.Read();
-            var tag_close_offset = xml.GetNodeOffset();
-            parsed_news.Add(ParseNewsItem(buffer, tag_open_offset, tag_close_offset));
-        }
-
-        return parsed_news;
-    }
-
-    private Dictionary<string, string> ParseNewsItem(string buffer, ulong begin_ofs, ulong end_ofs)
-    {
-        var parsed_item = new Dictionary<string, string>();
-        var xml = new XMLParser();
-        var error = xml.OpenBuffer(buffer.ToUTF8());
-        if (error != Error.Ok)
-        {
-            GD.PrintErr($"Error parsing news item.  Error Code: {error}");
-            return null;
-        }
-
-        xml.Seek(begin_ofs);
-
-        while (xml.GetNodeOffset() != end_ofs)
-        {
-            if (xml.GetNodeType() == XMLParser.NodeType.Element)
-            {
-                switch (xml.GetNodeName())
-                {
-                    case "div":
-                        // <div class="thumbnail" style="background-image: url('https://godotengine.org/storage/app/uploads/....');" href="https://godotengine.org/article/....."> // Old Link
-                        // <div class="thumbnail" style="background-image: url('/storage/blog/covers/dev/....');" href="/articles/......"> // New Link
-                        if (xml.GetNamedAttributeValueSafe("class").Contains("thumbnail"))
-                        {
-                            var image_style = xml.GetNamedAttributeValueSafe("style");
-                            var url_start = image_style.Find("'") + 1;
-                            var url_end = image_style.FindLast("'");
-                            var image_url = BASE_URI.AbsoluteUri + image_style.Substr(url_start + 1, url_end - url_start - 1);
-
-                            parsed_item["image"] = image_url;
-                            parsed_item["link"] = xml.GetNamedAttributeValueSafe("href");
-                        }
-
-                        break;
-
-                    case "h3":
-                        // <h3>Article Title</h3>
-                        xml.Read();
-                        parsed_item["title"] = xml.GetNodeType() == XMLParser.NodeType.Text
-                            ? xml.GetNodeData().StripEdges()
-                            : "";
-
-                        break;
-                    case "span":
-                        // <span class="date">&nbsp;-&nbsp;dd Month year</span>
-                        if (xml.GetNamedAttributeValueSafe("class").Contains("date"))
-                        {
-                            xml.Read();
-                            parsed_item["date"] = xml.GetNodeType() == XMLParser.NodeType.Text ? xml.GetNodeData() : "";
-                        }
-                        // <span class="by">Author Name</span>
-                        if (xml.GetNamedAttributeValue("class").Contains("by"))
-                        {
-                            xml.Read();
-                            parsed_item["author"] = xml.GetNodeType() == XMLParser.NodeType.Text
-                                ? xml.GetNodeData().StripEdges()
-                                : "";
-                        }
-
-                        break;
-                    case "p":
-                        // <p class="excerpt">An excerpt of the blog entry to be read in.</p>
-                        if (xml.GetNamedAttributeValue("class").Contains("excerpt"))
-                        {
-                            xml.Read();
-                            parsed_item["contents"] =
-                                xml.GetNodeType() == XMLParser.NodeType.Text ? xml.GetNodeData() : "";
-                        }
-
-                        break;
-                    case "img":
-                        // <img class="avatar" width="25" height="25" src="https://godotengine.org/storage/app/uploads/public/....." alt="">
-                        if (xml.GetNamedAttributeValue("class").Contains("avatar"))
-                        {
-                            var part = xml.GetNamedAttributeValue("src");
-                            parsed_item["avatar"] = BASE_URI.AbsoluteUri + part.Substr(1, part.Length - 1);
-                        }
-                        break;
-                }
-            }
-
-            xml.Read();
-        }
-
-        return parsed_item;
     }
 }
