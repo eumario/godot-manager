@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Godot.Sharp.Extras;
 using Godot.Collections;
@@ -10,13 +12,15 @@ public class DownloadQueue : Node {
 	[Signal]
 	public delegate void queue_finished();
 
-	Queue queued;
+	Queue<ImageDownloader> queued;
 	Array<ImageDownloader> active;
 	int iMaxDownloads;
 	Timer checkActive;
 
+	public IList<ImageDownloader> Queued => queued.ToList();
+
 	public DownloadQueue(int maxDownloads = 5) {
-		queued = new Queue();
+		queued = new Queue<ImageDownloader>();
 		active = new Array<ImageDownloader>();
 		iMaxDownloads = maxDownloads;
 		checkActive = new Timer();
