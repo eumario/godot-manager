@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using Godot;
-using GodotManager.Library.Data.POCO.AssetLib;
 using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Utility;
 using LiteDB;
@@ -58,6 +57,7 @@ public class Database
     private ILiteCollection<CustomEngineDownload> _customEngines;
 
     private ILiteCollection<LatestRelease> _latestReleases;
+    private ILiteCollection<AuthorEntry> _authorEntries;
 
     private ILiteCollection<Category> _categories;
     
@@ -92,6 +92,7 @@ public class Database
         _customEngines = _database.GetCollection<CustomEngineDownload>("custom_engines");
         _latestReleases = _database.GetCollection<LatestRelease>("latest_releases");
         _categories = _database.GetCollection<Category>("categories");
+        _authorEntries = _database.GetCollection<AuthorEntry>("authors");
 
         if (_settings.Count() == 0)
             SetupDefaultSettings();
@@ -359,6 +360,24 @@ public class Database
         Instance._latestReleases.Update(release);
         FlushDatabase();
     }
+
+    #endregion
+    
+    #region Author Entries Functions for news Authors
+
+    public static AuthorEntry[] GetAllAuthors() => Instance._authorEntries.Query().ToArray();
+
+    public static bool HasAuthor(string name) =>
+        Instance._authorEntries.Query().Where(author => author.Name == name).FirstOrDefault() != null;
+
+    public static AuthorEntry GetAuthor(string author) =>
+        Instance._authorEntries.Query().Where(x => x.Name == author).FirstOrDefault();
+
+    public static AuthorEntry GetAuthorI(string author) =>
+        Instance._authorEntries.Query().Where(x => x.Name.ToLower() == author.ToLower()).FirstOrDefault();
+
+    public static void AddAuthor(AuthorEntry entry) => Instance._authorEntries.Insert(entry);
+    public static void RemoveAuthor(AuthorEntry entry) => Instance._authorEntries.Delete(entry.Id);
 
     #endregion
 }
