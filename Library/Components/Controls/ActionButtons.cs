@@ -9,15 +9,20 @@ public partial class ActionButtons : PanelContainer
 {
 	#region Signals
 	[Signal] public delegate void ButtonClickedEventHandler(int index);
+	
 	#endregion
 
 	#region Exports
+	
 	[Export(PropertyHint.File)] private Array<Texture2D> Icons = null;
 	[Export] private Array<string> HelpText = null;
+	
 	#endregion
 
 	#region Node Paths
+	
 	[NodePath] private HBoxContainer Buttons = null;
+	
 	#endregion
 	
 	#region Godot Overrides
