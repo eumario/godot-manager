@@ -2,6 +2,8 @@ using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
 using System.Linq;
+using Github;
+using GodotManager.libs.data.Internal;
 using Directory = System.IO.Directory;
 using Path = System.IO.Path;
 using SFile = System.IO.File;
@@ -40,6 +42,7 @@ public class CentralStore {
 	public static Array<AssetPlugin> Plugins { get => Instance._data.Plugins; }
 	public static Array<AssetProject> Templates { get => Instance._data.Templates; }
 	public static Array<CustomEngineDownload> CustomEngines { get => Instance._data.CustomEngines; }
+	public static Array<AuthorEntry> AuthorEntries { get => Instance._data.AuthorEntries; }
 #endregion
 
 #region Instance Methods

@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using GodotManager.libs.data.Internal;
 using Newtonsoft.Json;
 
 [JsonObject(MemberSerialization.OptIn)]
@@ -14,6 +15,7 @@ public class CentralStoreData : Object {
 	[JsonProperty] public Array<AssetPlugin> Plugins;
 	[JsonProperty] public Array<AssetProject> Templates;
 	[JsonProperty] public Array<CustomEngineDownload> CustomEngines;
+	[JsonProperty] public Array<AuthorEntry> AuthorEntries;
 	[JsonProperty] public Settings Settings;
 
 	public CentralStoreData() {
@@ -27,6 +29,7 @@ public class CentralStoreData : Object {
 		Plugins = new Array<AssetPlugin>();
 		Templates = new Array<AssetProject>();
 		CustomEngines = new Array<CustomEngineDownload>();
+		AuthorEntries = new Array<AuthorEntry>();
 		Settings = new Settings();
 	}
 }
