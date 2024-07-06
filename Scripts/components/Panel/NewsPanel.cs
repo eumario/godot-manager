@@ -206,7 +206,7 @@ public class NewsPanel : Panel
                 imgPath = $"{CentralStore.Settings.CachePath}/images/news/{uri.AbsolutePath.GetFile()}";
                 if (!SFile.Exists(imgPath.GetOSDir().NormalizePath()))
                 {
-                    if (_queue.Queued.All(x => x.Tag != nitem["dc:creator"]))
+                    if (_queue.Queued.All(x => x.Tag != (string)nitem["dc:creator"]))
                     {
                         ImageDownloader dld = new ImageDownloader(uri.ToString(), imgPath, (string)nitem["dc:creator"]);
                         _queue.Push(dld);
@@ -214,8 +214,14 @@ public class NewsPanel : Panel
                         newsItem.SetMeta("avatarDld", dld);
                     }
                     else
-                        newsItem.Avatar = imgPath.GetOSDir().NormalizePath();
+                    {
+                        var dld = _queue.Queued.FirstOrDefault(x => x.Tag == (string)nitem["dc:creator"]);
+                        newsItem.SetMeta("avatarPath", imgPath);
+                        newsItem.SetMeta("avatarDld", dld);
+                    }
                 }
+                else
+                    newsItem.Avatar = imgPath.GetOSDir().NormalizePath();
             }
 
             NewsList.AddChild(newsItem);
@@ -262,8 +268,6 @@ public class NewsPanel : Panel
                     {
                         // Need Generic Image to use instead.
                     }
-
-                    break;
                 }
             }
         }
