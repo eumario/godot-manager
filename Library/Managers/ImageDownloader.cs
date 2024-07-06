@@ -84,6 +84,8 @@ public class ImageDownloader : IDisposable
 
                 await File.WriteAllBytesAsync(output, memStream.ToArray());
 
+                Finished = true;
+
                 DownloadCompleted?.Invoke(this, output);
             }
             catch (OperationCanceledException)
@@ -94,8 +96,6 @@ public class ImageDownloader : IDisposable
             {
                 DownloadFailed?.Invoke(this, EventArgs.Empty);
             }
-
-            Finished = true;
         });
     }
 
