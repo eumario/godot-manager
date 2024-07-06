@@ -31,6 +31,8 @@ public partial class NewsPanel : Panel
 		new Uri("https://raw.githubusercontent.com/godotengine/godot-website/master/_data/authors.yml");
 	private readonly Uri _baseUri = new Uri("https://godotengine.org");
 	private List<ImageDownloader> _downloads;
+
+	private Callable _updateByline;
 	#endregion
 	
 	#region Public Variables
@@ -43,6 +45,7 @@ public partial class NewsPanel : Panel
 		_downloads = new List<ImageDownloader>();
 		GetParent<TabContainer>().TabChanged += OnPageChanged;
 		_refreshNews.Pressed += RefreshNews;
+		_updateByline = Callable.From((BusyDialog dlg, string arg) => dlg.UpdateByline(arg));
 	}
 
 	#endregion
@@ -72,19 +75,19 @@ public partial class NewsPanel : Panel
 		var authors = new DownloadInstance(_authorUri);
 		authors.Failed += async () =>
 		{
-			dlg.CallDeferred("UpdateByline", "Download failed.");
+			_updateByline.CallDeferred(dlg, "Download failed.");
 			await Task.Delay(1500);
 			dlg.QueueFree();
 		};
 		authors.Cancelled += async () =>
 		{
-			dlg.CallDeferred("UpdateByline", "Fetching of News Cancelled.");
+			_updateByline.CallDeferred(dlg, "Fetching of News Cancelled.");
 			await Task.Delay(1500);
 			dlg.QueueFree();
 		};
 		authors.Progress += (size, total) =>
 		{
-			dlg.CallDeferred("UpdateByline", $"Fetched {size} of {total} bytes");
+			_updateByline.CallDeferred(dlg, $"Fetched {size} of {total} bytes");
 		};
 		authors.Completed += (data) =>
 		{
@@ -92,9 +95,9 @@ public partial class NewsPanel : Panel
 			var author = new AuthorEntry();
 			foreach (var (line, lineNo) in entries.WithIndex())
 			{
-				dlg.BylineText = $"Parsing {lineNo} of {entries.Length}";
+				_updateByline.CallDeferred(dlg, $"Parsing {lineNo} of {entries.Length}");
 				if (line.StartsWith("- name: "))
-					author.Name = line.Replace("- name: ", "");
+					author.Name = line.Replace("- name: ", "").Replace("\"", "").Replace("'", "");
 
 				if (line.StartsWith("  image: "))
 					author.AvatarUrl = line.Replace("  image: ", "");
@@ -113,34 +116,34 @@ public partial class NewsPanel : Panel
 
 	private void FetchNews(BusyDialog dlg)
 	{
-		dlg.HeaderText = "Fetching news items from RSS Feed...";
-		dlg.BylineText = "Downloading...";
+		Callable.From(() => dlg.UpdateHeader("Fetching news items from RSS Feed...")).CallDeferred();
+		_updateByline.CallDeferred(dlg, "Downloading...");
 
 		var news = new DownloadInstance(_newsUri);
 		news.Failed += async () =>
 		{
-			dlg.CallDeferred("UpdateByline", "Download failed.");
+			_updateByline.CallDeferred(dlg, "Download failed.");
 			await Task.Delay(1500);
 			dlg.QueueFree();
 		};
 		news.Cancelled += async () =>
 		{
-			dlg.CallDeferred("UpdateByline", "Fetching of News Cancelled.");
+			_updateByline.CallDeferred(dlg, "Fetching of News Cancelled.");
 			await Task.Delay(1500);
 			dlg.QueueFree();
 		};
 		news.Progress += (size, total) =>
 		{
-			dlg.CallDeferred("UpdateByline", $"Fetched {size} of {total} bytes");
+			_updateByline.CallDeferred(dlg, $"Fetched {size} of {total} bytes");
 		};
 		news.Completed += async (bytes) =>
 		{
-			dlg.BylineText = "Parsing Entries...";
+			_updateByline.CallDeferred(dlg, "Parsing Entries...");
 
 			var data = Json.ParseString(bytes.GetStringFromUtf8()).AsGodotDictionary();
 			if (!data.ContainsKey("title"))
 			{
-				dlg.BylineText = "Failed to parse RSS Stream...";
+				_updateByline.CallDeferred(dlg, "Failed to parse RSS Stream...");
 				await Task.Delay(1500);
 				dlg.QueueFree();
 				return;
@@ -178,9 +181,13 @@ public partial class NewsPanel : Panel
 				else
 					newsItem.Image = Util.LoadImage(imgPath.GetOsDir().NormalizePath());
 
-				var avatarUrl = Database.GetAuthorI(newsItem.AuthorName);
-				if (avatarUrl is null) avatarUrl = Database.GetAuthorI($"\"{newsItem.AuthorName}\"");
-				if (avatarUrl is null) avatarUrl = Database.GetAuthor("default");
+				var avatarUrl = Database.GetAuthorI(newsItem.AuthorName) ?? Database.GetAuthor("default");
+				if (avatarUrl is null)
+				{
+					Callable.From(() => _newsList.AddChild(newsItem)).CallDeferred();
+					continue;
+				}
+				
 				uri = new Uri(_baseUri, avatarUrl.AvatarUrl);
 				imgPath = Database.Settings.CachePath.Join("images", "news", uri.AbsolutePath.GetFile());
 				if (!File.Exists(imgPath))
@@ -194,21 +201,33 @@ public partial class NewsPanel : Panel
 						{
 							Util.RunInMainThread(() =>
 							{
-								newsItem.Avatar = Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
+								var img = Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
+								newsItem.Avatar = img;
 								UpdateQueue(dld, newsItem.AvatarRect);
 							});
 						};
 						dld.DownloadCancelled += (_, _) => UpdateQueue(dld, newsItem.AvatarRect);
 						dld.DownloadFailed += (_, _) => UpdateQueue(dld, newsItem.AvatarRect);	
 					}
+					else
+					{
+						var dld = _downloads.FirstOrDefault(x => x.Tag == avatarUrl.Name);
+						dld.DownloadCompleted += (_, pathLoc) =>
+						{
+							Util.RunInMainThread(() =>
+							{
+								var img = Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
+								newsItem.Avatar = img;
+							});
+						};
+					}
 				}
 				else
 					newsItem.Avatar = Util.LoadImage(imgPath.GetOsDir().NormalizePath());
-
-				_newsList.CallDeferred("add_child", newsItem);
+				Callable.From(() => _newsList.AddChild(newsItem)).CallDeferred();
 			}
 
-			CallDeferred("StartQueue");
+			Callable.From(StartQueue).CallDeferred();
 			dlg.QueueFree();
 		};
 		
@@ -217,16 +236,11 @@ public partial class NewsPanel : Panel
 
 	private void UpdateQueue(ImageDownloader dld, TextureRect rect)
 	{
-		GD.Print("Removing downloader");
 		_downloads.Remove(dld);
 		if (dld.Finished == false)
 		{
-			GD.Print("Download completed successfully.");
-			rect.Texture = GD.Load<Texture2D>("res://Assets/Icons/svg/missing_icon.svg");
-		}
-		else
-		{
 			GD.Print("Download failed or Cancelled.");
+			rect.Texture = GD.Load<Texture2D>("res://Assets/Icons/svg/missing_icon.svg");
 		}
 		
 		dld.Dispose();
@@ -235,7 +249,6 @@ public partial class NewsPanel : Panel
 		{
 			if (item.Started) continue;
 			item.DownloadImage();
-			GD.Print("Started next download.");
 			return;
 		}
 	}
