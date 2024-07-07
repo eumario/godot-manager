@@ -1,11 +1,13 @@
 using Godot;
+using Newtonsoft.Json;
 
 namespace GodotManager.libs.data.Internal
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class AuthorEntry : Object
     {
-        public string Name { get; set; }
-        public string AvatarUrl { get; set; }
+        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public string AvatarUrl { get; set; }
 
         public AuthorEntry(string name = "", string avatarUrl = "")
         {
