@@ -2,12 +2,8 @@ using Godot;
 using Godot.Collections;
 using Newtonsoft.Json;
 using System.Linq;
-using Github;
 using GodotManager.libs.data.Internal;
-using Directory = System.IO.Directory;
-using Path = System.IO.Path;
 using SFile = System.IO.File;
-using Dir = System.IO.Directory;
 
 public class CentralStore {
 #region C# Pattern for Singleton
@@ -46,12 +42,21 @@ public class CentralStore {
 #endregion
 
 #region Instance Methods
-	public bool LoadDatabase()
+	public bool LoadDatabase(bool recursive = false)
 	{
 		File db = new File();
 		if (db.Open(Util.GetDatabaseFile(), File.ModeFlags.Read) == Error.Ok) {
 			var data = db.GetAsText();
 			db.Close();
+			if (string.IsNullOrEmpty(data))
+			{
+				if (recursive) return false;
+				if (SFile.Exists(Util.GetBackupDatabaseFile().GetOSDir().NormalizePath()))
+				{
+					SFile.Copy(Util.GetBackupDatabaseFile().GetOSDir().NormalizePath(), Util.GetDatabaseFile().GetOSDir().NormalizePath(), true);
+					return LoadDatabase(true);
+				}
+			}
 			_data = JsonConvert.DeserializeObject<CentralStoreData>(data);
 			var unique = _data.Settings.ScanDirs.Distinct<string>();
 			_data.Settings.ScanDirs = new Array<string>(unique.ToArray<string>());
@@ -62,6 +67,19 @@ public class CentralStore {
 
 	public void SaveDatabase() {
 		File db = new File();
+		var path = Util.GetDatabaseFile().GetOSDir().NormalizePath();
+		var exists = SFile.Exists(path);
+		if (exists)
+		{
+			if (db.Open(Util.GetDatabaseFile(), File.ModeFlags.Read) == Error.Ok)
+			{
+				var data = db.GetAsText();
+				if (!string.IsNullOrEmpty(data))
+					SFile.Copy(Util.GetDatabaseFile().GetOSDir().NormalizePath(), Util.GetBackupDatabaseFile().GetOSDir().NormalizePath(), true);
+				db.Close();
+				db = new File();
+			}
+		}
 		SortGodotVersions();
 		if (db.Open(Util.GetDatabaseFile(), File.ModeFlags.Write) == Error.Ok) {
 			var data = JsonConvert.SerializeObject(_data);
