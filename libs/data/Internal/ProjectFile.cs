@@ -117,11 +117,11 @@ public class ProjectFile : Godot.Object
 			pf.SetValue("application", "config/description", $"\"{Description}\"");
 			pf.SetValue("application", "config/icon", $"\"{Icon}\"");
 			if (pf.GetValue("header", "config_version") == "3" || pf.GetValue("header", "config_version") == "4")
-				pf.SetValue("rendering", "quality/driver/driver_name", $"\"{RenderingEngine}\"");
+				pf.SetValue("rendering", "quality/driver/driver_name", RenderingEngine.Contains("\"") ? RenderingEngine : $"\"{RenderingEngine}\"");
 			else if (pf.GetValue("header", "config_version") == "5")
-				pf.SetValue("rendering", "renderer/rendering_method", $"\"{RenderingEngine}\"");
+				pf.SetValue("rendering", "renderer/rendering_method", RenderingEngine.Contains("\"") ? RenderingEngine : $"\"{RenderingEngine}\"");
 			else
-				pf.GetValue("rendering", "quality/driver/driver_name", $"\"{RenderingEngine}\"");
+				pf.GetValue("rendering", "quality/driver/driver_name", RenderingEngine.Contains("\"") ? RenderingEngine : $"\"{RenderingEngine}\"");
 			pf.Save(Location);
 		}
 	}
