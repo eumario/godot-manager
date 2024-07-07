@@ -89,9 +89,25 @@ public static class Util
 	{
 		var path = GetUserFolder("central_store.json");
 		if (!OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
-		{
 			path = GetUserFolder("central_store_devel.json");
+		if (OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
+		{
+			if (SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("._sc_")) ||
+			    SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("_sc_")))
+			{
+				if (!Dir.Exists(path.GetBaseDir()))
+					Dir.CreateDirectory(path.GetBaseDir());
+			}
 		}
+
+		return path;
+	}
+
+	public static string GetBackupDatabaseFile()
+	{
+		var path = GetUserFolder("central_store.bak");
+		if (!OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
+			path = GetUserFolder("central_store_devel.bak");
 		if (OS.GetExecutablePath().GetFile().StartsWith("GodotManager"))
 		{
 			if (SFile.Exists(OS.GetExecutablePath().GetBaseDir().Join("._sc_")) ||
