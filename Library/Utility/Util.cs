@@ -46,7 +46,9 @@ public static class Util
             }
 
             var image = Image.LoadFromFile(filePath);
-            return ImageTexture.CreateFromImage(image);
+            var res = ImageTexture.CreateFromImage(image);
+            res.TakeOverPath(filePath);
+            return res;
         }
     }
 
