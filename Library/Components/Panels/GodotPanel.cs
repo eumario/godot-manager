@@ -154,6 +154,28 @@ public partial class GodotPanel : Panel
 			}
 		};
 	}
+
+	public override void _ExitTree()
+	{
+		foreach (var child in _installed.ItemList.GetChildren())
+		{
+			_installed.ItemList.RemoveChild(child);
+			child.QueueFree();
+		}
+	
+		foreach (var child in _downloading.ItemList.GetChildren())
+		{
+			_downloading.RemoveChild(child);
+			child.QueueFree();
+		}
+	
+		foreach (var child in _available.ItemList.GetChildren())
+		{
+			_available.ItemList.RemoveChild(child);
+			child.QueueFree();
+		}
+	}
+
 	#endregion
 	
 	#region Event Handlers

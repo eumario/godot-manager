@@ -85,6 +85,23 @@ public partial class ProjectsPanel : Panel
 		PopulateViews();
 		GetWindow().FilesDropped += OnFilesDropped;
 	}
+
+	public override void _ExitTree()
+	{
+		foreach (var nodeCache in _projectCache.Values)
+		{
+			nodeCache.QueueFree();
+			nodeCache.Unreference();
+		}
+
+		_projectCache = [];
+	
+		foreach (var cl in _categories.Values)
+		{
+			cl.QueueFree();
+		}
+	}
+
 	#endregion
 
 	#region Event Handlers

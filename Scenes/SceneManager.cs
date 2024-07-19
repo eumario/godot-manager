@@ -38,6 +38,12 @@ public partial class SceneManager : Control
 		}
 	}
 
+	public override void _ExitTree()
+	{
+		_mainWindow.Free();
+		_splashScreen.Free();
+	}
+
 	void OnTimeout_Splash()
 	{
 		var main = _mainWindow.Instantiate<MainWindow>();

@@ -48,6 +48,15 @@ public partial class NewsPanel : Panel
 		_updateByline = Callable.From((BusyDialog dlg, string arg) => dlg.UpdateByline(arg));
 	}
 
+	public override void _ExitTree()
+	{
+		foreach (var child in _newsList.GetChildren())
+		{
+			_newsList.RemoveChild(child);
+			child.QueueFree();
+		}
+	}
+
 	#endregion
 	
 	#region Event Handlers
