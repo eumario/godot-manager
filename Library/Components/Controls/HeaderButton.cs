@@ -81,7 +81,7 @@ public partial class HeaderButton : PanelContainer
 			{
 				Direction = SortDirection.Indeterminate;
 				EmitSignal(SignalName.DirectionChanged);
-			} else if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Left })
+			} else if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
 			{
 				Direction = Direction == SortDirection.Down ? SortDirection.Up : SortDirection.Down;
 				EmitSignal(SignalName.DirectionChanged);
