@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using Godot.Sharp.Extras;
 
@@ -136,6 +137,14 @@ public partial class ItemListWithButtons : PanelContainer
 	public Variant GetItemMetadata(int index) => _itemList.GetItemMetadata(index);
 	public int GetItemCount() => _itemList.ItemCount;
 	public string GetItemText(int index) => _itemList.GetItemText(index);
+
+	public string[] GetAllItems()
+	{
+		var items = new List<string>();
+		for(var i = 0; i < _itemList.GetItemCount(); i++)
+			items.Add(_itemList.GetItemText(i));
+		return items.ToArray();
+	}
 	public void RemoveItem(int index) => _itemList.RemoveItem(index);
 	public void MoveItem(int index, int to) => _itemList.MoveItem(index, to);
 	public void Clear() => _itemList.Clear();
