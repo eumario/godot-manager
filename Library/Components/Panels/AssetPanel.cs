@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using Godot.Sharp.Extras;
+using GodotManager.Library.Components.Controls;
 
 // namespace
 namespace GodotManager.Library.Components.Panels;
