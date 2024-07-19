@@ -3,6 +3,8 @@ using Godot.Sharp.Extras;
 
 // namespace
 
+namespace GodotManager.Library.Components.Controls;
+
 public partial class PaginatedListing : ScrollContainer
 {
 	#region Signals
