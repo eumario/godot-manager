@@ -2,8 +2,8 @@ namespace GodotManager.Library.Data.POCO.AssetLib;
 
 public class Preview
 {
-    public string PreviewId;
-    public string Type;
-    public string Link;
-    public string Thumbnail;
+    public string PreviewId { get; set; }
+    public string Type { get; set; }
+    public string Link { get; set; }
+    public string Thumbnail { get; set; }
 }
