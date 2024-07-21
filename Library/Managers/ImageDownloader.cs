@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GodotManager.Library.Data;
 using GodotManager.Library.Utility;
+using SixLabors.ImageSharp;
 
 namespace GodotManager.Library.Managers;
 
@@ -15,6 +17,7 @@ public class ImageDownloader : IDisposable
     private HttpClient _httpClient;
     private Uri _uri;
     private readonly CancellationTokenSource _cancel;
+    private string _outputPath;
 
     public event EventHandler<string> DownloadCompleted;
     public event EventHandler DownloadCancelled;
@@ -24,7 +27,7 @@ public class ImageDownloader : IDisposable
     public bool Finished = false;
     public string Tag = string.Empty;
 
-    public ImageDownloader(Uri uri, string tag = "")
+    public ImageDownloader(Uri uri, string tag = "", string outputPath = "")
     {
         if (Database.Settings.UseProxy)
         {
@@ -46,11 +49,12 @@ public class ImageDownloader : IDisposable
         _uri = uri;
         Tag = tag;
         _cancel = new CancellationTokenSource();
+        _outputPath = outputPath;
     }
 
     public async Task DownloadImage()
     {
-        var output = Database.Settings.CachePath.Join("images", "news", _uri.AbsolutePath.GetFilename());
+        var output = string.IsNullOrEmpty(_outputPath) ? Database.Settings.CachePath.Join("images", "news", _uri.AbsolutePath.GetFilename()) : _outputPath;
         Started = true;
         Task.Run(async () =>
         {
@@ -82,6 +86,14 @@ public class ImageDownloader : IDisposable
                 if (!Directory.Exists(Path.GetDirectoryName(output)))
                     Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 
+
+                memStream.Seek(0, SeekOrigin.Begin);
+                if (!FileUtil.HasExtension(output))
+                {
+                    var format = await Image.DetectFormatAsync(memStream);
+                    output += $".{format.FileExtensions.First()}";
+                    memStream.Seek(0, SeekOrigin.Begin);
+                }
                 await File.WriteAllBytesAsync(output, memStream.ToArray());
 
                 Finished = true;
