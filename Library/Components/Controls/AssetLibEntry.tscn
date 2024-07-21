@@ -1,0 +1,105 @@
+[gd_scene load_steps=6 format=3 uid="uid://k3hqdo3t7um"]
+
+[ext_resource type="Script" path="res://Library/Components/Controls/AssetLibEntry.cs" id="1_jtqxv"]
+[ext_resource type="Texture2D" uid="uid://bsqyf68f2tedk" path="res://Assets/Icons/png/default_project_icon.png" id="1_ytb28"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_odjfk"]
+[ext_resource type="Texture2D" uid="uid://btkk7yo322jvw" path="res://Assets/Icons/svg/download.svg" id="3_y4jii"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dcmpc"]
+font = ExtResource("2_odjfk")
+
+[node name="AssetLibEntry" type="ColorRect"]
+custom_minimum_size = Vector2(0, 96)
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+color = Color(0.513726, 0.513726, 0.513726, 0)
+script = ExtResource("1_jtqxv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 68.0
+grow_horizontal = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 64)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_ytb28")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Godot Super Scaling"
+label_settings = SubResource("LabelSettings_dcmpc")
+text_overrun_behavior = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(325, 0)
+layout_mode = 2
+
+[node name="Category" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Category: Shaders"
+
+[node name="License" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "License: MIT"
+
+[node name="Author" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Author: cyberreality"
+
+[node name="Downloaded" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0, 1, 0, 1)
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+texture = ExtResource("3_y4jii")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="UpdateAvailable" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("3_y4jii")
+expand_mode = 1
+stretch_mode = 5
+flip_v = true
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
