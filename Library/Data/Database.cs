@@ -228,9 +228,37 @@ public class Database
         Instance._plugins.Delete(plgn.Id);
         FlushDatabase();
     }
+
+    public static bool HasPlugin(string assetId) =>
+        Instance._plugins.Query().Where(x => x.Asset.AssetId == assetId).FirstOrDefault() != null;
     #endregion
     
     #region Asset Template Functions
+    public static AssetProject[] AllTemplates() => Instance._templates.Query().ToArray();
+
+    public static AssetProject GetTemplate(int id) =>
+        Instance._templates.Query().Where(x => x.Id == id).FirstOrDefault();
+
+    public static AssetProject GetTemplateById(string id) =>
+        Instance._templates.Query().Where(x => x.Asset.AssetId == id).FirstOrDefault();
+
+    public static AssetProject GetTemplateByName(string name) =>
+        Instance._templates.Query().Where(x => x.Asset.Title == name).FirstOrDefault();
+
+    public static void AddTemplate(AssetProject tmpl)
+    {
+        Instance._templates.Insert(tmpl);
+        FlushDatabase();
+    }
+
+    public static void RemoveTemplate(AssetProject tmpl)
+    {
+        Instance._templates.Delete(tmpl.Id);
+        FlushDatabase();
+    }
+
+    public static bool HasTemplate(string assetId) =>
+        Instance._templates.Query().Where(x => x.Asset.AssetId == assetId).FirstOrDefault() != null;
     #endregion
 
     #region Category Functions
@@ -338,9 +366,21 @@ public class Database
     public static GithubVersion[] AllGithubVersions(string repo) =>
         Instance._githubVersions.Query().Where(x => x.Repo == repo).ToArray();
 
+    public static List<string> AllGithubMajorMinorVersions(string repo)
+    {
+        var versions = AllGithubVersions(repo);
+        var verMajMin = new List<string>();
+        foreach (var version in versions)
+        {
+            var test = $"{version.SemVersion.Version.Major}.{version.SemVersion.Version.Minor}";
+            if (!verMajMin.Contains(test)) verMajMin.Add(test);
+        }
+
+        return verMajMin.OrderDescending().ToList();
+    }
+
     #endregion
-
-
+    
     #region LatestReleases Functions
 
     public static LatestRelease[] GetAllLatest() =>
@@ -361,6 +401,30 @@ public class Database
         FlushDatabase();
     }
 
+    #endregion
+
+    #region AssetMirrors Functions
+    public static List<AssetMirror> AllAssetMirrors() => Instance._assetMirrors.Query().ToList();
+
+    public static void AddAssetMirror(AssetMirror mirror)
+    {
+        Instance._assetMirrors.Insert(mirror);
+        FlushDatabase();
+    }
+
+    public static bool RemoveAssetMirror(AssetMirror mirror)
+    {
+        var res = Instance._assetMirrors.Delete(mirror.Id);
+        FlushDatabase();
+        return res;
+    }
+
+    public static bool UpdateAssetMirror(AssetMirror mirror)
+    {
+        var res = Instance._assetMirrors.Update(mirror);
+        FlushDatabase();
+        return res;
+    }
     #endregion
     
     #region Author Entries Functions for news Authors
