@@ -73,8 +73,8 @@ layout_mode = 2
 [node name="Addons" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 toggle_mode = true
 button_pressed = true
 text = "Addons"
@@ -86,8 +86,8 @@ layout_mode = 2
 [node name="Templates" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 toggle_mode = true
 text = "Templates"
 flat = true
@@ -98,8 +98,8 @@ layout_mode = 2
 [node name="Manage" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 toggle_mode = true
 text = "Manage"
 flat = true
@@ -156,10 +156,9 @@ text = "Sort:"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 6
 selected = 0
+item_count = 6
 popup/item_0/text = "Recently Updated"
-popup/item_0/id = 0
 popup/item_1/text = "Least Recently Updated"
 popup/item_1/id = 1
 popup/item_2/text = "Name (A-Z)"
@@ -182,10 +181,9 @@ text = "Category:"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 1
 selected = 0
+item_count = 1
 popup/item_0/text = "All"
-popup/item_0/id = 0
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
 layout_mode = 2
@@ -198,34 +196,6 @@ text = "Godot Version:"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 13
-selected = 0
-popup/item_0/text = "Any"
-popup/item_0/id = 0
-popup/item_1/text = "4.0"
-popup/item_1/id = 1
-popup/item_2/text = "3.5"
-popup/item_2/id = 2
-popup/item_3/text = "3.4"
-popup/item_3/id = 3
-popup/item_4/text = "3.3"
-popup/item_4/id = 4
-popup/item_5/text = "3.2"
-popup/item_5/id = 5
-popup/item_6/text = "3.1"
-popup/item_6/id = 6
-popup/item_7/text = "3.0.4"
-popup/item_7/id = 7
-popup/item_8/text = "3.0.2"
-popup/item_8/id = 8
-popup/item_9/text = "3.0"
-popup/item_9/id = 9
-popup/item_10/text = "2.1.4"
-popup/item_10/id = 10
-popup/item_11/text = "2.1.3"
-popup/item_11/id = 11
-popup/item_12/text = "2.1"
-popup/item_12/id = 12
 
 [node name="VSeparator3" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
 layout_mode = 2
@@ -238,13 +208,7 @@ text = "Site:"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 2
-selected = 0
 fit_to_longest_item = false
-popup/item_0/text = "godotengine.org"
-popup/item_0/id = 0
-popup/item_1/text = "localhost"
-popup/item_1/id = 1
 
 [node name="VSeparator4" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
 layout_mode = 2
@@ -256,6 +220,15 @@ text = "Support"
 
 [node name="SupportPopup" type="PopupMenu" parent="VBoxContainer/SearchLibrary/HBoxContainer2/Support"]
 unique_name_in_owner = true
+item_count = 3
+item_0/text = "Official"
+item_0/checkable = 1
+item_1/text = "Community"
+item_1/checkable = 1
+item_1/id = 1
+item_2/text = "Testing"
+item_2/checkable = 1
+item_2/id = 2
 
 [node name="Spacer2" type="Control" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
 custom_minimum_size = Vector2(5, 21)
@@ -295,8 +268,8 @@ layout_mode = 2
 [node name="InstalledAddons" type="Button" parent="VBoxContainer/ManageDownloaded/HBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_font_sizes/font_size = 16
 toggle_mode = true
 button_pressed = true
@@ -310,8 +283,8 @@ layout_mode = 2
 [node name="InstalledTemplates" type="Button" parent="VBoxContainer/ManageDownloaded/HBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_colors/font_hover_color = Color(0.0156863, 0.815686, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.647059, 0.937255, 0.67451, 1)
 theme_override_font_sizes/font_size = 16
 toggle_mode = true
 button_group = SubResource("ButtonGroup_sdgr6")
