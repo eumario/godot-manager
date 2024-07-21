@@ -17,7 +17,7 @@ public static class FileUtil
 
     public static string PathSeparator => Platform.Get() == PlatformType.Windows ? @"\" : "/";
 
-    public static string GetExtension(this string path) => Path.GetExtension(path);
+    //public static string GetExtension(this string path) => Path.GetExtension(path);
     public static string GetFilename(this string path) => Path.GetFileName(path);
     public static string GetBaseName(this string path) => Path.GetFileNameWithoutExtension(path);
 
@@ -40,6 +40,21 @@ public static class FileUtil
             newPath.Replace("/", @"\") 
             : newPath.Replace(@"\", "/");
         return newPath;
+    }
+
+    public static bool WildcardExists(string file)
+    {
+        var files = Directory.GetFiles(file.GetBaseDir(), file.GetFile() + "*");
+        return files.Length > 0;
+    }
+
+    public static string WildcardFilename(string file) =>
+        Directory.GetFiles(file.GetBaseDir(), file.GetFile() + "*")[0];
+
+    public static bool HasExtension(string file)
+    {
+        var ext = file.GetExtension();
+        return file.EndsWith(ext) && ext != file;
     }
 
     public static string GetParentFolder(this string path) => path.GetBaseDir().GetBaseDir();
