@@ -41,13 +41,21 @@ public static class Util
                 return null;
             if (!filePath.EndsWith(".svg"))
             {
-                if (SixLabors.ImageSharp.Image.DetectFormat(filePath) == null)
+                try
+                {
+                    if (SixLabors.ImageSharp.Image.DetectFormat(filePath) == null)
+                        return null;
+                }
+                catch (Exception e)
+                {
                     return null;
+                }
             }
 
             var image = Image.LoadFromFile(filePath);
+            if (image == null) return null;
             var res = ImageTexture.CreateFromImage(image);
-            res.TakeOverPath(filePath);
+            res?.TakeOverPath(filePath);
             return res;
         }
     }
