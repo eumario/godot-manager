@@ -5,10 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Godot;
 using GodotManager.Library.Data;
 using GodotManager.Library.Utility;
-using ICSharpCode.SharpZipLib.Tar;
 using HttpClient = System.Net.Http.HttpClient;
 
 namespace GodotManager.Library.Managers;
