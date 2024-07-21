@@ -4,10 +4,8 @@ using LiteDB;
 
 namespace GodotManager.Library.Data.POCO.Internal;
 
-public class AssetProject
+public class AssetProject : AssetGeneral
 {
     [BsonId]
     public int Id { get; set; }
-    public Asset Asset { get; set; }
-    public string Location { get; set; }
 }
