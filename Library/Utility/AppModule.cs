@@ -2,7 +2,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Text.Json;
-using Newtonsoft.Json;
 
 namespace GodotManager.Library.Utility;
 
