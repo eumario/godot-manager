@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Sharp.Extras;
 using GodotManager.Library.Components.Controls;
 using GodotManager.Library.Components.Dialogs;
 using GodotManager.Library.Data;
-using GodotManager.Library.Data.POCO.AssetLib;
 using GodotManager.Library.Managers;
 
 // namespace
