@@ -203,7 +203,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	
 	#region Private Functions
 
-	private void UpdateUI()
+	private async void UpdateUI()
 	{
 		if (IsPreview) return;
 		MissingProject = !File.Exists(ProjectFile.Location);
@@ -217,7 +217,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 		else
 		{
 			var file = ProjectFile.Location.GetResourceBase(ProjectFile.Icon);
-			_projectIcon.Texture = !File.Exists(file) ? _defaultProjectIcon : Util.LoadImage(file);
+			_projectIcon.Texture = !File.Exists(file) ? _defaultProjectIcon : await Util.LoadImage(file);
 		}
 	}
 	#endregion

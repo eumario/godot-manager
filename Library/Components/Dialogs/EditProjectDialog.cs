@@ -124,7 +124,7 @@ public partial class EditProjectDialog : Window
 	
 	#region Private Functions
 
-	private void UpdateInfo()
+	private async void UpdateInfo()
 	{
 		IsDirty = false;
 		if (_projectIcon == null) return;
@@ -133,7 +133,7 @@ public partial class EditProjectDialog : Window
 		var iconPath = FileUtil.GetResourceBase(ProjectFile.Location, ProjectFile.Icon).GetOsDir().NormalizePath();
 		GD.Print($"ProjectFile Icon: {ProjectFile.Icon}");
 		GD.Print($"Resource File: {iconPath}");
-		_projectIcon.Texture = Util.LoadImage(iconPath);
+		_projectIcon.Texture = await Util.LoadImage(iconPath);
 		_projectName.Text = ProjectFile.Name;
 		var versions = ProjectFile.IsGodot4
 			? Database.AllVersions().Where(x => x.SemVersion.Version.Major == 4).ToList()

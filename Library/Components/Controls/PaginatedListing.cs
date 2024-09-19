@@ -121,7 +121,7 @@ public partial class PaginatedListing : ScrollContainer
 				}
 				else
 				{
-					var icon = Util.LoadImage(FileUtil.WildcardFilename(iconPath));
+					var icon = await Util.LoadImage(FileUtil.WildcardFilename(iconPath));
 					ale.Icon = icon ?? GD.Load<Texture2D>("res://Assets/Icons/svg/missing_icon.svg");
 				}
 			}
@@ -142,11 +142,11 @@ public partial class PaginatedListing : ScrollContainer
 		if (!QueueDict.ContainsKey(dld)) return; // Somehow we have no Image Downloader?????
 		var ale = QueueDict[dld];
 		
-		Util.RunInMainThread(() =>
+		Util.RunInMainThread(async () =>
 		{
 			if (File.Exists(path))
 			{
-				var icon = Util.LoadImage(path) ?? GD.Load<Texture2D>("res://Assets/Icons/svg/missing_icon.svg");
+				var icon = await Util.LoadImage(path) ?? GD.Load<Texture2D>("res://Assets/Icons/svg/missing_icon.svg");
 				ale.Icon = icon;
 			}
 			else

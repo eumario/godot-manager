@@ -1,9 +1,18 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Tga;
+using SixLabors.ImageSharp.Formats.Webp;
+using Image = Godot.Image;
 
 namespace GodotManager.Library.Utility;
 
@@ -28,43 +37,71 @@ public static class Util
     
     public static string GetDatabaseConnection() => $"Filename={FileUtil.GetUserFolder("godot_manager.dat")};Connection=shared";
 
-    public static Texture2D LoadImage(string path)
+    public static async Task<Texture2D?> LoadImage(string path)
     {
-        var filePath = path.NormalizePath();
-        if (filePath == string.Empty)
+        if (path.StartsWith("res://")) return GD.Load<Texture2D>(path);
+        var fullPath = ProjectSettings.GlobalizePath(path);
+        if (fullPath == null) return null;
+        
+        using var inStream = new FileStream(fullPath, FileMode.Open);
+        using var mem = new MemoryStream();
+        await inStream.CopyToAsync(mem);
+        mem.Seek(0, SeekOrigin.Begin);
+
+        try
         {
-            return GD.Load<Texture2D>(path);
-        }
-        else
-        {
-            if (!File.Exists(filePath))
-                return null;
-            if (!filePath.EndsWith(".svg"))
+            var format = await SixLabors.ImageSharp.Image.DetectFormatAsync(mem);
+            mem.Seek(0, SeekOrigin.Begin);
+            var buffer = mem.ToArray();
+            var img = new Image();
+
+            switch (format)
             {
-                try
-                {
-                    if (SixLabors.ImageSharp.Image.DetectFormat(filePath) == null)
-                        return null;
-                }
-                catch (Exception e)
-                {
-                    return null;
-                }
+                case BmpFormat:
+                    img.LoadBmpFromBuffer(buffer);
+                    break;
+                case JpegFormat:
+                    img.LoadJpgFromBuffer(buffer);
+                    break;
+                case PngFormat:
+                    img.LoadPngFromBuffer(buffer);
+                    break;
+                case TgaFormat:
+                    img.LoadTgaFromBuffer(buffer);
+                    break;
+                case WebpFormat:
+                    img.LoadWebpFromBuffer(buffer);
+                    break;
+                default:
+                    // Convert to PNG to load.
+                    var isImg = await SixLabors.ImageSharp.Image.LoadAsync(mem);
+                    var newmem = new MemoryStream();
+                    await isImg.SaveAsPngAsync(newmem);
+                    newmem.Seek(0, SeekOrigin.Begin);
+                    buffer = newmem.ToArray();
+                    img.LoadPngFromBuffer(buffer);
+                    break;
             }
 
-            var image = Image.LoadFromFile(filePath);
-            if (image == null) return null;
-            var res = ImageTexture.CreateFromImage(image);
-            res?.TakeOverPath(filePath);
-            return res;
+            return ImageTexture.CreateFromImage(img);
         }
+        catch (UnknownImageFormatException)
+        {
+            mem.Seek(0, SeekOrigin.Begin);
+            var buffer = mem.ToArray();
+            var img = new Image();
+            img.LoadSvgFromBuffer(buffer);
+            return ImageTexture.CreateFromImage(img);
+        }
+        
+        return null;
     }
 
     public static string EngineVersion
     {
         get
         {
-            Dictionary versionInfo = Engine.GetVersionInfo();
+            var versionInfo = Engine.GetVersionInfo();
             return $"{versionInfo["major"]}.{versionInfo["minor"]}.{versionInfo["patch"]}";
         }
     }
@@ -82,10 +119,12 @@ public static class Util
     
     public static void LaunchWeb(string url)
     {
-        ProcessStartInfo psi = new ProcessStartInfo();
-        psi.FileName = url;
-        psi.UseShellExecute = true;
-        psi.WindowStyle = ProcessWindowStyle.Normal;
+        var psi = new ProcessStartInfo
+        {
+            FileName = url,
+            UseShellExecute = true,
+            WindowStyle = ProcessWindowStyle.Normal
+        };
         Process.Start(psi);
     }
 

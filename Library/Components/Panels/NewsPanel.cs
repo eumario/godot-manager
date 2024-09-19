@@ -178,9 +178,9 @@ public partial class NewsPanel : Panel
 					newsItem.ImageDld = dld;
 					dld.DownloadCompleted += (_, locPath) =>
 					{
-						Util.RunInMainThread(() =>
+						Util.RunInMainThread(async () =>
 						{
-							newsItem.Image = Util.LoadImage(locPath.GetOsDir().NormalizePath());
+							newsItem.Image = await Util.LoadImage(locPath.GetOsDir().NormalizePath());
 							UpdateQueue(dld, newsItem.ImageRect);
 						});
 					};
@@ -188,7 +188,7 @@ public partial class NewsPanel : Panel
 					dld.DownloadFailed += (_, _) => UpdateQueue(dld, newsItem.ImageRect);
 				}
 				else
-					newsItem.Image = Util.LoadImage(imgPath.GetOsDir().NormalizePath());
+					newsItem.Image = await Util.LoadImage(imgPath.GetOsDir().NormalizePath());
 
 				var avatarUrl = Database.GetAuthorI(newsItem.AuthorName) ?? Database.GetAuthor("default");
 				if (avatarUrl is null)
@@ -208,9 +208,9 @@ public partial class NewsPanel : Panel
 						newsItem.AvatarDld = dld;
 						dld.DownloadCompleted += (_, pathLoc) =>
 						{
-							Util.RunInMainThread(() =>
+							Util.RunInMainThread(async () =>
 							{
-								var img = Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
+								var img = await Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
 								newsItem.Avatar = img;
 								UpdateQueue(dld, newsItem.AvatarRect);
 							});
@@ -223,16 +223,16 @@ public partial class NewsPanel : Panel
 						var dld = _downloads.FirstOrDefault(x => x.Tag == avatarUrl.Name);
 						dld.DownloadCompleted += (_, pathLoc) =>
 						{
-							Util.RunInMainThread(() =>
+							Util.RunInMainThread(async () =>
 							{
-								var img = Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
+								var img = await Util.LoadImage(pathLoc.GetOsDir().NormalizePath());
 								newsItem.Avatar = img;
 							});
 						};
 					}
 				}
 				else
-					newsItem.Avatar = Util.LoadImage(imgPath.GetOsDir().NormalizePath());
+					newsItem.Avatar = await Util.LoadImage(imgPath.GetOsDir().NormalizePath());
 				Callable.From(() => _newsList.AddChild(newsItem)).CallDeferred();
 			}
 
