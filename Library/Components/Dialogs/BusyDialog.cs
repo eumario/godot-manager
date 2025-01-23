@@ -4,6 +4,7 @@ using Godot.Sharp.Extras;
 // namespace
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/BusyDialog.tscn")]
 public partial class BusyDialog : Window
 {
 	#region Signals
@@ -13,14 +14,6 @@ public partial class BusyDialog : Window
 
 	[NodePath] private Label _header;
 	[NodePath] private Label _byline;
-	#endregion
-	
-	#region Quick Create
-	public static BusyDialog FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/BusyDialog.tscn");
-		return scene.Instantiate<BusyDialog>();
-	}
 	#endregion
 	
 	#region Private Variables

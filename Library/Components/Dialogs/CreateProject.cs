@@ -7,17 +7,10 @@ using GodotManager.Library.Data;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/CreateProject.tscn")]
 public partial class CreateProject : AcceptDialog
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static CreateProject FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/CreateProject.tscn");
-		return scene.Instantiate<CreateProject>();
-	}
 	#endregion
 	
 	#region Node Paths

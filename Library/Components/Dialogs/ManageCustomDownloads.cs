@@ -7,17 +7,10 @@ using GodotManager.Library.Components.Controls;
 namespace GodotManager.Library.Components.Dialogs;
 
 [Tool]
+[SceneNode("res://Library/Components/Dialogs/ManageCustomDownloads.tscn")]
 public partial class ManageCustomDownloads : AcceptDialog
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static ManageCustomDownloads FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/ManageCustomDownloads.tscn");
-		return scene.Instantiate<ManageCustomDownloads>();
-	}
 	#endregion
 	
 	#region Node Paths

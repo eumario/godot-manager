@@ -8,6 +8,7 @@ using Godot;
 using Godot.Collections;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Gif;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Tga;
@@ -71,6 +72,15 @@ public static class Util
                     break;
                 case WebpFormat:
                     img.LoadWebpFromBuffer(buffer);
+                    break;
+                case GifFormat:
+                    var gif =await SixLabors.ImageSharp.Image.LoadAsync(mem);
+                    var gifmem = new MemoryStream();
+                    var frame = gif.Frames.CloneFrame(0);
+                    await frame.SaveAsPngAsync(gifmem);
+                    gifmem.Seek(0, SeekOrigin.Begin);
+                    buffer = gifmem.ToArray();
+                    img.LoadPngFromBuffer(buffer);
                     break;
                 default:
                     // Convert to PNG to load.

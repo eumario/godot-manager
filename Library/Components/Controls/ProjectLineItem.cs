@@ -8,6 +8,7 @@ using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
 
+[SceneNode("res://Library/Components/Controls/ProjectLineItem.tscn")]
 public partial class ProjectLineItem : Control, IProjectIcon
 {
 	#region Signals
@@ -19,14 +20,6 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	[Signal] public delegate void DragStartedEventHandler(ProjectLineItem pli);
 	[Signal] public delegate void DragEndedEventHandler(ProjectLineItem pli);
 	[Signal] public delegate void ContextMenuClickEventHandler(ProjectLineItem pli, ContextMenuItem id);
-	#endregion
-	
-	#region Quick Create
-	public static ProjectLineItem FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/ProjectLineItem.tscn");
-		return scene.Instantiate<ProjectLineItem>();
-	}
 	#endregion
 	
 	#region Node Paths
@@ -153,7 +146,7 @@ public partial class ProjectLineItem : Control, IProjectIcon
 	
 		data["source"] = this;
 		data["parent"] = GetParent().GetParent<CategoryList>();
-		var preview = FromScene();
+		var preview = SceneNode<ProjectLineItem>.FromScene();
 		preview.ProjectFile = ProjectFile;
 		preview.GodotVersion = GodotVersion;
 		var notifier = new VisibleOnScreenNotifier2D();

@@ -20,9 +20,9 @@ public partial class PaginatedListing : ScrollContainer
 	#endregion
 	
 	#region Node Paths
-	[NodePath] private PaginationNav _topPageCount = null;
-	[NodePath] private GridContainer _itemList = null;
-	[NodePath] private PaginationNav _bottomPageCount = null;
+	[NodePath] private PaginationNav? _topPageCount = null;
+	[NodePath] private GridContainer? _itemList = null;
+	[NodePath] private PaginationNav? _bottomPageCount = null;
 	#endregion
 	
 	#region Private Variables
@@ -31,11 +31,6 @@ public partial class PaginatedListing : ScrollContainer
 	#endregion
 	
 	#region Public Variables
-	#endregion
-	
-	#region Resources
-	[Resource("res://Library/Components/Controls/AssetLibEntry.tscn")]
-	private PackedScene _assetEntry;
 	#endregion
 
 	#region Godot Overrides
@@ -68,7 +63,7 @@ public partial class PaginatedListing : ScrollContainer
 		{
 			for (var i = 0; i < result.TotalItems; i++)
 			{
-				var ale = _assetEntry.Instantiate<AssetLibEntry>();
+				var ale = SceneNode<AssetLibEntry>.FromScene();
 				_itemList.AddChild(ale);
 			}
 		}

@@ -7,20 +7,21 @@ namespace GodotManager.Scenes;
 
 public partial class MainWindow : Control
 {
-	private static MainWindow _instance;
-	private List<Button> _pageButtons;
-	[NodePath] private PanelContainer _sidebar;
-	[NodePath] private Button _menu;
-	[NodePath] private Button _minimize;
-	[NodePath] private Button _restMax;
-	[NodePath] private Button _close;
-	[NodePath] private TabContainer _panels;
+	private static MainWindow? _instance;
+	private List<Button> _pageButtons = new();
+	[NodePath] private PanelContainer? _sidebar;
+	[NodePath] private Button? _menu;
+	[NodePath] private Button? _minimize;
+	[NodePath] private Button? _restMax;
+	[NodePath] private Button? _close;
+	[NodePath] private TabContainer? _panels;
+	[NodePath] private Library.Components.Controls.DownloadArea? _downloadArea;
 
 	[Resource("res://Assets/Icons/svg/restore.svg")]
-	private Texture2D _textureRestore;
+	private Texture2D? _textureRestore;
 
 	[Resource("res://Assets/Icons/svg/maximize.svg")]
-	private Texture2D _textureMaximize;
+	private Texture2D? _textureMaximize;
 
 	public override void _Ready()
 	{

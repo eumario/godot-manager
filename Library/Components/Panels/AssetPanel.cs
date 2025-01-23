@@ -120,7 +120,7 @@ public partial class AssetPanel : Panel
 	
 	private async void OnPLPageChanged(PaginatedListing listing, int indx)
 	{
-		var dlg = BusyDialog.FromScene();
+		var dlg = SceneNode<BusyDialog>.FromScene();
 		dlg.HeaderText = "Searching Asset Library for results...";
 		dlg.BylineText = "Connecting...";
 		GetTree().Root.AddChild(dlg);
@@ -171,7 +171,7 @@ public partial class AssetPanel : Panel
 
 	private async Task ConfigureAssetLibrary(bool templates = false)
 	{
-		var dlg = BusyDialog.FromScene();
+		var dlg = SceneNode<BusyDialog>.FromScene();
 		dlg.HeaderText = "Gathering information from GodotEngine Assetlib...";
 		dlg.BylineText = "Connecting...";
 		GetTree().Root.AddChild(dlg);
@@ -199,7 +199,7 @@ public partial class AssetPanel : Panel
 			return;
 		}
 		
-		var dlg = BusyDialog.FromScene();
+		var dlg = SceneNode<BusyDialog>.FromScene();
 		dlg.HeaderText = "Searching Asset Library for results...";
 		dlg.BylineText = "Connecting...";
 		GetTree().Root.AddChild(dlg);

@@ -1,6 +1,6 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://c5gbpe7pqypy3"]
 
-[ext_resource type="FontFile" uid="uid://cw7gvxhpjkwf" path="res://Assets/Fonts/DroidSans.ttf" id="1_1ndfw"]
+[ext_resource type="FontFile" uid="uid://cvhh8phjvk77r" path="res://Assets/Fonts/DroidSans.ttf" id="1_1ndfw"]
 
 [resource]
 font = ExtResource("1_1ndfw")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://k3hqdo3t7um"]
 
-[ext_resource type="Script" path="res://Library/Components/Controls/AssetLibEntry.cs" id="1_jtqxv"]
+[ext_resource type="Script" uid="uid://b7sclw8kmpyqg" path="res://Library/Components/Controls/AssetLibEntry.cs" id="1_jtqxv"]
 [ext_resource type="Texture2D" uid="uid://bsqyf68f2tedk" path="res://Assets/Icons/png/default_project_icon.png" id="1_ytb28"]
 [ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="2_odjfk"]
 [ext_resource type="Texture2D" uid="uid://btkk7yo322jvw" path="res://Assets/Icons/svg/download.svg" id="3_y4jii"]

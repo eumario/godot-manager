@@ -7,20 +7,13 @@ using Godot.Sharp.Extras;
 namespace GodotManager.Library.Components.Dialogs;
 
 [Tool]
+[SceneNode("res://Library/Components/Dialogs/ListSelectDialog.tscn")]
 public partial class ListSelectDialog : AcceptDialog
 {
 	#region Signals
 
 	[Signal]
 	public delegate void OptionSelectedEventHandler(int option);
-	#endregion
-	
-	#region Quick Create
-	public static ListSelectDialog FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/ListSelectDialog.tscn");
-		return scene.Instantiate<ListSelectDialog>();
-	}
 	#endregion
 	
 	#region Node Paths

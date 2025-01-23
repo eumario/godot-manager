@@ -7,6 +7,7 @@ using GodotManager.Library.Data.POCO.Internal;
 using GodotManager.Library.Data.UI;
 using GodotManager.Library.Utility;
 
+[SceneNode("res://Library/Components/Dialogs/EditProjectDialog.tscn")]
 public partial class EditProjectDialog : Window
 {
 	#region Singletons
@@ -57,14 +58,6 @@ public partial class EditProjectDialog : Window
 			_isDirty = value;
 			if (_saveProject != null) _saveProject.Disabled = !value;
 		}
-	}
-	#endregion
-	
-	#region FromScene()
-	public static EditProjectDialog FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/EditProjectDialog.tscn");
-		return scene.Instantiate<EditProjectDialog>();
 	}
 	#endregion
 	

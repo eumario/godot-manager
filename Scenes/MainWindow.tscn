@@ -1,6 +1,6 @@
-[gd_scene load_steps=33 format=3 uid="uid://du2lveh7xn1eo"]
+[gd_scene load_steps=34 format=3 uid="uid://du2lveh7xn1eo"]
 
-[ext_resource type="Script" path="res://Scenes/MainWindow.cs" id="1_f3lvr"]
+[ext_resource type="Script" uid="uid://chhi65kvnr6tm" path="res://Scenes/MainWindow.cs" id="1_f3lvr"]
 [ext_resource type="Texture2D" uid="uid://b420i5syaj57l" path="res://Assets/Icons/svg/menu.svg" id="2_m1x1r"]
 [ext_resource type="StyleBox" uid="uid://clq1c657anwu1" path="res://Resources/SidebarButtons/normal.tres" id="3_3twcc"]
 [ext_resource type="Texture2D" uid="uid://bitfh2auomq4m" path="res://Assets/Icons/svg/project.svg" id="3_bek17"]
@@ -15,13 +15,14 @@
 [ext_resource type="Texture2D" uid="uid://bc63r5ev0wf3d" path="res://Assets/Icons/svg/minimize.svg" id="13_qlbbe"]
 [ext_resource type="Texture2D" uid="uid://d11vmhmlks23u" path="res://Assets/Icons/svg/x.svg" id="14_epifn"]
 [ext_resource type="Texture2D" uid="uid://dyl8j5l56y7ex" path="res://Assets/Icons/svg/maximize.svg" id="14_uxrta"]
-[ext_resource type="Script" path="res://Library/Components/Controls/ResizeHandler.cs" id="16_pcqv0"]
+[ext_resource type="Script" uid="uid://dd66liqyu45kq" path="res://Library/Components/Controls/ResizeHandler.cs" id="16_pcqv0"]
 [ext_resource type="PackedScene" uid="uid://crq8ob43cwrdn" path="res://Library/Components/Panels/ProjectsPanel.tscn" id="16_wxve1"]
-[ext_resource type="Script" path="res://Library/Components/Controls/TitleGrip.cs" id="17_7gb72"]
+[ext_resource type="Script" uid="uid://chpu8hltusu6n" path="res://Library/Components/Controls/TitleGrip.cs" id="17_7gb72"]
 [ext_resource type="PackedScene" uid="uid://y7tugxb0ixfh" path="res://Library/Components/Panels/AssetPanel.tscn" id="17_jb0ek"]
 [ext_resource type="PackedScene" uid="uid://s13nyo7iitop" path="res://Library/Components/Panels/GodotPanel.tscn" id="18_816l3"]
 [ext_resource type="PackedScene" uid="uid://cn4dii4n5dfmh" path="res://Library/Components/Panels/NewsPanel.tscn" id="19_aq2oe"]
 [ext_resource type="PackedScene" uid="uid://bnebpy6ihlmdy" path="res://Library/Components/Panels/SettingsPanel.tscn" id="20_cl8ng"]
+[ext_resource type="PackedScene" uid="uid://ot03oba25vjr" path="res://Library/Components/Controls/DownloadArea.tscn" id="21_1xwbv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6au41"]
 bg_color = Color(0.137255, 0.14902, 0.180392, 1)
@@ -45,14 +46,14 @@ bg_color = Color(0.186438, 0.201068, 0.240066, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8wr3s"]
 bg_color = Color(0.160784, 0.176471, 0.211765, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwd11"]
-bg_color = Color(1, 0, 0, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3qpd"]
 bg_color = Color(1, 0.260006, 0.200836, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bf2rk"]
 bg_color = Color(0.137255, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwd11"]
+bg_color = Color(1, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3e1n0"]
 bg_color = Color(0.137255, 0.14902, 0.180392, 1)
@@ -91,10 +92,10 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_gf54w")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gf54w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gf54w")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_gf54w")
-theme_override_styles/focus = SubResource("StyleBoxFlat_gf54w")
+theme_override_styles/normal = SubResource("StyleBoxFlat_gf54w")
 icon = ExtResource("2_m1x1r")
 clip_text = true
 expand_icon = true
@@ -103,10 +104,10 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/focus = ExtResource("6_rgy2d")
 theme_override_styles/hover = ExtResource("4_u5g5v")
 theme_override_styles/pressed = ExtResource("5_gvpxu")
-theme_override_styles/focus = ExtResource("6_rgy2d")
+theme_override_styles/normal = ExtResource("3_3twcc")
 toggle_mode = true
 text = "Projects"
 icon = ExtResource("3_bek17")
@@ -117,10 +118,10 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/focus = ExtResource("6_rgy2d")
 theme_override_styles/hover = ExtResource("4_u5g5v")
 theme_override_styles/pressed = ExtResource("5_gvpxu")
-theme_override_styles/focus = ExtResource("6_rgy2d")
+theme_override_styles/normal = ExtResource("3_3twcc")
 toggle_mode = true
 text = "AssetLib"
 icon = ExtResource("4_f4cwh")
@@ -131,10 +132,10 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/focus = ExtResource("6_rgy2d")
 theme_override_styles/hover = ExtResource("4_u5g5v")
 theme_override_styles/pressed = ExtResource("5_gvpxu")
-theme_override_styles/focus = ExtResource("6_rgy2d")
+theme_override_styles/normal = ExtResource("3_3twcc")
 toggle_mode = true
 text = "Versions"
 icon = ExtResource("5_0oncw")
@@ -145,10 +146,10 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/focus = ExtResource("6_rgy2d")
 theme_override_styles/hover = ExtResource("4_u5g5v")
 theme_override_styles/pressed = ExtResource("5_gvpxu")
-theme_override_styles/focus = ExtResource("6_rgy2d")
+theme_override_styles/normal = ExtResource("3_3twcc")
 toggle_mode = true
 text = "News"
 icon = ExtResource("6_oo23j")
@@ -163,10 +164,10 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_styles/normal = ExtResource("3_3twcc")
+theme_override_styles/focus = ExtResource("6_rgy2d")
 theme_override_styles/hover = ExtResource("4_u5g5v")
 theme_override_styles/pressed = ExtResource("5_gvpxu")
-theme_override_styles/focus = ExtResource("6_rgy2d")
+theme_override_styles/normal = ExtResource("3_3twcc")
 toggle_mode = true
 text = "Settings"
 icon = ExtResource("7_iohcc")
@@ -200,11 +201,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/focus = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_mgnvx")
 theme_override_styles/hover = SubResource("StyleBoxFlat_38da1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_8wr3s")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_mgnvx")
-theme_override_styles/focus = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
 icon = ExtResource("13_qlbbe")
 icon_alignment = 1
 expand_icon = true
@@ -214,11 +215,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/focus = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_mgnvx")
 theme_override_styles/hover = SubResource("StyleBoxFlat_38da1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_8wr3s")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_mgnvx")
-theme_override_styles/focus = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
 icon = ExtResource("14_uxrta")
 icon_alignment = 1
 expand_icon = true
@@ -228,11 +229,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r3qpd")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bf2rk")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wwd11")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_r3qpd")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_bf2rk")
-theme_override_styles/focus = SubResource("StyleBoxFlat_r3qpd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgnvx")
 icon = ExtResource("14_epifn")
 icon_alignment = 1
 expand_icon = true
@@ -246,30 +247,41 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_3e1n0")
+current_tab = 0
 tabs_visible = false
 
 [node name="ProjectsPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("16_wxve1")]
 unique_name_in_owner = true
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="AssetPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("17_jb0ek")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="GodotPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("18_816l3")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="NewsPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("19_aq2oe")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="SettingsPanel" parent="Shell/Dock/Content/Panels" instance=ExtResource("20_cl8ng")]
 unique_name_in_owner = true
 visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="DownloadArea" parent="Shell/Dock/Content" instance=ExtResource("21_1xwbv")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 190)
 layout_mode = 2
 
 [node name="TitleGrip" type="Control" parent="." groups=["window_management"]]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://y7tugxb0ixfh"]
 
-[ext_resource type="Script" path="res://Library/Components/Panels/AssetPanel.cs" id="1_tpgfo"]
+[ext_resource type="Script" uid="uid://bio8u1oav1lh" path="res://Library/Components/Panels/AssetPanel.cs" id="1_tpgfo"]
 [ext_resource type="PackedScene" uid="uid://oeaocesaan2w" path="res://Library/Components/Controls/PaginatedListing.tscn" id="2_600qo"]
 [ext_resource type="Texture2D" uid="uid://4gml8mgst2q2" path="res://Assets/Icons/svg/search_small.svg" id="3_6m20q"]
 
@@ -159,6 +159,7 @@ size_flags_horizontal = 3
 selected = 0
 item_count = 6
 popup/item_0/text = "Recently Updated"
+popup/item_0/id = 0
 popup/item_1/text = "Least Recently Updated"
 popup/item_1/id = 1
 popup/item_2/text = "Name (A-Z)"
@@ -184,6 +185,7 @@ size_flags_horizontal = 3
 selected = 0
 item_count = 1
 popup/item_0/text = "All"
+popup/item_0/id = 0
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/SearchLibrary/HBoxContainer2"]
 layout_mode = 2
@@ -223,6 +225,7 @@ unique_name_in_owner = true
 item_count = 3
 item_0/text = "Official"
 item_0/checkable = 1
+item_0/id = 0
 item_1/text = "Community"
 item_1/checkable = 1
 item_1/id = 1

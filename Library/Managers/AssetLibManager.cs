@@ -88,4 +88,24 @@ public class AssetLibManager
         LastQuery.LastResult = result;
         return result;
     }
+
+    public static async Task<Asset> GetAsset(string url, string id)
+    {
+        if (LastQuery == null)
+        {
+            LastQuery = new ApiQuery()
+            {
+                Url = url
+            };
+        }
+
+        return await GetAsset(id);
+    }
+    public static async Task<Asset> GetAsset(string id)
+    {
+        using var api = new HttpApiRequest(LastQuery.BuildUri(id));
+        var result = await api.MakeRequest<Asset>();
+        LastQuery.LastAsset = result;
+        return result;
+    }
 }

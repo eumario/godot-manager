@@ -18,12 +18,7 @@ public class DownloadManager
 
     public event DownloadCancelledEventHandler Cancelled;
 
-    private class Timestamp
-    {
-        public DateTime Start;
-        public DateTime LastMeasure;
-        public long LastByteCount;
-    }
+    public record struct Timestamp(DateTime Start, DateTime LastMeasure, long LastByteCount);
     
     private readonly Dictionary<GodotLineItem, Timestamp> _timestamps = new Dictionary<GodotLineItem, Timestamp>();
     private readonly Dictionary<GodotLineItem, DownloadInstance> _downloads = new Dictionary<GodotLineItem, DownloadInstance>();
@@ -40,7 +35,7 @@ public class DownloadManager
         downloader.Progress += (chunkSize, totalFetched) => ProgressUpdate(item, chunkSize, totalFetched);
         downloader.Failed += () => DownloadFailed(item);
         downloader.Cancelled += () => DownloadCancelled(item);
-        _timestamps.Add(item, new Timestamp() { Start = DateTime.Now, LastMeasure = DateTime.Now, LastByteCount = 0});
+        _timestamps.Add(item, new Timestamp(DateTime.Now, DateTime.Now, 0));
         _downloads.Add(item, downloader);
         item.InstallClicked += HandleDownloadCancelled;
         item.SetupDownloadProgress();

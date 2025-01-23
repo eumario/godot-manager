@@ -110,7 +110,7 @@ public partial class ProjectsPanel : Panel
 		switch ((ProjectActions)index)
 		{
 			case ProjectActions.NewProject:
-				var np = CreateProject.FromScene();
+				var np = SceneNode<CreateProject>.FromScene();
 				AddChild(np);
 				np.PopupCentered(new Vector2I(600,470));
 				break;
@@ -120,7 +120,7 @@ public partial class ProjectsPanel : Panel
 			case ProjectActions.ScanFolders:
 				break;
 			case ProjectActions.AddCategory:
-				var ac = CreateCategory.FromScene();
+				var ac = SceneNode<CreateCategory>.FromScene();
 				ac.CategoryAnswer += (name) =>
 				{
 					Database.AddCategory(name);
@@ -130,7 +130,7 @@ public partial class ProjectsPanel : Panel
 				ac.PopupCentered();
 				break;
 			case ProjectActions.RemoveCategory:
-				var rc = RemoveCategory.FromScene();
+				var rc = SceneNode<RemoveCategory>.FromScene();
 				rc.Categories = Database.AllCategories().Select(x => x.Name).ToList();
 				rc.CategorySelected += (category) =>
 				{
@@ -171,7 +171,7 @@ public partial class ProjectsPanel : Panel
 
 	void OnImport(string path = null)
 	{
-		var dlg = ImportProject.FromScene();
+		var dlg = SceneNode<ImportProject>.FromScene();
 		dlg.ImportCompleted += () =>
 		{
 			PopulateViews();
@@ -239,7 +239,7 @@ public partial class ProjectsPanel : Panel
 				continue;
 			}
 
-			var cl = CategoryList.FromScene();
+			var cl = SceneNode<CategoryList>.FromScene();
 			category.IsExpanded = true;
 			category.IsPinned = false;
 			Database.UpdateCategory(category);
@@ -279,7 +279,7 @@ public partial class ProjectsPanel : Panel
 	{
 		foreach (var category in Database.AllCategories())
 		{
-			var cl = CategoryList.FromScene();
+			var cl = SceneNode<CategoryList>.FromScene();
 			cl.Category = category;
 			cl.Pinnable = true;
 			cl.Toggable = true;
@@ -294,7 +294,7 @@ public partial class ProjectsPanel : Panel
 		foreach(var cat in _categories.Where(kv => !kv.Value.Pinned))
 			_categoryView.AddChild(cat.Value);
 
-		_categories[Uncategorized] = CategoryList.FromScene();
+		_categories[Uncategorized] = SceneNode<CategoryList>.FromScene();
 		_categories[Uncategorized].Category = new Category() {
 			Id = Uncategorized,
 			IsExpanded = true,
@@ -303,7 +303,7 @@ public partial class ProjectsPanel : Panel
 			Name = "Uncategorized"
 		};
 		_categories[Uncategorized].Toggable = true;
-		_categories[Favorites] = CategoryList.FromScene();
+		_categories[Favorites] = SceneNode<CategoryList>.FromScene();
 		_categories[Favorites].Category = new Category()
 		{
 			Id = Favorites,
@@ -393,19 +393,19 @@ public partial class ProjectsPanel : Panel
 			{
 				ProjectFile = project
 			};
-			var pii = ProjectIconItem.FromScene();
+			var pii = SceneNode<ProjectIconItem>.FromScene();
 			pii.ProjectFile = project;
 			SetupPiiEvents(pii);
 			_gridView.AddChild(pii);
 			cache.GridView = pii;
 			
-			var pli = ProjectLineItem.FromScene();
+			var pli = SceneNode<ProjectLineItem>.FromScene();
 			pli.ProjectFile = project;
 			SetupPliEvents(pli);
 			_listView.AddChild(pli);
 			cache.ListView = pli;
 			
-			pli = ProjectLineItem.FromScene();
+			pli = SceneNode<ProjectLineItem>.FromScene();
 			pli.ProjectFile = project;
 			SetupPliEvents(pli);
 			if (project.Category is null || !_categories.ContainsKey(project.Category.Id))
@@ -464,7 +464,7 @@ public partial class ProjectsPanel : Panel
 				break;
 				break;
 			case ContextMenuItem.EditProject:
-				var epd = EditProjectDialog.FromScene();
+				var epd = SceneNode<EditProjectDialog>.FromScene();
 				epd.ProjectCache = _projectCache[pii.ProjectFile];
 				GetTree().Root.AddChild(epd);
 				epd.SaveProject += (cache) =>
@@ -519,7 +519,7 @@ public partial class ProjectsPanel : Panel
 				Util.LaunchWeb(pli.ProjectFile.DataFolder.GetOsDir().NormalizePath());
 				break;
 			case ContextMenuItem.EditProject:
-				var epd = EditProjectDialog.FromScene();
+				var epd = SceneNode<EditProjectDialog>.FromScene();
 				epd.ProjectCache = _projectCache[pli.ProjectFile];
 				GetTree().Root.AddChild(epd);
 				epd.PopupCentered();

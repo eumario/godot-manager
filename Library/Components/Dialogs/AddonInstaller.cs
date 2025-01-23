@@ -4,17 +4,10 @@ using Godot.Sharp.Extras;
 // namespace
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/AddonInstaller.tscn")]
 public partial class AddonInstaller : AcceptDialog
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static AddonInstaller FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/AddonInstaller.tscn");
-		return scene.Instantiate<AddonInstaller>();
-	}
 	#endregion
 	
 	#region Node Paths

@@ -7,17 +7,10 @@ using GodotManager.Library.Components.Panels;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/FirstSetupWizard.tscn")]
 public partial class FirstSetupWizard : Window
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static FirstSetupWizard FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/FirstSetupWizard.tscn");
-		return scene.Instantiate<FirstSetupWizard>();
-	}
 	#endregion
 	
 	#region Node Paths

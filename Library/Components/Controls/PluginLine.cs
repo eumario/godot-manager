@@ -1,6 +1,8 @@
 using Godot;
 using System;
+using Godot.Sharp.Extras;
 
+[SceneNode("res://Library/Components/Controls/PluginLine.tscn")]
 public partial class PluginLine : Control
 {
 	#region Signals
@@ -13,14 +15,6 @@ public partial class PluginLine : Control
 	#endregion
 	
 	#region Public Properties
-	#endregion
-	
-	#region FromScene()
-	public static PluginLine FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/PluginLine.tscn");
-		return scene.Instantiate<PluginLine>();
-	}
 	#endregion
 	
 	#region Godot Overrides

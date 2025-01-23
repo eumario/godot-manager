@@ -6,7 +6,7 @@ void fragment() {
 	// Called for every pixel the material is visible on.
 	vec4 mask_color = texture(mask, UV).rgba;
 	vec4 sprite_color = texture(TEXTURE, UV).rgba;
-	
+
 	if (mask_color.a == 0.0)
 	{
 		sprite_color.a = 0.0;

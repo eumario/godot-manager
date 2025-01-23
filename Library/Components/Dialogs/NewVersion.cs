@@ -5,17 +5,10 @@ using Godot.Sharp.Extras;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/NewVersion.tscn")]
 public partial class NewVersion : AcceptDialog
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static NewVersion FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/NewVersion.tscn");
-		return scene.Instantiate<NewVersion>();
-	}
 	#endregion
 	
 	#region Node Paths

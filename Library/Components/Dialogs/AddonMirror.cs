@@ -5,19 +5,12 @@ using Godot.Sharp.Extras;
 namespace GodotManager.Library.Components.Dialogs;
 
 [Tool]
+[SceneNode("res://Library/Components/Dialogs/AddonMirror.tscn")]
 public partial class AddonMirror : AcceptDialog
 {
 	#region Signals
 	[Signal]
 	public delegate void AddMirrorEventHandler(string url);
-	#endregion
-	
-	#region Quick Create
-	public static AddonMirror FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/AddonMirror.tscn");
-		return scene.Instantiate<AddonMirror>();
-	}
 	#endregion
 	
 	#region Node Paths

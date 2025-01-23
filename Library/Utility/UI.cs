@@ -15,7 +15,9 @@ public static class UI
         dlg.Title = title;
         dlg.DialogText = message;
         dlg.DialogAutowrap = true;
-        dlg.VisibilityChanged += dlg.QueueFree;
+        dlg.CloseRequested += dlg.QueueFree;
+        dlg.Confirmed += dlg.QueueFree;
+        dlg.Size = new Vector2I(300, 200);
         ((SceneTree)Engine.GetMainLoop()).Root.AddChild(dlg);
         dlg.PopupCentered();
     }

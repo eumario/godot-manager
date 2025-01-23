@@ -9,17 +9,10 @@ using GodotManager.Scenes;
 namespace GodotManager.Library.Components.Controls;
 
 [Tool]
+[SceneNode("res://Library/Components/Controls/BrowseLine.tscn")]
 public partial class BrowseLine : Control
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static BrowseLine FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/BrowseLine.tscn");
-		return scene.Instantiate<BrowseLine>();
-	}
 	#endregion
 	
 	#region Node Paths

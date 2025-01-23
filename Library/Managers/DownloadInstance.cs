@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Godot;
 using GodotManager.Library.Data;
 using GodotManager.Library.Utility;
 using HttpClient = System.Net.Http.HttpClient;
@@ -47,11 +49,22 @@ public class DownloadInstance
         var comment = new ProductInfoHeaderValue($"(Platform: {Platform.GetName()})");
         _client.DefaultRequestHeaders.UserAgent.Add(product);
         _client.DefaultRequestHeaders.UserAgent.Add(comment);
+        // _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+        // _client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("none"));
         _address = uri;
         _cancel = new CancellationTokenSource();
     }
 
     public DownloadInstance(string url) : this(new Uri(url)) { }
+
+    public async Task<long> GetDownloadSize()
+    {
+        var response = await _client.SendAsync(new HttpRequestMessage(HttpMethod.Head, _address));
+        if (!response.IsSuccessStatusCode) return -1; // Unable to get Download Size.
+        response.Headers.TryGetValues("Content-Length", out var lengths);
+        if (lengths == null) return -1;
+        return long.TryParse(lengths.First(), out var length) ? length : -1;
+    }
 
     public void StartDownload()
     {
@@ -62,7 +75,7 @@ public class DownloadInstance
                 using var response = _client.GetAsync(_address, HttpCompletionOption.ResponseHeadersRead, _cancel.Token)
                     .Result;
                 response.EnsureSuccessStatusCode();
-
+                
                 await using var contentStream = await response.Content.ReadAsStreamAsync();
                 using var memStream = new MemoryStream();
                 var totalRead = 0L;
@@ -71,6 +84,7 @@ public class DownloadInstance
 
                 do
                 {
+                    if (_cancel.Token.IsCancellationRequested) break;
                     var read = await contentStream.ReadAsync(buffer);
                     if (read == 0) isMoreToRead = false;
                     else
@@ -82,6 +96,7 @@ public class DownloadInstance
                     }
                 } while (isMoreToRead);
 
+                if (_cancel.Token.IsCancellationRequested) return;
                 Completed?.Invoke(memStream.ToArray());
             }
             catch (OperationCanceledException)

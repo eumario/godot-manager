@@ -7,6 +7,7 @@ using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
 
+[SceneNode("res://Library/Components/Controls/ProjectIconItem.tscn")]
 public partial class ProjectIconItem : Control, IProjectIcon
 {
     
@@ -19,14 +20,6 @@ public partial class ProjectIconItem : Control, IProjectIcon
     [Signal] public delegate void DragStartedEventHandler(ProjectIconItem pii);
     [Signal] public delegate void DragEndedEventHandler(ProjectIconItem pii);
     [Signal] public delegate void ContextMenuClickEventHandler(ProjectIconItem pii, ContextMenuItem id);
-    #endregion
-    
-    #region Quick Create
-    public static ProjectIconItem FromScene()
-    {
-        var scene = GD.Load<PackedScene>("res://Library/Components/Controls/ProjectIconItem.tscn");
-        return scene.Instantiate<ProjectIconItem>();
-    }
     #endregion
     
     #region Node Paths

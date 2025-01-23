@@ -5,6 +5,7 @@ using Godot.Sharp.Extras;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/FileConflictDialog.tscn")]
 public partial class FileConflictDialog : Window
 {
 	#region Signals
@@ -20,14 +21,6 @@ public partial class FileConflictDialog : Window
 
 	[Signal]
 	public delegate void AbortPressedEventHandler();
-	#endregion
-	
-	#region Quick Create
-	public static FileConflictDialog FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/FileConflictDialog.tscn");
-		return scene.Instantiate<FileConflictDialog>();
-	}
 	#endregion
 	
 	#region Node Paths

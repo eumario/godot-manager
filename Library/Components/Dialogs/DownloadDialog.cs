@@ -5,17 +5,10 @@ using Godot.Sharp.Extras;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/DownloadDialog.tscn")]
 public partial class DownloadDialog : AcceptDialog
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static DownloadDialog FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/DownloadDialog.tscn");
-		return scene.Instantiate<DownloadDialog>();
-	}
 	#endregion
 	
 	#region Node Paths

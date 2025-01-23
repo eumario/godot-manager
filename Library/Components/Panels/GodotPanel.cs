@@ -185,7 +185,7 @@ public partial class GodotPanel : Panel
 		{
 			case 0:
 				// Add Custom Godot
-				var dlg = AddCustomGodot.FromScene();
+				var dlg = SceneNode<AddCustomGodot>.FromScene();
 				AddChild(dlg);
 				dlg.PopupCentered(new Vector2I(320,170));
 				break;
@@ -207,7 +207,7 @@ public partial class GodotPanel : Panel
 
 	private async Task CheckForUpdates()
 	{
-		_dialog = BusyDialog.FromScene();
+		_dialog = SceneNode<BusyDialog>.FromScene();
 		_dialog.BylineText = "Fetching Github Release Information...";
 		GetTree().Root.AddChild(_dialog);
 		_dialog.PopupCentered(new Vector2I(352, 150));
@@ -245,7 +245,7 @@ public partial class GodotPanel : Panel
 			_available.AddLineItem(item);
 			item.Downloading = false;
 			item.Visible = false;
-			item = GodotLineItem.FromScene();
+			item = SceneNode<GodotLineItem>.FromScene();
 			item.GodotVersion = version;
 			SetupGLIEvents(item);
 			_installed.AddLineItem(item);
@@ -309,7 +309,7 @@ public partial class GodotPanel : Panel
 			
 			var res = installed.FirstOrDefault(x => x.SemVersion == version.SemVersion && x.IsMono == _showMono);
 
-			var item = GodotLineItem.FromScene();
+			var item = SceneNode<GodotLineItem>.FromScene();
 			item.GithubVersion = version;
 			item.ShowMono = _showMono;
 			SetupGLIEvents(item);
@@ -356,7 +356,7 @@ public partial class GodotPanel : Panel
 	{
 		foreach (var version in Database.AllVersions().OrderByDescending(ver => ver.Tag))
 		{
-			var item = GodotLineItem.FromScene();
+			var item = SceneNode<GodotLineItem>.FromScene();
 			item.GodotVersion = version;
 			SetupGLIEvents(item);
 			_installed.AddLineItem(item);

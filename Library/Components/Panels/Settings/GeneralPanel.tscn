@@ -68,7 +68,6 @@ unique_name_in_owner = true
 layout_mode = 2
 item_count = 4
 popup/item_0/text = "List View"
-popup/item_0/id = 0
 popup/item_1/text = "Icon View"
 popup/item_1/id = 1
 popup/item_2/text = "Category View"
@@ -115,10 +114,9 @@ text = "Check Interval:"
 [node name="CheckInterval" type="OptionButton" parent="GridContainer/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
-item_count = 6
 selected = 0
+item_count = 6
 popup/item_0/text = "1 Hour"
-popup/item_0/id = 0
 popup/item_1/text = "12 Hours"
 popup/item_1/id = 1
 popup/item_2/text = "1 Day"
@@ -168,7 +166,6 @@ layout_mode = 2
 [node name="UseSystem" type="CheckBox" parent="GridContainer/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
-disabled = true
 text = "Use System Titlebar"
 flat = true
 

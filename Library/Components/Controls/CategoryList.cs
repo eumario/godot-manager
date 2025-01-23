@@ -12,20 +12,13 @@ using Label = Godot.Label;
 namespace GodotManager.Library.Components.Controls;
 
 [Tool]
+[SceneNode("res://Library/Components/Controls/CategoryList.tscn")]
 public partial class CategoryList : VBoxContainer
 {
 	#region Signals
 	[Signal] public delegate void ListToggledEventHandler(CategoryList cl);
 	[Signal] public delegate void PinToggledEventHandler(CategoryList cl);
 	[Signal] public delegate void DragDropCompletedEventHandler(CategoryList origin, CategoryList destination, ProjectLineItem project);
-	#endregion
-	
-	#region Quick Create
-	public static CategoryList FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/CategoryList.tscn");
-		return scene.Instantiate<CategoryList>();
-	}
 	#endregion
 	
 	#region Node Paths

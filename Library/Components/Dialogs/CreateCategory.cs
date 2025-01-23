@@ -5,19 +5,12 @@ using Godot.Sharp.Extras;
 namespace GodotManager.Library.Components.Dialogs;
 
 [Tool]
+[SceneNode("res://Library/Components/Dialogs/CreateCategory.tscn")]
 public partial class CreateCategory : AcceptDialog
 {
 	#region Signals
 	[Signal]
 	public delegate void CategoryAnswerEventHandler(string name);
-	#endregion
-	
-	#region Quick Create
-	public static CreateCategory FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/CreateCategory.tscn");
-		return scene.Instantiate<CreateCategory>();
-	}
 	#endregion
 	
 	#region Node Paths

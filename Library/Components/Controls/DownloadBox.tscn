@@ -1,0 +1,148 @@
+[gd_scene load_steps=9 format=3 uid="uid://cygofuovavt83"]
+
+[ext_resource type="Script" uid="uid://wolr80hdha56" path="res://Library/Components/Controls/DownloadBox.cs" id="1_xek8q"]
+[ext_resource type="Texture2D" uid="uid://dn5r5a0uvocfc" path="res://Assets/Icons/png/CSharp.png" id="2_nay6j"]
+[ext_resource type="FontFile" uid="uid://bslfdig1phayt" path="res://Assets/Fonts/DroidSans-Bold.ttf" id="3_ufjd1"]
+[ext_resource type="FontFile" uid="uid://cvhh8phjvk77r" path="res://Assets/Fonts/DroidSans.ttf" id="4_nay6j"]
+[ext_resource type="Texture2D" uid="uid://d11vmhmlks23u" path="res://Assets/Icons/svg/x.svg" id="4_uevph"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nay6j"]
+bg_color = Color(0.295867, 0.295867, 0.295866, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_olikq"]
+font = ExtResource("3_ufjd1")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_ufjd1"]
+font = ExtResource("4_nay6j")
+font_size = 14
+
+[node name="DownloadBox" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nay6j")
+script = ExtResource("1_xek8q")
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer3"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer3/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 30
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer3/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="AssetIcon" type="TextureRect" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_nay6j")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="AssetName" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Addon Name"
+label_settings = SubResource("LabelSettings_olikq")
+
+[node name="FinishedText" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="ProgressInfo" type="GridContainer" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/ProgressInfo"]
+layout_mode = 2
+text = "Downloading: "
+label_settings = SubResource("LabelSettings_ufjd1")
+
+[node name="DownloadSize" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/ProgressInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0b/0b"
+label_settings = SubResource("LabelSettings_ufjd1")
+
+[node name="Label2" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/ProgressInfo"]
+layout_mode = 2
+text = "Speed:"
+label_settings = SubResource("LabelSettings_ufjd1")
+
+[node name="DownloadSpeed" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/ProgressInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0b"
+label_settings = SubResource("LabelSettings_ufjd1")
+
+[node name="Label3" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/ProgressInfo"]
+layout_mode = 2
+text = "ETA:"
+label_settings = SubResource("LabelSettings_ufjd1")
+
+[node name="DownloadEta" type="Label" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/ProgressInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_ufjd1")
+
+[node name="DownloadProgress" type="ProgressBar" parent="MarginContainer3/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="Dismiss" type="Button" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Dismiss"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_uevph")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ConfigureInstall" type="Button" parent="MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Configure Install..."

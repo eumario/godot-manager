@@ -22,8 +22,8 @@ vec3 hsv2rgb(vec3 c) {
 
 void fragment() {
 	vec4 col = texture(TEXTURE, UV);
-	
+
 	col.rgb = hsv2rgb(rgb2hsv(col.rgb) * vec3(h, s, v));
-	
+
 	COLOR = col;
 }

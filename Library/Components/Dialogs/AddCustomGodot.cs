@@ -6,17 +6,10 @@ using GodotManager.Library.Data;
 namespace GodotManager.Library.Components.Dialogs;
 
 [Tool]
+[SceneNode("res://Library/Components/Dialogs/AddCustomGodot.tscn")]
 public partial class AddCustomGodot : AcceptDialog
 {
 	#region Signals
-	#endregion
-	
-	#region Quick Create
-	public static AddCustomGodot FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/AddCustomGodot.tscn");
-		return scene.Instantiate<AddCustomGodot>();
-	}
 	#endregion
 	
 	#region Node Paths

@@ -6,20 +6,13 @@ using Godot.Sharp.Extras;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/RemoveCategory.tscn")]
 public partial class RemoveCategory : AcceptDialog
 {
 	#region Signals
 
 	[Signal]
 	public delegate void CategorySelectedEventHandler(string category);
-	#endregion
-	
-	#region Quick Create
-	public static RemoveCategory FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/RemoveCategory.tscn");
-		return scene.Instantiate<RemoveCategory>();
-	}
 	#endregion
 	
 	#region Node Paths

@@ -10,6 +10,7 @@ using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Controls;
 
+[SceneNode("res://Library/Components/Controls/GodotLineItem.tscn")]
 public partial class GodotLineItem : Control
 {
 	#region Signals
@@ -20,15 +21,6 @@ public partial class GodotLineItem : Control
 	[Signal] public delegate void RightClickEventHandler(GodotLineItem gli);
 	[Signal] public delegate void ExecuteClickEventHandler(GodotLineItem gli);
 	[Signal] public delegate void MakeDefaultClickEventHandler(GodotLineItem gli);
-	#endregion
-	
-	#region Quick Create
-
-	public static GodotLineItem FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/GodotLineItem.tscn");
-		return scene.Instantiate<GodotLineItem>();
-	}
 	#endregion
 
 	#region Node Paths

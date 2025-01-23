@@ -5,20 +5,13 @@ using Godot.Sharp.Extras;
 
 namespace GodotManager.Library.Components.Controls;
 
+[SceneNode("res://Library/Components/Controls/LineEditTimeout.tscn")]
 public partial class LineEditTimeout : LineEdit
 {
 	#region Signals
 
 	[Signal]
 	public delegate void TextUpdatedEventHandler(string text);
-	#endregion
-	
-	#region Quick Create
-	public static LineEditTimeout FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Controls/LineEditTimeout.tscn");
-		return scene.Instantiate<LineEditTimeout>();
-	}
 	#endregion
 	
 	#region Resources

@@ -10,6 +10,7 @@ using GodotManager.Library.Utility;
 
 namespace GodotManager.Library.Components.Dialogs;
 
+[SceneNode("res://Library/Components/Dialogs/ImportProject.tscn")]
 public partial class ImportProject : ConfirmationDialog
 {
 	[Signal]
@@ -17,12 +18,6 @@ public partial class ImportProject : ConfirmationDialog
 	[NodePath] private BrowseLine _location;
 
 	[NodePath] private OptionButton _godotVersion;
-
-	public static ImportProject FromScene()
-	{
-		var scene = GD.Load<PackedScene>("res://Library/Components/Dialogs/ImportProject.tscn");
-		return scene.Instantiate<ImportProject>();
-	}
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

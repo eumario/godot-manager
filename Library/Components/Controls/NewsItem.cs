@@ -4,10 +4,9 @@ using Godot.Sharp.Extras;
 using GodotManager.Library.Managers;
 using GodotManager.Library.Utility;
 
+[SceneNode("res://Library/Components/Controls/NewsItem.tscn")]
 public partial class NewsItem : Control
 {
-	public static NewsItem FromScene() => GD.Load<PackedScene>("res://Library/Components/Controls/NewsItem.tscn").Instantiate<NewsItem>();
-	
 	#region Node Paths
 	[NodePath] private Button _newsHeadline;
 	[NodePath] private TextureRect _authorAvatar;

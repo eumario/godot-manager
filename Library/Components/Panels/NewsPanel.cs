@@ -75,7 +75,7 @@ public partial class NewsPanel : Panel
 		if (_newsList.GetChildCount() != 0)
 			_newsList.QueueFreeChildren();
 
-		var dlg = BusyDialog.FromScene();
+		var dlg = SceneNode<BusyDialog>.FromScene();
 		dlg.HeaderText = "Fetching author information from Godot Project Website";
 		dlg.BylineText = "Downloading...";
 		GetTree().Root.AddChild(dlg);
@@ -161,7 +161,7 @@ public partial class NewsPanel : Panel
 			foreach (var item in data["items"].AsGodotArray())
 			{
 				var nitem = item.AsGodotDictionary();
-				var newsItem = NewsItem.FromScene();
+				var newsItem = SceneNode<NewsItem>.FromScene();
 
 				newsItem.Headline = nitem["title"].AsString();
 				newsItem.AuthorName = nitem["dc:creator"].AsString();
