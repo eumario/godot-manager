@@ -16,7 +16,7 @@ env:
 jobs:
   export:
     name: Create Build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container:
       image: eumario/godot-mono-github-actions-ci:0.3.0
     steps:
