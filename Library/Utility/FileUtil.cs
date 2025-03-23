@@ -30,6 +30,10 @@ public static class FileUtil
 
     public static string NormalizePath(this string path)
     {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return path;
+        }
         var newPath = path.Clone() as string;
         if (path.StartsWith("user://"))
             newPath = ProjectSettings.GlobalizePath(newPath);
