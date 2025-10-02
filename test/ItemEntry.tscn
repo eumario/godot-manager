@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0e2jglq5ofxe"]
+
+[ext_resource type="Script" uid="uid://beo2qjx2m5ilw" path="res://test/ItemEntry.cs" id="1_ydxa2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydxa2"]
+bg_color = Color(0.23392546, 0.23392549, 0.23392531, 1)
+
+[node name="ItemEntry" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 21.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ydxa2")
+script = ExtResource("1_ydxa2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "  "
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Key" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Value" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator3" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "  "

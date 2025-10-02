@@ -1,0 +1,610 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+; 
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+_global_script_classes=[ {
+"base": "Object",
+"class": "ActionObject",
+"language": "GDScript",
+"path": "res://timeline-manager/action_object.gd"
+}, {
+"base": "NPCSupportSkills",
+"class": "AoEAttackBuff",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Support Skills/aoe_attack_buff.gd"
+}, {
+"base": "Reference",
+"class": "ApplicationCommand",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/application_command.gd"
+}, {
+"base": "Reference",
+"class": "BitField",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/bit_field.gd"
+}, {
+"base": "Enemy",
+"class": "Boss",
+"language": "GDScript",
+"path": "res://Entities/Bosses/Boss Script.gd"
+}, {
+"base": "TextureRect",
+"class": "Buff",
+"language": "GDScript",
+"path": "res://Sprites/Classes/Status Effects/Buff.gd"
+}, {
+"base": "Label",
+"class": "DamageLabel",
+"language": "GDScript",
+"path": "res://Scenes/DamageLabel.gd"
+}, {
+"base": "TextureRect",
+"class": "Debuff",
+"language": "GDScript",
+"path": "res://Sprites/Classes/Status Effects/Debuff.gd"
+}, {
+"base": "Node",
+"class": "Discord",
+"language": "GDScript",
+"path": "res://addons/falfanapi/Discord.gd"
+}, {
+"base": "HTTPRequest",
+"class": "DiscordBot",
+"language": "GDScript",
+"path": "res://addons/discord_gd/discord.gd"
+}, {
+"base": "Reference",
+"class": "DiscordInteraction",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/discord_interaction.gd"
+}, {
+"base": "Reference",
+"class": "Embed",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/embed.gd"
+}, {
+"base": "Entity",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Sprites/Classes/Entities/Enemy Class.gd"
+}, {
+"base": "Node2D",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://Sprites/Classes/Entities/Entity Script.gd"
+}, {
+"base": "Node",
+"class": "FalFanAPI",
+"language": "GDScript",
+"path": "res://addons/falfanapi/falfanapi.gd"
+}, {
+"base": "Area2D",
+"class": "GameHitBox",
+"language": "GDScript",
+"path": "res://Scenes/Game_hitbox.gd"
+}, {
+"base": "Area2D",
+"class": "GameHurtBox",
+"language": "GDScript",
+"path": "res://Scenes/Game_hurtbox.gd"
+}, {
+"base": "Node",
+"class": "GatewayAPI",
+"language": "GDScript",
+"path": "res://addons/falfanapi/gatwayApi.gd"
+}, {
+"base": "Reference",
+"class": "Helpers",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/helpers.gd"
+}, {
+"base": "Reference",
+"class": "HttpRequestParser",
+"language": "GDScript",
+"path": "res://addons/httpserver/httprequestparser.gd"
+}, {
+"base": "Node",
+"class": "HttpServer",
+"language": "GDScript",
+"path": "res://addons/httpserver/httpserver.gd"
+}, {
+"base": "Reference",
+"class": "HttpServerRequest",
+"language": "GDScript",
+"path": "res://addons/httpserver/httpserverrequest.gd"
+}, {
+"base": "Reference",
+"class": "HttpServerResponse",
+"language": "GDScript",
+"path": "res://addons/httpserver/httpserverresponse.gd"
+}, {
+"base": "Area2D",
+"class": "LabelHandler",
+"language": "GDScript",
+"path": "res://Classes/Node Classes/Label_Handler.gd"
+}, {
+"base": "Reference",
+"class": "Message",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/message.gd"
+}, {
+"base": "Reference",
+"class": "MessageActionRow",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/message_action_row.gd"
+}, {
+"base": "Reference",
+"class": "MessageButton",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/message_button.gd"
+}, {
+"base": "BitField",
+"class": "MessageFlags",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/message_flags.gd"
+}, {
+"base": "Node2D",
+"class": "NPC",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/Combat NPC.gd"
+}, {
+"base": "NPCHealingSkills",
+"class": "NPCAlchemistHeal",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Healing Skills/NPC Alchemist Heal.gd"
+}, {
+"base": "NPCHealingSkills",
+"class": "NPCBardHeal",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Healing Skills/NPC Bard Heal.gd"
+}, {
+"base": "NPCDamageSkills",
+"class": "NPCBreakpoint",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Damage Skills/NPC_Breakpoint.gd"
+}, {
+"base": "npc_resources",
+"class": "NPCDamageSkills",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Damage Skills/NPC Damage Skills.gd"
+}, {
+"base": "NPCHealingSkills",
+"class": "NPCDruidHeal",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Healing Skills/NPC Druid Heal.gd"
+}, {
+"base": "NPCDamageSkills",
+"class": "NPCFire",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Damage Skills/NPC_Fire.gd"
+}, {
+"base": "npc_resources",
+"class": "NPCHealingSkills",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Healing Skills/NPC Healing Skills.gd"
+}, {
+"base": "NPCSupportSkills",
+"class": "NPCIonicBinding",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Support Skills/NPC_Ionic_Binding.gd"
+}, {
+"base": "NPCSupportSkills",
+"class": "NPCSteal",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Support Skills/NPC_Steal.gd"
+}, {
+"base": "npc_resources",
+"class": "NPCSupportSkills",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/NPC Support Skills/NPC Support Skills.gd"
+}, {
+"base": "BitField",
+"class": "Permissions",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/permissions.gd"
+}, {
+"base": "Entity",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Sprites/Classes/Entities/Player Script.gd"
+}, {
+"base": "Reference",
+"class": "SelectMenu",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/select_menu.gd"
+}, {
+"base": "Resource",
+"class": "ServiceProfile",
+"language": "GDScript",
+"path": "res://Twitch Chat Stuff/ServiceProfile.gd"
+}, {
+"base": "Resource",
+"class": "Shop_Items",
+"language": "GDScript",
+"path": "res://Autoloads/Shop_Items_Base.gd"
+}, {
+"base": "TextureRect",
+"class": "SkillIcon",
+"language": "GDScript",
+"path": "res://addons/skill_info/scenes/SkillIcon.gd"
+}, {
+"base": "Boss",
+"class": "Solo_Boss",
+"language": "GDScript",
+"path": "res://Entities/Bosses/Solo Boss.gd"
+}, {
+"base": "",
+"class": "SteamAPI",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_api.gdns"
+}, {
+"base": "",
+"class": "SteamApps",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_apps.gdns"
+}, {
+"base": "",
+"class": "SteamCallback",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_callback.gdns"
+}, {
+"base": "",
+"class": "SteamFriends",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_friends.gdns"
+}, {
+"base": "Node",
+"class": "SteamI",
+"language": "GDScript",
+"path": "res://addons/steam_api/steam_i.gd"
+}, {
+"base": "",
+"class": "SteamId",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_id.gdns"
+}, {
+"base": "",
+"class": "SteamLeaderboard",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_leaderboard.gdns"
+}, {
+"base": "",
+"class": "SteamLeaderboardEntries",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_leaderboard_entries.gdns"
+}, {
+"base": "",
+"class": "SteamLeaderboardEntry",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_leaderboard_entry.gdns"
+}, {
+"base": "",
+"class": "SteamLeaderboardFindResult",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_find_leaderboard_result.gdns"
+}, {
+"base": "",
+"class": "SteamLeaderboardScoreUploaded",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_leaderboard_uploaded.gdns"
+}, {
+"base": "",
+"class": "SteamLeaderboardScoresDownloaded",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_leaderboard_scores_downloaded.gdns"
+}, {
+"base": "Reference",
+"class": "SteamUser",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_user.gdns"
+}, {
+"base": "",
+"class": "SteamUserStats",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_user_stats.gdns"
+}, {
+"base": "",
+"class": "SteamUtils",
+"language": "NativeScript",
+"path": "res://addons/steam_api/steam_utils.gdns"
+}, {
+"base": "Object",
+"class": "TimelineManager",
+"language": "GDScript",
+"path": "res://timeline-manager/timeline_manager.gd"
+}, {
+"base": "Resource",
+"class": "Tokens",
+"language": "GDScript",
+"path": "res://Twitch Chat Stuff/Tokens.gd"
+}, {
+"base": "Reference",
+"class": "User",
+"language": "GDScript",
+"path": "res://addons/discord_gd/classes/user.gd"
+}, {
+"base": "VargenScriptComposer",
+"class": "VargenCSharpComposer",
+"language": "GDScript",
+"path": "res://addons/vargen/script_composers/vargen_csharp_composer.gd"
+}, {
+"base": "Reference",
+"class": "VargenCsharpConstants",
+"language": "GDScript",
+"path": "res://addons/vargen/script_composers/vargen_csharp_constants.gd"
+}, {
+"base": "VBoxContainer",
+"class": "VargenDock",
+"language": "GDScript",
+"path": "res://addons/vargen/vargen_dock.gd"
+}, {
+"base": "VargenScriptComposer",
+"class": "VargenGDScriptComposer",
+"language": "GDScript",
+"path": "res://addons/vargen/script_composers/vargen_gdscript_composer.gd"
+}, {
+"base": "Reference",
+"class": "VargenNamer",
+"language": "GDScript",
+"path": "res://addons/vargen/namers/vargen_namer.gd"
+}, {
+"base": "VargenNamer",
+"class": "VargenPascalNamer",
+"language": "GDScript",
+"path": "res://addons/vargen/namers/vargen_pascal_namer.gd"
+}, {
+"base": "Resource",
+"class": "VargenPreferences",
+"language": "GDScript",
+"path": "res://addons/vargen/vargen_preferences.gd"
+}, {
+"base": "Reference",
+"class": "VargenScriptComposer",
+"language": "GDScript",
+"path": "res://addons/vargen/script_composers/vargen_script_composer.gd"
+}, {
+"base": "VargenNamer",
+"class": "VargenSnakeNamer",
+"language": "GDScript",
+"path": "res://addons/vargen/namers/vargen_snake_namer.gd"
+}, {
+"base": "Resource",
+"class": "npc_resources",
+"language": "GDScript",
+"path": "res://Sprites/Combat NPC/npcResource.gd"
+} ]
+_global_script_class_icons={
+"ActionObject": "",
+"AoEAttackBuff": "",
+"ApplicationCommand": "",
+"BitField": "",
+"Boss": "",
+"Buff": "",
+"DamageLabel": "",
+"Debuff": "",
+"Discord": "",
+"DiscordBot": "",
+"DiscordInteraction": "",
+"Embed": "",
+"Enemy": "",
+"Entity": "",
+"FalFanAPI": "",
+"GameHitBox": "",
+"GameHurtBox": "",
+"GatewayAPI": "",
+"Helpers": "",
+"HttpRequestParser": "",
+"HttpServer": "",
+"HttpServerRequest": "",
+"HttpServerResponse": "",
+"LabelHandler": "",
+"Message": "",
+"MessageActionRow": "",
+"MessageButton": "",
+"MessageFlags": "",
+"NPC": "",
+"NPCAlchemistHeal": "",
+"NPCBardHeal": "",
+"NPCBreakpoint": "",
+"NPCDamageSkills": "",
+"NPCDruidHeal": "",
+"NPCFire": "",
+"NPCHealingSkills": "",
+"NPCIonicBinding": "",
+"NPCSteal": "",
+"NPCSupportSkills": "",
+"Permissions": "",
+"Player": "",
+"SelectMenu": "",
+"ServiceProfile": "",
+"Shop_Items": "",
+"SkillIcon": "",
+"Solo_Boss": "",
+"SteamAPI": "",
+"SteamApps": "",
+"SteamCallback": "",
+"SteamFriends": "",
+"SteamI": "",
+"SteamId": "",
+"SteamLeaderboard": "",
+"SteamLeaderboardEntries": "",
+"SteamLeaderboardEntry": "",
+"SteamLeaderboardFindResult": "",
+"SteamLeaderboardScoreUploaded": "",
+"SteamLeaderboardScoresDownloaded": "",
+"SteamUser": "",
+"SteamUserStats": "",
+"SteamUtils": "",
+"TimelineManager": "",
+"Tokens": "",
+"User": "",
+"VargenCSharpComposer": "",
+"VargenCsharpConstants": "",
+"VargenDock": "",
+"VargenGDScriptComposer": "",
+"VargenNamer": "",
+"VargenPascalNamer": "",
+"VargenPreferences": "",
+"VargenScriptComposer": "",
+"VargenSnakeNamer": "",
+"npc_resources": ""
+}
+
+[application]
+
+config/name="Falinere Fantasy"
+config/description="Twitch based Final Fantasy like Game."
+run/main_scene="res://Scenes/Title Menu.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="FalinereFantasy"
+boot_splash/show_image=false
+config/icon="res://Export Stuff/wings_clipped.png"
+config/windows_native_icon="res://Export Stuff/wings_clipped.ico"
+
+[autoload]
+
+ChatCommands="*res://ChatCommands.gd"
+Globals="*res://Twitch Chat Stuff/globals.gd"
+ChatConnection="*res://Twitch Chat Stuff/Chat Connection.gd"
+MusicController="*res://Autoloads/MusicController.tscn"
+SignalBus="*res://Autoloads/SIGNAL_BUS.gd"
+DebugPanel="*res://Scenes/DebugPanel.tscn"
+Shop="*res://Autoloads/Shop.gd"
+SkillManager="*res://addons/skill_info/SkillManager.gd"
+HelpManager="*res://addons/help_manager/HelpManager.gd"
+InfoRequest="*res://Autoloads/InfoRequest.gd"
+Steam="*res://addons/steam_api/steam.gd"
+Toolkit="*res://Autoloads/Check_Toolkit_Access.gd"
+NpcInfo="*res://Autoloads/NPC_info.gd"
+DungeonSetup="*res://Autoloads/Dungeon_Setup.gd"
+
+[debug]
+
+gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/narrowing_conversion=false
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/dpi/allow_hidpi=true
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/editor_icon_previewer/plugin.cfg", "res://addons/falfanapi/plugin.cfg", "res://addons/godot-notes/plugin.cfg", "res://addons/godot_icon/plugin.cfg", "res://addons/google_sheet/plugin.cfg", "res://addons/help_manager/plugin.cfg", "res://addons/httpserver/plugin.cfg", "res://addons/skill_info/plugin.cfg", "res://addons/steam_api/plugin.cfg" )
+
+[gdnative]
+
+singletons=[ "res://addons/steam_api/steam_api.gdnlib" ]
+
+[global]
+
+window=false
+rendering=false
+resolution=false
+resizable=false
+Websocket=false
+
+[gui]
+
+theme/custom="res://Assets/UI Theme/UI Theme.theme"
+theme/custom_font="res://FalFanFont.tres"
+timers/tooltip_delay_sec=0.1
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
+[input]
+
+ui_cancel={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+spawn_player={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":80,"unicode":0,"echo":false,"script":null)
+]
+}
+click_this={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+]
+}
+ui_options={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+]
+}
+ui_debug={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777246,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+]
+}
+ui_timeline={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777247,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+]
+}
+
+[layer_names]
+
+2d_physics/layer_1="Players"
+2d_physics/layer_2="Enemies"
+
+[logging]
+
+file_logging/enable_file_logging=true
+
+[mono]
+
+project/assembly_name="Testing stuff"
+
+[network]
+
+limits/websocket_client/max_in_buffer_kb=65536
+limits/websocket_client/max_in_packets=1048576
+limits/websocket_client/max_out_buffer_kb=65536
+limits/websocket_client/max_out_packets=1048576
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_clear_color=Color( 0.14902, 0.192157, 0.219608, 1 )
+environment/default_environment="res://default_env.tres"
+quality/driver/driver_name="GLES3"
+
