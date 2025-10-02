@@ -6,52 +6,42 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[  ]
-_global_script_class_icons={
-}
+config_version=5
 
 [application]
 
-config/name="Godot-Manager"
-config/description="A Complete solution for Godot, allowing you to manage Projects and versions of the Godot Engine on the fly."
-run/main_scene="res://components/Panels/SplashScreen.tscn"
+config/name="Godot Manager"
+config/version="0.3.0"
+run/main_scene="uid://b2skhjob6d0vb"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="Godot-Manager"
-run/low_processor_mode=true
+config/custom_user_dir_name="godot-manager"
+config/features=PackedStringArray("4.5", "C#")
 boot_splash/show_image=false
 boot_splash/fullsize=false
-config/icon="res://godot-manager.png"
-
-[autoload]
-
-SignalBus="*res://libs/managers/SignalBus.cs"
+boot_splash/use_filter=false
+config/icon="uid://bqnctrbkfhsmq"
 
 [display]
 
-window/size/height=700
-window/size/resizable=false
-window/size/borderless=true
+window/size/viewport_width=1025
+window/size/viewport_height=600
+
+[dotnet]
+
+project/assembly_name="GodotManager"
+
+[editor]
+
+naming/default_signal_callback_name="On{NodeName}{SignalName}"
+naming/default_signal_callback_to_self_name="On{SignalName}"
+naming/scene_name_casing=1
+naming/script_name_casing=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/fontawesome/plugin.cfg")
 
 [gui]
 
-theme/custom="res://Resources/DefaultTheme.tres"
-theme/custom_font="res://Resources/Fonts/droid-regular-14.tres"
-
-[locale]
-
-translations=PoolStringArray( "res://locale/en_US.po" )
-
-[mono]
-
-project/assembly_name="Godot-Manager"
-debugger_agent/wait_timeout=7000
-
-[network]
-
-limits/debugger_stdout/max_chars_per_second=10000
-
-[rendering]
-
-environment/default_environment="res://default_env.tres"
+theme/custom="uid://c2iea7lcahwp0"
+theme/custom_font="uid://cgo5ndl66xesp"

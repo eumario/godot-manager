@@ -1,0 +1,92 @@
+[gd_scene load_steps=11 format=3 uid="uid://2piyejwfte53"]
+
+[ext_resource type="Texture2D" uid="uid://bqnctrbkfhsmq" path="res://godot-manager.png" id="1_auljl"]
+[ext_resource type="Script" uid="uid://cfia2oq0u6ad2" path="res://Library/UI/Header.cs" id="1_aw2cv"]
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="3_aw2cv"]
+[ext_resource type="FontFile" uid="uid://b4jca751lwabp" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="3_fug36"]
+[ext_resource type="Script" uid="uid://cmreydoe2vwgl" path="res://addons/fontawesome/FontAwesome.gd" id="4_0wegg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4i4y"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_4y1g4"]
+font = ExtResource("3_aw2cv")
+font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aw2cv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aw2cv"]
+bg_color = Color(0.67263305, 0.67263305, 0.67263305, 0.6)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fug36"]
+
+[node name="Header" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 68)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 24.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p4i4y")
+script = ExtResource("1_aw2cv")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Logo" type="TextureButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture_normal = ExtResource("1_auljl")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Manager"
+label_settings = SubResource("LabelSettings_4y1g4")
+
+[node name="Spacer2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aw2cv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aw2cv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fug36")
+flat = true
+
+[node name="FontAwesome" type="Label" parent="HBoxContainer/Settings"]
+auto_translate_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+localize_numeral_system = false
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("3_fug36")
+theme_override_font_sizes/font_size = 32
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_0wegg")
+icon_size = 32
+icon_name = "gear"
+metadata/_custom_type_script = "uid://cmreydoe2vwgl"

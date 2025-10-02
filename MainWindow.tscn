@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpnm8fl8lve5k"]
+
+[ext_resource type="Texture2D" uid="uid://caffuvdh7uoct" path="res://Assets/images/projects.png" id="1_3ygwi"]
+[ext_resource type="PackedScene" uid="uid://botwu7yj4kucd" path="res://Library/UI/Sidebar.tscn" id="2_7qsqj"]
+[ext_resource type="PackedScene" uid="uid://8c3ygxxv5p16" path="res://Library/UI/Sections/Projects.tscn" id="3_3ygwi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4su8"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_or8l5"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.078431375, 0.078431375, 0.078431375, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="MainWindow" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_3ygwi")
+stretch_mode = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4su8")
+
+[node name="Root" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_or8l5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Sidebar" parent="Root/HBoxContainer" instance=ExtResource("2_7qsqj")]
+layout_mode = 2
+
+[node name="Projects" parent="Root/HBoxContainer" instance=ExtResource("3_3ygwi")]
+layout_mode = 2
+
+[node name="Installs" type="PanelContainer" parent="Root/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AssetLib" type="PanelContainer" parent="Root/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StoreBeta" type="PanelContainer" parent="Root/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Community" type="PanelContainer" parent="Root/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3

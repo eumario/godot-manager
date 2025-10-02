@@ -1,0 +1,118 @@
+[gd_scene load_steps=6 format=3 uid="uid://qwy2g6b4jwj"]
+
+[ext_resource type="Script" uid="uid://643g6a0yw8da" path="res://Library/UI/ListView.cs" id="1_iooqb"]
+[ext_resource type="PackedScene" uid="uid://3hcyfcol33pc" path="res://Library/UI/ProjectLineItem.tscn" id="2_6ad5n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iooqb"]
+bg_color = Color(0.14117648, 0.14117648, 0.14117648, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_iooqb"]
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_6ad5n"]
+font_size = 14
+
+[node name="ListView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iooqb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iooqb")
+
+[node name="Header" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Control" parent="VBoxContainer/PanelContainer/Header"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "󰓎"
+label_settings = SubResource("LabelSettings_iooqb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = ""
+label_settings = SubResource("LabelSettings_iooqb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = " NAME"
+label_settings = SubResource("LabelSettings_6ad5n")
+vertical_alignment = 1
+
+[node name="VSeparator4" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = " MODIFIED"
+label_settings = SubResource("LabelSettings_6ad5n")
+vertical_alignment = 1
+
+[node name="VSeparator5" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+
+[node name="Label7" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = " ENGINE VERSION"
+label_settings = SubResource("LabelSettings_6ad5n")
+vertical_alignment = 1
+
+[node name="VSeparator6" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+layout_mode = 2
+
+[node name="Label8" type="Control" parent="VBoxContainer/PanelContainer/Header"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemContainer" type="VBoxContainer" parent="VBoxContainer/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProjectLineItem" parent="VBoxContainer/Scroll/ItemContainer" instance=ExtResource("2_6ad5n")]
+layout_mode = 2

@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://3decy1tyjsj6"]
+
+[ext_resource type="Script" uid="uid://bm6vto2gyrgqu" path="res://Library/UI/SectionButton.cs" id="1_fbsx0"]
+[ext_resource type="FontFile" uid="uid://b4jca751lwabp" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="1_nqubs"]
+[ext_resource type="Script" uid="uid://cmreydoe2vwgl" path="res://addons/fontawesome/FontAwesome.gd" id="2_fbsx0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhml"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[node name="SectionButton" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 40)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_onhml")
+script = ExtResource("1_fbsx0")
+IconStyle = "solid"
+IconName = "circle-question"
+IconSize = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="IconNode" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+localize_numeral_system = false
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_nqubs")
+theme_override_font_sizes/font_size = 16
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_fbsx0")
+metadata/_custom_type_script = "uid://cmreydoe2vwgl"
+
+[node name="TextNode" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1

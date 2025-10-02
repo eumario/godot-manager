@@ -1,0 +1,167 @@
+[gd_scene load_steps=10 format=3 uid="uid://botwu7yj4kucd"]
+
+[ext_resource type="PackedScene" uid="uid://2piyejwfte53" path="res://Library/UI/Header.tscn" id="1_76lc4"]
+[ext_resource type="Script" uid="uid://cogkjdg3yve8w" path="res://Library/UI/Sidebar.cs" id="1_ejrop"]
+[ext_resource type="PackedScene" uid="uid://3decy1tyjsj6" path="res://Library/UI/SectionButton.tscn" id="3_la5vc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7h7s"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.14117648, 0.14117648, 0.14117648, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgnd2"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4su8"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4i4y"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y1g4"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhml"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[node name="Sidebar" type="PanelContainer"]
+custom_minimum_size = Vector2(241, 0)
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 226.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e7h7s")
+script = ExtResource("1_ejrop")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" parent="VBoxContainer" instance=ExtResource("1_76lc4")]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Sections" type="MarginContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 17
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Sections"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProjectSection" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mgnd2")
+IconName = "cube"
+Title = "Projects"
+IconSize = 18
+
+[node name="InstallSection" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4su8")
+IconName = "hard-drive"
+Title = "Installs"
+IconSize = 18
+
+[node name="AssetLibStor" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p4i4y")
+IconName = "store"
+Title = "Asset Lib"
+IconSize = 18
+
+[node name="SectionButton" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4y1g4")
+IconName = "users"
+Title = "Community"
+IconSize = 18
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Download" type="MarginContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 16
+
+[node name="DownloadSection" parent="VBoxContainer/Download" instance=ExtResource("3_la5vc")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_onhml")
+IconName = "download"
+Title = "Downloads"
+IconSize = 18

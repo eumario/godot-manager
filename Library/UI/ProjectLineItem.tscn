@@ -1,0 +1,119 @@
+[gd_scene load_steps=8 format=3 uid="uid://3hcyfcol33pc"]
+
+[ext_resource type="Script" uid="uid://c0nbyg7ejnbox" path="res://Library/UI/ProjectLineItem.cs" id="1_ipprg"]
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_ofxu2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iooqb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5skwt"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_512qf"]
+font = ExtResource("1_ofxu2")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_q4bac"]
+font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ad5n"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[node name="ProjectLineItem" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_iooqb")
+script = ExtResource("1_ipprg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Starred" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_5skwt")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GitControl" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_5skwt")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProjectName" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Project Name"
+label_settings = SubResource("LabelSettings_512qf")
+
+[node name="ProjectLocation" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "/home/eumario/Projects/ProjectName"
+label_settings = SubResource("LabelSettings_q4bac")
+clip_text = true
+text_overrun_behavior = 4
+
+[node name="LastModified" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "1 second ago"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_6ad5n")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="EngineVersion" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4.5.0 - MONO"
+
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "󰹹"
+
+[node name="ProjectOptions" type="Button" parent="HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = ""
+flat = true
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2

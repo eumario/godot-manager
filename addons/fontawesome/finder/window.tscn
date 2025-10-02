@@ -1,0 +1,165 @@
+[gd_scene load_steps=6 format=3 uid="uid://0q4ihoflybxj"]
+
+[ext_resource type="Script" path="res://addons/fontawesome/finder/window.gd" id="1_1j1fa"]
+[ext_resource type="Script" path="res://addons/fontawesome/finder/option.gd" id="2_04t0g"]
+[ext_resource type="FontFile" uid="uid://dfgeh5tagnxur" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="3_1gnrw"]
+[ext_resource type="Script" path="res://addons/fontawesome/FontAwesome.gd" id="4_swgx5"]
+[ext_resource type="FontFile" uid="uid://dqv1ko2cfvlae" path="res://addons/fontawesome/fonts/fa-regular-400.woff2" id="5_ti0jh"]
+
+[node name="Finder" type="AcceptDialog"]
+title = "FontAwesome Icons"
+size = Vector2i(512, 512)
+transient = false
+exclusive = false
+script = ExtResource("1_1j1fa")
+
+[node name="Box" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Option" type="Button" parent="Box"]
+visible = false
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_04t0g")
+
+[node name="Margin" type="MarginContainer" parent="Box/Option"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Box/Option/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="Label" parent="Box/Option/Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+auto_translate = false
+localize_numeral_system = false
+theme_override_fonts/font = ExtResource("3_1gnrw")
+theme_override_font_sizes/font_size = 32
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_swgx5")
+icon_size = 32
+
+[node name="Name" type="Label" parent="Box/Option/Margin/Box"]
+layout_mode = 2
+text = "icon"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Filters" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+alignment = 1
+
+[node name="Search" type="LineEdit" parent="Box/Filters"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter by name..."
+clear_button_enabled = true
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Solid" type="CheckButton" parent="Box/Filters"]
+layout_mode = 2
+text = "Solid"
+
+[node name="Regular" type="CheckButton" parent="Box/Filters"]
+layout_mode = 2
+button_pressed = true
+text = "Regular"
+
+[node name="Brands" type="CheckButton" parent="Box/Filters"]
+layout_mode = 2
+text = "Brands"
+
+[node name="Scroll" type="ScrollContainer" parent="Box"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="Options" type="HFlowContainer" parent="Box/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NoResults" type="VBoxContainer" parent="Box"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Icon" type="Label" parent="Box/NoResults"]
+layout_mode = 2
+size_flags_vertical = 0
+auto_translate = false
+localize_numeral_system = false
+theme_override_fonts/font = ExtResource("5_ti0jh")
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_swgx5")
+icon_size = 24
+icon_type = "regular"
+icon_name = "circle-question"
+metadata/_edit_pinned_properties_ = [&"icon_name"]
+
+[node name="Label" type="Label" parent="Box/NoResults"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "No Icons Found"
+
+[node name="Fetching" type="Panel" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 504.0
+offset_bottom = 463.0
+
+[node name="Box" type="VBoxContainer" parent="Fetching"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 504.0
+offset_bottom = 463.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Icon" type="Label" parent="Fetching/Box"]
+layout_mode = 2
+size_flags_vertical = 0
+auto_translate = false
+localize_numeral_system = false
+theme_override_fonts/font = ExtResource("5_ti0jh")
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_swgx5")
+icon_size = 24
+icon_type = "regular"
+icon_name = "hourglass-half"
+metadata/_edit_pinned_properties_ = [&"icon_name"]
+
+[node name="Label" type="Label" parent="Fetching/Box"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Fetching icons..."
+
+[connection signal="text_changed" from="Box/Filters/Search" to="." method="_on_search_text_changed"]
