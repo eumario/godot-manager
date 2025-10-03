@@ -19,7 +19,7 @@ config/features=PackedStringArray("4.5", "C#")
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-config/icon="uid://bqnctrbkfhsmq"
+config/icon="uid://cpoftaf136y8g"
 
 [display]
 

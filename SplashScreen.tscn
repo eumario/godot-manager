@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b2skhjob6d0vb"]
 
 [ext_resource type="Script" uid="uid://dtsrv078v37se" path="res://SplashScreen.cs" id="1_ja1jw"]
-[ext_resource type="Texture2D" uid="uid://bqnctrbkfhsmq" path="res://godot-manager.png" id="1_onsdr"]
+[ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="1_onsdr"]
 [ext_resource type="FontFile" uid="uid://qnocb54h1p1r" path="res://Assets/Fonts/FiraCodeNerdFont-Bold.ttf" id="3_ja1jw"]
 [ext_resource type="FontFile" uid="uid://dgdkna1beb20n" path="res://Assets/Fonts/FiraCodeNerdFont-Regular.ttf" id="4_pq256"]
 
