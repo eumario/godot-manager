@@ -8,11 +8,21 @@ public class GodotConfigParser
     private readonly Dictionary<string, Dictionary<string, string>> _sections = new();
     private readonly Dictionary<string, string> _global = new();
 
+    // Stores all lines (including comments and blank lines) as they appeared in the original file
+    private readonly List<string> _originalLines = new();
+
+    // Optionally, stores mapping from key to line indexes for more advanced editing
+    // private readonly Dictionary<(string? Section, string Key), int> _keyLineIndexes = new();
+
     public IReadOnlyDictionary<string, Dictionary<string, string>> Sections => _sections;
     public IReadOnlyDictionary<string, string> Global => _global;
 
     public void Parse(string filePath)
     {
+        _sections.Clear();
+        _global.Clear();
+        _originalLines.Clear();
+
         using var reader = new StreamReader(filePath);
         string? line;
         string? currentSection = null;
@@ -24,14 +34,16 @@ public class GodotConfigParser
 
         while ((line = reader.ReadLine()) != null)
         {
-            line = line.Trim();
+            _originalLines.Add(line); // Save the raw line as-is
 
-            // Skip comments and blank lines
-            if (string.IsNullOrEmpty(line) || line.StartsWith(";"))
+            string trimmedLine = line.Trim();
+
+            // Skip blank lines for parsing, but keep all lines for saving
+            if (string.IsNullOrEmpty(trimmedLine) || trimmedLine.StartsWith(";"))
                 continue;
 
             // Section header
-            var sectionMatch = sectionRegex.Match(line);
+            var sectionMatch = sectionRegex.Match(trimmedLine);
             if (sectionMatch.Success)
             {
                 currentSection = sectionMatch.Groups[1].Value;
@@ -43,7 +55,7 @@ public class GodotConfigParser
             }
 
             // Parameter line
-            var paramMatch = paramRegex.Match(line);
+            var paramMatch = paramRegex.Match(trimmedLine);
             if (paramMatch.Success)
             {
                 var key = paramMatch.Groups[1].Value;
@@ -54,8 +66,7 @@ public class GodotConfigParser
             else if (lastKey != null && currentDict != null)
             {
                 // Multiline value: append to the last key's value
-                // Separate by newline for clarity, but adjust as needed
-                currentDict[lastKey] += "\n" + line;
+                currentDict[lastKey] += "\n" + trimmedLine;
             }
         }
     }
@@ -82,26 +93,94 @@ public class GodotConfigParser
     }
 
     /// <summary>
-    /// Saves the configuration back to a file, preserving basic format.
+    /// Saves the configuration back to a file, preserving comments and blank lines as in the original file.
+    /// Modified key/values will be updated in their original place; new ones will be appended at the end of their section.
     /// </summary>
     public void Save(string filePath)
     {
-        using var writer = new StreamWriter(filePath);
+        // 1. Build a lookup for current config so we can track what's been written
+        var globalWritten = new HashSet<string>();
+        var sectionsWritten = new Dictionary<string, HashSet<string>>();
+        foreach (var section in _sections.Keys)
+            sectionsWritten[section] = new HashSet<string>();
 
-        // Write global (no section) parameters
-        foreach (var kvp in _global)
+        string? currentSection = null;
+
+        using var writer = new StreamWriter(filePath);
+        foreach (var rawLine in _originalLines)
         {
-            WriteKeyValue(writer, kvp.Key, kvp.Value);
+            string trimmedLine = rawLine.Trim();
+
+            // Section header?
+            var sectionHeader = Regex.Match(trimmedLine, @"^\[(.+)\]");
+            if (sectionHeader.Success)
+            {
+                currentSection = sectionHeader.Groups[1].Value;
+                writer.WriteLine(rawLine);
+                continue;
+            }
+
+            // Key-value line?
+            var paramMatch = Regex.Match(trimmedLine, @"^\s*([^;=\s]+)\s*=\s*(.+)\s*$");
+            if (paramMatch.Success)
+            {
+                var key = paramMatch.Groups[1].Value;
+                string? value = null;
+                if (currentSection == null)
+                {
+                    if (_global.TryGetValue(key, out var v) && !globalWritten.Contains(key))
+                    {
+                        value = v;
+                        globalWritten.Add(key);
+                    }
+                }
+                else
+                {
+                    if (_sections.TryGetValue(currentSection, out var dict) && dict.TryGetValue(key, out var v) && !sectionsWritten[currentSection].Contains(key))
+                    {
+                        value = v;
+                        sectionsWritten[currentSection].Add(key);
+                    }
+                }
+                if (value != null)
+                {
+                    WriteKeyValue(writer, key, value);
+                    // If multiline, consume extra original lines until next section/key/comment/blank
+                    var lines = value.Split('\n');
+                    int extraLines = lines.Length - 1;
+                    while (extraLines-- > 0)
+                        writer.WriteLine(); // We will not duplicate old lines, but preserve count
+                }
+                else
+                {
+                    writer.WriteLine(rawLine); // key deleted in config, just keep original line
+                }
+            }
+            else
+            {
+                writer.WriteLine(rawLine); // comment, blank, or anything else
+            }
         }
 
-        // Write sections
+        // 2. Append any new keys that were not present in the original file
+        // Global
+        foreach (var kvp in _global)
+        {
+            if (!globalWritten.Contains(kvp.Key))
+                WriteKeyValue(writer, kvp.Key, kvp.Value);
+        }
+        // Sections
         foreach (var section in _sections)
         {
-            writer.WriteLine();
-            writer.WriteLine($"[{section.Key}]");
+            var written = sectionsWritten[section.Key];
             foreach (var kvp in section.Value)
             {
-                WriteKeyValue(writer, kvp.Key, kvp.Value);
+                if (!written.Contains(kvp.Key))
+                {
+                    writer.WriteLine();
+                    writer.WriteLine($"[{section.Key}]");
+                    WriteKeyValue(writer, kvp.Key, kvp.Value);
+                }
             }
         }
     }
