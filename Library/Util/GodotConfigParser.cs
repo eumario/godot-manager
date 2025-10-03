@@ -66,4 +66,60 @@ public class GodotConfigParser
             return _global.TryGetValue(key, out var value) ? value : null;
         return _sections.TryGetValue(section, out var dict) && dict.TryGetValue(key, out var value2) ? value2 : null;
     }
+
+    public void SetValue(string key, string value, string? section = null)
+    {
+        if (section == null)
+        {
+            _global[key] = value;
+        }
+        else
+        {
+            if (!_sections.ContainsKey(section))
+                _sections[section] = new Dictionary<string, string>();
+            _sections[section][key] = value;
+        }
+    }
+
+    /// <summary>
+    /// Saves the configuration back to a file, preserving basic format.
+    /// </summary>
+    public void Save(string filePath)
+    {
+        using var writer = new StreamWriter(filePath);
+
+        // Write global (no section) parameters
+        foreach (var kvp in _global)
+        {
+            WriteKeyValue(writer, kvp.Key, kvp.Value);
+        }
+
+        // Write sections
+        foreach (var section in _sections)
+        {
+            writer.WriteLine();
+            writer.WriteLine($"[{section.Key}]");
+            foreach (var kvp in section.Value)
+            {
+                WriteKeyValue(writer, kvp.Key, kvp.Value);
+            }
+        }
+    }
+
+    private static void WriteKeyValue(StreamWriter writer, string key, string value)
+    {
+        if (value.Contains('\n'))
+        {
+            var lines = value.Split('\n');
+            writer.WriteLine($"{key}={lines[0]}");
+            for (int i = 1; i < lines.Length; i++)
+            {
+                writer.WriteLine(lines[i]);
+            }
+        }
+        else
+        {
+            writer.WriteLine($"{key}={value}");
+        }
+    }
 }

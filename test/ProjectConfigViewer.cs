@@ -8,12 +8,27 @@ public partial class ProjectConfigViewer : Control
 {
     private GodotProjectFile _config;
     private GodotConfigParser _parser;
+    private TreeItem _root;
+    private Font _treeFont;
+    private int _fontSize;
 
     [OnInstantiate]
     public void Initialize()
     {
         _config = null;
         SectionList.Disabled = true;
+        SectionViewer.SetColumnCustomMinimumWidth(0, 20);
+        SectionViewer.SetColumnCustomMinimumWidth(3, 20);
+        SectionViewer.SetColumnExpand(0, false);
+        SectionViewer.SetColumnExpand(1, false);
+        SectionViewer.SetColumnClipContent(1, false);
+        SectionViewer.SetColumnExpand(2, true);
+        SectionViewer.SetColumnExpand(3, false);
+        SectionViewer.SetColumnCustomMinimumWidth(1,120);
+        SectionViewer.SetColumnTitle(1, "Key");
+        SectionViewer.SetColumnTitle(2, "Value");
+        _treeFont = SectionViewer.GetThemeFont("font");
+        _fontSize = SectionViewer.GetThemeFontSize("font");
     }
     
     [GodotOverride]
@@ -44,72 +59,41 @@ public partial class ProjectConfigViewer : Control
                 foreach (var section in _parser.Sections.Keys)
                     SectionList.AddItem(section);
                 SectionList.EmitSignal(OptionButton.SignalName.ItemSelected, 0);
-                // var cfg = new GodotProjectFile(file);
-                // cfg.Load();
-                // SectionList.Clear();
-                // foreach(var section in cfg.Sections)
-                //     SectionList.AddItem(section);
-                // _config = cfg;
                 SectionList.Disabled = false;
             };
-            await ToSignal(dlg, Window.SignalName.CloseRequested);
-            dlg.QueueFree();
-            GD.Print("Dialog freed.");
+            dlg.CloseRequested += () => dlg.QueueFree();
         };
-
-        ItemEntry.KeySizeChangedEventHandler itemOnKeySizeChanged(ItemEntry itemEntry)
-        {
-            return (width) =>
-            {
-                if (KeyHeader.CustomMinimumSize.X < width)
-                {
-                    var newSize = new Vector2(width, 0);
-                    KeyHeader.CustomMinimumSize = newSize;
-                    KeyHeader.GetParent<HBoxContainer>().QueueSort();
-                    KeyHeader.QueueRedraw();
-                    foreach (var citem in Items.GetChildren().OfType<ItemEntry>())
-                    {
-                        if (citem == itemEntry) continue;
-                        citem.CustomMinimumSize = newSize;
-                        citem.Size = newSize;
-                        citem.QueueRedraw();
-                    }
-
-                    Items.QueueSort();
-                    Items.QueueRedraw();
-                }
-            };
-        }
 
         SectionList.ItemSelected += async index =>
         {
-            foreach (var child in Items.GetChildren()) child.QueueFree();
-            Items.AddChild(new HSeparator());
             var section = SectionList.GetItemText((int)index);
-            // foreach (var key in _config.GetKeys(section))
-            // {
-            //     var item = ItemEntry.Instantiate(key, _config[section, key]);
-            //     Items.AddChild(item);
-            // }
+            SectionViewer.Clear();
+            var keySize = new Vector2(120, 0);
+            _root = SectionViewer.CreateItem();
             if (section == "Header")
             {
                 foreach (var key in _parser.Global.Keys)
                 {
-                    var item = ItemEntry.Instantiate(key, _parser.GetValue(key));
-                    Items.AddChild(item);
-                    Items.AddChild(new HSeparator());
-                    item.KeySizeChanged += itemOnKeySizeChanged(item);
+                    var size = _treeFont.GetStringSize(key);
+                    if (size.X > keySize.X) keySize = size;
+                    var iter = _root.CreateChild();
+                    iter.SetText(1, key);
+                    iter.SetText(2, _parser.Global[key]);
                 }
             }
             else
             {
                 foreach (var key in _parser.Sections[section].Keys)
                 {
-                    var item = ItemEntry.Instantiate(key, _parser.GetValue(key, section));
-                    Items.AddChild(item);
-                    item.KeySizeChanged += itemOnKeySizeChanged(item);
+                    var size = _treeFont.GetStringSize(key);
+                    if (size.X > keySize.X) keySize = size;
+                    var iter = _root.CreateChild();
+                    iter.SetText(1, key);
+                    iter.SetText(2, _parser.GetValue(key, section));
                 }
             }
+
+            SectionViewer.SetColumnCustomMinimumWidth(1, (int)keySize.X);
         };
     }
 

@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7gmoso7m1g0r"]
+[gd_scene load_steps=2 format=3 uid="uid://b7gmoso7m1g0r"]
 
 [ext_resource type="Script" uid="uid://b5rssc5tmhg34" path="res://test/ProjectConfigViewer.cs" id="1_w16th"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dmdx1"]
-bg_color = Color(0.2231029, 0.2231029, 0.22310278, 1)
 
 [node name="ProjectConfigViewer" type="Control"]
 layout_mode = 3
@@ -42,53 +39,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 fit_to_longest_item = false
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="KeyHeader" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-text = "Key"
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="ValueHeader" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Value"
-
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="Label4" type="Label" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_dmdx1")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/PanelContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Items" type="VBoxContainer" parent="VBoxContainer/PanelContainer2/ScrollContainer"]
+[node name="SectionViewer" type="Tree" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/guide_color = Color(0.69803923, 0.69803923, 0.69803923, 0.81960785)
+theme_override_constants/outline_size = 4
+theme_override_constants/draw_guides = 4
+columns = 4
+column_titles_visible = true
+hide_folding = true
+hide_root = true
+select_mode = 1
