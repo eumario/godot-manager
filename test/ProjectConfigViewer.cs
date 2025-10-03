@@ -6,7 +6,6 @@ using GodotManager.Library.Util;
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class ProjectConfigViewer : Control
 {
-    private GodotProjectFile _config;
     private GodotConfigParser _parser;
     private TreeItem _root;
     private Font _treeFont;
@@ -15,7 +14,6 @@ public partial class ProjectConfigViewer : Control
     [OnInstantiate]
     public void Initialize()
     {
-        _config = null;
         SectionList.Disabled = true;
         SectionViewer.SetColumnCustomMinimumWidth(0, 20);
         SectionViewer.SetColumnCustomMinimumWidth(3, 20);
