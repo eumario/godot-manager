@@ -2,9 +2,6 @@
 # For more information on what files should be excluded from version control,
 # see <https://docs.godotengine.org/en/stable/getting_started/workflow/project_setup/version_control_systems.html#files-to-exclude-from-vcs>
 
-.import/
-export.cfg
-*.import
 .godot/
 
 # Excluded because it may contain sensitive information like keystore passwords
