@@ -4,6 +4,8 @@ using System;
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class ItemEntry : PanelContainer
 {
+    [Signal]
+    public delegate void KeySizeChangedEventHandler(float width);
     [Notify, Export] public string KeyName { get; set; }
     [Notify, Export] public string ValueText { get; set; }
 
@@ -12,6 +14,10 @@ public partial class ItemEntry : PanelContainer
     {
         KeyName = key;
         ValueText = value;
+        Key.Resized += () =>
+        {
+            EmitSignalKeySizeChanged(Key.Size.X);
+        };
     }
 
     [GodotOverride]

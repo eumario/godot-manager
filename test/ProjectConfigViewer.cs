@@ -57,6 +57,30 @@ public partial class ProjectConfigViewer : Control
             GD.Print("Dialog freed.");
         };
 
+        ItemEntry.KeySizeChangedEventHandler itemOnKeySizeChanged(ItemEntry itemEntry)
+        {
+            return (width) =>
+            {
+                if (KeyHeader.CustomMinimumSize.X < width)
+                {
+                    var newSize = new Vector2(width, 0);
+                    KeyHeader.CustomMinimumSize = newSize;
+                    KeyHeader.GetParent<HBoxContainer>().QueueSort();
+                    KeyHeader.QueueRedraw();
+                    foreach (var citem in Items.GetChildren().OfType<ItemEntry>())
+                    {
+                        if (citem == itemEntry) continue;
+                        citem.CustomMinimumSize = newSize;
+                        citem.Size = newSize;
+                        citem.QueueRedraw();
+                    }
+
+                    Items.QueueSort();
+                    Items.QueueRedraw();
+                }
+            };
+        }
+
         SectionList.ItemSelected += async index =>
         {
             foreach (var child in Items.GetChildren()) child.QueueFree();
@@ -74,6 +98,7 @@ public partial class ProjectConfigViewer : Control
                     var item = ItemEntry.Instantiate(key, _parser.GetValue(key));
                     Items.AddChild(item);
                     Items.AddChild(new HSeparator());
+                    item.KeySizeChanged += itemOnKeySizeChanged(item);
                 }
             }
             else
@@ -82,30 +107,9 @@ public partial class ProjectConfigViewer : Control
                 {
                     var item = ItemEntry.Instantiate(key, _parser.GetValue(key, section));
                     Items.AddChild(item);
-                    await ToSignal(item, Node.SignalName.Ready);
+                    item.KeySizeChanged += itemOnKeySizeChanged(item);
                 }
             }
-
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            var maxSize = new Vector2(120.0f,0);
-            var items = Items.GetChildren().OfType<ItemEntry>().ToList();
-            foreach (var item in items)
-            {
-                var size = item.Key.Size;
-                if (size.X > maxSize.X)
-                    maxSize.X = size.X;
-            }
-
-            foreach (var item in items)
-            {
-                item.Key.CustomMinimumSize = maxSize;
-                item.Key.Size = maxSize;
-                item.Key.QueueRedraw();
-            }
-            KeyHeader.CustomMinimumSize = maxSize;
-            KeyHeader.Size = maxSize;
-            KeyHeader.QueueRedraw();
         };
     }
 
