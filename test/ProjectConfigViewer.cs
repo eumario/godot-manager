@@ -32,7 +32,7 @@ public partial class ProjectConfigViewer : Control
     [GodotOverride]
     public void OnReady()
     {
-        LoadConfig.Pressed += async () =>
+        LoadConfig.Pressed += () =>
         {
             var dlg = new FileDialog();
             dlg.UseNativeDialog = true;
@@ -62,7 +62,7 @@ public partial class ProjectConfigViewer : Control
             dlg.CloseRequested += () => dlg.QueueFree();
         };
 
-        SectionList.ItemSelected += async index =>
+        SectionList.ItemSelected += index =>
         {
             var section = SectionList.GetItemText((int)index);
             SectionViewer.Clear();

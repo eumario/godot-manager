@@ -4,7 +4,7 @@ using Godot;
 public partial class TestGodotProjectConfig : EditorScript
 {
     [GodotOverride]
-    public async void OnRun()
+    public void OnRun()
     {
         var dlg = new Window();
         var pcv = ProjectConfigViewer.Instantiate();
