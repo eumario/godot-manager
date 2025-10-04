@@ -8,6 +8,7 @@ namespace GodotManager.Library.Database;
 
 public class AppContext : DbContext
 {
+    public virtual DbSet<AuthorInfo> AuthorInfo { get; set; }
     public virtual DbSet<ProjectFile> ProjectFiles { get; set; }
     public virtual DbSet<EngineVersion> EngineVersions { get; set; }
     public virtual DbSet<EngineRelease> EngineReleases { get; set; }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
+namespace GodotManager.Library.FileIO;
+
 public class GodotConfigParser
 {
     private readonly Dictionary<string, Dictionary<string, string>> _sections = new();

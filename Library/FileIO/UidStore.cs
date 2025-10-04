@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Godot;
 
-namespace GodotManager.Library.Util;
+namespace GodotManager.Library.FileIO;
 
 public class UidStore
 {
