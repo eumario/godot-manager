@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bpnm8fl8lve5k"]
 
 [ext_resource type="Texture2D" uid="uid://d2cdf6s10e08v" path="res://Assets/images/reference/community.png" id="1_4y1g4"]
-[ext_resource type="Script" uid="uid://bi2ypfk8yo1e3" path="res://tools/ReferenceImage.cs" id="1_p4i4y"]
+[ext_resource type="Script" uid="uid://bi2ypfk8yo1e3" path="res://Tools/ReferenceImage.cs" id="1_p4i4y"]
 [ext_resource type="PackedScene" uid="uid://botwu7yj4kucd" path="res://Library/UI/Sidebar.tscn" id="2_7qsqj"]
 [ext_resource type="PackedScene" uid="uid://8c3ygxxv5p16" path="res://Library/UI/Sections/Projects.tscn" id="3_3ygwi"]
 [ext_resource type="PackedScene" uid="uid://bitvjbya2e6nn" path="res://Library/UI/Sections/Installs.tscn" id="5_l4su8"]
@@ -83,5 +83,6 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="Community" parent="Root/HBoxContainer" instance=ExtResource("7_p4i4y")]
+[node name="Community" parent="Root/HBoxContainer" node_paths=PackedStringArray("TabWindows") instance=ExtResource("7_p4i4y")]
 layout_mode = 2
+TabWindows = [NodePath("VBoxContainer/MainSection/News"), NodePath("VBoxContainer/MainSection/Official"), null, null, null]
