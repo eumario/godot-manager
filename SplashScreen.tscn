@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2skhjob6d0vb"]
+[gd_scene load_steps=8 format=3 uid="uid://b2skhjob6d0vb"]
 
 [ext_resource type="Script" uid="uid://dtsrv078v37se" path="res://SplashScreen.cs" id="1_ja1jw"]
 [ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="1_onsdr"]
 [ext_resource type="FontFile" uid="uid://qnocb54h1p1r" path="res://Assets/Fonts/FiraCodeNerdFont-Bold.ttf" id="3_ja1jw"]
 [ext_resource type="FontFile" uid="uid://dgdkna1beb20n" path="res://Assets/Fonts/FiraCodeNerdFont-Regular.ttf" id="4_pq256"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ja1jw"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_gfujr"]
 font = ExtResource("3_ja1jw")
@@ -21,6 +24,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ja1jw")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ja1jw")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
