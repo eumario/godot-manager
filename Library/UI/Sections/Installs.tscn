@@ -1,0 +1,141 @@
+[gd_scene load_steps=9 format=3 uid="uid://bitvjbya2e6nn"]
+
+[ext_resource type="FontFile" uid="uid://cgo5ndl66xesp" path="res://Assets/Fonts/UbuntuSansNerdFont-Regular.ttf" id="1_1g73b"]
+[ext_resource type="Script" uid="uid://2ut0jpcoky0r" path="res://Library/UI/Sections/Installs.cs" id="1_hxlob"]
+[ext_resource type="Texture2D" uid="uid://cqqnisr4uts6p" path="res://Assets/Icons/magnify-glass.svg" id="2_hxlob"]
+[ext_resource type="StyleBox" uid="uid://xx8lxagu4ysl" path="res://Assets/Resources/ScrollWindowSpacing.tres" id="4_8i22l"]
+[ext_resource type="PackedScene" uid="uid://q6ivuk3htmu6" path="res://Library/UI/ItemListHeader.tscn" id="4_dfu54"]
+[ext_resource type="PackedScene" uid="uid://bnih2xbkhp4vt" path="res://Library/UI/EngineLineItem.tscn" id="5_y4gov"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nekg8"]
+font = ExtResource("1_1g73b")
+font_size = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yxw0b"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Installs" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_hxlob")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader"]
+layout_mode = 2
+
+[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+layout_mode = 2
+text = "Installs"
+label_settings = SubResource("LabelSettings_nekg8")
+
+[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+layout_mode = 2
+
+[node name="LocateEngine" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "Locate"
+
+[node name="InstallEngine" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"PrimaryButton"
+text = "Install Engine"
+
+[node name="NavSearch" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
+layout_mode = 2
+
+[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavBar"
+current_tab = 0
+tab_count = 3
+tab_0/title = "All"
+tab_1/title = "Official Releases"
+tab_2/title = "Pre-releases"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer"]
+custom_minimum_size = Vector2(244, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_yxw0b")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hxlob")
+stretch_mode = 5
+
+[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SearchLineEdit"
+placeholder_text = "Search ..."
+flat = true
+
+[node name="MainSection" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_8i22l")
+
+[node name="Installs" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="ItemListHeader" parent="VBoxContainer/MainSection/ScrollContainer/Installs" instance=ExtResource("4_dfu54")]
+layout_mode = 2
+
+[node name="EngineLineItem" parent="VBoxContainer/MainSection/ScrollContainer/Installs" instance=ExtResource("5_y4gov")]
+layout_mode = 2

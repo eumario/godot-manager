@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvmnrrcqw473c"]
+
+[ext_resource type="FontFile" uid="uid://cgo5ndl66xesp" path="res://Assets/Fonts/UbuntuSansNerdFont-Regular.ttf" id="1_d8lsv"]
+[ext_resource type="Script" uid="uid://dcjv5mqxtat6m" path="res://Library/UI/Sections/Community.cs" id="1_qvkih"]
+[ext_resource type="PackedScene" uid="uid://8lwaju85upn5" path="res://Library/UI/ArticleCard.tscn" id="2_qvkih"]
+[ext_resource type="StyleBox" uid="uid://xx8lxagu4ysl" path="res://Assets/Resources/ScrollWindowSpacing.tres" id="3_am08q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yxw0b"]
+font = ExtResource("1_d8lsv")
+font_size = 30
+
+[node name="Community" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_qvkih")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader"]
+layout_mode = 2
+
+[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+layout_mode = 2
+text = "Community"
+label_settings = SubResource("LabelSettings_yxw0b")
+
+[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+layout_mode = 2
+
+[node name="NavSearch" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
+layout_mode = 2
+
+[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavBar"
+current_tab = 0
+tab_count = 5
+tab_0/title = "News"
+tab_1/title = "Official"
+tab_2/title = "Community"
+tab_3/title = "YouTube"
+tab_4/title = "Twitch"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="MainSection" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 6
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_am08q")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="ArticleCard" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+layout_mode = 2
+
+[node name="ArticleCard2" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+layout_mode = 2
+
+[node name="ArticleCard3" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+layout_mode = 2
+
+[node name="ArticleCard4" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+layout_mode = 2
