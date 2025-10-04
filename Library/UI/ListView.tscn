@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://qwy2g6b4jwj"]
+[gd_scene load_steps=7 format=3 uid="uid://qwy2g6b4jwj"]
 
 [ext_resource type="Script" uid="uid://643g6a0yw8da" path="res://Library/UI/ListView.cs" id="1_iooqb"]
+[ext_resource type="StyleBox" uid="uid://xx8lxagu4ysl" path="res://Assets/Resources/ScrollWindowSpacing.tres" id="2_5skwt"]
 [ext_resource type="PackedScene" uid="uid://3hcyfcol33pc" path="res://Library/UI/ProjectLineItem.tscn" id="2_6ad5n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iooqb"]
@@ -108,6 +109,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_5skwt")
 
 [node name="ItemContainer" type="VBoxContainer" parent="VBoxContainer/Scroll"]
 unique_name_in_owner = true

@@ -29,5 +29,11 @@ public partial class ListView : Control
     #endregion
     
     #region Public Functions
+
+    public void Clear()
+    {
+        foreach (var item in ItemContainer.GetChildren())
+            item.QueueFree();
+    }
     #endregion
 }
