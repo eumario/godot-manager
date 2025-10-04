@@ -118,5 +118,6 @@ flat = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ListView" parent="VBoxContainer/MainSection" instance=ExtResource("6_j28jf")]
+[node name="ProjectList" parent="VBoxContainer/MainSection" instance=ExtResource("6_j28jf")]
+unique_name_in_owner = true
 layout_mode = 2

@@ -11,4 +11,9 @@ public partial class Projects : PanelContainer
     public void OnReady()
     {
     }
+
+    public void Clear()
+    {
+        ProjectList.Clear();
+    }
 }
