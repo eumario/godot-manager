@@ -9,7 +9,7 @@
 font = ExtResource("1_d8lsv")
 font_size = 30
 
-[node name="Community" type="PanelContainer"]
+[node name="Community" type="PanelContainer" node_paths=PackedStringArray("TabWindows")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,6 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_qvkih")
+TabWindows = [NodePath("VBoxContainer/MainSection/News"), NodePath("VBoxContainer/MainSection/Official"), null, null, null]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -54,11 +55,13 @@ theme_override_constants/margin_bottom = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
 layout_mode = 2
 
-[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="NavBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"NavBar"
 current_tab = 0
+close_with_middle_mouse = false
 tab_count = 5
 tab_0/title = "News"
 tab_1/title = "Official"
@@ -76,28 +79,48 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 6
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+[node name="News" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/News"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_right = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer"]
+[node name="NewsItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/News/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="ArticleCard" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="ArticleCard2" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard2" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="ArticleCard3" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard3" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="ArticleCard4" parent="VBoxContainer/MainSection/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard4" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
 layout_mode = 2
+
+[node name="Official" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_am08q")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/Official"]
+layout_mode = 2
+theme_override_constants/margin_right = 25
+
+[node name="OfficialItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/Official/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList"]
+layout_mode = 2
+text = "This is not implemented yet."
