@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://botwu7yj4kucd"]
+[gd_scene load_steps=18 format=3 uid="uid://botwu7yj4kucd"]
 
-[ext_resource type="PackedScene" uid="uid://2piyejwfte53" path="res://Library/UI/Header.tscn" id="1_76lc4"]
 [ext_resource type="Script" uid="uid://cogkjdg3yve8w" path="res://Library/UI/Sidebar.cs" id="1_ejrop"]
+[ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="3_idblf"]
 [ext_resource type="PackedScene" uid="uid://3decy1tyjsj6" path="res://Library/UI/SectionButton.tscn" id="3_la5vc"]
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="4_syv7x"]
+[ext_resource type="FontFile" uid="uid://b4jca751lwabp" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="5_xeijc"]
+[ext_resource type="Script" uid="uid://cmreydoe2vwgl" path="res://addons/fontawesome/FontAwesome.gd" id="6_2al3o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7h7s"]
 content_margin_left = 0.0
@@ -15,6 +18,29 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4i4y"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_4y1g4"]
+font = ExtResource("4_syv7x")
+font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aw2cv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aw2cv"]
+bg_color = Color(0.67263305, 0.67263305, 0.67263305, 0.6)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fug36"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgnd2"]
 resource_local_to_scene = true
@@ -42,7 +68,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4i4y"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3f4pb"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -81,7 +107,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[node name="Sidebar" type="PanelContainer"]
+[node name="Sidebar" type="PanelContainer" node_paths=PackedStringArray("ButtonSections")]
 custom_minimum_size = Vector2(241, 0)
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -89,12 +115,69 @@ offset_right = 226.0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_e7h7s")
 script = ExtResource("1_ejrop")
+ButtonSections = []
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Header" parent="VBoxContainer" instance=ExtResource("1_76lc4")]
+[node name="Header" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p4i4y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/Header/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Logo" type="TextureButton" parent="VBoxContainer/Header/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_idblf")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="AppName" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Manager"
+label_settings = SubResource("LabelSettings_4y1g4")
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/Header/HBoxContainer"]
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aw2cv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aw2cv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fug36")
+flat = true
+
+[node name="FontAwesome" type="Label" parent="VBoxContainer/Header/HBoxContainer/Settings"]
+auto_translate_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+localize_numeral_system = false
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("5_xeijc")
+theme_override_font_sizes/font_size = 32
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_2al3o")
+icon_size = 32
+icon_name = "gear"
+metadata/_custom_type_script = "uid://cmreydoe2vwgl"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -129,7 +212,7 @@ IconSize = 18
 [node name="AssetLibStor" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_p4i4y")
+theme_override_styles/panel = SubResource("StyleBoxFlat_3f4pb")
 IconName = "store"
 Title = "Asset Lib"
 IconSize = 18
