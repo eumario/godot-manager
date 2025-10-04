@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpnm8fl8lve5k"]
+[gd_scene load_steps=10 format=3 uid="uid://bpnm8fl8lve5k"]
 
-[ext_resource type="Texture2D" uid="uid://caffuvdh7uoct" path="res://Assets/images/projects.png" id="1_3ygwi"]
+[ext_resource type="Texture2D" uid="uid://d2cdf6s10e08v" path="res://Assets/images/reference/community.png" id="1_4y1g4"]
+[ext_resource type="Script" uid="uid://bi2ypfk8yo1e3" path="res://tools/ReferenceImage.cs" id="1_p4i4y"]
 [ext_resource type="PackedScene" uid="uid://botwu7yj4kucd" path="res://Library/UI/Sidebar.tscn" id="2_7qsqj"]
 [ext_resource type="PackedScene" uid="uid://8c3ygxxv5p16" path="res://Library/UI/Sections/Projects.tscn" id="3_3ygwi"]
+[ext_resource type="PackedScene" uid="uid://bitvjbya2e6nn" path="res://Library/UI/Sections/Installs.tscn" id="5_l4su8"]
+[ext_resource type="PackedScene" uid="uid://keqvqt525uwq" path="res://Library/UI/Sections/AssetLib.tscn" id="6_e7h7s"]
+[ext_resource type="PackedScene" uid="uid://bvmnrrcqw473c" path="res://Library/UI/Sections/Community.tscn" id="7_p4i4y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4su8"]
 bg_color = Color(0, 0, 0, 1)
@@ -27,18 +31,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
+[node name="ReferenceImage" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_3ygwi")
-stretch_mode = 4
+texture = ExtResource("1_4y1g4")
+script = ExtResource("1_p4i4y")
+ImagePath = "res://Assets/images/reference"
+CurrentIndex = 10
+CurrentImage = "community.png"
+metadata/_custom_type_script = "uid://bi2ypfk8yo1e3"
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="Background" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,28 +67,21 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_or8l5")
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Sidebar" parent="Root/HBoxContainer" instance=ExtResource("2_7qsqj")]
+[node name="Sidebar" parent="Root/HBoxContainer" node_paths=PackedStringArray("ButtonSections") instance=ExtResource("2_7qsqj")]
 layout_mode = 2
+ButtonSections = [NodePath("../Projects"), NodePath("../Installs"), NodePath("../AssetLib"), NodePath("../Community")]
 
 [node name="Projects" parent="Root/HBoxContainer" instance=ExtResource("3_3ygwi")]
-layout_mode = 2
-
-[node name="Installs" type="PanelContainer" parent="Root/HBoxContainer"]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="AssetLib" type="PanelContainer" parent="Root/HBoxContainer"]
+[node name="Installs" parent="Root/HBoxContainer" instance=ExtResource("5_l4su8")]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="StoreBeta" type="PanelContainer" parent="Root/HBoxContainer"]
+[node name="AssetLib" parent="Root/HBoxContainer" instance=ExtResource("6_e7h7s")]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="Community" type="PanelContainer" parent="Root/HBoxContainer"]
-visible = false
+[node name="Community" parent="Root/HBoxContainer" instance=ExtResource("7_p4i4y")]
 layout_mode = 2
-size_flags_horizontal = 3
