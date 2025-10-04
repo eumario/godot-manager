@@ -1,0 +1,101 @@
+[gd_scene load_steps=8 format=3 uid="uid://bnih2xbkhp4vt"]
+
+[ext_resource type="Script" uid="uid://b3frxk5l3hrd" path="res://Library/UI/EngineLineItem.cs" id="1_36pr2"]
+[ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="1_cvvbm"]
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="2_36pr2"]
+[ext_resource type="PackedScene" uid="uid://hoinr21yjxwd" path="res://Library/UI/Tag.tscn" id="3_3ilmv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y1g4"]
+bg_color = Color(0.23921569, 0.23921569, 0.23921569, 0.5568628)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nekg8"]
+font = ExtResource("2_36pr2")
+
+[sub_resource type="LabelSettings" id="LabelSettings_yxw0b"]
+font_size = 12
+
+[node name="EngineLineItem" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 95)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 85.0
+grow_horizontal = 2
+script = ExtResource("1_36pr2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4y1g4")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 45
+
+[node name="EngineIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+texture = ExtResource("1_cvvbm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MajMinVersion" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Godot 4.5"
+label_settings = SubResource("LabelSettings_nekg8")
+
+[node name="FullVersion" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(4.5.1-stable)"
+
+[node name="Installpath" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "/home/eumario/.local/share/godot-mangaer/versions/4.5.1-stable"
+label_settings = SubResource("LabelSettings_yxw0b")
+
+[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+
+[node name="Tags" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Tag" parent="HBoxContainer/VBoxContainer/Tags" instance=ExtResource("3_3ilmv")]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="EngineOptions" type="Button" parent="HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+text = ""
+flat = true
