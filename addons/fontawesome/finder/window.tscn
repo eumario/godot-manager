@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://0q4ihoflybxj"]
 
-[ext_resource type="Script" path="res://addons/fontawesome/finder/window.gd" id="1_1j1fa"]
-[ext_resource type="Script" path="res://addons/fontawesome/finder/option.gd" id="2_04t0g"]
-[ext_resource type="FontFile" uid="uid://dfgeh5tagnxur" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="3_1gnrw"]
-[ext_resource type="Script" path="res://addons/fontawesome/FontAwesome.gd" id="4_swgx5"]
-[ext_resource type="FontFile" uid="uid://dqv1ko2cfvlae" path="res://addons/fontawesome/fonts/fa-regular-400.woff2" id="5_ti0jh"]
+[ext_resource type="Script" uid="uid://d0iynox8ampuj" path="res://addons/fontawesome/finder/window.gd" id="1_1j1fa"]
+[ext_resource type="Script" uid="uid://drmeipj2j27qt" path="res://addons/fontawesome/finder/option.gd" id="2_04t0g"]
+[ext_resource type="FontFile" uid="uid://b4jca751lwabp" path="res://addons/fontawesome/fonts/fa-solid-900.woff2" id="3_1gnrw"]
+[ext_resource type="Script" uid="uid://cmreydoe2vwgl" path="res://addons/fontawesome/FontAwesome.gd" id="4_swgx5"]
+[ext_resource type="FontFile" uid="uid://bfa8aqcwl16kd" path="res://addons/fontawesome/fonts/fa-regular-400.woff2" id="5_ti0jh"]
 
 [node name="Finder" type="AcceptDialog"]
 title = "FontAwesome Icons"
@@ -44,9 +44,9 @@ layout_mode = 2
 alignment = 1
 
 [node name="Icon" type="Label" parent="Box/Option/Margin/Box"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
-auto_translate = false
 localize_numeral_system = false
 theme_override_fonts/font = ExtResource("3_1gnrw")
 theme_override_font_sizes/font_size = 32
@@ -105,9 +105,9 @@ size_flags_vertical = 3
 alignment = 1
 
 [node name="Icon" type="Label" parent="Box/NoResults"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
-auto_translate = false
 localize_numeral_system = false
 theme_override_fonts/font = ExtResource("5_ti0jh")
 theme_override_font_sizes/font_size = 24
@@ -142,9 +142,9 @@ size_flags_vertical = 3
 alignment = 1
 
 [node name="Icon" type="Label" parent="Fetching/Box"]
+auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
-auto_translate = false
 localize_numeral_system = false
 theme_override_fonts/font = ExtResource("5_ti0jh")
 theme_override_font_sizes/font_size = 24
