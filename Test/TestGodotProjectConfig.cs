@@ -1,5 +1,7 @@
 using Godot;
 
+namespace GodotManager.Test;
+
 [Tool,GlobalClass]
 public partial class TestGodotProjectConfig : EditorScript
 {

@@ -1,7 +1,10 @@
 using Godot;
 using System;
 using System.IO;
+using GodotManager.Library.FileIO;
 using GodotManager.Library.Util;
+
+namespace GodotManager.Test;
 
 [Tool, GlobalClass]
 public partial class TestUidStore : EditorScript

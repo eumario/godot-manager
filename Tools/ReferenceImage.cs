@@ -2,6 +2,8 @@ using Godot;
 using System.Collections.Generic;
 using System.IO;
 
+namespace GodotManager.Tools;
+
 [Tool, GlobalClass]
 public partial class ReferenceImage : TextureRect
 {

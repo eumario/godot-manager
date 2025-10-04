@@ -8,6 +8,7 @@ using Octokit;
 using Octokit.Internal;
 using AppContext = GodotManager.Library.Database.AppContext;
 
+namespace GodotManager.Test;
 [Tool, GlobalClass]
 public partial class TestDatabase : EditorScript
 {

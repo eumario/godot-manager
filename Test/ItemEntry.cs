@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace GodotManager.Test;
+
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class ItemEntry : PanelContainer
 {
