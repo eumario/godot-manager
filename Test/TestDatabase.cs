@@ -15,8 +15,8 @@ public partial class TestDatabase : EditorScript
     [GodotOverride]
     public async void OnRun()
     {
-        var dbExists = FileAccess.FileExists("res://test/test_db.sqlite3");
-        await using var context = AppContext.InitDatabase(ProjectSettings.GlobalizePath("res://test/test_db.sqlite3"));
+        var dbExists = FileAccess.FileExists("res://Test/test_db.sqlite3");
+        await using var context = AppContext.InitDatabase(ProjectSettings.GlobalizePath("res://Test/test_db.sqlite3"));
         if (!dbExists)
             await SeedDatabase(context);
         foreach (var release in context.EngineReleases.Where(x => x.Repo == "godot-builds")
