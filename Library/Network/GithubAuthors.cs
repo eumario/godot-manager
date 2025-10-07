@@ -17,19 +17,19 @@ public class GithubAuthors
     public void RefreshAuthors()
     {
         var authors = new DownloadInstance(_authorUri);
-        authors.Failed += () =>
+        authors.Failed += (_, _) =>
         {
             // TODO: Handle Failed
         };
-        authors.Cancelled += () =>
+        authors.Cancelled += (_, _) =>
         {
             // TODO: Handle Cancelled
         };
-        authors.ProgressChanged += (size, total) =>
+        authors.ProgressChanged += (sender, progress) =>
         {
             // TODO: Handle Progress
         };
-        authors.Completed += (bytes) =>
+        authors.Completed += (sender, bytes) =>
         {
             var entries = bytes.GetStringFromUtf8().Split("\n");
             var author = new AuthorInfo();
