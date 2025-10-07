@@ -21,19 +21,19 @@ public class NewsAggregator
     public void FetchNews()
     {
         var news = new DownloadInstance(_newsUri);
-        news.Failed += () =>
+        news.Failed += (_, _) =>
         {
             // TODO: Handle Failed
         };
-        news.Cancelled += () =>
+        news.Cancelled += (_, _) =>
         {
             // TODO: Handle Cancelled
         };
-        news.ProgressChanged += (size, total) =>
+        news.ProgressChanged += (sender, progress) =>
         {
             // TODO: Handle Progress
         };
-        news.Completed += async (bytes) =>
+        news.Completed += async (sender, bytes) =>
         {
             // TODO: Parse Data
             var data = Json.ParseString(bytes.GetStringFromUtf8()).AsGodotDictionary();
