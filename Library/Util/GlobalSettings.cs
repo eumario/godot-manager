@@ -11,6 +11,7 @@ public static class GlobalSettings
     public static string CacheDir { get; set; } = ProjectSettings.GlobalizePath("user://cache");
     public static string NewsImagePath => Path.Join(CacheDir, "images", "news");
     public static string NewsAvatarImagePath => Path.Join(CacheDir, "images", "avatar");
+    public static string NewsCachePath = Path.Join(CacheDir, "news.json");
 
     public static SemanticVersion GodotManagerVersion = new SemanticVersion(0, 3, 0, "dev");
 
