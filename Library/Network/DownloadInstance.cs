@@ -10,23 +10,18 @@ using GodotManager.Library.Util;
 
 namespace GodotManager.Library.Network;
 
-public class DownloadInstance
+public class DownloadInstance : IDisposable
 {
     private readonly HttpClient _client;
     private readonly Uri _address;
     private readonly CancellationTokenSource _cancel;
 
-    public delegate void DownloadProgressChangedHandler(long chunkSize, long totalDownloaded);
+    public record ProgressChange(long Read, long Total);
 
-    public delegate void DownloadCompletedHandler(byte[] buffer);
-    public delegate void DownloadFailedHandler();
-
-    public delegate void DownloadCancelledHandler();
-
-    public event DownloadProgressChangedHandler ProgressChanged;
-    public event DownloadCompletedHandler Completed;
-    public event DownloadFailedHandler Failed;
-    public event DownloadCancelledHandler Cancelled;
+    public event EventHandler<ProgressChange> ProgressChanged;
+    public event EventHandler<byte[]> Completed;
+    public event EventHandler Failed;
+    public event EventHandler Cancelled;
 
     public DownloadInstance(Uri uri)
     {
@@ -85,23 +80,25 @@ public class DownloadInstance
 
                         totalRead += read;
 
-                        ProgressChanged?.Invoke(read, totalRead);
+                        ProgressChanged?.Invoke(this, new ProgressChange(read, totalRead));
                     }
                 } while (isMoreToRead);
 
                 if (_cancel.Token.IsCancellationRequested) return;
-                Completed?.Invoke(memStream.ToArray());
+                Completed?.Invoke(this, memStream.ToArray());
             }
             catch (OperationCanceledException)
             {
-                Cancelled?.Invoke();
+                Cancelled?.Invoke(this, EventArgs.Empty);
             }
             catch (HttpRequestException)
             {
-                Failed?.Invoke();
+                Failed?.Invoke(this, EventArgs.Empty);
             }
         });
     }
     
     public void CancelDownload() => _cancel.Cancel();
+
+    public void Dispose() => _client.Dispose();
 }
