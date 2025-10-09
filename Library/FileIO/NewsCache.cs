@@ -14,6 +14,12 @@ public class NewsCache
     public DateTime LastUpdated { get; set; }
     public List<NewsItem> Items { get; set; }
 
+    public NewsCache()
+    {
+        LastUpdated = DateTime.MinValue;
+        Items = [];
+    }
+
     public static NewsCache? Load()
     {
         if (!File.Exists(GlobalSettings.NewsCachePath))
