@@ -37,6 +37,9 @@ public class ImageDownloader : IDisposable
                 _outputPath += $".{format.FileExtensions.First()}";
                 memStream.Seek(0, SeekOrigin.Begin);
             }
+
+            var path = _outputPath.GetBaseDir();
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             await File.WriteAllBytesAsync(_outputPath, memStream.ToArray());
             Finished = true;
             DownloadCompleted?.Invoke(this, _outputPath);
