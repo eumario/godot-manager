@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://bpnm8fl8lve5k"]
 
-[ext_resource type="Texture2D" uid="uid://d2cdf6s10e08v" path="res://Assets/images/reference/community.png" id="1_4y1g4"]
+[ext_resource type="Script" uid="uid://n13ksfc68qtd" path="res://MainWindow.cs" id="1_4y1g4"]
 [ext_resource type="Script" uid="uid://bi2ypfk8yo1e3" path="res://Tools/ReferenceImage.cs" id="1_p4i4y"]
 [ext_resource type="PackedScene" uid="uid://botwu7yj4kucd" path="res://Library/UI/Sidebar.tscn" id="2_7qsqj"]
 [ext_resource type="PackedScene" uid="uid://8c3ygxxv5p16" path="res://Library/UI/Sections/Projects.tscn" id="3_3ygwi"]
@@ -30,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_4y1g4")
 
 [node name="ReferenceImage" type="TextureRect" parent="."]
 layout_mode = 1
@@ -38,10 +39,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_4y1g4")
 script = ExtResource("1_p4i4y")
 ImagePath = "res://Assets/images/reference"
-CurrentIndex = 10
 CurrentImage = "community.png"
 metadata/_custom_type_script = "uid://bi2ypfk8yo1e3"
 
@@ -84,5 +83,6 @@ visible = false
 layout_mode = 2
 
 [node name="Community" parent="Root/HBoxContainer" node_paths=PackedStringArray("TabWindows") instance=ExtResource("7_p4i4y")]
+visible = false
 layout_mode = 2
 TabWindows = [NodePath("VBoxContainer/MainSection/News"), NodePath("VBoxContainer/MainSection/Official"), null, null, null]
