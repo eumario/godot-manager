@@ -23,11 +23,11 @@ public partial class TestNews : Control
         OS.AddLogger(new Logger());
         FetchNews.Disabled = true;
         
-        var dbExists = FileAccess.FileExists("res://Test/test_db.sqlite3");
         _appContext = AppContext.InitDatabase(ProjectSettings.GlobalizePath("res://Test/test_db.sqlite3"));
-        if (!dbExists)
+        var count = _appContext.AuthorInfo.Count();
+        if (count == 0)
         {
-            GD.Print("Database doesn't exist, creating it...");
+            GD.Print("Database does not have Author Info, updating...");
             var authors = new GithubAuthors();
             authors.AuthorFetched += ai =>
             {
@@ -44,7 +44,6 @@ public partial class TestNews : Control
         }
         else
         {
-            GD.Print("Database exists, enabling fetch news...");
             FetchNews.Disabled = false;
         }
         
