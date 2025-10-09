@@ -42,7 +42,7 @@ public partial class TestDatabase : EditorScript
             var er = EngineRelease.FromRelease(release, "godot");
             context.EngineReleases.Add(er);
         }
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         GD.Print("Releases fetched, and stored in database.");
         
         GD.Print("Fetching releases from github.com/godotengine/godot-builds...");
@@ -53,8 +53,9 @@ public partial class TestDatabase : EditorScript
             context.EngineReleases.Add(er);
         }
 
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         GD.Print("Releases fetched, and stored in database.");
+        await context.DisposeAsync();
     }
 
     public override partial void _Run();

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b7gmoso7m1g0r"]
 
-[ext_resource type="Script" uid="uid://b5rssc5tmhg34" path="res://Test/ProjectConfigViewer.cs" id="1_w16th"]
+[ext_resource type="Script" uid="uid://b5rssc5tmhg34" path="res://Test/test_project_configs/ProjectConfigViewer.cs" id="1_w16th"]
 
 [node name="ProjectConfigViewer" type="Control"]
 layout_mode = 3
