@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://8lwaju85upn5"]
+[gd_scene load_steps=8 format=3 uid="uid://8lwaju85upn5"]
 
 [ext_resource type="Texture2D" uid="uid://dan2g5xol17sd" path="res://Assets/images/godot4-icon.svg" id="1_0n010"]
 [ext_resource type="Script" uid="uid://mc6vw4vchuaw" path="res://Library/UI/ArticleCard.cs" id="1_qt3gm"]
@@ -21,6 +21,9 @@ corner_radius_bottom_left = 64
 [sub_resource type="LabelSettings" id="LabelSettings_mwqxs"]
 font = ExtResource("3_jneuf")
 font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_jneuf"]
+font_size = 14
 
 [node name="ArticleCard" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 155)
@@ -53,6 +56,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -58.0
+offset_top = -58.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jneuf")
@@ -79,6 +86,21 @@ layout_mode = 2
 text = "Title of Article"
 label_settings = SubResource("LabelSettings_mwqxs")
 autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AuthorName" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "By Author Name"
+label_settings = SubResource("LabelSettings_jneuf")
+
+[node name="PostedDate" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Posted: 10/9/2025    "
 
 [node name="Description" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

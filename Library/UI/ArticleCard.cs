@@ -34,6 +34,13 @@ public partial class ArticleCard : PanelContainer
         Description.Text = NewsItem.Blerb.URIDecode();
         Url.Uri = NewsItem.Url;
         Url.Text = NewsItem.Url.Replace("https://", "      ");
+        AuthorName.Text = $"By {NewsItem.AuthorName}";
+        if (!DateTime.TryParse(NewsItem.Date, out var dateTime))
+            PostedDate.Text = $"Posted: {NewsItem.Date}    ";
+        else
+        {
+            PostedDate.Text = $"Posted: {dateTime:D}";
+        }
         var imgPath = NewsItem.ImagePath;
         if (imgPath.StartsWith("http"))
         {
