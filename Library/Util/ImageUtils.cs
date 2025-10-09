@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Godot;
@@ -49,7 +50,7 @@ public static class ImageUtils
                     break;
                 case GifFormat:
                     var gif = await SixLabors.ImageSharp.Image.LoadAsync(mem);
-                    
+
                     var frame = gif.Frames.CloneFrame(0);
                     await frame.SaveAsPngAsync(gifmem);
                     gifmem.Seek(0, SeekOrigin.Begin);
@@ -75,7 +76,9 @@ public static class ImageUtils
             img.LoadSvgFromBuffer(buffer);
             return ImageTexture.CreateFromImage(img);
         }
-
-        return null;
+        catch (Exception)
+        {
+            return null;
+        }
     }
 }
