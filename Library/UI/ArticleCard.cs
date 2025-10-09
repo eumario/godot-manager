@@ -1,10 +1,12 @@
 using Godot;
 using System;
+using System.IO;
 using System.Threading;
-using GodotManager.Library.FileIO;
 using GodotManager.Library.Models.General;
 using GodotManager.Library.Network;
 using GodotManager.Library.Util;
+
+namespace GodotManager.Library.UI;
 
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class ArticleCard : PanelContainer
@@ -46,10 +48,16 @@ public partial class ArticleCard : PanelContainer
         {
             var uri = new Uri(imgPath);
             var fileName = GlobalSettings.NewsImagePath.PathJoin(uri.AbsolutePath.GetFile());
-            // Remote Resource
-            var dld = new ImageDownloader(uri, "news", fileName);
-            dld.DownloadCompleted += (_, filePath) => LoadImage(filePath);
-            dld.DownloadImage();
+            if (File.Exists(fileName))
+            {
+                LoadImage(fileName);
+            }
+            else
+            {
+                var dld = new ImageDownloader(uri, "news", fileName);
+                dld.DownloadCompleted += (_, filePath) => LoadImage(filePath);
+                dld.DownloadImage();
+            }
         }
         else
         {
@@ -58,9 +66,16 @@ public partial class ArticleCard : PanelContainer
 
         var aiuri = new Uri(NewsItem.AuthorImagePath);
         var aiFileName = GlobalSettings.NewsAvatarImagePath.PathJoin(aiuri.AbsolutePath.GetFile());
-        var aidld = new ImageDownloader(aiuri, "avatar", aiFileName);
-        aidld.DownloadCompleted += (_, filePath) => LoadAvatarImage(filePath);
-        aidld.DownloadImage();
+        if (File.Exists(aiFileName))
+        {
+            LoadAvatarImage(aiFileName);
+        }
+        else
+        {
+            var aidld = new ImageDownloader(aiuri, "avatar", aiFileName);
+            aidld.DownloadCompleted += (_, filePath) => LoadAvatarImage(filePath);
+            aidld.DownloadImage();
+        }
     }
 
     private async void LoadImage(string path)
