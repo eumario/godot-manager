@@ -48,11 +48,11 @@ public class NewsAggregator
                 var nitem = item.AsGodotDictionary();
                 var newsItem = new NewsItem()
                 {
-                    Headline = nitem["title"].AsString(),
+                    Headline = nitem["title"].AsString().Replace("&#39;", "'").Replace("&amp;", "&"),
                     AuthorName = nitem["dc:creator"].AsString(),
                     Date = nitem["pubDate"].AsString(),
                     Url = nitem["guid"].AsString(),
-                    Blerb = nitem["description"].AsString()
+                    Blerb = nitem["description"].AsString().Replace("&#39;", "'").Replace("&amp;", "&")
                 };
 
                 var uri = new Uri(nitem["image"].AsString());
