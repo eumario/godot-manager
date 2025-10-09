@@ -21,6 +21,11 @@ boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="uid://cpoftaf136y8g"
 
+[debug]
+
+settings/gdscript/always_track_call_stacks=true
+settings/gdscript/always_track_local_variables=true
+
 [display]
 
 window/size/viewport_width=1025
