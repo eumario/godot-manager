@@ -1,9 +1,11 @@
 using Godot;
-using System;
 using System.Linq;
 using GodotManager.Library.Network;
+using GodotManager.Library.UI;
 using AppContext = GodotManager.Library.Database.AppContext;
 using Logger = GodotManager.Library.Util.Logger;
+
+namespace GodotManager.Test.TestNews;
 
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class TestNews : Control

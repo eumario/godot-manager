@@ -1,10 +1,7 @@
 using Godot;
-using System;
-using System.Linq;
 using GodotManager.Library.FileIO;
-using GodotManager.Library.Util;
 
-namespace GodotManager.Test;
+namespace GodotManager.Test.TestProjectConfig;
 
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class ProjectConfigViewer : Control

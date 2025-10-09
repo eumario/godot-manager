@@ -1,4 +1,5 @@
 using Godot;
+using GodotManager.Test.TestProjectConfig;
 
 namespace GodotManager.Test;
 

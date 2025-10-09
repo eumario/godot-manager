@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using GodotManager.Test.TestNews;
 
 [Tool, GlobalClass]
 public partial class TestNewsFetch : EditorScript
