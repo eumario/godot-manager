@@ -43,6 +43,7 @@ public class GithubAuthors
 
                 if (!author.HasAll()) continue;
                 AuthorFetched?.Invoke(author);
+                author = new AuthorInfo();
             }
             AuthorFetchCompleted?.Invoke(this, EventArgs.Empty);
         };
