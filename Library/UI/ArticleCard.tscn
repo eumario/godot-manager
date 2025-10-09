@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://8lwaju85upn5"]
+[gd_scene load_steps=7 format=3 uid="uid://8lwaju85upn5"]
 
 [ext_resource type="Texture2D" uid="uid://dan2g5xol17sd" path="res://Assets/images/godot4-icon.svg" id="1_0n010"]
 [ext_resource type="Script" uid="uid://mc6vw4vchuaw" path="res://Library/UI/ArticleCard.cs" id="1_qt3gm"]
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="3_jneuf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qt3gm"]
 bg_color = Color(0.13725491, 0.13725491, 0.13725491, 0.6666667)
@@ -10,12 +11,24 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jneuf"]
+bg_color = Color(0.0885599, 0.08855992, 0.08855986, 1)
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_mwqxs"]
+font = ExtResource("3_jneuf")
+font_size = 18
+
 [node name="ArticleCard" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 155)
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 129.0
 grow_horizontal = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_qt3gm")
 script = ExtResource("1_qt3gm")
 
@@ -24,9 +37,30 @@ layout_mode = 2
 
 [node name="Icon" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(155, 0)
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 texture = ExtResource("1_0n010")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/Icon"]
+clip_children = 2
+clip_contents = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jneuf")
+
+[node name="AuthorIcon" type="TextureRect" parent="HBoxContainer/Icon/PanelContainer"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
@@ -43,6 +77,8 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "Title of Article"
+label_settings = SubResource("LabelSettings_mwqxs")
+autowrap_mode = 2
 
 [node name="Description" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
