@@ -10,11 +10,13 @@ namespace GodotManager.Test.TestNews;
 [Tool, GlobalClass, SceneTree(root: "Nodes")]
 public partial class TestNews : Control
 {
+    public bool SceneInstanced { get; set; }
     private AppContext _appContext = null;
     [OnInstantiate]
     public void OnCreate()
     {
         GD.Print("Test news ready.");
+        SceneInstanced = true;
     }
     
     public override partial void _Ready();
@@ -22,6 +24,7 @@ public partial class TestNews : Control
     [GodotOverride]
     public void OnReady()
     {
+        if (!SceneInstanced) return;
         OS.AddLogger(new Logger());
         FetchNews.Disabled = true;
         
