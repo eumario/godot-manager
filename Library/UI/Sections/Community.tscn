@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bvmnrrcqw473c"]
+[gd_scene load_steps=10 format=3 uid="uid://bvmnrrcqw473c"]
 
 [ext_resource type="FontFile" uid="uid://cgo5ndl66xesp" path="res://Assets/Fonts/UbuntuSansNerdFont-Regular.ttf" id="1_d8lsv"]
 [ext_resource type="Script" uid="uid://dcjv5mqxtat6m" path="res://Library/UI/Sections/Community.cs" id="1_qvkih"]
 [ext_resource type="PackedScene" uid="uid://8lwaju85upn5" path="res://Library/UI/ArticleCard.tscn" id="2_qvkih"]
 [ext_resource type="StyleBox" uid="uid://xx8lxagu4ysl" path="res://Assets/Resources/ScrollWindowSpacing.tres" id="3_am08q"]
+[ext_resource type="Texture2D" uid="uid://w0ie7cwqum3v" path="res://Assets/images/godotengine.png" id="5_p4kna"]
+[ext_resource type="Texture2D" uid="uid://c81igutib816b" path="res://Assets/images/engine-docs.png" id="6_hd1h1"]
+[ext_resource type="Texture2D" uid="uid://dv80faxmne10c" path="res://Assets/images/github-repo.png" id="7_cqkvc"]
+[ext_resource type="Texture2D" uid="uid://dpoglvsx6i6ek" path="res://Assets/images/godot-contribute.png" id="8_7w1lf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yxw0b"]
 font = ExtResource("1_d8lsv")
@@ -81,6 +85,7 @@ theme_override_constants/margin_top = 6
 
 [node name="News" type="ScrollContainer" parent="VBoxContainer/MainSection"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
 
@@ -109,18 +114,51 @@ layout_mode = 2
 
 [node name="Official" type="ScrollContainer" parent="VBoxContainer/MainSection"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/Official"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_right = 25
 
 [node name="OfficialItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/Official/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList"]
+[node name="ArticleCard" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
 layout_mode = 2
-text = "This is not implemented yet."
+CardTitle = "Official Godot Website"
+AuthorVisible = false
+DateVisible = false
+CardDescription = "The official Godot website, where you can learn everything about Godot."
+CardUrl = "https://godotengine.org/"
+CardImage = ExtResource("5_p4kna")
+
+[node name="ArticleCard2" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+layout_mode = 2
+CardTitle = "Engine Documentation"
+AuthorVisible = false
+DateVisible = false
+CardDescription = "Full browsable reference to the Godot Engine documentation."
+CardUrl = "https://docs.godotengine.org/"
+CardImage = ExtResource("6_hd1h1")
+
+[node name="ArticleCard3" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+layout_mode = 2
+CardTitle = "Github Repositories"
+AuthorVisible = false
+DateVisible = false
+CardDescription = "All the various projects that make up the Godot engine community, in source code form."
+CardUrl = "https://github.com/godotengine"
+CardImage = ExtResource("7_cqkvc")
+
+[node name="ArticleCard4" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+layout_mode = 2
+CardTitle = "Contribute to Godot"
+AuthorVisible = false
+DateVisible = false
+CardDescription = "Documentation on how to contribute to the Godot Project."
+CardUrl = "https://contributing.godotengine.org/en/latest/organization/how_to_contribute.html"
+CardImage = ExtResource("8_7w1lf")
