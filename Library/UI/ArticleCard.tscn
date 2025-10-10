@@ -34,6 +34,14 @@ grow_horizontal = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_qt3gm")
 script = ExtResource("1_qt3gm")
+CardTitle = "Card Title"
+AuthorVisible = true
+DateVisible = true
+CardAuthor = "By Card Author"
+CardDate = "Posted: 01/01/0001    "
+CardDescription = "Base Description"
+CardUrl = "https://godotengine.org"
+CardImage = ExtResource("1_0n010")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -75,7 +83,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 22
+theme_override_constants/margin_top = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -83,7 +91,7 @@ layout_mode = 2
 [node name="Header" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Title of Article"
+text = "Card Title"
 label_settings = SubResource("LabelSettings_mwqxs")
 autowrap_mode = 2
 
@@ -93,20 +101,20 @@ layout_mode = 2
 [node name="AuthorName" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "By Author Name"
+text = "By Card Author"
 label_settings = SubResource("LabelSettings_jneuf")
 
 [node name="PostedDate" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Posted: 10/9/2025    "
+text = "Posted: 01/01/0001    "
 
 [node name="Description" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-text = "This is some text to see how this will follow the design language of the application, and ensure everything lines up..."
+text = "Base Description"
 autowrap_mode = 3
 text_overrun_behavior = 4
 
@@ -114,6 +122,6 @@ text_overrun_behavior = 4
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "      godotengine.org/"
+text = "      godotengine.org"
 underline = 2
 uri = "https://godotengine.org"

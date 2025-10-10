@@ -17,6 +17,18 @@ public partial class ArticleCard : PanelContainer
     private static List<ImageDownloader> _downloads = [];
     [Notify] public partial NewsItem NewsItem { get; set; }
     
+    [Notify, Export] public partial string CardTitle { get; set; }
+    [Notify, Export] public partial bool AuthorVisible { get; set; }
+    [Notify, Export] public partial bool DateVisible { get; set; }
+    
+    [Notify, Export] public partial string CardAuthor { get; set; }
+    [Notify, Export] public partial string CardDate { get; set; }
+    [Notify, Export] public partial string CardDescription { get; set; }
+    [Notify, Export] public partial string CardUrl { get; set; }
+    
+    [Notify, Export] public partial Texture2D CardImage { get; set; }
+    [Notify, Export] public partial Texture2D AuthorImage { get; set; }
+    
     [OnInstantiate]
     public void OnInitialized(NewsItem newsItem)
     {
@@ -28,24 +40,64 @@ public partial class ArticleCard : PanelContainer
     public void OnReady()
     {
         _mainThread ??= Thread.CurrentThread;
-        NewsItemChanged += UpdateNewsItem;
-        UpdateNewsItem();
+        NewsItemChanged += InitUiFields;
+
+        CardTitleChanged += () => Header.Text = CardTitle;
+        CardDescriptionChanged += () => Description.Text = CardDescription;
+        CardUrlChanged += () =>
+        {
+            Url.Text = CardUrl.Replace("https://", "      ");
+            Url.Uri = CardUrl;
+        };
+        CardAuthorChanged += () => AuthorName.Text = CardAuthor;
+        CardDateChanged += () => PostedDate.Text = CardDate;
+        AuthorVisibleChanged += () =>
+        {
+            AuthorName.Visible = AuthorVisible;
+            AuthorIcon.GetParent<PanelContainer>().Visible = AuthorVisible;
+        };
+        DateVisibleChanged += () => PostedDate.Visible = DateVisible;
+        CardImageChanged += () => Icon.Texture = CardImage;
+        AuthorImageChanged += () => AuthorIcon.Texture = AuthorImage;
+        
+        
+        InitUiFields();
     }
 
-    private async void UpdateNewsItem()
+    private void InitUiFields()
     {
-        if (NewsItem == null) return;
-        Header.Text = NewsItem.Headline;
-        Description.Text = NewsItem.Blerb.URIDecode();
-        Url.Uri = NewsItem.Url;
-        Url.Text = NewsItem.Url.Replace("https://", "      ");
-        AuthorName.Text = $"By {NewsItem.AuthorName}";
-        if (!DateTime.TryParse(NewsItem.Date, out var dateTime))
-            PostedDate.Text = $"Posted: {NewsItem.Date}    ";
+        if (NewsItem == null)
+        {
+            Header.Text = CardTitle;
+            Description.Text = CardDescription;
+            Url.Text = CardUrl.Replace("https://", "      ");
+            Url.Uri = CardUrl;
+            AuthorName.Text = CardAuthor;
+            PostedDate.Text = CardDate;
+            PostedDate.Visible = DateVisible;
+            AuthorName.Visible = AuthorVisible;
+            AuthorIcon.GetParent<PanelContainer>().Visible = AuthorVisible;
+            Icon.Texture = CardImage;
+            AuthorIcon.Texture = AuthorImage;
+        }
         else
         {
-            PostedDate.Text = $"Posted: {dateTime:D}";
+            LoadNewsItem();
         }
+    }
+
+    private void LoadNewsItem()
+    {
+        AuthorVisible = true;
+        DateVisible = true;
+        CardTitle = NewsItem.Headline;
+        CardDescription = NewsItem.Blerb.URIDecode();
+        CardUrl = NewsItem.Url;
+        CardAuthor = $"By {NewsItem.AuthorName}";
+        if (!DateTime.TryParse(NewsItem.Date, out var dateTime))
+            CardDate = $"Posted: {NewsItem.Date}    ";
+        else
+            CardDate = $"Posted: {dateTime:D}    ";
         var imgPath = NewsItem.ImagePath;
         if (imgPath.StartsWith("http"))
         {
@@ -128,7 +180,7 @@ public partial class ArticleCard : PanelContainer
         }
 
         var img = await ImageUtils.LoadImage(path);
-        Icon.Texture = img;
+        CardImage = img;
     }
 
     private async void LoadAvatarImage(string path)
@@ -146,6 +198,6 @@ public partial class ArticleCard : PanelContainer
         }
 
         var img = await ImageUtils.LoadImage(path);
-        AuthorIcon.Texture = img;
+        AuthorImage = img;
     }
 }
