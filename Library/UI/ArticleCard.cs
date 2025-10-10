@@ -1,6 +1,8 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using GodotManager.Library.Models.General;
 using GodotManager.Library.Network;
@@ -12,6 +14,7 @@ namespace GodotManager.Library.UI;
 public partial class ArticleCard : PanelContainer
 {
     private static Thread _mainThread;
+    private static List<ImageDownloader> _downloads = [];
     [Notify] public partial NewsItem NewsItem { get; set; }
     
     [OnInstantiate]
@@ -54,9 +57,25 @@ public partial class ArticleCard : PanelContainer
             }
             else
             {
-                var dld = new ImageDownloader(uri, "news", fileName);
-                dld.DownloadCompleted += (_, filePath) => LoadImage(filePath);
-                dld.DownloadImage();
+                if (_downloads.Any(x => x.Tag == fileName))
+                {
+                    var dld = _downloads.First(x => x.Tag == fileName);
+                    dld.DownloadCompleted += (_, filePath) =>
+                    {
+                        _downloads.Remove(dld);
+                        LoadImage(filePath);
+                    };
+                }
+                else
+                {
+                    var dld = new ImageDownloader(uri, fileName, fileName);
+                    dld.DownloadCompleted += (_, filePath) =>
+                    {
+                        _downloads.Remove(dld);
+                        LoadImage(filePath);
+                    };
+                    dld.DownloadImage();
+                }
             }
         }
         else
@@ -72,9 +91,25 @@ public partial class ArticleCard : PanelContainer
         }
         else
         {
-            var aidld = new ImageDownloader(aiuri, "avatar", aiFileName);
-            aidld.DownloadCompleted += (_, filePath) => LoadAvatarImage(filePath);
-            aidld.DownloadImage();
+            if (_downloads.Any(x => x.Tag == aiFileName))
+            {
+                var dld = _downloads.First(x => x.Tag == aiFileName);
+                dld.DownloadCompleted += (_, filePath) =>
+                {
+                    _downloads.Remove(dld);
+                    LoadAvatarImage(filePath);
+                };
+            }
+            else
+            {
+                var aidld = new ImageDownloader(aiuri, aiFileName, aiFileName);
+                aidld.DownloadCompleted += (_, filePath) =>
+                {
+                    _downloads.Remove(aidld);
+                    LoadAvatarImage(filePath);
+                };
+                aidld.DownloadImage();
+            }
         }
     }
 
