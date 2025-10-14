@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwy3c7e7h87d5"]
+[gd_scene load_steps=4 format=3 uid="uid://cwy3c7e7h87d5"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_3ruwt"]
+[ext_resource type="Script" uid="uid://cfugnutdd575d" path="res://Library/UI/SectionHeader.cs" id="1_iy15h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nekg8"]
 font = ExtResource("1_3ruwt")
@@ -11,6 +12,7 @@ layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+script = ExtResource("1_iy15h")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
