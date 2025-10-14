@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://c2iea7lcahwp0"]
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://c2iea7lcahwp0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xn4lo"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
@@ -45,6 +45,24 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os31h"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.14117648, 0.14117648, 0.14117648, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0nue"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.24313726, 0.24313726, 0.24313726, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3ebs"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -97,6 +115,9 @@ Button/styles/focus = SubResource("StyleBoxFlat_xn4lo")
 Button/styles/hover = SubResource("StyleBoxFlat_65lvl")
 Button/styles/normal = SubResource("StyleBoxFlat_y3cqo")
 Button/styles/pressed = SubResource("StyleBoxFlat_tl586")
+ItemButton/base_type = &"Button"
+ItemButton/styles/normal = SubResource("StyleBoxFlat_os31h")
+ItemButton/styles/pressed = SubResource("StyleBoxFlat_v0nue")
 MenuButton/styles/focus = SubResource("StyleBoxFlat_xn4lo")
 NavBar/base_type = &"TabBar"
 NavBar/constants/tab_separation = 30
