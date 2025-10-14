@@ -1,0 +1,147 @@
+[gd_scene load_steps=7 format=3 uid="uid://dg1pdmhgilq24"]
+
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_i8kd8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhml"]
+bg_color = Color(0.14117648, 0.14117648, 0.14117648, 1)
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_nekg8"]
+font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yxw0b"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_dhrvg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_26rwn"]
+font = ExtResource("1_i8kd8")
+font_size = 10
+
+[node name="Preferences" type="PanelContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -413.0
+offset_right = 413.0
+offset_bottom = 557.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_onhml")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Header" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/HBoxContainer"]
+layout_mode = 2
+text = "   Preferences"
+label_settings = SubResource("LabelSettings_nekg8")
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
+text = ""
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Content" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Content"]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="ItemBar" type="PanelContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_yxw0b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+
+[node name="Items" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+layout_mode = 2
+theme_type_variation = &"ItemButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_dhrvg")
+text = "Projects"
+alignment = 0
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+layout_mode = 2
+theme_type_variation = &"ItemButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_dhrvg")
+text = "Installs"
+alignment = 0
+
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+layout_mode = 2
+theme_type_variation = &"ItemButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_dhrvg")
+text = "Appearance"
+alignment = 0
+
+[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+layout_mode = 2
+theme_type_variation = &"ItemButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_dhrvg")
+text = "Advance"
+alignment = 0
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_bottom = 27
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "Godot Manager 0.3.0"
+label_settings = SubResource("LabelSettings_26rwn")
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Content/HBoxContainer"]
+layout_mode = 2
+
+[node name="Main" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
