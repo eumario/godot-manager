@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://c2iea7lcahwp0"]
+[gd_resource type="Theme" load_steps=20 format=3 uid="uid://c2iea7lcahwp0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xn4lo"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
@@ -95,11 +95,33 @@ content_margin_left = 21.0
 content_margin_top = 8.0
 content_margin_right = 21.0
 content_margin_bottom = 8.0
-bg_color = Color(0.118718915, 0.52355605, 0.814837, 1)
+bg_color = Color(0.11764706, 0.5254902, 0.8156863, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5ewd"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.20784314, 0.20784314, 0.20784314, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ismg"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.11764706, 0.5254902, 0.8156863, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j03tf"]
 
@@ -130,6 +152,8 @@ NavBar/styles/tab_selected = SubResource("StyleBoxFlat_1nwwc")
 NavBar/styles/tab_unselected = SubResource("StyleBoxFlat_okfxo")
 PrimaryButton/base_type = &"Button"
 PrimaryButton/styles/normal = SubResource("StyleBoxFlat_j03tf")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_i5ewd")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_6ismg")
 SearchLineEdit/base_type = &"LineEdit"
 SearchLineEdit/styles/focus = SubResource("StyleBoxEmpty_j03tf")
 Tree/styles/focus = SubResource("StyleBoxEmpty_y3cqo")
