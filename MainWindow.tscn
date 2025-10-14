@@ -1,12 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpnm8fl8lve5k"]
+[gd_scene load_steps=12 format=3 uid="uid://bpnm8fl8lve5k"]
 
 [ext_resource type="Script" uid="uid://n13ksfc68qtd" path="res://MainWindow.cs" id="1_4y1g4"]
 [ext_resource type="Script" uid="uid://bi2ypfk8yo1e3" path="res://Tools/ReferenceImage.cs" id="1_p4i4y"]
 [ext_resource type="PackedScene" uid="uid://botwu7yj4kucd" path="res://Library/UI/Sidebar.tscn" id="2_7qsqj"]
+[ext_resource type="Texture2D" uid="uid://kljcis77b4va" path="res://Assets/images/reference/add_from_repo.png" id="2_or8l5"]
 [ext_resource type="PackedScene" uid="uid://8c3ygxxv5p16" path="res://Library/UI/Sections/Projects.tscn" id="3_3ygwi"]
 [ext_resource type="PackedScene" uid="uid://bitvjbya2e6nn" path="res://Library/UI/Sections/Installs.tscn" id="5_l4su8"]
 [ext_resource type="PackedScene" uid="uid://keqvqt525uwq" path="res://Library/UI/Sections/AssetLib.tscn" id="6_e7h7s"]
 [ext_resource type="PackedScene" uid="uid://bvmnrrcqw473c" path="res://Library/UI/Sections/Community.tscn" id="7_p4i4y"]
+[ext_resource type="PackedScene" uid="uid://onpdmmhewd1g" path="res://Library/UI/Dialog/Downloads.tscn" id="9_or8l5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4su8"]
 bg_color = Color(0, 0, 0, 1)
@@ -39,12 +41,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_or8l5")
 script = ExtResource("1_p4i4y")
 ImagePath = "res://Assets/images/reference"
-CurrentImage = "community.png"
+CurrentIndex = 10
+CurrentImage = "add_from_repo.png"
 metadata/_custom_type_script = "uid://bi2ypfk8yo1e3"
 
 [node name="Background" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,6 +59,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_l4su8")
 
 [node name="Root" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,7 +77,6 @@ layout_mode = 2
 ButtonSections = [NodePath("../Projects"), NodePath("../Installs"), NodePath("../AssetLib"), NodePath("../Community")]
 
 [node name="Projects" parent="Root/HBoxContainer" instance=ExtResource("3_3ygwi")]
-visible = false
 layout_mode = 2
 
 [node name="Installs" parent="Root/HBoxContainer" instance=ExtResource("5_l4su8")]
@@ -86,3 +91,16 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 TabWindows = [NodePath("VBoxContainer/MainSection/News"), NodePath("VBoxContainer/MainSection/Official"), null, null, null]
+
+[node name="Downloads" parent="." instance=ExtResource("9_or8l5")]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -272.0
+offset_right = 316.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 1
