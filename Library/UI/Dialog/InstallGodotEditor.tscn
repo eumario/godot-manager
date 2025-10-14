@@ -1,0 +1,92 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdjs4eu02j80a"]
+
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_u72in"]
+[ext_resource type="PackedScene" uid="uid://cwy3c7e7h87d5" path="res://Library/UI/SectionHeader.tscn" id="2_3i1l8"]
+[ext_resource type="PackedScene" uid="uid://celd80sot7toq" path="res://Library/UI/ReleaseItem.tscn" id="3_erqry"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nekg8"]
+bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_onhml"]
+font = ExtResource("1_u72in")
+font_size = 18
+
+[node name="InstallGodotEditor" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -361.5
+offset_top = -250.0
+offset_right = 360.5
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nekg8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Install Godot Editor"
+label_settings = SubResource("LabelSettings_onhml")
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
+text = ""
+flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+
+[node name="TabBar" type="TabBar" parent="VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_type_variation = &"NavBar"
+theme_override_font_sizes/font_size = 18
+current_tab = 0
+tab_count = 3
+tab_0/title = "Official Releases"
+tab_1/title = "Pre-releases"
+tab_2/title = "Archives"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="SectionHeader" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_3i1l8")]
+layout_mode = 2
+Header = "Godot 4"
+
+[node name="ReleaseItem" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+layout_mode = 2
+
+[node name="ReleaseItem2" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+layout_mode = 2
+
+[node name="ReleaseItem3" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+layout_mode = 2
