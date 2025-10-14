@@ -64,11 +64,12 @@ public partial class Community : PanelContainer
             news.NewsFetchCompleted += (_, _) =>
             {
                 NewsCache.LastUpdated = DateTime.Now;
+                NewsCache.Items = NewsCache.Items.OrderByDescending(x => DateTime.Parse(x.Date)).ToList();
                 NewsCache.Save();
                 Callable.From(() =>
                 {
                     ClearNews();
-                    foreach (var nitem in NewsCache.Items.Select(item => ArticleCard.Instantiate(item)))
+                    foreach (var nitem in NewsCache.Items.Select(ArticleCard.Instantiate))
                         NewsItemList.AddChild(nitem);
                 }).CallDeferred();
             };
@@ -77,7 +78,7 @@ public partial class Community : PanelContainer
         else
         {
             ClearNews();
-            foreach (var nitem in NewsCache.Items.Select(item => ArticleCard.Instantiate(item)))
+            foreach (var nitem in NewsCache.Items.Select(ArticleCard.Instantiate))
                 NewsItemList.AddChild(nitem);
         }
     }

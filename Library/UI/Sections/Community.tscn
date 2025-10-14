@@ -85,7 +85,6 @@ theme_override_constants/margin_top = 6
 
 [node name="News" type="ScrollContainer" parent="VBoxContainer/MainSection"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
 
@@ -114,8 +113,10 @@ layout_mode = 2
 
 [node name="Official" type="ScrollContainer" parent="VBoxContainer/MainSection"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
+scroll_vertical = 194
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/Official"]
 layout_mode = 2
