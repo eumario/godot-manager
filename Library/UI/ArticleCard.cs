@@ -46,7 +46,8 @@ public partial class ArticleCard : PanelContainer
         CardDescriptionChanged += () => Description.Text = CardDescription;
         CardUrlChanged += () =>
         {
-            Url.Text = CardUrl.Replace("https://", "      ");
+            //Url.Text = CardUrl.Replace("https://", "      ");
+            UrlText.Text = CardUrl.Replace("https://", "      ");
             Url.Uri = CardUrl;
         };
         CardAuthorChanged += () => AuthorName.Text = CardAuthor;
@@ -70,7 +71,8 @@ public partial class ArticleCard : PanelContainer
         {
             Header.Text = CardTitle;
             Description.Text = CardDescription;
-            Url.Text = CardUrl.Replace("https://", "      ");
+            //Url.Text = CardUrl.Replace("https://", "      ");
+            UrlText.Text = CardUrl.Replace("https://", "      ");
             Url.Uri = CardUrl;
             AuthorName.Text = CardAuthor;
             PostedDate.Text = CardDate;
