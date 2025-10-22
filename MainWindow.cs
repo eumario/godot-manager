@@ -1,4 +1,5 @@
 #nullable enable
+using System.Threading;
 using Godot;
 using GodotManager.Library.Database;
 
@@ -26,6 +27,10 @@ public partial class MainWindow : Control
     {
         Downloads.Position = new Vector2(-588, 0);
         Downloads.Visible = false;
+        GetWindow().CloseRequested += () =>
+        {
+            GetTree().Quit();
+        };
     }
 
     public void ShowDownloads()

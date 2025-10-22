@@ -54,10 +54,10 @@ layout_mode = 2
 ButtonSections = [NodePath("../Projects"), NodePath("../Installs"), NodePath("../AssetLib"), NodePath("../Community")]
 
 [node name="Projects" parent="Root/HBoxContainer" instance=ExtResource("3_3ygwi")]
+visible = false
 layout_mode = 2
 
 [node name="Installs" parent="Root/HBoxContainer" instance=ExtResource("5_l4su8")]
-visible = false
 layout_mode = 2
 
 [node name="AssetLib" parent="Root/HBoxContainer" instance=ExtResource("6_e7h7s")]
