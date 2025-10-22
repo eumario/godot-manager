@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=20 format=3 uid="uid://c2iea7lcahwp0"]
+[gd_resource type="Theme" load_steps=24 format=3 uid="uid://c2iea7lcahwp0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xn4lo"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
@@ -46,6 +46,11 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_y3cqo"]
+color = Color(0.735357, 0.735357, 0.735357, 1)
+grow_begin = 0.0
+grow_end = 0.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_os31h"]
 content_margin_left = 10.0
 content_margin_top = 5.0
@@ -90,6 +95,12 @@ border_color = Color(0.11764706, 0.52156866, 0.8156863, 1)
 content_margin_top = 20.0
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nekg8"]
+bg_color = Color(0.07846785, 0.07846785, 0.07846785, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhml"]
+bg_color = Color(0.14117648, 0.14117648, 0.14117648, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j03tf"]
 content_margin_left = 21.0
 content_margin_top = 8.0
@@ -132,11 +143,18 @@ bg_color = Color(0.14117648, 0.14117648, 0.14117648, 1)
 border_width_right = 1
 border_color = Color(0.1882353, 0.1882353, 0.1882353, 1)
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_j03tf"]
+color = Color(0.735357, 0.735357, 0.735357, 1)
+grow_begin = 0.0
+grow_end = 0.0
+vertical = true
+
 [resource]
 Button/styles/focus = SubResource("StyleBoxFlat_xn4lo")
 Button/styles/hover = SubResource("StyleBoxFlat_65lvl")
 Button/styles/normal = SubResource("StyleBoxFlat_y3cqo")
 Button/styles/pressed = SubResource("StyleBoxFlat_tl586")
+HSeparator/styles/separator = SubResource("StyleBoxLine_y3cqo")
 ItemButton/base_type = &"Button"
 ItemButton/styles/normal = SubResource("StyleBoxFlat_os31h")
 ItemButton/styles/pressed = SubResource("StyleBoxFlat_v0nue")
@@ -150,6 +168,10 @@ NavBar/styles/tab_focus = SubResource("StyleBoxFlat_teysu")
 NavBar/styles/tab_hovered = SubResource("StyleBoxFlat_x7ijp")
 NavBar/styles/tab_selected = SubResource("StyleBoxFlat_1nwwc")
 NavBar/styles/tab_unselected = SubResource("StyleBoxFlat_okfxo")
+PanelWindow/base_type = &"PanelContainer"
+PanelWindow/styles/panel = SubResource("StyleBoxFlat_nekg8")
+PanelWindowA/base_type = &"PanelContainer"
+PanelWindowA/styles/panel = SubResource("StyleBoxFlat_onhml")
 PrimaryButton/base_type = &"Button"
 PrimaryButton/styles/normal = SubResource("StyleBoxFlat_j03tf")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_i5ewd")
@@ -158,3 +180,4 @@ SearchLineEdit/base_type = &"LineEdit"
 SearchLineEdit/styles/focus = SubResource("StyleBoxEmpty_j03tf")
 Tree/styles/focus = SubResource("StyleBoxEmpty_y3cqo")
 Tree/styles/title_button_normal = SubResource("StyleBoxFlat_xwn2f")
+VSeparator/styles/separator = SubResource("StyleBoxLine_j03tf")
