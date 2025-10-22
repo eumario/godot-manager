@@ -1,4 +1,6 @@
+using System.Linq;
 using Godot;
+using GodotManager.Library.Managers;
 
 namespace GodotManager;
 
@@ -28,7 +30,16 @@ public partial class SplashScreen : Control
             mainWin.Visible = true;
             QueueFree();
         };
-        
+
+        Callable.From(async void () =>
+        {
+            if (!mainWin.Context.EngineReleases.Any())
+            {
+                await GithubManager.FetchReleases("godotengine", "godot");
+                await GithubManager.FetchReleases("godotengine", "godot-builds");
+            }
+        }).CallDeferred();
+
         GetTree().Root.AddChild(mainWin);
         
     }
