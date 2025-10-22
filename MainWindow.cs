@@ -24,6 +24,22 @@ public partial class MainWindow : Control
     [GodotOverride]
     public void OnReady()
     {
+        Downloads.Position = new Vector2(-588, 0);
+        Downloads.Visible = false;
+    }
+
+    public void ShowDownloads()
+    {
+        var tween = CreateTween();
+        tween.TweenProperty(Downloads, "visible", true, 0.0);
+        tween.TweenProperty(Downloads, "position:x", 240.0, 0.5);
+    }
+
+    public void HideDownloads()
+    {
+        var tween = CreateTween();
+        tween.TweenProperty(Downloads, "position:x", -588.0, 0.5);
+        tween.TweenProperty(Downloads, "visible", false, 0.0);
     }
 
 }
