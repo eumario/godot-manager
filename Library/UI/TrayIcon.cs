@@ -6,6 +6,7 @@ using NotificationIcon.NET;
 
 namespace GodotManager.Library.UI;
 
+[GlobalClass]
 public partial class TrayIcon : Node
 {
     [Notify, Export] public partial Texture2D Icon { get; set; }
@@ -44,6 +45,10 @@ public partial class TrayIcon : Node
         _statusIndicator.Tooltip = Tooltip;
         _statusIndicator.Visible = Visible;
 #endif
+        IconChanged += HandleIconChanged;
+        MenuChanged += HandleMenuChanged;
+        VisibleChanged += HandleVisibilityChanged;
+        TooltipChanged += HandleTooltipChanged;
     }
     
 #if GODOT_LINUXBSD
@@ -76,13 +81,7 @@ public partial class TrayIcon : Node
     private MenuItem CreateMenuItem(PopupMenu menu, int index, bool subMenu)
     {
         if (subMenu)
-            return new MenuItem(menu.IsItemSeparator(index) ? "-" : menu.GetItemText(index))
-            {
-                IsChecked = menu.IsItemChecked(index),
-                IsDisabled = menu.IsItemDisabled(index),
-                Click = (s, e) => HandleClick(menu, index, menu.GetItemId(index)),
-            };
-        else
+        {
             return new MenuItem(menu.IsItemSeparator(index) ? "-" : menu.GetItemText(index))
             {
                 IsChecked = menu.IsItemChecked(index),
@@ -90,6 +89,26 @@ public partial class TrayIcon : Node
                 Click = (s, e) => HandleClick(menu, index, menu.GetItemId(index)),
                 SubMenu = BuildMenu(menu.GetItemSubmenuNode(index))
             };
+        }
+        else
+        {
+            if (menu.IsItemCheckable(index))
+            {
+                return new MenuItem(menu.IsItemSeparator(index) ? "-" : menu.GetItemText(index))
+                {
+                    IsChecked = menu.IsItemChecked(index),
+                    IsDisabled = menu.IsItemDisabled(index),
+                    Click = (s, e) => HandleClick(menu, index, menu.GetItemId(index)),
+                };
+            }
+            else
+            {
+                return new MenuItem(menu.IsItemSeparator(index) ? "-" : menu.GetItemText(index))
+                {
+                    Click = (s, e) => HandleClick(menu, index, menu.GetItemId(index))
+                };
+            }
+        }
     }
 
     private void HandleMenuChanged()
@@ -104,4 +123,45 @@ public partial class TrayIcon : Node
         menu.EmitSignal(PopupMenu.SignalName.IdPressed, id);
     }
 #endif
+
+    public void HandleIconChanged()
+    {
+#if GODOT_LINUXBSD
+        if (_notifyIcon != null)
+        {
+            var tmpImg = OS.GetTempDir().PathJoin($"icon{DateTime.Now.Ticks}.png");
+            Icon.GetImage().SavePng(tmpImg);
+            _notifyIcon.IconPath = tmpImg;
+        }
+#else
+        _statusIndicator.Icon = icon;
+#endif
+    }
+
+    public void HandleVisibilityChanged()
+    {
+#if GODOT_LINUXBSD
+        if (Visible)
+        {
+            _menuItems = BuildMenu();
+            var tmpImg = OS.GetTempDir().PathJoin($"icon{DateTime.Now.Ticks}.png");
+            Icon.GetImage().SavePng(tmpImg);
+            _notifyIcon = NotifyIcon.Create(tmpImg, _menuItems);
+        }
+        else
+        {
+            _notifyIcon.Dispose();
+            _notifyIcon = null;
+        }
+#else
+        _statusIndicator.Visible = Visible;
+#endif
+    }
+
+    public void HandleTooltipChanged()
+    {
+#if !GODOT_LINUXBSD
+        _statusIndicator.Tooltip = Tooltip;
+#endif
+    }
 }
