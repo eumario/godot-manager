@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=24 format=3 uid="uid://c2iea7lcahwp0"]
+[gd_resource type="Theme" load_steps=25 format=3 uid="uid://c2iea7lcahwp0"]
+
+[ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_j03tf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xn4lo"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
@@ -154,6 +156,8 @@ Button/styles/focus = SubResource("StyleBoxFlat_xn4lo")
 Button/styles/hover = SubResource("StyleBoxFlat_65lvl")
 Button/styles/normal = SubResource("StyleBoxFlat_y3cqo")
 Button/styles/pressed = SubResource("StyleBoxFlat_tl586")
+FoldableContainer/font_sizes/font_size = 18
+FoldableContainer/fonts/font = ExtResource("1_j03tf")
 HSeparator/styles/separator = SubResource("StyleBoxLine_y3cqo")
 ItemButton/base_type = &"Button"
 ItemButton/styles/normal = SubResource("StyleBoxFlat_os31h")
