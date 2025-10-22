@@ -128,14 +128,14 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_styles/panel = ExtResource("4_8i22l")
 
-[node name="Installs" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
+[node name="InstallList" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="ItemListHeader" parent="VBoxContainer/MainSection/ScrollContainer/Installs" instance=ExtResource("4_dfu54")]
+[node name="ItemListHeader" parent="VBoxContainer/MainSection/ScrollContainer/InstallList" instance=ExtResource("4_dfu54")]
 layout_mode = 2
 
-[node name="EngineLineItem" parent="VBoxContainer/MainSection/ScrollContainer/Installs" instance=ExtResource("5_y4gov")]
+[node name="EngineLineItem" parent="VBoxContainer/MainSection/ScrollContainer/InstallList" instance=ExtResource("5_y4gov")]
 layout_mode = 2
