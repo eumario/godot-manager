@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using Godot;
 using GodotManager.Library.Models;
 using GodotManager.Library.Util;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,13 @@ public class AppContext : DbContext
         context.Database.EnsureCreated();
         context.Database.ExecuteSqlRaw("PRAGMA journal_mode='DELETE';");
         return context;
+    }
+
+    public bool IsLatestVersion(EngineRelease release)
+    {
+        var latest = EngineReleases.OrderByDescending(x => x.Version).FirstOrDefault(x => x.Repo == release.Repo);
+        if (latest == null) return false;
+        return release.Version >= latest.Version;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
