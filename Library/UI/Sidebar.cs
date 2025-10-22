@@ -26,8 +26,6 @@ public partial class Sidebar : PanelContainer
         DownloadSection.ButtonPressed += () =>
         {
             DownloadSection.Deselect(true);
-            // TODO: Handle Showing Downloads...
-            GD.Print("Show Downloads...");
             var mainWin = MainWindow.GetInstance();
             if (mainWin!.Downloads.Visible)
                 mainWin.HideDownloads();
