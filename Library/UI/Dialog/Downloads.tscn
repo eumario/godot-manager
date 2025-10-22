@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://onpdmmhewd1g"]
+[gd_scene load_steps=8 format=3 uid="uid://onpdmmhewd1g"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_0jswr"]
+[ext_resource type="Script" uid="uid://cii4qjhmvks0f" path="res://Library/UI/Dialog/Downloads.cs" id="1_yl8rg"]
 [ext_resource type="PackedScene" uid="uid://dr8medrs3tb3t" path="res://Library/UI/DownloadItem.tscn" id="2_5pulu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_or8l5"]
@@ -26,6 +27,7 @@ offset_left = 234.0
 offset_right = 822.0
 grow_vertical = 2
 theme_type_variation = &"PanelWindow"
+script = ExtResource("1_yl8rg")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -50,7 +52,8 @@ layout_mode = 2
 text = "Downloads"
 label_settings = SubResource("LabelSettings_or8l5")
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Header/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer/Header/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 24
