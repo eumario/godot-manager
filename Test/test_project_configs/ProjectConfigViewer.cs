@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using GodotManager.Library.FileIO;
 
@@ -97,3 +98,4 @@ public partial class ProjectConfigViewer : Control
 
     public override partial void _Ready();
 }
+#endif

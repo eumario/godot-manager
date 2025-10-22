@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using GodotManager.Test.TestNews;
 
@@ -20,3 +21,4 @@ public partial class TestNewsFetch : EditorScript
         EditorInterface.Singleton.PopupDialogCentered(dlg, new Vector2I(800,600));
     }
 }
+#endif

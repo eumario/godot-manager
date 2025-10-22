@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using System.Linq;
 using GodotManager.Library.Network;
@@ -80,3 +81,4 @@ public partial class TestNews : Control
         };
     }
 }
+#endif

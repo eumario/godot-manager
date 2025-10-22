@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using System;
 using System.IO;
@@ -22,3 +23,4 @@ public partial class TestUidStore : EditorScript
 
     public override partial void _Run();
 }
+#endif

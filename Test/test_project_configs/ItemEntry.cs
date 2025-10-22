@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using System;
 
@@ -37,3 +38,4 @@ public partial class ItemEntry : PanelContainer
 
     public override partial void _Ready();
 }
+#endif

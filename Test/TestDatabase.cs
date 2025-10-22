@@ -1,3 +1,4 @@
+#if TOOLS
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,3 +61,4 @@ public partial class TestDatabase : EditorScript
 
     public override partial void _Run();
 }
+#endif

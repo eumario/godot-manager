@@ -1,3 +1,4 @@
+#if TOOLS
 using Godot;
 using GodotManager.Test.TestProjectConfig;
 
@@ -22,3 +23,4 @@ public partial class TestGodotProjectConfig : EditorScript
 
     public override partial void _Run();
 }
+#endif
