@@ -1,15 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdjs4eu02j80a"]
+[gd_scene load_steps=8 format=3 uid="uid://bdjs4eu02j80a"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_u72in"]
 [ext_resource type="PackedScene" uid="uid://cwy3c7e7h87d5" path="res://Library/UI/SectionHeader.tscn" id="2_3i1l8"]
 [ext_resource type="PackedScene" uid="uid://celd80sot7toq" path="res://Library/UI/ReleaseItem.tscn" id="3_erqry"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nekg8"]
-bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_onhml"]
 font = ExtResource("1_u72in")
 font_size = 18
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_erqry"]
+color = Color(0.735357, 0.735357, 0.735357, 1)
+grow_begin = 0.0
+grow_end = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_erqry"]
+font = ExtResource("1_u72in")
+
+[sub_resource type="LabelSettings" id="LabelSettings_lkkw6"]
+font = ExtResource("1_u72in")
 
 [node name="InstallGodotEditor" type="PanelContainer"]
 anchors_preset = 8
@@ -23,38 +31,38 @@ offset_right = 360.5
 offset_bottom = 248.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_nekg8")
+theme_type_variation = &"PanelWindow"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="SelectVersion" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="Header" type="MarginContainer" parent="SelectVersion"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectVersion/Header"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="SelectVersion/Header/HBoxContainer"]
 layout_mode = 2
 text = "Install Godot Editor"
 label_settings = SubResource("LabelSettings_onhml")
 
-[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="SelectVersion/Header/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 24
 text = ""
 flat = true
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="SelectVersion"]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 
-[node name="TabBar" type="TabBar" parent="VBoxContainer/MarginContainer2"]
+[node name="TabBar" type="TabBar" parent="SelectVersion/MarginContainer2"]
 layout_mode = 2
 theme_type_variation = &"NavBar"
 theme_override_font_sizes/font_size = 18
@@ -64,29 +72,132 @@ tab_0/title = "Official Releases"
 tab_1/title = "Pre-releases"
 tab_2/title = "Archives"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="SelectVersion"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="SelectVersion/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectVersion/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="SectionHeader" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_3i1l8")]
+[node name="SectionHeader" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_3i1l8")]
 layout_mode = 2
 Header = "Godot 4"
 
-[node name="ReleaseItem" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+[node name="ReleaseItem" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
 layout_mode = 2
 
-[node name="ReleaseItem2" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+[node name="ReleaseItem2" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
 layout_mode = 2
 
-[node name="ReleaseItem3" parent="VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+[node name="ReleaseItem3" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="Header" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+layout_mode = 2
+text = "Install Godot 4.5.1"
+label_settings = SubResource("LabelSettings_onhml")
+
+[node name="Button" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
+text = ""
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_erqry")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Add Modules"
+label_settings = SubResource("LabelSettings_erqry")
+
+[node name="Label2" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Required:"
+
+[node name="RequiredSize" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "648 MB"
+label_settings = SubResource("LabelSettings_lkkw6")
+
+[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Available:"
+
+[node name="AvailableSize" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "648 MB"
+label_settings = SubResource("LabelSettings_lkkw6")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_erqry")
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2"]
+layout_mode = 2
+alignment = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "Install"

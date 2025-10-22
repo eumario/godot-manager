@@ -20,6 +20,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+theme_type_variation = &"PanelWindow"
 script = ExtResource("1_qvkih")
 TabWindows = [NodePath("VBoxContainer/MainSection/News"), NodePath("VBoxContainer/MainSection/Official"), null, null, null]
 
@@ -116,7 +117,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
-scroll_vertical = 194
+scroll_vertical = 100
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/Official"]
 layout_mode = 2

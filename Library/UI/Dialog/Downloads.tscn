@@ -1,10 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://onpdmmhewd1g"]
+[gd_scene load_steps=7 format=3 uid="uid://onpdmmhewd1g"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_0jswr"]
 [ext_resource type="PackedScene" uid="uid://dr8medrs3tb3t" path="res://Library/UI/DownloadItem.tscn" id="2_5pulu"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhml"]
-bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_or8l5"]
 font_size = 20
@@ -28,7 +25,7 @@ anchor_bottom = 1.0
 offset_left = 234.0
 offset_right = 822.0
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_onhml")
+theme_type_variation = &"PanelWindow"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
