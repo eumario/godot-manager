@@ -6,6 +6,8 @@ using GodotManager.Library.Models;
 public partial class ReleaseItem : MarginContainer
 {
     [Notify] public partial EngineRelease Release { get; set; }
+    
+    [Notify] public partial bool LatestRelease { get; set; }
     [OnInstantiate]
     public void Initialize(EngineRelease release)
     {
@@ -20,10 +22,21 @@ public partial class ReleaseItem : MarginContainer
         ReleaseChanged += () =>
         {
             EngineVersion.Text = "Godot " + Release.Version.ToString();
-            Recommended.Visible = false; // Need to check if release is latest?
+            if (Recommended != null)
+                Recommended.Visible = LatestRelease;
         };
-        EngineVersion.Text = "Godot " + Release.Version.ToString();
+        if (Release == null)
+            EngineVersion.Text = "Godot 4.5.1";
+        else
+            EngineVersion.Text = "Godot " + Release.Version.ToString();
         Install.Pressed += HandleInstall;
+        if (Recommended != null)
+            Recommended.Visible = LatestRelease;
+        LatestReleaseChanged += () =>
+        {
+            if (Recommended != null)
+                Recommended.Visible = LatestRelease;
+        };
     }
 
     private void HandleInstall()
