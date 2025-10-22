@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bdjs4eu02j80a"]
+[gd_scene load_steps=9 format=3 uid="uid://bdjs4eu02j80a"]
 
+[ext_resource type="Script" uid="uid://0n2b0sfovkx5" path="res://Library/UI/Dialog/InstallGodotEditor.cs" id="1_3i1l8"]
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_u72in"]
 [ext_resource type="PackedScene" uid="uid://cwy3c7e7h87d5" path="res://Library/UI/SectionHeader.tscn" id="2_3i1l8"]
 [ext_resource type="PackedScene" uid="uid://celd80sot7toq" path="res://Library/UI/ReleaseItem.tscn" id="3_erqry"]
@@ -20,6 +21,7 @@ font = ExtResource("1_u72in")
 font = ExtResource("1_u72in")
 
 [node name="InstallGodotEditor" type="PanelContainer"]
+z_index = 10
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -32,6 +34,7 @@ offset_bottom = 248.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"PanelWindow"
+script = ExtResource("1_3i1l8")
 
 [node name="SelectVersion" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -51,7 +54,8 @@ layout_mode = 2
 text = "Install Godot Editor"
 label_settings = SubResource("LabelSettings_onhml")
 
-[node name="Button" type="Button" parent="SelectVersion/Header/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="SelectVersion/Header/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 24
@@ -83,121 +87,123 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SelectVersion/ScrollContainer/MarginContainer"]
+[node name="ReleaseList" type="VBoxContainer" parent="SelectVersion/ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SectionHeader" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_3i1l8")]
+[node name="SectionHeader" parent="SelectVersion/ScrollContainer/MarginContainer/ReleaseList" instance=ExtResource("2_3i1l8")]
 layout_mode = 2
 Header = "Godot 4"
 
-[node name="ReleaseItem" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+[node name="ReleaseItem" parent="SelectVersion/ScrollContainer/MarginContainer/ReleaseList" instance=ExtResource("3_erqry")]
 layout_mode = 2
 
-[node name="ReleaseItem2" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+[node name="ReleaseItem2" parent="SelectVersion/ScrollContainer/MarginContainer/ReleaseList" instance=ExtResource("3_erqry")]
 layout_mode = 2
 
-[node name="ReleaseItem3" parent="SelectVersion/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_erqry")]
+[node name="ReleaseItem3" parent="SelectVersion/ScrollContainer/MarginContainer/ReleaseList" instance=ExtResource("3_erqry")]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="InstallOptions" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="Header" type="MarginContainer" parent="VBoxContainer"]
+[node name="Header" type="MarginContainer" parent="InstallOptions"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InstallOptions/Header"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="Label" type="Label" parent="InstallOptions/Header/HBoxContainer"]
 layout_mode = 2
 text = "Install Godot 4.5.1"
 label_settings = SubResource("LabelSettings_onhml")
 
-[node name="Button" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="Button" type="Button" parent="InstallOptions/Header/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 24
 text = ""
 flat = true
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="InstallOptions"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_erqry")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="InstallOptions"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 18
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InstallOptions/MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InstallOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Add Modules"
 label_settings = SubResource("LabelSettings_erqry")
 
-[node name="Label2" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Required:"
 
-[node name="RequiredSize" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="RequiredSize" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "648 MB"
 label_settings = SubResource("LabelSettings_lkkw6")
 
-[node name="Spacer" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label3" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Available:"
 
-[node name="AvailableSize" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AvailableSize" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "648 MB"
 label_settings = SubResource("LabelSettings_lkkw6")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="InstallOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="InstallOptions"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_erqry")
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="InstallOptions"]
 layout_mode = 2
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InstallOptions/MarginContainer2"]
 layout_mode = 2
 alignment = 2
 
-[node name="Button" type="Button" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
+[node name="Button" type="Button" parent="InstallOptions/MarginContainer2/HBoxContainer"]
 layout_mode = 2
 text = "Back"
 
-[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
+[node name="Button2" type="Button" parent="InstallOptions/MarginContainer2/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "Install"
