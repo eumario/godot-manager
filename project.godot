@@ -11,15 +11,16 @@ config_version=5
 [application]
 
 config/name="Godot Manager"
+config/description="No Description"
 config/version="0.3.0"
 run/main_scene="uid://b2skhjob6d0vb"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="godot-manager"
+config/custom_user_dir_name="GodotManager"
 config/features=PackedStringArray("4.5", "C#")
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-config/icon="uid://cpoftaf136y8g"
+config/icon="res://godot-manager.png"
 
 [debug]
 
