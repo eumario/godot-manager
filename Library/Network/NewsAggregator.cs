@@ -33,7 +33,7 @@ public class NewsAggregator
         {
             // TODO: Handle Progress
         };
-        news.Completed += async (sender, bytes) =>
+        news.Completed += (sender, bytes) =>
         {
             // TODO: Parse Data
             var data = Json.ParseString(bytes.GetStringFromUtf8()).AsGodotDictionary();
