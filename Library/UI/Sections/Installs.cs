@@ -1,6 +1,9 @@
 using Godot;
 using System;
 using GodotManager;
+using GodotManager.Library.UI.Dialog;
+
+namespace GodotManager.Library.UI.Sections;
 
 [SceneTree(root: "Nodes")]
 public partial class Installs : PanelContainer
