@@ -86,19 +86,22 @@ grow_vertical = 1
 [node name="TrayIcon" type="Node" parent="."]
 script = ExtResource("10_nekg8")
 Icon = ExtResource("11_yxw0b")
-Menu = NodePath("PopupMenu")
+Menu = NodePath("TrayIconMenu")
 Visible = true
 metadata/_custom_type_script = "uid://dgt1gtw2nrwu2"
 
-[node name="PopupMenu" type="PopupMenu" parent="TrayIcon"]
-item_count = 5
-item_0/id = 0
-item_0/separator = true
-item_1/text = "Show Window"
-item_1/id = 1
-item_2/text = "About"
-item_2/id = 2
-item_3/id = 3
-item_3/separator = true
-item_4/text = "Exit"
-item_4/id = 4
+[node name="TrayIconMenu" type="PopupMenu" parent="TrayIcon"]
+unique_name_in_owner = true
+item_count = 6
+item_0/text = "Recent Projects"
+item_0/id = 5
+item_1/id = 0
+item_1/separator = true
+item_2/text = "Show Window"
+item_2/id = 200
+item_3/text = "About"
+item_3/id = 201
+item_4/id = 0
+item_4/separator = true
+item_5/text = "Exit"
+item_5/id = 202

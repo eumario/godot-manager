@@ -11,12 +11,15 @@ public partial class MainWindow : Control
     private static MainWindow? _instance;
     public static MainWindow? GetInstance() => _instance;
 
+    private PopupMenu? _recentProjects = null;
+
     public AppContext Context { get; set; }
 
     [OnInstantiate]
     public void Initialize()
     {
         Context = AppContext.InitDatabase(ProjectSettings.GlobalizePath("user://central_database.sqlite3"));
+        TrayIconMenu.IdPressed += HandleTrayMenu;
         _instance = this;
     }
 
@@ -31,6 +34,8 @@ public partial class MainWindow : Control
         {
             GetTree().Quit();
         };
+        //TODO: Implement Recent Projects Submenu
+        TrayIconMenu.SetItemDisabled(0, true);
     }
 
     public void ShowDownloads()
@@ -47,4 +52,19 @@ public partial class MainWindow : Control
         tween.TweenProperty(Downloads, "visible", false, 0.0);
     }
 
+    public void HandleTrayMenu(long index)
+    {
+        switch (index)
+        {
+            case 200:       // Show Window
+                break;
+            case 201:       // About
+                break;
+            case 202:       // Exit
+                GetTree().Quit();
+                break;
+            default:        // Load Project
+                break;
+        }
+    }
 }
