@@ -1,3 +1,4 @@
+#nullable enable
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
@@ -10,7 +11,7 @@ internal class AppModule
     [ModuleInitializer]
     public static void Initialize()
     {
-        AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()).Unloading += alc =>
+        AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly())!.Unloading += alc =>
         {
             var assembly = typeof(JsonSerializerOptions).Assembly;
             var updateHandlerType = assembly.GetType("System.Text.Json.JsonSerializerUpdateHandler");
@@ -19,5 +20,5 @@ internal class AppModule
             clearHandlerMethod?.Invoke(null, new object?[] { null });
         };
     }
-    
+
 }
