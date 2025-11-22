@@ -1,6 +1,7 @@
 using System.Linq;
 using Godot;
 using GodotManager.Library.Managers;
+using GodotManager.Library.Util;
 
 namespace GodotManager;
 
@@ -21,6 +22,9 @@ public partial class SplashScreen : Control
         #endif
         
         DisplayServer.WindowSetTitle(winTitle);
+        
+        GlobalSettings.LoadSettings();
+        GlobalSettings.EnsureDirectories();
         
         await ToSignal(GetTree().CreateTimer(.5f), "timeout");
         var mainWin = MainWindow.Instantiate();
