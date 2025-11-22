@@ -9,6 +9,9 @@ namespace GodotManager.Library.UI;
 [GlobalClass]
 public partial class TrayIcon : Node
 {
+    [Signal]
+    public delegate void ProjectExecuteEventHandler();
+    
     [Notify, Export] public partial Texture2D Icon { get; set; }
     [Notify, Export] public partial NodePath Menu { get; set; }
     [Notify, Export] public partial string Tooltip { get; set; }
@@ -57,7 +60,8 @@ public partial class TrayIcon : Node
     [GodotOverride]
     public void OnProcess(double delta)
     {
-        _notifyIcon.MessageLoopIteration(false);
+        if (_notifyIcon != null)
+            _notifyIcon.MessageLoopIteration(false);
     }
     
     public List<MenuItem> BuildMenu(PopupMenu menu = null)
@@ -66,14 +70,17 @@ public partial class TrayIcon : Node
         menu ??= GetNode<PopupMenu>(Menu);
         for (var i = 0; i < menu.ItemCount; i++)
         {
-            if (menu.GetItemSubmenuNode(i) != null)
+            var submenu = menu.GetItemSubmenuNode(i);
+            if (submenu != null)
             {
-                menu.GetItemSubmenuNode(i).MenuChanged += HandleMenuChanged;
+                if (!submenu.IsConnected(PopupMenu.SignalName.MenuChanged, Callable.From(HandleMenuChanged)))
+                    submenu.MenuChanged += HandleMenuChanged;
             }
             items.Add(CreateMenuItem(menu, i, menu.GetItemSubmenuNode(i) != null));
         }
 
-        menu.MenuChanged += HandleMenuChanged;
+        if (!menu.IsConnected(PopupMenu.SignalName.MenuChanged, Callable.From(HandleMenuChanged)))
+            menu.MenuChanged += HandleMenuChanged;
 
         return items;
     }
