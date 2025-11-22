@@ -81,6 +81,11 @@ public class SemanticVersion : IComparable, IComparable<SemanticVersion>, IEquat
         get;
     }
 
+    public int Major => Version.Major;
+    public int Minor => Version.Minor;
+    public int Build => Version.Build;
+    public int Revision => Version.Revision;
+
     public string[] GetOriginalVersionComponents()
     {
         if (!string.IsNullOrEmpty(_originalString))
