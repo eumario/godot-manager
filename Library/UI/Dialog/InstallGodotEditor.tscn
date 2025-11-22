@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdjs4eu02j80a"]
+[gd_scene load_steps=10 format=3 uid="uid://bdjs4eu02j80a"]
 
 [ext_resource type="Script" uid="uid://0n2b0sfovkx5" path="res://Library/UI/Dialog/InstallGodotEditor.cs" id="1_3i1l8"]
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_u72in"]
 [ext_resource type="PackedScene" uid="uid://cwy3c7e7h87d5" path="res://Library/UI/SectionHeader.tscn" id="2_3i1l8"]
 [ext_resource type="PackedScene" uid="uid://celd80sot7toq" path="res://Library/UI/ReleaseItem.tscn" id="3_erqry"]
+[ext_resource type="Texture2D" uid="uid://bjo8jwy5j3ttk" path="res://Assets/images/reference/install_options.png" id="5_erqry"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_onhml"]
 font = ExtResource("1_u72in")
@@ -37,6 +38,8 @@ theme_type_variation = &"PanelWindow"
 script = ExtResource("1_3i1l8")
 
 [node name="SelectVersion" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="Header" type="MarginContainer" parent="SelectVersion"]
@@ -106,7 +109,6 @@ layout_mode = 2
 
 [node name="InstallOptions" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="Header" type="MarginContainer" parent="InstallOptions"]
@@ -119,12 +121,14 @@ theme_override_constants/margin_bottom = 5
 [node name="HBoxContainer" type="HBoxContainer" parent="InstallOptions/Header"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="InstallOptions/Header/HBoxContainer"]
+[node name="InstallTitle" type="Label" parent="InstallOptions/Header/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Install Godot 4.5.1"
 label_settings = SubResource("LabelSettings_onhml")
 
-[node name="Button" type="Button" parent="InstallOptions/Header/HBoxContainer"]
+[node name="CloseButton2" type="Button" parent="InstallOptions/Header/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 24
@@ -156,34 +160,41 @@ label_settings = SubResource("LabelSettings_erqry")
 [node name="Label2" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Required:"
+text = "Download Size:"
 
 [node name="RequiredSize" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
-text = "648 MB"
-label_settings = SubResource("LabelSettings_lkkw6")
-
-[node name="Spacer" type="Control" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label3" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Available:"
-
-[node name="AvailableSize" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "648 MB"
+text = "DownloadSize"
 label_settings = SubResource("LabelSettings_lkkw6")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="InstallOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="AvailableFeatures" type="VBoxContainer" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer/AvailableFeatures"]
+layout_mode = 2
+theme_type_variation = &"PanelWindowA"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer/AvailableFeatures/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer/AvailableFeatures/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "           Feature"
+
+[node name="Label2" type="Label" parent="InstallOptions/MarginContainer/VBoxContainer/ScrollContainer/AvailableFeatures/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Download Size"
 
 [node name="HSeparator2" type="HSeparator" parent="InstallOptions"]
 layout_mode = 2
@@ -199,7 +210,8 @@ theme_override_constants/margin_bottom = 15
 layout_mode = 2
 alignment = 2
 
-[node name="Button" type="Button" parent="InstallOptions/MarginContainer2/HBoxContainer"]
+[node name="BackButton" type="Button" parent="InstallOptions/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Back"
 
@@ -207,3 +219,8 @@ text = "Back"
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "Install"
+
+[node name="InstallOptions2" type="TextureRect" parent="."]
+visible = false
+layout_mode = 2
+texture = ExtResource("5_erqry")
