@@ -15,10 +15,9 @@ using GodotManager.Library.Util;
 public partial class Community : PanelContainer
 {
     [Notify, Export] public partial Array<ScrollContainer> TabWindows { get; set; }
-    public override partial void _Ready();
-
     public NewsCache? NewsCache { get; set; }
-    
+
+    public override partial void _Ready();
     [GodotOverride]
     public void OnReady()
     {
@@ -47,10 +46,11 @@ public partial class Community : PanelContainer
         var dbContext = MainWindow.GetInstance()?.Context;
         if (dbContext == null)
             return;
-        
+
         NewsCache ??= File.Exists(GlobalSettings.NewsCachePath) ? NewsCache.Load() : new NewsCache();
-        if ((DateTime.Now - NewsCache.LastUpdated) > TimeSpan.FromHours(24))
+        if ((DateTime.Now - NewsCache!.LastUpdated) > TimeSpan.FromHours(24))
         {
+            Callable.From(() => ClearNews()).CallDeferred();
             var news = new NewsAggregator();
             news.NewsArticleFetched += item =>
             {
