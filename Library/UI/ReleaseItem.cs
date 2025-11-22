@@ -2,9 +2,13 @@ using Godot;
 using System;
 using GodotManager.Library.Models;
 
+namespace GodotManager.Library.UI;
+
 [SceneTree(root: "Nodes"), Tool, GlobalClass]
 public partial class ReleaseItem : MarginContainer
 {
+    [Signal] public delegate void InstallEngineEventHandler(ReleaseItem release);
+    
     [Notify] public partial EngineRelease Release { get; set; }
     
     [Notify] public partial bool LatestRelease { get; set; }
@@ -41,6 +45,6 @@ public partial class ReleaseItem : MarginContainer
 
     private void HandleInstall()
     {
-        
+        EmitSignalInstallEngine(this);
     }
 }
