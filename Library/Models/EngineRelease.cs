@@ -57,15 +57,35 @@ public class EngineRelease
         DotnetUrls.ContainsKey(Platform.Get()) ? DotnetUrls[Platform.Get()].Url : "";
 
     [NotMapped]
+    public string TemplateUrl => StandardUrls.ContainsKey(PlatformType.GenericTemplate)
+        ? StandardUrls[PlatformType.GenericTemplate].Url : "";
+
+    [NotMapped]
+    public string DotnetTemplateUrl => DotnetUrls.ContainsKey(PlatformType.GenericTemplate)
+        ? DotnetUrls[PlatformType.GenericTemplate].Url : "";
+
+    [NotMapped]
     public int StandardSize => Platform.Get() == PlatformType.Unsupported ? 0 :
         StandardUrls.ContainsKey(Platform.Get()) ? StandardUrls[Platform.Get()].Size : 0;
 
     [NotMapped]
     public int DotnetSize => Platform.Get() == PlatformType.Unsupported ? 0 :
         DotnetUrls.ContainsKey(Platform.Get()) ? DotnetUrls[Platform.Get()].Size : 0;
+
+    [NotMapped]
+    public int TemplateSize => StandardUrls.ContainsKey(PlatformType.GenericTemplate)
+        ? StandardUrls[PlatformType.GenericTemplate].Size : 0;
+
+    [NotMapped]
+    public int DotnetTemplateSize => DotnetUrls.ContainsKey(PlatformType.GenericTemplate)
+        ? DotnetUrls[PlatformType.GenericTemplate].Size : 0;
     #endregion
 
     #region Public API
+
+    public bool IsGodot3() => Version.Version.Major == 3;
+    public bool IsGodot4() => Version.Version.Major == 4;
+    
     public string GetDownloadUrl(bool isDotnet = false) => isDotnet ? DotnetUrl : StandardUrl;
     public int GetDownloadSize(bool isDotnet = false) => isDotnet ? DotnetSize : StandardSize;
 
