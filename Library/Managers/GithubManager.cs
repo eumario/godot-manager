@@ -12,7 +12,7 @@ public class GithubManager
     {
         var context = MainWindow.GetInstance()!.Context;
         var conn = new Connection(
-            new ProductHeaderValue($"Godot-Manager.0.3.0"));
+            new ProductHeaderValue($"GodotManager.0.3.0"));
         var client = new GitHubClient(conn);
         var res = await client.Repository.Release.GetAll(org, repo);
         foreach (var er in res.Select(x => EngineRelease.FromRelease(x, repo)).OrderBy(v => v.Version))
