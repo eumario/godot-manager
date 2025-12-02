@@ -10,13 +10,15 @@ public static class GlobalSettings
     public static string ProxyHost { get; set; } = "";
     public static int ProxyPort { get; set; } = 0;
     public static bool UseProxy { get; set; } = false;
-    public static string CacheDir { get; set; } = ProjectSettings.GlobalizePath("user://cache");
+    public static string CacheDir { get; set; } = "user://cache".GlobalizePath();
     public static string NewsImagePath => Path.Join(CacheDir, "images", "news");
     public static string NewsAvatarImagePath => Path.Join(CacheDir, "images", "avatar");
     public static string AssetLibraryPath => Path.Join(CacheDir, "assets");
     public static string TemplateLibraryPath => Path.Join(CacheDir, "templates");
+
+    public static string EngineCache => Path.Join(CacheDir, "engines");
     
-    public static string EnginePath = ProjectSettings.GlobalizePath("user://versions");
+    public static string EnginePath = "user://versions".GlobalizePath();
     
     public static string NewsCachePath = Path.Join(CacheDir, "news.json");
 
@@ -26,16 +28,16 @@ public static class GlobalSettings
 
     public static void LoadSettings()
     {
-        if (File.Exists(ProjectSettings.GlobalizePath("user://central_store.json")))
+        if (File.Exists("user://central_store.json".GlobalizePath()))
         {
             MigrateFrom2X();
             return;
         }
         
-        if (!File.Exists(ProjectSettings.GlobalizePath("user://settings.json")))
+        if (!File.Exists("user://settings.json".GlobalizePath()))
             return;
         
-        var dict = Godot.Json.ParseString(File.ReadAllText(ProjectSettings.GlobalizePath("user://settings.json")))
+        var dict = Godot.Json.ParseString(File.ReadAllText("user://settings.json".GlobalizePath()))
             .AsGodotDictionary();
         if (new SemanticVersion(dict["GodotManagerVersion"].AsString()) < GodotManagerVersion)
         {
@@ -52,7 +54,7 @@ public static class GlobalSettings
 
     public static void SaveSettings()
     {
-        using var fh = File.Open(ProjectSettings.GlobalizePath("user://settings.json"), FileMode.Create);
+        using var fh = File.Open("user://settings.json".GlobalizePath(), FileMode.Create);
         var dict = new Godot.Collections.Dictionary();
         dict["ProxyHost"] = ProxyHost;
         dict["ProxyPort"] = ProxyPort;
@@ -69,13 +71,13 @@ public static class GlobalSettings
     {
         if (!IsFirstRun)
             return;
-
-        if (Directory.Exists(CacheDir)) return;
-        Directory.CreateDirectory(NewsImagePath);
-        Directory.CreateDirectory(NewsAvatarImagePath);
-        Directory.CreateDirectory(EnginePath);
-        Directory.CreateDirectory(AssetLibraryPath);
-        Directory.CreateDirectory(TemplateLibraryPath);
+        
+        if (!Directory.Exists(NewsImagePath)) Directory.CreateDirectory(NewsImagePath);
+        if (!Directory.Exists(NewsAvatarImagePath)) Directory.CreateDirectory(NewsAvatarImagePath);
+        if (!Directory.Exists(EnginePath)) Directory.CreateDirectory(EnginePath);
+        if (!Directory.Exists(AssetLibraryPath)) Directory.CreateDirectory(AssetLibraryPath);
+        if (!Directory.Exists(TemplateLibraryPath)) Directory.CreateDirectory(TemplateLibraryPath);
+        if (!Directory.Exists(EngineCache)) Directory.CreateDirectory(EngineCache);
     }
 
     private static void UpgradeSettings()
