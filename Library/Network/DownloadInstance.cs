@@ -36,7 +36,7 @@ public class DownloadInstance : IDisposable
         else
             _client = new HttpClient();
         
-        _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Godot-Manager", $"{GlobalSettings.GodotManagerVersion}"));
+        _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("GodotManager", $"{GlobalSettings.GodotManagerVersion}"));
         _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue($"(Platform: {Platform.GetName()})"));
         _address = uri;
         _cancel = new CancellationTokenSource();
