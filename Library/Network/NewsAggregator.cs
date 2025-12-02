@@ -16,7 +16,6 @@ public class NewsAggregator
     private readonly Uri _newsUri = new("https://godotengine.org/rss.json");
 
     private readonly Uri _baseUri = new Uri("https://godotengine.org/");
-    private List<ImageDownloader> _downloads;
 
     public void FetchNews()
     {
