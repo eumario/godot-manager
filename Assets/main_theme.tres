@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=25 format=3 uid="uid://c2iea7lcahwp0"]
+[gd_resource type="Theme" load_steps=26 format=3 uid="uid://c2iea7lcahwp0"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_j03tf"]
 
@@ -138,6 +138,21 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j03tf"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7dqd"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.13816993, 0.13816993, 0.13816993, 0.94500005)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y3cqo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwn2f"]
@@ -182,6 +197,7 @@ ProgressBar/styles/background = SubResource("StyleBoxFlat_i5ewd")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_6ismg")
 SearchLineEdit/base_type = &"LineEdit"
 SearchLineEdit/styles/focus = SubResource("StyleBoxEmpty_j03tf")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_l7dqd")
 Tree/styles/focus = SubResource("StyleBoxEmpty_y3cqo")
 Tree/styles/title_button_normal = SubResource("StyleBoxFlat_xwn2f")
 VSeparator/styles/separator = SubResource("StyleBoxLine_j03tf")
