@@ -84,14 +84,22 @@ public partial class DownloadManager : Node
         };
         _downloadInstance.Completed += async (_, bytes) =>
         {
+            if (!Directory.Exists(CurrentPack.CurrentSavePath.GetBaseDir()))
+                Directory.CreateDirectory(CurrentPack.CurrentSavePath.GetBaseDir());
             await File.WriteAllBytesAsync(CurrentPack.CurrentSavePath, bytes);
-            EmitSignalDownloadCompleted(CurrentPack.Tag, CurrentPack.CurrentStep, CurrentPack.CurrentSavePath);
+            Callable.From(() =>
+            {
+                EmitSignalDownloadCompleted(CurrentPack.Tag, CurrentPack.CurrentStep, CurrentPack.CurrentSavePath);
+            }).CallDeferred();
             if (CurrentPack.CompleteCurrent())
             {
                 _downloadInstance.Dispose();
                 _downloadInstance = null;
-                EmitSignalDownloadTagCompleted(CurrentPack.Tag);
-                CurrentPack = null;
+                Callable.From(() =>
+                {
+                    EmitSignalDownloadTagCompleted(CurrentPack.Tag);
+                    CurrentPack = null;
+                }).CallDeferred();
                 return;
             }
             
