@@ -34,7 +34,7 @@ public partial class TestDatabase : EditorScript
     public async Task SeedDatabase(AppContext context)
     {
         var conn = new Connection(
-            new ProductHeaderValue($"Godot-Manager.0.3.0.Test"));
+            new ProductHeaderValue($"GodotManager.0.3.0.Test"));
         var client = new GitHubClient(conn);
         GD.Print("Fetching releases from github.com/godotengine/godot...");
         var res = await client.Repository.Release.GetAll("godotengine", "godot");
