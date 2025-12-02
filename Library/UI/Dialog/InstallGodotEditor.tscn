@@ -215,7 +215,8 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Back"
 
-[node name="Button2" type="Button" parent="InstallOptions/MarginContainer2/HBoxContainer"]
+[node name="InstallButton" type="Button" parent="InstallOptions/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "Install"
