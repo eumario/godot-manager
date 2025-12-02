@@ -8,7 +8,9 @@ namespace GodotManager.Library.Util;
 
 internal class AppModule
 {
+#pragma warning disable CA2255
     [ModuleInitializer]
+#pragma warning restore CA2255
     public static void Initialize()
     {
         AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly())!.Unloading += alc =>
