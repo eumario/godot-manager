@@ -10,8 +10,6 @@ public partial class InstallManager : Node
 {
     #region Singleton
     private static InstallManager? _instance;
-
-    private List<InstallPack> _packs = [];
     
     public static InstallManager Instance
     {
@@ -27,25 +25,51 @@ public partial class InstallManager : Node
     }
     #endregion
     
+    #region Signals
+
+    [Signal]
+    public delegate void QueueTagInstallEventHandler(InstallPack pack);
+
+    [Signal]
+    public delegate void StartTagInstallEventHandler(string tag);
+
+    [Signal]
+    public delegate void InstallProgressChangedEventHandler(string tag, double progress);
+
+    [Signal]
+    public delegate void InstallCompletedEventHandler(string tag, int step);
+
+    [Signal]
+    public delegate void InstallTagCompletedEventHandler(string tag);
+    #endregion
+    
+    #region Private Variables
+    private readonly Queue<InstallPack> _packs = [];
+    #endregion
+    
+    #region Public Variables
+
+    public int QueueSize => _packs.Count;
+    public InstallPack? CurrentPack => _packs.Peek();
+    #endregion
+    
     #region Public API
 
     public void QueueInstall(string tag, string path, string dest)
     {
-        var pack = _packs.FirstOrDefault(x => x.Tag == tag);
+        var tags = _packs.ToList();
+        InstallPack? pack = tags.FirstOrDefault(x => x.Tag == tag);
         if (pack == null)
         {
             pack = new InstallPack();
             pack.Tag = tag;
-            _packs.Add(pack);
+            EmitSignal(SignalName.QueueTagInstall, pack);
+            _packs.Enqueue(pack);
         }
 
         pack.Sources.Add(path);
         pack.Dests.Add(dest);
-    }
 
-    public void BeginInstall(string tag)
-    {
-        
     }
     #endregion
 }
