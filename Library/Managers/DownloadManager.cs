@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Godot;
 using GodotManager.Library.Network;
 using GodotManager.Library.Models;
+using GodotManager.Library.Util;
 
 namespace GodotManager.Library.Managers;
 
@@ -53,7 +54,8 @@ public partial class DownloadManager : Node
     
     #region Public Variables
     public int QueueSize => _queue.Count;
-    public DownloadPack? CurrentPack { get; private set; }
+    public DownloadPack CurrentPack => _queue.Peek();
+    public bool QueueEmpty => _queue.Count == 0;
     #endregion
     
     #region Godot Overrides
@@ -62,9 +64,7 @@ public partial class DownloadManager : Node
     [GodotOverride]
     public async void OnProcess(double delta)
     {
-        if (_downloadInstance != null) return;
-        if (_queue.Count == 0) return;
-        CurrentPack = _queue.Dequeue();
+        if (QueueEmpty) return;
         EmitSignalStartTagDownload(CurrentPack.Tag);
         await SetupDownloadInstance();
     }
@@ -78,28 +78,25 @@ public partial class DownloadManager : Node
         _downloadInstance.ProgressChanged += (_, change) =>
         {
             if (CurrentPack.CurrentSize == -1)
-                Callable.From(() => EmitSignalDownloadProgressChanged(CurrentPack.Tag, -1)).CallDeferred();
+                this.EmitSignalDeferred(SignalName.DownloadProgressChanged, CurrentPack.Tag, -1);
             else
-                Callable.From(() => EmitSignalDownloadProgressChanged(CurrentPack.Tag, (change.Total / CurrentPack.CurrentSize) * 100)).CallDeferred();
+                this.EmitSignalDeferred(SignalName.DownloadProgressChanged, CurrentPack.Tag, (double)change.Total / CurrentPack.CurrentSize * 100.0d);
         };
         _downloadInstance.Completed += async (_, bytes) =>
         {
             if (!Directory.Exists(CurrentPack.CurrentSavePath.GetBaseDir()))
                 Directory.CreateDirectory(CurrentPack.CurrentSavePath.GetBaseDir());
             await File.WriteAllBytesAsync(CurrentPack.CurrentSavePath, bytes);
-            Callable.From(() =>
-            {
-                EmitSignalDownloadCompleted(CurrentPack.Tag, CurrentPack.CurrentStep, CurrentPack.CurrentSavePath);
-            }).CallDeferred();
+            var currentTag = CurrentPack.Tag;
+            var currentStep = CurrentPack.CurrentStep;
+            var currentSavePath = CurrentPack.CurrentSavePath;
+            this.EmitSignalDeferred(SignalName.DownloadCompleted, currentStep, currentSavePath);
             if (CurrentPack.CompleteCurrent())
             {
                 _downloadInstance.Dispose();
                 _downloadInstance = null;
-                Callable.From(() =>
-                {
-                    EmitSignalDownloadTagCompleted(CurrentPack.Tag);
-                    CurrentPack = null;
-                }).CallDeferred();
+                this.EmitSignalDeferred(SignalName.DownloadTagCompleted, CurrentPack.Tag);
+                _queue.Dequeue();
                 return;
             }
             
@@ -113,6 +110,8 @@ public partial class DownloadManager : Node
             var size = await _downloadInstance.GetDownloadSize();
             CurrentPack.CurrentSize = size;
         }
+
+        this.EmitSignalDeferred(SignalName.StartTagDownload, CurrentPack.Tag);
         
         _downloadInstance.StartDownload();
     }
@@ -121,16 +120,18 @@ public partial class DownloadManager : Node
     #region Public API
     public void QueueDownload(string tag, string url, long size, string savePath)
     {
-        DownloadPack? pack = _queue.FirstOrDefault(x => x.Tag == tag);
+        var tags = _queue.ToList();
+        DownloadPack? pack = tags.FirstOrDefault(x => x.Tag == tag);
         if (pack == null)
         {
             pack = new DownloadPack();
+            pack.Tag = tag;
             _queue.Enqueue(pack);
+            EmitSignal(SignalName.QueueTagDownload, pack);
         }
         pack.Urls.Add(url);
         pack.Sizes.Add(size);
         pack.SavePath.Add(savePath);
-        EmitSignalQueueTagDownload(pack);
     }
     #endregion
 }
