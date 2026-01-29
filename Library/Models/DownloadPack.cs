@@ -9,6 +9,7 @@ public partial class DownloadPack : Godot.RefCounted
     public List<string> Urls = [];
     public List<long> Sizes = [];
     public List<string> SavePath = [];
+    public bool IsDownloading { get; set; } = false;
     private int _current = 0;
     public int CurrentStep => _current;
     public int TotalSteps => Urls.Count;
