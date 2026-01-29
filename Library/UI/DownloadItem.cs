@@ -2,6 +2,7 @@ using Godot;
 using System;
 using GodotManager.Library.Managers;
 using GodotManager.Library.Models;
+using GodotManager.Library.Util;
 
 namespace GodotManager.Library.UI;
 
@@ -9,6 +10,7 @@ namespace GodotManager.Library.UI;
 public partial class DownloadItem : PanelContainer
 {
     private DownloadPack _pack;
+    private InstallPack _install;
     #region Instantiate
 
     [OnInstantiate]
@@ -38,7 +40,7 @@ public partial class DownloadItem : PanelContainer
         };
         DownloadManager.Instance.DownloadProgressChanged += (tag, percent) =>
         {
-            ProgressText.Text = $"in progress ({_pack.CurrentStep} of {_pack.TotalSteps} completed)";
+            ProgressText.Text = $"in progress ({_pack.CurrentStep + 1} of {_pack.TotalSteps} completed)";
             switch (percent)
             {
                 case -1 when !DownloadProgress.Indeterminate:
@@ -56,11 +58,18 @@ public partial class DownloadItem : PanelContainer
         
         DownloadManager.Instance.DownloadCompleted += (tag, step, completed) =>
         {
-            if (step < _pack.TotalSteps)
-                ProgressText.Text = $"completed ({_pack.CurrentStep} of {_pack.TotalSteps} completed)";
-            else
-                ProgressText.Text = $"download completed {_pack.TotalSteps}";
+            if (step < _pack.TotalSteps - 1)
+            {
+                ProgressText.Text = $"completed ({_pack.CurrentStep + 1} of {_pack.TotalSteps} completed)";
+                return;
+            }
+            ProgressText.Text = $"download completed ({_pack.CurrentStep} of {_pack.TotalSteps})";
+            GetTree().CreateTimer(0.5d).Timeout += BeginInstall;
         };
     }
+    #endregion
+    
+    #region Private Methods
+    
     #endregion
 }
