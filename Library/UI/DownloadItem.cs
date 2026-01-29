@@ -10,7 +10,7 @@ namespace GodotManager.Library.UI;
 public partial class DownloadItem : PanelContainer
 {
     private DownloadPack _pack;
-    private InstallPack _install;
+    private InstallPack? _install;
     #region Instantiate
 
     [OnInstantiate]
@@ -31,6 +31,12 @@ public partial class DownloadItem : PanelContainer
         DownloadProgress.MinValue = 0;
         DownloadProgress.MaxValue = 100;
         DownloadProgress.Value = 0;
+        InstallManager.Instance.QueueTagInstall += tag =>
+        {
+            if (tag.Tag == _pack.Tag)
+                _install = tag;
+        };
+
         DownloadManager.Instance.StartTagDownload += tag =>
         {
             if (_pack.Tag == tag)
@@ -70,6 +76,14 @@ public partial class DownloadItem : PanelContainer
     #endregion
     
     #region Private Methods
-    
+    private void BeginInstall()
+    {
+        if (_install == null)
+        {
+            GD.Print("We never received InstallPack!");
+            return;
+        }
+        _install.IsReady = true;
+    }
     #endregion
 }
