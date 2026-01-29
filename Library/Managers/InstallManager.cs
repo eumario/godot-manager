@@ -51,8 +51,21 @@ public partial class InstallManager : Node
 
     public int QueueSize => _packs.Count;
     public InstallPack? CurrentPack => _packs.Peek();
+    public bool QueueEmpty => _packs.Count == 0;
     #endregion
     
+    #region Godot Overrides
+    public override partial void _Process(double delta);
+
+    [GodotOverride]
+    public void OnProcess(double delta)
+    {
+        if (QueueEmpty) return;
+        if (!CurrentPack.IsReady) return;
+        BeginInstall();
+    }
+    #endregion
+
     #region Public API
 
     public void QueueInstall(string tag, string path, string dest)
@@ -62,6 +75,7 @@ public partial class InstallManager : Node
         if (pack == null)
         {
             pack = new InstallPack();
+            pack.IsReady = false;
             pack.Tag = tag;
             EmitSignal(SignalName.QueueTagInstall, pack);
             _packs.Enqueue(pack);
@@ -70,6 +84,13 @@ public partial class InstallManager : Node
         pack.Sources.Add(path);
         pack.Dests.Add(dest);
 
+    }
+    #endregion
+
+    #region Private Functions
+    private void BeginInstall()
+    {
+        
     }
     #endregion
 }
