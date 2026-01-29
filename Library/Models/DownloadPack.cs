@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 namespace GodotManager.Library.Models;
 
@@ -24,6 +25,7 @@ public partial class DownloadPack : Godot.RefCounted
     public bool CompleteCurrent()
     {
         _current++;
+        _current = Mathf.Min(_current, Urls.Count);
         return _current >= Urls.Count;
     }
 }
