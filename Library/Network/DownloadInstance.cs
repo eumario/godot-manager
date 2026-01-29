@@ -72,6 +72,8 @@ public class DownloadInstance : IDisposable
                 do
                 {
                     if (_cancel.Token.IsCancellationRequested) break;
+                    // Slow down my Fast Internet
+                    //await Task.Delay(100);
                     var read = await contentStream.ReadAsync(buffer);
                     if (read == 0) isMoreToRead = false;
                     else
