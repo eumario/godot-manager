@@ -99,9 +99,9 @@ public partial class InstallGodotEditor : PanelContainer
         // Queue up our Install
         InstallManager.Instance.QueueInstall(tag, stdPack, GlobalSettings.EnginePath.PathJoin(tag));
         if (csharp) InstallManager.Instance.QueueInstall(tag, csharpPack, GlobalSettings.EnginePath.PathJoin(tag + "-mono"));
+        if (sc) InstallManager.Instance.QueueInstall(tag, "", GlobalSettings.EnginePath.PathJoin(tag).PathJoin("._sc_"));
         if (templates) InstallManager.Instance.QueueInstall(tag, tmplPack, DirHelper.GetEditorDataPath(tag, sc).PathJoin("export_templates"));
         if (templates & csharp) InstallManager.Instance.QueueInstall(tag, csharpTmplPack, DirHelper.GetEditorDataPath(tag + "-mono", sc).PathJoin("export_templates"));
-        if (sc) InstallManager.Instance.QueueInstall(tag, "", GlobalSettings.EnginePath.PathJoin(tag).PathJoin("._sc_"));
         QueueFree();
     }
 
