@@ -65,7 +65,9 @@ public partial class DownloadManager : Node
     public async void OnProcess(double delta)
     {
         if (QueueEmpty) return;
+        if (CurrentPack.IsDownloading) return;
         EmitSignalStartTagDownload(CurrentPack.Tag);
+        CurrentPack.IsDownloading = true;
         await SetupDownloadInstance();
     }
     #endregion
