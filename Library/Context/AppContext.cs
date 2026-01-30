@@ -66,5 +66,8 @@ public class AppContext : DbContext
                 v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
                 v => JsonSerializer.Deserialize<VersionUrl>(v, JsonSerializerOptions.Default)
             );
+        modelBuilder.Entity<EngineVersion>()
+            .Navigation(e => e.Release)
+            .AutoInclude();
     }
 }
