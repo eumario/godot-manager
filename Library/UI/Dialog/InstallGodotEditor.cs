@@ -1,5 +1,6 @@
 #nullable enable
 using System.Linq;
+using System.Runtime.InteropServices;
 using Godot;
 using GodotManager.Library.Database;
 using GodotManager.Library.Managers;
@@ -16,6 +17,9 @@ public partial class InstallGodotEditor : PanelContainer
     private FeatureOption? _dotnetFeature;
     private FeatureOption? _templatesFeature;
     private FeatureOption? _selfContained;
+
+    [Signal]
+    public delegate void NewInstallCompletedEventHandler();
     
     [OnInstantiate]
     public void Initialize()
@@ -102,7 +106,69 @@ public partial class InstallGodotEditor : PanelContainer
         if (sc) InstallManager.Instance.QueueInstall(tag, "", GlobalSettings.EnginePath.PathJoin(tag).PathJoin("._sc_"));
         if (templates) InstallManager.Instance.QueueInstall(tag, tmplPack, DirHelper.GetEditorDataPath(tag, sc).PathJoin("export_templates"));
         if (templates & csharp) InstallManager.Instance.QueueInstall(tag, csharpTmplPack, DirHelper.GetEditorDataPath(tag + "-mono", sc).PathJoin("export_templates"));
-        QueueFree();
+        Hide();
+        InstallManager.Instance.InstallTagCompleted += tag =>
+        {
+            var standard = GlobalSettings.EnginePath.PathJoin(tag);
+            var dotnet = GlobalSettings.EnginePath.PathJoin(tag + "-mono");
+#if GODOT_LINUXBSD || GODOT_WINDOWS
+            var res = CheckExecutable(standard);
+            if (res != "") standard = res;
+            if (csharp)
+            {
+                res = CheckExecutable(dotnet);
+                if (res != "") dotnet = res;
+            }
+#elif GODOT_MACOS
+            standard = standard.PathJoin("Godot.app/Contents/MacOS/Godot");
+            dotnet = dotnet.PathJoin("Godot_mono.app/Contents/MacOS/Godot");
+#endif
+            var engine = new EngineVersion();
+            engine.StandardEditor = standard;
+            if (csharp)
+                engine.DotnetEditor = dotnet;
+            engine.Release = _selectedRelease;
+            MainWindow.GetInstance().Context.EngineVersions.Add(engine);
+            MainWindow.GetInstance().Context.SaveChanges();
+            this.EmitSignalDeferred(SignalName.NewInstallCompleted);
+            QueueFree();
+        };
+    }
+
+    private string CheckExecutable(string path)
+    {
+        var arch = RuntimeInformation.OSArchitecture;
+        foreach (var file in DirAccess.GetFilesAt(path))
+        {
+#if GODOT_LINUXBSD
+            if (!file.StartsWith("Godot")) continue;
+            if (arch == Architecture.X64)
+            {
+                if (!file.EndsWith(".x86_64") || !file.EndsWith(".64")) continue;
+            }
+            else if (arch == Architecture.X86)
+            {
+                if (!file.EndsWith(".x86_32") || !file.EndsWith(".32")) continue;
+            }
+            else if (arch == Architecture.Arm)
+            {
+                if (System.Environment.Is64BitProcess)
+                {
+                    if (!file.EndsWith(".arm64")) continue;
+                }
+                else
+                {
+                    if (!file.EndsWith(".arm32")) continue;
+                }
+            }
+#elif GODOT_WINDOWS
+            if (!file.StartsWith("Godot")) continue;
+            if (!file.EndsWith(".exe")) continue;
+#endif
+            return path.PathJoin(file);
+        }
+
+        return "";
     }
 
     private void ResetStepOne()
