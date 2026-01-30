@@ -99,7 +99,7 @@ public partial class Community : PanelContainer
             authors.AuthorFetchCompleted += (_, _) =>
             {
                 dbContext.SaveChanges();
-                FetchNews();
+                CallDeferred("FetchNews");
             };
             authors.RefreshAuthors();
         }
