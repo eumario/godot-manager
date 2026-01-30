@@ -23,6 +23,8 @@ public partial class Downloads : PanelContainer
         {
             var di = DownloadItem.Instantiate(pack);
 
+            di.InstallCompleted += () => di.Reparent(CompletedDownloads, false);
+
             ActiveDownloads.AddChild(di);
             
             if (!NoDownloads.Visible) return;
@@ -30,11 +32,6 @@ public partial class Downloads : PanelContainer
             DownloadActivity.Visible = true;
             if (!Visible)
                 MainWindow.GetInstance()!.ShowDownloads();
-        };
-        
-        DownloadManager.Instance.StartTagDownload += tag =>
-        {
-            
         };
     }
 }
