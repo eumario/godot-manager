@@ -92,7 +92,8 @@ public partial class DownloadManager : Node
             var currentTag = CurrentPack.Tag;
             var currentStep = CurrentPack.CurrentStep;
             var currentSavePath = CurrentPack.CurrentSavePath;
-            this.EmitSignalDeferred(SignalName.DownloadCompleted, currentStep, currentSavePath);
+            
+            this.EmitSignalDeferred(SignalName.DownloadCompleted, currentTag, currentStep, currentSavePath);
             if (CurrentPack.CompleteCurrent())
             {
                 _downloadInstance.Dispose();
