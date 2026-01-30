@@ -20,6 +20,12 @@ public partial class DownloadItem : PanelContainer
     }
     #endregion
     
+    #region Signals
+
+    [Signal]
+    public delegate void InstallCompletedEventHandler();
+    #endregion
+    
     #region Godot Overrides
     public override partial void _Ready();
     
@@ -36,16 +42,39 @@ public partial class DownloadItem : PanelContainer
             if (tag.Tag == _pack.Tag)
                 _install = tag;
         };
+        InstallManager.Instance.StartTagInstall += tag =>
+        {
+            if (_install.Tag != tag) return;
+            ProgressText.Text = $"begining install...";
+            DownloadProgress.Indeterminate = true;
+        };
+        InstallManager.Instance.InstallProgressChanged += (tag, percent) =>
+        {
+            if (_install.Tag != tag) return;
+            ProgressText.Text = $"installing ({_install.CurrentStep + 1} of {_install.TotalSteps} completed)";
+            DownloadProgress.Indeterminate = false;
+            DownloadProgress.Value = percent;
+        };
+        InstallManager.Instance.InstallCompleted += (tag, step) =>
+        {
+            if (_install.Tag != tag) return;
+            ProgressText.Text = $"completed ({step + 1} of {_install.TotalSteps})";
+        };
+        InstallManager.Instance.InstallTagCompleted += tag =>
+        {
+            if (_install.Tag != tag) return;
+            ProgressText.Text = $"Install Completed.";
+            EmitSignalInstallCompleted();
+        };
 
         DownloadManager.Instance.StartTagDownload += tag =>
         {
-            if (_pack.Tag == tag)
-            {
-                ProgressText.Text = "starting download...";
-            }
+            if (_pack.Tag != tag) return;
+            ProgressText.Text = "starting download...";
         };
         DownloadManager.Instance.DownloadProgressChanged += (tag, percent) =>
         {
+            if (_pack.Tag != tag) return;
             ProgressText.Text = $"in progress ({_pack.CurrentStep + 1} of {_pack.TotalSteps} completed)";
             switch (percent)
             {
@@ -64,6 +93,7 @@ public partial class DownloadItem : PanelContainer
         
         DownloadManager.Instance.DownloadCompleted += (tag, step, completed) =>
         {
+            if (_pack.Tag != tag) return;
             if (step < _pack.TotalSteps - 1)
             {
                 ProgressText.Text = $"completed ({_pack.CurrentStep + 1} of {_pack.TotalSteps} completed)";
