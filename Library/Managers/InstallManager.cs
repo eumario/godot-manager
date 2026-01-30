@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using GodotManager.Library.Models;
+using GodotManager.Library.Util;
 
 namespace GodotManager.Library.Managers;
 
@@ -46,6 +48,8 @@ public partial class InstallManager : Node
     
     #region Private Variables
     private readonly Queue<InstallPack> _packs = [];
+    private int _counter = 0;
+    private int _total = 0;
     #endregion
     
     #region Public Variables
@@ -63,6 +67,8 @@ public partial class InstallManager : Node
     {
         if (QueueEmpty) return;
         if (!CurrentPack.IsReady) return;
+        if (CurrentPack.IsInstalling) return;
+        CurrentPack.IsInstalling = true;
         BeginInstall();
     }
     #endregion
@@ -89,8 +95,19 @@ public partial class InstallManager : Node
     #endregion
 
     #region Private Functions
-    private void BeginInstall()
+    private async void BeginInstall()
     {
+        this.EmitSignalDeferred(SignalName.StartTagInstall, CurrentPack.Tag);
+        var files = ScanZips();
+        if (files == -1)
+        {
+            GD.Print("Zip Corruption, returning.");
+            return;
+        }
+
+        _total = files + CurrentPack.TotalSteps;
+        _counter = 0;
+        this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, _counter);
         for (var step = 0; step < CurrentPack.TotalSteps; step++)
         {
             var src = CurrentPack.Sources[step];
@@ -102,22 +119,50 @@ public partial class InstallManager : Node
             }
             else if (src.EndsWith(".zip"))
             {
-                InstallEditor(src, dest);
+                await InstallEditor(src, dest);
             }
             else if (src.EndsWith(".tpz"))
             {
-                InstallTemplates(src, dest);
+                await InstallTemplates(src, dest);
             }
             else
             {
                 GD.Print($"Unknown file provided! {src} -> {dest}");
             }
+
+            _counter++;
+            this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
+            this.EmitSignalDeferred(SignalName.InstallCompleted, CurrentPack.Tag, step);
         }
 
-        CurrentPack.IsReady = false;
+        this.EmitSignalDeferred(SignalName.InstallTagCompleted, CurrentPack.Tag);
+        _packs.Dequeue();
     }
 
-    private void InstallEditor(string src, string dest)
+    private int ScanZips()
+    {
+        var i = 0;
+        var zr = new ZipReader();
+
+        for (var step = 0; step < CurrentPack.TotalSteps; step++)
+        {
+            if (CurrentPack.Sources[step] == "") continue;
+            if (zr.Open(CurrentPack.Sources[step]) != Error.Ok)
+            {
+                GD.Print($"Failed to open {CurrentPack.Sources[step]}, possible corruption!");
+                return -1;
+            }
+
+            var fileCount = zr.GetFiles().Length;
+            i += fileCount;
+            zr.Close();
+            zr = new ZipReader();
+        }
+
+        return i;
+    }
+
+    private async Task InstallEditor(string src, string dest)
     {
         ZipReader zr = new ZipReader();
         if (zr.Open(src) != Error.Ok)
@@ -146,15 +191,17 @@ public partial class InstallManager : Node
                 if (!DirAccess.DirExistsAbsolute(dest))
                     DirAccess.MakeDirRecursiveAbsolute(dest);
                 var data = zr.ReadFile(file);
-                File.WriteAllBytes(ignoreDir != "" ? dest.PathJoin(file.Replace(ignoreDir, "")) : dest.PathJoin(file),
+                await File.WriteAllBytesAsync(ignoreDir != "" ? dest.PathJoin(file.Replace(ignoreDir, "")) : dest.PathJoin(file),
                     data);
             }
 
             files++;
+            _counter++;
+            this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
         }
     }
 
-    private void InstallTemplates(string src, string dest)
+    private async Task InstallTemplates(string src, string dest)
     {
         ZipReader zr = new ZipReader();
         if (zr.Open(src) != Error.Ok)
@@ -169,11 +216,14 @@ public partial class InstallManager : Node
         
         foreach (var file in zr.GetFiles())
         {
-            var destFile = dest.PathJoin(file.Replace("template", version));
+            var destFile = dest.PathJoin(file.Replace("templates", version));
             if (!DirAccess.DirExistsAbsolute(destFile.GetBaseDir()))
                 DirAccess.MakeDirRecursiveAbsolute(destFile.GetBaseDir());
             var data = zr.ReadFile(file);
             File.WriteAllBytes(destFile, data);
+            
+            _counter++;
+            this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
         }
     }
     #endregion
