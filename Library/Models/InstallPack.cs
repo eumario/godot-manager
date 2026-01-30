@@ -10,5 +10,6 @@ public partial class InstallPack : RefCounted
     public List<string> Dests = [];
     public int CurrentStep { get; private set; }
     public int TotalSteps => Sources.Count;
-    public bool IsReady { get; set; }
+    public bool IsReady { get; set; } = false;
+    public bool IsInstalling { get; set; } = false;
 }
