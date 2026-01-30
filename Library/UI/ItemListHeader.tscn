@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://q6ivuk3htmu6"]
+[gd_scene format=3 uid="uid://q6ivuk3htmu6"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_77mwa"]
+[ext_resource type="Script" uid="uid://c35p0ajn1phpj" path="res://Library/UI/ItemListHeader.cs" id="2_mtxtv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y4gov"]
 font = ExtResource("1_77mwa")
 font_color = Color(0.3882353, 0.42352942, 0.38039216, 1)
 
-[node name="ItemListHeader" type="Label"]
+[node name="ItemListHeader" type="Label" unique_id=1303116027]
 text = "Godot 4"
 label_settings = SubResource("LabelSettings_y4gov")
+script = ExtResource("2_mtxtv")
