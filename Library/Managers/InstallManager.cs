@@ -1,5 +1,6 @@
 #nullable enable
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Godot;
 using GodotManager.Library.Models;
@@ -90,7 +91,90 @@ public partial class InstallManager : Node
     #region Private Functions
     private void BeginInstall()
     {
+        for (var step = 0; step < CurrentPack.TotalSteps; step++)
+        {
+            var src = CurrentPack.Sources[step];
+            var dest = CurrentPack.Dests[step];
+            if (src == "")
+            {
+                DirAccess.MakeDirRecursiveAbsolute(dest.GetBaseDir());
+                File.WriteAllText(dest, "");
+            }
+            else if (src.EndsWith(".zip"))
+            {
+                InstallEditor(src, dest);
+            }
+            else if (src.EndsWith(".tpz"))
+            {
+                InstallTemplates(src, dest);
+            }
+            else
+            {
+                GD.Print($"Unknown file provided! {src} -> {dest}");
+            }
+        }
+
+        CurrentPack.IsReady = false;
+    }
+
+    private void InstallEditor(string src, string dest)
+    {
+        ZipReader zr = new ZipReader();
+        if (zr.Open(src) != Error.Ok)
+        {
+            GD.Print($"Failed to open source zip file: {src}");
+            return;
+        }
+
+        var files = 0;
+        var ignoreDir = "";
+        foreach (var file in zr.GetFiles())
+        {
+            if (file.EndsWith("/") && files == 0)
+            {
+                // Root for C# Dotnet/Mono build of Godot Editor
+                ignoreDir = file;
+            }
+
+            if (file == ignoreDir) continue;
+            if (file.EndsWith("/"))
+            {
+                DirAccess.MakeDirRecursiveAbsolute(dest.PathJoin(file.Replace(ignoreDir,"")));
+            }
+            else
+            {
+                if (!DirAccess.DirExistsAbsolute(dest))
+                    DirAccess.MakeDirRecursiveAbsolute(dest);
+                var data = zr.ReadFile(file);
+                File.WriteAllBytes(ignoreDir != "" ? dest.PathJoin(file.Replace(ignoreDir, "")) : dest.PathJoin(file),
+                    data);
+            }
+
+            files++;
+        }
+    }
+
+    private void InstallTemplates(string src, string dest)
+    {
+        ZipReader zr = new ZipReader();
+        if (zr.Open(src) != Error.Ok)
+        {
+            GD.Print($"Failed to open source zip file: {src}");
+            return;
+        }
+
+        var version = CurrentPack.Tag.Split("-").Join(".");
+        if (src.Contains("_mono_export"))
+            version += ".mono";
         
+        foreach (var file in zr.GetFiles())
+        {
+            var destFile = dest.PathJoin(file.Replace("template", version));
+            if (!DirAccess.DirExistsAbsolute(destFile.GetBaseDir()))
+                DirAccess.MakeDirRecursiveAbsolute(destFile.GetBaseDir());
+            var data = zr.ReadFile(file);
+            File.WriteAllBytes(destFile, data);
+        }
     }
     #endregion
 }
