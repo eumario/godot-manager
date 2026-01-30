@@ -10,7 +10,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.20" />
     <PackageReference Include="NotificationIcon.NET" Version="1.2.8" Condition="'$(OS)' == 'UNIX'" />
     <PackageReference Include="Octokit" Version="14.0.0" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
   </ItemGroup>
 </Project>
