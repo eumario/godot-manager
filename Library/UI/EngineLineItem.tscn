@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnih2xbkhp4vt"]
+[gd_scene format=3 uid="uid://bnih2xbkhp4vt"]
 
 [ext_resource type="Script" uid="uid://b3frxk5l3hrd" path="res://Library/UI/EngineLineItem.cs" id="1_36pr2"]
 [ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="1_cvvbm"]
@@ -14,7 +14,7 @@ font = ExtResource("2_36pr2")
 [sub_resource type="LabelSettings" id="LabelSettings_yxw0b"]
 font_size = 12
 
-[node name="EngineLineItem" type="PanelContainer"]
+[node name="EngineLineItem" type="PanelContainer" unique_id=640567414]
 custom_minimum_size = Vector2(0, 95)
 anchors_preset = 10
 anchor_right = 1.0
@@ -22,15 +22,15 @@ offset_bottom = 85.0
 grow_horizontal = 2
 script = ExtResource("1_36pr2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=439803886]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1810839701]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4y1g4")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer" unique_id=288223491]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 15
@@ -38,7 +38,7 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 45
 
-[node name="EngineIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer"]
+[node name="EngineIcon" type="TextureRect" parent="HBoxContainer/PanelContainer/MarginContainer" unique_id=941640015]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
@@ -46,54 +46,54 @@ texture = ExtResource("1_cvvbm")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1460260822]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer" unique_id=2003737881]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1948131792]
 layout_mode = 2
 
-[node name="MajMinVersion" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="MajMinVersion" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=840987205]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Godot 4.5"
 label_settings = SubResource("LabelSettings_nekg8")
 
-[node name="FullVersion" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="FullVersion" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=824809631]
 unique_name_in_owner = true
 layout_mode = 2
 text = "(4.5.1-stable)"
 
-[node name="Installpath" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="Installpath" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1825920701]
 unique_name_in_owner = true
 layout_mode = 2
 text = "/home/eumario/.local/share/godot-mangaer/versions/4.5.1-stable"
 label_settings = SubResource("LabelSettings_yxw0b")
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer" unique_id=956722808]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 
-[node name="Tags" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="Tags" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1958916593]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Tag" parent="HBoxContainer/VBoxContainer/Tags" instance=ExtResource("3_3ilmv")]
+[node name="Tag" parent="HBoxContainer/VBoxContainer/Tags" unique_id=2147296443 instance=ExtResource("3_3ilmv")]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=1357694889]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2"]
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2" unique_id=958935000]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="EngineOptions" type="Button" parent="HBoxContainer/VBoxContainer2"]
+[node name="EngineOptions" type="Button" parent="HBoxContainer/VBoxContainer2" unique_id=832370592]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
