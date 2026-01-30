@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bitvjbya2e6nn"]
+[gd_scene format=3 uid="uid://bitvjbya2e6nn"]
 
 [ext_resource type="FontFile" uid="uid://cgo5ndl66xesp" path="res://Assets/Fonts/UbuntuSansNerdFont-Regular.ttf" id="1_1g73b"]
 [ext_resource type="Script" uid="uid://2ut0jpcoky0r" path="res://Library/UI/Sections/Installs.cs" id="1_hxlob"]
@@ -26,7 +26,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="Installs" type="PanelContainer"]
+[node name="Installs" type="PanelContainer" unique_id=179823368]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,10 +35,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_hxlob")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1574076865]
 layout_mode = 2
 
-[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer"]
+[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer" unique_id=2115073088]
 custom_minimum_size = Vector2(0, 86)
 layout_mode = 2
 theme_override_constants/margin_left = 32
@@ -46,45 +46,45 @@ theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader" unique_id=1771282155]
 layout_mode = 2
 
-[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=61741357]
 layout_mode = 2
 text = "Installs"
 label_settings = SubResource("LabelSettings_nekg8")
 
-[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=1536343751]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=1141867986]
 layout_mode = 2
 
-[node name="LocateEngine" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+[node name="LocateEngine" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons" unique_id=1949495303]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "Locate"
 
-[node name="InstallEngine" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+[node name="InstallEngine" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons" unique_id=1885743963]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"PrimaryButton"
 text = "Install Engine"
 
-[node name="NavSearch" type="MarginContainer" parent="VBoxContainer"]
+[node name="NavSearch" type="MarginContainer" parent="VBoxContainer" unique_id=865493516]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch" unique_id=629457330]
 layout_mode = 2
 
-[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer" unique_id=964848165]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"NavBar"
@@ -94,21 +94,21 @@ tab_0/title = "All"
 tab_1/title = "Official Releases"
 tab_2/title = "Pre-releases"
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer" unique_id=320353609]
 custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_yxw0b")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer" unique_id=463496749]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer" unique_id=259926645]
 layout_mode = 2
 texture = ExtResource("2_hxlob")
 stretch_mode = 5
 
-[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer" unique_id=1000576383]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -116,7 +116,7 @@ theme_type_variation = &"SearchLineEdit"
 placeholder_text = "Search ..."
 flat = true
 
-[node name="MainSection" type="MarginContainer" parent="VBoxContainer"]
+[node name="MainSection" type="MarginContainer" parent="VBoxContainer" unique_id=140926906]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 30
@@ -124,18 +124,18 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection" unique_id=1177569008]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("4_8i22l")
 
-[node name="InstallList" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
+[node name="InstallList" type="VBoxContainer" parent="VBoxContainer/MainSection/ScrollContainer" unique_id=1494137775]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="ItemListHeader" parent="VBoxContainer/MainSection/ScrollContainer/InstallList" instance=ExtResource("4_dfu54")]
+[node name="ItemListHeader" parent="VBoxContainer/MainSection/ScrollContainer/InstallList" unique_id=872393732 instance=ExtResource("4_dfu54")]
 layout_mode = 2
 
-[node name="EngineLineItem" parent="VBoxContainer/MainSection/ScrollContainer/InstallList" instance=ExtResource("5_y4gov")]
+[node name="EngineLineItem" parent="VBoxContainer/MainSection/ScrollContainer/InstallList" unique_id=1258912659 instance=ExtResource("5_y4gov")]
 layout_mode = 2
