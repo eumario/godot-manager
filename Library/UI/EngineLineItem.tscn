@@ -82,6 +82,7 @@ layout_mode = 2
 [node name="Tags" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1958916593]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 18
 
 [node name="Tag" parent="HBoxContainer/VBoxContainer/Tags" unique_id=2147296443 instance=ExtResource("3_3ilmv")]
 layout_mode = 2
