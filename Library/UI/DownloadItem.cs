@@ -110,7 +110,7 @@ public partial class DownloadItem : PanelContainer
     {
         if (_install == null)
         {
-            GD.Print("We never received InstallPack!");
+            GD.PushError("We never received InstallPack!");
             return;
         }
         _install.IsReady = true;

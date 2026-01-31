@@ -38,7 +38,7 @@ public class NewsAggregator
             var data = Json.ParseString(bytes.GetStringFromUtf8()).AsGodotDictionary();
             if (!data.ContainsKey("title"))
             {
-                GD.Print("Failed to parse RSS stream...");
+                GD.PushError("Failed to parse RSS stream...");
                 return;
             }
 
