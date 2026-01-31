@@ -101,7 +101,7 @@ public partial class InstallManager : Node
         var files = ScanZips();
         if (files == -1)
         {
-            GD.Print("Zip Corruption, returning.");
+            GD.PushError("Zip Corruption, returning.");
             return;
         }
 
@@ -127,14 +127,14 @@ public partial class InstallManager : Node
             }
             else
             {
-                GD.Print($"Unknown file provided! {src} -> {dest}");
+                GD.PushError($"Unknown file provided! {src} -> {dest}");
             }
 
             _counter++;
             this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
             this.EmitSignalDeferred(SignalName.InstallCompleted, CurrentPack.Tag, step);
         }
-
+        
         this.EmitSignalDeferred(SignalName.InstallTagCompleted, CurrentPack.Tag);
         _packs.Dequeue();
     }
@@ -149,7 +149,7 @@ public partial class InstallManager : Node
             if (CurrentPack.Sources[step] == "") continue;
             if (zr.Open(CurrentPack.Sources[step]) != Error.Ok)
             {
-                GD.Print($"Failed to open {CurrentPack.Sources[step]}, possible corruption!");
+                GD.PushError($"Failed to open {CurrentPack.Sources[step]}, possible corruption!");
                 return -1;
             }
 
@@ -167,7 +167,7 @@ public partial class InstallManager : Node
         ZipReader zr = new ZipReader();
         if (zr.Open(src) != Error.Ok)
         {
-            GD.Print($"Failed to open source zip file: {src}");
+            GD.PushError($"Failed to open source zip file: {src}");
             return;
         }
 
@@ -198,6 +198,7 @@ public partial class InstallManager : Node
             files++;
             _counter++;
             this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
     }
 
@@ -206,7 +207,7 @@ public partial class InstallManager : Node
         ZipReader zr = new ZipReader();
         if (zr.Open(src) != Error.Ok)
         {
-            GD.Print($"Failed to open source zip file: {src}");
+            GD.PushError($"Failed to open source zip file: {src}");
             return;
         }
 
@@ -224,6 +225,7 @@ public partial class InstallManager : Node
             
             _counter++;
             this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
     }
     #endregion
