@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using System.Text;
 using Godot;
 using GodotManager.Library.Util;
 
@@ -12,6 +13,47 @@ public class EngineVersion
     public string StandardEditor { get; set; }
     public string DotnetEditor { get; set; }
     public string Arguments { get; set; }
+
+    [NotMapped] public bool IsGodot4 => Release.Version.Major == 4;
+    [NotMapped] public bool IsGodot3 => Release.Version.Major == 3;
+    [NotMapped] public bool IsGodot2 => Release.Version.Major == 2;
+    [NotMapped] public bool IsGodot1 => Release.Version.Major == 1;
+
+    [NotMapped]
+    public string VersionTag
+    {
+        get
+        {
+            var ver = new StringBuilder();
+            ver.Append($"{Release.Version.Major}.{Release.Version.Minor}");
+            if (Release.Version.Build != 0)
+                ver.Append($".{Release.Version.Build}");
+            ver.Append($"-{Release.Version.SpecialVersion}");
+            return ver.ToString();
+        }
+    }
+
+    [NotMapped] public string DotnetVersionTag => $"{VersionTag}-mono";
+
+    [NotMapped] public bool HasTemplate
+    {
+        get
+        {
+            var path = TemplatesDir.PathJoin(VersionTag.Split("-").Join("."));
+            var res = Directory.Exists(path);
+            return res;
+        }
+    }
+
+    [NotMapped] public bool HasDotnetTemplate
+    {
+        get
+        {
+            var path = DotnetTemplatesDir.PathJoin(DotnetVersionTag.Split("-").Join("."));
+            var res = Directory.Exists(path);
+            return res;
+        }
+    }
 
     [NotMapped] public string StandardInstallPath => StandardEditor.GetBaseDir();
     [NotMapped] public string DotnetInstallPath => DotnetEditor.GetBaseDir();
