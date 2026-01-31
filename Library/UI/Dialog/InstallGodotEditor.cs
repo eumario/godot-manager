@@ -128,8 +128,8 @@ public partial class InstallGodotEditor : PanelContainer
             if (csharp)
                 engine.DotnetEditor = dotnet;
             engine.Release = _selectedRelease;
-            MainWindow.GetInstance().Context.EngineVersions.Add(engine);
-            MainWindow.GetInstance().Context.SaveChanges();
+            _appContext.EngineVersions.Add(engine);
+            _appContext.SaveChanges();
             this.EmitSignalDeferred(SignalName.NewInstallCompleted);
             QueueFree();
         };
@@ -144,11 +144,11 @@ public partial class InstallGodotEditor : PanelContainer
             if (!file.StartsWith("Godot")) continue;
             if (arch == Architecture.X64)
             {
-                if (!file.EndsWith(".x86_64") || !file.EndsWith(".64")) continue;
+                if (!file.EndsWith(".x86_64") && !file.EndsWith(".64")) continue;
             }
             else if (arch == Architecture.X86)
             {
-                if (!file.EndsWith(".x86_32") || !file.EndsWith(".32")) continue;
+                if (!file.EndsWith(".x86_32") && !file.EndsWith(".32")) continue;
             }
             else if (arch == Architecture.Arm)
             {
