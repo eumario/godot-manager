@@ -130,8 +130,10 @@ public partial class InstallManager : Node
                 GD.PushError($"Unknown file provided! {src} -> {dest}");
             }
 
+            
             _counter++;
             this.EmitSignalDeferred(SignalName.InstallProgressChanged, CurrentPack.Tag, (double)_counter / _total * 100.0d);
+            CurrentPack.NextStep();
             this.EmitSignalDeferred(SignalName.InstallCompleted, CurrentPack.Tag, step);
         }
         
