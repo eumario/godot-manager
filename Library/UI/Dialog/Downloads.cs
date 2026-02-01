@@ -26,10 +26,12 @@ public partial class Downloads : PanelContainer
             di.InstallCompleted += () => di.Reparent(CompletedDownloads, false);
 
             ActiveDownloads.AddChild(di);
-            
-            if (!NoDownloads.Visible) return;
-            NoDownloads.Visible = false;
-            DownloadActivity.Visible = true;
+
+            if (NoDownloads.Visible)
+            {
+                NoDownloads.Visible = false;
+                DownloadActivity.Visible = true;
+            }
             if (!Visible)
                 MainWindow.GetInstance()!.ShowDownloads();
         };
