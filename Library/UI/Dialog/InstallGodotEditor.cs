@@ -1,6 +1,7 @@
 #nullable enable
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using Godot;
 using GodotManager.Library.Database;
 using GodotManager.Library.Managers;
@@ -73,9 +74,14 @@ public partial class InstallGodotEditor : PanelContainer
     {
         // Check if we have a Release
         if (_selectedRelease == null) return;
-        
+
+        var tagBuilder = new StringBuilder();
+        tagBuilder.Append($"{_selectedRelease.Version.Major}.{_selectedRelease.Version.Minor}");
+        if (_selectedRelease.Version.Build > 0)
+            tagBuilder.Append($".{_selectedRelease.Version.Build}");
+        tagBuilder.Append($"-{_selectedRelease.Version.SpecialVersion}");
         // Get our Tag and Options
-        var tag = _selectedRelease.Version.ToString();
+        var tag = tagBuilder.ToString();
         var path = GlobalSettings.EngineCache.PathJoin(tag);
         var csharp = _dotnetFeature?.Install.ButtonPressed ?? false;
         var templates = _templatesFeature?.Install.ButtonPressed ?? false;
@@ -104,35 +110,40 @@ public partial class InstallGodotEditor : PanelContainer
         InstallManager.Instance.QueueInstall(tag, stdPack, GlobalSettings.EnginePath.PathJoin(tag));
         if (csharp) InstallManager.Instance.QueueInstall(tag, csharpPack, GlobalSettings.EnginePath.PathJoin(tag + "-mono"));
         if (sc) InstallManager.Instance.QueueInstall(tag, "", GlobalSettings.EnginePath.PathJoin(tag).PathJoin("._sc_"));
+        if (sc && csharp) InstallManager.Instance.QueueInstall(tag, "", GlobalSettings.EnginePath.PathJoin(tag + "-mono").PathJoin("._sc_"));
         if (templates) InstallManager.Instance.QueueInstall(tag, tmplPack, DirHelper.GetEditorDataPath(tag, sc).PathJoin("export_templates"));
         if (templates & csharp) InstallManager.Instance.QueueInstall(tag, csharpTmplPack, DirHelper.GetEditorDataPath(tag + "-mono", sc).PathJoin("export_templates"));
         Hide();
-        InstallManager.Instance.InstallTagCompleted += tag =>
-        {
-            var standard = GlobalSettings.EnginePath.PathJoin(tag);
-            var dotnet = GlobalSettings.EnginePath.PathJoin(tag + "-mono");
+        InstallManager.Instance.InstallTagCompleted += OnInstallTagCompleted;
+    }
+
+    private void OnInstallTagCompleted(string tag)
+    {
+        var csharp = _dotnetFeature?.Install.ButtonPressed ?? false;
+        var standard = GlobalSettings.EnginePath.PathJoin(tag);
+        var dotnet = GlobalSettings.EnginePath.PathJoin(tag + "-mono");
 #if GODOT_LINUXBSD || GODOT_WINDOWS
-            var res = CheckExecutable(standard);
-            if (res != "") standard = res;
-            if (csharp)
-            {
-                res = CheckExecutable(dotnet);
-                if (res != "") dotnet = res;
-            }
+        var res = CheckExecutable(standard);
+        if (res != "") standard = res;
+        if (csharp)
+        {
+            res = CheckExecutable(dotnet);
+            if (res != "") dotnet = res;
+        }
 #elif GODOT_MACOS
-            standard = standard.PathJoin("Godot.app/Contents/MacOS/Godot");
-            dotnet = dotnet.PathJoin("Godot_mono.app/Contents/MacOS/Godot");
+        standard = standard.PathJoin("Godot.app/Contents/MacOS/Godot");
+        dotnet = dotnet.PathJoin("Godot_mono.app/Contents/MacOS/Godot");
 #endif
-            var engine = new EngineVersion();
-            engine.StandardEditor = standard;
-            if (csharp)
-                engine.DotnetEditor = dotnet;
-            engine.Release = _selectedRelease;
-            _appContext.EngineVersions.Add(engine);
-            _appContext.SaveChanges();
-            this.EmitSignalDeferred(SignalName.NewInstallCompleted);
-            QueueFree();
-        };
+        var engine = new EngineVersion();
+        engine.StandardEditor = standard;
+        if (csharp)
+            engine.DotnetEditor = dotnet;
+        engine.Release = _selectedRelease;
+        _appContext.EngineVersions.Add(engine);
+        _appContext.SaveChanges();
+        this.EmitSignalDeferred(SignalName.NewInstallCompleted);
+        InstallManager.Instance.InstallTagCompleted -= OnInstallTagCompleted;
+        QueueFree();
     }
 
     private string CheckExecutable(string path)
