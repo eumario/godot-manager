@@ -12,4 +12,10 @@ public partial class InstallPack : RefCounted
     public int TotalSteps => Sources.Count;
     public bool IsReady { get; set; } = false;
     public bool IsInstalling { get; set; } = false;
+
+    public void NextStep()
+    {
+        CurrentStep++;
+        CurrentStep = Mathf.Min(CurrentStep, TotalSteps-1);
+    }
 }
