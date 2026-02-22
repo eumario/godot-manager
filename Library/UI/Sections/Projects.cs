@@ -10,6 +10,11 @@ public partial class Projects : PanelContainer
     [GodotOverride]
     public void OnReady()
     {
+        CreateProject.Pressed += () =>
+        {
+            var dlg = NewProject.Instantiate();
+            MainWindow.GetInstance()!.AddChild(dlg);
+        };
     }
 
     public void Clear()
