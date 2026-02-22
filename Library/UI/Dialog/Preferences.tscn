@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dg1pdmhgilq24"]
+[gd_scene format=3 uid="uid://dg1pdmhgilq24"]
 
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_i8kd8"]
 
@@ -13,7 +13,7 @@ font_size = 20
 font = ExtResource("1_i8kd8")
 font_size = 10
 
-[node name="Preferences" type="PanelContainer"]
+[node name="Preferences" type="PanelContainer" unique_id=878341792]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -24,66 +24,66 @@ grow_horizontal = 2
 size_flags_horizontal = 4
 theme_type_variation = &"PanelWindowA"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=797682209]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=854682710]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Header" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="Header" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=46679692]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Header" unique_id=891594232]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/HBoxContainer" unique_id=1766040355]
 layout_mode = 2
 text = "   Preferences"
 label_settings = SubResource("LabelSettings_nekg8")
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Header/HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Header/HBoxContainer" unique_id=1848596483]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 24
 text = ""
 flat = true
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1672906001]
 layout_mode = 2
 
-[node name="Content" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="Content" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=727050373]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Content"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Content" unique_id=890140092]
 layout_mode = 2
 theme_override_constants/separation = -1
 
-[node name="ItemBar" type="PanelContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer"]
+[node name="ItemBar" type="PanelContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer" unique_id=1816604318]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_yxw0b")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar" unique_id=1704221956]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer" unique_id=1270001239]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 15
 
-[node name="Items" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer"]
+[node name="Items" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer" unique_id=1016659610]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items" unique_id=1435382899]
 layout_mode = 2
 theme_type_variation = &"ItemButton"
 toggle_mode = true
@@ -92,7 +92,7 @@ button_group = SubResource("ButtonGroup_dhrvg")
 text = "Projects"
 alignment = 0
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items" unique_id=271215616]
 layout_mode = 2
 theme_type_variation = &"ItemButton"
 toggle_mode = true
@@ -101,7 +101,7 @@ button_group = SubResource("ButtonGroup_dhrvg")
 text = "Installs"
 alignment = 0
 
-[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items" unique_id=1162961018]
 layout_mode = 2
 theme_type_variation = &"ItemButton"
 toggle_mode = true
@@ -110,7 +110,7 @@ button_group = SubResource("ButtonGroup_dhrvg")
 text = "Appearance"
 alignment = 0
 
-[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items"]
+[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer/Items" unique_id=1177866531]
 layout_mode = 2
 theme_type_variation = &"ItemButton"
 toggle_mode = true
@@ -119,24 +119,24 @@ button_group = SubResource("ButtonGroup_dhrvg")
 text = "Advance"
 alignment = 0
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer" unique_id=704970319]
 layout_mode = 2
 size_flags_vertical = 10
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer" unique_id=335651042]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_bottom = 27
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Content/HBoxContainer/ItemBar/VBoxContainer/MarginContainer2" unique_id=201647311]
 layout_mode = 2
 text = "Godot Manager 0.3.0"
 label_settings = SubResource("LabelSettings_26rwn")
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Content/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Content/HBoxContainer" unique_id=621825130]
 layout_mode = 2
 
-[node name="Main" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer"]
+[node name="Main" type="MarginContainer" parent="MarginContainer/VBoxContainer/Content/HBoxContainer" unique_id=1122721185]
 layout_mode = 2
 size_flags_horizontal = 3

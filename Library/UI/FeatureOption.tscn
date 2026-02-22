@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkdbrc1tbtbc6"]
+[gd_scene format=3 uid="uid://bkdbrc1tbtbc6"]
 
 [ext_resource type="Script" uid="uid://dbftgbmqwx65f" path="res://Library/UI/FeatureOption.cs" id="1_1abnr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1abnr"]
 bg_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
-[node name="FeatureOption" type="PanelContainer"]
+[node name="FeatureOption" type="PanelContainer" unique_id=847129710]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 32.0
@@ -13,19 +13,19 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1abnr")
 script = ExtResource("1_1abnr")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1802490016]
 layout_mode = 2
 
-[node name="Install" type="CheckBox" parent="HBoxContainer"]
+[node name="Install" type="CheckBox" parent="HBoxContainer" unique_id=1163282459]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Feature" type="Label" parent="HBoxContainer"]
+[node name="Feature" type="Label" parent="HBoxContainer" unique_id=683313647]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Feature Text"
 
-[node name="ArchiveSize" type="Label" parent="HBoxContainer"]
+[node name="ArchiveSize" type="Label" parent="HBoxContainer" unique_id=1445567936]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2

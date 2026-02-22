@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bvmnrrcqw473c"]
+[gd_scene format=3 uid="uid://bvmnrrcqw473c"]
 
 [ext_resource type="FontFile" uid="uid://cgo5ndl66xesp" path="res://Assets/Fonts/UbuntuSansNerdFont-Regular.ttf" id="1_d8lsv"]
 [ext_resource type="Script" uid="uid://dcjv5mqxtat6m" path="res://Library/UI/Sections/Community.cs" id="1_qvkih"]
@@ -13,7 +13,7 @@
 font = ExtResource("1_d8lsv")
 font_size = 30
 
-[node name="Community" type="PanelContainer" node_paths=PackedStringArray("TabWindows")]
+[node name="Community" type="PanelContainer" unique_id=292744068 node_paths=PackedStringArray("TabWindows")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,10 +24,10 @@ theme_type_variation = &"PanelWindow"
 script = ExtResource("1_qvkih")
 TabWindows = [NodePath("VBoxContainer/MainSection/News"), NodePath("VBoxContainer/MainSection/Official"), null, null, null]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1506198516]
 layout_mode = 2
 
-[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer"]
+[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer" unique_id=1590116963]
 custom_minimum_size = Vector2(0, 86)
 layout_mode = 2
 theme_override_constants/margin_left = 32
@@ -35,32 +35,32 @@ theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader" unique_id=1069067497]
 layout_mode = 2
 
-[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=1392422774]
 layout_mode = 2
 text = "Community"
 label_settings = SubResource("LabelSettings_yxw0b")
 
-[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=1496189089]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=1849502618]
 layout_mode = 2
 
-[node name="NavSearch" type="MarginContainer" parent="VBoxContainer"]
+[node name="NavSearch" type="MarginContainer" parent="VBoxContainer" unique_id=389720614]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch" unique_id=1950895281]
 layout_mode = 2
 
-[node name="NavBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="NavBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer" unique_id=1594183986]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -74,62 +74,62 @@ tab_2/title = "Community"
 tab_3/title = "YouTube"
 tab_4/title = "Twitch"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=239334514]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="MainSection" type="MarginContainer" parent="VBoxContainer"]
+[node name="MainSection" type="MarginContainer" parent="VBoxContainer" unique_id=1345681901]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 6
 
-[node name="News" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+[node name="News" type="ScrollContainer" parent="VBoxContainer/MainSection" unique_id=2109145890]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/News"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/News" unique_id=2034996607]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_right = 25
 
-[node name="NewsItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/News/MarginContainer"]
+[node name="NewsItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/News/MarginContainer" unique_id=2047044046]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="ArticleCard" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" unique_id=505154259 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="ArticleCard2" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard2" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" unique_id=1669094953 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="ArticleCard3" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard3" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" unique_id=290775649 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="ArticleCard4" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard4" parent="VBoxContainer/MainSection/News/MarginContainer/NewsItemList" unique_id=696568829 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 
-[node name="Official" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+[node name="Official" type="ScrollContainer" parent="VBoxContainer/MainSection" unique_id=1685345788]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_am08q")
 scroll_vertical = 100
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/Official"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainSection/Official" unique_id=1749801329]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_right = 25
 
-[node name="OfficialItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/Official/MarginContainer"]
+[node name="OfficialItemList" type="VBoxContainer" parent="VBoxContainer/MainSection/Official/MarginContainer" unique_id=1639967313]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ArticleCard" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" unique_id=876958649 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 CardTitle = "Official Godot Website"
 AuthorVisible = false
@@ -138,7 +138,7 @@ CardDescription = "The official Godot website, where you can learn everything ab
 CardUrl = "https://godotengine.org/"
 CardImage = ExtResource("5_p4kna")
 
-[node name="ArticleCard2" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard2" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" unique_id=1203883843 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 CardTitle = "Engine Documentation"
 AuthorVisible = false
@@ -147,7 +147,7 @@ CardDescription = "Full browsable reference to the Godot Engine documentation."
 CardUrl = "https://docs.godotengine.org/"
 CardImage = ExtResource("6_hd1h1")
 
-[node name="ArticleCard3" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard3" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" unique_id=1726201683 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 CardTitle = "Github Repositories"
 AuthorVisible = false
@@ -156,7 +156,7 @@ CardDescription = "All the various projects that make up the Godot engine commun
 CardUrl = "https://github.com/godotengine"
 CardImage = ExtResource("7_cqkvc")
 
-[node name="ArticleCard4" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" instance=ExtResource("2_qvkih")]
+[node name="ArticleCard4" parent="VBoxContainer/MainSection/Official/MarginContainer/OfficialItemList" unique_id=258209557 instance=ExtResource("2_qvkih")]
 layout_mode = 2
 CardTitle = "Contribute to Godot"
 AuthorVisible = false

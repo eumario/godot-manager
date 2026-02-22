@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtqkwq8wguwsu"]
+[gd_scene format=3 uid="uid://dtqkwq8wguwsu"]
 
 [ext_resource type="Script" uid="uid://54ox7gmhcqj0" path="res://Library/UI/Card.cs" id="1_836b2"]
 [ext_resource type="Texture2D" uid="uid://dd64ion7028ke" path="res://Assets/images/splash.png" id="1_hcb0v"]
@@ -17,16 +17,16 @@ font = ExtResource("2_836b2")
 [sub_resource type="LabelSettings" id="LabelSettings_yxw0b"]
 font_size = 14
 
-[node name="Card" type="PanelContainer"]
+[node name="Card" type="PanelContainer" unique_id=1606290725]
 custom_minimum_size = Vector2(226, 217)
 theme_override_styles/panel = SubResource("StyleBoxFlat_onhml")
 script = ExtResource("1_836b2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=40909272]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="CoverImage" type="TextureRect" parent="VBoxContainer"]
+[node name="CoverImage" type="TextureRect" parent="VBoxContainer" unique_id=1380853651]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 122)
 layout_mode = 2
@@ -34,17 +34,17 @@ texture = ExtResource("1_hcb0v")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1001026769]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Header" type="Label" parent="VBoxContainer"]
+[node name="Header" type="Label" parent="VBoxContainer" unique_id=1482423894]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Image 1 2 3"
 label_settings = SubResource("LabelSettings_onhml")
 
-[node name="Description" type="Label" parent="VBoxContainer"]
+[node name="Description" type="Label" parent="VBoxContainer" unique_id=1542611802]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 69)
 layout_mode = 2

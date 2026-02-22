@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8lwaju85upn5"]
+[gd_scene format=3 uid="uid://8lwaju85upn5"]
 
 [ext_resource type="Texture2D" uid="uid://dan2g5xol17sd" path="res://Assets/images/godot4-icon.svg" id="1_0n010"]
 [ext_resource type="Script" uid="uid://mc6vw4vchuaw" path="res://Library/UI/ArticleCard.cs" id="1_qt3gm"]
@@ -25,7 +25,7 @@ font_size = 18
 [sub_resource type="LabelSettings" id="LabelSettings_jneuf"]
 font_size = 14
 
-[node name="ArticleCard" type="PanelContainer"]
+[node name="ArticleCard" type="PanelContainer" unique_id=169445616]
 custom_minimum_size = Vector2(0, 155)
 anchors_preset = 10
 anchor_right = 1.0
@@ -43,10 +43,10 @@ CardDescription = "Base Description"
 CardUrl = "https://godotengine.org"
 CardImage = ExtResource("1_0n010")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=665986706]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=1714550691]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
@@ -54,7 +54,7 @@ texture = ExtResource("1_0n010")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/Icon"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/Icon" unique_id=522542829]
 clip_children = 2
 clip_contents = true
 custom_minimum_size = Vector2(48, 48)
@@ -72,45 +72,45 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jneuf")
 
-[node name="AuthorIcon" type="TextureRect" parent="HBoxContainer/Icon/PanelContainer"]
+[node name="AuthorIcon" type="TextureRect" parent="HBoxContainer/Icon/PanelContainer" unique_id=353091456]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer" unique_id=703803673]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer" unique_id=1935973390]
 layout_mode = 2
 
-[node name="Header" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Header" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=648403199]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Card Title"
 label_settings = SubResource("LabelSettings_mwqxs")
 autowrap_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=705600829]
 layout_mode = 2
 
-[node name="AuthorName" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AuthorName" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=631367971]
 unique_name_in_owner = true
 layout_mode = 2
 text = "By Card Author"
 label_settings = SubResource("LabelSettings_jneuf")
 
-[node name="PostedDate" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PostedDate" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1412011214]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Posted: 01/01/0001    "
 
-[node name="Description" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=831368058]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
@@ -118,7 +118,7 @@ text = "Base Description"
 autowrap_mode = 3
 text_overrun_behavior = 4
 
-[node name="Url" type="LinkButton" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Url" type="LinkButton" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=40622673]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
@@ -126,7 +126,7 @@ text = " "
 underline = 2
 uri = "https://godotengine.org"
 
-[node name="UrlText" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/Url"]
+[node name="UrlText" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/Url" unique_id=608900430]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

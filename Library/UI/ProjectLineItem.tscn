@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://3hcyfcol33pc"]
+[gd_scene format=3 uid="uid://3hcyfcol33pc"]
 
 [ext_resource type="Script" uid="uid://c0nbyg7ejnbox" path="res://Library/UI/ProjectLineItem.cs" id="1_ipprg"]
 [ext_resource type="FontFile" uid="uid://d340u3rh2vgve" path="res://Assets/Fonts/UbuntuSansNerdFont-Bold.ttf" id="1_ofxu2"]
@@ -29,7 +29,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[node name="ProjectLineItem" type="PanelContainer"]
+[node name="ProjectLineItem" type="PanelContainer" unique_id=1319313341]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 42.0
@@ -37,15 +37,15 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_iooqb")
 script = ExtResource("1_ipprg")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1094225522]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer" unique_id=295048162]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="Starred" type="Label" parent="HBoxContainer"]
+[node name="Starred" type="Label" parent="HBoxContainer" unique_id=1473252430]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -53,7 +53,7 @@ label_settings = SubResource("LabelSettings_5skwt")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GitControl" type="Label" parent="HBoxContainer"]
+[node name="GitControl" type="Label" parent="HBoxContainer" unique_id=1831638958]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -61,29 +61,29 @@ label_settings = SubResource("LabelSettings_5skwt")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProjectInfo" type="HBoxContainer" parent="HBoxContainer"]
+[node name="ProjectInfo" type="HBoxContainer" parent="HBoxContainer" unique_id=1612895427]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ProjectInfo"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ProjectInfo" unique_id=1785479537]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 texture = ExtResource("2_ps8o8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ProjectInfo"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ProjectInfo" unique_id=919115134]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ProjectName" type="Label" parent="HBoxContainer/ProjectInfo/VBoxContainer"]
+[node name="ProjectName" type="Label" parent="HBoxContainer/ProjectInfo/VBoxContainer" unique_id=1884790426]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Project Name"
 label_settings = SubResource("LabelSettings_512qf")
 text_overrun_behavior = 4
 
-[node name="ProjectLocation" type="Label" parent="HBoxContainer/ProjectInfo/VBoxContainer"]
+[node name="ProjectLocation" type="Label" parent="HBoxContainer/ProjectInfo/VBoxContainer" unique_id=1967943522]
 unique_name_in_owner = true
 layout_mode = 2
 text = "/home/eumario/Projects/ProjectName"
@@ -91,35 +91,35 @@ label_settings = SubResource("LabelSettings_q4bac")
 clip_text = true
 text_overrun_behavior = 4
 
-[node name="LastModified" type="Label" parent="HBoxContainer"]
+[node name="LastModified" type="Label" parent="HBoxContainer" unique_id=1183447285]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 text = "1 second ago"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=1444351987]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/HBoxContainer" unique_id=273280375]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_6ad5n")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/PanelContainer" unique_id=2052317706]
 layout_mode = 2
 
-[node name="EngineVersion" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="EngineVersion" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer/HBoxContainer" unique_id=662813962]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4.5.0 - MONO"
 
-[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/PanelContainer/HBoxContainer" unique_id=1495561683]
 layout_mode = 2
 text = "󰹹"
 
-[node name="ProjectOptions" type="Button" parent="HBoxContainer/HBoxContainer"]
+[node name="ProjectOptions" type="Button" parent="HBoxContainer/HBoxContainer" unique_id=502170218]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -127,6 +127,6 @@ size_flags_vertical = 4
 text = ""
 flat = true
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
+[node name="Control2" type="Control" parent="HBoxContainer" unique_id=471142459]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://qwy2g6b4jwj"]
+[gd_scene format=3 uid="uid://qwy2g6b4jwj"]
 
 [ext_resource type="Script" uid="uid://643g6a0yw8da" path="res://Library/UI/ListView.cs" id="1_iooqb"]
 [ext_resource type="StyleBox" uid="uid://xx8lxagu4ysl" path="res://Assets/Resources/ScrollWindowSpacing.tres" id="2_5skwt"]
@@ -13,7 +13,7 @@ font_size = 18
 [sub_resource type="LabelSettings" id="LabelSettings_6ad5n"]
 font_size = 14
 
-[node name="ListView" type="Control"]
+[node name="ListView" type="Control" unique_id=1415051720]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_iooqb")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1073921501]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,23 +30,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1753739335]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iooqb")
 
-[node name="Header" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+[node name="Header" type="HBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=1070291254]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Control" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label" type="Control" parent="VBoxContainer/PanelContainer/Header" unique_id=75595038]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/Header" unique_id=877694973]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label2" type="Label" parent="VBoxContainer/PanelContainer/Header" unique_id=357150579]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "󰓎"
@@ -54,10 +54,10 @@ label_settings = SubResource("LabelSettings_iooqb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer/Header" unique_id=959840364]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label3" type="Label" parent="VBoxContainer/PanelContainer/Header" unique_id=295023500]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = ""
@@ -65,10 +65,10 @@ label_settings = SubResource("LabelSettings_iooqb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/PanelContainer/Header" unique_id=1208280148]
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label4" type="Label" parent="VBoxContainer/PanelContainer/Header" unique_id=1737832844]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -76,10 +76,10 @@ text = " NAME"
 label_settings = SubResource("LabelSettings_6ad5n")
 vertical_alignment = 1
 
-[node name="VSeparator4" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+[node name="VSeparator4" type="VSeparator" parent="VBoxContainer/PanelContainer/Header" unique_id=2102518222]
 layout_mode = 2
 
-[node name="Label6" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label6" type="Label" parent="VBoxContainer/PanelContainer/Header" unique_id=1689728633]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -87,10 +87,10 @@ text = " MODIFIED"
 label_settings = SubResource("LabelSettings_6ad5n")
 vertical_alignment = 1
 
-[node name="VSeparator5" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+[node name="VSeparator5" type="VSeparator" parent="VBoxContainer/PanelContainer/Header" unique_id=1266254551]
 layout_mode = 2
 
-[node name="Label7" type="Label" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label7" type="Label" parent="VBoxContainer/PanelContainer/Header" unique_id=889565699]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -98,23 +98,23 @@ text = " ENGINE VERSION"
 label_settings = SubResource("LabelSettings_6ad5n")
 vertical_alignment = 1
 
-[node name="VSeparator6" type="VSeparator" parent="VBoxContainer/PanelContainer/Header"]
+[node name="VSeparator6" type="VSeparator" parent="VBoxContainer/PanelContainer/Header" unique_id=131794753]
 layout_mode = 2
 
-[node name="Label8" type="Control" parent="VBoxContainer/PanelContainer/Header"]
+[node name="Label8" type="Control" parent="VBoxContainer/PanelContainer/Header" unique_id=1705125617]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="Scroll" type="ScrollContainer" parent="VBoxContainer"]
+[node name="Scroll" type="ScrollContainer" parent="VBoxContainer" unique_id=812252563]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("2_5skwt")
 
-[node name="ItemContainer" type="VBoxContainer" parent="VBoxContainer/Scroll"]
+[node name="ItemContainer" type="VBoxContainer" parent="VBoxContainer/Scroll" unique_id=663887668]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ProjectLineItem" parent="VBoxContainer/Scroll/ItemContainer" instance=ExtResource("2_6ad5n")]
+[node name="ProjectLineItem" parent="VBoxContainer/Scroll/ItemContainer" unique_id=1378349691 instance=ExtResource("2_6ad5n")]
 layout_mode = 2

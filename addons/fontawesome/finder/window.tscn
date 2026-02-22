@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://0q4ihoflybxj"]
+[gd_scene format=3 uid="uid://0q4ihoflybxj"]
 
 [ext_resource type="Script" uid="uid://d0iynox8ampuj" path="res://addons/fontawesome/finder/window.gd" id="1_1j1fa"]
 [ext_resource type="Script" uid="uid://drmeipj2j27qt" path="res://addons/fontawesome/finder/option.gd" id="2_04t0g"]
@@ -6,14 +6,14 @@
 [ext_resource type="Script" uid="uid://cmreydoe2vwgl" path="res://addons/fontawesome/FontAwesome.gd" id="4_swgx5"]
 [ext_resource type="FontFile" uid="uid://bfa8aqcwl16kd" path="res://addons/fontawesome/fonts/fa-regular-400.woff2" id="5_ti0jh"]
 
-[node name="Finder" type="AcceptDialog"]
+[node name="Finder" type="AcceptDialog" unique_id=339814394]
 title = "FontAwesome Icons"
 size = Vector2i(512, 512)
 transient = false
 exclusive = false
 script = ExtResource("1_1j1fa")
 
-[node name="Box" type="VBoxContainer" parent="."]
+[node name="Box" type="VBoxContainer" parent="." unique_id=1309317197]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,14 +24,14 @@ offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Option" type="Button" parent="Box"]
+[node name="Option" type="Button" parent="Box" unique_id=1369556915]
 visible = false
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_04t0g")
 
-[node name="Margin" type="MarginContainer" parent="Box/Option"]
+[node name="Margin" type="MarginContainer" parent="Box/Option" unique_id=1673333484]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,11 +39,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Box" type="VBoxContainer" parent="Box/Option/Margin"]
+[node name="Box" type="VBoxContainer" parent="Box/Option/Margin" unique_id=966695904]
 layout_mode = 2
 alignment = 1
 
-[node name="Icon" type="Label" parent="Box/Option/Margin/Box"]
+[node name="Icon" type="Label" parent="Box/Option/Margin/Box" unique_id=596394320]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
@@ -56,17 +56,17 @@ vertical_alignment = 1
 script = ExtResource("4_swgx5")
 icon_size = 32
 
-[node name="Name" type="Label" parent="Box/Option/Margin/Box"]
+[node name="Name" type="Label" parent="Box/Option/Margin/Box" unique_id=552503129]
 layout_mode = 2
 text = "icon"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Filters" type="HBoxContainer" parent="Box"]
+[node name="Filters" type="HBoxContainer" parent="Box" unique_id=720226453]
 layout_mode = 2
 alignment = 1
 
-[node name="Search" type="LineEdit" parent="Box/Filters"]
+[node name="Search" type="LineEdit" parent="Box/Filters" unique_id=1931689622]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Filter by name..."
@@ -74,37 +74,37 @@ clear_button_enabled = true
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="Solid" type="CheckButton" parent="Box/Filters"]
+[node name="Solid" type="CheckButton" parent="Box/Filters" unique_id=65299390]
 layout_mode = 2
 text = "Solid"
 
-[node name="Regular" type="CheckButton" parent="Box/Filters"]
+[node name="Regular" type="CheckButton" parent="Box/Filters" unique_id=766729614]
 layout_mode = 2
 button_pressed = true
 text = "Regular"
 
-[node name="Brands" type="CheckButton" parent="Box/Filters"]
+[node name="Brands" type="CheckButton" parent="Box/Filters" unique_id=992803434]
 layout_mode = 2
 text = "Brands"
 
-[node name="Scroll" type="ScrollContainer" parent="Box"]
+[node name="Scroll" type="ScrollContainer" parent="Box" unique_id=1804387386]
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 
-[node name="Options" type="HFlowContainer" parent="Box/Scroll"]
+[node name="Options" type="HFlowContainer" parent="Box/Scroll" unique_id=882514333]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NoResults" type="VBoxContainer" parent="Box"]
+[node name="NoResults" type="VBoxContainer" parent="Box" unique_id=1682531525]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Icon" type="Label" parent="Box/NoResults"]
+[node name="Icon" type="Label" parent="Box/NoResults" unique_id=786479085]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
@@ -120,18 +120,18 @@ icon_type = "regular"
 icon_name = "circle-question"
 metadata/_edit_pinned_properties_ = [&"icon_name"]
 
-[node name="Label" type="Label" parent="Box/NoResults"]
+[node name="Label" type="Label" parent="Box/NoResults" unique_id=1418292732]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "No Icons Found"
 
-[node name="Fetching" type="Panel" parent="."]
+[node name="Fetching" type="Panel" parent="." unique_id=45043402]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 504.0
 offset_bottom = 463.0
 
-[node name="Box" type="VBoxContainer" parent="Fetching"]
+[node name="Box" type="VBoxContainer" parent="Fetching" unique_id=98645448]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -141,7 +141,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Icon" type="Label" parent="Fetching/Box"]
+[node name="Icon" type="Label" parent="Fetching/Box" unique_id=556895082]
 auto_translate_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
@@ -157,7 +157,7 @@ icon_type = "regular"
 icon_name = "hourglass-half"
 metadata/_edit_pinned_properties_ = [&"icon_name"]
 
-[node name="Label" type="Label" parent="Fetching/Box"]
+[node name="Label" type="Label" parent="Fetching/Box" unique_id=590613432]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Fetching icons..."

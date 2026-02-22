@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7gmoso7m1g0r"]
+[gd_scene format=3 uid="uid://b7gmoso7m1g0r"]
 
 [ext_resource type="Script" uid="uid://b5rssc5tmhg34" path="res://Test/test_project_configs/ProjectConfigViewer.cs" id="1_w16th"]
 
-[node name="ProjectConfigViewer" type="Control"]
+[node name="ProjectConfigViewer" type="Control" unique_id=1409216377]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w16th")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1951633280]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,27 +19,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LoadConfig" type="Button" parent="VBoxContainer"]
+[node name="LoadConfig" type="Button" parent="VBoxContainer" unique_id=1423129320]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Load Config"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2141566745]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1353833240]
 layout_mode = 2
 text = "Sections  "
 
-[node name="SectionList" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
+[node name="SectionList" type="OptionButton" parent="VBoxContainer/HBoxContainer" unique_id=707194265]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 fit_to_longest_item = false
 
-[node name="SectionViewer" type="Tree" parent="VBoxContainer"]
+[node name="SectionViewer" type="Tree" parent="VBoxContainer" unique_id=850446552]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3

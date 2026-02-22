@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1h1f7oe24y48"]
+[gd_scene format=3 uid="uid://c1h1f7oe24y48"]
 
 [ext_resource type="Script" uid="uid://btph3qwi852b" path="res://Test/test_news/TestNews.cs" id="1_u4a1m"]
 
-[node name="TestNews" type="Control"]
+[node name="TestNews" type="Control" unique_id=1121692187]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_u4a1m")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=860266390]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,19 +19,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1594240862]
 layout_mode = 2
 
-[node name="FetchNews" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="FetchNews" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1789635787]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fetch News"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1211735662]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="NewsItems" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="NewsItems" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1662036057]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

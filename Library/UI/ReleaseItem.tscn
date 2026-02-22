@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://celd80sot7toq"]
+[gd_scene format=3 uid="uid://celd80sot7toq"]
 
 [ext_resource type="Texture2D" uid="uid://dan2g5xol17sd" path="res://Assets/images/godot4-icon.svg" id="1_b3ywd"]
 [ext_resource type="Script" uid="uid://3tpyta0qvs8c" path="res://Library/UI/ReleaseItem.cs" id="1_nc8np"]
@@ -12,7 +12,7 @@ font = ExtResource("2_nc8np")
 font_size = 12
 font_color = Color(0.7204674, 0.7204675, 0.7204674, 1)
 
-[node name="ReleaseItem" type="MarginContainer"]
+[node name="ReleaseItem" type="MarginContainer" unique_id=155146219]
 custom_minimum_size = Vector2(0, 55)
 anchors_preset = 10
 anchor_right = 1.0
@@ -24,21 +24,21 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 35
 script = ExtResource("1_nc8np")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1454665136]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yxw0b")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1396897412]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1185880792]
 layout_mode = 2
 
-[node name="EngineIcon" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="EngineIcon" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=237736845]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
@@ -46,21 +46,22 @@ texture = ExtResource("1_b3ywd")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=125506056]
 layout_mode = 2
 
-[node name="EngineVersion" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="EngineVersion" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=305321107]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Godot 4.5.1"
 
-[node name="Recommended" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Recommended" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=872235134]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Recommended Version"
 label_settings = SubResource("LabelSettings_dhrvg")
 
-[node name="Install" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Install" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1426140734]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10

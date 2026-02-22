@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr8medrs3tb3t"]
+[gd_scene format=3 uid="uid://dr8medrs3tb3t"]
 
 [ext_resource type="Script" uid="uid://d0sxx25fc04in" path="res://Library/UI/DownloadItem.cs" id="1_5yiw1"]
 [ext_resource type="Texture2D" uid="uid://dan2g5xol17sd" path="res://Assets/images/godot4-icon.svg" id="1_x2dki"]
@@ -14,18 +14,18 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="DownloadItem" type="PanelContainer"]
+[node name="DownloadItem" type="PanelContainer" unique_id=759731729]
 theme_override_styles/panel = SubResource("StyleBoxFlat_nekg8")
 script = ExtResource("1_5yiw1")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=330664421]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="HBoxContainer"]
+[node name="Spacer" type="Control" parent="HBoxContainer" unique_id=522488410]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=1930692039]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -33,31 +33,31 @@ texture = ExtResource("1_x2dki")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Spacer2" type="Control" parent="HBoxContainer"]
+[node name="Spacer2" type="Control" parent="HBoxContainer" unique_id=1141833626]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=2095127586]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DownloadTag" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="DownloadTag" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=464488875]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Godot 4.5.1"
 
-[node name="ProgressText" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="ProgressText" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1302520851]
 unique_name_in_owner = true
 layout_mode = 2
 text = "in progress (0 of 1 completed)"
 
-[node name="DownloadProgress" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+[node name="DownloadProgress" type="ProgressBar" parent="HBoxContainer/VBoxContainer" unique_id=1387137215]
 unique_name_in_owner = true
 layout_mode = 2
 value = 50.0
 show_percentage = false
 
-[node name="Cancel" type="Button" parent="HBoxContainer"]
+[node name="Cancel" type="Button" parent="HBoxContainer" unique_id=736059199]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_5yiw1")

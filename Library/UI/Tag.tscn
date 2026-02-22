@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://hoinr21yjxwd"]
+[gd_scene format=3 uid="uid://hoinr21yjxwd"]
 
 [ext_resource type="Script" uid="uid://cg63us6a2gic0" path="res://Library/UI/Tag.cs" id="1_puq03"]
 
@@ -24,11 +24,11 @@ expand_margin_bottom = 2.0
 [sub_resource type="LabelSettings" id="LabelSettings_puq03"]
 font_size = 12
 
-[node name="Tag" type="PanelContainer"]
+[node name="Tag" type="PanelContainer" unique_id=751647323]
 theme_override_styles/panel = SubResource("StyleBoxFlat_a2xtp")
 script = ExtResource("1_puq03")
 
-[node name="TagName" type="Label" parent="."]
+[node name="TagName" type="Label" parent="." unique_id=2036286568]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Linux"

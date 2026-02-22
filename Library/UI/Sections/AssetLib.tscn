@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://keqvqt525uwq"]
+[gd_scene format=3 uid="uid://keqvqt525uwq"]
 
 [ext_resource type="FontFile" uid="uid://cgo5ndl66xesp" path="res://Assets/Fonts/UbuntuSansNerdFont-Regular.ttf" id="1_l7ocg"]
 [ext_resource type="Script" uid="uid://cgrr7mg6step6" path="res://Library/UI/Sections/AssetLib.cs" id="1_yyol3"]
@@ -25,7 +25,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="AssetLib" type="PanelContainer"]
+[node name="AssetLib" type="PanelContainer" unique_id=1640589189]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,10 +34,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_yyol3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1839991880]
 layout_mode = 2
 
-[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer"]
+[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer" unique_id=384340356]
 custom_minimum_size = Vector2(0, 86)
 layout_mode = 2
 theme_override_constants/margin_left = 32
@@ -45,38 +45,38 @@ theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader" unique_id=1446472042]
 layout_mode = 2
 
-[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=1988969775]
 layout_mode = 2
 text = "Asset Library"
 label_settings = SubResource("LabelSettings_nekg8")
 
-[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=2017070919]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=287666938]
 layout_mode = 2
 
-[node name="Options" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+[node name="Options" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons" unique_id=905355647]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "Options "
 
-[node name="NavSearch" type="MarginContainer" parent="VBoxContainer"]
+[node name="NavSearch" type="MarginContainer" parent="VBoxContainer" unique_id=1839677696]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch" unique_id=156108007]
 layout_mode = 2
 
-[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="TabBar" type="TabBar" parent="VBoxContainer/NavSearch/HBoxContainer" unique_id=467061230]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"NavBar"
@@ -86,21 +86,21 @@ tab_0/title = "Addons"
 tab_1/title = "Templates"
 tab_2/title = "Manage"
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer" unique_id=1407672460]
 custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_yxw0b")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer" unique_id=626387918]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer" unique_id=992342219]
 layout_mode = 2
 texture = ExtResource("2_yyol3")
 stretch_mode = 5
 
-[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer" unique_id=1125281365]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -108,37 +108,37 @@ theme_type_variation = &"SearchLineEdit"
 placeholder_text = "Search ..."
 flat = true
 
-[node name="MainSection" type="MarginContainer" parent="VBoxContainer"]
+[node name="MainSection" type="MarginContainer" parent="VBoxContainer" unique_id=174084695]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 6
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MainSection" unique_id=597073635]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("4_mrkw1")
 
-[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/MainSection/ScrollContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/MainSection/ScrollContainer" unique_id=1688066771]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 
-[node name="Card" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" instance=ExtResource("3_mrkw1")]
+[node name="Card" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" unique_id=1594655543 instance=ExtResource("3_mrkw1")]
 layout_mode = 2
 
-[node name="Card2" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" instance=ExtResource("3_mrkw1")]
+[node name="Card2" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" unique_id=1357199745 instance=ExtResource("3_mrkw1")]
 layout_mode = 2
 
-[node name="Card3" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" instance=ExtResource("3_mrkw1")]
+[node name="Card3" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" unique_id=1320337973 instance=ExtResource("3_mrkw1")]
 layout_mode = 2
 
-[node name="Card4" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" instance=ExtResource("3_mrkw1")]
+[node name="Card4" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" unique_id=813684916 instance=ExtResource("3_mrkw1")]
 layout_mode = 2
 
-[node name="Card5" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" instance=ExtResource("3_mrkw1")]
+[node name="Card5" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" unique_id=1953070461 instance=ExtResource("3_mrkw1")]
 layout_mode = 2
 
-[node name="Card6" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" instance=ExtResource("3_mrkw1")]
+[node name="Card6" parent="VBoxContainer/MainSection/ScrollContainer/HFlowContainer" unique_id=1188747430 instance=ExtResource("3_mrkw1")]
 layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://8c3ygxxv5p16"]
+[gd_scene format=3 uid="uid://8c3ygxxv5p16"]
 
 [ext_resource type="Script" uid="uid://ckojw0tjk3q7y" path="res://Library/UI/Sections/Projects.cs" id="1_gaenh"]
 [ext_resource type="Texture2D" uid="uid://b02cxpyqpt2s5" path="res://Assets/Icons/filesystem.svg" id="2_gaenh"]
@@ -26,7 +26,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="Projects" type="PanelContainer"]
+[node name="Projects" type="PanelContainer" unique_id=1656912393]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,10 +35,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_gaenh")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1608187730]
 layout_mode = 2
 
-[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer"]
+[node name="SectionHeader" type="MarginContainer" parent="VBoxContainer" unique_id=432059017]
 custom_minimum_size = Vector2(0, 86)
 layout_mode = 2
 theme_override_constants/margin_left = 32
@@ -46,22 +46,22 @@ theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SectionHeader" unique_id=1178070203]
 layout_mode = 2
 
-[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="SectionName" type="Label" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=2087439379]
 layout_mode = 2
 text = "Projects"
 label_settings = SubResource("LabelSettings_mgnd2")
 
-[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=164920606]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer"]
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/SectionHeader/HBoxContainer" unique_id=199074209]
 layout_mode = 2
 
-[node name="AddProject" type="MenuButton" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+[node name="AddProject" type="MenuButton" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons" unique_id=375126134]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
@@ -75,38 +75,38 @@ popup/item_1/text = "Add from repository"
 popup/item_1/icon = ExtResource("3_j28jf")
 popup/item_1/id = 1
 
-[node name="NewProject" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons"]
+[node name="CreateProject" type="Button" parent="VBoxContainer/SectionHeader/HBoxContainer/Buttons" unique_id=936607341]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"PrimaryButton"
 text = "New Project"
 
-[node name="NavSearch" type="MarginContainer" parent="VBoxContainer"]
+[node name="NavSearch" type="MarginContainer" parent="VBoxContainer" unique_id=1948759964]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch" unique_id=1108651262]
 layout_mode = 2
 alignment = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/NavSearch/HBoxContainer" unique_id=1643797]
 custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_e7h7s")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer" unique_id=716770587]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer" unique_id=1381509102]
 layout_mode = 2
 texture = ExtResource("4_gh275")
 stretch_mode = 5
 
-[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Search" type="LineEdit" parent="VBoxContainer/NavSearch/HBoxContainer/PanelContainer/HBoxContainer" unique_id=1615813463]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -114,10 +114,10 @@ theme_type_variation = &"SearchLineEdit"
 placeholder_text = "Search ..."
 flat = true
 
-[node name="MainSection" type="MarginContainer" parent="VBoxContainer"]
+[node name="MainSection" type="MarginContainer" parent="VBoxContainer" unique_id=277932705]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ProjectList" parent="VBoxContainer/MainSection" instance=ExtResource("6_j28jf")]
+[node name="ProjectList" parent="VBoxContainer/MainSection" unique_id=955202138 instance=ExtResource("6_j28jf")]
 unique_name_in_owner = true
 layout_mode = 2

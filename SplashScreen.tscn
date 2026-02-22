@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2skhjob6d0vb"]
+[gd_scene format=3 uid="uid://b2skhjob6d0vb"]
 
 [ext_resource type="Script" uid="uid://dtsrv078v37se" path="res://SplashScreen.cs" id="1_ja1jw"]
 [ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="1_onsdr"]
@@ -16,7 +16,7 @@ font_size = 48
 font = ExtResource("4_pq256")
 font_size = 24
 
-[node name="SplashScreen" type="Control"]
+[node name="SplashScreen" type="Control" unique_id=2108357872]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ja1jw")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1630847493]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ja1jw")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=137993653]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,20 +42,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1038202020]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=1721952900]
 layout_mode = 2
 texture = ExtResource("1_onsdr")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1253592158]
 layout_mode = 2
 text = "Godot Manager"
 label_settings = SubResource("LabelSettings_gfujr")
 
-[node name="Version" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Version" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1412487113]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Version 3.0.0-alpha"

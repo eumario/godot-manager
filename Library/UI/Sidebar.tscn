@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://botwu7yj4kucd"]
+[gd_scene format=3 uid="uid://botwu7yj4kucd"]
 
 [ext_resource type="Script" uid="uid://cogkjdg3yve8w" path="res://Library/UI/Sidebar.cs" id="1_ejrop"]
 [ext_resource type="Texture2D" uid="uid://cpoftaf136y8g" path="res://godot-manager.png" id="3_idblf"]
@@ -42,7 +42,7 @@ bg_color = Color(0.67263305, 0.67263305, 0.67263305, 0.6)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fug36"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgnd2"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oh1md"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -55,7 +55,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4su8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kpu1j"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -68,7 +68,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3f4pb"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_idblf"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -81,7 +81,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4y1g4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_syv7x"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -94,7 +94,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onhml"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xeijc"]
 resource_local_to_scene = true
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -107,7 +107,7 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 5
 
-[node name="Sidebar" type="PanelContainer" node_paths=PackedStringArray("ButtonSections")]
+[node name="Sidebar" type="PanelContainer" unique_id=1312613808 node_paths=PackedStringArray("ButtonSections")]
 custom_minimum_size = Vector2(241, 0)
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -117,22 +117,22 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_e7h7s")
 script = ExtResource("1_ejrop")
 ButtonSections = []
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2035176903]
 layout_mode = 2
 
-[node name="Header" type="PanelContainer" parent="VBoxContainer"]
+[node name="Header" type="PanelContainer" parent="VBoxContainer" unique_id=1526758469]
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_p4i4y")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header" unique_id=935101205]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="Spacer" type="Control" parent="VBoxContainer/Header/HBoxContainer" unique_id=1625488867]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="Logo" type="TextureButton" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="Logo" type="TextureButton" parent="VBoxContainer/Header/HBoxContainer" unique_id=1681409753]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
@@ -140,17 +140,17 @@ texture_normal = ExtResource("3_idblf")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="AppName" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="AppName" type="Label" parent="VBoxContainer/Header/HBoxContainer" unique_id=1878295950]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Manager"
 label_settings = SubResource("LabelSettings_4y1g4")
 
-[node name="Spacer2" type="Control" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="Spacer2" type="Control" parent="VBoxContainer/Header/HBoxContainer" unique_id=898085855]
 custom_minimum_size = Vector2(34, 0)
 layout_mode = 2
 
-[node name="Settings" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="Settings" type="Button" parent="VBoxContainer/Header/HBoxContainer" unique_id=1762985217]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -159,7 +159,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_aw2cv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fug36")
 flat = true
 
-[node name="FontAwesome" type="Label" parent="VBoxContainer/Header/HBoxContainer/Settings"]
+[node name="FontAwesome" type="Label" parent="VBoxContainer/Header/HBoxContainer/Settings" unique_id=2147183704]
 auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 15
@@ -179,60 +179,60 @@ icon_size = 32
 icon_name = "gear"
 metadata/_custom_type_script = "uid://cmreydoe2vwgl"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=93241574]
 layout_mode = 2
 
-[node name="Sections" type="MarginContainer" parent="VBoxContainer"]
+[node name="Sections" type="MarginContainer" parent="VBoxContainer" unique_id=630210141]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 17
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Sections"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Sections" unique_id=2112617674]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ProjectSection" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+[node name="ProjectSection" parent="VBoxContainer/Sections/VBoxContainer" unique_id=1232906769 instance=ExtResource("3_la5vc")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_mgnd2")
+theme_override_styles/panel = SubResource("StyleBoxFlat_oh1md")
 IconName = "cube"
 Title = "Projects"
 IconSize = 18
 
-[node name="InstallSection" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+[node name="InstallSection" parent="VBoxContainer/Sections/VBoxContainer" unique_id=101024614 instance=ExtResource("3_la5vc")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_l4su8")
+theme_override_styles/panel = SubResource("StyleBoxFlat_kpu1j")
 IconName = "hard-drive"
 Title = "Installs"
 IconSize = 18
 
-[node name="AssetLibStor" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+[node name="AssetLibStor" parent="VBoxContainer/Sections/VBoxContainer" unique_id=895445834 instance=ExtResource("3_la5vc")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3f4pb")
+theme_override_styles/panel = SubResource("StyleBoxFlat_idblf")
 IconName = "store"
 Title = "Asset Lib"
 IconSize = 18
 
-[node name="SectionButton" parent="VBoxContainer/Sections/VBoxContainer" instance=ExtResource("3_la5vc")]
+[node name="SectionButton" parent="VBoxContainer/Sections/VBoxContainer" unique_id=2097890033 instance=ExtResource("3_la5vc")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4y1g4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_syv7x")
 IconName = "users"
 Title = "Community"
 IconSize = 18
 
-[node name="Spacer" type="Control" parent="VBoxContainer"]
+[node name="Spacer" type="Control" parent="VBoxContainer" unique_id=1833805877]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=775448801]
 layout_mode = 2
 
-[node name="Download" type="MarginContainer" parent="VBoxContainer"]
+[node name="Download" type="MarginContainer" parent="VBoxContainer" unique_id=577750171]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
@@ -241,10 +241,10 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 17
 theme_override_constants/margin_bottom = 16
 
-[node name="DownloadSection" parent="VBoxContainer/Download" instance=ExtResource("3_la5vc")]
+[node name="DownloadSection" parent="VBoxContainer/Download" unique_id=2118711096 instance=ExtResource("3_la5vc")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_onhml")
+theme_override_styles/panel = SubResource("StyleBoxFlat_xeijc")
 IconName = "download"
 Title = "Downloads"
 IconSize = 18
