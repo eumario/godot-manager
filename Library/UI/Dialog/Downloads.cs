@@ -35,5 +35,15 @@ public partial class Downloads : PanelContainer
             if (!Visible)
                 MainWindow.GetInstance()!.ShowDownloads();
         };
+        SizeChangedHandler();
+    }
+
+    public void SizeChangedHandler()
+    {
+        var size = GetWindow().Size;
+        var dsize = Size;
+        dsize.Y = size.Y;
+        Size = dsize;
+        Position = new Vector2(Visible ? 240.0f : -588.0f, 0);
     }
 }

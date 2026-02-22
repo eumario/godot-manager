@@ -34,6 +34,7 @@ public partial class MainWindow : Control
         {
             GetTree().Quit();
         };
+        GetWindow().SizeChanged += Downloads.SizeChangedHandler;
         //TODO: Implement Recent Projects Submenu
         TrayIconMenu.SetItemDisabled(0, true);
     }
