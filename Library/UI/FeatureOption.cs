@@ -4,7 +4,7 @@ using GodotManager.Library.Util;
 
 namespace GodotManager.Library.UI;
 
-[SceneTree(root: "_")]
+[SceneTree(root: "Nodes")]
 public partial class FeatureOption : PanelContainer
 {
 	[Notify] public partial string FeatureText { get; set; }
