@@ -14,6 +14,7 @@ public class AppContext : DbContext
     public virtual DbSet<ProjectFile> ProjectFiles { get; set; }
     public virtual DbSet<EngineVersion> EngineVersions { get; set; }
     public virtual DbSet<EngineRelease> EngineReleases { get; set; }
+    public virtual DbSet<Template> Templates { get; set; }
 
     private string _path;
 
